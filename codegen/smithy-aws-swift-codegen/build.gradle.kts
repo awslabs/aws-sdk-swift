@@ -17,10 +17,6 @@ plugins {
     jacoco
 }
 
-//description = "Generates Swift code from Smithy models"
-//extra["displayName"] = "AWS:: Smithy :: Swift :: Codegen"
-//extra["moduleName"] = "software.amazon.smithy.aws.swift.codegen"
-
 group = "software.amazon.smithy"
 version = "0.1.0"
 
