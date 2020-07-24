@@ -36,7 +36,7 @@ open class TestsBase {
     }
 
     protected fun buildDefaultSwiftSettingsObjectNode(serviceShapeId: String,
-                                                      moduleName: String = "example",
+                                                      moduleName: String = "Example",
                                                       moduleVersion: String = "1.0.0"): ObjectNode {
         return Node.objectNodeBuilder()
                 .withMember("service", Node.from(serviceShapeId))
@@ -51,6 +51,10 @@ open class TestsBase {
 
     protected fun getModelFileContents(namespace: String, filename: String, manifest: MockManifest): String {
         return manifest.expectFileString("$namespace/models/$filename")
+    }
+
+    protected fun getClientFileContents(namespace: String, filename: String, manifest: MockManifest): String {
+        return manifest.expectFileString("$namespace/$filename")
     }
 
     fun String.shouldSyntacticSanityCheck() {

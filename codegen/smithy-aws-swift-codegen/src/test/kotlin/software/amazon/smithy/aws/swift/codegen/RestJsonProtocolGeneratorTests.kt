@@ -55,11 +55,12 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
 
     init {
         newTestContext.generator.generateSerializers(newTestContext.ctx)
+        newTestContext.generator.generateProtocolClient(newTestContext.ctx)
         newTestContext.ctx.delegator.flushWriters()
     }
 
     @Test
-    fun `Define coding keys for unbound document payload members`() {
+    fun `define coding keys for unbound document payload members`() {
         val contents = getModelFileContents("Example","SmokeTestRequest.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
@@ -72,7 +73,7 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
     }
 
     @Test
-    fun `Define coding keys for payload member`() {
+    fun `define coding keys for payload member`() {
         val contents = getModelFileContents("Example","ExplicitBlobRequest.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
@@ -85,13 +86,28 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
     }
 
     @Test
-    fun `Defines coding keys for List Input requests`() {
+    fun `defines coding keys for List Input requests`() {
         val contents = getModelFileContents("Example","ListInputRequest.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
                 "extension ListInputRequest: Codable {\n" +
                 "    private enum CodingKeys: String, CodingKey {\n" +
                 "        case intList, nestedIntList, structList\n" +
+                "    }\n" +
+                "}"
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `generated client has encoder configured`() {
+        val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+                "public class ExampleClient {\n" +
+                "    let client: HttpClient\n" +
+                "    let encoder: JsonEncoder = JsonEncoder()\n" +
+                "    init(config: HttpClientConfiguration = HttpClientConfiguration()) {\n" +
+                "        client = HttpClient(config: config)\n" +
                 "    }\n" +
                 "}"
         contents.shouldContainOnlyOnce(expectedContents)

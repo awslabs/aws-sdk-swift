@@ -26,7 +26,6 @@ import software.amazon.smithy.swift.codegen.integration.HttpFeature
 import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
  */
