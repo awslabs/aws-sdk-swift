@@ -109,4 +109,4 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
 }
 
 
-class JSONRequestEncoder : HttpRequestEncoder("JsonEncoder") {}
+class JSONRequestEncoder : HttpRequestEncoder("JSONEncoder") {}
