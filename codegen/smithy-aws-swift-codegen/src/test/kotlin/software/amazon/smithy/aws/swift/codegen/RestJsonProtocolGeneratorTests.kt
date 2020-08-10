@@ -21,6 +21,7 @@ import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.shapes.ShapeId
+import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
@@ -28,6 +29,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class MockRestJsonProtocolGenerator : RestJsonProtocolGenerator() {
     override val defaultContentType: String = "application/json"
+    override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = RestJson1Trait.ID
 }
 
@@ -64,7 +66,7 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example","SmokeTestRequest.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                "extension SmokeTestRequest: Codable {\n" +
+                "extension SmokeTestRequest: Encodable {\n" +
                 "    private enum CodingKeys: String, CodingKey {\n" +
                 "        case payload1, payload2, payload3\n" +
                 "    }\n" +
@@ -77,7 +79,7 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example","ExplicitBlobRequest.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                "extension ExplicitBlobRequest: Codable {\n" +
+                "extension ExplicitBlobRequest: Encodable {\n" +
                 "    private enum CodingKeys: String, CodingKey {\n" +
                 "        case payload1\n" +
                 "    }\n" +
@@ -90,9 +92,9 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example","ListInputRequest.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                "extension ListInputRequest: Codable {\n" +
+                "extension ListInputRequest: Encodable {\n" +
                 "    private enum CodingKeys: String, CodingKey {\n" +
-                "        case intList, nestedIntList, structList\n" +
+                "        case blobList, enumList, intList, nestedIntList, structList\n" +
                 "    }\n" +
                 "}"
         contents.shouldContainOnlyOnce(expectedContents)
@@ -105,9 +107,10 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val expectedContents =
                 "public class ExampleClient {\n" +
                 "    let client: HttpClient\n" +
-                "    let encoder: JsonEncoder = JsonEncoder()\n" +
+                "    let encoder: JSONEncoder = JSONEncoder()\n" +
                 "    init(config: HttpClientConfiguration = HttpClientConfiguration()) {\n" +
                 "        client = HttpClient(config: config)\n" +
+                "        encoder.DateEncodingStrategy = .formatted(DateFormatter.epochSecondsDateFormatter)\n" +
                 "    }\n" +
                 "}"
         contents.shouldContainOnlyOnce(expectedContents)

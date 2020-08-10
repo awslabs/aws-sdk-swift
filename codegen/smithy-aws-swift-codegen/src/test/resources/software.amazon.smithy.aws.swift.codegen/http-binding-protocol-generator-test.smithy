@@ -15,7 +15,9 @@ service Example {
         ExplicitStruct,
         ListInput,
         MapInput,
-        EnumInput
+        EnumInput,
+        TimestampInput,
+        BlobInput
     ]
 }
 
@@ -137,15 +139,26 @@ list NestedIntList {
     member: IntList
 }
 
+// A list of enums
+list EnumList {
+    member: MyEnum
+}
+
+list BlobList {
+    member: Blob
+}
+
 @http(method: "POST", uri: "/input/list")
 operation ListInput {
     input: ListInputRequest
 }
 
 structure ListInputRequest {
+    enumList: EnumList,
     intList: IntList,
     structList: StructList,
-    nestedIntList: NestedIntList
+    nestedIntList: NestedIntList,
+    blobList: BlobList
 }
 
 map IntMap {
@@ -153,9 +166,24 @@ map IntMap {
     value: Integer
 }
 
+// only exists as value of a map through MapInputRequest::structMap
+structure ReachableOnlyThroughMap {
+    prop1: Integer
+}
+
 map StructMap {
     key: String,
-    value: Nested
+    value: ReachableOnlyThroughMap
+}
+
+map EnumMap {
+    key: String,
+    value: MyEnum
+}
+
+map BlobMap {
+    key: String,
+    value: Blob
 }
 
 @http(method: "POST", uri: "/input/map")
@@ -165,7 +193,9 @@ operation MapInput {
 
 structure MapInputRequest {
     intMap: IntMap,
-    structMap: StructMap
+    structMap: StructMap,
+    enumMap: EnumMap,
+    blobMap: BlobMap
 }
 
 
@@ -195,4 +225,67 @@ structure EnumInputRequest {
 
     @httpHeader("X-EnumHeader")
     enumHeader: MyEnum
+}
+
+@http(method: "POST", uri: "/input/timestamp/{tsLabel}")
+operation TimestampInput {
+    input: TimestampInputRequest
+}
+
+list TimestampList {
+    member: Timestamp
+}
+
+structure TimestampInputRequest {
+    // (protocol default)
+    normal: Timestamp,
+
+    @timestampFormat("date-time")
+    dateTime: Timestamp,
+
+    @timestampFormat("epoch-seconds")
+    epochSeconds: Timestamp,
+
+    @timestampFormat("http-date")
+    httpDate: Timestamp,
+
+    timestampList: TimestampList,
+
+    @httpHeader("X-Date")
+    @timestampFormat("http-date")
+    headerHttpDate: Timestamp,
+
+    @httpHeader("X-Epoch")
+    @timestampFormat("epoch-seconds")
+    headerEpoch: Timestamp,
+
+    @httpQuery("qtime")
+    @timestampFormat("date-time")
+    queryTimestamp: Timestamp,
+
+    @httpQuery("qtimeList")
+    queryTimestampList: TimestampList,
+
+    @required
+    @httpLabel
+    tsLabel: Timestamp
+}
+
+@http(method: "POST", uri: "/input/blob")
+operation BlobInput {
+    input: BlobInputRequest
+}
+
+@mediaType("video/quicktime")
+string MyMediaHeader
+
+structure BlobInputRequest {
+    // smithy spec doesn't allow blobs for headers but strings with media type are also base64 encoded
+    @httpHeader("X-Blob")
+    headerMediaType: MyMediaHeader,
+
+    @httpQuery("qblob")
+    queryBlob: Blob,
+
+    payloadBlob: Blob
 }
