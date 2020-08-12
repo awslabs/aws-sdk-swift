@@ -110,9 +110,9 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
                 "    let encoder: JSONEncoder = JSONEncoder()\n" +
                 "    init(config: HttpClientConfiguration = HttpClientConfiguration()) {\n" +
                 "        client = HttpClient(config: config)\n" +
-                "        encoder.DateEncodingStrategy = .formatted(DateFormatter.epochSecondsDateFormatter)\n" +
+                "        encoder.dateEncodingStrategy = .custom(EpochSecondsDateFormatterContainer.encode)\n" +
                 "    }\n" +
-                "}"
+                "}\n"
         contents.shouldContainOnlyOnce(expectedContents)
     }
 }

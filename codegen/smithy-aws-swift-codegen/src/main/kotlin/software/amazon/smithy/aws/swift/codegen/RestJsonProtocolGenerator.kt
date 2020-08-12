@@ -58,10 +58,19 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
     override fun getHttpFeatures(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
         val features = super.getHttpFeatures(ctx).toMutableList()
         val requestEncoderOptions = mutableMapOf<String, String>()
-        requestEncoderOptions.put("DateEncodingStrategy", ".formatted(DateFormatter.epochSecondsDateFormatter)")
+        requestEncoderOptions.put("dateEncodingStrategy", getDateEncodingStrategy(TimestampFormatTrait.Format.EPOCH_SECONDS))
         val jsonFeatures = listOf(JSONRequestEncoder(requestEncoderOptions))
         features.addAll(jsonFeatures)
         return features
+    }
+
+    private fun getDateEncodingStrategy(timestampFormat: TimestampFormatTrait.Format): String {
+        return when (timestampFormat) {
+            TimestampFormatTrait.Format.DATE_TIME -> ".formatted(DateFormatter.iso8601DateFormatterWithFractionalSeconds)"
+            TimestampFormatTrait.Format.HTTP_DATE -> ".formatted(DateFormatter.rfc5322DateFormatter)"
+            TimestampFormatTrait.Format.EPOCH_SECONDS -> ".custom(EpochSecondsDateFormatterContainer.encode)"
+            else -> ".custom(EpochSecondsDateFormatterContainer.encode)"
+        }
     }
 
     private fun renderInputRequestConformanceToEncodable(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
