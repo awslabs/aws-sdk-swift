@@ -68,8 +68,9 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         return when (timestampFormat) {
             TimestampFormatTrait.Format.DATE_TIME -> ".formatted(DateFormatter.iso8601DateFormatterWithFractionalSeconds)"
             TimestampFormatTrait.Format.HTTP_DATE -> ".formatted(DateFormatter.rfc5322DateFormatter)"
-            TimestampFormatTrait.Format.EPOCH_SECONDS -> ".custom(EpochSecondsDateFormatterContainer.encode)"
-            else -> ".custom(EpochSecondsDateFormatterContainer.encode)"
+            // TODO:: handle this case
+            TimestampFormatTrait.Format.EPOCH_SECONDS -> ""
+            else -> ""
         }
     }
 
