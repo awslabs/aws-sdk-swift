@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "projections": {
+    "aws-restjson": {
+      "transforms": [
+        {
+          "name": "includeServices",
+          "args": {
+            "services": ["aws.protocoltests.restjson#RestJson"]
+          }
+        }
+      ],
+      "plugins": {
+        "swift-codegen": {
+          "service": "aws.protocoltests.restjson#RestJson",
+          "module": "AWSRestJsonTestSDK",
+          "moduleVersion": "1.0",
+          "gitRepo": "https://github.com/aws-amplify/amplify-codegen.git",
+          "author": "Amazon Web Services",
+          "homepage": "https://docs.amplify.aws/",
+          "swiftVersion": "5.1.0"
+        }
+      }
+    }
+  }
+}
