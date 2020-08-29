@@ -24,17 +24,34 @@ import software.amazon.smithy.model.shapes.*
 import software.amazon.smithy.model.traits.JsonNameTrait
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.ServiceGenerator
-import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.HttpFeature
-import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.*
 
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
  */
 abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
+    override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
-    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {}
+    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
+        val ignoredTests = setOf(
+                "RestJsonListsSerializeNull", // TODO - sparse lists not supported - this test needs removed
+                "RestJsonSerializesNullMapValues", // TODO - sparse maps not supported - this test needs removed
+                // FIXME - document type not fully supported yet
+                "InlineDocumentInput",
+                "InlineDocumentAsPayloadInput",
+                "InlineDocumentOutput",
+                "InlineDocumentAsPayloadInputOutput"
+        )
+
+        val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
+
+        // TODO:: add response generator too
+        HttpProtocolTestGenerator(
+                ctx,
+                requestTestBuilder,
+                ignoredTests
+        ).generateProtocolTests()
+    }
 
     override fun generateSerializers(ctx: ProtocolGenerator.GenerationContext) {
         // Generate extension on input requests to implement Codable protocol
@@ -58,7 +75,6 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
     override fun getHttpFeatures(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
         val features = super.getHttpFeatures(ctx).toMutableList()
         val requestEncoderOptions = mutableMapOf<String, String>()
-        requestEncoderOptions.put("dateEncodingStrategy", getDateEncodingStrategy(TimestampFormatTrait.Format.EPOCH_SECONDS))
         val jsonFeatures = listOf(JSONRequestEncoder(requestEncoderOptions))
         features.addAll(jsonFeatures)
         return features
