@@ -49,7 +49,7 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val settings = SwiftSettings.from(model, buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace))
         val delegator = SwiftDelegator(settings, model, manifest, provider)
         val generator = MockRestJsonProtocolGenerator()
-        val ctx = ProtocolGenerator.GenerationContext(settings, model, service, provider, listOf(), "mockHttp", delegator)
+        val ctx = ProtocolGenerator.GenerationContext(settings, model, service, provider, listOf(), generator.protocol, delegator)
         return TestContext(ctx, manifest, generator)
     }
 

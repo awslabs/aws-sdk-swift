@@ -30,12 +30,33 @@ import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
 import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
+
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
  */
 abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
+    override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
-    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {}
+    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
+        val ignoredTests = setOf(
+                "RestJsonListsSerializeNull", // TODO - sparse lists not supported - this test needs removed
+                "RestJsonSerializesNullMapValues", // TODO - sparse maps not supported - this test needs removed
+                // FIXME - document type not fully supported yet
+                "InlineDocumentInput",
+                "InlineDocumentAsPayloadInput",
+                "InlineDocumentOutput",
+                "InlineDocumentAsPayloadInputOutput"
+        )
+
+        val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
+
+        // TODO:: add response generator too
+        HttpProtocolTestGenerator(
+                ctx,
+                requestTestBuilder,
+                ignoredTests
+        ).generateProtocolTests()
+    }
 
     override fun generateSerializers(ctx: ProtocolGenerator.GenerationContext) {
         // Generate extension on input requests to implement Encodable protocol
@@ -60,7 +81,6 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         val features = super.getHttpFeatures(ctx).toMutableList()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
-       // requestEncoderOptions.put("dateEncodingStrategy", getDateEncodingStrategy(TimestampFormatTrait.Format.EPOCH_SECONDS))
         features.add(JSONRequestEncoder(requestEncoderOptions))
         features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
