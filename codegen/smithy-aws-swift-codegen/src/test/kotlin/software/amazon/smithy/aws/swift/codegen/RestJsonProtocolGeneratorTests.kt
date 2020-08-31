@@ -107,10 +107,10 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val expectedContents =
                 "public class ExampleClient {\n" +
                 "    let client: HttpClient\n" +
-                "    let encoder: JSONEncoder = JSONEncoder()\n" +
+                "    let encoder = JSONEncoder()\n" +
+                "    let decoder = JSONDecoder()\n" +
                 "    init(config: HttpClientConfiguration = HttpClientConfiguration()) {\n" +
                 "        client = HttpClient(config: config)\n" +
-                "        encoder.dateEncodingStrategy = .custom(EpochSecondsDateFormatterContainer.encode)\n" +
                 "    }\n" +
                 "}\n"
         contents.shouldContainOnlyOnce(expectedContents)

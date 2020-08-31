@@ -27,6 +27,7 @@ import software.amazon.smithy.swift.codegen.ServiceGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpFeature
 import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
+import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 /**
@@ -37,7 +38,7 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {}
 
     override fun generateSerializers(ctx: ProtocolGenerator.GenerationContext) {
-        // Generate extension on input requests to implement Codable protocol
+        // Generate extension on input requests to implement Encodable protocol
         val inputShapesWithHttpBindings:MutableSet<ShapeId> = mutableSetOf()
         for (operation in getHttpBindingOperations(ctx)) {
             if (operation.input.isPresent) {
@@ -58,9 +59,10 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
     override fun getHttpFeatures(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
         val features = super.getHttpFeatures(ctx).toMutableList()
         val requestEncoderOptions = mutableMapOf<String, String>()
-        requestEncoderOptions.put("dateEncodingStrategy", getDateEncodingStrategy(TimestampFormatTrait.Format.EPOCH_SECONDS))
-        val jsonFeatures = listOf(JSONRequestEncoder(requestEncoderOptions))
-        features.addAll(jsonFeatures)
+        val responseDecoderOptions = mutableMapOf<String, String>()
+       // requestEncoderOptions.put("dateEncodingStrategy", getDateEncodingStrategy(TimestampFormatTrait.Format.EPOCH_SECONDS))
+        features.add(JSONRequestEncoder(requestEncoderOptions))
+        features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
     }
 
@@ -82,9 +84,13 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         val opIndex = ctx.model.getKnowledge(OperationIndex::class.java)
         val inputShapeName = ServiceGenerator.getOperationInputShapeName(ctx.symbolProvider, opIndex, op)
         val requestPayloadMemberCodingKeys = getCodingKeysForPayloadMembers(ctx, op)
-
-        ctx.delegator.useShapeWriter(inputShape) { writer ->
-            writer.openBlock("extension ${inputShapeName!!.get()}: Encodable {", "}") {
+        val rootNamespace = ctx.settings.moduleName
+        val encodeSymbol = Symbol.builder()
+            .definitionFile("./${rootNamespace}/models/${inputShapeName}+Encodable.swift")
+            .name(inputShapeName)
+            .build()
+        ctx.delegator.useShapeWriter(encodeSymbol) { writer ->
+            writer.openBlock("extension ${inputShapeName}: Encodable {", "}") {
                 if (requestPayloadMemberCodingKeys.isNotEmpty()) {
                     writer.openBlock("private enum CodingKeys: String, CodingKey {", "}") {
                         writer.write("case ${requestPayloadMemberCodingKeys.joinToString(separator = ", ")}")
@@ -99,7 +105,7 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         val structuresNeedingCodableConformance = resolveStructuresNeedingCodableConformance(ctx)
         for (structureShape in structuresNeedingCodableConformance) {
             // conforming to Codable and Coding Keys enum are rendered as separate extensions
-            renderDefaultConformanceToProtocolForStructure(ctx, structureShape, "Codable")
+            renderDefaultConformanceToProtocolForStructure(ctx, structureShape, "Encodable")
             renderCodingKeysForStructure(ctx, structureShape)
         }
     }
@@ -181,13 +187,13 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
 
     /**
      * Find and return the set of shapes that are not operation inputs but need `Codable` conformance.
-     * Operation inputs confirm to `Encodable`, everything else confirms to `Codable`.
+     * Operation inputs conform to `Encodable`, everything else conforms to `Codable`.
      *
      * @return The set of shapes that require a `Codable` conformance and possibly custom coding keys.
      */
     private fun resolveStructuresNeedingCodableConformance(ctx: ProtocolGenerator.GenerationContext): Set<StructureShape> {
         // all top level operation inputs conform to Encodable
-        // any structure shape that shows up as a nested member (direct or indirect) confirms to Codable
+        // any structure shape that shows up as a nested member (direct or indirect) conforms to Codable
         val topLevelMembers = getHttpBindingOperations(ctx)
                 .filter { it.input.isPresent }
                 .flatMap {
@@ -225,3 +231,4 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
 
 
 class JSONRequestEncoder(private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {}
+class JSONResponseDecoder(private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {}
