@@ -26,11 +26,7 @@ import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.ServiceGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.defaultName
-import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.HttpFeature
-import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
-import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.*
 
 
 /**
@@ -39,41 +35,43 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
-//    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
-//        val ignoredTests = setOf(
-//                "RestJsonListsSerializeNull", // TODO - sparse lists not supported - this test needs removed
-//                "RestJsonSerializesNullMapValues", // TODO - sparse maps not supported - this test needs removed
-//                // FIXME - document type not fully supported yet
-//                "InlineDocumentInput",
-//                "InlineDocumentAsPayloadInput",
-//                "InlineDocumentOutput",
-//                "InlineDocumentAsPayloadInputOutput"
-//        )
-//
-//        val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
-//
-//        // TODO:: add response generator too
-//        HttpProtocolTestGenerator(
-//                ctx,
-//                requestTestBuilder,
-//                ignoredTests
-//        ).generateProtocolTests()
-//    }
+    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
+        val ignoredTests = setOf(
+                "RestJsonListsSerializeNull", // TODO - sparse lists not supported - this test needs removed
+                "RestJsonSerializesNullMapValues", // TODO - sparse maps not supported - this test needs removed
+                // FIXME - document type not fully supported yet
+                "InlineDocumentInput",
+                "InlineDocumentAsPayloadInput",
+                "InlineDocumentOutput",
+                "InlineDocumentAsPayloadInputOutput"
+        )
+
+        val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
+
+        // TODO:: add response generator too
+        HttpProtocolTestGenerator(
+                ctx,
+                requestTestBuilder,
+                ignoredTests
+        ).generateProtocolTests()
+    }
 
     override fun generateCodingKeysForStructure(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, shape: StructureShape) {
-        val membersSortedByName: List<MemberShape> = shape.allMembers.values.sortedBy { ctx.symbolProvider.toMemberName(it) }
+        val membersSortedByName: List<MemberShape> = shape.allMembers.values
+            .sortedBy { ctx.symbolProvider.toMemberName(it) }
+            .filter { it.isInHttpBody() }
+        if (membersSortedByName.isEmpty()) { return }
         writer.openBlock("private enum CodingKeys: String, CodingKey {", "}") {
             for (member in membersSortedByName) {
                 val memberName = ctx.symbolProvider.toMemberName(member)
                 if (member.hasTrait(JsonNameTrait::class.java)) {
                     val jsonName = member.getTrait(JsonNameTrait::class.java).get().value
-                    writer.write("case $memberName = $jsonName")
+                    writer.write("case $memberName = \"$jsonName\"")
                 } else {
                     writer.write("case $memberName")
                 }
             }
         }
-        writer.write("")
     }
 
     override fun getHttpFeatures(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
