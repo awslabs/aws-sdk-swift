@@ -60,7 +60,6 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         val membersSortedByName: List<MemberShape> = shape.allMembers.values
             .sortedBy { ctx.symbolProvider.toMemberName(it) }
             .filter { it.isInHttpBody() }
-        if (membersSortedByName.isEmpty()) { return }
         writer.openBlock("private enum CodingKeys: String, CodingKey {", "}") {
             for (member in membersSortedByName) {
                 val memberName = ctx.symbolProvider.toMemberName(member)

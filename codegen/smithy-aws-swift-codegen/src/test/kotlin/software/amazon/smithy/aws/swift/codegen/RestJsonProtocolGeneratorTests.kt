@@ -63,12 +63,14 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
 
     @Test
     fun `define coding keys for unbound document payload members`() {
-        val contents = getModelFileContents("Example","SmokeTestRequest.swift", newTestContext.manifest)
+        val contents = getModelFileContents("Example","SmokeTestRequest+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
                 "extension SmokeTestRequest: Encodable {\n" +
                 "    private enum CodingKeys: String, CodingKey {\n" +
-                "        case payload1, payload2, payload3\n" +
+                "        case payload1\n" +
+                        "case payload2\n" +
+                        "case payload3\n" +
                 "    }\n" +
                 "}"
         contents.shouldContainOnlyOnce(expectedContents)
@@ -76,7 +78,7 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
 
     @Test
     fun `define coding keys for payload member`() {
-        val contents = getModelFileContents("Example","ExplicitBlobRequest.swift", newTestContext.manifest)
+        val contents = getModelFileContents("Example","ExplicitBlobRequest+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
                 "extension ExplicitBlobRequest: Encodable {\n" +
@@ -89,12 +91,16 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
 
     @Test
     fun `defines coding keys for List Input requests`() {
-        val contents = getModelFileContents("Example","ListInputRequest.swift", newTestContext.manifest)
+        val contents = getModelFileContents("Example","ListInputRequest+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
                 "extension ListInputRequest: Encodable {\n" +
                 "    private enum CodingKeys: String, CodingKey {\n" +
-                "        case blobList, enumList, intList, nestedIntList, structList\n" +
+                "        case blobList" +
+                        "case enumList\n" +
+                        "case intList\n" +
+                        "case nestedIntList\n" +
+                        "case structList\n"
                 "    }\n" +
                 "}"
         contents.shouldContainOnlyOnce(expectedContents)
