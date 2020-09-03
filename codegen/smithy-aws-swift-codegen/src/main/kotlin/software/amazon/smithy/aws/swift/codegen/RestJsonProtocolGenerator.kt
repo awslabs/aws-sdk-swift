@@ -81,49 +81,6 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
     }
-
-
-    private fun constructEnumCaseForMemberWithJSONName(ctx: ProtocolGenerator.GenerationContext, memberShape: MemberShape): String {
-        val memberName = ctx.symbolProvider.toMemberName(memberShape)
-        return "$memberName = \"${memberShape.getTrait(JsonNameTrait::class.java).get().value}\""
-    }
-
-    private fun getCodingKeysForPayloadMembers(ctx: ProtocolGenerator.GenerationContext,
-                                               op: OperationShape): MutableSet<String> {
-        val requestPayloadMemberCodingKeys = mutableSetOf<String>()
-        val bindingIndex = ctx.model.getKnowledge(HttpBindingIndex::class.java)
-        val requestBindings = bindingIndex.getRequestBindings(op)
-        val httpPayloadBinding = requestBindings.values.firstOrNull { it.location == HttpBinding.Location.PAYLOAD }
-
-        /* Unbound document members that should be serialized into the document format for the protocol.
-         */
-        val documentMemberBindings = requestBindings.values
-                .filter { it.location == HttpBinding.Location.DOCUMENT }
-                .sortedBy { it.memberName }
-        if (httpPayloadBinding != null) {
-            val memberShape = httpPayloadBinding.member
-            if (memberShape.hasTrait(JsonNameTrait::class.java)) {
-                requestPayloadMemberCodingKeys.add(constructEnumCaseForMemberWithJSONName(ctx, memberShape))
-            } else {
-                requestPayloadMemberCodingKeys.add(memberShape.memberName)
-            }
-        } else if (documentMemberBindings.isNotEmpty()) {
-            val documentMemberShapes = documentMemberBindings.map { it.member }
-            val documentMemberShapesSortedByName: List<MemberShape> = documentMemberShapes.sortedBy { ctx.symbolProvider.toMemberName(it) }
-            if (documentMemberShapesSortedByName.isNotEmpty()) {
-                for (memberShape in documentMemberShapesSortedByName) {
-                    if (memberShape.hasTrait(JsonNameTrait::class.java)) {
-                        requestPayloadMemberCodingKeys.add(constructEnumCaseForMemberWithJSONName(ctx, memberShape))
-                    } else {
-                        requestPayloadMemberCodingKeys.add(memberShape.memberName)
-                    }
-                }
-            }
-        }
-        return requestPayloadMemberCodingKeys
-    }
-
-
 }
 
 
