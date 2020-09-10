@@ -43,7 +43,8 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
                 "InlineDocumentInput",
                 "InlineDocumentAsPayloadInput",
                 "InlineDocumentOutput",
-                "InlineDocumentAsPayloadInputOutput"
+                "InlineDocumentAsPayloadInputOutput",
+                "RecursiveShapesInput"
         )
 
         val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
