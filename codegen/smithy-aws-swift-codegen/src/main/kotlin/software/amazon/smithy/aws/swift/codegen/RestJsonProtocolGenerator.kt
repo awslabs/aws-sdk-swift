@@ -44,7 +44,8 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
                 "InlineDocumentAsPayloadInput",
                 "InlineDocumentOutput",
                 "InlineDocumentAsPayloadInputOutput",
-                "RecursiveShapesInput"
+                // FIXME - support recursive shapes in swift
+                "RestJsonRecursiveShapes"
         )
 
         val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
