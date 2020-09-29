@@ -49,11 +49,13 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         )
 
         val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
+        val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
 
         // TODO:: add response generator too
         HttpProtocolTestGenerator(
                 ctx,
                 requestTestBuilder,
+                responseTestBuilder,
                 ignoredTests
         ).generateProtocolTests()
     }

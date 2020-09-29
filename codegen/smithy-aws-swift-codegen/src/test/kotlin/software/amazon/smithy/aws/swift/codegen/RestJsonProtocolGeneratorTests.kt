@@ -90,23 +90,6 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
     }
 
     @Test
-    fun `defines coding keys for List Input requests`() {
-        val contents = getModelFileContents("Example","ListInputRequest+Encodable.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-                "extension ListInputRequest: Encodable {\n" +
-                "    private enum CodingKeys: String, CodingKey {\n" +
-                "        case blobList" +
-                        "case enumList\n" +
-                        "case intList\n" +
-                        "case nestedIntList\n" +
-                        "case structList\n"
-                "    }\n" +
-                "}"
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
     fun `generated client has encoder configured`() {
         val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()

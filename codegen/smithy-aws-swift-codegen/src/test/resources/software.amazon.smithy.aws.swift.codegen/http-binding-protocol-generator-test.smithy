@@ -207,11 +207,11 @@ operation EnumInput {
 @enum([
     {
         value: "rawValue1",
-        name: "Variant1"
+        name: "VARIANT1"
     },
     {
         value: "rawValue2",
-        name: "Variant2"
+        name: "VARIANT2"
     }
 ])
 string MyEnum
@@ -283,9 +283,6 @@ structure BlobInputRequest {
     // smithy spec doesn't allow blobs for headers but strings with media type are also base64 encoded
     @httpHeader("X-Blob")
     headerMediaType: MyMediaHeader,
-
-    @httpQuery("qblob")
-    queryBlob: Blob,
 
     payloadBlob: Blob
 }
