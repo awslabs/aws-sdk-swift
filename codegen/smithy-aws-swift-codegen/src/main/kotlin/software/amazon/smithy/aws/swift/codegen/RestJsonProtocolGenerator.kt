@@ -81,6 +81,7 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         val features = super.getHttpFeatures(ctx).toMutableList()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
+        responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
         features.add(JSONRequestEncoder(requestEncoderOptions))
         features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
