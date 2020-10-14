@@ -15,15 +15,10 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.knowledge.HttpBinding
-import software.amazon.smithy.model.knowledge.HttpBindingIndex
-import software.amazon.smithy.model.knowledge.OperationIndex
-import software.amazon.smithy.model.neighbor.RelationshipType
-import software.amazon.smithy.model.neighbor.Walker
 import software.amazon.smithy.model.shapes.*
 import software.amazon.smithy.model.traits.JsonNameTrait
 import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.ServiceGenerator
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.*
@@ -32,7 +27,7 @@ import software.amazon.smithy.swift.codegen.integration.*
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
  */
-abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
+abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
@@ -50,12 +45,13 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
 
         val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
         val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
+        val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
 
-        // TODO:: add response generator too
         HttpProtocolTestGenerator(
                 ctx,
                 requestTestBuilder,
                 responseTestBuilder,
+                errorTestBuilder,
                 ignoredTests
         ).generateProtocolTests()
     }
@@ -87,6 +83,31 @@ abstract class RestJsonProtocolGenerator : HttpBindingProtocolGenerator() {
         features.add(JSONRequestEncoder(requestEncoderOptions))
         features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
+    }
+
+    override fun renderInitOperationErrorFromHttpResponse(
+            ctx: ProtocolGenerator.GenerationContext,
+            op: OperationShape
+    ) {
+        val operationErrorName = "${op.defaultName()}Error"
+        val rootNamespace = ctx.settings.moduleName
+        val httpBindingSymbol = Symbol.builder()
+                .definitionFile("./$rootNamespace/models/$operationErrorName+ResponseInit.swift")
+                .name(operationErrorName)
+                .build()
+
+        ctx.delegator.useShapeWriter(httpBindingSymbol) { writer ->
+            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
+            writer.addImport(SwiftDependency.CLIENT_RUNTIME.namespace)
+
+            writer.openBlock("extension \$L {","}", operationErrorName) {
+                writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
+                    writer.write("let errorDetails = try RestJSONError(httpResponse: httpResponse)")
+                    writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
+                    writer.write("try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)")
+                }
+            }
+        }
     }
 }
 

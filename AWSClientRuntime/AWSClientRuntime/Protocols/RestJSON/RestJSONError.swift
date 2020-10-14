@@ -18,8 +18,8 @@ import ClientRuntime
 
 /// A general Error Structure for Rest JSON protocol
 public struct RestJSONError {
-    let errorType: String?
-    let errorMessage: String?
+    public let errorType: String?
+    public let errorMessage: String?
     
     // header identifying the error code
     let X_AMZN_ERROR_TYPE_HEADER_NAME = "X-Amzn-Errortype"
@@ -48,7 +48,7 @@ public struct RestJSONError {
                 type = output.resolvedErrorType
             }
         }
-        self.errorType = type
+        self.errorType = RestJSONError.sanitizeErrorType(type)
         self.errorMessage = message
     }
     

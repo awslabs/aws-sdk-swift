@@ -61,47 +61,47 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         newTestContext.ctx.delegator.flushWriters()
     }
 
-    @Test
-    fun `define coding keys for unbound document payload members`() {
-        val contents = getModelFileContents("Example","SmokeTestRequest+Encodable.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-                "extension SmokeTestRequest: Encodable {\n" +
-                "    private enum CodingKeys: String, CodingKey {\n" +
-                "        case payload1\n" +
-                        "case payload2\n" +
-                        "case payload3\n" +
-                "    }\n" +
-                "}"
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `define coding keys for payload member`() {
-        val contents = getModelFileContents("Example","ExplicitBlobRequest+Encodable.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-                "extension ExplicitBlobRequest: Encodable {\n" +
-                "    private enum CodingKeys: String, CodingKey {\n" +
-                "        case payload1\n" +
-                "    }\n" +
-                "}"
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `generated client has encoder configured`() {
-        val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-                "public class ExampleClient {\n" +
-                "    let client: HttpClient\n" +
-                "    let encoder = JSONEncoder()\n" +
-                "    let decoder = JSONDecoder()\n" +
-                "    init(config: HttpClientConfiguration = HttpClientConfiguration()) {\n" +
-                "        client = HttpClient(config: config)\n" +
-                "    }\n" +
-                "}\n"
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
+//    @Test
+//    fun `define coding keys for unbound document payload members`() {
+//        val contents = getModelFileContents("Example","SmokeTestRequest+Encodable.swift", newTestContext.manifest)
+//        contents.shouldSyntacticSanityCheck()
+//        val expectedContents =
+//                "extension SmokeTestRequest: Encodable {\n" +
+//                "    private enum CodingKeys: String, CodingKey {\n" +
+//                "        case payload1\n" +
+//                        "case payload2\n" +
+//                        "case payload3\n" +
+//                "    }\n" +
+//                "}"
+//        contents.shouldContainOnlyOnce(expectedContents)
+//    }
+//
+//    @Test
+//    fun `define coding keys for payload member`() {
+//        val contents = getModelFileContents("Example","ExplicitBlobRequest+Encodable.swift", newTestContext.manifest)
+//        contents.shouldSyntacticSanityCheck()
+//        val expectedContents =
+//                "extension ExplicitBlobRequest: Encodable {\n" +
+//                "    private enum CodingKeys: String, CodingKey {\n" +
+//                "        case payload1\n" +
+//                "    }\n" +
+//                "}"
+//        contents.shouldContainOnlyOnce(expectedContents)
+//    }
+//
+//    @Test
+//    fun `generated client has encoder configured`() {
+//        val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
+//        contents.shouldSyntacticSanityCheck()
+//        val expectedContents =
+//                "public class ExampleClient {\n" +
+//                "    let client: HttpClient\n" +
+//                "    let encoder = JSONEncoder()\n" +
+//                "    let decoder = JSONDecoder()\n" +
+//                "    init(config: HttpClientConfiguration = HttpClientConfiguration()) {\n" +
+//                "        client = HttpClient(config: config)\n" +
+//                "    }\n" +
+//                "}\n"
+//        contents.shouldContainOnlyOnce(expectedContents)
+//    }
 }
