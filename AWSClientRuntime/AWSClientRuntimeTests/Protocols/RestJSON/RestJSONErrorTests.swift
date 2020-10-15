@@ -47,12 +47,12 @@ class RestJSONErrorTests: HttpResponseTestBase {
         
         if case .complexError(let actual) = greetingWithErrorsError {
             let expected = ComplexError(
-                Header: "Header",
-                TopLevel: "Top level"
+                header: "Header",
+                topLevel: "Top level"
             )
-            XCTAssertEqual(actual.statusCode, HttpStatusCode(rawValue: 400))
-            XCTAssertEqual(actual.Header, expected.Header)
-            XCTAssertEqual(actual.TopLevel, expected.TopLevel)
+            XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+            XCTAssertEqual(actual.header, expected.header)
+            XCTAssertEqual(actual.topLevel, expected.topLevel)
         } else {
             XCTFail("The deserialized error type does not match expected type")
         }
@@ -73,28 +73,28 @@ class RestJSONErrorTests: HttpResponseTestBase {
     }
 }
 
-public struct ComplexError {
-    public var headers: HttpHeaders?
-    public var message: String?
-    public var requestID: String?
-    public var retryable: Bool? = true
-    public var statusCode: HttpStatusCode?
-    public var type: ErrorType = .client
-    public var Header: String?
-    public var TopLevel: String?
+public struct ComplexError: AWSHttpServiceError {
+    public var _headers: HttpHeaders?
+    public var _message: String?
+    public var _requestID: String?
+    public var _retryable: Bool? = true
+    public var _statusCode: HttpStatusCode?
+    public var _type: ErrorType = .client
+    public var header: String?
+    public var topLevel: String?
 
     public init (
-        Header: String? = nil,
-        TopLevel: String? = nil
+        header: String? = nil,
+        topLevel: String? = nil
     )
     {
-        self.Header = Header
-        self.TopLevel = TopLevel
+        self.header = header
+        self.topLevel = topLevel
     }
 }
 
 struct ComplexErrorBody {
-    public let TopLevel: String?
+    public let topLevel: String?
 }
 
 extension ComplexErrorBody: Decodable {
@@ -104,30 +104,30 @@ extension ComplexErrorBody: Decodable {
 
     public init (from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        TopLevel = try values.decodeIfPresent(String.self, forKey: .TopLevel)
+        topLevel = try values.decodeIfPresent(String.self, forKey: .TopLevel)
     }
 }
 
 extension ComplexError {
     public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
         if let Header = httpResponse.headers.value(for: "X-Header") {
-            self.Header = Header
+            self.header = Header
         } else {
-            self.Header = nil
+            self.header = nil
         }
         
         if case .data(let data) = httpResponse.content,
             let unwrappedData = data,
             let responseDecoder = decoder {
             let output: ComplexErrorBody = try responseDecoder.decode(responseBody: unwrappedData)
-            self.TopLevel = output.TopLevel
+            self.topLevel = output.topLevel
         } else {
-            self.TopLevel = nil
+            self.topLevel = nil
         }
         
-        self.headers = httpResponse.headers
-        self.statusCode = httpResponse.statusCode
-        self.message = message
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._message = message
     }
 }
 

@@ -62,12 +62,12 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             .filter { it.isInHttpBody() }
         writer.openBlock("private enum CodingKeys: String, CodingKey {", "}") {
             for (member in membersSortedByName) {
-                val memberName = ctx.symbolProvider.toMemberName(member)
+                val memberCodingKey = member.memberName
                 if (member.hasTrait(JsonNameTrait::class.java)) {
                     val jsonName = member.getTrait(JsonNameTrait::class.java).get().value
-                    writer.write("case $memberName = \"$jsonName\"")
+                    writer.write("case $memberCodingKey = \"$jsonName\"")
                 } else {
-                    writer.write("case $memberName")
+                    writer.write("case $memberCodingKey")
                 }
             }
         }

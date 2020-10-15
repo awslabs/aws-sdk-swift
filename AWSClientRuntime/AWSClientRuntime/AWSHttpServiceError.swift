@@ -18,5 +18,5 @@ import ClientRuntime
 public let X_AMZN_REQUEST_ID_HEADER = "X-Amzn-RequestId"
 
 public protocol AWSHttpServiceError: HttpServiceError {
-    var requestID: String? { get set }
+    var _requestID: String? { get set }
 }
