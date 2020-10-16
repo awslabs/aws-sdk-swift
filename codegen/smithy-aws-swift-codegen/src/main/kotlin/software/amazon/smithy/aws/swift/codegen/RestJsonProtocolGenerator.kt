@@ -62,12 +62,25 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             .filter { it.isInHttpBody() }
         writer.openBlock("private enum CodingKeys: String, CodingKey {", "}") {
             for (member in membersSortedByName) {
-                val memberCodingKey = member.memberName
-                if (member.hasTrait(JsonNameTrait::class.java)) {
-                    val jsonName = member.getTrait(JsonNameTrait::class.java).get().value
-                    writer.write("case $memberCodingKey = \"$jsonName\"")
-                } else {
-                    writer.write("case $memberCodingKey")
+                val originalMemberName = member.memberName
+                val modifiedMemberName = ctx.symbolProvider.toMemberName(member)
+
+                /* If we have modified the member name to make it idiomatic to the language
+                   like handling reserved keyword with appending an underscore or lowercasing the first letter,
+                   we need to change the coding key accordingly so that during encoding and decoding, the modified member
+                   name is transformed back to original name or specified JsonName before it hits the service.
+                 */
+                when {
+                    member.hasTrait(JsonNameTrait::class.java) -> {
+                        val jsonName = member.getTrait(JsonNameTrait::class.java).get().value
+                        writer.write("case $modifiedMemberName = \"$jsonName\"")
+                    }
+                    originalMemberName == modifiedMemberName -> {
+                        writer.write("case $modifiedMemberName")
+                    }
+                    else -> {
+                        writer.write("case \$L = \$S", modifiedMemberName, originalMemberName)
+                    }
                 }
             }
         }
