@@ -56,10 +56,8 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         ).generateProtocolTests()
     }
 
-    override fun generateCodingKeysForStructure(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, shape: StructureShape) {
-        val membersSortedByName: List<MemberShape> = shape.allMembers.values
-            .sortedBy { ctx.symbolProvider.toMemberName(it) }
-            .filter { it.isInHttpBody() }
+    override fun generateCodingKeysForMembers(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, members: List<MemberShape>) {
+        val membersSortedByName: List<MemberShape> = members.sortedBy { it.memberName }
         writer.openBlock("private enum CodingKeys: String, CodingKey {", "}") {
             for (member in membersSortedByName) {
                 val originalMemberName = member.memberName
