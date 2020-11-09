@@ -18,15 +18,15 @@ import ClientRuntime
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
 public struct UnknownAWSHttpServiceError: AWSHttpServiceError {
     public var _statusCode: HttpStatusCode?
-    
+
     public var _headers: HttpHeaders?
-    
+
     public var _message: String?
-    
+
     public var _requestID: String?
-    
+
     public var _retryable: Bool? = false
-    
+
     public var _type: ErrorType = .unknown
 }
 

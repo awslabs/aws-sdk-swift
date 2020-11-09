@@ -20,7 +20,7 @@ import XCTest
 
 class RestJSONErrorTests: HttpResponseTestBase {
     let host = "myapi.host.com"
-    
+
     func testRestJsonComplexError() {
         guard let httpResponse = buildHttpResponse(
             code: 400,
@@ -37,14 +37,14 @@ class RestJSONErrorTests: HttpResponseTestBase {
                 XCTFail("Something is wrong with the created http response")
                 return
         }
-        
+
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         guard let greetingWithErrorsError = try? GreetingWithErrorsError(from: httpResponse, decoder: decoder) else {
             XCTFail("Failed to deserialize the error shape")
             return
         }
-        
+
         if case .complexError(let actual) = greetingWithErrorsError {
             let expected = ComplexError(
                 header: "Header",
@@ -58,7 +58,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
         }
         print(try? GreetingWithErrorsError(errorType: nil, httpResponse: httpResponse, decoder: decoder, message: nil, requestID: nil))
     }
-    
+
     func testSanitizeErrorName() {
         let errorNames = [
             "   FooError  ",
@@ -66,7 +66,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
             "my.protocoltests.restjson#FooError",
             "my.protocoltests.restjson#FooError:http://my.fake.com"
         ]
-        
+
         for errorName in errorNames {
             XCTAssertEqual(RestJSONError.sanitizeErrorType(errorName), "FooError")
         }
@@ -86,8 +86,7 @@ public struct ComplexError: AWSHttpServiceError {
     public init (
         header: String? = nil,
         topLevel: String? = nil
-    )
-    {
+    ) {
         self.header = header
         self.topLevel = topLevel
     }
@@ -115,7 +114,7 @@ extension ComplexError {
         } else {
             self.header = nil
         }
-        
+
         if case .data(let data) = httpResponse.content,
             let unwrappedData = data,
             let responseDecoder = decoder {
@@ -124,7 +123,7 @@ extension ComplexError {
         } else {
             self.topLevel = nil
         }
-        
+
         self._headers = httpResponse.headers
         self._statusCode = httpResponse.statusCode
         self._message = message
@@ -134,7 +133,7 @@ extension ComplexError {
 public enum GreetingWithErrorsError {
     case complexError(ComplexError)
     case unknown(UnknownAWSHttpServiceError)
-    
+
     public init(errorType: String?, httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
         switch errorType {
         case "ComplexError" : self = .complexError(try ComplexError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
