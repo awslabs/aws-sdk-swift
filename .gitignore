@@ -11,3 +11,9 @@ build/
 *.iml
 .idea/
 local.properties
+.build/
+.swiftpm/
+AWSClientRuntime/.swiftpm/
+AWSClientRuntime/.build/
+AWSClientRuntime/AWSClientRuntime.xcodeproj
+AWSClientRuntime/AWSClientRuntime.xcodeproj/
