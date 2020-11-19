@@ -25,3 +25,4 @@ public protocol AWSServiceConfiguration {
     // idempotency token provider to be added
     // some kind of endpoint resolver to be added
     // some kind of retryer options or configuration
+}
