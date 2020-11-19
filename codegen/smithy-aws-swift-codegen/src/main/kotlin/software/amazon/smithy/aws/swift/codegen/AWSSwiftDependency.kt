@@ -16,8 +16,8 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.codegen.core.SymbolDependency
 import software.amazon.smithy.codegen.core.SymbolDependencyContainer
 
-enum class AWSSwiftDependency(val type: String, val namespace: String, val version: String, val url: String) : SymbolDependencyContainer {
-    AWS_CLIENT_RUNTIME("", "AWSClientRuntime", "0.1.0", "/Users/edupp/Documents/git_repos/git_aws_codegen/aws-sdk-swift/AWSClientRuntime");
+enum class AWSSwiftDependency(val type: String, val namespace: String, val version: String, val url: String, var packageName: String) : SymbolDependencyContainer {
+    AWS_CLIENT_RUNTIME("", "AWSClientRuntime", "0.1.0", "~/Projects/Amplify/SwiftSDK/aws-sdk-swift/AWSClientRuntime", "AWSClientRuntime");
 
     override fun getDependencies(): List<SymbolDependency> {
         val dependency = SymbolDependency.builder()
@@ -25,6 +25,7 @@ enum class AWSSwiftDependency(val type: String, val namespace: String, val versi
                 .packageName(namespace)
                 .version(version)
                 .putProperty("url", url)
+                .putProperty("swiftPackageName", packageName)
                 .build()
         return listOf(dependency)
     }
