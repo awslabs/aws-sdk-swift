@@ -16,10 +16,13 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 protocol AWSServiceConfiguration {
+    // thinking this should live somewhere else and maybe this overrides it?
     var credentialProvider: CredentialsProvider { get set }
     var region: String { get set }
     var signingRegion: String {get set}
     var httpClientEngine: HttpClientEngine {get set}
     var httpClientEngineConfiguration: HttpClientConfiguration { get set}
     // idempotency token provider to be added
+    // some kind of endpoint resolver to be added
+    // some kind of retryer options or configuration
 }
