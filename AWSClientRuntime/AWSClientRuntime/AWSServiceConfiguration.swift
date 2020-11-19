@@ -12,8 +12,14 @@
 // express or implied. See the License for the specific language governing
 // permissions and limitations under the License.
 //
+import AwsCommonRuntimeKit
+import ClientRuntime
 
-//TODO: will finish in a separate PR
 protocol AWSServiceConfiguration {
-    
+    var credentialProvider: CredentialsProvider { get set }
+    var region: String { get set }
+    var signingRegion: String {get set}
+    var httpClientEngine: HttpClientEngine {get set}
+    var httpClientEngineConfiguration: HttpClientConfiguration { get set}
+    // idempotency token provider to be added
 }
