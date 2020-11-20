@@ -13,16 +13,18 @@
 // permissions and limitations under the License.
 //
 import AwsCommonRuntimeKit
-import ClientRuntime
 
-public protocol AWSServiceConfiguration {
+//TODO: flesh out this class more and possibly return creds provider differently.
+public class AWSCredentialsProvider {
+    let crtCredentialsProvider: CRTAWSCredentialsProvider
     
-    var credentialsProvider: AWSCredentialsProvider { get set }
-    var region: String { get set }
-    var signingRegion: String {get set}
-    var configuration: Configuration {get set}
+    init(awsCredentialsProvider: CRTAWSCredentialsProvider) {
+        self.crtCredentialsProvider = awsCredentialsProvider
+    }
     
-    // idempotency token provider to be added
-    // some kind of endpoint resolver to be added
-    // some kind of retryer options or configuration
+    public static func fromEnv() throws -> AWSCredentialsProvider {
+        let credsProvider = try CRTAWSCredentialsProvider(fromEnv: nil)
+        return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
+    }
+    
 }

@@ -109,7 +109,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.namespace)
 
-            writer.openBlock("extension \$L {","}", operationErrorName) {
+            writer.openBlock("extension \$L: HttpResponseBinding {","}", operationErrorName) {
                 writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
                     writer.write("let errorDetails = try RestJSONError(httpResponse: httpResponse)")
                     writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
