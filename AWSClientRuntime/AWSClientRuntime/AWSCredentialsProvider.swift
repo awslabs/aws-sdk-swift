@@ -27,4 +27,10 @@ public class AWSCredentialsProvider {
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
+//    public static func fromProfile() throws -> AWSCredentialsProvider {
+//
+//        let credsProvider = try CRTAWSCredentialsProvider(fromProfile: options)
+//        return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
+//    }
+    
 }

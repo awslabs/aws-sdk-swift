@@ -20,7 +20,6 @@ public protocol AWSServiceConfiguration {
     var credentialsProvider: AWSCredentialsProvider { get set }
     var region: String { get set }
     var signingRegion: String {get set}
-    var configuration: Configuration {get set}
     
     // idempotency token provider to be added
     // some kind of endpoint resolver to be added
