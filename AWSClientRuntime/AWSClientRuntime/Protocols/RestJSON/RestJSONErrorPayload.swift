@@ -17,7 +17,7 @@
 public struct RestJSONErrorPayload: Decodable {
     /// Payload Members which might hold Error name
     let code: String?
-    let __type: String?
+    let _type: String?
 
     /// Payload Members which might hold Error message
     let message: String?
@@ -30,7 +30,7 @@ public struct RestJSONErrorPayload: Decodable {
         if code != nil {
             return code
         } else {
-            return __type
+            return _type
         }
     }
 
