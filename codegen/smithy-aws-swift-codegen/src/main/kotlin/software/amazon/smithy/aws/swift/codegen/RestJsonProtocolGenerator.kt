@@ -94,8 +94,8 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         return features
     }
 
-    override fun getConfigFields(ctx: ProtocolGenerator.GenerationContext): List<ConfigField> {
-        return AWS_CONFIG_FIELDS
+    override fun getConfigClass(writer: SwiftWriter): ServiceConfig {
+        return AWSServiceConfig(writer)
     }
 
     override fun renderInitOperationErrorFromHttpResponse(

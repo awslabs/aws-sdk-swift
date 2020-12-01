@@ -51,8 +51,6 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val settings = SwiftSettings.from(model, buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace))
         model = AddOperationShapes.execute(model, settings.getService(model), settings.moduleName)
         val integrations = mutableListOf<SwiftIntegration>()
-        val configIntegration = AWSServiceConfigIntegration()
-        integrations.add(configIntegration)
         val delegator = SwiftDelegator(settings, model, manifest, provider, integrations)
         val generator = MockRestJsonProtocolGenerator()
 
@@ -121,56 +119,65 @@ extension ExplicitBlobRequest: Encodable {
     }
 
     @Test
-    fun `generated client has encoder configured`() {
+    fun `generated client has proper configuration`() {
         val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-            public class ExampleClient {
-                let client: SdkHttpClient
-                let config: Configuration
-                let serviceName = "ExampleClient"
-                let encoder: RequestEncoder
-                let decoder: ResponseDecoder
+        val expectedContents =
+"""
+public class ExampleClient {
+    let client: SdkHttpClient
+    let config: Configuration
+    let serviceName = "ExampleClient"
+    let encoder: RequestEncoder
+    let decoder: ResponseDecoder
 
-                init(config: ExampleClientConfiguration) throws {
-                    client = try SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-                    let jsonEncoder = JSONEncoder()
-                    jsonEncoder.dateEncodingStrategy = .secondsSince1970
-                    let jsonDecoder = JSONDecoder()
-                    jsonDecoder.dateDecodingStrategy = .secondsSince1970
-                    self.encoder = config.encoder ?? jsonEncoder
-                    self.decoder = config.decoder ?? jsonDecoder
-                    self.config = config
-                }
-                
-                public class ExampleClientConfiguration: Configuration,
-                                             AWSServiceConfiguration {
-                    public var credentialsProvider: AWSCredentialsProvider
-                    public var region: String
-                    public var signingRegion: String
-                    
-                    public init(credentialsProvider: AWSCredentialsProvider,
-                         region: String,
-                         signingRegion: String) {
-                        self.credentialsProvider = credentialsProvider
-                        self.region = region
-                        self.signingRegion = signingRegion
-                    }
-                    
-                    public convenience init(credentialsProvider: AWSCredentialsProvider) {
-                        let region = "us-east-1" //somehow get region and signing region from env
-                        self.init(credentialsProvider: credentialsProvider,
-                                  region: region,
-                                  signingRegion: region)
-                    }
-                    
-                    public static func `default`() throws -> ExampleClientConfiguration {
-                        let awsCredsProvider = try AWSCredentialsProvider.fromEnv()
-                        return ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
-                    }
-                }
-            }
-        """.trimIndent()
+    init(config: ExampleClientConfiguration) throws {
+        client = try SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
+        self.encoder = config.encoder
+        self.decoder = config.decoder
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .secondsSince1970
+        self.encoder = config.encoder ?? encoder
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        self.decoder = config.decoder ?? decoder
+        self.config = config
+    }
+
+    public class ExampleClientConfiguration: Configuration, AWSServiceConfiguration {
+
+        public var region: String
+        public var credentialsProvider: AWSCredentialsProvider
+        public var signingRegion: String
+
+        public init (
+            credentialsProvider: AWSCredentialsProvider,
+            region: String,
+            signingRegion: String
+        )
+        {
+            self.credentialsProvider = credentialsProvider
+            self.region = region
+            self.signingRegion = signingRegion
+        }
+
+        public convenience init(credentialsProvider: AWSCredentialsProvider) {
+            let region = "us-east-1"
+            self.init(
+                credentialsProvider: credentialsProvider,
+                region: region,
+                signingRegion: signingRegion
+            )
+        }
+
+        public static func `default`() throws -> ExampleClientConfiguration {
+            let awsCredsProvider = try AWSCredentialsProvider.fromEnv()
+            return ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
+        }
+    }
+}
+
+""".trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 }
