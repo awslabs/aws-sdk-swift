@@ -21,3 +21,44 @@ fun module(path: String) {
 module("codegen")
 module("codegen/smithy-aws-swift-codegen")
 module("codegen/protocol-test-codegen")
+
+/**
+ * The following code enables to optionally include aws-sdk-kotlin dependencies in source form for easier
+ * development.  By default, if `smithy-swift` exists as a directory at the same level as `aws-sdk-swift`
+ * then `smithy-swift` will be added as a composite build.  To override this behavior, for example to add
+ * more composite builds, specify a different directory for `smithy-swift`, or to disable the feature entirely,
+ * a local.properties file can be added or amended such that the property `compositeProjects` specifies
+ * a comma delimited list of paths to project roots that shall be added as composite builds.  If the list is
+ * empty to builds will be added.  Invalid directories are ignored.  Example local.properties:
+ *
+ * compositeProjects=~/repos/smithy-swift,/tmp/some/other/thing,../../another/project
+ *
+ */
+val compositeProjectList = try {
+    val localProperties = java.util.Properties()
+    localProperties.load(File(rootProject.projectDir, "local.properties").inputStream())
+    val filePaths = localProperties.getProperty("compositeProjects")
+        ?.splitToSequence(",")  // Split comma delimited string into sequence
+        ?.map { it.replaceFirst("^~".toRegex(), System.getProperty("user.home")) } // expand user dir
+        ?.map { file(it) } // Create file from path
+        ?.toList()
+        ?: emptyList()
+
+    if (filePaths.isNotEmpty()) println("Adding ${filePaths.size} composite build directories from local.properties.")
+    filePaths
+} catch (e: java.io.FileNotFoundException) {
+    listOf(file("../smithy-swift")) // Default path, not an error.
+} catch (e: Throwable) {
+    logger.error("Failed to load project paths from local.properties. Assuming defaults.", e)
+    listOf(file("../smithy-swift"))
+}
+
+compositeProjectList.forEach { projectRoot ->
+    when (projectRoot.exists()) {
+        true -> {
+            println("Including build '$projectRoot'")
+            includeBuild(projectRoot)
+        }
+        false -> println("Ignoring invalid build directory '$projectRoot'.")
+    }
+}
