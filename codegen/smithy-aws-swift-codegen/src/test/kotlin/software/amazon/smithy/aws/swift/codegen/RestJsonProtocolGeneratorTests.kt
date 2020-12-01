@@ -133,8 +133,6 @@ public class ExampleClient {
 
     init(config: ExampleClientConfiguration) throws {
         client = try SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-        self.encoder = config.encoder
-        self.decoder = config.decoder
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
         self.encoder = config.encoder ?? encoder

@@ -83,7 +83,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     }
 
     override fun getHttpFeatures(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
-        val features = super.getHttpFeatures(ctx).toMutableList()
+        val features = mutableListOf<HttpFeature>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
         // TODO:: Subject to change if Foundation dependency is removed
@@ -125,5 +125,13 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 }
 
 
-class JSONRequestEncoder(private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {}
-class JSONResponseDecoder(private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {}
+class JSONRequestEncoder(private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {
+    override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
+        writer.write("self.encoder = \$L.encoder ?? \$L", nameOfConfigObject, name)
+    }
+}
+class JSONResponseDecoder(private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {
+    override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
+        writer.write("self.decoder = \$L.decoder ?? \$L", nameOfConfigObject, name)
+    }
+}

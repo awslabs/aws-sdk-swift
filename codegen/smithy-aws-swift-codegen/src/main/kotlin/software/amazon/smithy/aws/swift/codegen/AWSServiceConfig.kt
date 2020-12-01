@@ -33,8 +33,10 @@ class AWSServiceConfig(writer: SwiftWriter): ServiceConfig(writer) {
     }
 
     override fun renderConvienceInits(serviceSymbol: Symbol) {
+        writer.addImport("AWSClientRuntime")
         writer.openBlock("public convenience init(credentialsProvider: AWSCredentialsProvider) {", "}") {
             writer.write("let region = \"us-east-1\"") //FIXME: get region from a region resolver
+            writer.write("let signingRegion = \"us-east-1\"") //FIXME: get region from a region resolver
             writer.openBlock("self.init(", ")") {
                 val configFieldsSortedByName = getConfigFields().sortedBy { it.name }
                 for ((index, member) in configFieldsSortedByName.withIndex()) {
