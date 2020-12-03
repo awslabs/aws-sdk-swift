@@ -5,9 +5,9 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ConfigField
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 
-val REGION_CONFIG_NAME = "region"
-val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
-val SIGNING_REGION_CONFIG_NAME = "signingRegion"
+const val REGION_CONFIG_NAME = "region"
+const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
+const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 
 
 val AWS_CONFIG_FIELDS = listOf(
@@ -19,7 +19,7 @@ val AWS_CONFIG_FIELDS = listOf(
 
 class AWSServiceConfig(writer: SwiftWriter): ServiceConfig(writer) {
     override val typesToConformConfigTo: List<String>
-        get() = super.typesToConformConfigTo + listOf("AWSServiceConfiguration")
+        get() = super.typesToConformConfigTo + listOf("AWSClientConfiguration")
 
     override fun renderStaticDefaultImplementation(serviceSymbol: Symbol) {
         writer.openBlock("public static func `default`() throws -> ${serviceSymbol.name}Configuration {", "}") {

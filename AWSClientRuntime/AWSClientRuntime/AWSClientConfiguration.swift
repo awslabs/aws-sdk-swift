@@ -15,7 +15,7 @@
 
 import ClientRuntime
 
-public protocol AWSServiceConfiguration {
+public protocol AWSClientConfiguration {
     
     var credentialsProvider: AWSCredentialsProvider { get set }
     var region: String { get set }

@@ -94,9 +94,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         return features
     }
 
-    override fun getConfigClass(writer: SwiftWriter): ServiceConfig {
-        return AWSServiceConfig(writer)
-    }
+    override fun getConfigClass(writer: SwiftWriter): ServiceConfig = AWSServiceConfig(writer)
 
     override fun renderInitOperationErrorFromHttpResponse(
             ctx: ProtocolGenerator.GenerationContext,
@@ -125,12 +123,16 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 }
 
 
-class JSONRequestEncoder(private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {
+class JSONRequestEncoder(
+    private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()
+) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {
     override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
         writer.write("self.encoder = \$L.encoder ?? \$L", nameOfConfigObject, name)
     }
 }
-class JSONResponseDecoder(private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {
+class JSONResponseDecoder(
+    private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()
+) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {
     override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
         writer.write("self.decoder = \$L.decoder ?? \$L", nameOfConfigObject, name)
     }
