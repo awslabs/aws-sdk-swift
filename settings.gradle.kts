@@ -23,7 +23,7 @@ module("codegen/smithy-aws-swift-codegen")
 module("codegen/protocol-test-codegen")
 
 /**
- * The following code enables to optionally include aws-sdk-kotlin dependencies in source form for easier
+ * The following code enables to optionally include aws-sdk-swift dependencies in source form for easier
  * development.  By default, if `smithy-swift` exists as a directory at the same level as `aws-sdk-swift`
  * then `smithy-swift` will be added as a composite build.  To override this behavior, for example to add
  * more composite builds, specify a different directory for `smithy-swift`, or to disable the feature entirely,
