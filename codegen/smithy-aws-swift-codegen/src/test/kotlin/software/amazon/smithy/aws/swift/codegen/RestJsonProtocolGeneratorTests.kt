@@ -22,10 +22,12 @@ import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.AddOperationShapes
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
 class MockRestJsonProtocolGenerator : RestJsonProtocolGenerator() {
     override val defaultContentType: String = "application/json"
@@ -35,7 +37,7 @@ class MockRestJsonProtocolGenerator : RestJsonProtocolGenerator() {
 
 // NOTE: protocol conformance is mostly handled by the protocol tests suite
 class RestJsonProtocolGeneratorTests: TestsBase() {
-    val model = createModelFromSmithy("http-binding-protocol-generator-test.smithy")
+    var model = createModelFromSmithy("http-binding-protocol-generator-test.smithy")
 
     data class TestContext(val ctx: ProtocolGenerator.GenerationContext,
                            val manifest: MockManifest,
@@ -47,9 +49,12 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         val serviceShapeIdWithNamespace = "com.test#Example"
         val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
         val settings = SwiftSettings.from(model, buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace))
-        val delegator = SwiftDelegator(settings, model, manifest, provider)
+        model = AddOperationShapes.execute(model, settings.getService(model), settings.moduleName)
+        val integrations = mutableListOf<SwiftIntegration>()
+        val delegator = SwiftDelegator(settings, model, manifest, provider, integrations)
         val generator = MockRestJsonProtocolGenerator()
-        val ctx = ProtocolGenerator.GenerationContext(settings, model, service, provider, listOf(), generator.protocol, delegator)
+
+        val ctx = ProtocolGenerator.GenerationContext(settings, model, service, provider, integrations, generator.protocol, delegator)
         return TestContext(ctx, manifest, generator)
     }
 
@@ -61,47 +66,116 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
         newTestContext.ctx.delegator.flushWriters()
     }
 
-//    @Test
-//    fun `define coding keys for unbound document payload members`() {
-//        val contents = getModelFileContents("Example","SmokeTestRequest+Encodable.swift", newTestContext.manifest)
-//        contents.shouldSyntacticSanityCheck()
-//        val expectedContents =
-//                "extension SmokeTestRequest: Encodable {\n" +
-//                "    private enum CodingKeys: String, CodingKey {\n" +
-//                "        case payload1\n" +
-//                        "case payload2\n" +
-//                        "case payload3\n" +
-//                "    }\n" +
-//                "}"
-//        contents.shouldContainOnlyOnce(expectedContents)
-//    }
-//
-//    @Test
-//    fun `define coding keys for payload member`() {
-//        val contents = getModelFileContents("Example","ExplicitBlobRequest+Encodable.swift", newTestContext.manifest)
-//        contents.shouldSyntacticSanityCheck()
-//        val expectedContents =
-//                "extension ExplicitBlobRequest: Encodable {\n" +
-//                "    private enum CodingKeys: String, CodingKey {\n" +
-//                "        case payload1\n" +
-//                "    }\n" +
-//                "}"
-//        contents.shouldContainOnlyOnce(expectedContents)
-//    }
-//
-//    @Test
-//    fun `generated client has encoder configured`() {
-//        val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
-//        contents.shouldSyntacticSanityCheck()
-//        val expectedContents =
-//                "public class ExampleClient {\n" +
-//                "    let client: HttpClient\n" +
-//                "    let encoder = JSONEncoder()\n" +
-//                "    let decoder = JSONDecoder()\n" +
-//                "    init(config: HttpClientConfiguration = HttpClientConfiguration()) {\n" +
-//                "        client = HttpClient(config: config)\n" +
-//                "    }\n" +
-//                "}\n"
-//        contents.shouldContainOnlyOnce(expectedContents)
-//    }
+    @Test
+    fun `define coding keys for unbound document payload members`() {
+        val contents = getModelFileContents("Example","SmokeTestRequest+Encodable.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+"""
+extension SmokeTestRequest: Encodable {
+    private enum CodingKeys: String, CodingKey {
+        case payload1
+        case payload2
+        case payload3
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if let payload1 = payload1 {
+            try container.encode(payload1, forKey: .payload1)
+        }
+        if let payload2 = payload2 {
+            try container.encode(payload2, forKey: .payload2)
+        }
+        if let payload3 = payload3 {
+            try container.encode(payload3, forKey: .payload3)
+        }
+    }
+}
+""".trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `define coding keys for payload member`() {
+        val contents = getModelFileContents("Example","ExplicitBlobRequest+Encodable.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+"""
+extension ExplicitBlobRequest: Encodable {
+    private enum CodingKeys: String, CodingKey {
+        case payload1
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if let payload1 = payload1 {
+            try container.encode(payload1.base64EncodedString(), forKey: .payload1)
+        }
+    }
+}
+""".trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `generated client has proper configuration`() {
+        val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+"""
+public class ExampleClient {
+    let client: SdkHttpClient
+    let config: Configuration
+    let serviceName = "ExampleClient"
+    let encoder: RequestEncoder
+    let decoder: ResponseDecoder
+
+    init(config: ExampleClientConfiguration) throws {
+        client = try SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .secondsSince1970
+        self.encoder = config.encoder ?? encoder
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        self.decoder = config.decoder ?? decoder
+        self.config = config
+    }
+
+    public class ExampleClientConfiguration: Configuration, AWSServiceConfiguration {
+
+        public var region: String
+        public var credentialsProvider: AWSCredentialsProvider
+        public var signingRegion: String
+
+        public init (
+            credentialsProvider: AWSCredentialsProvider,
+            region: String,
+            signingRegion: String
+        )
+        {
+            self.credentialsProvider = credentialsProvider
+            self.region = region
+            self.signingRegion = signingRegion
+        }
+
+        public convenience init(credentialsProvider: AWSCredentialsProvider) {
+            let region = "us-east-1"
+            self.init(
+                credentialsProvider: credentialsProvider,
+                region: region,
+                signingRegion: signingRegion
+            )
+        }
+
+        public static func `default`() throws -> ExampleClientConfiguration {
+            let awsCredsProvider = try AWSCredentialsProvider.fromEnv()
+            return ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
+        }
+    }
+}
+
+""".trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
 }

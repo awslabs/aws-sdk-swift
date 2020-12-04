@@ -83,7 +83,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     }
 
     override fun getHttpFeatures(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
-        val features = super.getHttpFeatures(ctx).toMutableList()
+        val features = mutableListOf<HttpFeature>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
         // TODO:: Subject to change if Foundation dependency is removed
@@ -93,6 +93,8 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
     }
+
+    override fun getConfigClass(writer: SwiftWriter): ServiceConfig = AWSServiceConfig(writer)
 
     override fun renderInitOperationErrorFromHttpResponse(
             ctx: ProtocolGenerator.GenerationContext,
@@ -109,7 +111,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.namespace)
 
-            writer.openBlock("extension \$L {","}", operationErrorName) {
+            writer.openBlock("extension \$L: HttpResponseBinding {","}", operationErrorName) {
                 writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
                     writer.write("let errorDetails = try RestJSONError(httpResponse: httpResponse)")
                     writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
@@ -121,5 +123,17 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 }
 
 
-class JSONRequestEncoder(private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {}
-class JSONResponseDecoder(private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {}
+class JSONRequestEncoder(
+    private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()
+) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {
+    override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
+        writer.write("self.encoder = \$L.encoder ?? \$L", nameOfConfigObject, name)
+    }
+}
+class JSONResponseDecoder(
+    private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()
+) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {
+    override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
+        writer.write("self.decoder = \$L.decoder ?? \$L", nameOfConfigObject, name)
+    }
+}

@@ -13,7 +13,15 @@
 // permissions and limitations under the License.
 //
 
-//TODO: will finish in a separate PR
-protocol AWSServiceConfiguration {
+import ClientRuntime
+
+public protocol AWSClientConfiguration {
     
+    var credentialsProvider: AWSCredentialsProvider { get set }
+    var region: String { get set }
+    var signingRegion: String {get set}
+    
+    // idempotency token provider to be added
+    // some kind of endpoint resolver to be added
+    // some kind of retryer options or configuration
 }
