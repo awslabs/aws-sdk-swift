@@ -48,4 +48,4 @@ See the local.properties definition above to specify this in a config file.
 ```
 
 ##### Testing Locally
-Testing generated services generally requires publishing artifacts (e.g. client-runtime) of `smithy-kotlin`, `aws-crt-kotlin`, and `aws-sdk-kotin` to maven local.
+Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSClientRuntime` Swift packages.
