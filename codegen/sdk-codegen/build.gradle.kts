@@ -8,9 +8,11 @@
 
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
+import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.gradle.tasks.SmithyBuild
 import kotlin.streams.toList
+import java.util.Properties
 
 plugins {
     id("software.amazon.smithy") version "0.5.1"
@@ -31,7 +33,26 @@ tasks.create<SmithyBuild>("buildSdk") {
 }
 
 // force rebuild every time while developing
-tasks["build"].outputs.upToDateWhen { false }
+tasks["buildSdk"].outputs.upToDateWhen { false }
+
+// get a project propety by name if it exists (including from local.properties)
+fun getProperty(name: String): String? {
+    if (project.hasProperty(name)) {
+        return project.properties[name].toString()
+    }
+
+    val localProperties = Properties()
+    val propertiesFile: File = rootProject.file("local.properties")
+    if (propertiesFile.exists()) {
+        propertiesFile.inputStream().use { localProperties.load(it) }
+        if (localProperties.containsKey(name)) {
+            return localProperties.get(name).toString()
+        }
+    }
+    return null
+}
+
+fun ObjectNode.Builder.call(block: ObjectNode.Builder.() -> Unit): ObjectNode.Builder = apply(block)
 
 // Generates a smithy-build.json file by creating a new projection for every
 // JSON model file found in aws-models/. The generated smithy-build.json file is
@@ -42,13 +63,14 @@ tasks.register("generate-smithy-build") {
         val modelsDirProp: String by project
         val modelsDir = project.file(modelsDirProp)
         val models = fileTree(modelsDir).filter { it.isFile }.files.toMutableSet()
-        val onlyIncludeModels: String? by project
-        val excludeModels: String? by project
+        val onlyIncludeModels = getProperty("onlyIncludeModels")
+        val excludeModels = getProperty("excludeModels")
         var filteredModels = models
         onlyIncludeModels?.let {
             val modelsToInclude = it.split(",").map { "$it.json" }.map { it.trim() }
             filteredModels = models.filter { modelsToInclude.contains(it.name) }.toMutableSet()
         }
+        // If a model is specified in both onlyIncludeModels and excludeModels, it is excluded.
         excludeModels?.let {
             val modelsToExclude = it.split(",").map { "$it.json" }.map { it.trim() }
             filteredModels = filteredModels.filterNot { modelsToExclude.contains(it.name) }.toMutableSet()
@@ -81,6 +103,13 @@ tasks.register("generate-smithy-build") {
                                             .withMember("author", Node.from("Amazon Web Services"))
                                             .withMember("gitRepo", Node.from("https://github.com/aws-amplify/aws-sdk-swift.git"))
                                             .withMember("swiftVersion", Node.from("5.3.1"))
+                                            .call {
+                                                val buildStandaloneSdk = getProperty("buildStandaloneSdk")?.toBoolean() ?: false
+                                                withMember("build", Node.objectNodeBuilder()
+                                                        .withMember("rootProject", buildStandaloneSdk)
+                                                        .build()
+                                                )
+                                            }
                                             .build()
                             )
                     )
