@@ -32,8 +32,6 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
         val ignoredTests = setOf(
-                "RestJsonListsSerializeNull", // TODO - sparse lists not supported - this test needs removed
-                "RestJsonSerializesNullMapValues", // TODO - sparse maps not supported - this test needs removed
                 // FIXME - document type not fully supported yet
                 "InlineDocumentInput",
                 "InlineDocumentAsPayloadInput",
