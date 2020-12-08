@@ -19,6 +19,7 @@ fun module(path: String) {
 
 
 module("codegen")
+module("codegen/sdk-codegen")
 module("codegen/smithy-aws-swift-codegen")
 module("codegen/protocol-test-codegen")
 
