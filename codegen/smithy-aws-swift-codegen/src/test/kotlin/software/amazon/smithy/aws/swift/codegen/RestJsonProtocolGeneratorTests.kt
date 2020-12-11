@@ -68,11 +68,11 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
 
     @Test
     fun `define coding keys for unbound document payload members`() {
-        val contents = getModelFileContents("Example","SmokeTestRequest+Encodable.swift", newTestContext.manifest)
+        val contents = getModelFileContents("Example","SmokeTestInput+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
-extension SmokeTestRequest: Encodable {
+extension SmokeTestInput: Encodable {
     private enum CodingKeys: String, CodingKey {
         case payload1
         case payload2
@@ -98,11 +98,11 @@ extension SmokeTestRequest: Encodable {
 
     @Test
     fun `define coding keys for payload member`() {
-        val contents = getModelFileContents("Example","ExplicitBlobRequest+Encodable.swift", newTestContext.manifest)
+        val contents = getModelFileContents("Example","ExplicitBlobInput+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
-extension ExplicitBlobRequest: Encodable {
+extension ExplicitBlobInput: Encodable {
     private enum CodingKeys: String, CodingKey {
         case payload1
     }
@@ -142,7 +142,7 @@ public class ExampleClient {
         self.config = config
     }
 
-    public class ExampleClientConfiguration: Configuration, AWSServiceConfiguration {
+    public class ExampleClientConfiguration: Configuration, AWSClientConfiguration {
 
         public var region: String
         public var credentialsProvider: AWSCredentialsProvider
@@ -161,6 +161,7 @@ public class ExampleClient {
 
         public convenience init(credentialsProvider: AWSCredentialsProvider) {
             let region = "us-east-1"
+            let signingRegion = "us-east-1"
             self.init(
                 credentialsProvider: credentialsProvider,
                 region: region,
