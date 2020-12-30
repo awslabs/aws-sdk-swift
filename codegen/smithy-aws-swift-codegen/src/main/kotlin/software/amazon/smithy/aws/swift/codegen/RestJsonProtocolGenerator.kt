@@ -21,14 +21,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
-        val ignoredTests = setOf(
-                // FIXME - document type not fully supported yet
-                "InlineDocumentInput",
-                "InlineDocumentAsPayloadInput",
-                "InlineDocumentOutput",
-                "InlineDocumentAsPayloadInputOutput"
-        )
-
+        
         val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
         val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
         val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
@@ -37,8 +30,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
                 ctx,
                 requestTestBuilder,
                 responseTestBuilder,
-                errorTestBuilder,
-                ignoredTests
+                errorTestBuilder
         ).generateProtocolTests()
     }
 
