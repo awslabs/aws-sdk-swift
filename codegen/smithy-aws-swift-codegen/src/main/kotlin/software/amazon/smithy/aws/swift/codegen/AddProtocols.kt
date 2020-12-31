@@ -4,9 +4,8 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
-
-import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
 /**
  * Integration that registers protocol generators this package provides

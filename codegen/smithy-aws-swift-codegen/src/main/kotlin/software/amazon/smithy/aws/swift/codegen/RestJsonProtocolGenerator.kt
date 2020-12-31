@@ -13,7 +13,6 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.*
 
-
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
  */
@@ -21,7 +20,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
-        
+
         val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
         val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
         val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
@@ -77,8 +76,8 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override fun getConfigClass(writer: SwiftWriter): ServiceConfig = AWSServiceConfig(writer)
 
     override fun renderInitOperationErrorFromHttpResponse(
-            ctx: ProtocolGenerator.GenerationContext,
-            op: OperationShape
+        ctx: ProtocolGenerator.GenerationContext,
+        op: OperationShape
     ) {
         val operationErrorName = "${op.defaultName()}Error"
         val rootNamespace = ctx.settings.moduleName
@@ -91,7 +90,7 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.namespace)
 
-            writer.openBlock("extension \$L: HttpResponseBinding {","}", operationErrorName) {
+            writer.openBlock("extension \$L: HttpResponseBinding {", "}", operationErrorName) {
                 writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
                     writer.write("let errorDetails = try RestJSONError(httpResponse: httpResponse)")
                     writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
@@ -101,7 +100,6 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         }
     }
 }
-
 
 class JSONRequestEncoder(
     private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()

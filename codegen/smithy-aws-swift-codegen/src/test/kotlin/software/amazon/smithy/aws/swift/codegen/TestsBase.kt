@@ -4,12 +4,12 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
+import java.net.URL
 import org.junit.jupiter.api.Assertions
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
-import java.net.URL
 
 open class TestsBase {
 
@@ -25,9 +25,11 @@ open class TestsBase {
         return TestsBase::class.java.classLoader.getResource("software.amazon.smithy.aws.swift.codegen/$smithyTestResourceName")
     }
 
-    protected fun buildDefaultSwiftSettingsObjectNode(serviceShapeId: String,
-                                                      moduleName: String = "Example",
-                                                      moduleVersion: String = "1.0.0"): ObjectNode {
+    protected fun buildDefaultSwiftSettingsObjectNode(
+        serviceShapeId: String,
+        moduleName: String = "Example",
+        moduleVersion: String = "1.0.0"
+    ): ObjectNode {
         return Node.objectNodeBuilder()
                 .withMember("service", Node.from(serviceShapeId))
                 .withMember("module", Node.from(moduleName))
