@@ -32,7 +32,7 @@ class AWSServiceConfig(writer: SwiftWriter): ServiceConfig(writer) {
         return AWS_CONFIG_FIELDS
     }
 
-    override fun renderConvienceInits(serviceSymbol: Symbol) {
+    override fun renderConvenienceInits(serviceSymbol: Symbol) {
         writer.addImport("AWSClientRuntime")
         writer.openBlock("public convenience init(credentialsProvider: AWSCredentialsProvider) {", "}") {
             writer.write("let region = \"us-east-1\"") //FIXME: get region from a region resolver
