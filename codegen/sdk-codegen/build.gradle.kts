@@ -35,7 +35,7 @@ tasks.create<SmithyBuild>("buildSdk") {
 // force rebuild every time while developing
 tasks["buildSdk"].outputs.upToDateWhen { false }
 
-// get a project propety by name if it exists (including from local.properties)
+// get a project property by name if it exists (including from local.properties)
 fun getProperty(name: String): String? {
     if (project.hasProperty(name)) {
         return project.properties[name].toString()
