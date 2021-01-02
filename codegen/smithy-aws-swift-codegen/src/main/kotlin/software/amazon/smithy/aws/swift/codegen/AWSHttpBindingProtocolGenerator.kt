@@ -5,7 +5,11 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGenerator
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 
 /**
  * Base class for all AWS HTTP protocol generators
@@ -22,4 +26,16 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
             .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
             .build()
+
+    override fun getHttpProtocolClientGenerator(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter
+    ): HttpProtocolClientGenerator {
+        val properties = getClientProperties(ctx)
+        val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
+        val config = getConfigClass(writer, serviceName)
+        return AwsHttpProtocolClientGenerator(ctx, writer, properties, config)
+    }
+
+    override fun getConfigClass(writer: SwiftWriter, serviceName: String): ServiceConfig = AWSServiceConfig(writer, serviceName)
 }
