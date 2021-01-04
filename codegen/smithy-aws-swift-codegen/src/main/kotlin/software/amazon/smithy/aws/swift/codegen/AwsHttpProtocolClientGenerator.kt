@@ -13,8 +13,8 @@ class AwsHttpProtocolClientGenerator(ctx: ProtocolGenerator.GenerationContext,
                                      config: ServiceConfig): HttpProtocolClientGenerator(ctx, writer, properties, config) {
     override fun renderContextAttributes(op: OperationShape) {
         super.renderContextAttributes(op)
-        writer.write("  .withCredentialsProvider(config.credentialsProvider)")
-        writer.write("  .withRegion(config.region)")
-        writer.write("  .withSigningRegion(config.signingRegion)")
+        writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
+        writer.write("  .withRegion(value: config.region)")
+        writer.write("  .withSigningRegion(value: config.signingRegion)")
     }
 }

@@ -19,7 +19,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
                 "X-Header": "Header",
                 "X-Amzn-Errortype": "ComplexError"
             ],
-            content: ResponseType.data("""
+            content: HttpBody.data("""
             {\"TopLevel\": \"Top level\"}
             """.data(using: .utf8)),
             host: host
@@ -30,7 +30,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
-        guard let greetingWithErrorsError = try? GreetingWithErrorsError(from: httpResponse, decoder: decoder) else {
+        guard let greetingWithErrorsError = try? GreetingWithErrorsError(httpResponse: httpResponse, decoder: decoder) else {
             XCTFail("Failed to deserialize the error shape")
             return
         }
@@ -64,7 +64,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
 }
 
 public struct ComplexError: AWSHttpServiceError {
-    public var _headers: HttpHeaders?
+    public var _headers: Headers?
     public var _message: String?
     public var _requestID: String?
     public var _retryable: Bool? = true
@@ -98,6 +98,7 @@ extension ComplexErrorBody: Decodable {
 }
 
 extension ComplexError {
+    
     public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
         if let Header = httpResponse.headers.value(for: "X-Header") {
             self.header = Header
@@ -105,7 +106,7 @@ extension ComplexError {
             self.header = nil
         }
 
-        if case .data(let data) = httpResponse.content,
+        if case .data(let data) = httpResponse.body,
             let unwrappedData = data,
             let responseDecoder = decoder {
             let output: ComplexErrorBody = try responseDecoder.decode(responseBody: unwrappedData)
@@ -132,8 +133,8 @@ public enum GreetingWithErrorsError {
     }
 }
 
-extension GreetingWithErrorsError {
-    public init(from httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
+extension GreetingWithErrorsError: HttpResponseBinding {
+    public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
         let errorDetails = try RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)

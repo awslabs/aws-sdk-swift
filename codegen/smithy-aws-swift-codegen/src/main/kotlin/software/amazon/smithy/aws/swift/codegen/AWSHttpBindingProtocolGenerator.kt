@@ -29,7 +29,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         writer: SwiftWriter
     ): HttpProtocolClientGenerator {
         val properties = getClientProperties(ctx)
-        val config = getConfigClass(writer)
+        val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
+        val config = getConfigClass(writer, serviceName)
         return AwsHttpProtocolClientGenerator(ctx, writer, properties, config)
     }
 }
