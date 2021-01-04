@@ -11,7 +11,14 @@ import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.defaultName
-import software.amazon.smithy.swift.codegen.integration.*
+import software.amazon.smithy.swift.codegen.integration.ClientProperty
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
+import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
 
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
@@ -61,8 +68,8 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         }
     }
 
-    override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
-        val features = mutableListOf<HttpFeature>()
+    override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
+        val features = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
         // TODO:: Subject to change if Foundation dependency is removed
@@ -72,8 +79,6 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
     }
-
-    override fun getConfigClass(writer: SwiftWriter, serviceName: String): ServiceConfig = AWSServiceConfig(writer, serviceName)
 
     override fun renderInitOperationErrorFromHttpResponse(
         ctx: ProtocolGenerator.GenerationContext,

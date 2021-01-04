@@ -1,11 +1,23 @@
-//
-//  File.swift
-//  
-//
-//  Created by Stone, Nicki on 1/3/21.
-//
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0.
+ */
 
 import ClientRuntime
+
+extension HttpContext {
+    func getCredentialsProvider() -> AWSCredentialsProvider {
+        return attributes.get(key: AttributeKey<AWSCredentialsProvider>(name: "AWSCredentialsProvider"))!
+    }
+    
+    func getRegion() -> String {
+        return attributes.get(key: AttributeKey<String>(name: "Region"))!
+    }
+    
+    func getSigningRegion() -> String {
+        return attributes.get(key: AttributeKey<String>(name: "SigningRegion"))!
+    }
+}
 
 extension HttpContextBuilder {
 
