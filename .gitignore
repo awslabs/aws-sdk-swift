@@ -15,5 +15,6 @@ local.properties
 .swiftpm/
 AWSClientRuntime/.swiftpm/
 AWSClientRuntime/.build/
+AWSClientRuntime/Package.resolved
 AWSClientRuntime/AWSClientRuntime.xcodeproj
 AWSClientRuntime/AWSClientRuntime.xcodeproj/
