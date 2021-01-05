@@ -9,6 +9,18 @@ import AwsCommonRuntimeKit
 struct SigV4Middleware: Middleware {
     var id: String = "Sigv4Signer"
     
+    let signingName: String
+    
+    let unsignedBody: Bool
+    
+    let siginingRegion: String
+    
+    public init(signingName: String, signingRegion: String, unsignedBody: Bool) {
+        self.signingName = signingName
+        self.siginingRegion = signingRegion
+        self.unsignedBody = unsignedBody
+    }
+    
     typealias MInput = SdkHttpRequestBuilder
     
     typealias MOutput = SdkHttpRequest
@@ -19,14 +31,19 @@ struct SigV4Middleware: Middleware {
         let crtRequest = input.build().toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         let credentialsProvider = context.getCredentialsProvider().crtCredentialsProvider
-        let service = context.getServiceName()
-        let region = context.getSigningRegion()
-        let config = SigningConfig(credentialsProvider: credentialsProvider, expiration: 90, date: AWSDate(), service: service, region: region)
+        let signedBodyValue = unsignedBody ? SignedBodyValue.unsignedPayload : SignedBodyValue.empty
+        let config = SigningConfig(credentialsProvider: credentialsProvider,
+                                   expiration: 90,
+                                   date: AWSDate(),
+                                   service: signingName,
+                                   region: siginingRegion,
+                                   signedBodyValue: signedBodyValue)
         do {
         let signedRequestResult = try signer.signRequest(request: crtRequest, config: config)
             let signedRequest = try signedRequestResult.get()
-            let sdkRequest = signedRequest.toSdkRequest()
-            return .success(sdkRequest)
+            let sdkRequest = input.update(from: signedRequest)
+            
+            return next.handle(context: context, input: sdkRequest)
         } catch let err {
             return .failure(err)
         }
