@@ -10,7 +10,7 @@ workspace.xml
 build/
 *.iml
 .idea/
-codegen/sdk-codegen/local.properties
+local.properties
 .build/
 .swiftpm/
 AWSClientRuntime/.swiftpm/
