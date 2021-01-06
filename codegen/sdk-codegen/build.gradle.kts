@@ -102,7 +102,7 @@ tasks.register("generate-smithy-build") {
                                             .withMember("homepage", Node.from("https://docs.amplify.aws/"))
                                             .withMember("author", Node.from("Amazon Web Services"))
                                             .withMember("gitRepo", Node.from("https://github.com/aws-amplify/aws-sdk-swift.git"))
-                                            .withMember("swiftVersion", Node.from("5.3.1"))
+                                            .withMember("swiftVersion", Node.from("5.3.0"))
                                             .call {
                                                 val buildStandaloneSdk = getProperty("buildStandaloneSdk")?.toBoolean() ?: false
                                                 withMember("build", Node.objectNodeBuilder()
