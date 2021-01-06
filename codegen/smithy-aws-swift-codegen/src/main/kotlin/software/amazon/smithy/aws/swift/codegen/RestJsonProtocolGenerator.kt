@@ -5,20 +5,21 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.shapes.*
+import software.amazon.smithy.model.shapes.MemberShape
+import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.traits.JsonNameTrait
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
 import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 /**
  * Shared base protocol generator for all AWS JSON protocol variants

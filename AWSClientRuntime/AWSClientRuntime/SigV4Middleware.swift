@@ -8,30 +8,35 @@ import AwsCommonRuntimeKit
 
 public struct SigV4Middleware: Middleware {
     public var id: String = "Sigv4Signer"
-    
+
     let signingName: String
-    
+
     let unsignedBody: Bool
-    
-    let siginingRegion: String
-    
+
+    let signingRegion: String
+
     public init(signingName: String, signingRegion: String, unsignedBody: Bool) {
         self.signingName = signingName
-        self.siginingRegion = signingRegion
+        self.signingRegion = signingRegion
         self.unsignedBody = unsignedBody
     }
-    
+
     public typealias MInput = SdkHttpRequestBuilder
-    
+
     public typealias MOutput = SdkHttpRequest
-    
+
     public typealias Context = HttpContext
-    
-    public func handle<H>(context: HttpContext, input: SdkHttpRequestBuilder, next: H) -> Result<SdkHttpRequest, Error> where H: Handler, Self.Context == H.Context, Self.MInput == H.Input, Self.MOutput == H.Output {
+
+    public func handle<H>(context: HttpContext,
+                          input: SdkHttpRequestBuilder,
+                          next: H) -> Result<SdkHttpRequest, Error> where H: Handler,
+                                                                          Self.Context == H.Context,
+                                                                          Self.MInput == H.Input,
+                                                                          Self.MOutput == H.Output {
         let crtRequest = input.build().toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         let credentialsProvider = context.getCredentialsProvider().crtCredentialsProvider
-        
+
         let credentialsResult = credentialsProvider.getCredentials()
         do {
             let credentials = try credentialsResult.get()
@@ -39,14 +44,13 @@ public struct SigV4Middleware: Middleware {
             let config = SigningConfig(credentials: credentials,
                                        date: AWSDate(),
                                        service: signingName,
-                                       region: siginingRegion,
-                                       signedBodyHeader: .none,
+                                       region: signingRegion,
                                        signedBodyValue: signedBodyValue)
-            
+
             let signedRequestResult = try signer.signRequest(request: crtRequest, config: config)
             let signedRequest = try signedRequestResult.get()
             let sdkRequest = input.update(from: signedRequest)
-            
+
             return next.handle(context: context, input: sdkRequest)
         } catch CRTError.crtError(let error) {
             return .failure(CRTError.crtError(error))

@@ -98,7 +98,7 @@ extension ComplexErrorBody: Decodable {
 }
 
 extension ComplexError {
-    
+
     public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
         if let Header = httpResponse.headers.value(for: "X-Header") {
             self.header = Header
