@@ -6,8 +6,8 @@
 import ClientRuntime
 import AwsCommonRuntimeKit
 
-struct SigV4Middleware: Middleware {
-    var id: String = "Sigv4Signer"
+public struct SigV4Middleware: Middleware {
+    public var id: String = "Sigv4Signer"
     
     let signingName: String
     
@@ -21,29 +21,34 @@ struct SigV4Middleware: Middleware {
         self.unsignedBody = unsignedBody
     }
     
-    typealias MInput = SdkHttpRequestBuilder
+    public typealias MInput = SdkHttpRequestBuilder
     
-    typealias MOutput = SdkHttpRequest
+    public typealias MOutput = SdkHttpRequest
     
-    typealias Context = HttpContext
+    public typealias Context = HttpContext
     
-    func handle<H>(context: HttpContext, input: SdkHttpRequestBuilder, next: H) -> Result<SdkHttpRequest, Error> where H: Handler, Self.Context == H.Context, Self.MInput == H.Input, Self.MOutput == H.Output {
+    public func handle<H>(context: HttpContext, input: SdkHttpRequestBuilder, next: H) -> Result<SdkHttpRequest, Error> where H: Handler, Self.Context == H.Context, Self.MInput == H.Input, Self.MOutput == H.Output {
         let crtRequest = input.build().toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         let credentialsProvider = context.getCredentialsProvider().crtCredentialsProvider
-        let signedBodyValue = unsignedBody ? SignedBodyValue.unsignedPayload : SignedBodyValue.empty
-        let config = SigningConfig(credentialsProvider: credentialsProvider,
-                                   expiration: 90,
-                                   date: AWSDate(),
-                                   service: signingName,
-                                   region: siginingRegion,
-                                   signedBodyValue: signedBodyValue)
+        
+        let credentialsResult = credentialsProvider.getCredentials()
         do {
-        let signedRequestResult = try signer.signRequest(request: crtRequest, config: config)
+            let credentials = try credentialsResult.get()
+            let signedBodyValue = unsignedBody ? SignedBodyValue.unsignedPayload : SignedBodyValue.empty
+            let config = SigningConfig(credentials: credentials,
+                                       date: AWSDate(),
+                                       service: signingName,
+                                       region: siginingRegion,
+                                       signedBodyValue: signedBodyValue)
+            
+            let signedRequestResult = try signer.signRequest(request: crtRequest, config: config)
             let signedRequest = try signedRequestResult.get()
             let sdkRequest = input.update(from: signedRequest)
             
             return next.handle(context: context, input: sdkRequest)
+        } catch CRTError.crtError(let error) {
+            return .failure(CRTError.crtError(error))
         } catch let err {
             return .failure(err)
         }
