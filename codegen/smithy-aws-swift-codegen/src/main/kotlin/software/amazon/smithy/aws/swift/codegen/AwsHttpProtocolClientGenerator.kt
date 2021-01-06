@@ -42,6 +42,7 @@ class AwsHttpProtocolClientGenerator(private val ctx: ProtocolGenerator.Generati
 
     override fun renderMiddlewares(op: OperationShape) {
         super.renderMiddlewares(op)
+        writer.write("operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware())")
         val hasUnsignedPayload = op.hasTrait(UnsignedPayloadTrait::class.java)
         val serviceShape = ctx.service
         val needsSigning = serviceShape.hasTrait(SigV4Trait::class.java)

@@ -40,6 +40,7 @@ public struct SigV4Middleware: Middleware {
                                        date: AWSDate(),
                                        service: signingName,
                                        region: siginingRegion,
+                                       signedBodyHeader: .none,
                                        signedBodyValue: signedBodyValue)
             
             let signedRequestResult = try signer.signRequest(request: crtRequest, config: config)
