@@ -20,5 +20,6 @@ class AddProtocols : SwiftIntegration {
      */
     override val order: Byte = -10
 
-    override val protocolGenerators: List<ProtocolGenerator> = listOf(AWSRestJson1ProtocolGenerator())
+    override val protocolGenerators: List<ProtocolGenerator> = listOf(AWSRestJson1ProtocolGenerator(),
+            AwsJson1_0_ProtocolGenerator())
 }

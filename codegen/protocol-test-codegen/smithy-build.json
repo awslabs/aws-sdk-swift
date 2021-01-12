@@ -21,6 +21,27 @@
           "swiftVersion": "5.3.0"
         }
       }
+    },
+    "aws-json-10": {
+      "transforms": [
+        {
+          "name": "includeServices",
+          "args": {
+            "services": ["aws.protocoltests.json10#JsonRpc10"]
+          }
+        }
+      ],
+      "plugins": {
+        "swift-codegen": {
+          "service": "aws.protocoltests.json10#JsonRpc10",
+          "module": "AWSJson1_0TestSDK",
+          "moduleVersion": "1.0",
+          "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
+          "author": "Amazon Web Services",
+          "homepage": "https://docs.amplify.aws/",
+          "swiftVersion": "5.3.0"
+        }
+      }
     }
   }
 }
