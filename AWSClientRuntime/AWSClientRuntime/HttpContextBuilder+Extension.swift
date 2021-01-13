@@ -6,12 +6,15 @@
 import ClientRuntime
 
 extension HttpContext {
+    static let credentialsProvider = AttributeKey<AWSCredentialsProvider>(name: "AWSCredentialsProvider")
+    static let region = AttributeKey<String>(name: "Region")
+    
     func getCredentialsProvider() -> AWSCredentialsProvider {
-        return attributes.get(key: AttributeKey<AWSCredentialsProvider>(name: "AWSCredentialsProvider"))!
+        return attributes.get(key: HttpContext.credentialsProvider)!
     }
 
     func getRegion() -> String {
-        return attributes.get(key: AttributeKey<String>(name: "Region"))!
+        return attributes.get(key: HttpContext.region)!
     }
 }
 

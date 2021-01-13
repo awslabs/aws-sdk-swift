@@ -8,6 +8,7 @@ let package = Package(
     platforms: [.macOS(.v10_15)],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        //FIXME change this path to be non-localized
         .package(name: "Lambda", path: "~/Projects/Amplify/SwiftSDK/aws-sdk-swift/codegen/sdk-codegen/build/smithyprojections/sdk-codegen/lambda.2015-03-31/swift-codegen"),
     ],
     targets: [
