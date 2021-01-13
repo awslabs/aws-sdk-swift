@@ -1,4 +1,4 @@
-package software.amazon.smithy.aws.swift.codegen
+package software.amazon.smithy.aws.swift.codegen.awsjson
 
 import software.amazon.smithy.model.knowledge.HttpBinding
 import software.amazon.smithy.model.knowledge.HttpBindingIndex

@@ -1,5 +1,6 @@
-package software.amazon.smithy.aws.swift.codegen
+package software.amazon.smithy.aws.swift.codegen.awsjson
 
+import software.amazon.smithy.aws.swift.codegen.RestJsonProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait

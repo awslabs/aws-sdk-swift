@@ -2,36 +2,23 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
-import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
+import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.AddOperationShapes
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
-class AwsJson1_0MockRestJsonProtocolGenerator : RestJsonProtocolGenerator() {
-    override val defaultContentType: String = "application/x-amz-json-1.0"
-    override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
-    override val protocol: ShapeId = AwsJson1_0Trait.ID
-
-    override fun getProtocolHttpBindingResolver(generationContext: ProtocolGenerator.GenerationContext):
-            HttpBindingResolver = AwsJsonHttpBindingResolver(generationContext)
-}
-
-// NOTE: protocol conformance is mostly handled by the protocol tests suite
 class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
     var model = createModelFromSmithy("awsJson1_0.smithy")
 
     data class TestContext(val ctx: ProtocolGenerator.GenerationContext,
                            val manifest: MockManifest,
-                           val generator: AwsJson1_0MockRestJsonProtocolGenerator)
+                           val generator: AwsJson1_0_ProtocolGenerator)
 
     private fun newTestContext(): TestContext {
         val manifest = MockManifest()
@@ -42,7 +29,7 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         model = AddOperationShapes.execute(model, settings.getService(model), settings.moduleName)
         val integrations = mutableListOf<SwiftIntegration>()
         val delegator = SwiftDelegator(settings, model, manifest, provider, integrations)
-        val generator = AwsJson1_0MockRestJsonProtocolGenerator()
+        val generator = AwsJson1_0_ProtocolGenerator()
 
         val ctx = ProtocolGenerator.GenerationContext(settings, model, service, provider, integrations, generator.protocol, delegator)
         return TestContext(ctx, manifest, generator)
@@ -57,117 +44,109 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         newTestContext.ctx.delegator.flushWriters()
     }
 
-//    @Test
-//    fun `define coding keys for unbound document payload members`() {
-//        val contents = getModelFileContents("Example","SmokeTestInput+Encodable.swift", newTestContext.manifest)
-//        contents.shouldSyntacticSanityCheck()
-//        val expectedContents =
-//                """
-//extension SmokeTestInput: Encodable {
-//    private enum CodingKeys: String, CodingKey {
-//        case payload1
-//        case payload2
-//        case payload3
-//    }
-//
-//    public func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        if let payload1 = payload1 {
-//            try container.encode(payload1, forKey: .payload1)
-//        }
-//        if let payload2 = payload2 {
-//            try container.encode(payload2, forKey: .payload2)
-//        }
-//        if let payload3 = payload3 {
-//            try container.encode(payload3, forKey: .payload3)
-//        }
-//    }
-//}
-//""".trimIndent()
-//        contents.shouldContainOnlyOnce(expectedContents)
-//    }
+    @Test
+    fun `it builds request binding for EmptyInputAndEmptyOutput`() {
+        val contents = getModelFileContents("Example", "EmptyInputAndEmptyOutputInput+HttpRequestBinding.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+                """
+                extension EmptyInputAndEmptyOutputInput: HttpRequestBinding, Reflection {
+                    public func buildHttpRequest(method: HttpMethodType, path: String, encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequest {
+                        var queryItems: [URLQueryItem] = [URLQueryItem]()
+                        let endpoint = Endpoint(host: "my-api.us-east-2.amazonaws.com", path: path, queryItems: queryItems)
+                        var headers = Headers()
+                        headers.add(name: "X-Amz-Target", value: "JsonRpc10.EmptyInputAndEmptyOutput")
+                        headers.add(name: "Content-Type", value: "application/x-amz-json-1.0")
+                        return SdkHttpRequest(method: method, endpoint: endpoint, headers: headers)
+                    }
+                }
+                """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
 
-//    @Test
-//    fun `define coding keys for payload member`() {
-//        val contents = getModelFileContents("Example","ExplicitBlobInput+Encodable.swift", newTestContext.manifest)
-//        contents.shouldSyntacticSanityCheck()
-//        val expectedContents =
-//                """
-//extension ExplicitBlobInput: Encodable {
-//    private enum CodingKeys: String, CodingKey {
-//        case payload1
-//    }
-//
-//    public func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        if let payload1 = payload1 {
-//            try container.encode(payload1.base64EncodedString(), forKey: .payload1)
-//        }
-//    }
-//}
-//""".trimIndent()
-//        contents.shouldContainOnlyOnce(expectedContents)
-//    }
-//
-//    @Test
-//    fun `generated client has proper configuration`() {
-//        val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
-//        contents.shouldSyntacticSanityCheck()
-//        val expectedContents =
-//                """
-//public class ExampleClient {
-//    let client: SdkHttpClient
-//    let config: Configuration
-//    let serviceName = "ExampleClient"
-//    let encoder: RequestEncoder
-//    let decoder: ResponseDecoder
-//
-//    init(config: ExampleClientConfiguration) throws {
-//        client = try SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-//        let encoder = JSONEncoder()
-//        encoder.dateEncodingStrategy = .secondsSince1970
-//        self.encoder = config.encoder ?? encoder
-//        let decoder = JSONDecoder()
-//        decoder.dateDecodingStrategy = .secondsSince1970
-//        self.decoder = config.decoder ?? decoder
-//        self.config = config
-//    }
-//
-//    public class ExampleClientConfiguration: Configuration, AWSClientConfiguration {
-//
-//        public var region: String
-//        public var credentialsProvider: AWSCredentialsProvider
-//        public var signingRegion: String
-//
-//        public init (
-//            credentialsProvider: AWSCredentialsProvider,
-//            region: String,
-//            signingRegion: String
-//        )
-//        {
-//            self.credentialsProvider = credentialsProvider
-//            self.region = region
-//            self.signingRegion = signingRegion
-//        }
-//
-//        public convenience init(credentialsProvider: AWSCredentialsProvider) {
-//            let region = "us-east-1"
-//            let signingRegion = "us-east-1"
-//            self.init(
-//                credentialsProvider: credentialsProvider,
-//                region: region,
-//                signingRegion: signingRegion
-//            )
-//        }
-//
-//        public static func `default`() throws -> ExampleClientConfiguration {
-//            let awsCredsProvider = try AWSCredentialsProvider.fromEnv()
-//            return ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
-//        }
-//    }
-//}
-//
-//""".trimIndent()
-//        contents.shouldContainOnlyOnce(expectedContents)
-//    }
+    @Test
+    fun `it builds request binding for GreetingWithErrors`() {
+        val contents = getModelFileContents("Example", "GreetingWithErrorsInput+HttpRequestBinding.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+                """
+                extension GreetingWithErrorsInput: HttpRequestBinding, Reflection {
+                    public func buildHttpRequest(method: HttpMethodType, path: String, encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequest {
+                        var queryItems: [URLQueryItem] = [URLQueryItem]()
+                        let endpoint = Endpoint(host: "my-api.us-east-2.amazonaws.com", path: path, queryItems: queryItems)
+                        var headers = Headers()
+                        headers.add(name: "X-Amz-Target", value: "JsonRpc10.GreetingWithErrors")
+                        headers.add(name: "Content-Type", value: "application/x-amz-json-1.0")
+                        return SdkHttpRequest(method: method, endpoint: endpoint, headers: headers)
+                    }
+                }
+                """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `it builds response binding for EmptyInputAndEmptyOutput output`() {
+        val contents = getModelFileContents("Example", "EmptyInputAndEmptyOutputOutput+ResponseInit.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+                """
+                extension EmptyInputAndEmptyOutputOutput: HttpResponseBinding {
+                    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
+
+                    }
+                }
+                """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `it builds response binding for GreetingWithErrors output`() {
+        val contents = getModelFileContents("Example", "GreetingWithErrorsOutput+ResponseInit.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+                """
+                extension GreetingWithErrorsOutput: HttpResponseBinding {
+                    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
+
+                        if case .data(let data) = httpResponse.body,
+                            let unwrappedData = data,
+                            let responseDecoder = decoder {
+                            let output: GreetingWithErrorsOutputBody = try responseDecoder.decode(responseBody: unwrappedData)
+                            self.greeting = output.greeting
+                        } else {
+                            self.greeting = nil
+                        }
+                    }
+                }
+                """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `it builds response binding for GreetingWithErrors error`() {
+        val contents = getModelFileContents("Example", "GreetingWithErrorsError+ResponseInit.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+                """
+                extension GreetingWithErrorsError {
+                    public init(errorType: String?, httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
+                        switch errorType {
+                        case "ComplexError" : self = .complexError(try ComplexError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+                        case "FooError" : self = .fooError(try FooError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+                        case "InvalidGreeting" : self = .invalidGreeting(try InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+                        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message))
+                        }
+                    }
+                }
+                
+                extension GreetingWithErrorsError: HttpResponseBinding {
+                    public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
+                        let errorDetails = try RestJSONError(httpResponse: httpResponse)
+                        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+                        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+                    }
+                }
+                """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
 }
