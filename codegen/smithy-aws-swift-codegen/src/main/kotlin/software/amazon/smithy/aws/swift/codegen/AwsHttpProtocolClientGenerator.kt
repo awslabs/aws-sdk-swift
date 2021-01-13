@@ -24,6 +24,7 @@ class AwsHttpProtocolClientGenerator(
     override fun renderContextAttributes(op: OperationShape) {
         super.renderContextAttributes(op)
         val endpointPrefix = getEndpointPrefix(ctx.service) // get endpoint prefix from json resource
+        //FIXME handle indentation properly or do swift formatting after the fact
         writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withHost(value: \"$endpointPrefix.\\(config.region).amazonaws.com\")")
@@ -46,6 +47,7 @@ class AwsHttpProtocolClientGenerator(
         val needsSigning = serviceShape.hasTrait(SigV4Trait::class.java)
         if (needsSigning) {
             val signingName = serviceShape.getTrait(SigV4Trait::class.java).get().name
+            //FIXME handle indentation properly or do swift formatting after the fact
             writer.write(
                 "operation.finalizeStep.intercept(position: .after,\n" +
                         "                                         middleware: SigV4Middleware(signingName: \"$signingName\",\n" +
