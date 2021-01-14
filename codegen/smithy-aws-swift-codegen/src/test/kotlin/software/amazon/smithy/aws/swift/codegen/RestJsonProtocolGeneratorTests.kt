@@ -19,19 +19,21 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
-class MockRestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
+class MockRestJsonProtocolGenerator : RestJsonProtocolGenerator() {
     override val defaultContentType: String = "application/json"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = RestJson1Trait.ID
 }
 
 // NOTE: protocol conformance is mostly handled by the protocol tests suite
-class RestJsonProtocolGeneratorTests: TestsBase() {
+class RestJsonProtocolGeneratorTests : TestsBase() {
     var model = createModelFromSmithy("http-binding-protocol-generator-test.smithy")
 
-    data class TestContext(val ctx: ProtocolGenerator.GenerationContext,
-                           val manifest: MockManifest,
-                           val generator: MockRestJsonProtocolGenerator)
+    data class TestContext(
+        val ctx: ProtocolGenerator.GenerationContext,
+        val manifest: MockManifest,
+        val generator: MockRestJsonProtocolGenerator
+    )
 
     private fun newTestContext(): TestContext {
         val manifest = MockManifest()
@@ -58,7 +60,7 @@ class RestJsonProtocolGeneratorTests: TestsBase() {
 
     @Test
     fun `define coding keys for unbound document payload members`() {
-        val contents = getModelFileContents("Example","SmokeTestInput+Encodable.swift", newTestContext.manifest)
+        val contents = getModelFileContents("Example", "SmokeTestInput+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
@@ -88,7 +90,7 @@ extension SmokeTestInput: Encodable {
 
     @Test
     fun `define coding keys for payload member`() {
-        val contents = getModelFileContents("Example","ExplicitBlobInput+Encodable.swift", newTestContext.manifest)
+        val contents = getModelFileContents("Example", "ExplicitBlobInput+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
@@ -110,18 +112,18 @@ extension ExplicitBlobInput: Encodable {
 
     @Test
     fun `generated client has proper configuration`() {
-        val contents = getClientFileContents("Example","ExampleClient.swift", newTestContext.manifest)
+        val contents = getClientFileContents("Example", "ExampleClient.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
 public class ExampleClient {
     let client: SdkHttpClient
-    let config: Configuration
+    let config: ExampleClientConfiguration
     let serviceName = "ExampleClient"
     let encoder: RequestEncoder
     let decoder: ResponseDecoder
 
-    init(config: ExampleClientConfiguration) throws {
+    public init(config: ExampleClientConfiguration) throws {
         client = try SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
