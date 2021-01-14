@@ -1,9 +1,13 @@
 $version: "1.0"
 namespace com.test
 
+use aws.api#service
 use aws.protocols#restJson1
+use aws.auth#sigv4
 
+@service(sdkId: "Example")
 @restJson1
+@sigv4(name: "Example")
 service Example {
     version: "1.0.0",
     operations: [

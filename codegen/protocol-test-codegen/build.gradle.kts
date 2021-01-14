@@ -11,7 +11,7 @@ val smithyVersion: String by project
 
 dependencies {
     implementation("software.amazon.smithy:smithy-aws-protocol-tests:$smithyVersion")
-    compile(project(":smithy-aws-swift-codegen"))
+    implementation(project(":smithy-aws-swift-codegen"))
 }
 
 // This project doesn't produce a JAR.

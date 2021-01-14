@@ -35,7 +35,7 @@ tasks.create<SmithyBuild>("buildSdk") {
 // force rebuild every time while developing
 tasks["buildSdk"].outputs.upToDateWhen { false }
 
-// get a project propety by name if it exists (including from local.properties)
+// get a project property by name if it exists (including from local.properties)
 fun getProperty(name: String): String? {
     if (project.hasProperty(name)) {
         return project.properties[name].toString()
@@ -102,7 +102,7 @@ tasks.register("generate-smithy-build") {
                                             .withMember("homepage", Node.from("https://docs.amplify.aws/"))
                                             .withMember("author", Node.from("Amazon Web Services"))
                                             .withMember("gitRepo", Node.from("https://github.com/aws-amplify/aws-sdk-swift.git"))
-                                            .withMember("swiftVersion", Node.from("5.3.1"))
+                                            .withMember("swiftVersion", Node.from("5.3.0"))
                                             .call {
                                                 val buildStandaloneSdk = getProperty("buildStandaloneSdk")?.toBoolean() ?: false
                                                 withMember("build", Node.objectNodeBuilder()

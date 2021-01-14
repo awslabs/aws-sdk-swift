@@ -5,13 +5,21 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.shapes.*
+import software.amazon.smithy.model.shapes.MemberShape
+import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.traits.JsonNameTrait
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.defaultName
-import software.amazon.smithy.swift.codegen.integration.*
+import software.amazon.smithy.swift.codegen.integration.ClientProperty
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
+import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
@@ -61,8 +69,8 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         }
     }
 
-    override fun getHttpFeatures(ctx: ProtocolGenerator.GenerationContext): List<HttpFeature> {
-        val features = mutableListOf<HttpFeature>()
+    override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
+        val features = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
         // TODO:: Subject to change if Foundation dependency is removed
@@ -72,8 +80,6 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         features.add(JSONResponseDecoder(responseDecoderOptions))
         return features
     }
-
-    override fun getConfigClass(writer: SwiftWriter): ServiceConfig = AWSServiceConfig(writer)
 
     override fun renderInitOperationErrorFromHttpResponse(
         ctx: ProtocolGenerator.GenerationContext,
@@ -102,14 +108,14 @@ abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 }
 
 class JSONRequestEncoder(
-    private val requestEncoderOptions: MutableMap<String, String> = mutableMapOf()
+    requestEncoderOptions: MutableMap<String, String> = mutableMapOf()
 ) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {
     override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
         writer.write("self.encoder = \$L.encoder ?? \$L", nameOfConfigObject, name)
     }
 }
 class JSONResponseDecoder(
-    private val responseDecoderOptions: MutableMap<String, String> = mutableMapOf()
+    responseDecoderOptions: MutableMap<String, String> = mutableMapOf()
 ) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {
     override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
         writer.write("self.decoder = \$L.decoder ?? \$L", nameOfConfigObject, name)

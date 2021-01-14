@@ -16,7 +16,7 @@ val AWS_CONFIG_FIELDS = listOf(
     ConfigField(SIGNING_REGION_CONFIG_NAME, "String", "The region to sign requests in. (Required)")
 )
 
-class AWSServiceConfig(writer: SwiftWriter) : ServiceConfig(writer) {
+class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {
     override val typesToConformConfigTo: List<String>
         get() = super.typesToConformConfigTo + listOf("AWSClientConfiguration")
 
