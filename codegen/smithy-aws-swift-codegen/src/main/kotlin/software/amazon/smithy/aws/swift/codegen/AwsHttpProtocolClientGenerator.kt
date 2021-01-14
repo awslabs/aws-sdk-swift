@@ -23,20 +23,11 @@ class AwsHttpProtocolClientGenerator(
 ) : HttpProtocolClientGenerator(ctx, writer, properties, serviceConfig) {
     override fun renderContextAttributes(op: OperationShape) {
         super.renderContextAttributes(op)
-        val endpointPrefix = getEndpointPrefix(ctx.service) // get endpoint prefix from json resource
+        val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
         //FIXME handle indentation properly or do swift formatting after the fact
         writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withHost(value: \"$endpointPrefix.\\(config.region).amazonaws.com\")")
-    }
-
-    private fun getEndpointPrefix(service: ServiceShape): String? {
-        val resource = IoUtils.readUtf8Resource(javaClass, "/endpoint-prefix.json")
-        val endpointPrefixData: ObjectNode = Node.parse(resource)
-            .expectObjectNode()
-        val serviceTrait = service.getTrait(ServiceTrait::class.java)
-            .orElseThrow { CodegenException("No service trait found on " + service.id) }
-        return endpointPrefixData.getStringMemberOrDefault(serviceTrait.sdkId, serviceTrait.arnNamespace)
     }
 
     override fun renderMiddlewares(op: OperationShape) {
