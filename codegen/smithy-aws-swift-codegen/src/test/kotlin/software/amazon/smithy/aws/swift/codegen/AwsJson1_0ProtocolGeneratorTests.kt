@@ -51,13 +51,11 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         val expectedContents =
                 """
                 extension EmptyInputAndEmptyOutputInput: HttpRequestBinding, Reflection {
-                    public func buildHttpRequest(method: HttpMethodType, path: String, encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequest {
-                        var queryItems: [URLQueryItem] = [URLQueryItem]()
-                        let endpoint = Endpoint(host: "my-api.us-east-2.amazonaws.com", path: path, queryItems: queryItems)
-                        var headers = Headers()
-                        headers.add(name: "X-Amz-Target", value: "JsonRpc10.EmptyInputAndEmptyOutput")
-                        headers.add(name: "Content-Type", value: "application/x-amz-json-1.0")
-                        return SdkHttpRequest(method: method, endpoint: endpoint, headers: headers)
+                    public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
+                        let builder = SdkHttpRequestBuilder()
+                        builder.withHeader(name: "X-Amz-Target", value: "JsonRpc10.EmptyInputAndEmptyOutput")
+                        builder.withHeader(name: "Content-Type", value: "application/x-amz-json-1.0")
+                        return builder
                     }
                 }
                 """.trimIndent()
@@ -71,13 +69,11 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         val expectedContents =
                 """
                 extension GreetingWithErrorsInput: HttpRequestBinding, Reflection {
-                    public func buildHttpRequest(method: HttpMethodType, path: String, encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequest {
-                        var queryItems: [URLQueryItem] = [URLQueryItem]()
-                        let endpoint = Endpoint(host: "my-api.us-east-2.amazonaws.com", path: path, queryItems: queryItems)
-                        var headers = Headers()
-                        headers.add(name: "X-Amz-Target", value: "JsonRpc10.GreetingWithErrors")
-                        headers.add(name: "Content-Type", value: "application/x-amz-json-1.0")
-                        return SdkHttpRequest(method: method, endpoint: endpoint, headers: headers)
+                    public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
+                        let builder = SdkHttpRequestBuilder()
+                        builder.withHeader(name: "X-Amz-Target", value: "JsonRpc10.GreetingWithErrors")
+                        builder.withHeader(name: "Content-Type", value: "application/x-amz-json-1.0")
+                        return builder
                     }
                 }
                 """.trimIndent()
@@ -138,7 +134,7 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
                         }
                     }
                 }
-                
+
                 extension GreetingWithErrorsError: HttpResponseBinding {
                     public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
                         let errorDetails = try RestJSONError(httpResponse: httpResponse)

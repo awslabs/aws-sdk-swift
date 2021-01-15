@@ -2,10 +2,12 @@ $version: "1.0"
 
 namespace com.test
 
+use aws.api#service
 use aws.protocols#awsJson1_0
 use smithy.test#httpRequestTests
 use smithy.test#httpResponseTests
 
+@service(sdkId: "Example")
 @awsJson1_0
 service Example {
     version: "2020-07-14",

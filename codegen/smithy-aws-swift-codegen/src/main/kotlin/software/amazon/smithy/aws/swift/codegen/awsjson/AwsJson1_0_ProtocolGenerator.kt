@@ -13,10 +13,10 @@ class AwsJson1_0_ProtocolGenerator : RestJsonProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = AwsJson1_0Trait.ID
 
-    override fun headersContent(contentType: String, writer: SwiftWriter, hasHttpBody: Boolean,
+    override fun headersContentType(contentType: String, writer: SwiftWriter, hasHttpBody: Boolean,
                                 operationShape: String) {
-        writer.write("headers.add(name: \"X-Amz-Target\", value: \"JsonRpc10.${operationShape}\")")
-        writer.write("headers.add(name: \"Content-Type\", value: \"$contentType\")")
+        writer.write("builder.withHeader(name: \"X-Amz-Target\", value: \"JsonRpc10.${operationShape}\")")
+        writer.write("builder.withHeader(name: \"Content-Type\", value: \"$contentType\")")
     }
 
     override fun getProtocolHttpBindingResolver(generationContext: ProtocolGenerator.GenerationContext):
