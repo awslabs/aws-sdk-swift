@@ -24,7 +24,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
  */
-abstract class RestJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
+abstract class JsonProtocolBase : AWSHttpBindingProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
