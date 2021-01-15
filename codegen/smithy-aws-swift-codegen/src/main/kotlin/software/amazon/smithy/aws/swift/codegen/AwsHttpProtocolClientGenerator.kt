@@ -9,18 +9,16 @@ import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ClientProperty
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGenerator
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.integration.*
 import software.amazon.smithy.utils.IoUtils
 
 class AwsHttpProtocolClientGenerator(
     private val ctx: ProtocolGenerator.GenerationContext,
     private val writer: SwiftWriter,
     properties: List<ClientProperty>,
-    serviceConfig: ServiceConfig
-) : HttpProtocolClientGenerator(ctx, writer, properties, serviceConfig) {
+    serviceConfig: ServiceConfig,
+    httpBindingResolver: HttpBindingResolver
+) : HttpProtocolClientGenerator(ctx, writer, properties, serviceConfig, httpBindingResolver) {
     override fun renderContextAttributes(op: OperationShape) {
         super.renderContextAttributes(op)
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait

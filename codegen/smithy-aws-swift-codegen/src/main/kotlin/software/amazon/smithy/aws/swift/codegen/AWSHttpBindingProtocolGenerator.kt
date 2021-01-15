@@ -28,13 +28,14 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             .build()
 
     override fun getHttpProtocolClientGenerator(
-        ctx: ProtocolGenerator.GenerationContext,
-        writer: SwiftWriter
+            ctx: ProtocolGenerator.GenerationContext,
+            writer: SwiftWriter
     ): HttpProtocolClientGenerator {
         val properties = getClientProperties(ctx)
         val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
         val config = getConfigClass(writer, serviceName)
-        return AwsHttpProtocolClientGenerator(ctx, writer, properties, config)
+        val httpBindingResolver = getProtocolHttpBindingResolver(ctx)
+        return AwsHttpProtocolClientGenerator(ctx, writer, properties, config, httpBindingResolver)
     }
 
     override fun getConfigClass(writer: SwiftWriter, serviceName: String): ServiceConfig = AWSServiceConfig(writer, serviceName)

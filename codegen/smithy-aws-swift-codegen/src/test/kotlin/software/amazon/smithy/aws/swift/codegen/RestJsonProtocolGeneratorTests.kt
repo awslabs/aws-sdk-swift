@@ -19,7 +19,7 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
-class MockRestJsonProtocolGenerator : RestJsonProtocolGenerator() {
+class MockRestJsonProtocolGenerator : JsonProtocolBase() {
     override val defaultContentType: String = "application/json"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = RestJson1Trait.ID
