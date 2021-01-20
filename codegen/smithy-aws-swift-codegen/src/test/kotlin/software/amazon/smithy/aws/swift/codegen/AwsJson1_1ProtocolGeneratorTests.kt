@@ -485,7 +485,6 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                         var httpdateTimestampDecoded: Date? = nil
                         if let httpdateTimestampDateString = httpdateTimestampDateString {
                             let httpdateTimestampFormatter = DateFormatter.rfc5322DateFormatter
-                            httpdateTimestampFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss.SSS 'GMT'"
                             httpdateTimestampDecoded = httpdateTimestampFormatter.date(from: httpdateTimestampDateString)
                         }
                         httpdateTimestamp = httpdateTimestampDecoded
@@ -495,7 +494,6 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                         var iso8601TimestampDecoded: Date? = nil
                         if let iso8601TimestampDateString = iso8601TimestampDateString {
                             let iso8601TimestampFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
-                            iso8601TimestampFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
                             iso8601TimestampDecoded = iso8601TimestampFormatter.date(from: iso8601TimestampDateString)
                         }
                         iso8601Timestamp = iso8601TimestampDecoded
@@ -687,7 +685,6 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                         var httpdateTimestampDecoded: Date? = nil
                         if let httpdateTimestampDateString = httpdateTimestampDateString {
                             let httpdateTimestampFormatter = DateFormatter.rfc5322DateFormatter
-                            httpdateTimestampFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss.SSS 'GMT'"
                             httpdateTimestampDecoded = httpdateTimestampFormatter.date(from: httpdateTimestampDateString)
                         }
                         httpdateTimestamp = httpdateTimestampDecoded
@@ -697,7 +694,6 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                         var iso8601TimestampDecoded: Date? = nil
                         if let iso8601TimestampDateString = iso8601TimestampDateString {
                             let iso8601TimestampFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
-                            iso8601TimestampFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
                             iso8601TimestampDecoded = iso8601TimestampFormatter.date(from: iso8601TimestampDateString)
                         }
                         iso8601Timestamp = iso8601TimestampDecoded
@@ -928,4 +924,13 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
                 """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
+    @Test
+    fun `timestamps in KitchenSinkOperationRequestTest`() {
+        val contents = getTestFileContents("Example", "KitchenSinkOperationResponseTest.swift", newTestContext.manifest)
+        contents.shouldSyntacticSanityCheck()
+        contents.shouldContainOnlyOnce("{\"HttpdateTimestamp\":\"Sun, 02 Jan 2000 20:34:56 GMT\"}")
+        contents.shouldContainOnlyOnce("{\"Iso8601Timestamp\":\"2000-01-02T20:34:56Z\"}")
+    }
+
 }
