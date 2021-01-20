@@ -37,7 +37,7 @@ class RestJsonProtocolGeneratorTests : TestsBase() {
 
     private fun newTestContext(): TestContext {
         val manifest = MockManifest()
-        val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(model, "Example")
+        val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(model, "Example", "Example")
         val serviceShapeIdWithNamespace = "com.test#Example"
         val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
         val settings = SwiftSettings.from(model, buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace))
