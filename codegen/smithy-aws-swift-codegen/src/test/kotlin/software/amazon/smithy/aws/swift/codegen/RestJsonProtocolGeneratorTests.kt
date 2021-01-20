@@ -119,7 +119,7 @@ extension ExplicitBlobInput: Encodable {
 public class ExampleClient {
     let client: SdkHttpClient
     let config: ExampleClientConfiguration
-    let serviceName = "ExampleClient"
+    let serviceName = "Example"
     let encoder: RequestEncoder
     let decoder: ResponseDecoder
 
