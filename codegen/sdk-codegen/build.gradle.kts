@@ -46,7 +46,7 @@ fun getProperty(name: String): String? {
     if (propertiesFile.exists()) {
         propertiesFile.inputStream().use { localProperties.load(it) }
         if (localProperties.containsKey(name)) {
-            return localProperties.get(name).toString()
+            return localProperties[name].toString()
         }
     }
     return null
@@ -100,6 +100,7 @@ tasks.register("generate-smithy-build") {
                                             .withMember("module", Node.from(sdkId.capitalize()))
                                             .withMember("moduleVersion", Node.from("1.0"))
                                             .withMember("homepage", Node.from("https://docs.amplify.aws/"))
+                                            .withMember("sdkId", Node.from(sdkId.capitalize()))
                                             .withMember("author", Node.from("Amazon Web Services"))
                                             .withMember("gitRepo", Node.from("https://github.com/aws-amplify/aws-sdk-swift.git"))
                                             .withMember("swiftVersion", Node.from("5.3.0"))

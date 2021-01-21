@@ -1,8 +1,8 @@
 import Lambda
 import Foundation
 
-let config = try! AWSGirApiServiceClient.AWSGirApiServiceClientConfiguration.default()
-let lambdaClient = try! AWSGirApiServiceClient(config: config)
+let config = try! LambdaClient.LambdaClientConfiguration.default()
+let lambdaClient = try! LambdaClient(config: config)
 let data = "{}".data(using: .utf8)
 let invokeInput = InvokeInput(clientContext: nil,
                               functionName: "test",
