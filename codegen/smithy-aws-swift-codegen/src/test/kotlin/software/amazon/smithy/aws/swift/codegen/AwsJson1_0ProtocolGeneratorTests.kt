@@ -23,7 +23,7 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
     private fun newTestContext(): TestContext {
         val manifest = MockManifest()
         val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(model, "Example", "Example")
-        val serviceShapeIdWithNamespace = "com.test#Example"
+        val serviceShapeIdWithNamespace = "com.test#JsonRpc10"
         val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
         val settings = SwiftSettings.from(model, buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace))
         model = AddOperationShapes.execute(model, settings.getService(model), settings.moduleName)

@@ -9,7 +9,7 @@ use smithy.test#httpResponseTests
 
 @service(sdkId: "Example")
 @awsJson1_0
-service Example {
+service JsonRpc10 {
     version: "2020-07-14",
     operations: [
         // Basic input and output tests
