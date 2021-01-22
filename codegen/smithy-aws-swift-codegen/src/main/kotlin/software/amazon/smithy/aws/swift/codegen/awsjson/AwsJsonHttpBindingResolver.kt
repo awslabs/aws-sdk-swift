@@ -12,8 +12,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AwsJsonHttpBindingResolver(
         private val generationContext: ProtocolGenerator.GenerationContext,
-        private val topDownIndex: TopDownIndex = TopDownIndex.of(generationContext.model),
-        private val bindingIndex: HttpBindingIndex = HttpBindingIndex.of(generationContext.model)
 ) : HttpBindingResolver {
 
     companion object {

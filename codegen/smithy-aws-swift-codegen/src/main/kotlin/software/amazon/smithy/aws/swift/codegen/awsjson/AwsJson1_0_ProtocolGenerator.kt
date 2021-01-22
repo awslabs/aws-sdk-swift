@@ -8,14 +8,14 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-class AwsJson1_0_ProtocolGenerator : JsonProtocolBase() {
+open class AwsJson1_0_ProtocolGenerator : JsonProtocolBase() {
     override val defaultContentType: String = "application/x-amz-json-1.0"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = AwsJson1_0Trait.ID
 
-    override fun headersContentType(contentType: String, writer: SwiftWriter, hasHttpBody: Boolean,
-                                operationShape: String) {
-        writer.write("builder.withHeader(name: \"X-Amz-Target\", value: \"JsonRpc10.${operationShape}\")")
+    override fun headersContentType(ctx: ProtocolGenerator.GenerationContext, hasHttpBody : Boolean,
+                                    contentType: String, writer: SwiftWriter, operationShape: String) {
+        writer.write("builder.withHeader(name: \"X-Amz-Target\", value: \"${ctx.service.id.name}.${operationShape}\")")
         writer.write("builder.withHeader(name: \"Content-Type\", value: \"$contentType\")")
     }
 
