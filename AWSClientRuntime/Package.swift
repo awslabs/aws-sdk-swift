@@ -25,7 +25,9 @@ let package = Package(
         .testTarget(
             name: "AWSClientRuntimeTests",
             dependencies: [
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
+                "AWSClientRuntime",
+                .product(name: "SmithyTestUtil", package: "ClientRuntime"),
+                .product(name: "ClientRuntime", package: "ClientRuntime")
             ]
         )
     ]
