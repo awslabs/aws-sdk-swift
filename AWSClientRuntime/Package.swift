@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -11,22 +11,24 @@ let package = Package(
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
     ],
     dependencies: [
-        .package(path: "~/Projects/Amplify/SwiftSDK/smithy-swift/ClientRuntime"),
-        .package(path: "~/Projects/Amplify/SwiftSDK/aws-crt-swift")
+        .package(name: "ClientRuntime", path: "~/Projects/Amplify/SwiftSDK/smithy-swift/ClientRuntime"),
+        .package(name: "AwsCrt", path: "~/Projects/Amplify/SwiftSDK/aws-crt-swift")
     ],
     targets: [
         .target(
             name: "AWSClientRuntime",
             dependencies: [
-                "ClientRuntime",
+                .product(name: "ClientRuntime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
-            ],
-            path: "./AWSClientRuntime"
+            ]
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
-            dependencies: ["SmithyTestUtil"],
-            path: "./AWSClientRuntimeTests"
+            dependencies: [
+                "AWSClientRuntime",
+                .product(name: "SmithyTestUtil", package: "ClientRuntime"),
+                .product(name: "ClientRuntime", package: "ClientRuntime")
+            ]
         )
     ]
 )

@@ -5,8 +5,8 @@
 
 import ClientRuntime
 import SmithyTestUtil
-@testable import AWSClientRuntime
 import XCTest
+@testable import AWSClientRuntime
 
 class RestJSONErrorTests: HttpResponseTestBase {
     let host = "myapi.host.com"
