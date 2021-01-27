@@ -19,7 +19,7 @@
           "author": "Amazon Web Services",
           "homepage": "https://docs.amplify.aws/",
           "swiftVersion": "5.3.0",
-          "shouldGenerateUnitTestTarget": false
+          "shouldGenerateUnitTestTarget": true
         }
       }
     },
@@ -41,7 +41,7 @@
           "author": "Amazon Web Services",
           "homepage": "https://docs.amplify.aws/",
           "swiftVersion": "5.3.0",
-          "shouldGenerateUnitTestTarget": false
+          "shouldGenerateUnitTestTarget": true
         }
       }
     },
@@ -63,7 +63,7 @@
           "author": "Amazon Web Services",
           "homepage": "https://docs.amplify.aws/",
           "swiftVersion": "5.3.0",
-          "shouldGenerateUnitTestTarget": false
+          "shouldGenerateUnitTestTarget": true
         }
       }
     }
