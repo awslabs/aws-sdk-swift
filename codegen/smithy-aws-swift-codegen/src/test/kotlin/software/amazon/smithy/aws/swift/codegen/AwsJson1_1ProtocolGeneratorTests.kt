@@ -409,226 +409,226 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example", "KitchenSinkOperationOutputBody+Decodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-            """ 
-                struct KitchenSinkOperationOutputBody {
-                    public let blob: Data?
-                    public let boolean: Bool?
-                    public let double: Double?
-                    public let emptyStruct: EmptyStruct?
-                    public let float: Float?
-                    public let httpdateTimestamp: Date?
-                    public let integer: Int?
-                    public let iso8601Timestamp: Date?
-                    public let jsonValue: String?
-                    public let listOfLists: [[String]?]?
-                    public let listOfMapsOfStrings: [[String:String]?]?
-                    public let listOfStrings: [String]?
-                    public let listOfStructs: [SimpleStruct]?
-                    public let long: Int?
-                    public let mapOfListsOfStrings: [String:[String]?]?
-                    public let mapOfMaps: [String:[String:String]?]?
-                    public let mapOfStrings: [String:String]?
-                    public let mapOfStructs: [String:SimpleStruct]?
-                    public let recursiveList: [KitchenSink]?
-                    public let recursiveMap: [String:KitchenSink]?
-                    public let recursiveStruct: KitchenSink?
-                    public let simpleStruct: SimpleStruct?
-                    public let string: String?
-                    public let structWithLocationName: StructWithLocationName?
-                    public let timestamp: Date?
-                    public let unixTimestamp: Date?
-                }
+            """
+struct KitchenSinkOperationOutputBody {
+    public let blob: Data?
+    public let boolean: Bool?
+    public let double: Double?
+    public let emptyStruct: EmptyStruct?
+    public let float: Float?
+    public let httpdateTimestamp: Date?
+    public let integer: Int?
+    public let iso8601Timestamp: Date?
+    public let jsonValue: String?
+    public let listOfLists: [[String]?]?
+    public let listOfMapsOfStrings: [[String:String]?]?
+    public let listOfStrings: [String]?
+    public let listOfStructs: [SimpleStruct]?
+    public let long: Int?
+    public let mapOfListsOfStrings: [String:[String]?]?
+    public let mapOfMaps: [String:[String:String]?]?
+    public let mapOfStrings: [String:String]?
+    public let mapOfStructs: [String:SimpleStruct]?
+    public let recursiveList: [KitchenSink]?
+    public let recursiveMap: [String:KitchenSink]?
+    public let recursiveStruct: KitchenSink?
+    public let simpleStruct: SimpleStruct?
+    public let string: String?
+    public let structWithLocationName: StructWithLocationName?
+    public let timestamp: Date?
+    public let unixTimestamp: Date?
+}
 
-                extension KitchenSinkOperationOutputBody: Decodable {
-                    private enum CodingKeys: String, CodingKey {
-                        case blob = "Blob"
-                        case boolean = "Boolean"
-                        case double = "Double"
-                        case emptyStruct = "EmptyStruct"
-                        case float = "Float"
-                        case httpdateTimestamp = "HttpdateTimestamp"
-                        case integer = "Integer"
-                        case iso8601Timestamp = "Iso8601Timestamp"
-                        case jsonValue = "JsonValue"
-                        case listOfLists = "ListOfLists"
-                        case listOfMapsOfStrings = "ListOfMapsOfStrings"
-                        case listOfStrings = "ListOfStrings"
-                        case listOfStructs = "ListOfStructs"
-                        case long = "Long"
-                        case mapOfListsOfStrings = "MapOfListsOfStrings"
-                        case mapOfMaps = "MapOfMaps"
-                        case mapOfStrings = "MapOfStrings"
-                        case mapOfStructs = "MapOfStructs"
-                        case recursiveList = "RecursiveList"
-                        case recursiveMap = "RecursiveMap"
-                        case recursiveStruct = "RecursiveStruct"
-                        case simpleStruct = "SimpleStruct"
-                        case string = "String"
-                        case structWithLocationName = "StructWithLocationName"
-                        case timestamp = "Timestamp"
-                        case unixTimestamp = "UnixTimestamp"
-                    }
+extension KitchenSinkOperationOutputBody: Decodable {
+    private enum CodingKeys: String, CodingKey {
+        case blob = "Blob"
+        case boolean = "Boolean"
+        case double = "Double"
+        case emptyStruct = "EmptyStruct"
+        case float = "Float"
+        case httpdateTimestamp = "HttpdateTimestamp"
+        case integer = "Integer"
+        case iso8601Timestamp = "Iso8601Timestamp"
+        case jsonValue = "JsonValue"
+        case listOfLists = "ListOfLists"
+        case listOfMapsOfStrings = "ListOfMapsOfStrings"
+        case listOfStrings = "ListOfStrings"
+        case listOfStructs = "ListOfStructs"
+        case long = "Long"
+        case mapOfListsOfStrings = "MapOfListsOfStrings"
+        case mapOfMaps = "MapOfMaps"
+        case mapOfStrings = "MapOfStrings"
+        case mapOfStructs = "MapOfStructs"
+        case recursiveList = "RecursiveList"
+        case recursiveMap = "RecursiveMap"
+        case recursiveStruct = "RecursiveStruct"
+        case simpleStruct = "SimpleStruct"
+        case string = "String"
+        case structWithLocationName = "StructWithLocationName"
+        case timestamp = "Timestamp"
+        case unixTimestamp = "UnixTimestamp"
+    }
 
-                    public init (from decoder: Decoder) throws {
-                        let values = try decoder.container(keyedBy: CodingKeys.self)
-                        let blobDecoded = try values.decodeIfPresent(Data.self, forKey: .blob)
-                        blob = blobDecoded
-                        let booleanDecoded = try values.decodeIfPresent(Bool.self, forKey: .boolean)
-                        boolean = booleanDecoded
-                        let doubleDecoded = try values.decodeIfPresent(Double.self, forKey: .double)
-                        double = doubleDecoded
-                        let emptyStructDecoded = try values.decodeIfPresent(EmptyStruct.self, forKey: .emptyStruct)
-                        emptyStruct = emptyStructDecoded
-                        let floatDecoded = try values.decodeIfPresent(Float.self, forKey: .float)
-                        float = floatDecoded
-                        let httpdateTimestampDateString = try values.decodeIfPresent(String.self, forKey: .httpdateTimestamp)
-                        var httpdateTimestampDecoded: Date? = nil
-                        if let httpdateTimestampDateString = httpdateTimestampDateString {
-                            let httpdateTimestampFormatter = DateFormatter.rfc5322DateFormatter
-                            httpdateTimestampDecoded = httpdateTimestampFormatter.date(from: httpdateTimestampDateString)
-                        }
-                        httpdateTimestamp = httpdateTimestampDecoded
-                        let integerDecoded = try values.decodeIfPresent(Int.self, forKey: .integer)
-                        integer = integerDecoded
-                        let iso8601TimestampDateString = try values.decodeIfPresent(String.self, forKey: .iso8601Timestamp)
-                        var iso8601TimestampDecoded: Date? = nil
-                        if let iso8601TimestampDateString = iso8601TimestampDateString {
-                            let iso8601TimestampFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
-                            iso8601TimestampDecoded = iso8601TimestampFormatter.date(from: iso8601TimestampDateString)
-                        }
-                        iso8601Timestamp = iso8601TimestampDecoded
-                        let jsonValueDecoded = try values.decodeIfPresent(String.self, forKey: .jsonValue)
-                        jsonValue = jsonValueDecoded
-                        let listOfListsContainer = try values.decodeIfPresent([[String]?].self, forKey: .listOfLists)
-                        var listOfListsDecoded0:[[String]?]? = nil
-                        if let listOfListsContainer = listOfListsContainer {
-                            listOfListsDecoded0 = [[String]?]()
-                            for list0 in listOfListsContainer {
-                                var list0Decoded0 = [String]()
-                                if let list0 = list0 {
-                                    for string1 in list0 {
-                                        list0Decoded0.append(string1)
-                                    }
-                                }
-                                listOfListsDecoded0?.append(list0Decoded0)
-                            }
-                        }
-                        listOfLists = listOfListsDecoded0
-                        let listOfMapsOfStringsContainer = try values.decodeIfPresent([[String:String]?].self, forKey: .listOfMapsOfStrings)
-                        var listOfMapsOfStringsDecoded0:[[String:String]?]? = nil
-                        if let listOfMapsOfStringsContainer = listOfMapsOfStringsContainer {
-                            listOfMapsOfStringsDecoded0 = [[String:String]?]()
-                            for map0 in listOfMapsOfStringsContainer {
-                                var listOfMapsOfStringsContainerDecoded0 = [String:String]()
-                                if let map0 = map0 {
-                                    for (key1, string1) in map0 {
-                                        listOfMapsOfStringsContainerDecoded0[key1] = string1
-                                    }
-                                }
-                                listOfMapsOfStringsDecoded0?.append(listOfMapsOfStringsContainerDecoded0)
-                            }
-                        }
-                        listOfMapsOfStrings = listOfMapsOfStringsDecoded0
-                        let listOfStringsContainer = try values.decodeIfPresent([String].self, forKey: .listOfStrings)
-                        var listOfStringsDecoded0:[String]? = nil
-                        if let listOfStringsContainer = listOfStringsContainer {
-                            listOfStringsDecoded0 = [String]()
-                            for string0 in listOfStringsContainer {
-                                listOfStringsDecoded0?.append(string0)
-                            }
-                        }
-                        listOfStrings = listOfStringsDecoded0
-                        let listOfStructsContainer = try values.decodeIfPresent([SimpleStruct].self, forKey: .listOfStructs)
-                        var listOfStructsDecoded0:[SimpleStruct]? = nil
-                        if let listOfStructsContainer = listOfStructsContainer {
-                            listOfStructsDecoded0 = [SimpleStruct]()
-                            for structure0 in listOfStructsContainer {
-                                listOfStructsDecoded0?.append(structure0)
-                            }
-                        }
-                        listOfStructs = listOfStructsDecoded0
-                        let longDecoded = try values.decodeIfPresent(Int.self, forKey: .long)
-                        long = longDecoded
-                        let mapOfListsOfStringsContainer = try values.decodeIfPresent([String:[String]?].self, forKey: .mapOfListsOfStrings)
-                        var mapOfListsOfStringsDecoded0: [String:[String]?]? = nil
-                        if let mapOfListsOfStringsContainer = mapOfListsOfStringsContainer {
-                            mapOfListsOfStringsDecoded0 = [String:[String]?]()
-                            for (key0, listofstrings0) in mapOfListsOfStringsContainer {
-                                var listofstrings0Decoded0 = [String]()
-                                if let listofstrings0 = listofstrings0 {
-                                    for string1 in listofstrings0 {
-                                        listofstrings0Decoded0.append(string1)
-                                    }
-                                }
-                                mapOfListsOfStringsDecoded0?[key0] = listofstrings0Decoded0
-                            }
-                        }
-                        mapOfListsOfStrings = mapOfListsOfStringsDecoded0
-                        let mapOfMapsContainer = try values.decodeIfPresent([String:[String:String]?].self, forKey: .mapOfMaps)
-                        var mapOfMapsDecoded0: [String:[String:String]?]? = nil
-                        if let mapOfMapsContainer = mapOfMapsContainer {
-                            mapOfMapsDecoded0 = [String:[String:String]?]()
-                            for (key0, mapofstrings0) in mapOfMapsContainer {
-                                var mapofstrings0Decoded0 = [String:String]()
-                                if let mapofstrings0 = mapofstrings0 {
-                                    for (key1, string1) in mapofstrings0 {
-                                        mapofstrings0Decoded0[key1] = string1
-                                    }
-                                }
-                                mapOfMapsDecoded0?[key0] = mapofstrings0Decoded0
-                            }
-                        }
-                        mapOfMaps = mapOfMapsDecoded0
-                        let mapOfStringsContainer = try values.decodeIfPresent([String:String].self, forKey: .mapOfStrings)
-                        var mapOfStringsDecoded0: [String:String]? = nil
-                        if let mapOfStringsContainer = mapOfStringsContainer {
-                            mapOfStringsDecoded0 = [String:String]()
-                            for (key0, string0) in mapOfStringsContainer {
-                                mapOfStringsDecoded0?[key0] = string0
-                            }
-                        }
-                        mapOfStrings = mapOfStringsDecoded0
-                        let mapOfStructsContainer = try values.decodeIfPresent([String:SimpleStruct].self, forKey: .mapOfStructs)
-                        var mapOfStructsDecoded0: [String:SimpleStruct]? = nil
-                        if let mapOfStructsContainer = mapOfStructsContainer {
-                            mapOfStructsDecoded0 = [String:SimpleStruct]()
-                            for (key0, simplestruct0) in mapOfStructsContainer {
-                                mapOfStructsDecoded0?[key0] = simplestruct0
-                            }
-                        }
-                        mapOfStructs = mapOfStructsDecoded0
-                        let recursiveListContainer = try values.decodeIfPresent([KitchenSink].self, forKey: .recursiveList)
-                        var recursiveListDecoded0:[KitchenSink]? = nil
-                        if let recursiveListContainer = recursiveListContainer {
-                            recursiveListDecoded0 = [KitchenSink]()
-                            for structure0 in recursiveListContainer {
-                                recursiveListDecoded0?.append(structure0)
-                            }
-                        }
-                        recursiveList = recursiveListDecoded0
-                        let recursiveMapContainer = try values.decodeIfPresent([String:KitchenSink].self, forKey: .recursiveMap)
-                        var recursiveMapDecoded0: [String:KitchenSink]? = nil
-                        if let recursiveMapContainer = recursiveMapContainer {
-                            recursiveMapDecoded0 = [String:KitchenSink]()
-                            for (key0, kitchensink0) in recursiveMapContainer {
-                                recursiveMapDecoded0?[key0] = kitchensink0
-                            }
-                        }
-                        recursiveMap = recursiveMapDecoded0
-                        let recursiveStructDecoded = try values.decodeIfPresent(KitchenSink.self, forKey: .recursiveStruct)
-                        recursiveStruct = recursiveStructDecoded
-                        let simpleStructDecoded = try values.decodeIfPresent(SimpleStruct.self, forKey: .simpleStruct)
-                        simpleStruct = simpleStructDecoded
-                        let stringDecoded = try values.decodeIfPresent(String.self, forKey: .string)
-                        string = stringDecoded
-                        let structWithLocationNameDecoded = try values.decodeIfPresent(StructWithLocationName.self, forKey: .structWithLocationName)
-                        structWithLocationName = structWithLocationNameDecoded
-                        let timestampDecoded = try values.decodeIfPresent(Date.self, forKey: .timestamp)
-                        timestamp = timestampDecoded
-                        let unixTimestampDecoded = try values.decodeIfPresent(Date.self, forKey: .unixTimestamp)
-                        unixTimestamp = unixTimestampDecoded
+    public init (from decoder: Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blobDecoded = try containerValues.decodeIfPresent(Data.self, forKey: .blob)
+        blob = blobDecoded
+        let booleanDecoded = try containerValues.decodeIfPresent(Bool.self, forKey: .boolean)
+        boolean = booleanDecoded
+        let doubleDecoded = try containerValues.decodeIfPresent(Double.self, forKey: .double)
+        double = doubleDecoded
+        let emptyStructDecoded = try containerValues.decodeIfPresent(EmptyStruct.self, forKey: .emptyStruct)
+        emptyStruct = emptyStructDecoded
+        let floatDecoded = try containerValues.decodeIfPresent(Float.self, forKey: .float)
+        float = floatDecoded
+        let httpdateTimestampDateString = try containerValues.decodeIfPresent(String.self, forKey: .httpdateTimestamp)
+        var httpdateTimestampDecoded: Date? = nil
+        if let httpdateTimestampDateString = httpdateTimestampDateString {
+            let httpdateTimestampFormatter = DateFormatter.rfc5322DateFormatter
+            httpdateTimestampDecoded = httpdateTimestampFormatter.date(from: httpdateTimestampDateString)
+        }
+        httpdateTimestamp = httpdateTimestampDecoded
+        let integerDecoded = try containerValues.decodeIfPresent(Int.self, forKey: .integer)
+        integer = integerDecoded
+        let iso8601TimestampDateString = try containerValues.decodeIfPresent(String.self, forKey: .iso8601Timestamp)
+        var iso8601TimestampDecoded: Date? = nil
+        if let iso8601TimestampDateString = iso8601TimestampDateString {
+            let iso8601TimestampFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
+            iso8601TimestampDecoded = iso8601TimestampFormatter.date(from: iso8601TimestampDateString)
+        }
+        iso8601Timestamp = iso8601TimestampDecoded
+        let jsonValueDecoded = try containerValues.decodeIfPresent(String.self, forKey: .jsonValue)
+        jsonValue = jsonValueDecoded
+        let listOfListsContainer = try containerValues.decodeIfPresent([[String]?].self, forKey: .listOfLists)
+        var listOfListsDecoded0:[[String]?]? = nil
+        if let listOfListsContainer = listOfListsContainer {
+            listOfListsDecoded0 = [[String]?]()
+            for list0 in listOfListsContainer {
+                var list0Decoded0 = [String]()
+                if let list0 = list0 {
+                    for string1 in list0 {
+                        list0Decoded0.append(string1)
                     }
                 }
+                listOfListsDecoded0?.append(list0Decoded0)
+            }
+        }
+        listOfLists = listOfListsDecoded0
+        let listOfMapsOfStringsContainer = try containerValues.decodeIfPresent([[String:String]?].self, forKey: .listOfMapsOfStrings)
+        var listOfMapsOfStringsDecoded0:[[String:String]?]? = nil
+        if let listOfMapsOfStringsContainer = listOfMapsOfStringsContainer {
+            listOfMapsOfStringsDecoded0 = [[String:String]?]()
+            for map0 in listOfMapsOfStringsContainer {
+                var listOfMapsOfStringsContainerDecoded0 = [String:String]()
+                if let map0 = map0 {
+                    for (key1, string1) in map0 {
+                        listOfMapsOfStringsContainerDecoded0[key1] = string1
+                    }
+                }
+                listOfMapsOfStringsDecoded0?.append(listOfMapsOfStringsContainerDecoded0)
+            }
+        }
+        listOfMapsOfStrings = listOfMapsOfStringsDecoded0
+        let listOfStringsContainer = try containerValues.decodeIfPresent([String].self, forKey: .listOfStrings)
+        var listOfStringsDecoded0:[String]? = nil
+        if let listOfStringsContainer = listOfStringsContainer {
+            listOfStringsDecoded0 = [String]()
+            for string0 in listOfStringsContainer {
+                listOfStringsDecoded0?.append(string0)
+            }
+        }
+        listOfStrings = listOfStringsDecoded0
+        let listOfStructsContainer = try containerValues.decodeIfPresent([SimpleStruct].self, forKey: .listOfStructs)
+        var listOfStructsDecoded0:[SimpleStruct]? = nil
+        if let listOfStructsContainer = listOfStructsContainer {
+            listOfStructsDecoded0 = [SimpleStruct]()
+            for structure0 in listOfStructsContainer {
+                listOfStructsDecoded0?.append(structure0)
+            }
+        }
+        listOfStructs = listOfStructsDecoded0
+        let longDecoded = try containerValues.decodeIfPresent(Int.self, forKey: .long)
+        long = longDecoded
+        let mapOfListsOfStringsContainer = try containerValues.decodeIfPresent([String:[String]?].self, forKey: .mapOfListsOfStrings)
+        var mapOfListsOfStringsDecoded0: [String:[String]?]? = nil
+        if let mapOfListsOfStringsContainer = mapOfListsOfStringsContainer {
+            mapOfListsOfStringsDecoded0 = [String:[String]?]()
+            for (key0, listofstrings0) in mapOfListsOfStringsContainer {
+                var listofstrings0Decoded0 = [String]()
+                if let listofstrings0 = listofstrings0 {
+                    for string1 in listofstrings0 {
+                        listofstrings0Decoded0.append(string1)
+                    }
+                }
+                mapOfListsOfStringsDecoded0?[key0] = listofstrings0Decoded0
+            }
+        }
+        mapOfListsOfStrings = mapOfListsOfStringsDecoded0
+        let mapOfMapsContainer = try containerValues.decodeIfPresent([String:[String:String]?].self, forKey: .mapOfMaps)
+        var mapOfMapsDecoded0: [String:[String:String]?]? = nil
+        if let mapOfMapsContainer = mapOfMapsContainer {
+            mapOfMapsDecoded0 = [String:[String:String]?]()
+            for (key0, mapofstrings0) in mapOfMapsContainer {
+                var mapofstrings0Decoded0 = [String:String]()
+                if let mapofstrings0 = mapofstrings0 {
+                    for (key1, string1) in mapofstrings0 {
+                        mapofstrings0Decoded0[key1] = string1
+                    }
+                }
+                mapOfMapsDecoded0?[key0] = mapofstrings0Decoded0
+            }
+        }
+        mapOfMaps = mapOfMapsDecoded0
+        let mapOfStringsContainer = try containerValues.decodeIfPresent([String:String].self, forKey: .mapOfStrings)
+        var mapOfStringsDecoded0: [String:String]? = nil
+        if let mapOfStringsContainer = mapOfStringsContainer {
+            mapOfStringsDecoded0 = [String:String]()
+            for (key0, string0) in mapOfStringsContainer {
+                mapOfStringsDecoded0?[key0] = string0
+            }
+        }
+        mapOfStrings = mapOfStringsDecoded0
+        let mapOfStructsContainer = try containerValues.decodeIfPresent([String:SimpleStruct].self, forKey: .mapOfStructs)
+        var mapOfStructsDecoded0: [String:SimpleStruct]? = nil
+        if let mapOfStructsContainer = mapOfStructsContainer {
+            mapOfStructsDecoded0 = [String:SimpleStruct]()
+            for (key0, simplestruct0) in mapOfStructsContainer {
+                mapOfStructsDecoded0?[key0] = simplestruct0
+            }
+        }
+        mapOfStructs = mapOfStructsDecoded0
+        let recursiveListContainer = try containerValues.decodeIfPresent([KitchenSink].self, forKey: .recursiveList)
+        var recursiveListDecoded0:[KitchenSink]? = nil
+        if let recursiveListContainer = recursiveListContainer {
+            recursiveListDecoded0 = [KitchenSink]()
+            for structure0 in recursiveListContainer {
+                recursiveListDecoded0?.append(structure0)
+            }
+        }
+        recursiveList = recursiveListDecoded0
+        let recursiveMapContainer = try containerValues.decodeIfPresent([String:KitchenSink].self, forKey: .recursiveMap)
+        var recursiveMapDecoded0: [String:KitchenSink]? = nil
+        if let recursiveMapContainer = recursiveMapContainer {
+            recursiveMapDecoded0 = [String:KitchenSink]()
+            for (key0, kitchensink0) in recursiveMapContainer {
+                recursiveMapDecoded0?[key0] = kitchensink0
+            }
+        }
+        recursiveMap = recursiveMapDecoded0
+        let recursiveStructDecoded = try containerValues.decodeIfPresent(KitchenSink.self, forKey: .recursiveStruct)
+        recursiveStruct = recursiveStructDecoded
+        let simpleStructDecoded = try containerValues.decodeIfPresent(SimpleStruct.self, forKey: .simpleStruct)
+        simpleStruct = simpleStructDecoded
+        let stringDecoded = try containerValues.decodeIfPresent(String.self, forKey: .string)
+        string = stringDecoded
+        let structWithLocationNameDecoded = try containerValues.decodeIfPresent(StructWithLocationName.self, forKey: .structWithLocationName)
+        structWithLocationName = structWithLocationNameDecoded
+        let timestampDecoded = try containerValues.decodeIfPresent(Date.self, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let unixTimestampDecoded = try containerValues.decodeIfPresent(Date.self, forKey: .unixTimestamp)
+        unixTimestamp = unixTimestampDecoded
+    }
+}
                 """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
@@ -639,196 +639,196 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-                extension KitchenSink: Decodable {
-                    private enum CodingKeys: String, CodingKey {
-                        case blob = "Blob"
-                        case boolean = "Boolean"
-                        case double = "Double"
-                        case emptyStruct = "EmptyStruct"
-                        case float = "Float"
-                        case httpdateTimestamp = "HttpdateTimestamp"
-                        case integer = "Integer"
-                        case iso8601Timestamp = "Iso8601Timestamp"
-                        case jsonValue = "JsonValue"
-                        case listOfLists = "ListOfLists"
-                        case listOfMapsOfStrings = "ListOfMapsOfStrings"
-                        case listOfStrings = "ListOfStrings"
-                        case listOfStructs = "ListOfStructs"
-                        case long = "Long"
-                        case mapOfListsOfStrings = "MapOfListsOfStrings"
-                        case mapOfMaps = "MapOfMaps"
-                        case mapOfStrings = "MapOfStrings"
-                        case mapOfStructs = "MapOfStructs"
-                        case recursiveList = "RecursiveList"
-                        case recursiveMap = "RecursiveMap"
-                        case recursiveStruct = "RecursiveStruct"
-                        case simpleStruct = "SimpleStruct"
-                        case string = "String"
-                        case structWithLocationName = "StructWithLocationName"
-                        case timestamp = "Timestamp"
-                        case unixTimestamp = "UnixTimestamp"
-                    }
+extension KitchenSink: Decodable {
+    private enum CodingKeys: String, CodingKey {
+        case blob = "Blob"
+        case boolean = "Boolean"
+        case double = "Double"
+        case emptyStruct = "EmptyStruct"
+        case float = "Float"
+        case httpdateTimestamp = "HttpdateTimestamp"
+        case integer = "Integer"
+        case iso8601Timestamp = "Iso8601Timestamp"
+        case jsonValue = "JsonValue"
+        case listOfLists = "ListOfLists"
+        case listOfMapsOfStrings = "ListOfMapsOfStrings"
+        case listOfStrings = "ListOfStrings"
+        case listOfStructs = "ListOfStructs"
+        case long = "Long"
+        case mapOfListsOfStrings = "MapOfListsOfStrings"
+        case mapOfMaps = "MapOfMaps"
+        case mapOfStrings = "MapOfStrings"
+        case mapOfStructs = "MapOfStructs"
+        case recursiveList = "RecursiveList"
+        case recursiveMap = "RecursiveMap"
+        case recursiveStruct = "RecursiveStruct"
+        case simpleStruct = "SimpleStruct"
+        case string = "String"
+        case structWithLocationName = "StructWithLocationName"
+        case timestamp = "Timestamp"
+        case unixTimestamp = "UnixTimestamp"
+    }
 
-                    public init (from decoder: Decoder) throws {
-                        let values = try decoder.container(keyedBy: CodingKeys.self)
-                        let blobDecoded = try values.decodeIfPresent(Data.self, forKey: .blob)
-                        blob = blobDecoded
-                        let booleanDecoded = try values.decodeIfPresent(Bool.self, forKey: .boolean)
-                        boolean = booleanDecoded
-                        let doubleDecoded = try values.decodeIfPresent(Double.self, forKey: .double)
-                        double = doubleDecoded
-                        let emptyStructDecoded = try values.decodeIfPresent(EmptyStruct.self, forKey: .emptyStruct)
-                        emptyStruct = emptyStructDecoded
-                        let floatDecoded = try values.decodeIfPresent(Float.self, forKey: .float)
-                        float = floatDecoded
-                        let httpdateTimestampDateString = try values.decodeIfPresent(String.self, forKey: .httpdateTimestamp)
-                        var httpdateTimestampDecoded: Date? = nil
-                        if let httpdateTimestampDateString = httpdateTimestampDateString {
-                            let httpdateTimestampFormatter = DateFormatter.rfc5322DateFormatter
-                            httpdateTimestampDecoded = httpdateTimestampFormatter.date(from: httpdateTimestampDateString)
-                        }
-                        httpdateTimestamp = httpdateTimestampDecoded
-                        let integerDecoded = try values.decodeIfPresent(Int.self, forKey: .integer)
-                        integer = integerDecoded
-                        let iso8601TimestampDateString = try values.decodeIfPresent(String.self, forKey: .iso8601Timestamp)
-                        var iso8601TimestampDecoded: Date? = nil
-                        if let iso8601TimestampDateString = iso8601TimestampDateString {
-                            let iso8601TimestampFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
-                            iso8601TimestampDecoded = iso8601TimestampFormatter.date(from: iso8601TimestampDateString)
-                        }
-                        iso8601Timestamp = iso8601TimestampDecoded
-                        let jsonValueDecoded = try values.decodeIfPresent(String.self, forKey: .jsonValue)
-                        jsonValue = jsonValueDecoded
-                        let listOfListsContainer = try values.decodeIfPresent([[String]?].self, forKey: .listOfLists)
-                        var listOfListsDecoded0:[[String]?]? = nil
-                        if let listOfListsContainer = listOfListsContainer {
-                            listOfListsDecoded0 = [[String]?]()
-                            for list0 in listOfListsContainer {
-                                var list0Decoded0 = [String]()
-                                if let list0 = list0 {
-                                    for string1 in list0 {
-                                        list0Decoded0.append(string1)
-                                    }
-                                }
-                                listOfListsDecoded0?.append(list0Decoded0)
-                            }
-                        }
-                        listOfLists = listOfListsDecoded0
-                        let listOfMapsOfStringsContainer = try values.decodeIfPresent([[String:String]?].self, forKey: .listOfMapsOfStrings)
-                        var listOfMapsOfStringsDecoded0:[[String:String]?]? = nil
-                        if let listOfMapsOfStringsContainer = listOfMapsOfStringsContainer {
-                            listOfMapsOfStringsDecoded0 = [[String:String]?]()
-                            for map0 in listOfMapsOfStringsContainer {
-                                var listOfMapsOfStringsContainerDecoded0 = [String:String]()
-                                if let map0 = map0 {
-                                    for (key1, string1) in map0 {
-                                        listOfMapsOfStringsContainerDecoded0[key1] = string1
-                                    }
-                                }
-                                listOfMapsOfStringsDecoded0?.append(listOfMapsOfStringsContainerDecoded0)
-                            }
-                        }
-                        listOfMapsOfStrings = listOfMapsOfStringsDecoded0
-                        let listOfStringsContainer = try values.decodeIfPresent([String].self, forKey: .listOfStrings)
-                        var listOfStringsDecoded0:[String]? = nil
-                        if let listOfStringsContainer = listOfStringsContainer {
-                            listOfStringsDecoded0 = [String]()
-                            for string0 in listOfStringsContainer {
-                                listOfStringsDecoded0?.append(string0)
-                            }
-                        }
-                        listOfStrings = listOfStringsDecoded0
-                        let listOfStructsContainer = try values.decodeIfPresent([SimpleStruct].self, forKey: .listOfStructs)
-                        var listOfStructsDecoded0:[SimpleStruct]? = nil
-                        if let listOfStructsContainer = listOfStructsContainer {
-                            listOfStructsDecoded0 = [SimpleStruct]()
-                            for structure0 in listOfStructsContainer {
-                                listOfStructsDecoded0?.append(structure0)
-                            }
-                        }
-                        listOfStructs = listOfStructsDecoded0
-                        let longDecoded = try values.decodeIfPresent(Int.self, forKey: .long)
-                        long = longDecoded
-                        let mapOfListsOfStringsContainer = try values.decodeIfPresent([String:[String]?].self, forKey: .mapOfListsOfStrings)
-                        var mapOfListsOfStringsDecoded0: [String:[String]?]? = nil
-                        if let mapOfListsOfStringsContainer = mapOfListsOfStringsContainer {
-                            mapOfListsOfStringsDecoded0 = [String:[String]?]()
-                            for (key0, listofstrings0) in mapOfListsOfStringsContainer {
-                                var listofstrings0Decoded0 = [String]()
-                                if let listofstrings0 = listofstrings0 {
-                                    for string1 in listofstrings0 {
-                                        listofstrings0Decoded0.append(string1)
-                                    }
-                                }
-                                mapOfListsOfStringsDecoded0?[key0] = listofstrings0Decoded0
-                            }
-                        }
-                        mapOfListsOfStrings = mapOfListsOfStringsDecoded0
-                        let mapOfMapsContainer = try values.decodeIfPresent([String:[String:String]?].self, forKey: .mapOfMaps)
-                        var mapOfMapsDecoded0: [String:[String:String]?]? = nil
-                        if let mapOfMapsContainer = mapOfMapsContainer {
-                            mapOfMapsDecoded0 = [String:[String:String]?]()
-                            for (key0, mapofstrings0) in mapOfMapsContainer {
-                                var mapofstrings0Decoded0 = [String:String]()
-                                if let mapofstrings0 = mapofstrings0 {
-                                    for (key1, string1) in mapofstrings0 {
-                                        mapofstrings0Decoded0[key1] = string1
-                                    }
-                                }
-                                mapOfMapsDecoded0?[key0] = mapofstrings0Decoded0
-                            }
-                        }
-                        mapOfMaps = mapOfMapsDecoded0
-                        let mapOfStringsContainer = try values.decodeIfPresent([String:String].self, forKey: .mapOfStrings)
-                        var mapOfStringsDecoded0: [String:String]? = nil
-                        if let mapOfStringsContainer = mapOfStringsContainer {
-                            mapOfStringsDecoded0 = [String:String]()
-                            for (key0, string0) in mapOfStringsContainer {
-                                mapOfStringsDecoded0?[key0] = string0
-                            }
-                        }
-                        mapOfStrings = mapOfStringsDecoded0
-                        let mapOfStructsContainer = try values.decodeIfPresent([String:SimpleStruct].self, forKey: .mapOfStructs)
-                        var mapOfStructsDecoded0: [String:SimpleStruct]? = nil
-                        if let mapOfStructsContainer = mapOfStructsContainer {
-                            mapOfStructsDecoded0 = [String:SimpleStruct]()
-                            for (key0, simplestruct0) in mapOfStructsContainer {
-                                mapOfStructsDecoded0?[key0] = simplestruct0
-                            }
-                        }
-                        mapOfStructs = mapOfStructsDecoded0
-                        let recursiveListContainer = try values.decodeIfPresent([KitchenSink].self, forKey: .recursiveList)
-                        var recursiveListDecoded0:[KitchenSink]? = nil
-                        if let recursiveListContainer = recursiveListContainer {
-                            recursiveListDecoded0 = [KitchenSink]()
-                            for structure0 in recursiveListContainer {
-                                recursiveListDecoded0?.append(structure0)
-                            }
-                        }
-                        recursiveList = recursiveListDecoded0
-                        let recursiveMapContainer = try values.decodeIfPresent([String:KitchenSink].self, forKey: .recursiveMap)
-                        var recursiveMapDecoded0: [String:KitchenSink]? = nil
-                        if let recursiveMapContainer = recursiveMapContainer {
-                            recursiveMapDecoded0 = [String:KitchenSink]()
-                            for (key0, kitchensink0) in recursiveMapContainer {
-                                recursiveMapDecoded0?[key0] = kitchensink0
-                            }
-                        }
-                        recursiveMap = recursiveMapDecoded0
-                        let recursiveStructDecoded = try values.decodeIfPresent(KitchenSink.self, forKey: .recursiveStruct)
-                        recursiveStruct = recursiveStructDecoded
-                        let simpleStructDecoded = try values.decodeIfPresent(SimpleStruct.self, forKey: .simpleStruct)
-                        simpleStruct = simpleStructDecoded
-                        let stringDecoded = try values.decodeIfPresent(String.self, forKey: .string)
-                        string = stringDecoded
-                        let structWithLocationNameDecoded = try values.decodeIfPresent(StructWithLocationName.self, forKey: .structWithLocationName)
-                        structWithLocationName = structWithLocationNameDecoded
-                        let timestampDecoded = try values.decodeIfPresent(Date.self, forKey: .timestamp)
-                        timestamp = timestampDecoded
-                        let unixTimestampDecoded = try values.decodeIfPresent(Date.self, forKey: .unixTimestamp)
-                        unixTimestamp = unixTimestampDecoded
+    public init (from decoder: Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blobDecoded = try containerValues.decodeIfPresent(Data.self, forKey: .blob)
+        blob = blobDecoded
+        let booleanDecoded = try containerValues.decodeIfPresent(Bool.self, forKey: .boolean)
+        boolean = booleanDecoded
+        let doubleDecoded = try containerValues.decodeIfPresent(Double.self, forKey: .double)
+        double = doubleDecoded
+        let emptyStructDecoded = try containerValues.decodeIfPresent(EmptyStruct.self, forKey: .emptyStruct)
+        emptyStruct = emptyStructDecoded
+        let floatDecoded = try containerValues.decodeIfPresent(Float.self, forKey: .float)
+        float = floatDecoded
+        let httpdateTimestampDateString = try containerValues.decodeIfPresent(String.self, forKey: .httpdateTimestamp)
+        var httpdateTimestampDecoded: Date? = nil
+        if let httpdateTimestampDateString = httpdateTimestampDateString {
+            let httpdateTimestampFormatter = DateFormatter.rfc5322DateFormatter
+            httpdateTimestampDecoded = httpdateTimestampFormatter.date(from: httpdateTimestampDateString)
+        }
+        httpdateTimestamp = httpdateTimestampDecoded
+        let integerDecoded = try containerValues.decodeIfPresent(Int.self, forKey: .integer)
+        integer = integerDecoded
+        let iso8601TimestampDateString = try containerValues.decodeIfPresent(String.self, forKey: .iso8601Timestamp)
+        var iso8601TimestampDecoded: Date? = nil
+        if let iso8601TimestampDateString = iso8601TimestampDateString {
+            let iso8601TimestampFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
+            iso8601TimestampDecoded = iso8601TimestampFormatter.date(from: iso8601TimestampDateString)
+        }
+        iso8601Timestamp = iso8601TimestampDecoded
+        let jsonValueDecoded = try containerValues.decodeIfPresent(String.self, forKey: .jsonValue)
+        jsonValue = jsonValueDecoded
+        let listOfListsContainer = try containerValues.decodeIfPresent([[String]?].self, forKey: .listOfLists)
+        var listOfListsDecoded0:[[String]?]? = nil
+        if let listOfListsContainer = listOfListsContainer {
+            listOfListsDecoded0 = [[String]?]()
+            for list0 in listOfListsContainer {
+                var list0Decoded0 = [String]()
+                if let list0 = list0 {
+                    for string1 in list0 {
+                        list0Decoded0.append(string1)
                     }
                 }
+                listOfListsDecoded0?.append(list0Decoded0)
+            }
+        }
+        listOfLists = listOfListsDecoded0
+        let listOfMapsOfStringsContainer = try containerValues.decodeIfPresent([[String:String]?].self, forKey: .listOfMapsOfStrings)
+        var listOfMapsOfStringsDecoded0:[[String:String]?]? = nil
+        if let listOfMapsOfStringsContainer = listOfMapsOfStringsContainer {
+            listOfMapsOfStringsDecoded0 = [[String:String]?]()
+            for map0 in listOfMapsOfStringsContainer {
+                var listOfMapsOfStringsContainerDecoded0 = [String:String]()
+                if let map0 = map0 {
+                    for (key1, string1) in map0 {
+                        listOfMapsOfStringsContainerDecoded0[key1] = string1
+                    }
+                }
+                listOfMapsOfStringsDecoded0?.append(listOfMapsOfStringsContainerDecoded0)
+            }
+        }
+        listOfMapsOfStrings = listOfMapsOfStringsDecoded0
+        let listOfStringsContainer = try containerValues.decodeIfPresent([String].self, forKey: .listOfStrings)
+        var listOfStringsDecoded0:[String]? = nil
+        if let listOfStringsContainer = listOfStringsContainer {
+            listOfStringsDecoded0 = [String]()
+            for string0 in listOfStringsContainer {
+                listOfStringsDecoded0?.append(string0)
+            }
+        }
+        listOfStrings = listOfStringsDecoded0
+        let listOfStructsContainer = try containerValues.decodeIfPresent([SimpleStruct].self, forKey: .listOfStructs)
+        var listOfStructsDecoded0:[SimpleStruct]? = nil
+        if let listOfStructsContainer = listOfStructsContainer {
+            listOfStructsDecoded0 = [SimpleStruct]()
+            for structure0 in listOfStructsContainer {
+                listOfStructsDecoded0?.append(structure0)
+            }
+        }
+        listOfStructs = listOfStructsDecoded0
+        let longDecoded = try containerValues.decodeIfPresent(Int.self, forKey: .long)
+        long = longDecoded
+        let mapOfListsOfStringsContainer = try containerValues.decodeIfPresent([String:[String]?].self, forKey: .mapOfListsOfStrings)
+        var mapOfListsOfStringsDecoded0: [String:[String]?]? = nil
+        if let mapOfListsOfStringsContainer = mapOfListsOfStringsContainer {
+            mapOfListsOfStringsDecoded0 = [String:[String]?]()
+            for (key0, listofstrings0) in mapOfListsOfStringsContainer {
+                var listofstrings0Decoded0 = [String]()
+                if let listofstrings0 = listofstrings0 {
+                    for string1 in listofstrings0 {
+                        listofstrings0Decoded0.append(string1)
+                    }
+                }
+                mapOfListsOfStringsDecoded0?[key0] = listofstrings0Decoded0
+            }
+        }
+        mapOfListsOfStrings = mapOfListsOfStringsDecoded0
+        let mapOfMapsContainer = try containerValues.decodeIfPresent([String:[String:String]?].self, forKey: .mapOfMaps)
+        var mapOfMapsDecoded0: [String:[String:String]?]? = nil
+        if let mapOfMapsContainer = mapOfMapsContainer {
+            mapOfMapsDecoded0 = [String:[String:String]?]()
+            for (key0, mapofstrings0) in mapOfMapsContainer {
+                var mapofstrings0Decoded0 = [String:String]()
+                if let mapofstrings0 = mapofstrings0 {
+                    for (key1, string1) in mapofstrings0 {
+                        mapofstrings0Decoded0[key1] = string1
+                    }
+                }
+                mapOfMapsDecoded0?[key0] = mapofstrings0Decoded0
+            }
+        }
+        mapOfMaps = mapOfMapsDecoded0
+        let mapOfStringsContainer = try containerValues.decodeIfPresent([String:String].self, forKey: .mapOfStrings)
+        var mapOfStringsDecoded0: [String:String]? = nil
+        if let mapOfStringsContainer = mapOfStringsContainer {
+            mapOfStringsDecoded0 = [String:String]()
+            for (key0, string0) in mapOfStringsContainer {
+                mapOfStringsDecoded0?[key0] = string0
+            }
+        }
+        mapOfStrings = mapOfStringsDecoded0
+        let mapOfStructsContainer = try containerValues.decodeIfPresent([String:SimpleStruct].self, forKey: .mapOfStructs)
+        var mapOfStructsDecoded0: [String:SimpleStruct]? = nil
+        if let mapOfStructsContainer = mapOfStructsContainer {
+            mapOfStructsDecoded0 = [String:SimpleStruct]()
+            for (key0, simplestruct0) in mapOfStructsContainer {
+                mapOfStructsDecoded0?[key0] = simplestruct0
+            }
+        }
+        mapOfStructs = mapOfStructsDecoded0
+        let recursiveListContainer = try containerValues.decodeIfPresent([KitchenSink].self, forKey: .recursiveList)
+        var recursiveListDecoded0:[KitchenSink]? = nil
+        if let recursiveListContainer = recursiveListContainer {
+            recursiveListDecoded0 = [KitchenSink]()
+            for structure0 in recursiveListContainer {
+                recursiveListDecoded0?.append(structure0)
+            }
+        }
+        recursiveList = recursiveListDecoded0
+        let recursiveMapContainer = try containerValues.decodeIfPresent([String:KitchenSink].self, forKey: .recursiveMap)
+        var recursiveMapDecoded0: [String:KitchenSink]? = nil
+        if let recursiveMapContainer = recursiveMapContainer {
+            recursiveMapDecoded0 = [String:KitchenSink]()
+            for (key0, kitchensink0) in recursiveMapContainer {
+                recursiveMapDecoded0?[key0] = kitchensink0
+            }
+        }
+        recursiveMap = recursiveMapDecoded0
+        let recursiveStructDecoded = try containerValues.decodeIfPresent(KitchenSink.self, forKey: .recursiveStruct)
+        recursiveStruct = recursiveStructDecoded
+        let simpleStructDecoded = try containerValues.decodeIfPresent(SimpleStruct.self, forKey: .simpleStruct)
+        simpleStruct = simpleStructDecoded
+        let stringDecoded = try containerValues.decodeIfPresent(String.self, forKey: .string)
+        string = stringDecoded
+        let structWithLocationNameDecoded = try containerValues.decodeIfPresent(StructWithLocationName.self, forKey: .structWithLocationName)
+        structWithLocationName = structWithLocationNameDecoded
+        let timestampDecoded = try containerValues.decodeIfPresent(Date.self, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let unixTimestampDecoded = try containerValues.decodeIfPresent(Date.self, forKey: .unixTimestamp)
+        unixTimestamp = unixTimestampDecoded
+    }
+}
                 """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
