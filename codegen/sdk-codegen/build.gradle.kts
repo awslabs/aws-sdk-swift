@@ -104,6 +104,7 @@ tasks.register("generate-smithy-build") {
                                             .withMember("author", Node.from("Amazon Web Services"))
                                             .withMember("gitRepo", Node.from("https://github.com/aws-amplify/aws-sdk-swift.git"))
                                             .withMember("swiftVersion", Node.from("5.3.0"))
+                                            .withMember("shouldGenerateUnitTestTarget", Node.from(false))
                                             .call {
                                                 val buildStandaloneSdk = getProperty("buildStandaloneSdk")?.toBoolean() ?: false
                                                 withMember("build", Node.objectNodeBuilder()
