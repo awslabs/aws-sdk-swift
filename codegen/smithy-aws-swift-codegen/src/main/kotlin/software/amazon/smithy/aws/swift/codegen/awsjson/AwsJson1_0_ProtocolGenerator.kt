@@ -19,6 +19,6 @@ open class AwsJson1_0_ProtocolGenerator : JsonProtocolBase() {
         writer.write("builder.withHeader(name: \"Content-Type\", value: \"$contentType\")")
     }
 
-    override fun getProtocolHttpBindingResolver(generationContext: ProtocolGenerator.GenerationContext):
-            HttpBindingResolver = AwsJsonHttpBindingResolver(generationContext)
+    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
+            HttpBindingResolver = AwsJsonHttpBindingResolver(ctx)
 }
