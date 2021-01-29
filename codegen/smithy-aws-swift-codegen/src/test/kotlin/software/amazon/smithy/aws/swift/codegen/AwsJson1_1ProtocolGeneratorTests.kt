@@ -865,7 +865,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             let context = HttpContextBuilder()
                           .withEncoder(value: encoder)
                           .build()
-            var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes")
+            var operationStack = MockOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes")
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]
             // assert required headers do exist
@@ -908,7 +908,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             let context = HttpContextBuilder()
                           .withEncoder(value: encoder)
                           .build()
-            var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes_with_jsonvalue_trait")
+            var operationStack = MockOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes_with_jsonvalue_trait")
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]
             // assert required headers do exist
