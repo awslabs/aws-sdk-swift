@@ -28,9 +28,9 @@ class AwsHttpProtocolClientGenerator(
         writer.write("  .withHost(value: \"$endpointPrefix.\\(config.region).amazonaws.com\")")
     }
 
-    override fun renderMiddlewares(op: OperationShape) {
-        super.renderMiddlewares(op)
-        writer.write("operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware())")
+    override fun renderMiddlewares(op: OperationShape, operationStackName: String) {
+        super.renderMiddlewares(op, operationStackName)
+        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware())")
         val hasUnsignedPayload = op.hasTrait(UnsignedPayloadTrait::class.java)
         val serviceShape = ctx.service
         val needsSigning = serviceShape.hasTrait(SigV4Trait::class.java)
@@ -38,7 +38,7 @@ class AwsHttpProtocolClientGenerator(
             val signingName = serviceShape.getTrait(SigV4Trait::class.java).get().name
             //FIXME handle indentation properly or do swift formatting after the fact
             writer.write(
-                "operation.finalizeStep.intercept(position: .after,\n" +
+                "$operationStackName.finalizeStep.intercept(position: .after,\n" +
                         "                                         middleware: SigV4Middleware(signingName: \"$signingName\",\n" +
                         "                                                                     signingRegion: config.signingRegion,\n" +
                         "                                                                     unsignedBody: $hasUnsignedPayload))"
