@@ -1,0 +1,118 @@
+#!/bin/bash
+
+#  Install directions
+#    Option 1:
+#      1.  Edit your PATH environment variable to include aws-sdk-swift/sbin.
+#    Option 2:
+#      1. Copy buildswiftsdk to some other directory that is in your path
+#      2. Export the environemnt variable BUILDSWIFTSDK_DIR to point to aws-sdk-swift.
+#        For example:
+#          BUILDSWIFTSDK_DIR=/path/to/aws-sdk-swift
+#  
+#  To Run:
+#    buildswiftsdk <recipe>
+#
+#  Suggestion:
+#    You may want to create an alias for this script
+#      For example:
+#        alias bss=buildswiftsdk
+# 
+
+usage() {
+    echo "Usage:"
+    echo " buildswiftsdk <recipe>"
+}
+
+pushdir() {
+    if [[ ! -d "${1}" ]]; then
+	echo "Error: pushdir: invalid directory: ${1}"
+	exit 1
+    fi
+    pushd "${1}" > /dev/null 2>&1
+}
+
+popdir() {
+    popd > /dev/null 2>&1
+}
+
+setupPaths() {
+    pushdir "${AWS_SDK_SWIFT_DIR_REL}"
+    AWS_SDK_SWIFT_DIR="${PWD}"
+    SMITHY_SWIFT_DIR_REL="${PWD}/../smithy-swift"
+    if [[ -d "${SMITHY_SWIFT_DIR_REL}" ]]; then
+	pushdir "${SMITHY_SWIFT_DIR_REL}"
+	SMITHY_SWIFT_DIR="${PWD}"
+	popdir
+    fi
+    popdir
+}
+
+checkPaths() {
+    error=0
+    if [[ ! -d "${SMITHY_SWIFT_DIR}" ]]; then
+	echo "Was unable to detect smithy-swift"
+	error=1
+    fi
+    if [[ ! -d "${AWS_SDK_SWIFT_DIR}" ]]; then
+	echo "Was unable to detect where aws-sdk-swift"
+	error=1
+    fi
+    if [[ ${error} -eq 1 ]]; then
+	exit 1
+    fi
+}
+
+AWS_SDK_SWIFT_DIR=""
+SMITHY_SWIFT_DIR=""
+if [[ -z "${BUILDSWIFTSDK_DIR}" ]]; then
+    AWS_SDK_SWIFT_DIR_REL=`dirname ${0}`/../
+else
+    AWS_SDK_SWIFT_DIR_REL="${BUILDSWIFTSDK_DIR}"
+fi
+setupPaths
+checkPaths
+
+
+
+pcg() {
+    cd "${SMITHY_SWIFT_DIR}" && \
+	./gradlew -p smithy-swift-codegen assemble && \
+	cd "${AWS_SDK_SWIFT_DIR}" && \
+	./gradlew -p codegen/protocol-test-codegen clean &&\
+	./gradlew -p codegen/protocol-test-codegen build
+    echo "Generated files should be in:"
+    echo "${AWS_SDK_SWIFT_DIR}/codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen"   
+}
+
+ssclean() {
+    cd "${SMITHY_SWIFT_DIR}" && \
+	./gradlew clean
+}
+
+sdkclean() {
+    cd "${AWS_SDK_SWIFT_DIR}" && \
+	./gradlew clean    
+}
+
+clean() {
+    ssclean && sdkclean
+}
+
+case "$1" in
+    "pcg")
+	pcg
+	;;
+    "clean")
+	clean
+	;;
+    "ssclean")
+	ssclean
+	;;
+    "sdkclean")
+	sdkclean
+	;;
+    *)
+	usage
+	;;
+esac
+	
