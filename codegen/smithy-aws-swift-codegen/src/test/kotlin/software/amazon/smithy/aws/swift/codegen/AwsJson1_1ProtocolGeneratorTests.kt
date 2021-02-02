@@ -13,12 +13,13 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
-class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
+class AwsJson1_1ProtocolGeneratorTests : TestsBase() {
     var model = createModelFromSmithy("awsJson1_1.smithy")
 
-    data class TestContext(val ctx: ProtocolGenerator.GenerationContext,
-                           val manifest: MockManifest,
-                           val generator: AwsJson1_1_ProtocolGenerator
+    data class TestContext(
+        val ctx: ProtocolGenerator.GenerationContext,
+        val manifest: MockManifest,
+        val generator: AwsJson1_1_ProtocolGenerator
     )
 
     private fun newTestContext(): TestContext {
@@ -208,7 +209,7 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                         }
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -370,7 +371,7 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                         }
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -385,7 +386,7 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                     public func encode(to encoder: Encoder) throws {
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -400,7 +401,7 @@ class AwsJson1_1ProtocolGeneratorTests: TestsBase() {
                     public init (from decoder: Decoder) throws {
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -629,7 +630,7 @@ extension KitchenSinkOperationOutputBody: Decodable {
         unixTimestamp = unixTimestampDecoded
     }
 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -829,7 +830,7 @@ extension KitchenSink: Decodable {
         unixTimestamp = unixTimestampDecoded
     }
 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -878,7 +879,16 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
                 XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
                 XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+                extractHttpBodyJSONData(expectedHttpBody!, actualHttpBody!) { (expectedData, actualData) in
+                    do {
+                        let decoder = JSONDecoder()
+                        let expectedObj = try decoder.decode(KitchenSinkOperationInputBody.self, from: expectedData)
+                        let actualObj = try decoder.decode(KitchenSinkOperationInputBody.self, from: actualData)
+                        XCTAssertEqual(expectedObj, actualObj)
+                    } catch let err {
+                        XCTFail("Failed to verify body \(err)")
+                    }
+                }
             })
         } catch let err {
             XCTFail("Failed to encode the input. Error description: \(err)")
@@ -921,13 +931,22 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
                 XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
                 XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+                extractHttpBodyJSONData(expectedHttpBody!, actualHttpBody!) { (expectedData, actualData) in
+                    do {
+                        let decoder = JSONDecoder()
+                        let expectedObj = try decoder.decode(KitchenSinkOperationInputBody.self, from: expectedData)
+                        let actualObj = try decoder.decode(KitchenSinkOperationInputBody.self, from: actualData)
+                        XCTAssertEqual(expectedObj, actualObj)
+                    } catch let err {
+                        XCTFail("Failed to verify body \(err)")
+                    }
+                }
             })
         } catch let err {
             XCTFail("Failed to encode the input. Error description: \(err)")
         }
     }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -938,5 +957,4 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
         contents.shouldContainOnlyOnce("{\"HttpdateTimestamp\":\"Sun, 02 Jan 2000 20:34:56 GMT\"}")
         contents.shouldContainOnlyOnce("{\"Iso8601Timestamp\":\"2000-01-02T20:34:56Z\"}")
     }
-
 }
