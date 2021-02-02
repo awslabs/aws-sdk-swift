@@ -16,20 +16,20 @@ import software.amazon.smithy.swift.codegen.integration.ServiceConfig
  */
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
     override val serviceErrorProtocolSymbol: Symbol = Symbol.builder()
-            .name("AWSHttpServiceError")
-            .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
-            .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
-            .build()
+        .name("AWSHttpServiceError")
+        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
+        .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
+        .build()
 
     override val unknownServiceErrorSymbol: Symbol = Symbol.builder()
-            .name("UnknownAWSHttpServiceError")
-            .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
-            .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
-            .build()
+        .name("UnknownAWSHttpServiceError")
+        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
+        .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
+        .build()
 
     override fun getHttpProtocolClientGenerator(
-            ctx: ProtocolGenerator.GenerationContext,
-            writer: SwiftWriter
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter
     ): HttpProtocolClientGenerator {
         val properties = getClientProperties(ctx)
         val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name

@@ -34,16 +34,16 @@ abstract class JsonProtocolBase : AWSHttpBindingProtocolGenerator() {
         val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
 
         HttpProtocolTestGenerator(
-                ctx,
-                requestTestBuilder,
-                responseTestBuilder,
-                errorTestBuilder
+            ctx,
+            requestTestBuilder,
+            responseTestBuilder,
+            errorTestBuilder
         ).generateProtocolTests()
     }
 
     override fun generateCodingKeysForMembers(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, members: List<MemberShape>) {
         val membersSortedByName: List<MemberShape> = members.sortedBy { it.memberName }
-        if(membersSortedByName.isNotEmpty()) {
+        if (membersSortedByName.isNotEmpty()) {
             writer.openBlock("private enum CodingKeys: String, CodingKey {", "}") {
                 for (member in membersSortedByName) {
                     val originalMemberName = member.memberName
@@ -90,9 +90,9 @@ abstract class JsonProtocolBase : AWSHttpBindingProtocolGenerator() {
         val operationErrorName = "${op.defaultName()}Error"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
-                .definitionFile("./$rootNamespace/models/$operationErrorName+ResponseInit.swift")
-                .name(operationErrorName)
-                .build()
+            .definitionFile("./$rootNamespace/models/$operationErrorName+ResponseInit.swift")
+            .name(operationErrorName)
+            .build()
 
         ctx.delegator.useShapeWriter(httpBindingSymbol) { writer ->
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
