@@ -7,6 +7,7 @@ public struct ContentTypeMiddleware : Middleware {
     public let id: String = "ContentType"
 
     let contentType: String
+
     public init(contentType: String) {
         self.contentType = contentType
     }
