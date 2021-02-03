@@ -5,7 +5,7 @@ import ClientRuntime
 //TODO: this struct is unfinished. proper endpoint resolving will need to be added futuristically
 public struct EndpointResolverMiddleware: Middleware {
     
-    public var id: String = "EndpointResolver"
+    public let id: String = "EndpointResolver"
     
     public init() {}
     

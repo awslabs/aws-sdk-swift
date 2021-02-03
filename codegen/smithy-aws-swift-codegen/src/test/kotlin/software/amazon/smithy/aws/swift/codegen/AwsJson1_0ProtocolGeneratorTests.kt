@@ -53,8 +53,6 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
                 extension EmptyInputAndEmptyOutputInput: HttpRequestBinding, Reflection {
                     public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
                         let builder = SdkHttpRequestBuilder()
-                        builder.withHeader(name: "X-Amz-Target", value: "JsonRpc10.EmptyInputAndEmptyOutput")
-                        builder.withHeader(name: "Content-Type", value: "application/x-amz-json-1.0")
                         return builder
                     }
                 }
@@ -71,8 +69,6 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
                 extension GreetingWithErrorsInput: HttpRequestBinding, Reflection {
                     public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
                         let builder = SdkHttpRequestBuilder()
-                        builder.withHeader(name: "X-Amz-Target", value: "JsonRpc10.GreetingWithErrors")
-                        builder.withHeader(name: "Content-Type", value: "application/x-amz-json-1.0")
                         return builder
                     }
                 }
