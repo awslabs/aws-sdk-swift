@@ -41,9 +41,9 @@ class AwsHttpProtocolClientGenerator(
     }
 
     private fun renderSigningMiddlewareIfNeeded(serviceShape: ServiceShape, op: OperationShape, operationStackName: String) {
-        val hasUnsignedPayload = op.hasTrait(UnsignedPayloadTrait::class.java)
         val needsSigning = serviceShape.hasTrait(SigV4Trait::class.java)
         if (needsSigning) {
+            val hasUnsignedPayload = op.hasTrait(UnsignedPayloadTrait::class.java)
             val signingName = serviceShape.getTrait(SigV4Trait::class.java).get().name
             //FIXME handle indentation properly or do swift formatting after the fact
             writer.write(
