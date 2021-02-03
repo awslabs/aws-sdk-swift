@@ -57,15 +57,15 @@ class AwsHttpProtocolClientGenerator(
 
     private fun renderJson10MiddlewaresIfNeeded(serviceShape: ServiceShape, op: OperationShape, operationStackName: String) {
         if (serviceShape.hasTrait(AwsJson1_0Trait::class.java)) {
-            renderXAmzTarget(operationStackName, xAmzTargetValue(op))
-            renderContentType(operationStackName,"application/x-amz-json-1.0")
+            renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op))
+            renderContentTypeMiddleware(operationStackName,"application/x-amz-json-1.0")
         }
     }
 
     private fun renderJson11MiddlewaresIfNeeded(serviceShape: ServiceShape, op: OperationShape, operationStackName: String) {
         if (serviceShape.hasTrait(AwsJson1_1Trait::class.java)) {
-            renderXAmzTarget(operationStackName, xAmzTargetValue(op))
-            renderContentType(operationStackName,"application/x-amz-json-1.1")
+            renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op))
+            renderContentTypeMiddleware(operationStackName,"application/x-amz-json-1.1")
         }
     }
 
@@ -73,11 +73,11 @@ class AwsHttpProtocolClientGenerator(
         return "${ctx.service.id.name}.${op.id.name}"
     }
 
-    private fun renderXAmzTarget(operationStackName: String, xAmzTargetValue: String) {
+    private fun renderXAmzTargetMiddleware(operationStackName: String, xAmzTargetValue: String) {
         writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: XAmzTargetMiddleware(xAmzTarget: \"${xAmzTargetValue}\"))")
     }
 
-    private fun renderContentType(operationStackName: String, contentType: String) {
+    private fun renderContentTypeMiddleware(operationStackName: String, contentType: String) {
         writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: ContentTypeMiddleware(contentType: \"${contentType}\"))")
     }
 }
