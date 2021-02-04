@@ -4,7 +4,7 @@
  */
 import AwsCommonRuntimeKit
 
-//TODO: flesh out this class more and possibly return creds provider differently.
+// TODO: flesh out this class more and possibly return creds provider differently.
 public class AWSCredentialsProvider {
     let crtCredentialsProvider: CRTAWSCredentialsProvider
 

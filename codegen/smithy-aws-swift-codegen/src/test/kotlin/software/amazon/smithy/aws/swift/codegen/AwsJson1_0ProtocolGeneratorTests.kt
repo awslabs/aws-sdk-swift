@@ -13,12 +13,14 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
-class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
+class AwsJson1_0ProtocolGeneratorTests : TestsBase() {
     var model = createModelFromSmithy("awsJson1_0.smithy")
 
-    data class TestContext(val ctx: ProtocolGenerator.GenerationContext,
-                           val manifest: MockManifest,
-                           val generator: AwsJson1_0_ProtocolGenerator)
+    data class TestContext(
+        val ctx: ProtocolGenerator.GenerationContext,
+        val manifest: MockManifest,
+        val generator: AwsJson1_0_ProtocolGenerator
+    )
 
     private fun newTestContext(): TestContext {
         val manifest = MockManifest()
@@ -49,14 +51,14 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example", "EmptyInputAndEmptyOutputInput+HttpRequestBinding.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                """
+            """
                 extension EmptyInputAndEmptyOutputInput: HttpRequestBinding, Reflection {
                     public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
                         let builder = SdkHttpRequestBuilder()
                         return builder
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -65,14 +67,14 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example", "GreetingWithErrorsInput+HttpRequestBinding.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                """
+            """
                 extension GreetingWithErrorsInput: HttpRequestBinding, Reflection {
                     public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
                         let builder = SdkHttpRequestBuilder()
                         return builder
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -81,13 +83,13 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example", "EmptyInputAndEmptyOutputOutput+ResponseInit.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                """
+            """
                 extension EmptyInputAndEmptyOutputOutput: HttpResponseBinding {
                     public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
 
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -96,7 +98,7 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example", "GreetingWithErrorsOutput+ResponseInit.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                """
+            """
                 extension GreetingWithErrorsOutput: HttpResponseBinding {
                     public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
 
@@ -110,7 +112,7 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
                         }
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -119,7 +121,7 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
         val contents = getModelFileContents("Example", "GreetingWithErrorsError+ResponseInit.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-                """
+            """
                 extension GreetingWithErrorsError {
                     public init(errorType: String?, httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
                         switch errorType {
@@ -138,7 +140,7 @@ class AwsJson1_0ProtocolGeneratorTests: TestsBase() {
                         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
                     }
                 }
-                """.trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 }
