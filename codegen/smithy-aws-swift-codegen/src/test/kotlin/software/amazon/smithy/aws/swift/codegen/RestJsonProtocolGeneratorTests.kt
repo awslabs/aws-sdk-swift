@@ -19,7 +19,7 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
-class MockRestJsonProtocolGenerator : JsonProtocolBase() {
+class MockRestAWSHttpBindingJsonProtocolGenerator : AWSHttpBindingJsonProtocolGenerator() {
     override val defaultContentType: String = "application/json"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = RestJson1Trait.ID
@@ -32,7 +32,7 @@ class RestJsonProtocolGeneratorTests : TestsBase() {
     data class TestContext(
         val ctx: ProtocolGenerator.GenerationContext,
         val manifest: MockManifest,
-        val generator: MockRestJsonProtocolGenerator
+        val generator: MockRestAWSHttpBindingJsonProtocolGenerator
     )
 
     private fun newTestContext(): TestContext {
@@ -44,7 +44,7 @@ class RestJsonProtocolGeneratorTests : TestsBase() {
         model = AddOperationShapes.execute(model, settings.getService(model), settings.moduleName)
         val integrations = mutableListOf<SwiftIntegration>()
         val delegator = SwiftDelegator(settings, model, manifest, provider, integrations)
-        val generator = MockRestJsonProtocolGenerator()
+        val generator = MockRestAWSHttpBindingJsonProtocolGenerator()
 
         val ctx = ProtocolGenerator.GenerationContext(settings, model, service, provider, integrations, generator.protocol, delegator)
         return TestContext(ctx, manifest, generator)
