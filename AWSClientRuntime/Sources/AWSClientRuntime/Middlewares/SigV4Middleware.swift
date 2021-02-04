@@ -7,7 +7,7 @@ import ClientRuntime
 import AwsCommonRuntimeKit
 
 public struct SigV4Middleware: Middleware {
-    public var id: String = "Sigv4Signer"
+    public let id: String = "Sigv4Signer"
 
     let signingName: String
 

@@ -2,12 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0.
 import ClientRuntime
 
-//TODO: this struct is unfinished. proper endpoint resolving will need to be added futuristically
-public struct EndpointResolverMiddleware: Middleware {
-    
-    public var id: String = "EndpointResolver"
-    
-    public init() {}
+
+public struct ContentTypeMiddleware : Middleware {
+    public let id: String = "ContentType"
+
+    let contentType: String
+
+    public init(contentType: String) {
+        self.contentType = contentType
+    }
     
     public func handle<H>(context: Context,
                           input: SdkHttpRequestBuilder,
@@ -17,14 +20,8 @@ public struct EndpointResolverMiddleware: Middleware {
           Self.MOutput == H.Output,
           Self.Context == H.Context {
         
-        let host = context.getHost()
-        let method = context.getMethod()
-        let path = context.getPath()
-        
-        input.withMethod(method)
-            .withHost(host)
-            .withPath(path)
-            .withHeader(name: "Host", value: host)
+        input.withHeader(name: "Content-Type", value: contentType)
+
         return next.handle(context: context, input: input)
     }
     
