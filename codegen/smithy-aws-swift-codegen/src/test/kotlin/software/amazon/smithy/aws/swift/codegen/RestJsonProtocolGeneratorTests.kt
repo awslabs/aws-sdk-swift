@@ -84,7 +84,7 @@ extension SmokeTestInput: Encodable {
         }
     }
 }
-""".trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -106,7 +106,7 @@ extension ExplicitBlobInput: Encodable {
         }
     }
 }
-""".trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -168,7 +168,7 @@ public class ExampleClient {
     }
 }
 
-""".trimIndent()
+            """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
 }

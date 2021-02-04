@@ -11,8 +11,10 @@ const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 
 val AWS_CONFIG_FIELDS = listOf(
     ConfigField(REGION_CONFIG_NAME, "String", "The region to send requests to. (Required)"),
-    ConfigField(CREDENTIALS_PROVIDER_CONFIG_NAME, "AWSCredentialsProvider",
-        "The credentials provider to use to authenticate requests."),
+    ConfigField(
+        CREDENTIALS_PROVIDER_CONFIG_NAME, "AWSCredentialsProvider",
+        "The credentials provider to use to authenticate requests."
+    ),
     ConfigField(SIGNING_REGION_CONFIG_NAME, "String", "The region to sign requests in. (Required)")
 )
 

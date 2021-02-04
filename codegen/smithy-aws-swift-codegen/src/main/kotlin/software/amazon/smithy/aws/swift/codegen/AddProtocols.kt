@@ -7,8 +7,8 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_1_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
 /**
  * Integration that registers protocol generators this package provides
@@ -22,6 +22,8 @@ class AddProtocols : SwiftIntegration {
      */
     override val order: Byte = -10
 
-    override val protocolGenerators: List<ProtocolGenerator> = listOf(AWSRestJson1ProtocolGenerator(),
-            AwsJson1_0_ProtocolGenerator(), AwsJson1_1_ProtocolGenerator())
+    override val protocolGenerators: List<ProtocolGenerator> = listOf(
+        AWSRestJson1ProtocolGenerator(),
+        AwsJson1_0_ProtocolGenerator(), AwsJson1_1_ProtocolGenerator()
+    )
 }
