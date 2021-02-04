@@ -5,9 +5,14 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 
@@ -39,4 +44,18 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     }
 
     override fun getConfigClass(writer: SwiftWriter, serviceName: String): ServiceConfig = AWSServiceConfig(writer, serviceName)
+
+    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
+
+        val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
+        val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
+        val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
+
+        HttpProtocolTestGenerator(
+            ctx,
+            requestTestBuilder,
+            responseTestBuilder,
+            errorTestBuilder
+        ).generateProtocolTests()
+    }
 }
