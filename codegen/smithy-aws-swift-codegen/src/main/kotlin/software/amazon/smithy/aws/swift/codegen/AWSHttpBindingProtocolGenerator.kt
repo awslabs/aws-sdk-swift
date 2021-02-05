@@ -6,7 +6,6 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.integration.CodingKeysGenerator
-import software.amazon.smithy.swift.codegen.integration.ErrorFromHttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
@@ -20,8 +19,8 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
  */
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
     override val codingKeysGenerator: CodingKeysGenerator = AWSCodingKeysGenerator()
-    override val errorFromHttpResponseGenerator: ErrorFromHttpResponseGenerator = AWSErrorFromHttpResponseGenerator()
     override val httpProtocolClientGeneratorFactory: HttpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
+
     override val serviceErrorProtocolSymbol: Symbol = Symbol.builder()
         .name("AWSHttpServiceError")
         .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
