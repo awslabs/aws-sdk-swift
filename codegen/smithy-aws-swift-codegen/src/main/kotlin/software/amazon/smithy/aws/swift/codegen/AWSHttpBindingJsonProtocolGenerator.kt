@@ -23,21 +23,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
  * Shared base protocol generator for all AWS JSON protocol variants
  */
 abstract class AWSHttpBindingJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
-
-    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
-
-        val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
-        val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
-        val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
-
-        HttpProtocolTestGenerator(
-            ctx,
-            requestTestBuilder,
-            responseTestBuilder,
-            errorTestBuilder
-        ).generateProtocolTests()
-    }
 
     override fun generateCodingKeysForMembers(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, members: List<MemberShape>) {
         val membersSortedByName: List<MemberShape> = members.sortedBy { it.memberName }
