@@ -7,11 +7,8 @@ import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.ErrorFromHttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-// TODO:
-// This is potentially getting called for JSON protocols due to generateDeserializers
-// We need to come back to this immediately and update this if this is being called for AWS JSON
-class AWSErrorFromHttpResponseGenerator : ErrorFromHttpResponseGenerator {
-    override fun generateInitOperationFromHttpResponse(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
+class AWSErrorFromHttpRestJSONResponseGenerator : ErrorFromHttpResponseGenerator {
+    override fun generateInitOperationFromHttpResponse(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
         val operationErrorName = "${op.defaultName()}Error"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()

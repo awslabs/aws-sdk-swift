@@ -16,6 +16,7 @@ import software.amazon.smithy.swift.codegen.AddOperationShapes
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
+import software.amazon.smithy.swift.codegen.integration.ErrorFromHttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
@@ -23,6 +24,7 @@ class MockRestAWSHttpBindingJsonProtocolGenerator : AWSHttpBindingProtocolGenera
     override val defaultContentType: String = "application/json"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = RestJson1Trait.ID
+    override val errorFromHttpResponseGenerator: ErrorFromHttpResponseGenerator = AWSErrorFromHttpRestJSONResponseGenerator()
 }
 
 // NOTE: protocol conformance is mostly handled by the protocol tests suite
