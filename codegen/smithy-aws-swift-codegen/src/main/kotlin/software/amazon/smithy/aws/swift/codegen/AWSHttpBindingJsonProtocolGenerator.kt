@@ -17,14 +17,12 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerato
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
-import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
-import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 /**
  * Shared base protocol generator for all AWS JSON protocol variants
  */
-abstract class JsonProtocolBase : AWSHttpBindingProtocolGenerator() {
+abstract class AWSHttpBindingJsonProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
@@ -78,8 +76,8 @@ abstract class JsonProtocolBase : AWSHttpBindingProtocolGenerator() {
         // TODO:: Subject to change if Foundation dependency is removed
         requestEncoderOptions["dateEncodingStrategy"] = ".secondsSince1970"
         responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
-        features.add(JSONRequestEncoder(requestEncoderOptions))
-        features.add(JSONResponseDecoder(responseDecoderOptions))
+        features.add(AWSHttpRequestJsonEncoder(requestEncoderOptions))
+        features.add(AWSHttpResponseJsonDecoder(responseDecoderOptions))
         return features
     }
 
@@ -106,20 +104,5 @@ abstract class JsonProtocolBase : AWSHttpBindingProtocolGenerator() {
                 }
             }
         }
-    }
-}
-
-class JSONRequestEncoder(
-    requestEncoderOptions: MutableMap<String, String> = mutableMapOf()
-) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions) {
-    override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
-        writer.write("self.encoder = \$L.encoder ?? \$L", nameOfConfigObject, name)
-    }
-}
-class JSONResponseDecoder(
-    responseDecoderOptions: MutableMap<String, String> = mutableMapOf()
-) : HttpResponseDecoder("JSONDecoder", responseDecoderOptions) {
-    override fun renderInitialization(writer: SwiftWriter, nameOfConfigObject: String) {
-        writer.write("self.decoder = \$L.decoder ?? \$L", nameOfConfigObject, name)
     }
 }
