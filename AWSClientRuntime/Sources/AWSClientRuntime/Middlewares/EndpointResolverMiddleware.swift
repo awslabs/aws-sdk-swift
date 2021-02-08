@@ -3,14 +3,14 @@
 import ClientRuntime
 
 // TODO: this struct is unfinished. proper endpoint resolving will need to be added futuristically
-public struct EndpointResolverMiddleware: Middleware {
+public struct EndpointResolverMiddleware<OperationInput>: Middleware {
 
     public let id: String = "EndpointResolver"
 
     public init() {}
 
     public func handle<H>(context: Context,
-                          input: SdkHttpRequestBuilder,
+                          input: SerializeOutput<OperationInput>,
                           next: H) -> Result<SdkHttpRequestBuilder, Error>
     where H: Handler,
           Self.MInput == H.Input,
@@ -21,14 +21,14 @@ public struct EndpointResolverMiddleware: Middleware {
         let method = context.getMethod()
         let path = context.getPath()
 
-        input.withMethod(method)
+        input.builder.withMethod(method)
             .withHost(host)
             .withPath(path)
             .withHeader(name: "Host", value: host)
         return next.handle(context: context, input: input)
     }
 
-    public typealias MInput = SdkHttpRequestBuilder
+    public typealias MInput = SerializeOutput<OperationInput>
     public typealias MOutput = SdkHttpRequestBuilder
     public typealias Context = HttpContext
 }
