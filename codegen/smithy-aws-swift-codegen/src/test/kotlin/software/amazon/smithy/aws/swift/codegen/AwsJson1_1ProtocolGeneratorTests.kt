@@ -870,6 +870,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
+            operationStack.buildStep.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
             operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]
@@ -917,6 +918,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
+            operationStack.buildStep.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
             operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]
