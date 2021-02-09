@@ -10,7 +10,7 @@ public struct EndpointResolverMiddleware<OperationInput>: Middleware {
     public init() {}
 
     public func handle<H>(context: Context,
-                          input: SerializeOutput<OperationInput>,
+                          input: SerializeInput<OperationInput>,
                           next: H) -> Result<SdkHttpRequestBuilder, Error>
     where H: Handler,
           Self.MInput == H.Input,
@@ -28,7 +28,7 @@ public struct EndpointResolverMiddleware<OperationInput>: Middleware {
         return next.handle(context: context, input: input)
     }
 
-    public typealias MInput = SerializeOutput<OperationInput>
+    public typealias MInput = SerializeInput<OperationInput>
     public typealias MOutput = SdkHttpRequestBuilder
     public typealias Context = HttpContext
 }
