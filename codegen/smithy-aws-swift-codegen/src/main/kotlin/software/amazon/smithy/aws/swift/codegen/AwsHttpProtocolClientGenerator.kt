@@ -76,10 +76,10 @@ class AwsHttpProtocolClientGenerator(
     }
 
     private fun renderXAmzTargetMiddleware(operationStackName: String, xAmzTargetValue: String, inputShapeName: String) {
-        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: XAmzTargetMiddleware<$inputShapeName>(xAmzTarget: \"${xAmzTargetValue}\"))")
+        writer.write("$operationStackName.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<$inputShapeName>(xAmzTarget: \"${xAmzTargetValue}\"))")
     }
 
     private fun renderContentTypeMiddleware(operationStackName: String, contentType: String, inputShapeName: String) {
-        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: ContentTypeMiddleware<$inputShapeName>(contentType: \"${contentType}\"))")
+        writer.write("$operationStackName.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<$inputShapeName>(contentType: \"${contentType}\"))")
     }
 }
