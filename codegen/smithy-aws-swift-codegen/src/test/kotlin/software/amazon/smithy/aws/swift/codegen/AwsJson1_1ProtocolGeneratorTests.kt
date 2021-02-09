@@ -57,7 +57,7 @@ class AwsJson1_1ProtocolGeneratorTests : TestsBase() {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-                extension KitchenSink: Encodable {
+                extension KitchenSink: Encodable, Reflection {
                     private enum CodingKeys: String, CodingKey {
                         case blob = "Blob"
                         case boolean = "Boolean"
@@ -219,7 +219,7 @@ class AwsJson1_1ProtocolGeneratorTests : TestsBase() {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-                extension KitchenSinkOperationInput: Encodable {
+                extension KitchenSinkOperationInput: Encodable, Reflection {
                     private enum CodingKeys: String, CodingKey {
                         case blob = "Blob"
                         case boolean = "Boolean"
@@ -381,7 +381,7 @@ class AwsJson1_1ProtocolGeneratorTests : TestsBase() {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-                extension EmptyStruct: Encodable {
+                extension EmptyStruct: Encodable, Reflection {
 
                     public func encode(to encoder: Encoder) throws {
                     }
@@ -869,6 +869,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes")
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/json"))
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]
@@ -915,6 +916,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes_with_jsonvalue_trait")
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/json"))
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]

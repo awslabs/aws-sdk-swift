@@ -65,7 +65,7 @@ class RestJsonProtocolGeneratorTests : TestsBase() {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
-extension SmokeTestInput: Encodable {
+extension SmokeTestInput: Encodable, Reflection {
     private enum CodingKeys: String, CodingKey {
         case payload1
         case payload2
@@ -95,7 +95,7 @@ extension SmokeTestInput: Encodable {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
-extension ExplicitBlobInput: Encodable {
+extension ExplicitBlobInput: Encodable, Reflection {
     private enum CodingKeys: String, CodingKey {
         case payload1
     }
