@@ -1,6 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
+import io.kotest.matchers.string.shouldNotContain
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.build.MockManifest
@@ -132,15 +133,8 @@ class AwsJson1_0ProtocolGeneratorTests : TestsBase() {
                         }
                     }
                 }
-
-                extension GreetingWithErrorsError: HttpResponseBinding {
-                    public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
-                        let errorDetails = try RestJSONError(httpResponse: httpResponse)
-                        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-                        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-                    }
-                }
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
+        contents.shouldNotContain("RestJSONError")
     }
 }
