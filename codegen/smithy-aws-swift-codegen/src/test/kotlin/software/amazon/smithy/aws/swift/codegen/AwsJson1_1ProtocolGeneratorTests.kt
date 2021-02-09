@@ -869,6 +869,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes")
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+            operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/json"))
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]
             // assert required headers do exist
@@ -914,6 +915,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes_with_jsonvalue_trait")
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
             operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+            operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/json"))
             let actual = try operationStack.handleMiddleware(context: context, input: input).get()
             let requiredHeaders = ["Content-Length"]
             // assert required headers do exist
