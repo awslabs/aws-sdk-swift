@@ -48,38 +48,6 @@ class AwsJson1_0ProtocolGeneratorTests : TestsBase() {
     }
 
     @Test
-    fun `it builds request binding for EmptyInputAndEmptyOutput`() {
-        val contents = getModelFileContents("Example", "EmptyInputAndEmptyOutputInput+HttpRequestBinding.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-                extension EmptyInputAndEmptyOutputInput: HttpRequestBinding, Reflection {
-                    public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
-                        let builder = SdkHttpRequestBuilder()
-                        return builder
-                    }
-                }
-            """.trimIndent()
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `it builds request binding for GreetingWithErrors`() {
-        val contents = getModelFileContents("Example", "GreetingWithErrorsInput+HttpRequestBinding.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-                extension GreetingWithErrorsInput: HttpRequestBinding, Reflection {
-                    public func buildHttpRequest(encoder: RequestEncoder, idempotencyTokenGenerator: IdempotencyTokenGenerator = DefaultIdempotencyTokenGenerator()) throws -> SdkHttpRequestBuilder {
-                        let builder = SdkHttpRequestBuilder()
-                        return builder
-                    }
-                }
-            """.trimIndent()
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
     fun `it builds response binding for EmptyInputAndEmptyOutput output`() {
         val contents = getModelFileContents("Example", "EmptyInputAndEmptyOutputOutput+ResponseInit.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import ClientRuntime
 
-public struct XAmzTargetMiddleware<StackInput>: Middleware {
+public struct XAmzTargetMiddleware<OperationStackInput>: Middleware where OperationStackInput: Encodable, OperationStackInput: Reflection {
     public let id: String = "XAmzTargetHeader"
 
     let xAmzTarget: String
@@ -12,8 +12,8 @@ public struct XAmzTargetMiddleware<StackInput>: Middleware {
     }
 
     public func handle<H>(context: Context,
-                          input: SerializeStepInput<StackInput>,
-                          next: H) -> Result<SerializeStepInput<StackInput>, Error>
+                          input: SerializeStepInput<OperationStackInput>,
+                          next: H) -> Result<SerializeStepInput <OperationStackInput>, Error>
     where H: Handler,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
@@ -24,7 +24,7 @@ public struct XAmzTargetMiddleware<StackInput>: Middleware {
         return next.handle(context: context, input: input)
     }
 
-    public typealias MInput = SerializeStepInput<StackInput>
-    public typealias MOutput = SerializeStepInput<StackInput>
+    public typealias MInput = SerializeStepInput<OperationStackInput>
+    public typealias MOutput = SerializeStepInput<OperationStackInput>
     public typealias Context = HttpContext
 }
