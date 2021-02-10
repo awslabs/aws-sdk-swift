@@ -12,12 +12,13 @@ class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory
         ctx: ProtocolGenerator.GenerationContext,
         httpBindingResolver: HttpBindingResolver,
         writer: SwiftWriter,
-        serviceName: String
+        serviceName: String,
+        defaultContentType: String
     ): HttpProtocolClientGenerator {
         val properties = getClientProperties(ctx)
         val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
         val config = AWSServiceConfig(writer, serviceName)
-        return AwsHttpProtocolClientGenerator(ctx, writer, properties, config, httpBindingResolver)
+        return AwsHttpProtocolClientGenerator(ctx, writer, properties, config, httpBindingResolver, defaultContentType)
     }
 
     private fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {

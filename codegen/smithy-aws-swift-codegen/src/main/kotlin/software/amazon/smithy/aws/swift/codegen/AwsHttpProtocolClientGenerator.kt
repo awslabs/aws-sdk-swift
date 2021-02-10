@@ -18,8 +18,9 @@ class AwsHttpProtocolClientGenerator(
     private val writer: SwiftWriter,
     properties: List<ClientProperty>,
     serviceConfig: ServiceConfig,
-    httpBindingResolver: HttpBindingResolver
-) : HttpProtocolClientGenerator(ctx, writer, properties, serviceConfig, httpBindingResolver) {
+    httpBindingResolver: HttpBindingResolver,
+    defaultContentType: String
+) : HttpProtocolClientGenerator(ctx, writer, properties, serviceConfig, httpBindingResolver, defaultContentType) {
     override fun renderContextAttributes(op: OperationShape) {
         super.renderContextAttributes(op)
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
@@ -58,7 +59,6 @@ class AwsHttpProtocolClientGenerator(
             val inputShape = ctx.model.expectShape(op.input.get())
             val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
             renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op), inputShapeName)
-            renderContentTypeMiddleware(operationStackName, "application/x-amz-json-1.0", inputShapeName)
         }
     }
 
@@ -67,7 +67,6 @@ class AwsHttpProtocolClientGenerator(
             val inputShape = ctx.model.expectShape(op.input.get())
             val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
             renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op), inputShapeName)
-            renderContentTypeMiddleware(operationStackName, "application/x-amz-json-1.1", inputShapeName)
         }
     }
 
@@ -77,9 +76,5 @@ class AwsHttpProtocolClientGenerator(
 
     private fun renderXAmzTargetMiddleware(operationStackName: String, xAmzTargetValue: String, inputShapeName: String) {
         writer.write("$operationStackName.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<$inputShapeName>(xAmzTarget: \"${xAmzTargetValue}\"))")
-    }
-
-    private fun renderContentTypeMiddleware(operationStackName: String, contentType: String, inputShapeName: String) {
-        writer.write("$operationStackName.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<$inputShapeName>(contentType: \"${contentType}\"))")
     }
 }
