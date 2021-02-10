@@ -55,15 +55,19 @@ class AwsHttpProtocolClientGenerator(
 
     private fun renderJson10MiddlewaresIfNeeded(serviceShape: ServiceShape, op: OperationShape, operationStackName: String) {
         if (serviceShape.hasTrait(AwsJson1_0Trait::class.java)) {
-            renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op))
-            renderContentTypeMiddleware(operationStackName, "application/x-amz-json-1.0")
+            val inputShape = ctx.model.expectShape(op.input.get())
+            val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
+            renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op), inputShapeName)
+            renderContentTypeMiddleware(operationStackName, "application/x-amz-json-1.0", inputShapeName)
         }
     }
 
     private fun renderJson11MiddlewaresIfNeeded(serviceShape: ServiceShape, op: OperationShape, operationStackName: String) {
         if (serviceShape.hasTrait(AwsJson1_1Trait::class.java)) {
-            renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op))
-            renderContentTypeMiddleware(operationStackName, "application/x-amz-json-1.1")
+            val inputShape = ctx.model.expectShape(op.input.get())
+            val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
+            renderXAmzTargetMiddleware(operationStackName, xAmzTargetValue(op), inputShapeName)
+            renderContentTypeMiddleware(operationStackName, "application/x-amz-json-1.1", inputShapeName)
         }
     }
 
@@ -71,11 +75,11 @@ class AwsHttpProtocolClientGenerator(
         return "${ctx.service.id.name}.${op.id.name}"
     }
 
-    private fun renderXAmzTargetMiddleware(operationStackName: String, xAmzTargetValue: String) {
-        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: XAmzTargetMiddleware(xAmzTarget: \"${xAmzTargetValue}\"))")
+    private fun renderXAmzTargetMiddleware(operationStackName: String, xAmzTargetValue: String, inputShapeName: String) {
+        writer.write("$operationStackName.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<$inputShapeName>(xAmzTarget: \"${xAmzTargetValue}\"))")
     }
 
-    private fun renderContentTypeMiddleware(operationStackName: String, contentType: String) {
-        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: ContentTypeMiddleware(contentType: \"${contentType}\"))")
+    private fun renderContentTypeMiddleware(operationStackName: String, contentType: String, inputShapeName: String) {
+        writer.write("$operationStackName.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<$inputShapeName>(contentType: \"${contentType}\"))")
     }
 }

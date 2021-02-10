@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import ClientRuntime
 
-public struct ContentTypeMiddleware: Middleware {
+public struct ContentTypeMiddleware<StackInput>: Middleware {
     public let id: String = "ContentType"
 
     let contentType: String
@@ -12,19 +12,19 @@ public struct ContentTypeMiddleware: Middleware {
     }
 
     public func handle<H>(context: Context,
-                          input: SdkHttpRequestBuilder,
-                          next: H) -> Result<SdkHttpRequestBuilder, Error>
+                          input: SerializeStepInput<StackInput>,
+                          next: H) -> Result<SerializeStepInput<StackInput>, Error>
     where H: Handler,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
           Self.Context == H.Context {
 
-        input.withHeader(name: "Content-Type", value: contentType)
+        input.builder.withHeader(name: "Content-Type", value: contentType)
 
         return next.handle(context: context, input: input)
     }
 
-    public typealias MInput = SdkHttpRequestBuilder
-    public typealias MOutput = SdkHttpRequestBuilder
+    public typealias MInput = SerializeStepInput<StackInput>
+    public typealias MOutput = SerializeStepInput<StackInput>
     public typealias Context = HttpContext
 }
