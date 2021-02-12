@@ -912,8 +912,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
         deserializeStackStep: mockDeserializeStackStep)
         _ = operationStack.handleMiddleware(context: context, input: input, next: MockHandler(){ (context, request) in
             XCTFail("Deserialize was mocked out, this should fail")
-            return .failure(try! MockMiddlewareError(httpResponse: HttpResponse()))
-
+            return .failure(try! MockMiddlewareError(httpResponse: HttpResponse(body: .none, statusCode: .badRequest)))
         })
         wait(for: [deserializeMiddleware], timeout: 0.3)
     }
@@ -987,8 +986,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
         deserializeStackStep: mockDeserializeStackStep)
         _ = operationStack.handleMiddleware(context: context, input: input, next: MockHandler(){ (context, request) in
             XCTFail("Deserialize was mocked out, this should fail")
-            return .failure(try! MockMiddlewareError(httpResponse: HttpResponse()))
-
+            return .failure(try! MockMiddlewareError(httpResponse: HttpResponse(body: .none, statusCode: .badRequest)))
         })
         wait(for: [deserializeMiddleware], timeout: 0.3)
     }
