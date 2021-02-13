@@ -857,38 +857,64 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             host: host
         )
 
+        let deserializeMiddleware = expectation(description: "deserializeMiddleware")
+
         let input = KitchenSinkOperationInput(
             string: "abc xyz"
         )
-        do {
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .secondsSince1970
-            let context = HttpContextBuilder()
-                          .withEncoder(value: encoder)
-                          .build()
-            var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes")
-            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
-            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
-            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
-            operationStack.buildStep.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
-            operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
-            let actual = try operationStack.handleMiddleware(context: context, input: input).get()
-            let requiredHeaders = ["Content-Length"]
-            // assert required headers do exist
-            for requiredHeader in requiredHeaders {
-                XCTAssertTrue(
-                    headerExists(requiredHeader, in: actual.headers.headers),
-                    "Required Header:\(requiredHeader) does not exist in headers"
-                )
-            }
-            assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
-                XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
-                XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+        let mockSerializeStackStep: MockSerializeStackStep<KitchenSinkOperationInput> = constructMockSerializeStackStep(interceptCallback: {
+            var step = SerializeStep<KitchenSinkOperationInput>()
+            step.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
+            step.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+            step.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
+            step.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
+            return step
+        })
+        let mockBuildStackStep: MockBuildStackStep<KitchenSinkOperationInput> = constructMockBuildStackStep(interceptCallback: {
+            var step = BuildStep<KitchenSinkOperationInput>()
+            step.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
+            return step
+        })
+        let mockDeserializeStackStep: MockDeserializeStackStep<MockOutput, MockMiddlewareError> = constructMockDeserializeStackStep(interceptCallback: {
+            var step = DeserializeStep<MockOutput, MockMiddlewareError>()
+            step.intercept(position: .after,
+                         middleware: MockDeserializeMiddleware<MockOutput, MockMiddlewareError>(
+                                 id: "TestDeserializeMiddleware"){ context, actual in
+                let requiredHeaders = ["Content-Length"]
+                // assert required headers do exist
+                for requiredHeader in requiredHeaders {
+                    XCTAssertTrue(
+                        self.headerExists(requiredHeader, in: actual.headers.headers),
+                        "Required Header:\(requiredHeader) does not exist in headers"
+                    )
+                }
+                self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
+                    XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
+                    XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
+                    self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+                })
+                let response = HttpResponse(body: HttpBody.none, statusCode: .ok)
+                let mockOutput = try! MockOutput(httpResponse: response, decoder: nil)
+                let output = DeserializeOutput<MockOutput, MockMiddlewareError>(httpResponse: response, output: mockOutput)
+                deserializeMiddleware.fulfill()
+                return .success(output)
             })
-        } catch let err {
-            XCTFail("Failed to encode the input. Error description: \(err)")
-        }
+            return step
+        })
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .secondsSince1970
+        let context = HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .build()
+        let operationStack = OperationStack<KitchenSinkOperationInput, MockOutput, MockMiddlewareError>(id: "serializes_string_shapes",
+        serializeStackStep: mockSerializeStackStep,
+        buildStackStep: mockBuildStackStep,
+        deserializeStackStep: mockDeserializeStackStep)
+        _ = operationStack.handleMiddleware(context: context, input: input, next: MockHandler(){ (context, request) in
+            XCTFail("Deserialize was mocked out, this should fail")
+            return .failure(try! MockMiddlewareError(httpResponse: HttpResponse(body: .none, statusCode: .badRequest)))
+        })
+        wait(for: [deserializeMiddleware], timeout: 0.3)
     }
     /// Serializes string shapes with jsonvalue trait
     func testserializes_string_shapes_with_jsonvalue_trait() {
@@ -905,38 +931,64 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             host: host
         )
 
+        let deserializeMiddleware = expectation(description: "deserializeMiddleware")
+
         let input = KitchenSinkOperationInput(
             jsonValue: "{\"string\":\"value\",\"number\":1234.5,\"boolTrue\":true,\"boolFalse\":false,\"array\":[1,2,3,4],\"object\":{\"key\":\"value\"},\"null\":null}"
         )
-        do {
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .secondsSince1970
-            let context = HttpContextBuilder()
-                          .withEncoder(value: encoder)
-                          .build()
-            var operationStack = MockRequestOperationStack<KitchenSinkOperationInput>(id: "serializes_string_shapes_with_jsonvalue_trait")
-            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
-            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
-            operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
-            operationStack.buildStep.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
-            operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
-            let actual = try operationStack.handleMiddleware(context: context, input: input).get()
-            let requiredHeaders = ["Content-Length"]
-            // assert required headers do exist
-            for requiredHeader in requiredHeaders {
-                XCTAssertTrue(
-                    headerExists(requiredHeader, in: actual.headers.headers),
-                    "Required Header:\(requiredHeader) does not exist in headers"
-                )
-            }
-            assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
-                XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
-                XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+        let mockSerializeStackStep: MockSerializeStackStep<KitchenSinkOperationInput> = constructMockSerializeStackStep(interceptCallback: {
+            var step = SerializeStep<KitchenSinkOperationInput>()
+            step.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
+            step.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+            step.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
+            step.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
+            return step
+        })
+        let mockBuildStackStep: MockBuildStackStep<KitchenSinkOperationInput> = constructMockBuildStackStep(interceptCallback: {
+            var step = BuildStep<KitchenSinkOperationInput>()
+            step.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
+            return step
+        })
+        let mockDeserializeStackStep: MockDeserializeStackStep<MockOutput, MockMiddlewareError> = constructMockDeserializeStackStep(interceptCallback: {
+            var step = DeserializeStep<MockOutput, MockMiddlewareError>()
+            step.intercept(position: .after,
+                         middleware: MockDeserializeMiddleware<MockOutput, MockMiddlewareError>(
+                                 id: "TestDeserializeMiddleware"){ context, actual in
+                let requiredHeaders = ["Content-Length"]
+                // assert required headers do exist
+                for requiredHeader in requiredHeaders {
+                    XCTAssertTrue(
+                        self.headerExists(requiredHeader, in: actual.headers.headers),
+                        "Required Header:\(requiredHeader) does not exist in headers"
+                    )
+                }
+                self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
+                    XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
+                    XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
+                    self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+                })
+                let response = HttpResponse(body: HttpBody.none, statusCode: .ok)
+                let mockOutput = try! MockOutput(httpResponse: response, decoder: nil)
+                let output = DeserializeOutput<MockOutput, MockMiddlewareError>(httpResponse: response, output: mockOutput)
+                deserializeMiddleware.fulfill()
+                return .success(output)
             })
-        } catch let err {
-            XCTFail("Failed to encode the input. Error description: \(err)")
-        }
+            return step
+        })
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .secondsSince1970
+        let context = HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .build()
+        let operationStack = OperationStack<KitchenSinkOperationInput, MockOutput, MockMiddlewareError>(id: "serializes_string_shapes_with_jsonvalue_trait",
+        serializeStackStep: mockSerializeStackStep,
+        buildStackStep: mockBuildStackStep,
+        deserializeStackStep: mockDeserializeStackStep)
+        _ = operationStack.handleMiddleware(context: context, input: input, next: MockHandler(){ (context, request) in
+            XCTFail("Deserialize was mocked out, this should fail")
+            return .failure(try! MockMiddlewareError(httpResponse: HttpResponse(body: .none, statusCode: .badRequest)))
+        })
+        wait(for: [deserializeMiddleware], timeout: 0.3)
     }
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
