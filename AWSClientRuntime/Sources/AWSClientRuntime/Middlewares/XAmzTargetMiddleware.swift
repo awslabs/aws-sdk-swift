@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0.
 import ClientRuntime
 
-public struct XAmzTargetMiddleware<OperationStackInput>: Middleware where OperationStackInput: Encodable, OperationStackInput: Reflection {
+public struct XAmzTargetMiddleware<OperationStackOutput: HttpResponseBinding,
+                                   OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "XAmzTargetHeader"
 
     let xAmzTarget: String
@@ -12,19 +13,19 @@ public struct XAmzTargetMiddleware<OperationStackInput>: Middleware where Operat
     }
 
     public func handle<H>(context: Context,
-                          input: SerializeStepInput<OperationStackInput>,
-                          next: H) -> Result<SerializeStepInput <OperationStackInput>, Error>
+                          input: SdkHttpRequestBuilder,
+                          next: H) -> Result<OperationOutput<OperationStackOutput, OperationStackError>, Error>
     where H: Handler,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
           Self.Context == H.Context {
 
-        input.builder.withHeader(name: "X-Amz-Target", value: xAmzTarget)
+        input.withHeader(name: "X-Amz-Target", value: xAmzTarget)
 
         return next.handle(context: context, input: input)
     }
 
-    public typealias MInput = SerializeStepInput<OperationStackInput>
-    public typealias MOutput = SerializeStepInput<OperationStackInput>
+    public typealias MInput = SdkHttpRequestBuilder
+    public typealias MOutput = OperationOutput<OperationStackOutput, OperationStackError>
     public typealias Context = HttpContext
 }
