@@ -1,0 +1,36 @@
+{
+  "name": "aws-sdk-swift",
+  "needs_compiler": false,
+  "packages": [],
+  "variables": {
+    "gradlew": "{source_dir}/gradlew -p {source_dir}"
+  },
+  "build_steps": [
+    "{gradlew} assemble"
+  ],
+  "test_steps": [
+    "swift test --package-path {source_dir}/AWSClientRuntime"
+  ],
+  "build_dir": "target/build",
+  "hosts": {
+    "ubuntu": {
+      "packages": [
+        "openjdk-8-jdk-headless"
+      ]
+    },
+    "debian": {
+      "packages": [
+        "openjdk-8-jdk-headless"
+      ]
+    }
+  },
+  "search_dirs": ["/Users/nickik/Projects/Amplify/SwiftSDK/"],
+  "upstream": [
+    {
+      "name": "smithy-swift"
+    },
+    {
+      "name": "aws-crt-swift"
+    }
+  ]
+}
