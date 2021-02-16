@@ -18,8 +18,9 @@ class AWSSigningMiddleware {
         // FIXME handle indentation properly or do swift formatting after the fact
         writer.write(
             "$operationStackName.finalizeStep.intercept(position: .after,\n" +
-            "                                         middleware: SigV4Middleware(signingName: \"$signingName\",\n" +
-            "                                                                     signingRegion: config.signingRegion,\n" +
-            "                                                                     unsignedBody: $hasUnsignedPayload))")
+                "                                         middleware: SigV4Middleware(signingName: \"$signingName\",\n" +
+                "                                                                     signingRegion: config.signingRegion,\n" +
+                "                                                                     unsignedBody: $hasUnsignedPayload))"
+        )
     }
 }
