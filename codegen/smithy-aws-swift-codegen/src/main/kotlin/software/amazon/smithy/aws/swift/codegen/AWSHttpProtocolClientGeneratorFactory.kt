@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
@@ -7,7 +8,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGenera
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory {
+class AWSHttpProtocolClientGeneratorFactory(val protocol: ShapeId) : HttpProtocolClientGeneratorFactory {
     override fun createHttpProtocolClientGenerator(
         ctx: ProtocolGenerator.GenerationContext,
         httpBindingResolver: HttpBindingResolver,
@@ -18,7 +19,8 @@ class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory
         val properties = getClientProperties(ctx)
         val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
         val config = AWSServiceConfig(writer, serviceName)
-        return AwsHttpProtocolClientGenerator(ctx, writer, properties, config, httpBindingResolver, defaultContentType)
+        val clientCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
+        return HttpProtocolClientGenerator(ctx, writer, properties, config, httpBindingResolver, defaultContentType, clientCustomizable)
     }
 
     private fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {

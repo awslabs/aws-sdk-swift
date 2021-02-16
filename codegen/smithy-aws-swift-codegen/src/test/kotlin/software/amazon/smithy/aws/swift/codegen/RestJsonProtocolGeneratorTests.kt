@@ -23,6 +23,7 @@ class MockRestAWSHttpBindingJsonProtocolGenerator : AWSHttpBindingProtocolGenera
     override val defaultContentType: String = "application/json"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = RestJson1Trait.ID
+    override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory(protocol)
     override val errorFromHttpResponseGenerator = AWSErrorFromAWSRestHttpResponseGenerator()
 }
 
