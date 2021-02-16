@@ -6,7 +6,8 @@
 import ClientRuntime
 import AwsCommonRuntimeKit
 
-public struct SigV4Middleware: Middleware {
+public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
+                              OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "Sigv4Signer"
 
     let signingName: String
@@ -23,13 +24,13 @@ public struct SigV4Middleware: Middleware {
 
     public typealias MInput = SdkHttpRequestBuilder
 
-    public typealias MOutput = SdkHttpRequest
+    public typealias MOutput = OperationOutput<OperationStackOutput, OperationStackError>
 
     public typealias Context = HttpContext
 
     public func handle<H>(context: HttpContext,
                           input: SdkHttpRequestBuilder,
-                          next: H) -> Result<SdkHttpRequest, Error> where H: Handler,
+                          next: H) -> Result<OperationOutput<OperationStackOutput, OperationStackError>, Error> where H: Handler,
                                                                           Self.Context == H.Context,
                                                                           Self.MInput == H.Input,
                                                                           Self.MOutput == H.Output {

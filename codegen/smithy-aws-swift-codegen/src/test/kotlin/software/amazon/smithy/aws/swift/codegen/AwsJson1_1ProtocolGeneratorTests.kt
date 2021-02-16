@@ -862,54 +862,39 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
         let input = KitchenSinkOperationInput(
             string: "abc xyz"
         )
-        let mockSerializeStackStep: MockSerializeStackStep<KitchenSinkOperationInput> = constructMockSerializeStackStep(interceptCallback: {
-            var step = SerializeStep<KitchenSinkOperationInput>()
-            step.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
-            step.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
-            step.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
-            step.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
-            return step
-        })
-        let mockBuildStackStep: MockBuildStackStep<KitchenSinkOperationInput> = constructMockBuildStackStep(interceptCallback: {
-            var step = BuildStep<KitchenSinkOperationInput>()
-            step.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
-            return step
-        })
-        let mockDeserializeStackStep: MockDeserializeStackStep<MockOutput, MockMiddlewareError> = constructMockDeserializeStackStep(interceptCallback: {
-            var step = DeserializeStep<MockOutput, MockMiddlewareError>()
-            step.intercept(position: .after,
-                         middleware: MockDeserializeMiddleware<MockOutput, MockMiddlewareError>(
-                                 id: "TestDeserializeMiddleware"){ context, actual in
-                let requiredHeaders = ["Content-Length"]
-                // assert required headers do exist
-                for requiredHeader in requiredHeaders {
-                    XCTAssertTrue(
-                        self.headerExists(requiredHeader, in: actual.headers.headers),
-                        "Required Header:\(requiredHeader) does not exist in headers"
-                    )
-                }
-                self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
-                    XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
-                    XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                    self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
-                })
-                let response = HttpResponse(body: HttpBody.none, statusCode: .ok)
-                let mockOutput = try! MockOutput(httpResponse: response, decoder: nil)
-                let output = DeserializeOutput<MockOutput, MockMiddlewareError>(httpResponse: response, output: mockOutput)
-                deserializeMiddleware.fulfill()
-                return .success(output)
-            })
-            return step
-        })
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
         let context = HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .build()
-        let operationStack = OperationStack<KitchenSinkOperationInput, MockOutput, MockMiddlewareError>(id: "serializes_string_shapes",
-        serializeStackStep: mockSerializeStackStep,
-        buildStackStep: mockBuildStackStep,
-        deserializeStackStep: mockDeserializeStackStep)
+        var operationStack = OperationStack<KitchenSinkOperationInput, KitchenSinkOperationOutput, KitchenSinkOperationError>(id: "serializes_string_shapes")
+        operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
+        operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+        operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
+        operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput, KitchenSinkOperationOutput, KitchenSinkOperationError>(contentType: "application/x-amz-json-1.1"))
+        operationStack.buildStep.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationOutput, KitchenSinkOperationError>())
+        operationStack.deserializeStep.intercept(position: .after,
+                     middleware: MockDeserializeMiddleware<KitchenSinkOperationOutput, KitchenSinkOperationError>(
+                             id: "TestDeserializeMiddleware"){ context, actual in
+            let requiredHeaders = ["Content-Length"]
+            // assert required headers do exist
+            for requiredHeader in requiredHeaders {
+                XCTAssertTrue(
+                    self.headerExists(requiredHeader, in: actual.headers.headers),
+                    "Required Header:\(requiredHeader) does not exist in headers"
+                )
+            }
+            self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
+                XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
+                XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
+                self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+            })
+            let response = HttpResponse(body: HttpBody.none, statusCode: .ok)
+            let mockOutput = try! KitchenSinkOperationOutput(httpResponse: response, decoder: nil)
+            let output = OperationOutput<KitchenSinkOperationOutput, KitchenSinkOperationError>(httpResponse: response, output: mockOutput)
+            deserializeMiddleware.fulfill()
+            return .success(output)
+        })
         _ = operationStack.handleMiddleware(context: context, input: input, next: MockHandler(){ (context, request) in
             XCTFail("Deserialize was mocked out, this should fail")
             return .failure(try! MockMiddlewareError(httpResponse: HttpResponse(body: .none, statusCode: .badRequest)))
@@ -936,54 +921,39 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
         let input = KitchenSinkOperationInput(
             jsonValue: "{\"string\":\"value\",\"number\":1234.5,\"boolTrue\":true,\"boolFalse\":false,\"array\":[1,2,3,4],\"object\":{\"key\":\"value\"},\"null\":null}"
         )
-        let mockSerializeStackStep: MockSerializeStackStep<KitchenSinkOperationInput> = constructMockSerializeStackStep(interceptCallback: {
-            var step = SerializeStep<KitchenSinkOperationInput>()
-            step.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
-            step.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
-            step.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
-            step.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput>(contentType: "application/x-amz-json-1.1"))
-            return step
-        })
-        let mockBuildStackStep: MockBuildStackStep<KitchenSinkOperationInput> = constructMockBuildStackStep(interceptCallback: {
-            var step = BuildStep<KitchenSinkOperationInput>()
-            step.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationInput>())
-            return step
-        })
-        let mockDeserializeStackStep: MockDeserializeStackStep<MockOutput, MockMiddlewareError> = constructMockDeserializeStackStep(interceptCallback: {
-            var step = DeserializeStep<MockOutput, MockMiddlewareError>()
-            step.intercept(position: .after,
-                         middleware: MockDeserializeMiddleware<MockOutput, MockMiddlewareError>(
-                                 id: "TestDeserializeMiddleware"){ context, actual in
-                let requiredHeaders = ["Content-Length"]
-                // assert required headers do exist
-                for requiredHeader in requiredHeaders {
-                    XCTAssertTrue(
-                        self.headerExists(requiredHeader, in: actual.headers.headers),
-                        "Required Header:\(requiredHeader) does not exist in headers"
-                    )
-                }
-                self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
-                    XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
-                    XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                    self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
-                })
-                let response = HttpResponse(body: HttpBody.none, statusCode: .ok)
-                let mockOutput = try! MockOutput(httpResponse: response, decoder: nil)
-                let output = DeserializeOutput<MockOutput, MockMiddlewareError>(httpResponse: response, output: mockOutput)
-                deserializeMiddleware.fulfill()
-                return .success(output)
-            })
-            return step
-        })
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
         let context = HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .build()
-        let operationStack = OperationStack<KitchenSinkOperationInput, MockOutput, MockMiddlewareError>(id: "serializes_string_shapes_with_jsonvalue_trait",
-        serializeStackStep: mockSerializeStackStep,
-        buildStackStep: mockBuildStackStep,
-        deserializeStackStep: mockDeserializeStackStep)
+        var operationStack = OperationStack<KitchenSinkOperationInput, KitchenSinkOperationOutput, KitchenSinkOperationError>(id: "serializes_string_shapes_with_jsonvalue_trait")
+        operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputHeadersMiddleware())
+        operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputQueryItemMiddleware())
+        operationStack.serializeStep.intercept(position: .before, middleware: KitchenSinkOperationInputBodyMiddleware())
+        operationStack.serializeStep.intercept(position: .before, middleware: ContentTypeMiddleware<KitchenSinkOperationInput, KitchenSinkOperationOutput, KitchenSinkOperationError>(contentType: "application/x-amz-json-1.1"))
+        operationStack.buildStep.intercept(position: .before, middleware: ContentLengthMiddleware<KitchenSinkOperationOutput, KitchenSinkOperationError>())
+        operationStack.deserializeStep.intercept(position: .after,
+                     middleware: MockDeserializeMiddleware<KitchenSinkOperationOutput, KitchenSinkOperationError>(
+                             id: "TestDeserializeMiddleware"){ context, actual in
+            let requiredHeaders = ["Content-Length"]
+            // assert required headers do exist
+            for requiredHeader in requiredHeaders {
+                XCTAssertTrue(
+                    self.headerExists(requiredHeader, in: actual.headers.headers),
+                    "Required Header:\(requiredHeader) does not exist in headers"
+                )
+            }
+            self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
+                XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
+                XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
+                self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!)
+            })
+            let response = HttpResponse(body: HttpBody.none, statusCode: .ok)
+            let mockOutput = try! KitchenSinkOperationOutput(httpResponse: response, decoder: nil)
+            let output = OperationOutput<KitchenSinkOperationOutput, KitchenSinkOperationError>(httpResponse: response, output: mockOutput)
+            deserializeMiddleware.fulfill()
+            return .success(output)
+        })
         _ = operationStack.handleMiddleware(context: context, input: input, next: MockHandler(){ (context, request) in
             XCTFail("Deserialize was mocked out, this should fail")
             return .failure(try! MockMiddlewareError(httpResponse: HttpResponse(body: .none, statusCode: .badRequest)))
