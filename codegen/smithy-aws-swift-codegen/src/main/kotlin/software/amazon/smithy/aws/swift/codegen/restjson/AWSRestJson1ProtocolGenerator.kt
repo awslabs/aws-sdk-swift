@@ -4,7 +4,6 @@
  */
 package software.amazon.smithy.aws.swift.codegen.restjson
 
-import software.amazon.smithy.aws.swift.codegen.AWSErrorFromAWSRestHttpResponseGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFactory
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
