@@ -12,7 +12,7 @@ class AWSXAmzTargetMiddlewareTests {
     @Test
     fun `xAmzTargetMiddleware happypath`() {
         val expectedContents = """
-stack.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<testInputShapeName>(xAmzTarget: "ExampleServiceShapeName.ExampleOperation"))
+stack.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<testInputShapeName, testOutputShapeName, testErrorShapeName>(xAmzTarget: "ExampleServiceShapeName.ExampleOperation"))
 """
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
@@ -25,9 +25,12 @@ stack.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddlewar
             .build()
         val opStackName = "stack"
         val inputShapeName = "testInputShapeName"
+        val outputShapeName = "testOutputShapeName"
+        val errorShapeName = "testErrorShapeName"
+
         val sut = AWSXAmzTargetMiddleware()
 
-        sut.xAmzTargetMiddleware(writer, serviceShape, operationShape, opStackName, inputShapeName)
+        sut.xAmzTargetMiddleware(writer, serviceShape, operationShape, opStackName, inputShapeName, outputShapeName, errorShapeName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
