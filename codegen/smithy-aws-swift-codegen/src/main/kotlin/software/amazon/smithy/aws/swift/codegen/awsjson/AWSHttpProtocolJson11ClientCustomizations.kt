@@ -5,6 +5,7 @@ import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSHttpProtocolJson11ClientCustomizations : AWSHttpProtocolClientCustomizations() {
@@ -20,6 +21,9 @@ class AWSHttpProtocolJson11ClientCustomizations : AWSHttpProtocolClientCustomiza
         val xAmzTargetMiddleware = AWSXAmzTargetMiddleware()
         val inputShape = ctx.model.expectShape(op.input.get())
         val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
-        xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName)
+        val outputShape = ctx.model.expectShape(op.output.get())
+        val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
+        val outputErrorName = "${op.defaultName()}Error"
+        xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName, outputShapeName, outputErrorName)
     }
 }
