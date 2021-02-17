@@ -12,7 +12,7 @@ enum class AWSSwiftDependency(val type: String, val namespace: String, val versi
         "",
         "AWSClientRuntime",
         "0.1.0",
-        computeAbsolutePath("aws-sdk-swift/AWSClientRuntime"),
+        computeAbsolutePath("aws-sdk-swift"),
         "AWSClientRuntime"
     );
 
