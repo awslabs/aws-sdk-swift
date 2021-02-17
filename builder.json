@@ -5,11 +5,16 @@
   "variables": {
     "gradlew": "{source_dir}/gradlew -p {source_dir}"
   },
+  "pre_build_steps": [
+    "swift package edit --path {deps_dir}/smithy-swift/ ClientRuntime"
+  ],
   "build_steps": [
-    "{gradlew} assemble"
+    "{gradlew} assemble",
+    "{gradlew} testAllProtocols",
+    "swift build"
   ],
   "test_steps": [
-    "swift test --package-path {source_dir}/AWSClientRuntime"
+    "swift test"
   ],
   "build_dir": "target/build",
   "hosts": {
@@ -24,13 +29,9 @@
       ]
     }
   },
-  "search_dirs": ["/Users/nickik/Projects/Amplify/SwiftSDK/"],
   "upstream": [
     {
       "name": "smithy-swift"
-    },
-    {
-      "name": "aws-crt-swift"
     }
   ]
 }

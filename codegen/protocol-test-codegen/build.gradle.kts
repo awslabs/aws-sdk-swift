@@ -57,15 +57,10 @@ open class ProtocolTestTask : DefaultTask() {
         if (!generatedBuildDir.exists()) {
             throw GradleException("$generatedBuildDir does not exist")
         }
-        val gradlew = project.rootProject.file("gradlew").absolutePath
 
-        // FIXME - this still requires us to publish to maven local.
-        // We might be able to do something clever with an init script by overriding dependencies or something
-        // and passing as a cli arg to gradle invocation
-        // https://docs.gradle.org/current/userguide/init_scripts.html
         project.exec {
             workingDir = generatedBuildDir
-            executable = gradlew
+            executable = "swift"
             args = listOf("test")
         }
     }

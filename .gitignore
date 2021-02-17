@@ -13,8 +13,8 @@ build/
 local.properties
 .build/
 .swiftpm/
-AWSClientRuntime/.swiftpm/
-AWSClientRuntime/.build/
-AWSClientRuntime/Package.resolved
+.swiftpm/
+.build/
+Package.resolved
 AWSClientRuntime/AWSClientRuntime.xcodeproj
 AWSClientRuntime/AWSClientRuntime.xcodeproj/
