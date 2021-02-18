@@ -5,9 +5,6 @@
   "variables": {
     "gradlew": "{source_dir}/gradlew -p {source_dir}"
   },
-  "pre_build_steps": [
-    "swift package edit --path {deps_dir}/smithy-swift/ ClientRuntime"
-  ],
   "build_steps": [
     "{gradlew} assemble",
     "{gradlew} testAllProtocols",

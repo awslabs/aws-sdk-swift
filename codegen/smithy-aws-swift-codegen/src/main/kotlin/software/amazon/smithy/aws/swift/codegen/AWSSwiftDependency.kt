@@ -7,12 +7,13 @@ import software.amazon.smithy.codegen.core.SymbolDependency
 import software.amazon.smithy.codegen.core.SymbolDependencyContainer
 import java.io.File
 
-enum class AWSSwiftDependency(val type: String, val target: String, val version: String, val url: String, var packageName: String) : SymbolDependencyContainer {
+enum class AWSSwiftDependency(val type: String, val target: String, val branch: String?, val version: String, val url: String, var packageName: String) : SymbolDependencyContainer {
     AWS_CLIENT_RUNTIME(
         "",
         "AWSClientRuntime",
+        getGitBranchName(),
         "0.1.0",
-        computeAbsolutePath("aws-sdk-swift"),
+        "https://github.com/awslabs/aws-sdk-swift",
         "AWSClientRuntime"
     );
 
@@ -23,9 +24,21 @@ enum class AWSSwiftDependency(val type: String, val target: String, val version:
             .packageName(packageName)
             .version(version)
             .putProperty("url", url)
+            .putProperty("branch", branch)
             .build()
         return listOf(dependency)
     }
+}
+
+private fun getGitBranchName(): String {
+    val process = Runtime.getRuntime().exec("git rev-parse --abbrev-ref HEAD")
+    val sb: StringBuilder = StringBuilder()
+    while (true) {
+        val char = process.inputStream.read()
+        if (char == -1) break
+        sb.append(char.toChar())
+    }
+    return sb.toString()
 }
 
 private fun computeAbsolutePath(relativePath: String): String {
