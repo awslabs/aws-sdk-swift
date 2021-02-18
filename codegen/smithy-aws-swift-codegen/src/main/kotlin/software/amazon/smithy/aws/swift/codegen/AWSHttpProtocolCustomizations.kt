@@ -2,10 +2,10 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientCustomizable
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-abstract class AWSHttpProtocolClientCustomizations : HttpProtocolClientCustomizable() {
+abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
         // FIXME handle indentation properly or do swift formatting after the fact

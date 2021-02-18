@@ -8,6 +8,10 @@ import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.ErrorFromHttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
+/*
+ * TODO: The code below is not valid for AWS Json 1.0/1.1.
+ *       This code was lifted from restJson to make tests compile and run for Json 1.0/1.1
+ */
 class AWSErrorFromAWSJsonHttpResponseGenerator : ErrorFromHttpResponseGenerator {
     override fun generateInitOperationFromHttpResponse(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
         val operationErrorName = "${op.defaultName()}Error"
@@ -23,8 +27,9 @@ class AWSErrorFromAWSJsonHttpResponseGenerator : ErrorFromHttpResponseGenerator 
 
             writer.openBlock("extension \$L: HttpResponseBinding {", "}", operationErrorName) {
                 writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
-                    writer.write("fatalError(\"TODO: Implement error response\")")
-                    writer.write("try self.init(httpResponse: httpResponse, decoder: decoder)")
+                    writer.write("let errorDetails = try RestJSONError(httpResponse: httpResponse)")
+                    writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
+                    writer.write("try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)")
                 }
             }
         }
