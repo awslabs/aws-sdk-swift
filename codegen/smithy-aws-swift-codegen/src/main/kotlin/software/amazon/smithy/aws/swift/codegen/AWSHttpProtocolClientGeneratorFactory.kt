@@ -3,9 +3,9 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGeneratorFactory
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory {
