@@ -28,21 +28,4 @@ class AWSHttpProtocolClientCustomizableFactory {
 class AWSHttpProtocolClientNoopCustomizations : HttpProtocolClientCustomizable() {
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
     }
-
-    override fun addImport(writer: SwiftWriter) {
-    }
-
-    override fun renderMiddlewares(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-    }
-
-    override fun renderSerializeMiddleware(
-        writer: SwiftWriter,
-        test: HttpRequestTestCase,
-        operationStack: String,
-        inputSymbol: Symbol,
-        outputSymbol: Symbol,
-        outputErrorName: String,
-        hasHttpBody: Boolean
-    ) {
-    }
 }
