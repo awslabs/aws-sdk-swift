@@ -38,13 +38,10 @@ class AWSHttpProtocolJson11ClientCustomizations : AWSHttpProtocolClientCustomiza
         outputErrorName: String,
         hasHttpBody: Boolean
     ) {
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
         if (test.headers.keys.contains("X-Amz-Target")) {
             val XAmzTargetValue = test.headers["X-Amz-Target"]
             writer.write("$operationStack.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<${inputSymbol.name}, $outputSymbol, $outputErrorName>(xAmzTarget: \"${XAmzTargetValue}\"))")
         }
-    }
-
-    override fun addImport(writer: SwiftWriter) {
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
     }
 }
