@@ -1,6 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.awsjson
 
-import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizations
+import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
@@ -9,10 +9,11 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.defaultName
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator.GenerationContext
 
-class AWSHttpProtocolJson11ClientCustomizations : AWSHttpProtocolClientCustomizations() {
-    override fun renderMiddlewares(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
+
+    override fun renderMiddlewares(ctx: GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware())")
 
         val signingMiddleware = AWSSigningMiddleware()
@@ -29,6 +30,7 @@ class AWSHttpProtocolJson11ClientCustomizations : AWSHttpProtocolClientCustomiza
         val outputErrorName = "${op.defaultName()}Error"
         xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName, outputShapeName, outputErrorName)
     }
+
     override fun renderSerializeMiddleware(
         writer: SwiftWriter,
         test: HttpRequestTestCase,

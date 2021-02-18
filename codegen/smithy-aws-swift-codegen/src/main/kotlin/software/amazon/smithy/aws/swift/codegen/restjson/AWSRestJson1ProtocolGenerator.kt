@@ -17,6 +17,6 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = RestJson1Trait.ID
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
-    override val httpProtocolClientCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
+    override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
     override val errorFromHttpResponseGenerator: ErrorFromHttpResponseGenerator = AWSErrorFromAWSRestHttpResponseGenerator()
 }

@@ -42,7 +42,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             requestTestBuilder,
             responseTestBuilder,
             errorTestBuilder,
-            httpProtocolClientCustomizable,
+            httpProtocolCustomizable,
         ).generateProtocolTests()
     }
 }
