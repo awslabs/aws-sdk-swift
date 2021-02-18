@@ -34,9 +34,10 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '11'
-      - uses: nelonoel/branch-name@v1
-      # Use branch name for SPM
-      - run: echo ${BRANCH_NAME}
+      - name: Set Branch env variable
+        run: |
+          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          echo BRANCH_NAME
       - name: Build ${{ env.PACKAGE_NAME }} + consumers
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
@@ -58,9 +59,10 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '11'
-      - uses: nelonoel/branch-name@v1
-        # Use branch name for SPM
-      - run: echo ${BRANCH_NAME}
+      - name: Set Branch env variable
+        run: |
+          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          echo BRANCH_NAME
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         env:
           CI_USER: ${{ secrets.CI_USER}}
