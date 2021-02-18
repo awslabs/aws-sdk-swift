@@ -38,7 +38,11 @@ private fun getGitBranchName(): String {
         if (char == -1) break
         sb.append(char.toChar())
     }
-    return sb.toString()
+    var branchName = sb.removeSuffix("\n").toString()
+    if(branchName == "HEAD") {
+        branchName = System.getenv("BRANCH_NAME")
+    }
+    return branchName
 }
 
 private fun computeAbsolutePath(relativePath: String): String {
