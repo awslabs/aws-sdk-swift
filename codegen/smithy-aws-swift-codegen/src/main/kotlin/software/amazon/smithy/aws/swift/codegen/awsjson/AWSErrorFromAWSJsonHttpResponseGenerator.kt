@@ -8,6 +8,10 @@ import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.ErrorFromHttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
+/*
+ * TODO: The code below is not valid for AWS Json 1.0/1.1.
+ *       This code was lifted from restJson to make tests compile and run for Json 1.0/1.1
+ */
 class AWSErrorFromAWSJsonHttpResponseGenerator : ErrorFromHttpResponseGenerator {
     override fun generateInitOperationFromHttpResponse(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
         val operationErrorName = "${op.defaultName()}Error"

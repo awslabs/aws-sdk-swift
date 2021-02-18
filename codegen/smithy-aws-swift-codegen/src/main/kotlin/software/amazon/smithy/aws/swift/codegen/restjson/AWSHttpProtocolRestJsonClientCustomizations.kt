@@ -2,9 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.restjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizations
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
@@ -17,16 +15,5 @@ class AWSHttpProtocolRestJsonClientCustomizations : AWSHttpProtocolClientCustomi
         if (signingMiddleware.needsSigningMiddleware(serviceShape)) {
             signingMiddleware.renderSigningMiddleware(writer, serviceShape, op, operationStackName)
         }
-    }
-
-    override fun renderSerializeMiddleware(
-        writer: SwiftWriter,
-        test: HttpRequestTestCase,
-        operationStack: String,
-        inputSymbol: Symbol,
-        outputSymbol: Symbol,
-        outputErrorName: String,
-        hasHttpBody: Boolean
-    ) {
     }
 }

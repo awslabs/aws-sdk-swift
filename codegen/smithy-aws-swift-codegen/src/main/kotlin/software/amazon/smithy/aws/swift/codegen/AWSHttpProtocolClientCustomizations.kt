@@ -1,6 +1,8 @@
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -12,6 +14,17 @@ abstract class AWSHttpProtocolClientCustomizations : HttpProtocolClientCustomiza
         writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withHost(value: \"$endpointPrefix.\\(config.region).amazonaws.com\")")
+    }
+
+    override fun renderSerializeMiddleware(
+        writer: SwiftWriter,
+        test: HttpRequestTestCase,
+        operationStack: String,
+        inputSymbol: Symbol,
+        outputSymbol: Symbol,
+        outputErrorName: String,
+        hasHttpBody: Boolean
+    ) {
     }
 
     override fun addImport(writer: SwiftWriter) {
