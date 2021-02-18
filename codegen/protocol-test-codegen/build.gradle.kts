@@ -60,6 +60,12 @@ open class ProtocolTestTask : DefaultTask() {
 
         project.exec {
             workingDir = generatedBuildDir
+            executable = "cat"
+            args = listOf("Package.swift")
+        }
+
+        project.exec {
+            workingDir = generatedBuildDir
             executable = "swift"
             args = listOf("test")
         }
