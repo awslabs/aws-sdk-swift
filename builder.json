@@ -7,8 +7,8 @@
   },
   "build_steps": [
     "{gradlew} assemble",
-    "{gradlew} testAllProtocols",
-    "swift build"
+    "swift build",
+    "{gradlew} testAllProtocols"
   ],
   "test_steps": [
     "swift test"
@@ -29,9 +29,6 @@
   "upstream": [
     {
       "name": "smithy-swift"
-    },
-    {
-      "name": "aws-crt-swift"
     }
   ]
 }
