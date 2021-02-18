@@ -34,15 +34,11 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '11'
-      - name: Set Branch env variable
-        run: |
-          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-          echo BRANCH_NAME
       - name: Build ${{ env.PACKAGE_NAME }} + consumers
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
-          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
+          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" BRANCH_NAME="${GITHUB_REF_NAME}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
   macos-compat:
     runs-on: macos-latest
     steps:
@@ -70,4 +66,4 @@ jobs:
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
-          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" BRANCH_NAME="${GITHUB_REF_NAME}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
