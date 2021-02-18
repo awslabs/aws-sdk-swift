@@ -13,4 +13,7 @@ abstract class AWSHttpProtocolClientCustomizations : HttpProtocolClientCustomiza
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withHost(value: \"$endpointPrefix.\\(config.region).amazonaws.com\")")
     }
+
+    override fun addImport(writer: SwiftWriter) {
+    }
 }
