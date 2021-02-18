@@ -22,8 +22,8 @@ class AWSErrorFromAWSJsonHttpResponseGenerator : ErrorFromHttpResponseGenerator 
             .build()
 
         ctx.delegator.useShapeWriter(httpBindingSymbol) { writer ->
-            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace)
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.namespace)
+            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
             writer.openBlock("extension \$L: HttpResponseBinding {", "}", operationErrorName) {
                 writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
