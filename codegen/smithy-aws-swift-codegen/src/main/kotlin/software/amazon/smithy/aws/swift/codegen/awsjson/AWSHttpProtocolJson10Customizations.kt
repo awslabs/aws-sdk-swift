@@ -31,7 +31,7 @@ class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
         xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName, outputShapeName, outputErrorName)
     }
 
-    override fun renderSerializeMiddleware(
+    override fun renderMiddlewareForGeneratedRequestTests(
         writer: SwiftWriter,
         test: HttpRequestTestCase,
         operationStack: String,

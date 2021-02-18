@@ -29,7 +29,7 @@ class AWSHttpProtocolJson11Customizations : AWSHttpProtocolCustomizations() {
         val outputErrorName = "${op.defaultName()}Error"
         xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName, outputShapeName, outputErrorName)
     }
-    override fun renderSerializeMiddleware(
+    override fun renderMiddlewareForGeneratedRequestTests(
         writer: SwiftWriter,
         test: HttpRequestTestCase,
         operationStack: String,
