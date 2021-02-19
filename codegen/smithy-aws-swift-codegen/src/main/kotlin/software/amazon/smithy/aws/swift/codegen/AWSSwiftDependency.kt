@@ -45,15 +45,3 @@ private fun getGitBranchName(): String {
     return branchName
 }
 
-private fun computeAbsolutePath(relativePath: String): String {
-    var userDirPath = System.getProperty("user.dir")
-    while (userDirPath.isNotEmpty()) {
-        val fileName = userDirPath.removeSuffix("/") + "/" + relativePath
-        val file = File(fileName)
-        if (file.isDirectory) {
-            return fileName
-        }
-        userDirPath = userDirPath.substring(0, userDirPath.length - 1)
-    }
-    return ""
-}
