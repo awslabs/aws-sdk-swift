@@ -43,174 +43,13 @@ class AwsJson1_1ProtocolGeneratorTests : TestsBase() {
         newTestContext.generator.generateSerializers(newTestContext.ctx)
         newTestContext.generator.generateProtocolClient(newTestContext.ctx)
         newTestContext.generator.generateDeserializers(newTestContext.ctx)
+        newTestContext.generator.generateCodableConformanceForNestedTypes(newTestContext.ctx)
         newTestContext.generator.generateProtocolUnitTests(newTestContext.ctx)
         newTestContext.ctx.delegator.flushWriters()
     }
 
     fun getTestFileContents(namespace: String, filename: String, manifest: MockManifest): String {
         return manifest.expectFileString("${namespace}Tests/$filename")
-    }
-
-    @Test
-    fun `encodable for KitchenSink`() {
-        val contents = getModelFileContents("Example", "KitchenSink+Encodable.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-                extension KitchenSink: Encodable, Reflection {
-                    private enum CodingKeys: String, CodingKey {
-                        case blob = "Blob"
-                        case boolean = "Boolean"
-                        case double = "Double"
-                        case emptyStruct = "EmptyStruct"
-                        case float = "Float"
-                        case httpdateTimestamp = "HttpdateTimestamp"
-                        case integer = "Integer"
-                        case iso8601Timestamp = "Iso8601Timestamp"
-                        case jsonValue = "JsonValue"
-                        case listOfLists = "ListOfLists"
-                        case listOfMapsOfStrings = "ListOfMapsOfStrings"
-                        case listOfStrings = "ListOfStrings"
-                        case listOfStructs = "ListOfStructs"
-                        case long = "Long"
-                        case mapOfListsOfStrings = "MapOfListsOfStrings"
-                        case mapOfMaps = "MapOfMaps"
-                        case mapOfStrings = "MapOfStrings"
-                        case mapOfStructs = "MapOfStructs"
-                        case recursiveList = "RecursiveList"
-                        case recursiveMap = "RecursiveMap"
-                        case recursiveStruct = "RecursiveStruct"
-                        case simpleStruct = "SimpleStruct"
-                        case string = "String"
-                        case structWithLocationName = "StructWithLocationName"
-                        case timestamp = "Timestamp"
-                        case unixTimestamp = "UnixTimestamp"
-                    }
-
-                    public func encode(to encoder: Encoder) throws {
-                        var container = encoder.container(keyedBy: CodingKeys.self)
-                        if let blob = blob {
-                            try container.encode(blob.base64EncodedString(), forKey: .blob)
-                        }
-                        if let boolean = boolean {
-                            try container.encode(boolean, forKey: .boolean)
-                        }
-                        if let double = double {
-                            try container.encode(double, forKey: .double)
-                        }
-                        if let emptyStruct = emptyStruct {
-                            try container.encode(emptyStruct, forKey: .emptyStruct)
-                        }
-                        if let float = float {
-                            try container.encode(float, forKey: .float)
-                        }
-                        if let httpdateTimestamp = httpdateTimestamp {
-                            try container.encode(httpdateTimestamp.rfc5322(), forKey: .httpdateTimestamp)
-                        }
-                        if let integer = integer {
-                            try container.encode(integer, forKey: .integer)
-                        }
-                        if let iso8601Timestamp = iso8601Timestamp {
-                            try container.encode(iso8601Timestamp.iso8601WithoutFractionalSeconds(), forKey: .iso8601Timestamp)
-                        }
-                        if let jsonValue = jsonValue {
-                            try container.encode(jsonValue, forKey: .jsonValue)
-                        }
-                        if let listOfLists = listOfLists {
-                            var listOfListsContainer = container.nestedUnkeyedContainer(forKey: .listOfLists)
-                            for listoflistofstrings0 in listOfLists {
-                                var listoflistofstrings0Container = listOfListsContainer.nestedUnkeyedContainer()
-                                if let listoflistofstrings0 = listoflistofstrings0 {
-                                    for listofstrings1 in listoflistofstrings0 {
-                                        try listoflistofstrings0Container.encode(listofstrings1)
-                                    }
-                                }
-                            }
-                        }
-                        if let listOfMapsOfStrings = listOfMapsOfStrings {
-                            var listOfMapsOfStringsContainer = container.nestedUnkeyedContainer(forKey: .listOfMapsOfStrings)
-                            for listofmapsofstrings0 in listOfMapsOfStrings {
-                                var listofmapsofstrings0Container = listOfMapsOfStringsContainer.nestedContainer(keyedBy: Key.self)
-                                if let listofmapsofstrings0 = listofmapsofstrings0 {
-                                    for (key1, mapofstrings1) in listofmapsofstrings0 {
-                                        try listofmapsofstrings0Container.encode(mapofstrings1, forKey: Key(stringValue: key1))
-                                    }
-                                }
-                            }
-                        }
-                        if let listOfStrings = listOfStrings {
-                            var listOfStringsContainer = container.nestedUnkeyedContainer(forKey: .listOfStrings)
-                            for listofstrings0 in listOfStrings {
-                                try listOfStringsContainer.encode(listofstrings0)
-                            }
-                        }
-                        if let listOfStructs = listOfStructs {
-                            var listOfStructsContainer = container.nestedUnkeyedContainer(forKey: .listOfStructs)
-                            for listofstructs0 in listOfStructs {
-                                try listOfStructsContainer.encode(listofstructs0)
-                            }
-                        }
-                        if let long = long {
-                            try container.encode(long, forKey: .long)
-                        }
-                        if let mapOfListsOfStrings = mapOfListsOfStrings {
-                            var mapOfListsOfStringsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfListsOfStrings)
-                            for (key0, mapoflistsofstrings0) in mapOfListsOfStrings {
-                                try mapOfListsOfStringsContainer.encode(mapoflistsofstrings0, forKey: Key(stringValue: key0))
-                            }
-                        }
-                        if let mapOfMaps = mapOfMaps {
-                            var mapOfMapsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfMaps)
-                            for (key0, mapofmapofstrings0) in mapOfMaps {
-                                try mapOfMapsContainer.encode(mapofmapofstrings0, forKey: Key(stringValue: key0))
-                            }
-                        }
-                        if let mapOfStrings = mapOfStrings {
-                            var mapOfStringsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfStrings)
-                            for (key0, mapofstrings0) in mapOfStrings {
-                                try mapOfStringsContainer.encode(mapofstrings0, forKey: Key(stringValue: key0))
-                            }
-                        }
-                        if let mapOfStructs = mapOfStructs {
-                            var mapOfStructsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfStructs)
-                            for (key0, mapofstructs0) in mapOfStructs {
-                                try mapOfStructsContainer.encode(mapofstructs0, forKey: Key(stringValue: key0))
-                            }
-                        }
-                        if let recursiveList = recursiveList {
-                            var recursiveListContainer = container.nestedUnkeyedContainer(forKey: .recursiveList)
-                            for listofkitchensinks0 in recursiveList {
-                                try recursiveListContainer.encode(listofkitchensinks0)
-                            }
-                        }
-                        if let recursiveMap = recursiveMap {
-                            var recursiveMapContainer = container.nestedContainer(keyedBy: Key.self, forKey: .recursiveMap)
-                            for (key0, mapofkitchensinks0) in recursiveMap {
-                                try recursiveMapContainer.encode(mapofkitchensinks0, forKey: Key(stringValue: key0))
-                            }
-                        }
-                        if let recursiveStruct = recursiveStruct {
-                            try container.encode(recursiveStruct, forKey: .recursiveStruct)
-                        }
-                        if let simpleStruct = simpleStruct {
-                            try container.encode(simpleStruct, forKey: .simpleStruct)
-                        }
-                        if let string = string {
-                            try container.encode(string, forKey: .string)
-                        }
-                        if let structWithLocationName = structWithLocationName {
-                            try container.encode(structWithLocationName, forKey: .structWithLocationName)
-                        }
-                        if let timestamp = timestamp {
-                            try container.encode(timestamp.timeIntervalSince1970, forKey: .timestamp)
-                        }
-                        if let unixTimestamp = unixTimestamp {
-                            try container.encode(unixTimestamp.timeIntervalSince1970, forKey: .unixTimestamp)
-                        }
-                    }
-                }
-            """.trimIndent()
-        contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
@@ -376,31 +215,19 @@ class AwsJson1_1ProtocolGeneratorTests : TestsBase() {
     }
 
     @Test
-    fun `encodable for EmptyStruct`() {
-        val contents = getModelFileContents("Example", "EmptyStruct+Encodable.swift", newTestContext.manifest)
+    fun `codable for EmptyStruct`() {
+        val contents = getModelFileContents("Example", "EmptyStruct+Codable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-                extension EmptyStruct: Encodable, Reflection {
-
-                    public func encode(to encoder: Encoder) throws {
-                    }
+            extension EmptyStruct: Codable, Reflection {
+            
+                public func encode(to encoder: Encoder) throws {
                 }
-            """.trimIndent()
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `decodable for EmptyStruct`() {
-        val contents = getModelFileContents("Example", "EmptyStruct+Decodable.swift", newTestContext.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-                extension EmptyStruct: Decodable {
-
-                    public init (from decoder: Decoder) throws {
-                    }
+            
+                public init (from decoder: Decoder) throws {
                 }
+            }
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
@@ -635,12 +462,12 @@ extension KitchenSinkOperationOutputBody: Decodable {
     }
 
     @Test
-    fun `decodable for KitchenSink`() {
-        val contents = getModelFileContents("Example", "KitchenSink+Decodable.swift", newTestContext.manifest)
+    fun `codable for KitchenSink`() {
+        val contents = getModelFileContents("Example", "KitchenSink+Codable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-extension KitchenSink: Decodable {
+extension KitchenSink: Codable, Reflection {
     private enum CodingKeys: String, CodingKey {
         case blob = "Blob"
         case boolean = "Boolean"
@@ -668,6 +495,128 @@ extension KitchenSink: Decodable {
         case structWithLocationName = "StructWithLocationName"
         case timestamp = "Timestamp"
         case unixTimestamp = "UnixTimestamp"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if let blob = blob {
+            try container.encode(blob.base64EncodedString(), forKey: .blob)
+        }
+        if let boolean = boolean {
+            try container.encode(boolean, forKey: .boolean)
+        }
+        if let double = double {
+            try container.encode(double, forKey: .double)
+        }
+        if let emptyStruct = emptyStruct {
+            try container.encode(emptyStruct, forKey: .emptyStruct)
+        }
+        if let float = float {
+            try container.encode(float, forKey: .float)
+        }
+        if let httpdateTimestamp = httpdateTimestamp {
+            try container.encode(httpdateTimestamp.rfc5322(), forKey: .httpdateTimestamp)
+        }
+        if let integer = integer {
+            try container.encode(integer, forKey: .integer)
+        }
+        if let iso8601Timestamp = iso8601Timestamp {
+            try container.encode(iso8601Timestamp.iso8601WithoutFractionalSeconds(), forKey: .iso8601Timestamp)
+        }
+        if let jsonValue = jsonValue {
+            try container.encode(jsonValue, forKey: .jsonValue)
+        }
+        if let listOfLists = listOfLists {
+            var listOfListsContainer = container.nestedUnkeyedContainer(forKey: .listOfLists)
+            for listoflistofstrings0 in listOfLists {
+                var listoflistofstrings0Container = listOfListsContainer.nestedUnkeyedContainer()
+                if let listoflistofstrings0 = listoflistofstrings0 {
+                    for listofstrings1 in listoflistofstrings0 {
+                        try listoflistofstrings0Container.encode(listofstrings1)
+                    }
+                }
+            }
+        }
+        if let listOfMapsOfStrings = listOfMapsOfStrings {
+            var listOfMapsOfStringsContainer = container.nestedUnkeyedContainer(forKey: .listOfMapsOfStrings)
+            for listofmapsofstrings0 in listOfMapsOfStrings {
+                var listofmapsofstrings0Container = listOfMapsOfStringsContainer.nestedContainer(keyedBy: Key.self)
+                if let listofmapsofstrings0 = listofmapsofstrings0 {
+                    for (key1, mapofstrings1) in listofmapsofstrings0 {
+                        try listofmapsofstrings0Container.encode(mapofstrings1, forKey: Key(stringValue: key1))
+                    }
+                }
+            }
+        }
+        if let listOfStrings = listOfStrings {
+            var listOfStringsContainer = container.nestedUnkeyedContainer(forKey: .listOfStrings)
+            for listofstrings0 in listOfStrings {
+                try listOfStringsContainer.encode(listofstrings0)
+            }
+        }
+        if let listOfStructs = listOfStructs {
+            var listOfStructsContainer = container.nestedUnkeyedContainer(forKey: .listOfStructs)
+            for listofstructs0 in listOfStructs {
+                try listOfStructsContainer.encode(listofstructs0)
+            }
+        }
+        if let long = long {
+            try container.encode(long, forKey: .long)
+        }
+        if let mapOfListsOfStrings = mapOfListsOfStrings {
+            var mapOfListsOfStringsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfListsOfStrings)
+            for (key0, mapoflistsofstrings0) in mapOfListsOfStrings {
+                try mapOfListsOfStringsContainer.encode(mapoflistsofstrings0, forKey: Key(stringValue: key0))
+            }
+        }
+        if let mapOfMaps = mapOfMaps {
+            var mapOfMapsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfMaps)
+            for (key0, mapofmapofstrings0) in mapOfMaps {
+                try mapOfMapsContainer.encode(mapofmapofstrings0, forKey: Key(stringValue: key0))
+            }
+        }
+        if let mapOfStrings = mapOfStrings {
+            var mapOfStringsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfStrings)
+            for (key0, mapofstrings0) in mapOfStrings {
+                try mapOfStringsContainer.encode(mapofstrings0, forKey: Key(stringValue: key0))
+            }
+        }
+        if let mapOfStructs = mapOfStructs {
+            var mapOfStructsContainer = container.nestedContainer(keyedBy: Key.self, forKey: .mapOfStructs)
+            for (key0, mapofstructs0) in mapOfStructs {
+                try mapOfStructsContainer.encode(mapofstructs0, forKey: Key(stringValue: key0))
+            }
+        }
+        if let recursiveList = recursiveList {
+            var recursiveListContainer = container.nestedUnkeyedContainer(forKey: .recursiveList)
+            for listofkitchensinks0 in recursiveList {
+                try recursiveListContainer.encode(listofkitchensinks0)
+            }
+        }
+        if let recursiveMap = recursiveMap {
+            var recursiveMapContainer = container.nestedContainer(keyedBy: Key.self, forKey: .recursiveMap)
+            for (key0, mapofkitchensinks0) in recursiveMap {
+                try recursiveMapContainer.encode(mapofkitchensinks0, forKey: Key(stringValue: key0))
+            }
+        }
+        if let recursiveStruct = recursiveStruct {
+            try container.encode(recursiveStruct, forKey: .recursiveStruct)
+        }
+        if let simpleStruct = simpleStruct {
+            try container.encode(simpleStruct, forKey: .simpleStruct)
+        }
+        if let string = string {
+            try container.encode(string, forKey: .string)
+        }
+        if let structWithLocationName = structWithLocationName {
+            try container.encode(structWithLocationName, forKey: .structWithLocationName)
+        }
+        if let timestamp = timestamp {
+            try container.encode(timestamp.timeIntervalSince1970, forKey: .timestamp)
+        }
+        if let unixTimestamp = unixTimestamp {
+            try container.encode(unixTimestamp.timeIntervalSince1970, forKey: .unixTimestamp)
+        }
     }
 
     public init (from decoder: Decoder) throws {
