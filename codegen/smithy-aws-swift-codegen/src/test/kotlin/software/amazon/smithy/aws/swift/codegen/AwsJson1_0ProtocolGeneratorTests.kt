@@ -43,6 +43,7 @@ class AwsJson1_0ProtocolGeneratorTests : TestsBase() {
         newTestContext.generator.generateSerializers(newTestContext.ctx)
         newTestContext.generator.generateProtocolClient(newTestContext.ctx)
         newTestContext.generator.generateDeserializers(newTestContext.ctx)
+        newTestContext.generator.generateCodableConformanceForNestedTypes(newTestContext.ctx)
         newTestContext.ctx.delegator.flushWriters()
     }
 
