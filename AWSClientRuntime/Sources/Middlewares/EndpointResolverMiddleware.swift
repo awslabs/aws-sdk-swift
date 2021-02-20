@@ -3,7 +3,8 @@
 import ClientRuntime
 
 // TODO: this struct is unfinished. proper endpoint resolving will need to be added futuristically
-public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBinding, OperationStackError: HttpResponseBinding>: Middleware {
+public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBinding,
+                                         OperationStackError: HttpResponseBinding>: Middleware {
 
     public let id: String = "EndpointResolver"
 
