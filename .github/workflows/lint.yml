@@ -2,9 +2,10 @@ name: Lint
 
 on:
   push:
-    branches:
-      - '*'
-      - '!master'
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
 
 env:
   PACKAGE_NAME: aws-sdk-swift
@@ -18,3 +19,12 @@ jobs:
       - name: Lint ${{ env.PACKAGE_NAME }}
         run: |
           ./gradlew ktlint
+  swiftlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Swift Lint ClientRuntime
+        uses: norio-nomura/action-swiftlint@3.1.0
+        with:
+          args: --path ./AWSClientRuntime
