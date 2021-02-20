@@ -12,9 +12,8 @@ build/
 .idea/
 local.properties
 .build/
-.swiftpm/
-AWSClientRuntime/.swiftpm/
-AWSClientRuntime/.build/
+TestLambdaSdk/.swiftpm/
+Package.resolved
 AWSClientRuntime/Package.resolved
 AWSClientRuntime/AWSClientRuntime.xcodeproj
 AWSClientRuntime/AWSClientRuntime.xcodeproj/

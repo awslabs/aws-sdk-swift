@@ -1,0 +1,34 @@
+{
+  "name": "aws-sdk-swift",
+  "needs_compiler": false,
+  "packages": [],
+  "variables": {
+    "gradlew": "{source_dir}/gradlew -p {source_dir}"
+  },
+  "build_steps": [
+    "{gradlew} assemble",
+    "swift build",
+    "{gradlew} testAllProtocols"
+  ],
+  "test_steps": [
+    "swift test"
+  ],
+  "build_dir": "target/build",
+  "hosts": {
+    "ubuntu": {
+      "packages": [
+        "openjdk-8-jdk-headless"
+      ]
+    },
+    "debian": {
+      "packages": [
+        "openjdk-8-jdk-headless"
+      ]
+    }
+  },
+  "upstream": [
+    {
+      "name": "smithy-swift"
+    }
+  ]
+}

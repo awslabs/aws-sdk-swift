@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  BUILDER_VERSION: v0.8.0
+  BUILDER_SOURCE: releases
+  # host owned by CRT team to host aws-crt-builder releases. Contact their on-call with any issues
+  BUILDER_HOST: https://d19elf31gohf1l.cloudfront.net
+  PACKAGE_NAME: aws-sdk-swift
+  LINUX_BASE_IMAGE: ubuntu-16-x64
+  RUN: ${{ github.run_id }}-${{ github.run_number }}
+
+jobs:
+  #TODO: add linux compatibility after aws-crt-swift supports Linux appropriately.
+  ios-compat:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Build and Test ${{ env.PACKAGE_NAME }}
+        env:
+          CI_USER: ${{ secrets.CI_USER }}
+          CI_ACCESS_TOKEN: ${{ secrets.CI_ACCESS_TOKEN }}
+        run: |
+          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
+          chmod a+x builder.pyz
+          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" BRANCH_NAME="${GITHUB_HEAD_REF}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
+  macos-compat:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Build and Test ${{ env.PACKAGE_NAME }}
+        env:
+          CI_USER: ${{ secrets.CI_USER }}
+          CI_ACCESS_TOKEN: ${{ secrets.CI_ACCESS_TOKEN }}
+        run: |
+          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
+          chmod a+x builder.pyz
+          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" BRANCH_NAME="${GITHUB_HEAD_REF}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}

@@ -30,10 +30,11 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
 
     public func handle<H>(context: HttpContext,
                           input: SdkHttpRequestBuilder,
-                          next: H) -> Result<OperationOutput<OperationStackOutput, OperationStackError>, Error> where H: Handler,
-                                                                          Self.Context == H.Context,
-                                                                          Self.MInput == H.Input,
-                                                                          Self.MOutput == H.Output {
+                          next: H) -> Result<OperationOutput<OperationStackOutput, OperationStackError>, Error>
+    where H: Handler,
+          Self.Context == H.Context,
+          Self.MInput == H.Input,
+          Self.MOutput == H.Output {
         let crtRequest = input.build().toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         let credentialsProvider = context.getCredentialsProvider().crtCredentialsProvider

@@ -21,13 +21,13 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
 
     override val serviceErrorProtocolSymbol: Symbol = Symbol.builder()
         .name("AWSHttpServiceError")
-        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
+        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, "")
         .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
         .build()
 
     override val unknownServiceErrorSymbol: Symbol = Symbol.builder()
         .name("UnknownAWSHttpServiceError")
-        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.namespace, "")
+        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, "")
         .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
         .build()
 
