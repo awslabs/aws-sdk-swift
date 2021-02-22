@@ -5,14 +5,15 @@
 package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.codegen.core.SymbolDependency
 import software.amazon.smithy.codegen.core.SymbolDependencyContainer
+import java.io.File
 
 enum class AWSSwiftDependency(val type: String, val target: String, val branch: String?, val version: String, val url: String, var packageName: String) : SymbolDependencyContainer {
     AWS_CLIENT_RUNTIME(
         "",
         "AWSClientRuntime",
-        getGitBranchName(),
+        null,
         "0.1.0",
-        "https://github.com/awslabs/aws-sdk-swift",
+        computeAbsolutePath("aws-sdk-swift/AWSClientRuntime"),
         "AWSClientRuntime"
     );
 
@@ -29,6 +30,19 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
     }
 }
 
+private fun computeAbsolutePath(relativePath: String): String {
+    var userDirPath = System.getProperty("user.dir")
+    while (userDirPath.isNotEmpty()) {
+        val fileName = userDirPath.removeSuffix("/") + "/" + relativePath
+        val file = File(fileName)
+        if (file.isDirectory) {
+            return fileName
+        }
+        userDirPath = userDirPath.substring(0, userDirPath.length - 1)
+    }
+    return ""
+}
+/* To be used for CI at a later time
 private fun getGitBranchName(): String {
     val process = Runtime.getRuntime().exec("git rev-parse --abbrev-ref HEAD")
     val sb: StringBuilder = StringBuilder()
@@ -43,3 +57,4 @@ private fun getGitBranchName(): String {
     }
     return branchName
 }
+*/
