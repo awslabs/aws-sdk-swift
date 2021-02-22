@@ -836,7 +836,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
                 XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
                 XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                self.extractHttpBodyJSONData(expectedHttpBody!, actualHttpBody!) { expectedData, actualData in
+                self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!) { expectedData, actualData in
                     do {
                         let decoder = JSONDecoder()
                         let expectedObj = try decoder.decode(KitchenSinkOperationInputBody.self, from: expectedData)
@@ -904,7 +904,7 @@ class KitchenSinkOperationRequestTest: HttpRequestTestBase {
             self.assertEqual(expected, actual, { (expectedHttpBody, actualHttpBody) -> Void in
                 XCTAssertNotNil(actualHttpBody, "The actual HttpBody is nil")
                 XCTAssertNotNil(expectedHttpBody, "The expected HttpBody is nil")
-                self.extractHttpBodyJSONData(expectedHttpBody!, actualHttpBody!) { expectedData, actualData in
+                self.assertEqualHttpBodyJSONData(expectedHttpBody!, actualHttpBody!) { expectedData, actualData in
                     do {
                         let decoder = JSONDecoder()
                         let expectedObj = try decoder.decode(KitchenSinkOperationInputBody.self, from: expectedData)
