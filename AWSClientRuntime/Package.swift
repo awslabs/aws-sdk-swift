@@ -11,8 +11,8 @@ let package = Package(
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
     ],
     dependencies: [
-        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift", .branch("fix/ci")),
-        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch("master"))
+        .package(name: "ClientRuntime", path: "~/Projects/Amplify/SwiftSDK/smithy-swift/Packages"),
+        .package(name: "AwsCrt", path: "~/Projects/Amplify/SwiftSDK/aws-crt-swift")
     ],
     targets: [
         .target(
