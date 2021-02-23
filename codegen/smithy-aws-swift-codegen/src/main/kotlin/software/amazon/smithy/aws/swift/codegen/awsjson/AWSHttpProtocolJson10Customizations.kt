@@ -51,7 +51,6 @@ class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
         }
     }
 
-
     override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
         val features = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
