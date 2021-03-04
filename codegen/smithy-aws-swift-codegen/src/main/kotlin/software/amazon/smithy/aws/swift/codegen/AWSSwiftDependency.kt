@@ -11,9 +11,9 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
     AWS_CLIENT_RUNTIME(
         "",
         "AWSClientRuntime",
-        null,
+        computeBranch(),
         "0.1.0",
-        computeAbsolutePath("aws-sdk-swift/AWSClientRuntime"),
+        computePackageLocation("aws-sdk-swift/AWSClientRuntime"),
         "AWSClientRuntime"
     );
 
@@ -30,6 +30,9 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
     }
 }
 
+private fun computeBranch(): String? {
+    return System.getenv("BRANCH_NAME")
+}
 private fun computeAbsolutePath(relativePath: String): String {
     var userDirPath = System.getProperty("user.dir")
     while (userDirPath.isNotEmpty()) {
@@ -41,6 +44,10 @@ private fun computeAbsolutePath(relativePath: String): String {
         userDirPath = userDirPath.substring(0, userDirPath.length - 1)
     }
     return ""
+}
+
+private fun computePackageLocation(relativePath: String): String {
+    return System.getenv("BRANCH_NAME") ?: computeAbsolutePath(relativePath)
 }
 /* To be used for CI at a later time
 private fun getGitBranchName(): String {
