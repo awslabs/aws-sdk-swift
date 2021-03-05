@@ -8,7 +8,7 @@
   "build_steps": [
     "{gradlew} assemble",
     "swift build",
-    "BRANCH=git rev-parse --abbrev-ref HEAD; cat Package.swift |sed \"s#\\(.*ClientRuntime.*\\.branch\\)(\\\"master\\\").*#\\1(\"$BRANCH\")),#\"",
+    "BRANCH=$(echo \"$(git rev-parse --abbrev-ref HEAD)\" | sed 's/^/\"/' | sed 's/$/\"/'); cat Package.swift |sed \"s#\\(.*ClientRuntime.*\\.branch\\)(\\\"master\\\").*#\\1(\"$BRANCH\")),#\"",
     "{gradlew} testAllProtocols"
   ],
   "test_steps": [
