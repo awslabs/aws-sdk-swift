@@ -2,6 +2,6 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.swift.codegen.integration.HttpRequestEncoder
 
-class AWSHttpRequestJsonEncoder(
+class AWSHttpRequestXMLEncoder(
     requestEncoderOptions: MutableMap<String, String> = mutableMapOf()
-) : HttpRequestEncoder("JSONEncoder", requestEncoderOptions)
+) : HttpRequestEncoder("XMLEncoder", requestEncoderOptions)
