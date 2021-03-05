@@ -66,6 +66,28 @@
           "shouldGenerateUnitTestTarget": true
         }
       }
+    },
+    "rest-xml": {
+      "transforms": [
+        {
+          "name": "includeServices",
+          "args": {
+            "services": ["aws.protocoltests.restxml#RestXml"]
+          }
+        }
+      ],
+      "plugins": {
+        "swift-codegen": {
+          "service": "aws.protocoltests.restxml#RestXml",
+          "module": "RestXmlTestSDK",
+          "moduleVersion": "1.0",
+          "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
+          "author": "Amazon Web Services",
+          "homepage": "https://docs.amplify.aws/",
+          "swiftVersion": "5.3.0",
+          "shouldGenerateUnitTestTarget": true
+        }
+      }
     }
   }
 }
