@@ -8,7 +8,7 @@
   "build_steps": [
     "{gradlew} assemble",
     "swift build",
-    "./.github/update-package-manifest.sh",
+    "./.github/scripts/update-package-manifest.sh",
     "{gradlew} testAllProtocols"
   ],
   "test_steps": [
