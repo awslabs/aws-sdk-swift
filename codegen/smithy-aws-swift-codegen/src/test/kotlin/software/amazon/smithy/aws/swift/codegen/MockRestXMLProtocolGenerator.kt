@@ -4,7 +4,6 @@ import software.amazon.smithy.aws.swift.codegen.restxml.AWSErrorFromAWSRestXMLHt
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.integration.ErrorFromHttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 
 class MockRestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -13,5 +12,5 @@ class MockRestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val protocol: ShapeId = RestXmlTrait.ID
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = HttpProtocolCustomizable()
-    override val errorFromHttpResponseGenerator: ErrorFromHttpResponseGenerator = AWSErrorFromAWSRestXMLHttpResponseGenerator()
+    override val errorFromHttpResponseGenerator = AWSErrorFromAWSRestXMLHttpResponseGenerator()
 }

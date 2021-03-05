@@ -1,5 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen
 
+import io.kotest.matchers.string.shouldContainOnlyOnce
+import org.junit.jupiter.api.Test
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.shapes.ShapeId
@@ -43,29 +45,16 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests : TestsBase() {
         newTestContext.generator.generateProtocolUnitTests(newTestContext.ctx)
         newTestContext.ctx.delegator.flushWriters()
     }
-    /*
+
     @Test
-    fun `smoke test`() {
-        // /Example/ExampleClient.swift
-        // /Example/models/NoInputAndNoOutputError+ResponseInit.swift
-
-        // /Example/models/NoInputAndNoOutputInput+Encodable.swift
-        // /Example/models/NoInputAndNoOutputInput+HeaderMiddleware.swift
-        // /Example/models/NoInputAndNoOutputInput+QueryItemMiddleware.swift
-
-        // /Example/models/NoInputAndNoOutputOutput+ResponseInit.swift
-
-        // /ExampleTests/NoInputAndNoOutputRequestTest.swift
-        // /ExampleTests/NoInputAndNoOutputResponseTest.swift
-
-
+    fun `smoke test for NoInputAndNoOutputInput encodable`() {
         val contents = getModelFileContents("Example", "NoInputAndNoOutputInput+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
         print("$contents")
         val expectedContents =
             """
-extension SmokeTestInput: Encodable, Reflection {
+            extension NoInputAndNoOutputInput: Encodable, Reflection {
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
-    }*/
+    }
 }

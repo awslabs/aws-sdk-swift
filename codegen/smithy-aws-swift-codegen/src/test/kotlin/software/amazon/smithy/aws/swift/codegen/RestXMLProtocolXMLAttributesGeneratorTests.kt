@@ -1,5 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen
 
+import io.kotest.matchers.string.shouldContainOnlyOnce
+import org.junit.jupiter.api.Test
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.shapes.ShapeId
@@ -43,34 +45,16 @@ class RestXMLProtocolXMLAttributesGeneratorTests : TestsBase() {
         newTestContext.generator.generateProtocolUnitTests(newTestContext.ctx)
         newTestContext.ctx.delegator.flushWriters()
     }
-    /*
+
     @Test
-    fun `smoke test`() {
-        // /Example/ExampleClient.swift
-        // /Example/models/NoInputAndNoOutputError+ResponseInit.swift
-
-        // /Example/models/NoInputAndNoOutputInput+Encodable.swift
-        // /Example/models/NoInputAndNoOutputInput+HeaderMiddleware.swift
-        // /Example/models/NoInputAndNoOutputInput+QueryItemMiddleware.swift
-
-        // /Example/models/NoInputAndNoOutputOutput+ResponseInit.swift
-
-        // /ExampleTests/NoInputAndNoOutputRequestTest.swift
-        // /ExampleTests/NoInputAndNoOutputResponseTest.swift
-
-        val contentsBody = getModelFileContents("Example", "XmlAttributesOnPayloadInput.swift", newTestContext.manifest)
-        val contentsEncodable = getModelFileContents("Example", "XmlAttributesOnPayloadInput+Encodable.swift", newTestContext.manifest)
-        //val contentsInput = getModelFileContents("Example", "XmlAttributesOnPayloadInput+QueryItemMiddleware.swift", newTestContext.manifest)
-
-        val contents = getModelFileContents("Example", "XmlAttributesOnPayloadInput+BodyMiddleware.swift", newTestContext.manifest)
+    fun `smoke test for rendering encodable with dynamic node encoding`() {
+        val contents = getModelFileContents("Example", "XmlAttributesOnPayloadInput+Encodable.swift", newTestContext.manifest)
         contents.shouldSyntacticSanityCheck()
-        print("contents\n$contents")
-
-        print("body:\n$contentsBody")
+        // TODO: Eventually, we will need to check for DynamicNodeEncoding that uses attribute
         val expectedContents =
             """
-extension SmokeTestInput: Encodable, Reflection {
+            extension XmlAttributesOnPayloadInput: Encodable, Reflection {
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
-    }*/
+    }
 }
