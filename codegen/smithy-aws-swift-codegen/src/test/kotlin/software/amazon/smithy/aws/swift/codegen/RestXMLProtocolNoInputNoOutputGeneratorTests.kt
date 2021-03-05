@@ -47,7 +47,7 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests : TestsBase() {
     fun `smoke test for generating request tests`() {
         val contents = newTestContext.manifest.expectFileString("/ExampleTests/NoInputAndNoOutputRequestTest.swift")
         contents.shouldSyntacticSanityCheck()
-        // TODO: add more unit tests as we implement encodable
+        // TODO: Add more unit tests
         val expectedContents =
             """
             class NoInputAndNoOutputRequestTest: HttpRequestTestBase {
