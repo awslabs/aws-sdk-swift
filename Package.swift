@@ -12,7 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "ClientRuntime", path: "target/build/deps/smithy-swift"),
-        .package(name: "AwsCrt", path: "target/build/deps/aws-crt-swift")
+        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch("master"))
     ],
     targets: [
         .target(
