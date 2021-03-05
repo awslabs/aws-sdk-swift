@@ -39,21 +39,19 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests : TestsBase() {
     val newTestContext = newTestContext()
 
     init {
-        newTestContext.generator.generateSerializers(newTestContext.ctx)
-        newTestContext.generator.generateProtocolClient(newTestContext.ctx)
-        newTestContext.generator.generateDeserializers(newTestContext.ctx)
         newTestContext.generator.generateProtocolUnitTests(newTestContext.ctx)
         newTestContext.ctx.delegator.flushWriters()
     }
 
     @Test
-    fun `smoke test for NoInputAndNoOutputInput encodable`() {
-        val contents = getModelFileContents("Example", "NoInputAndNoOutputInput+Encodable.swift", newTestContext.manifest)
+    fun `smoke test for generating request tests`() {
+        val contents = newTestContext.manifest.expectFileString("/ExampleTests/NoInputAndNoOutputRequestTest.swift")
         contents.shouldSyntacticSanityCheck()
-        print("$contents")
+        // TODO: add more unit tests as we implement encodable
         val expectedContents =
             """
-            extension NoInputAndNoOutputInput: Encodable, Reflection {
+            class NoInputAndNoOutputRequestTest: HttpRequestTestBase {
+                let host = "my-api.us-east-2.amazonaws.com"
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }

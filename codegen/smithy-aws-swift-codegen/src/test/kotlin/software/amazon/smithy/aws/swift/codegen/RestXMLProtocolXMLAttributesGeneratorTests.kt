@@ -39,21 +39,19 @@ class RestXMLProtocolXMLAttributesGeneratorTests : TestsBase() {
     val newTestContext = newTestContext()
 
     init {
-        newTestContext.generator.generateSerializers(newTestContext.ctx)
-        newTestContext.generator.generateProtocolClient(newTestContext.ctx)
-        newTestContext.generator.generateDeserializers(newTestContext.ctx)
         newTestContext.generator.generateProtocolUnitTests(newTestContext.ctx)
         newTestContext.ctx.delegator.flushWriters()
     }
 
     @Test
-    fun `smoke test for rendering encodable with dynamic node encoding`() {
-        val contents = getModelFileContents("Example", "XmlAttributesOnPayloadInput+Encodable.swift", newTestContext.manifest)
+    fun `smoke test for generating request tests`() {
+        val contents = newTestContext.manifest.expectFileString("/ExampleTests/XmlAttributesRequestTest.swift")
         contents.shouldSyntacticSanityCheck()
         // TODO: Eventually, we will need to check for DynamicNodeEncoding that uses attribute
         val expectedContents =
             """
-            extension XmlAttributesOnPayloadInput: Encodable, Reflection {
+            class XmlAttributesRequestTest: HttpRequestTestBase {
+                let host = "my-api.us-east-2.amazonaws.com"
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
