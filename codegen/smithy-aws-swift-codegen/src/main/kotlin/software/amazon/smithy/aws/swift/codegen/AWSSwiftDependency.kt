@@ -16,7 +16,9 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
         computeAbsolutePath(
             mapOf(
                 "aws-sdk-swift/target/build/deps/smithy-swift" to "aws-sdk-swift",
-                "aws-sdk-swift/AWSClientRuntime" to "aws-sdk-swift/AWSClientRuntime")),
+                "aws-sdk-swift/AWSClientRuntime" to "aws-sdk-swift/AWSClientRuntime"
+            )
+        ),
         "AWSClientRuntime"
     );
 
