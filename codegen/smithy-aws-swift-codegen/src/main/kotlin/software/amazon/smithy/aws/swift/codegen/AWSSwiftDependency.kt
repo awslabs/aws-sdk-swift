@@ -13,7 +13,12 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
         "AWSClientRuntime",
         null,
         "0.1.0",
-        computeAbsolutePath("aws-sdk-swift/AWSClientRuntime"),
+        computeAbsolutePath(
+            mapOf(
+                "aws-sdk-swift/target/build/deps/smithy-swift" to "aws-sdk-swift",
+                "aws-sdk-swift/AWSClientRuntime" to "aws-sdk-swift/AWSClientRuntime"
+            )
+        ),
         "AWSClientRuntime"
     );
 
@@ -30,18 +35,21 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
     }
 }
 
-private fun computeAbsolutePath(relativePath: String): String {
-    var userDirPath = System.getProperty("user.dir")
-    while (userDirPath.isNotEmpty()) {
-        val fileName = userDirPath.removeSuffix("/") + "/" + relativePath
-        val file = File(fileName)
-        if (file.isDirectory) {
-            return fileName
+private fun computeAbsolutePath(relativePaths: Map<String, String>): String {
+    for (relativePath in relativePaths.keys) {
+        var userDirPath = System.getProperty("user.dir")
+        while (userDirPath.isNotEmpty()) {
+            val fileNameForCheckDir = userDirPath.removeSuffix("/") + "/" + relativePath
+            val fileNameForAbsolutePath = userDirPath.removeSuffix("/") + "/" + relativePaths[relativePath]
+            if (File(fileNameForCheckDir).isDirectory) {
+                return fileNameForAbsolutePath
+            }
+            userDirPath = userDirPath.substring(0, userDirPath.length - 1)
         }
-        userDirPath = userDirPath.substring(0, userDirPath.length - 1)
     }
     return ""
 }
+
 /* To be used for CI at a later time
 private fun getGitBranchName(): String {
     val process = Runtime.getRuntime().exec("git rev-parse --abbrev-ref HEAD")
