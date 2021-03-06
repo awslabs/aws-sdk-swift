@@ -18,7 +18,7 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
                 // For aws-sdk-swift CI
                 "aws-sdk-swift/target/build/deps/smithy-swift" to "aws-sdk-swift",
                 // For smithy-swift CI
-                "smithy-swift/target/build/deps/aws-sdk-swift" to "aws-sdk-swift",
+                "smithy-swift/target/build/deps/aws-sdk-swift" to "smithy-swift/target/build/deps/aws-sdk-swift",
                 // For development
                 "aws-sdk-swift/AWSClientRuntime" to "aws-sdk-swift/AWSClientRuntime",
             )
