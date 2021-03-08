@@ -13,16 +13,7 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
         "AWSClientRuntime",
         null,
         "0.1.0",
-        computeAbsolutePath(
-            mapOf(
-                // For aws-sdk-swift CI
-                "aws-sdk-swift/target/build/deps/smithy-swift" to "aws-sdk-swift",
-                // For smithy-swift CI
-                "smithy-swift/target/build/deps/aws-sdk-swift" to "smithy-swift/target/build/deps/aws-sdk-swift",
-                // For development
-                "aws-sdk-swift/AWSClientRuntime" to "aws-sdk-swift/AWSClientRuntime",
-            )
-        ),
+        computeAbsolutePath("aws-sdk-swift/AWSClientRuntime"),
         "AWSClientRuntime"
     );
 
@@ -39,34 +30,19 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
     }
 }
 
-private fun computeAbsolutePath(relativePaths: Map<String, String>): String {
-    for (relativePath in relativePaths.keys) {
-        var userDirPath = System.getProperty("user.dir")
-        while (userDirPath.isNotEmpty()) {
-            val fileNameForCheckDir = userDirPath.removeSuffix("/") + "/" + relativePath
-            val fileNameForAbsolutePath = userDirPath.removeSuffix("/") + "/" + relativePaths[relativePath]
-            if (File(fileNameForCheckDir).isDirectory) {
-                return fileNameForAbsolutePath
-            }
-            userDirPath = userDirPath.substring(0, userDirPath.length - 1)
+private fun computeAbsolutePath(relativePath: String): String {
+    val userDirPathOverride = System.getenv("AWS_SDK_SWIFT_CI_DIR")
+    if (!userDirPathOverride.isNullOrEmpty()) {
+        return userDirPathOverride
+    }
+
+    var userDirPath = System.getProperty("user.dir")
+    while (userDirPath.isNotEmpty()) {
+        val fileName = userDirPath.removeSuffix("/") + "/" + relativePath
+        if (File(fileName).isDirectory) {
+            return fileName
         }
+        userDirPath = userDirPath.substring(0, userDirPath.length - 1)
     }
     return ""
 }
-
-/* To be used for CI at a later time
-private fun getGitBranchName(): String {
-    val process = Runtime.getRuntime().exec("git rev-parse --abbrev-ref HEAD")
-    val sb: StringBuilder = StringBuilder()
-    while (true) {
-        val char = process.inputStream.read()
-        if (char == -1) break
-        sb.append(char.toChar())
-    }
-    var branchName = sb.removeSuffix("\n").toString()
-    if (branchName == "HEAD") {
-        branchName = System.getenv("BRANCH_NAME")
-    }
-    return branchName
-}
-*/
