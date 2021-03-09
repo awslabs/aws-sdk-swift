@@ -10,5 +10,18 @@
 			<integer>0</integer>
 		</dict>
 	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>AWSClientRuntime</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AWSClientRuntimeTests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

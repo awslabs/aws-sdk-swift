@@ -1,0 +1,95 @@
+//
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+import ClientRuntime
+import SmithyTestUtil
+import XCTest
+@testable import AWSClientRuntime
+
+class EndpointsTests: XCTestCase {
+    
+    let testPartitions = [
+        //normal partition with and without overrides
+        Partition(
+            id: "part-id-1",
+            regionRegex: NSRegularExpression("^(us)-\\w+-\\d+$"),
+            partitionEndpoint: "",
+            isRegionalized: true,
+            defaults: EndpointDefinition(hostName: "service.{region}.amazonaws.com",
+                                         protocols: ["https"],
+                                         signatureVersions: ["v4"]),
+            endpoints: ["us-west-1": EndpointDefinition(), //region with all defaults
+                        "us-west-1-alt": EndpointDefinition(hostName: "service-alt.us-west-1.amazonaws.com",
+                                                            protocols: ["https"],
+                                                            credentialScope: CredentialScope(region: "us-west-1",
+                                                                                             serviceId: "foo"),
+                                                            signatureVersions: ["vFoo"]) //region with overrides
+                                                ]
+                ),
+        Partition(
+            id: "part-id-2",
+            regionRegex: NSRegularExpression("^(cn)-\\w+-\\d+$"),
+            partitionEndpoint: "partition",
+            isRegionalized: false,
+            defaults: EndpointDefinition(protocols: ["https"],
+                                       credentialScope: CredentialScope(serviceId: "foo"),
+                                       signatureVersions: ["v4"]),
+            endpoints: ["partition": EndpointDefinition(hostName: "some-global-thing.amazonaws.cn",
+                                                        credentialScope: CredentialScope(region: "cn-east-1"))]),
+        Partition(
+            id: "part-id-3",
+            regionRegex: NSRegularExpression("^(eu)-\\w+-\\d+$"),
+            partitionEndpoint: "",
+            isRegionalized: true,
+            defaults: EndpointDefinition(hostName: "service.{region}.amazonaws.com",
+                                         protocols: ["https"],
+                                         credentialScope: CredentialScope(serviceId: "foo"),
+                                         signatureVersions: ["v4"]),
+            endpoints: [:])
+    ]
+    
+    let endpointResolveTestCases = [ResolveTest(description: "modeled region with no endpoint overrides",
+                                                region: "us-west-1",
+                                                expected: AWSEndpoint(endpoint: Endpoint(host: "service.us-west-1.amazonaws.com",
+                                                                                         protocolType: .https),
+                                                                      signingRegion: "us-west-1")),
+                                    ResolveTest(description: "modeled region with endpoint overrides",
+                                                region: "us-west-1-alt",
+                                                expected: AWSEndpoint(endpoint: Endpoint(host: "service-alt.us-west-1.amazonaws.com",
+                                                                                         protocolType: .https),
+                                                                      signingName: "foo",
+                                                                      signingRegion: "us-west-1")),
+                                    ResolveTest(description: "partition endpoint",
+                                                region: "cn-central-1",
+                                                expected: AWSEndpoint(endpoint: Endpoint(host: "some-global-thing.amazonaws.cn",
+                                                                                         protocolType: .https),
+                                                                      signingName: "foo", signingRegion: "cn-east-1")),
+                                    ResolveTest(description: "region with un-modeled endpoints ( resolved through regex)",
+                                                region: "eu-west-1",
+                                                expected: AWSEndpoint(endpoint: Endpoint(host: "service.eu-west-1.amazonaws.com",
+                                                                                         protocolType: .https),
+                                                                      signingName: "foo",
+                                                                      signingRegion: "eu-west-1"))
+    ]
+    
+    func testPartitionCreation() {
+        for (index, testCase) in endpointResolveTestCases.enumerated() {
+            do {
+            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+                XCTAssert(testCase.expected == actual, "endpoint failed for test case \(index): \(testCase.description)")
+            } catch let err {
+                XCTFail(err.localizedDescription)
+            }
+        }
+    }
+}
+
+struct ResolveTest {
+    let description: String
+    let region: String
+    let expected: AWSEndpoint
+}

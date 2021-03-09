@@ -7,8 +7,13 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                                          OperationStackError: HttpResponseBinding>: Middleware {
 
     public let id: String = "EndpointResolver"
+    public let endpointResolver: EndpointResolver
+    public let serviceId: String
 
-    public init() {}
+    public init(endpointResolver: EndpointResolver, serviceId: String) {
+        self.endpointResolver = endpointResolver
+        self.serviceId = serviceId
+    }
 
     public func handle<H>(context: Context,
                           input: SdkHttpRequestBuilder,
@@ -17,14 +22,14 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
           Self.Context == H.Context {
+        
+        let region = context.getRegion()
+        let awsEndpoint = endpointResolver.resolve(serviceId: serviceId, region: region)
+        let host = "\(context.getHostPrefix())\(awsEndpoint.endpoint.host)"
 
-        let host = context.getHost()
-        let method = context.getMethod()
-        let path = context.getPath()
-
-        input.withMethod(method)
+        input.withMethod(context.getMethod())
             .withHost(host)
-            .withPath(path)
+            .withPath(context.getPath())
             .withHeader(name: "Host", value: host)
         return next.handle(context: context, input: input)
     }
