@@ -50,17 +50,24 @@ extension EndpointDefinition {
             throw EndpointError.hostnameIsNil("EndpointDefinition.hostname cannot be nil at this point")
         }
         let editedHostName = hostname.replacingOccurrences(of: "{region}", with: region)
-        let transportProtocol = getByPriority(from: merged.protocols, priority: protocolPriority, defaultValue: defaultProtocol)
+        let transportProtocol = getByPriority(from: merged.protocols,
+                                              priority: protocolPriority,
+                                              defaultValue: defaultProtocol)
         let signingName = merged.credentialScope?.serviceId
         let signingRegion = merged.credentialScope?.region ?? region
         
-        return AWSEndpoint(endpoint: Endpoint(host: editedHostName, path: "/", protocolType: ProtocolType(rawValue: transportProtocol)), signingName: signingName, signingRegion: signingRegion)
+        return AWSEndpoint(endpoint: Endpoint(host: editedHostName,
+                                              path: "/",
+                                              protocolType: ProtocolType(rawValue: transportProtocol)),
+                           signingName: signingName,
+                           signingRegion: signingRegion)
     }
     
     private func mergeDefinitions(into: EndpointDefinition, from: EndpointDefinition) -> EndpointDefinition {
         let hostName = into.hostName ?? from.hostName
         let protocols = !into.protocols.isEmpty ? into.protocols : from.protocols
-        let credentialScope = CredentialScope(region: into.credentialScope?.region ?? from.credentialScope?.region, serviceId: into.credentialScope?.serviceId ?? from.credentialScope?.serviceId)
+        let credentialScope = CredentialScope(region: into.credentialScope?.region ?? from.credentialScope?.region,
+                                              serviceId: into.credentialScope?.serviceId ?? from.credentialScope?.serviceId)
         let signatureVersions = !into.signatureVersions.isEmpty ? into.signatureVersions : from.signatureVersions
         return EndpointDefinition(hostName: hostName,
                                   protocols: protocols,

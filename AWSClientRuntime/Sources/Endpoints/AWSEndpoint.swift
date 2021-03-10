@@ -11,7 +11,8 @@ import ClientRuntime
   The SDK will automatically resolve endpoints per API client using an internal resolver.
  */
 public struct AWSEndpoint: Equatable {
-    /// the endpoint object contains the host name (e.g. "{service-id}.{region}.amazonaws.com") , the transport protocol (e.g. "HTTPS") and the port to connect to when making requests to this endpoint.
+    /// the endpoint object contains the host name (e.g. "{service-id}.{region}.amazonaws.com") ,
+    /// the transport protocol (e.g. "HTTPS") and the port to connect to when making requests to this endpoint.
     let endpoint: Endpoint
 
     /**
@@ -34,7 +35,10 @@ public struct AWSEndpoint: Equatable {
     /// signing region used by an SDK client.
     let signingRegion: String?
     
-    public init(endpoint: Endpoint, isHostnameImmutable: Bool = false, signingName: String? = nil, signingRegion: String? = nil) {
+    public init(endpoint: Endpoint,
+                isHostnameImmutable: Bool = false,
+                signingName: String? = nil,
+                signingRegion: String? = nil) {
         self.endpoint = endpoint
         self.isHostnameImmutable = isHostnameImmutable
         self.signingName = signingName
@@ -43,7 +47,8 @@ public struct AWSEndpoint: Equatable {
     
     static func resolveEndpoint(partitions: [Partition], region: String) throws -> AWSEndpoint {
         if partitions.isEmpty {
-            throw EndpointError.partitionsEmpty("The partitions array cannot be empty in order to properly resolve an AWS endpoint")
+            throw EndpointError.partitionsEmpty(
+                "The partitions array cannot be empty in order to properly resolve an AWS endpoint")
         }
         
         let candidate = partitions.first { $0.canResolveEndpoint(region: region)} ?? partitions[0]
