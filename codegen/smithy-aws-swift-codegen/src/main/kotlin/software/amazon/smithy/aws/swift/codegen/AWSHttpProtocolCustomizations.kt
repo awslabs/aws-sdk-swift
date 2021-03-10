@@ -5,7 +5,6 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import java.io.File
 
 abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
@@ -20,8 +19,4 @@ abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
         val endpointData = Node.parse(EndpointResolverGenerator::class.java.getResource("/software.amazon.smithy.aws.swift.codegen/endpoints.json").readText()).expectObjectNode()
         EndpointResolverGenerator(endpointData).render(ctx)
     }
-}
-
-fun String.asResource(): String {
-    return File(ClassLoader.getSystemResource(this).file).readText()
 }
