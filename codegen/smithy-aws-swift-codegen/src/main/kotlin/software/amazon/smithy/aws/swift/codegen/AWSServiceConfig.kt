@@ -17,8 +17,10 @@ val AWS_CONFIG_FIELDS = listOf(
         "The credentials provider to use to authenticate requests."
     ),
     ConfigField(SIGNING_REGION_CONFIG_NAME, "String", "The region to sign requests in. (Required)"),
-    ConfigField(ENDPOINT_RESOLVER,"EndpointResolver",
-                "The endpoint resolver used to resolve endpoints. Defaults to `DefaultEndpointResolver`")
+    ConfigField(
+        ENDPOINT_RESOLVER, "EndpointResolver",
+        "The endpoint resolver used to resolve endpoints. Defaults to `DefaultEndpointResolver`"
+    )
 )
 
 class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {

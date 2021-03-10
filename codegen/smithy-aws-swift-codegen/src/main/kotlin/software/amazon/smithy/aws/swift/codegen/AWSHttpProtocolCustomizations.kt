@@ -1,10 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.model.node.Node
 import java.io.File
 
 abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {

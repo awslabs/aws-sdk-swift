@@ -1,12 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.node.StringNode
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-
 
 /**
  * Generates a per/service endpoint resolver (internal to the generated SDK) using endpoints.json
@@ -59,27 +57,27 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     private fun renderPartition(writer: SwiftWriter, partitionNode: PartitionNode) {
         writer.openBlock("Partition(", "),") {
             writer.write("id: \$S,", partitionNode.id)
-                    .write("regionRegex: NSRegularExpression(\$S),", partitionNode.config.expectStringMember("regionRegex").value)
-                    .write("partitionEndpoint: \$S,", partitionNode.partitionEndpoint ?: "")
-                    .write("isRegionalized: \$L,", partitionNode.partitionEndpoint == null)
-                    .openBlock("defaults: EndpointDefinition(", "),") {
-                        renderEndpointDefinition(writer, partitionNode.defaults)
+                .write("regionRegex: NSRegularExpression(\$S),", partitionNode.config.expectStringMember("regionRegex").value)
+                .write("partitionEndpoint: \$S,", partitionNode.partitionEndpoint ?: "")
+                .write("isRegionalized: \$L,", partitionNode.partitionEndpoint == null)
+                .openBlock("defaults: EndpointDefinition(", "),") {
+                    renderEndpointDefinition(writer, partitionNode.defaults)
+                }
+                .openBlock("endpoints: [", "]") {
+                    if (partitionNode.endpoints.members.count() == 0) {
+                        writer.write(":")
                     }
-                    .openBlock("endpoints: [", "]") {
-                        if(partitionNode.endpoints.members.count() == 0) {
-                            writer.write(":")
-                        }
-                        partitionNode.endpoints.members.forEach {
-                            val definitionNode = it.value.expectObjectNode()
-                            if (definitionNode.members.isEmpty()) {
-                                writer.write("\$S: EndpointDefinition(),", it.key.value)
-                            } else {
-                                writer.openBlock("\$S: EndpointDefinition(", "),", it.key.value) {
-                                    renderEndpointDefinition(writer, it.value.expectObjectNode())
-                                }
+                    partitionNode.endpoints.members.forEach {
+                        val definitionNode = it.value.expectObjectNode()
+                        if (definitionNode.members.isEmpty()) {
+                            writer.write("\$S: EndpointDefinition(),", it.key.value)
+                        } else {
+                            writer.openBlock("\$S: EndpointDefinition(", "),", it.key.value) {
+                                renderEndpointDefinition(writer, it.value.expectObjectNode())
                             }
                         }
                     }
+                }
         }
     }
 
@@ -113,8 +111,6 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
             val terminator = if (it.count() == 1) "" else ", "
             it.forEach { writer.writeInline("\$L$terminator", it.expectStringNode().value) }
             writer.write("]")
-
-
         }
     }
 
@@ -127,8 +123,8 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
 
         // the node associated with [endpointPrefix] (or empty node)
         val service: ObjectNode = config
-                .getObjectMember("services").orElse(Node.objectNode())
-                .getObjectMember(endpointPrefix).orElse(Node.objectNode())
+            .getObjectMember("services").orElse(Node.objectNode())
+            .getObjectMember(endpointPrefix).orElse(Node.objectNode())
 
         // endpoints belonging to the service with the given [endpointPrefix] (or empty node)
         val endpoints: ObjectNode = service.getObjectMember("endpoints").orElse(Node.objectNode())
@@ -144,8 +140,8 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
             val mergedDefaults = partitionDefaults.merge(serviceDefaults)
 
             val hostnameTemplate = mergedDefaults.expectStringMember("hostname").value
-                    .replace("{service}", endpointPrefix)
-                    .replace("{dnsSuffix}", dnsSuffix)
+                .replace("{service}", endpointPrefix)
+                .replace("{dnsSuffix}", dnsSuffix)
 
             defaults = mergedDefaults.withMember("hostname", hostnameTemplate)
         }
