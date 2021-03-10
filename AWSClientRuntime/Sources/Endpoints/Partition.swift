@@ -17,27 +17,25 @@ public struct Partition {
     /// Endpoint that works across all regions or if [isRegionalized] is false
     let partitionEndpoint: String
 
-    /**
-      Flag indicating whether or not the service is regionalized in the partition. Some services have only a single,
-      partition-global endpoint (e.g. CloudFront).
-     */
+
+    /// Flag indicating whether or not the service is regionalized in the partition. Some services have only a single,
+    /// partition-global endpoint (e.g. CloudFront).
     let isRegionalized: Bool
 
-    /**
-      Default endpoint values for the partition. Some or all of the defaults specified may be superseded
-      by an entry in [endpoints].
-     */
-    let defaults: EndpointDefinition
+    
+    /// Default endpoint values for the partition. Some or all of the defaults specified may be superseded
+    /// by an entry in [endpoints].
+    let defaults: ServiceEndpointMetadata
 
     /// Map of endpoint names to their definitions
-    let endpoints: [String: EndpointDefinition]
+    let endpoints: [String: ServiceEndpointMetadata]
     
     public init(id: String,
                 regionRegex: NSRegularExpression,
                 partitionEndpoint: String,
                 isRegionalized: Bool,
-                defaults: EndpointDefinition,
-                endpoints: [String: EndpointDefinition]) {
+                defaults: ServiceEndpointMetadata,
+                endpoints: [String: ServiceEndpointMetadata]) {
         self.id = id
         self.regionRegex = regionRegex
         self.partitionEndpoint = partitionEndpoint
@@ -45,9 +43,7 @@ public struct Partition {
         self.defaults = defaults
         self.endpoints = endpoints
     }
-}
-
-extension Partition {
+    
     func canResolveEndpoint(region: String) -> Bool {
         return endpoints[region] != nil || regionRegex.matches(region)
     }
@@ -58,7 +54,7 @@ extension Partition {
         return try endpointDefinition.resolve(region: region, defaults: defaults)
     }
     
-    func endpointDefinitionForRegion(region: String) -> EndpointDefinition {
-        return (!isRegionalized ? endpoints[partitionEndpoint] : endpoints[region]) ?? EndpointDefinition()
+    func endpointDefinitionForRegion(region: String) -> ServiceEndpointMetadata {
+        return (!isRegionalized ? endpoints[partitionEndpoint] : endpoints[region]) ?? ServiceEndpointMetadata()
     }
 }

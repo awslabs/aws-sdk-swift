@@ -17,7 +17,7 @@ abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        val endpointData = Node.parse(EndpointResolverGenerator::class.java.getResource("endpoints.json").readText()).expectObjectNode()
+        val endpointData = Node.parse(EndpointResolverGenerator::class.java.getResource("/software.amazon.smithy.aws.swift.codegen/endpoints.json").readText()).expectObjectNode()
         EndpointResolverGenerator(endpointData).render(ctx)
     }
 }

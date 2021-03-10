@@ -6,8 +6,7 @@
 //
 import ClientRuntime
 
-/// Service endpoint metadata
-public struct EndpointDefinition {
+public struct ServiceEndpointMetadata {
     private let defaultProtocol = ProtocolType.https.rawValue
     private let defaultSigner = "v4"
     private let protocolPriority = ProtocolType.allCases.map { $0.rawValue }
@@ -43,18 +42,16 @@ public struct EndpointDefinition {
     }
 }
 
-extension EndpointDefinition {
-    func resolve(region: String, defaults: EndpointDefinition) throws -> AWSEndpoint {
-        let merged = mergeDefinitions(into: self, from: defaults)
-        guard let hostname = merged.hostName else {
+extension ServiceEndpointMetadata {
+    func resolve(region: String, defaults: ServiceEndpointMetadata) throws -> AWSEndpoint {
+        let serviceEndpointMetadata = buildEndpointMetadataIfNotSet(defaults: defaults)
+        guard let hostname = serviceEndpointMetadata.hostName else {
             throw EndpointError.hostnameIsNil("EndpointDefinition.hostname cannot be nil at this point")
         }
         let editedHostName = hostname.replacingOccurrences(of: "{region}", with: region)
-        let transportProtocol = getByPriority(from: merged.protocols,
-                                              priority: protocolPriority,
-                                              defaultValue: defaultProtocol)
-        let signingName = merged.credentialScope?.serviceId
-        let signingRegion = merged.credentialScope?.region ?? region
+        let transportProtocol = getProtocolByPriority(from: serviceEndpointMetadata.protocols)
+        let signingName = serviceEndpointMetadata.credentialScope?.serviceId
+        let signingRegion = serviceEndpointMetadata.credentialScope?.region ?? region
         
         return AWSEndpoint(endpoint: Endpoint(host: editedHostName,
                                               path: "/",
@@ -63,29 +60,29 @@ extension EndpointDefinition {
                            signingRegion: signingRegion)
     }
     
-    private func mergeDefinitions(into: EndpointDefinition, from: EndpointDefinition) -> EndpointDefinition {
-        let hostName = into.hostName ?? from.hostName
-        let protocols = !into.protocols.isEmpty ? into.protocols : from.protocols
-        let credentialScope = CredentialScope(region: into.credentialScope?.region ?? from.credentialScope?.region,
-                                              serviceId: into.credentialScope?.serviceId ?? from.credentialScope?.serviceId)
-        let signatureVersions = !into.signatureVersions.isEmpty ? into.signatureVersions : from.signatureVersions
-        return EndpointDefinition(hostName: hostName,
+    private func buildEndpointMetadataIfNotSet(defaults: ServiceEndpointMetadata) -> ServiceEndpointMetadata {
+        let hostName = self.hostName ?? defaults.hostName
+        let protocols = !self.protocols.isEmpty ? self.protocols : defaults.protocols
+        let credentialScope = CredentialScope(region: self.credentialScope?.region ?? defaults.credentialScope?.region,
+                                              serviceId: self.credentialScope?.serviceId ?? defaults.credentialScope?.serviceId)
+        let signatureVersions = !self.signatureVersions.isEmpty ? self.signatureVersions : defaults.signatureVersions
+        return ServiceEndpointMetadata(hostName: hostName,
                                   protocols: protocols,
                                   credentialScope: credentialScope,
                                   signatureVersions: signatureVersions)
     }
     
-    private func getByPriority(from: [String], priority: [String], defaultValue: String) -> String {
-        if from.isEmpty {
-            return defaultValue
+    private func getProtocolByPriority(from: [String]) -> String {
+        guard from.isEmpty else {
+            return defaultProtocol
         }
         
-        for p in priority {
+        for p in protocolPriority {
             if let candidate = from.first(where: { $0 == p}) {
                 return candidate
             }
         }
         
-        return defaultValue
+        return defaultProtocol
     }
 }

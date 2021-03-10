@@ -12,5 +12,5 @@ public protocol AWSClientConfiguration {
     var signingRegion: String {get set}
     var endpointResolver: EndpointResolver {get set}
   
-    // some kind of retryer options or configuration
+    // TODO: add some kind of retryer options or configuration
 }

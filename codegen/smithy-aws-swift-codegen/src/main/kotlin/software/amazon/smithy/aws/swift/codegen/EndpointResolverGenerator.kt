@@ -48,6 +48,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         }.sortedWith(comparePartitions)
 
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        writer.addFoundationImport()
         writer.write("")
         writer.openBlock("private let servicePartitions = [", "]") {
             partitions.forEach { renderPartition(writer, it) }
@@ -60,7 +61,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
                 .write("regionRegex: NSRegularExpression(\$S),", partitionNode.config.expectStringMember("regionRegex").value)
                 .write("partitionEndpoint: \$S,", partitionNode.partitionEndpoint ?: "")
                 .write("isRegionalized: \$L,", partitionNode.partitionEndpoint == null)
-                .openBlock("defaults: EndpointDefinition(", "),") {
+                .openBlock("defaults: ServiceEndpointMetadata(", "),") {
                     renderEndpointDefinition(writer, partitionNode.defaults)
                 }
                 .openBlock("endpoints: [", "]") {
@@ -70,9 +71,9 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
                     partitionNode.endpoints.members.forEach {
                         val definitionNode = it.value.expectObjectNode()
                         if (definitionNode.members.isEmpty()) {
-                            writer.write("\$S: EndpointDefinition(),", it.key.value)
+                            writer.write("\$S: ServiceEndpointMetadata(),", it.key.value)
                         } else {
-                            writer.openBlock("\$S: EndpointDefinition(", "),", it.key.value) {
+                            writer.openBlock("\$S: ServiceEndpointMetadata(", "),", it.key.value) {
                                 renderEndpointDefinition(writer, it.value.expectObjectNode())
                             }
                         }
@@ -90,7 +91,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
             writer.writeInline("protocols: [")
             val terminator = if (it.count() == 1) "" else ", "
             it.forEach {
-                writer.writeInline("\$L$terminator", it.expectStringNode().value)
+                writer.writeInline("\"\$L$terminator\"", it.expectStringNode().value)
             }
             writer.write("],")
         }
@@ -109,7 +110,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         endpointNode.getArrayMember("signatureVersions").ifPresent {
             writer.writeInline("signatureVersions: [")
             val terminator = if (it.count() == 1) "" else ", "
-            it.forEach { writer.writeInline("\$L$terminator", it.expectStringNode().value) }
+            it.forEach { writer.writeInline("\"\$L$terminator\"", it.expectStringNode().value) }
             writer.write("]")
         }
     }
