@@ -4,6 +4,7 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.node.StringNode
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 /**
@@ -144,7 +145,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         val partitionEndpoint: String? = if (service.getBooleanMemberOrDefault("isRegionalized", true)) {
             null
         } else {
-            service.getStringMember("partitionEndpoint").map(StringNode::getValue).get()
+            service.getStringMember("partitionEndpoint").map(StringNode::getValue).getOrNull()
         }
     }
 }
