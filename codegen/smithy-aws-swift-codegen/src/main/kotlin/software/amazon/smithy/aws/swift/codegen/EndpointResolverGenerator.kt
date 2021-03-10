@@ -59,7 +59,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
                 .write("partitionEndpoint: \$S,", partitionNode.partitionEndpoint ?: "")
                 .write("isRegionalized: \$L,", partitionNode.partitionEndpoint == null)
                 .openBlock("defaults: ServiceEndpointMetadata(", "),") {
-                    renderEndpointDefinition(writer, partitionNode.defaults)
+                    renderServiceEndpointMetadata(writer, partitionNode.defaults)
                 }
                 .openBlock("endpoints: [", "]") {
                     if (partitionNode.endpoints.members.count() == 0) {
@@ -71,7 +71,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
                             writer.write("\$S: ServiceEndpointMetadata(),", it.key.value)
                         } else {
                             writer.openBlock("\$S: ServiceEndpointMetadata(", "),", it.key.value) {
-                                renderEndpointDefinition(writer, it.value.expectObjectNode())
+                                renderServiceEndpointMetadata(writer, it.value.expectObjectNode())
                             }
                         }
                     }
@@ -79,7 +79,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         }
     }
 
-    private fun renderEndpointDefinition(writer: SwiftWriter, endpointNode: ObjectNode) {
+    private fun renderServiceEndpointMetadata(writer: SwiftWriter, endpointNode: ObjectNode) {
         endpointNode.getStringMember("hostname").ifPresent {
             writer.write("hostName: \$S,", it)
         }
