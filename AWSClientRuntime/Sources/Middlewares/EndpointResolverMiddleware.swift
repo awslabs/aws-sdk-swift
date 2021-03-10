@@ -24,14 +24,21 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
           Self.Context == H.Context {
         
         let region = context.getRegion()
-        let awsEndpoint = endpointResolver.resolve(serviceId: serviceId, region: region)
+        do {
+        let awsEndpoint = try endpointResolver.resolve(serviceId: serviceId,
+                                                       region: region)
         let host = "\(context.getHostPrefix())\(awsEndpoint.endpoint.host)"
+        
+        
 
         input.withMethod(context.getMethod())
             .withHost(host)
             .withPath(context.getPath())
             .withHeader(name: "Host", value: host)
         return next.handle(context: context, input: input)
+        } catch let err {
+            return .failure(err)
+        }
     }
 
     public typealias MInput = SdkHttpRequestBuilder

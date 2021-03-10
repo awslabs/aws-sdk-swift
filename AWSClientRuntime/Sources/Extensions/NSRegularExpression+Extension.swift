@@ -8,7 +8,7 @@
 import class Foundation.NSRegularExpression
 import struct Foundation.NSRange
 
-extension NSRegularExpression {
+public extension NSRegularExpression {
     convenience init(_ pattern: String) {
         do {
             try self.init(pattern: pattern)

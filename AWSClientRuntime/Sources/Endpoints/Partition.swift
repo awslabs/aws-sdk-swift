@@ -31,6 +31,20 @@ public struct Partition {
 
     /// Map of endpoint names to their definitions
     let endpoints: [String: EndpointDefinition]
+    
+    public init(id: String,
+                regionRegex: NSRegularExpression,
+                partitionEndpoint: String,
+                isRegionalized: Bool,
+                defaults: EndpointDefinition,
+                endpoints: [String: EndpointDefinition]) {
+        self.id = id
+        self.regionRegex = regionRegex
+        self.partitionEndpoint = partitionEndpoint
+        self.isRegionalized = isRegionalized
+        self.defaults = defaults
+        self.endpoints = endpoints
+    }
 }
 
 extension Partition {

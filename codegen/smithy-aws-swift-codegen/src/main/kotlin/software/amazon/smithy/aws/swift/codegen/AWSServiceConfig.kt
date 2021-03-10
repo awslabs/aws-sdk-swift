@@ -8,6 +8,7 @@ import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 const val REGION_CONFIG_NAME = "region"
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
+const val ENDPOINT_RESOLVER = "endpointResolver"
 
 val AWS_CONFIG_FIELDS = listOf(
     ConfigField(REGION_CONFIG_NAME, "String", "The region to send requests to. (Required)"),
@@ -15,7 +16,9 @@ val AWS_CONFIG_FIELDS = listOf(
         CREDENTIALS_PROVIDER_CONFIG_NAME, "AWSCredentialsProvider",
         "The credentials provider to use to authenticate requests."
     ),
-    ConfigField(SIGNING_REGION_CONFIG_NAME, "String", "The region to sign requests in. (Required)")
+    ConfigField(SIGNING_REGION_CONFIG_NAME, "String", "The region to sign requests in. (Required)"),
+    ConfigField(ENDPOINT_RESOLVER,"EndpointResolver",
+                "The endpoint resolver used to resolve endpoints. Defaults to `DefaultEndpointResolver`")
 )
 
 class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {
@@ -38,6 +41,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.openBlock("public convenience init(credentialsProvider: AWSCredentialsProvider) {", "}") {
             writer.write("let region = \"us-east-1\"") // FIXME: get region from a region resolver
             writer.write("let signingRegion = \"us-east-1\"") // FIXME: get region from a region resolver
+            writer.write("let endpointResolver = DefaultEndpointResolver()")
             writer.openBlock("self.init(", ")") {
                 val configFieldsSortedByName = getConfigFields().sortedBy { it.name }
                 for ((index, member) in configFieldsSortedByName.withIndex()) {

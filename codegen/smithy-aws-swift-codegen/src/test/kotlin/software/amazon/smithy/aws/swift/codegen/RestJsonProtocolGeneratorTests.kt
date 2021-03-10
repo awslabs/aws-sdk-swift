@@ -143,14 +143,17 @@ public class ExampleClient {
         public var region: String
         public var credentialsProvider: AWSCredentialsProvider
         public var signingRegion: String
+        public var endpointResolver: EndpointResolver
 
         public init (
             credentialsProvider: AWSCredentialsProvider,
+            endpointResolver: EndpointResolver,
             region: String,
             signingRegion: String
         )
         {
             self.credentialsProvider = credentialsProvider
+            self.endpointResolver = endpointResolver
             self.region = region
             self.signingRegion = signingRegion
         }
@@ -158,8 +161,10 @@ public class ExampleClient {
         public convenience init(credentialsProvider: AWSCredentialsProvider) {
             let region = "us-east-1"
             let signingRegion = "us-east-1"
+            let endpointResolver = DefaultEndpointResolver()
             self.init(
                 credentialsProvider: credentialsProvider,
+                endpointResolver: endpointResolver,
                 region: region,
                 signingRegion: signingRegion
             )

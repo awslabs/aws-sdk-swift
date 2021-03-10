@@ -9,5 +9,5 @@
 public protocol EndpointResolver {
 
   /// Resolve the `AWSEndpoint` for the given serviceId and region
-  func resolve(serviceId: String, region: String) -> AWSEndpoint
+  func resolve(serviceId: String, region: String) throws -> AWSEndpoint
 }

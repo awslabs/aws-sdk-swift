@@ -45,7 +45,7 @@ public struct AWSEndpoint: Equatable {
         self.signingRegion = signingRegion
     }
     
-    static func resolveEndpoint(partitions: [Partition], region: String) throws -> AWSEndpoint {
+    public static func resolveEndpoint(partitions: [Partition], region: String) throws -> AWSEndpoint {
         if partitions.isEmpty {
             throw EndpointError.partitionsEmpty(
                 "The partitions array cannot be empty in order to properly resolve an AWS endpoint")
