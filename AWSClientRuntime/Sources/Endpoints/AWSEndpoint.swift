@@ -50,5 +50,3 @@ public struct AWSEndpoint: Equatable {
         return try candidate.resolveEndpoint(region: region)
     }
 }
-
-

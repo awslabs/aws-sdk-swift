@@ -10,7 +10,7 @@ import ClientRuntime
 public struct EndpointDefinition {
     private let defaultProtocol = ProtocolType.https.rawValue
     private let defaultSigner = "v4"
-    private let protocolPriority = ProtocolType.allCases.map{ $0.rawValue }
+    private let protocolPriority = ProtocolType.allCases.map { $0.rawValue }
     private let signerPriority = ["v4"]
     /**
       A URI **template** used to resolve the hostname of the endpoint.
@@ -69,7 +69,7 @@ extension EndpointDefinition {
     }
     
     private func getByPriority(from: [String], priority: [String], defaultValue: String) -> String {
-        if from.isEmpty{
+        if from.isEmpty {
             return defaultValue
         }
         
