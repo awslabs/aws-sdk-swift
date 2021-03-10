@@ -29,9 +29,6 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         }
     }
 
-    /**
-     * Renders the partition data for this service
-     */
     private fun renderInternalEndpointsModel(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         val partitionsData = endpointData.expectArrayMember("partitions").getElementsAs(Node::expectObjectNode)
 
@@ -88,9 +85,9 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
 
         endpointNode.getArrayMember("protocols").ifPresent {
             writer.writeInline("protocols: [")
-            val terminator = if (it.count() == 1) "" else ", "
+            val delimiter = if (it.count() == 1) "" else ", "
             it.forEach {
-                writer.writeInline("\"\$L$terminator\"", it.expectStringNode().value)
+                writer.writeInline("\"\$L$delimiter\"", it.expectStringNode().value)
             }
             writer.write("],")
         }
@@ -108,15 +105,12 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
 
         endpointNode.getArrayMember("signatureVersions").ifPresent {
             writer.writeInline("signatureVersions: [")
-            val terminator = if (it.count() == 1) "" else ", "
-            it.forEach { writer.writeInline("\$S$terminator", it.expectStringNode().value) }
+            val delimiter = if (it.count() == 1) "" else ", "
+            it.forEach { writer.writeInline("\$S$delimiter", it.expectStringNode().value) }
             writer.write("]")
         }
     }
 
-    /**
-     * Represents a partition from endpoints.json
-     */
     private class PartitionNode(endpointPrefix: String, val config: ObjectNode) {
         // the partition id/name (e.g. "aws")
         val id = config.expectStringMember("partition").value

@@ -20,35 +20,35 @@ class EndpointsTests: XCTestCase {
             partitionEndpoint: "",
             isRegionalized: true,
             defaults: ServiceEndpointMetadata(hostName: "service.{region}.amazonaws.com",
-                                         protocols: ["https"],
-                                         signatureVersions: ["v4"]),
+                                              protocols: ["https"],
+                                              signatureVersions: ["v4"]),
             endpoints: ["us-west-1": ServiceEndpointMetadata(), //region with all defaults
                         "us-west-1-alt": ServiceEndpointMetadata(hostName: "service-alt.us-west-1.amazonaws.com",
-                                                            protocols: ["https"],
-                                                            credentialScope: CredentialScope(region: "us-west-1",
-                                                                                             serviceId: "foo"),
-                                                            signatureVersions: ["vFoo"]) //region with overrides
-                                                ]
-                ),
+                                                                 protocols: ["https"],
+                                                                 credentialScope: CredentialScope(region: "us-west-1",
+                                                                                                  serviceId: "foo"),
+                                                                 signatureVersions: ["vFoo"]) //region with overrides
+            ]
+        ),
         Partition(
             id: "part-id-2",
             regionRegex: "^(cn)-\\w+-\\d+$",
             partitionEndpoint: "partition",
             isRegionalized: false,
             defaults: ServiceEndpointMetadata(protocols: ["https"],
-                                       credentialScope: CredentialScope(serviceId: "foo"),
-                                       signatureVersions: ["v4"]),
+                                              credentialScope: CredentialScope(serviceId: "foo"),
+                                              signatureVersions: ["v4"]),
             endpoints: ["partition": ServiceEndpointMetadata(hostName: "some-global-thing.amazonaws.cn",
-                                                        credentialScope: CredentialScope(region: "cn-east-1"))]),
+                                                             credentialScope: CredentialScope(region: "cn-east-1"))]),
         Partition(
             id: "part-id-3",
             regionRegex: "^(eu)-\\w+-\\d+$",
             partitionEndpoint: "",
             isRegionalized: true,
             defaults: ServiceEndpointMetadata(hostName: "service.{region}.amazonaws.com",
-                                         protocols: ["https"],
-                                         credentialScope: CredentialScope(serviceId: "foo"),
-                                         signatureVersions: ["v4"]),
+                                              protocols: ["https"],
+                                              credentialScope: CredentialScope(serviceId: "foo"),
+                                              signatureVersions: ["v4"]),
             endpoints: [:])
     ]
     
@@ -76,14 +76,34 @@ class EndpointsTests: XCTestCase {
                                                                       signingRegion: "eu-west-1"))
     ]
     
-    func testPartitionCreation() {
-        for (index, testCase) in endpointResolveTestCases.enumerated() {
-            do {
+    func testNormalPartitionCreationWithOverrides() {
+        let testCase = endpointResolveTestCases[0]
+        do {
             let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
-                XCTAssert(testCase.expected == actual, "endpoint failed for test case \(index): \(testCase.description)")
-            } catch let err {
-                XCTFail(err.localizedDescription)
-            }
+            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
+        } catch let err {
+            XCTFail(err.localizedDescription)
+        }
+        
+    }
+    
+    func testNonRegionalizedPartitionWithSomeOverrides() {
+        let testCase = endpointResolveTestCases[1]
+        do {
+            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
+        } catch let err {
+            XCTFail(err.localizedDescription)
+        }
+    }
+    
+    func testEuropeanPartitionWithSomeOverrides() {
+        let testCase = endpointResolveTestCases[2]
+        do {
+            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
+        } catch let err {
+            XCTFail(err.localizedDescription)
         }
     }
 }
