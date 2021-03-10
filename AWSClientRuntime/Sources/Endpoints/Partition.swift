@@ -4,7 +4,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-import class Foundation.NSRegularExpression
 
 public struct Partition {
 
@@ -12,7 +11,7 @@ public struct Partition {
     let id: String
 
     /// The regular expression that specified the pattern that region names in the endpoint adhere to
-    let regionRegex: NSRegularExpression
+    let regionRegex: String
 
     /// Endpoint that works across all regions or if [isRegionalized] is false
     let partitionEndpoint: String
@@ -31,7 +30,7 @@ public struct Partition {
     let endpoints: [String: ServiceEndpointMetadata]
     
     public init(id: String,
-                regionRegex: NSRegularExpression,
+                regionRegex: String,
                 partitionEndpoint: String,
                 isRegionalized: Bool,
                 defaults: ServiceEndpointMetadata,
@@ -45,7 +44,8 @@ public struct Partition {
     }
     
     func canResolveEndpoint(region: String) -> Bool {
-        return endpoints[region] != nil || regionRegex.matches(region)
+        return endpoints[region] != nil || region.range(of: regionRegex,
+                                                            options: .regularExpression) != nil
     }
     
     func resolveEndpoint(region: String) throws -> AWSEndpoint {

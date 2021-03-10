@@ -48,7 +48,6 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         }.sortedWith(comparePartitions)
 
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-        writer.addFoundationImport()
         writer.write("")
         writer.openBlock("private let servicePartitions = [", "]") {
             partitions.forEach { renderPartition(writer, it) }
@@ -58,7 +57,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     private fun renderPartition(writer: SwiftWriter, partitionNode: PartitionNode) {
         writer.openBlock("Partition(", "),") {
             writer.write("id: \$S,", partitionNode.id)
-                .write("regionRegex: NSRegularExpression(\$S),", partitionNode.config.expectStringMember("regionRegex").value)
+                .write("regionRegex: \$S,", partitionNode.config.expectStringMember("regionRegex").value)
                 .write("partitionEndpoint: \$S,", partitionNode.partitionEndpoint ?: "")
                 .write("isRegionalized: \$L,", partitionNode.partitionEndpoint == null)
                 .openBlock("defaults: ServiceEndpointMetadata(", "),") {
@@ -99,10 +98,10 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         endpointNode.getObjectMember("credentialScope").ifPresent {
             writer.writeInline("credentialScope: CredentialScope(")
             it.getStringMember("region").ifPresent {
-                writer.writeInline("region: \$L,", it.value)
+                writer.writeInline("region: \$S,", it.value)
             }
             it.getStringMember("service").ifPresent {
-                writer.writeInline("serviceId: \$L", it.value)
+                writer.writeInline("serviceId: \$S", it.value)
             }
             writer.write("),")
         }
@@ -110,7 +109,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         endpointNode.getArrayMember("signatureVersions").ifPresent {
             writer.writeInline("signatureVersions: [")
             val terminator = if (it.count() == 1) "" else ", "
-            it.forEach { writer.writeInline("\"\$L$terminator\"", it.expectStringNode().value) }
+            it.forEach { writer.writeInline("\$S$terminator", it.expectStringNode().value) }
             writer.write("]")
         }
     }

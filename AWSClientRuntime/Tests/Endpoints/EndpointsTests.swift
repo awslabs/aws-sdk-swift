@@ -16,7 +16,7 @@ class EndpointsTests: XCTestCase {
         //normal partition with and without overrides
         Partition(
             id: "part-id-1",
-            regionRegex: NSRegularExpression("^(us)-\\w+-\\d+$"),
+            regionRegex: "^(us)-\\w+-\\d+$",
             partitionEndpoint: "",
             isRegionalized: true,
             defaults: ServiceEndpointMetadata(hostName: "service.{region}.amazonaws.com",
@@ -32,7 +32,7 @@ class EndpointsTests: XCTestCase {
                 ),
         Partition(
             id: "part-id-2",
-            regionRegex: NSRegularExpression("^(cn)-\\w+-\\d+$"),
+            regionRegex: "^(cn)-\\w+-\\d+$",
             partitionEndpoint: "partition",
             isRegionalized: false,
             defaults: ServiceEndpointMetadata(protocols: ["https"],
@@ -42,7 +42,7 @@ class EndpointsTests: XCTestCase {
                                                         credentialScope: CredentialScope(region: "cn-east-1"))]),
         Partition(
             id: "part-id-3",
-            regionRegex: NSRegularExpression("^(eu)-\\w+-\\d+$"),
+            regionRegex: "^(eu)-\\w+-\\d+$",
             partitionEndpoint: "",
             isRegionalized: true,
             defaults: ServiceEndpointMetadata(hostName: "service.{region}.amazonaws.com",
