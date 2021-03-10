@@ -29,12 +29,16 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                                                        region: region)
         let host = "\(context.getHostPrefix())\(awsEndpoint.endpoint.host)"
         
-        
+        if let protocolType = awsEndpoint.endpoint.protocolType {
+            input.withProtocol(protocolType)
+        }
 
         input.withMethod(context.getMethod())
             .withHost(host)
+            .withPort(awsEndpoint.endpoint.port)
             .withPath(context.getPath())
             .withHeader(name: "Host", value: host)
+            
         return next.handle(context: context, input: input)
         } catch let err {
             return .failure(err)
