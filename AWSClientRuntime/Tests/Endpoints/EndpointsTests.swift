@@ -13,7 +13,6 @@ import XCTest
 class EndpointsTests: XCTestCase {
     
     let testPartitions = [
-        //normal partition with and without overrides
         Partition(
             id: "part-id-1",
             regionRegex: "^(us)-\\w+-\\d+$",
@@ -22,12 +21,12 @@ class EndpointsTests: XCTestCase {
             defaults: ServiceEndpointMetadata(hostName: "service.{region}.amazonaws.com",
                                               protocols: ["https"],
                                               signatureVersions: ["v4"]),
-            endpoints: ["us-west-1": ServiceEndpointMetadata(), //region with all defaults
+            endpoints: ["us-west-1": ServiceEndpointMetadata(),
                         "us-west-1-alt": ServiceEndpointMetadata(hostName: "service-alt.us-west-1.amazonaws.com",
                                                                  protocols: ["https"],
                                                                  credentialScope: CredentialScope(region: "us-west-1",
                                                                                                   serviceId: "foo"),
-                                                                 signatureVersions: ["vFoo"]) //region with overrides
+                                                                 signatureVersions: ["vFoo"])
             ]
         ),
         Partition(

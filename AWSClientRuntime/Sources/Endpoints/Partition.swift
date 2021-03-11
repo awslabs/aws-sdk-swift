@@ -21,9 +21,10 @@ public struct Partition {
     /// partition-global endpoint (e.g. CloudFront).
     let isRegionalized: Bool
 
-    
-    /// Default endpoint values for the partition. Some or all of the defaults specified may be superseded
-    /// by an entry in [endpoints].
+    /**
+    Default endpoint values for the partition. Some or all of the defaults specified may be superseded
+    by an entry in [endpoints].
+     */
     let defaults: ServiceEndpointMetadata
 
     /// Map of endpoint names to their definitions

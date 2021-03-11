@@ -11,8 +11,10 @@ import ClientRuntime
   The SDK will automatically resolve endpoints per API client using an internal resolver.
  */
 public struct AWSEndpoint: Equatable {
-    /// The endpoint object contains the host name (e.g. "{service-id}.{region}.amazonaws.com"),
-    /// the transport protocol (e.g. "HTTPS") and the port to connect to when making requests to this endpoint.
+    /**
+    The endpoint object contains the host name (e.g. "{service-id}.{region}.amazonaws.com"),
+    the transport protocol (e.g. "HTTPS") and the port to connect to when making requests to this endpoint.
+     */
     let endpoint: Endpoint
 
     /**
@@ -23,13 +25,15 @@ public struct AWSEndpoint: Equatable {
     will likely fail.
     */
     let isHostnameImmutable: Bool
-
-    /// The service name that should be used for signing requests to this endpoint. This overrides the default
-    /// signing name used by an SDK client.
+    /**
+     The service name that should be used for signing requests to this endpoint.
+     This overrides the default signing name used by an SDK client.
+     */
     let signingName: String?
-
-    /// The region that should be used for signing requests to this endpoint. This overrides the default
-    /// signing region used by an SDK client.
+    /**
+    The region that should be used for signing requests to this endpoint.
+    This overrides the default signing region used by an SDK client.
+     */
     let signingRegion: String?
     
     public init(endpoint: Endpoint,

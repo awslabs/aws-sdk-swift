@@ -33,17 +33,9 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     private fun renderInternalEndpointsModel(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         val partitionsData = endpointData.expectArrayMember("partitions").getElementsAs(Node::expectObjectNode)
 
-        val comparePartitions = object : Comparator<PartitionNode> {
-            override fun compare(x: PartitionNode, y: PartitionNode): Int {
-                // always sort standard aws partition first
-                if (x.id == "aws") return -1
-                return x.id.compareTo(y.id)
-            }
-        }
-
         val partitions = partitionsData.map {
             PartitionNode(ctx.service.endpointPrefix, it)
-        }.sortedWith(comparePartitions)
+        }.sortedWith(PartitionNode.comparePartitions)
 
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         writer.write("")
@@ -62,20 +54,24 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
                     renderServiceEndpointMetadata(writer, partitionNode.defaults)
                 }
                 .openBlock("endpoints: [", "]") {
-                    if (partitionNode.endpoints.members.count() == 0) {
-                        writer.write(":")
-                    }
-                    partitionNode.endpoints.members.forEach {
-                        val definitionNode = it.value.expectObjectNode()
-                        if (definitionNode.members.isEmpty()) {
-                            writer.write("\$S: ServiceEndpointMetadata(),", it.key.value)
-                        } else {
-                            writer.openBlock("\$S: ServiceEndpointMetadata(", "),", it.key.value) {
-                                renderServiceEndpointMetadata(writer, it.value.expectObjectNode())
-                            }
-                        }
-                    }
+                    renderEndpoints(writer, partitionNode)
                 }
+        }
+    }
+
+    private fun renderEndpoints(writer: SwiftWriter, partitionNode: PartitionNode) {
+        if (partitionNode.endpoints.members.count() == 0) {
+            writer.write(":")
+        }
+        partitionNode.endpoints.members.forEach {
+            val definitionNode = it.value.expectObjectNode()
+            if (definitionNode.members.isEmpty()) {
+                writer.write("\$S: ServiceEndpointMetadata(),", it.key.value)
+            } else {
+                writer.openBlock("\$S: ServiceEndpointMetadata(", "),", it.key.value) {
+                    renderServiceEndpointMetadata(writer, it.value.expectObjectNode())
+                }
+            }
         }
     }
 
@@ -113,6 +109,15 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     }
 
     private class PartitionNode(endpointPrefix: String, val config: ObjectNode) {
+        companion object {
+            val comparePartitions = object : Comparator<PartitionNode> {
+                override fun compare(x: PartitionNode, y: PartitionNode): Int {
+                    // always sort standard aws partition first
+                    if (x.id == "aws") return -1
+                    return x.id.compareTo(y.id)
+                }
+            }
+        }
         // the partition id/name (e.g. "aws")
         val id = config.expectStringMember("partition").value
 
