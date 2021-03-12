@@ -6,7 +6,6 @@ import software.amazon.smithy.model.node.StringNode
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import kotlin.math.sign
 
 /**
  * Generates a per/service endpoint resolver (internal to the generated SDK) using endpoints.json
@@ -82,7 +81,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         val credentialScope = endpointNode.getObjectMember("credentialScope")
         val signatureVersions = endpointNode.getArrayMember("signatureVersions")
         hostname.ifPresent {
-            val delimiter = if(protocols.isPresent || credentialScope.isPresent || signatureVersions.isPresent) "," else ""
+            val delimiter = if (protocols.isPresent || credentialScope.isPresent || signatureVersions.isPresent) "," else ""
             writer.write("hostName: \$S$delimiter", it)
         }
 
@@ -92,7 +91,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
             it.forEach {
                 writer.writeInline("\$S$delimiter", it.expectStringNode().value)
             }
-            val paramDelimiter = if(credentialScope.isPresent || signatureVersions.isPresent) "," else ""
+            val paramDelimiter = if (credentialScope.isPresent || signatureVersions.isPresent) "," else ""
             writer.write("]$paramDelimiter")
         }
 
@@ -103,13 +102,13 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
             region.ifPresent {
                 writer.writeInline("region: \$S", it.value)
             }
-            if(region.isPresent && service.isPresent) {
+            if (region.isPresent && service.isPresent) {
                 writer.write(", ")
             }
             service.ifPresent {
                 writer.writeInline("serviceId: \$S", it.value)
             }
-            val paramDelimiter = if(signatureVersions.isPresent) "," else ""
+            val paramDelimiter = if (signatureVersions.isPresent) "," else ""
             writer.write(")$paramDelimiter")
         }
 
