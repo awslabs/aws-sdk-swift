@@ -10,15 +10,9 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
                               OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "Sigv4Signer"
 
-    let signingName: String
-
     let unsignedBody: Bool
 
-    let signingRegion: String
-
-    public init(signingName: String, signingRegion: String, unsignedBody: Bool) {
-        self.signingName = signingName
-        self.signingRegion = signingRegion
+    public init(unsignedBody: Bool) {
         self.unsignedBody = unsignedBody
     }
 
@@ -43,6 +37,8 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         do {
             let credentials = try credentialsResult.get()
             let signedBodyValue = unsignedBody ? SignedBodyValue.unsignedPayload : SignedBodyValue.empty
+            let signingRegion = context.getSigningRegion()
+            let signingName = context.getSigningName()
             let config = SigningConfig(credentials: credentials,
                                        date: AWSDate(),
                                        service: signingName,

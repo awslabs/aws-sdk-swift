@@ -33,6 +33,16 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                 input.withProtocol(protocolType)
             }
             
+            var updatedContext = context
+            
+            if let signingRegion = awsEndpoint.signingRegion {
+                updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
+            }
+            
+            if let signingName = awsEndpoint.signingName {
+                updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)
+            }
+            
             input.withMethod(context.getMethod())
                 .withHost(host)
                 .withPort(awsEndpoint.endpoint.port)
@@ -40,7 +50,7 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                 //TODO: investigate if this header should be the same host value as the actual host and where this header should be set
                 .withHeader(name: "Host", value: host)
             
-            return next.handle(context: context, input: input)
+            return next.handle(context: updatedContext, input: input)
         } catch let err {
             return .failure(err)
         }
