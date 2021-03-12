@@ -6,6 +6,7 @@ import software.amazon.smithy.model.node.StringNode
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import kotlin.math.sign
 
 /**
  * Generates a per/service endpoint resolver (internal to the generated SDK) using endpoints.json
@@ -76,31 +77,43 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     }
 
     private fun renderServiceEndpointMetadata(writer: SwiftWriter, endpointNode: ObjectNode) {
-        endpointNode.getStringMember("hostname").ifPresent {
-            writer.write("hostName: \$S,", it)
+        val hostname = endpointNode.getStringMember("hostname")
+        val protocols = endpointNode.getArrayMember("protocols")
+        val credentialScope = endpointNode.getObjectMember("credentialScope")
+        val signatureVersions = endpointNode.getArrayMember("signatureVersions")
+        hostname.ifPresent {
+            val delimiter = if(protocols.isPresent || credentialScope.isPresent || signatureVersions.isPresent) "," else ""
+            writer.write("hostName: \$S$delimiter", it)
         }
 
-        endpointNode.getArrayMember("protocols").ifPresent {
+        protocols.ifPresent {
             writer.writeInline("protocols: [")
             val delimiter = if (it.count() == 1) "" else ", "
             it.forEach {
-                writer.writeInline("\"\$L$delimiter\"", it.expectStringNode().value)
+                writer.writeInline("\$S$delimiter", it.expectStringNode().value)
             }
-            writer.write("],")
+            val paramDelimiter = if(credentialScope.isPresent || signatureVersions.isPresent) "," else ""
+            writer.write("]$paramDelimiter")
         }
 
-        endpointNode.getObjectMember("credentialScope").ifPresent {
+        credentialScope.ifPresent {
             writer.writeInline("credentialScope: CredentialScope(")
-            it.getStringMember("region").ifPresent {
-                writer.writeInline("region: \$S,", it.value)
+            val region = it.getStringMember("region")
+            val service = it.getStringMember("service")
+            region.ifPresent {
+                writer.writeInline("region: \$S", it.value)
             }
-            it.getStringMember("service").ifPresent {
+            if(region.isPresent && service.isPresent) {
+                writer.write(", ")
+            }
+            service.ifPresent {
                 writer.writeInline("serviceId: \$S", it.value)
             }
-            writer.write("),")
+            val paramDelimiter = if(signatureVersions.isPresent) "," else ""
+            writer.write(")$paramDelimiter")
         }
 
-        endpointNode.getArrayMember("signatureVersions").ifPresent {
+        signatureVersions.ifPresent {
             writer.writeInline("signatureVersions: [")
             val delimiter = if (it.count() == 1) "" else ", "
             it.forEach { writer.writeInline("\$S$delimiter", it.expectStringNode().value) }

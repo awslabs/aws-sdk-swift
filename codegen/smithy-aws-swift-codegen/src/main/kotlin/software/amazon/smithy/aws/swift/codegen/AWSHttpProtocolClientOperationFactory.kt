@@ -25,9 +25,11 @@ class AWSHttpProtocolClientCustomizableFactory {
 }
 
 class AWSHttpProtocolNoopCustomizations : HttpProtocolCustomizable() {
-    override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext,
-                                         writer: SwiftWriter,
-                                         serviceShape: ServiceShape,
-                                         op: OperationShape) {
+    override fun renderContextAttributes(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceShape: ServiceShape,
+        op: OperationShape
+    ) {
     }
 }
