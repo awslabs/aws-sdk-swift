@@ -19,7 +19,7 @@ val AWS_CONFIG_FIELDS = listOf(
     ConfigField(SIGNING_REGION_CONFIG_NAME, "String", "The region to sign requests in. (Required)"),
     ConfigField(
         ENDPOINT_RESOLVER, "EndpointResolver",
-        "The endpoint resolver used to resolve endpoints. Defaults to `DefaultEndpointResolver`"
+        "The endpoint resolver used to resolve endpoints."
     )
 )
 

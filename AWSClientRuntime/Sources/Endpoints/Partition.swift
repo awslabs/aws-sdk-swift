@@ -16,7 +16,6 @@ public struct Partition {
     /// Endpoint that works across all regions or if [isRegionalized] is false
     let partitionEndpoint: String
 
-
     /// Flag indicating whether or not the service is regionalized in the partition. Some services have only a single,
     /// partition-global endpoint (e.g. CloudFront).
     let isRegionalized: Bool
@@ -50,7 +49,8 @@ public struct Partition {
     }
     
     func resolveEndpoint(region: String) throws -> AWSEndpoint {
-        let resolvedRegion = region.isEmpty && !partitionEndpoint.isEmpty ? partitionEndpoint : region
+        let shouldUsePartitionEndpoint = region.isEmpty && !partitionEndpoint.isEmpty
+        let resolvedRegion = shouldUsePartitionEndpoint ? partitionEndpoint : region
         let endpointDefinition = endpointDefinitionForRegion(region: resolvedRegion)
         return try endpointDefinition.resolve(region: region, defaults: defaults)
     }
