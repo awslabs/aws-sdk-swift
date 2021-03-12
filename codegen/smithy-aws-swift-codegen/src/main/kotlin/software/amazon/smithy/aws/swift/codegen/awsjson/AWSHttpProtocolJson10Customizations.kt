@@ -18,7 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator.Genera
 class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
 
     override fun renderMiddlewares(ctx: GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware())")
+        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware(endpointResolver: config.endpointResolver, serviceId: serviceName))")
 
         val signingMiddleware = AWSSigningMiddleware()
         val serviceShape = ctx.service

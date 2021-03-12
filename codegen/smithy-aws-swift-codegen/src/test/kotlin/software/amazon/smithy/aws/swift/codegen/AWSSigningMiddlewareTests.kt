@@ -43,9 +43,7 @@ class AWSSigningMiddlewareTests {
         val expectedContents =
             """
 stack.finalizeStep.intercept(position: .after,
-                                         middleware: SigV4Middleware(signingName: "ExampleService",
-                                                                     signingRegion: config.signingRegion,
-                                                                     unsignedBody: true))"""
+                                         middleware: SigV4Middleware(unsignedBody: true))"""
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
@@ -70,9 +68,7 @@ stack.finalizeStep.intercept(position: .after,
         val expectedContents =
             """
 stack.finalizeStep.intercept(position: .after,
-                                         middleware: SigV4Middleware(signingName: "ExampleService",
-                                                                     signingRegion: config.signingRegion,
-                                                                     unsignedBody: false))"""
+                                         middleware: SigV4Middleware(unsignedBody: false))"""
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")

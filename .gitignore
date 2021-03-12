@@ -17,3 +17,5 @@ Package.resolved
 AWSClientRuntime/Package.resolved
 AWSClientRuntime/AWSClientRuntime.xcodeproj
 AWSClientRuntime/AWSClientRuntime.xcodeproj/
+AWSClientRuntime/.swiftpm/xcode/xcuserdata/*
+AWSClientRuntime/.swiftpm/xcode/package.xcworkspace/xcuserdata/*

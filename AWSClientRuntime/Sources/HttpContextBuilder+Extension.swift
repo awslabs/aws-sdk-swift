@@ -1,13 +1,17 @@
-/*
- * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0.
- */
+//
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
 
 import ClientRuntime
 
 extension HttpContext {
     static let credentialsProvider = AttributeKey<AWSCredentialsProvider>(name: "AWSCredentialsProvider")
     static let region = AttributeKey<String>(name: "Region")
+    static let signingName = AttributeKey<String>(name: "SigningName")
+    static let signingRegion = AttributeKey<String>(name: "SigningRegion")
 
     func getCredentialsProvider() -> AWSCredentialsProvider {
         return attributes.get(key: HttpContext.credentialsProvider)!
@@ -15,6 +19,14 @@ extension HttpContext {
 
     func getRegion() -> String {
         return attributes.get(key: HttpContext.region)!
+    }
+    
+    func getSigningName() -> String {
+        return attributes.get(key: HttpContext.signingName)!
+    }
+    
+    func getSigningRegion() -> String {
+        return attributes.get(key: HttpContext.signingRegion)!
     }
 }
 
@@ -29,6 +41,18 @@ extension HttpContextBuilder {
     @discardableResult
     public func withCredentialsProvider(value: AWSCredentialsProvider) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKey<AWSCredentialsProvider>(name: "AWSCredentialsProvider"), value: value)
+        return self
+    }
+    
+    @discardableResult
+    public func withSigningName(value: String) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<String>(name: "SigningName"), value: value)
+        return self
+    }
+    
+    @discardableResult
+    public func withSigningRegion(value: String) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<String>(name: "SigningRegion"), value: value)
         return self
     }
 }
