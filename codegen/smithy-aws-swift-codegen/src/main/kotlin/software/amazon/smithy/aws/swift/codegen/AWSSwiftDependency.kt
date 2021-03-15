@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 package software.amazon.smithy.aws.swift.codegen
+import software.amazon.smithy.aws.swift.codegen.resources.computeAbsolutePath
 import software.amazon.smithy.codegen.core.SymbolDependency
 import software.amazon.smithy.codegen.core.SymbolDependencyContainer
 import java.io.File
@@ -13,7 +14,7 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
         "AWSClientRuntime",
         null,
         "0.1.0",
-        computeAbsolutePath("aws-sdk-swift/AWSClientRuntime"),
+        computeAbsolutePath("aws-sdk-swift/AWSClientRuntime", "AWS_SDK_SWIFT_CI_DIR"),
         "AWSClientRuntime"
     );
 
@@ -28,21 +29,4 @@ enum class AWSSwiftDependency(val type: String, val target: String, val branch: 
             .build()
         return listOf(dependency)
     }
-}
-
-private fun computeAbsolutePath(relativePath: String): String {
-    val userDirPathOverride = System.getenv("AWS_SDK_SWIFT_CI_DIR")
-    if (!userDirPathOverride.isNullOrEmpty()) {
-        return userDirPathOverride
-    }
-
-    var userDirPath = System.getProperty("user.dir")
-    while (userDirPath.isNotEmpty()) {
-        val fileName = userDirPath.removeSuffix("/") + "/" + relativePath
-        if (File(fileName).isDirectory) {
-            return fileName
-        }
-        userDirPath = userDirPath.substring(0, userDirPath.length - 1)
-    }
-    return ""
 }
