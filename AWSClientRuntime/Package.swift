@@ -10,6 +10,10 @@ let package = Package(
     products: [
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
     ],
+    dependencies: [
+        .package(name: "ClientRuntime", path: "~/Projects/Amplify/SwiftSDK/smithy-swift/Packages"),
+        .package(name: "AwsCrt", path: "~/Projects/Amplify/SwiftSDK/aws-crt-swift")
+    ],
     targets: [
         .target(
             name: "AWSClientRuntime",
@@ -30,17 +34,3 @@ let package = Package(
         )
     ]
 )
-
-let relatedDependenciesBranch = "master"
-
-if ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil {
-    package.dependencies += [
-        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch(relatedDependenciesBranch)),
-        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift", .branch(relatedDependenciesBranch))
-    ]
-} else {
-    package.dependencies += [
-        .package(name: "AwsCrt", path: "./target/build/deps/aws-crt-swift"),
-        .package(name: "ClientRuntime", path: "./target/build/deps/smithy-swift")
-    ]
-}
