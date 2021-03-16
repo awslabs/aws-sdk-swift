@@ -17,6 +17,7 @@ env:
   RUN: ${{ github.run_id }}-${{ github.run_number }}
   AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
   SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
+  AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
 
 jobs:
   #TODO: add linux compatibility after aws-crt-swift supports Linux appropriately.
@@ -67,4 +68,4 @@ jobs:
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
-          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" BRANCH_NAME="${GITHUB_HEAD_REF}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
