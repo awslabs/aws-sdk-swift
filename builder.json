@@ -5,9 +5,6 @@
   "variables": {
     "gradlew": "{source_dir}/gradlew -p {source_dir}"
   },
-  "env": {
-    "SWIFTCI_USE_LOCAL_DEPS": "1"
-  },
   "build_steps": [
     "{gradlew} build",
     "swift build",

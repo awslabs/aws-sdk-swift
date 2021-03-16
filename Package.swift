@@ -34,7 +34,7 @@ let package = Package(
 
 let relatedDependenciesBranch = "master"
 
-if ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil {
+if ProcessInfo.processInfo.environment["SWIFTSDK_DEPS_USE_LOCAL_PATHS"] == nil {
     package.dependencies += [
         .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch(relatedDependenciesBranch)),
         .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift", .branch(relatedDependenciesBranch))
