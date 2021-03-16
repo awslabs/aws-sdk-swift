@@ -36,3 +36,4 @@ enum class AWSSwiftDependency(
         return listOf(dependency)
     }
 }
+
