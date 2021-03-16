@@ -6,7 +6,10 @@
     "gradlew": "{source_dir}/gradlew -p {source_dir}"
   },
   "env": {
-    "SWIFTCI_USE_LOCAL_DEPS": "1"
+    "SWIFTCI_USE_LOCAL_DEPS": "1",
+    "AWS_SDK_SWIFT_CI_DIR": "/Users/runner/work/aws-sdk-swift/aws-sdk-swift",
+    "SMITHY_SWIFT_CI_DIR": "/Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift",
+    "AWS_CRT_SWIFT_CI_DIR": "/Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift"
   },
   "build_steps": [
     "{gradlew} build",
