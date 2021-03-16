@@ -32,6 +32,9 @@
   "upstream": [
     {
       "name": "smithy-swift"
+    },
+    {
+      "name": "aws-crt-swift"
     }
   ]
 }
