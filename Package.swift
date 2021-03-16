@@ -40,9 +40,8 @@ if ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil {
         .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift", .branch(relatedDependenciesBranch))
     ]
 } else {
-    let clientRuntimeDir = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR"]!
     package.dependencies += [
         .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch(relatedDependenciesBranch)),
-        .package(name: "ClientRuntime", path: clientRuntimeDir)
+        .package(name: "ClientRuntime", path: "./target/build/deps/smithy-swift")
     ]
 }
