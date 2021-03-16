@@ -7,12 +7,14 @@ import software.amazon.smithy.codegen.core.SymbolDependency
 import software.amazon.smithy.codegen.core.SymbolDependencyContainer
 import software.amazon.smithy.swift.codegen.resources.Resources
 
-enum class AWSSwiftDependency(val target: String,
-                              private val branch: String?,
-                              private val version: String,
-                              private val url: String,
-                              private val localPath: String,
-                              var packageName: String) : SymbolDependencyContainer {
+enum class AWSSwiftDependency(
+    val target: String,
+    private val branch: String?,
+    private val version: String,
+    private val url: String,
+    private val localPath: String,
+    var packageName: String
+) : SymbolDependencyContainer {
     AWS_CLIENT_RUNTIME(
         "AWSClientRuntime",
         null,
