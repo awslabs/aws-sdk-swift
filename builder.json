@@ -6,7 +6,8 @@
     "gradlew": "{source_dir}/gradlew -p {source_dir}"
   },
   "build_steps": [
-    "{gradlew} build",
+    "{gradlew} -p codegen/smithy-aws-swift-codegen build",
+    "{gradlew} -p codegen/protocol-test-codegen build",
     "swift build",
     "{gradlew} testAllProtocols"
   ],
