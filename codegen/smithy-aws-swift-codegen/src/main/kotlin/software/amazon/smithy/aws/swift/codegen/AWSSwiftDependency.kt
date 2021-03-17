@@ -17,7 +17,7 @@ enum class AWSSwiftDependency(
 ) : SymbolDependencyContainer {
     AWS_CLIENT_RUNTIME(
         "AWSClientRuntime",
-        null,
+        "master",
         "0.1.0",
             "https://github.com/awslabs/aws-sdk-swift",
         Resources.computeAbsolutePath("aws-sdk-swift/AWSClientRuntime", "AWS_SDK_SWIFT_CI_DIR"),
