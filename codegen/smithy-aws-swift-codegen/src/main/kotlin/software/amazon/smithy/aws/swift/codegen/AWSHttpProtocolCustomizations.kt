@@ -1,6 +1,5 @@
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.resources.computeAbsolutePath
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
@@ -8,6 +7,7 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.resources.Resources
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -27,7 +27,7 @@ abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        val path = computeAbsolutePath("aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/resources/software.amazon.smithy.aws.swift.codegen")
+        val path = Resources.computeAbsolutePath("aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/resources/software.amazon.smithy.aws.swift.codegen")
         val filePath = path + "/endpoints.json"
         val jsonContents = Files.readString(Paths.get(filePath))
         val endpointData = Node.parse(jsonContents).expectObjectNode()
