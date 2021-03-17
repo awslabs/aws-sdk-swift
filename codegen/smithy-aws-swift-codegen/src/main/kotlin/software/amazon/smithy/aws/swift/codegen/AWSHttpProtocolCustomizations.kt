@@ -27,10 +27,18 @@ abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        val path = Resources.computeAbsolutePath("aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/resources/software.amazon.smithy.aws.swift.codegen")
+        val path = determinePath("AWS_SDK_SWIFT_CI_DIR", "/codegen/smithy-aws-swift-codegen/src/main/resources/software.amazon.smithy.aws.swift.codegen")
         val filePath = path + "/endpoints.json"
         val jsonContents = Files.readString(Paths.get(filePath))
         val endpointData = Node.parse(jsonContents).expectObjectNode()
         EndpointResolverGenerator(endpointData).render(ctx)
+    }
+
+    private fun determinePath(baseEnvVar: String, relativePath: String): String {
+        val userDirPathOverride = System.getenv(baseEnvVar)
+        if (!userDirPathOverride.isNullOrEmpty()) {
+            return userDirPathOverride + relativePath
+        }
+        return Resources.computeAbsolutePath("aws-sdk-swift" + relativePath)
     }
 }
