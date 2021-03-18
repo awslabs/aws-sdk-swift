@@ -1,6 +1,7 @@
 // swift-tools-version:5.3
 import PackageDescription
 import class Foundation.ProcessInfo
+import class Foundation.FileManager
 
 let package = Package(
     name: "AWSClientRuntime",
@@ -33,15 +34,15 @@ let package = Package(
 )
 
 let relatedDependenciesBranch = "master"
-
-if ProcessInfo.processInfo.environment["SWIFTSDK_DEPS_USE_LOCAL_PATHS"] == nil {
+let isUsingSPMLocal = FileManager.default.fileExists(atPath: "/Users/nickik/Projects/Amplify/SwiftSDK/smithy-swift/Package.swift")
+if isUsingSPMLocal {
     package.dependencies += [
         .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch(relatedDependenciesBranch)),
-        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift", .branch(relatedDependenciesBranch))
+        .package(name: "ClientRuntime", path: "~/Projects/Amplify/SwiftSDK/smithy-swift")
     ]
 } else {
     package.dependencies += [
         .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch(relatedDependenciesBranch)),
-        .package(name: "ClientRuntime", path: "./target/build/deps/smithy-swift")
+        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift", .branch(relatedDependenciesBranch))
     ]
 }
