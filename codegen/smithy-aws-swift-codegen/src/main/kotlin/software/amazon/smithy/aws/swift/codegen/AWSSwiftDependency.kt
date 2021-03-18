@@ -19,7 +19,7 @@ enum class AWSSwiftDependency(
         "AWSClientRuntime",
         "master",
         "0.1.0",
-            "https://github.com/awslabs/aws-sdk-swift",
+        "https://github.com/awslabs/aws-sdk-swift",
         Resources.computeAbsolutePath("aws-sdk-swift/AWSClientRuntime", "AWS_SDK_SWIFT_CI_DIR"),
         "AWSClientRuntime"
     );
@@ -36,4 +36,3 @@ enum class AWSSwiftDependency(
         return listOf(dependency)
     }
 }
-

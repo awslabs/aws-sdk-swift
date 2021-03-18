@@ -3,13 +3,13 @@
   "needs_compiler": false,
   "packages": [],
   "variables": {
-    "gradlew": "{source_dir}/gradlew -p {source_dir}"
+    "gradlew": "{source_dir}/gradlew"
   },
   "build_steps": [
-    "{gradlew} -p codegen/smithy-aws-swift-codegen build",
-    "{gradlew} -p codegen/protocol-test-codegen build",
+    "{gradlew} -p {source_dir}/codegen/smithy-aws-swift-codegen build",
+    "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
     "swift build",
-    "{gradlew} testAllProtocols"
+    "{gradlew} -p {source_dir} testAllProtocols"
   ],
   "test_steps": [
     "swift test"
