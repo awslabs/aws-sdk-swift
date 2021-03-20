@@ -138,7 +138,7 @@ public class ExampleClient {
         self.config = config
     }
 
-    public class ExampleClientConfiguration: Configuration, AWSClientConfiguration {
+    public class ExampleClientConfiguration: ClientRuntime.Configuration, AWSClientConfiguration {
 
         public var region: String
         public var credentialsProvider: AWSCredentialsProvider
