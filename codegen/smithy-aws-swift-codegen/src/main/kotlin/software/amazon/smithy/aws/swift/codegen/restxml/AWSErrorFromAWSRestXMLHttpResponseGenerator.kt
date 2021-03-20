@@ -14,7 +14,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
  */
 class AWSErrorFromAWSRestXMLHttpResponseGenerator : ErrorFromHttpResponseGenerator {
     override fun generateInitOperationFromHttpResponse(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
-        val operationErrorName = "${op.defaultName()}Error"
+        val operationErrorName = "${op.defaultName()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
             .definitionFile("./$rootNamespace/models/$operationErrorName+ResponseInit.swift")
