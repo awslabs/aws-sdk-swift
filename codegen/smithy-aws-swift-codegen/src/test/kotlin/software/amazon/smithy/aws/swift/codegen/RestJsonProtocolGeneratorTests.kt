@@ -76,15 +76,15 @@ extension SmokeTestInput: Encodable, Reflection {
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let payload1 = payload1 {
-            try container.encode(payload1, forKey: .payload1)
+            try encodeContainer.encode(payload1, forKey: .payload1)
         }
         if let payload2 = payload2 {
-            try container.encode(payload2, forKey: .payload2)
+            try encodeContainer.encode(payload2, forKey: .payload2)
         }
         if let payload3 = payload3 {
-            try container.encode(payload3, forKey: .payload3)
+            try encodeContainer.encode(payload3, forKey: .payload3)
         }
     }
 }
@@ -104,9 +104,9 @@ extension ExplicitBlobInput: Encodable, Reflection {
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let payload1 = payload1 {
-            try container.encode(payload1.base64EncodedString(), forKey: .payload1)
+            try encodeContainer.encode(payload1.base64EncodedString(), forKey: .payload1)
         }
     }
 }
