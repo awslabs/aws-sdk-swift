@@ -29,7 +29,7 @@ class AWSHttpProtocolJson11Customizations : AWSHttpProtocolCustomizations() {
         val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
         val outputShape = ctx.model.expectShape(op.output.get())
         val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
-        val outputErrorName = "${op.defaultName()}Error"
+        val outputErrorName = "${op.defaultName()}OutputError"
         xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName, outputShapeName, outputErrorName)
     }
     override fun renderMiddlewareForGeneratedRequestTests(

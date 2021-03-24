@@ -45,7 +45,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     }
 
     private fun renderPartition(writer: SwiftWriter, partitionNode: PartitionNode) {
-        writer.openBlock("Partition(", "),") {
+        writer.openBlock("AWSClientRuntime.Partition(", "),") {
             writer.write("id: \$S,", partitionNode.id)
                 .write("regionRegex: \$S,", partitionNode.config.expectStringMember("regionRegex").value)
                 .write("partitionEndpoint: \$S,", partitionNode.partitionEndpoint ?: "")
