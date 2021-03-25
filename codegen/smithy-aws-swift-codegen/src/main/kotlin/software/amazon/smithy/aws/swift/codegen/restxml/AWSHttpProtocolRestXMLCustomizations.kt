@@ -5,6 +5,7 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpRequestXMLEncoder
 import software.amazon.smithy.aws.swift.codegen.AWSHttpResponseXMLDecoder
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -31,5 +32,9 @@ class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
         properties.add(AWSHttpRequestXMLEncoder(requestEncoderOptions))
         properties.add(AWSHttpResponseXMLDecoder(responseDecoderOptions))
         return properties
+    }
+
+    override fun renderCustomImports(writer: SwiftWriter) {
+        writer.addImport(SwiftDependency.XMLCoder.target)
     }
 }
