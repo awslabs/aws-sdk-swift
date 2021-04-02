@@ -69,7 +69,7 @@ class RestJsonProtocolGeneratorTests : TestsBase() {
         val expectedContents =
 """
 extension SmokeTestInput: Encodable, Reflection {
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case payload1
         case payload2
         case payload3
@@ -99,7 +99,7 @@ extension SmokeTestInput: Encodable, Reflection {
         val expectedContents =
 """
 extension ExplicitBlobInput: Encodable, Reflection {
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case payload1
     }
 
