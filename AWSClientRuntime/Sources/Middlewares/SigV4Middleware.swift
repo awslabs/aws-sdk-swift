@@ -29,6 +29,10 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
           Self.Context == H.Context,
           Self.MInput == H.Input,
           Self.MOutput == H.Output {
+//        var updatedHeader = input.headers
+//        updatedHeader.remove(name: "Content-Length")
+            //        input.withHeaders(updatedHeader)
+
         let crtRequest = input.build().toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         let credentialsProvider = context.getCredentialsProvider().crtCredentialsProvider

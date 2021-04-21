@@ -42,13 +42,14 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
             if let signingName = awsEndpoint.signingName {
                 updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)
             }
-            
+            let hackedHost = "woojtestbucket04152020.s3.us-east-1.amazonaws.com"
+            let hackedPath = "/hellofile.txt"
             input.withMethod(context.getMethod())
                 .withHost(host)
                 .withPort(awsEndpoint.endpoint.port)
-                .withPath(context.getPath())
+                .withPath(hackedPath)
                 // TODO: investigate if this header should be the same host value as the actual host and where this header should be set
-                .withHeader(name: "Host", value: host)
+                .withHeader(name: "Host", value: hackedHost)
             
             return next.handle(context: updatedContext, input: input)
         } catch let err {
