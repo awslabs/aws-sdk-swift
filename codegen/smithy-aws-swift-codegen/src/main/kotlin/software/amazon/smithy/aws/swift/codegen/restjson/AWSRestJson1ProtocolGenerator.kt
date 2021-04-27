@@ -10,7 +10,7 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFa
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGeneratorJson
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 
 class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultContentType: String = "application/json"
@@ -18,7 +18,7 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val protocol: ShapeId = RestJson1Trait.ID
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
-    override val httpResponseGenerator = HttpResponseGeneratorJson(
+    override val httpResponseGenerator = HttpResponseGenerator(
         AWSHttpResponseBindingRestJson(),
         serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,

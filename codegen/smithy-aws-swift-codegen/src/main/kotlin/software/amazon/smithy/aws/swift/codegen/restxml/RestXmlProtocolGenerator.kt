@@ -5,7 +5,7 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFa
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGeneratorJson
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 
 class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultContentType: String = "application/xml"
@@ -14,7 +14,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolRestXMLCustomizations()
     // TODO: Update this for RestXML
-    override val httpResponseGenerator = HttpResponseGeneratorJson(
+    override val httpResponseGenerator = HttpResponseGenerator(
         AWSHttpResponseBindingRestXML(),
         serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,
