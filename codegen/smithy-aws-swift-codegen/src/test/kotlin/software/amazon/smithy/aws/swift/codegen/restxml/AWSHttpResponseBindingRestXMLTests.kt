@@ -8,12 +8,12 @@ import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.i
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
-class AWSErrorFromAWSRestXMLHttpResponseGeneratorTests {
+class AWSHttpResponseBindingRestXMLTests {
 
     @Test
     fun `GreetingWithErrorsOutputError ResponseInit`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getModelFileContents("Example", "GreetingWithErrorsOutputError+ResponseInit.swift", context.manifest)
+        val contents = getModelFileContents("Example", "GreetingWithErrorsOutputError+HttpResponseBinding.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         // TODO: Fill in validation here
     }

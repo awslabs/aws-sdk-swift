@@ -5,19 +5,19 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.defaultName
-import software.amazon.smithy.swift.codegen.integration.ErrorFromHttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 
 /*
  * TODO: The code below is not valid for AWS Json 1.0/1.1.
  *       This code was lifted from restJson to make tests compile and run for Json 1.0/1.1
  */
-class AWSErrorFromAWSJsonHttpResponseGenerator : ErrorFromHttpResponseGenerator {
-    override fun generateInitOperationFromHttpResponse(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
+class AWSHttpResponseBindingAWSJson : HttpResponseBindingErrorGeneratable {
+    override fun renderHttpResponseBinding(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
         val operationErrorName = "${op.defaultName()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/$operationErrorName+ResponseInit.swift")
+            .definitionFile("./$rootNamespace/models/$operationErrorName+HttpResponseBinding.swift")
             .name(operationErrorName)
             .build()
 
