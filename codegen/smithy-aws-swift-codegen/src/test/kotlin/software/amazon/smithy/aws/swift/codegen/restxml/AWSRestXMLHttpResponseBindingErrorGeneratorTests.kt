@@ -8,7 +8,7 @@ import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.i
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
-class AWSHttpResponseBindingRestXMLTests {
+class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
 
     @Test
     fun `001 GreetingWithErrorsOutputError has with correct cases`() {

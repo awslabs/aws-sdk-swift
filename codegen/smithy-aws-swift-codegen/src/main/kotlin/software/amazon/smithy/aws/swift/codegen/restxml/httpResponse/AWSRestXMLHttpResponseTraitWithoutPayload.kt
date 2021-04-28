@@ -15,7 +15,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingRenderable
 import software.amazon.smithy.swift.codegen.isBoxed
 
-class AWSHttpResponseTraitWithoutPayloadRestXML(
+class AWSRestXMLHttpResponseTraitWithoutPayload(
     val ctx: ProtocolGenerator.GenerationContext,
     val responseBindings: List<HttpBindingDescriptor>,
     val outputShapeName: String,

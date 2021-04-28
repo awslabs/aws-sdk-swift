@@ -12,8 +12,8 @@ import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpRespons
  * TODO: The code below is not valid for AWS Json 1.0/1.1.
  *       This code was lifted from restJson to make tests compile and run for Json 1.0/1.1
  */
-class AWSHttpResponseBindingAWSJson : HttpResponseBindingErrorGeneratable {
-    override fun renderHttpResponseBinding(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
+class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
+    override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
         val operationErrorName = "${op.defaultName()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
