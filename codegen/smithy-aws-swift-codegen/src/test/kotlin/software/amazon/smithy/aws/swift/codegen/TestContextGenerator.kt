@@ -73,7 +73,6 @@ class TestContextGenerator {
                 .withMember("swiftVersion", Node.from("5.3.0"))
                 .build()
         }
-
         fun listFilesFromManifest(manifest: MockManifest): String {
             var listFiles = StringBuilder()
             for (file in manifest.files) {
@@ -83,11 +82,13 @@ class TestContextGenerator {
         }
 
         fun getModelFileContents(namespace: String, filename: String, manifest: MockManifest): String {
-            return manifest.expectFileString("$namespace/models/$filename")
+            return getFileContents(manifest, "$namespace/models/$filename")
         }
-
         fun getClientFileContents(namespace: String, filename: String, manifest: MockManifest): String {
-            return manifest.expectFileString("$namespace/$filename")
+            return getFileContents(manifest, "$namespace/$filename")
+        }
+        fun getFileContents(manifest: MockManifest, fileName: String): String {
+            return manifest.expectFileString(fileName)
         }
     }
 }

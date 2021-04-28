@@ -27,9 +27,8 @@ class AWSHttpResponseBindingRestXML : HttpResponseBindingErrorGeneratable {
 
             writer.openBlock("extension \$L: HttpResponseBinding {", "}", operationErrorName) {
                 writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
-                    writer.write("let errorDetails = try RestJSONError(httpResponse: httpResponse)")
-                    writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
-                    writer.write("try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)")
+                    writer.write("let errorDetails = try RestXMLError(httpResponse: httpResponse)")
+                    writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: nil, requestID: errorDetails.requestId)")
                 }
             }
         }
