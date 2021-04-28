@@ -8,10 +8,6 @@ import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 
-/*
- * TODO: Parsing response errors has not been implemented yet.  The code being generated here
- *       was lifted from restjson so that the protocol codegen tests will execute.
- */
 class AWSHttpResponseBindingRestXML : HttpResponseBindingErrorGeneratable {
     override fun renderHttpResponseBinding(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
         val operationErrorName = "${op.defaultName()}OutputError"
