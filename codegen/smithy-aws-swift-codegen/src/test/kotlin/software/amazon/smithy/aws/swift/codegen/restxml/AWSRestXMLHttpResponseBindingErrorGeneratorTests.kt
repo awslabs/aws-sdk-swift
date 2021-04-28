@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getFileContents
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.initContextFrom
+import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.listFilesFromManifest
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
@@ -85,6 +86,42 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
+    @Test
+    fun `004 ComplexXMLErrorNoErrorWrapping Init renders without container`() {
+        val context = setupTests("restxml/xml-errors-noerrorwrapping.smithy", "aws.protocoltests.restxml#RestXml")
+        print(listFilesFromManifest(context.manifest))
+        val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLErrorNoErrorWrapping+Init.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+            """
+            extension ComplexXMLErrorNoErrorWrapping: AWSHttpServiceError {
+                public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
+                    if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
+                        self.header = headerHeaderValue
+                    } else {
+                        self.header = nil
+                    }
+                    if case .data(let data) = httpResponse.body,
+                        let unwrappedData = data,
+                        let responseDecoder = decoder {
+                        let output: ComplexXMLErrorNoErrorWrappingBody = try responseDecoder.decode(responseBody: unwrappedData)
+                        self.nested = output.nested
+                        self.topLevel = output.topLevel
+                    } else {
+                        self.nested = nil
+                        self.topLevel = nil
+                    }
+                    self._headers = httpResponse.headers
+                    self._statusCode = httpResponse.statusCode
+                    self._requestID = requestID
+                    self._message = message
+                }
+            }
+            """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID, "restXml", "restXml")
 

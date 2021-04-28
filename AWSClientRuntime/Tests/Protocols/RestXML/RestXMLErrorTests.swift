@@ -111,4 +111,55 @@ class RestXMLErrorTests: HttpResponseTestBase {
             XCTFail(err.localizedDescription)
         }
     }
+
+    func testComplexErrorWithNoErrorWrapping() {
+        do {
+            guard let httpResponse = buildHttpResponse(
+                code: 400,
+                headers: [
+                    "Content-Type": "application/xml",
+                    "X-Header": "Header"
+                ],
+                content: HttpBody.data("""
+                   <Error>
+                      <Type>Sender</Type>
+                      <Code>ComplexXMLErrorNoErrorWrapping</Code>
+                      <Message>Hi</Message>
+                      <TopLevel>Top level</TopLevel>
+                      <Nested>
+                          <Foo>bar</Foo>
+                      </Nested>
+                      <RequestId>foo-id</RequestId>
+                   </Error>
+                """.data(using: .utf8)),
+                host: host
+            ) else {
+                XCTFail("Something is wrong with the created http response")
+                return
+            }
+
+            let decoder = XMLDecoder()
+            let greetingWithErrorsOutputError = try GreetingWithErrorsNoErrorWrappingOutputError(httpResponse: httpResponse, decoder: decoder)
+
+            if case .complexXMLErrorNoErrorWrapping(let actual) = greetingWithErrorsOutputError {
+
+                let expected = ComplexXMLError(
+                    header: "Header",
+                    nested: ComplexXMLNestedErrorData(
+                        foo: "bar"
+                    ),
+                    topLevel: "Top level"
+                )
+                XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+                XCTAssertEqual(expected.header, actual.header)
+                XCTAssertEqual(expected.topLevel, actual.topLevel)
+                XCTAssertEqual(expected.nested, actual.nested)
+            } else {
+                XCTFail("The deserialized error type does not match expected type")
+            }
+
+        } catch let err {
+            XCTFail(err.localizedDescription)
+        }
+    }
 }

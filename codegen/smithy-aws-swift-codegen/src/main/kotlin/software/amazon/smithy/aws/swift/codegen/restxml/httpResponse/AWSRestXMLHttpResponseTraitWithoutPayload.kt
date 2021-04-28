@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.restxml.httpResponse
 
+import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.knowledge.HttpBinding
 import software.amazon.smithy.model.shapes.BooleanShape
 import software.amazon.smithy.model.shapes.ByteShape
@@ -34,9 +35,10 @@ class AWSRestXMLHttpResponseTraitWithoutPayload(
             writer.indent()
             writer.write("let unwrappedData = data,")
             writer.write("let responseDecoder = decoder {")
-            writer.write("let output: ErrorResponseContainer<${outputShapeName}Body> = try responseDecoder.decode(responseBody: unwrappedData)")
-            bodyMembersWithoutQueryTrait.sorted().forEach {
-                writer.write("self.$it = output.error.$it")
+            if (serviceDisablesWrappingOfErrorProperties()) {
+                renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
+            } else {
+                renderWithErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
             }
             writer.dedent()
             writer.write("} else {")
@@ -56,6 +58,27 @@ class AWSRestXMLHttpResponseTraitWithoutPayload(
             }
             writer.dedent()
             writer.write("}")
+        }
+    }
+
+    fun serviceDisablesWrappingOfErrorProperties(): Boolean {
+        ctx.service.getTrait(RestXmlTrait::class.java)?.let {
+            return it.get().isNoErrorWrapping
+        }
+        return false
+    }
+
+    fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
+        writer.write("let output: ${outputShapeName}Body = try responseDecoder.decode(responseBody: unwrappedData)")
+        bodyMembersWithoutQueryTrait.sorted().forEach {
+            writer.write("self.$it = output.$it")
+        }
+    }
+
+    fun renderWithErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
+        writer.write("let output: ErrorResponseContainer<${outputShapeName}Body> = try responseDecoder.decode(responseBody: unwrappedData)")
+        bodyMembersWithoutQueryTrait.sorted().forEach {
+            writer.write("self.$it = output.error.$it")
         }
     }
 }
