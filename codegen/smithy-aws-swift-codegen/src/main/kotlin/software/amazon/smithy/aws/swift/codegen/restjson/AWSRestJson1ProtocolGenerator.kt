@@ -19,9 +19,9 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
     override val httpResponseGenerator = HttpResponseGenerator(
-        AWSHttpResponseBindingRestJson(),
         serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,
-        defaultTimestampFormat
+        defaultTimestampFormat,
+        AWSRestJson1HttpResponseBindingErrorGeneratable()
     )
 }
