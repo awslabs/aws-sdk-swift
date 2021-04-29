@@ -24,4 +24,5 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat,
         AWSRestJson1HttpResponseBindingErrorGeneratable()
     )
+    override val serdeContext = serdeContextJSON
 }

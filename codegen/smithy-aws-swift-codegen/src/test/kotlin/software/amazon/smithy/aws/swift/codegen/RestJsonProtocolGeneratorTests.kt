@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getClientFileContents
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getModelFileContents
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.initContextFrom
-import software.amazon.smithy.aws.swift.codegen.mocks.MockRestJson1BindingProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 
 class RestJsonProtocolGeneratorTests {
@@ -138,7 +138,7 @@ class RestJsonProtocolGeneratorTests {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID, "Example", "Example")
 
-        val generator = MockRestJson1BindingProtocolGenerator()
+        val generator = AWSRestJson1ProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)
         context.ctx.delegator.flushWriters()
         return context

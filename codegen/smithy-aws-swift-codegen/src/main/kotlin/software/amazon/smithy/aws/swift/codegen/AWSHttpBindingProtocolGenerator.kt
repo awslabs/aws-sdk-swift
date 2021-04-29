@@ -10,14 +10,13 @@ import software.amazon.smithy.swift.codegen.integration.DefaultCodingKeysGenerat
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-/**
- * Base class for all AWS HTTP protocol generators
- */
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
+
     override val codingKeysGenerator: CodingKeysGenerator = DefaultCodingKeysGenerator()
 
     override val serviceErrorProtocolSymbol: Symbol = Symbol.builder()
@@ -32,18 +31,22 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
         .build()
 
+    val serdeContextJSON = HttpProtocolUnitTestGenerator.SerdeContext("JSONEncoder()", "JSONDecoder()", ".secondsSince1970")
+    val serdeContextXML = HttpProtocolUnitTestGenerator.SerdeContext("XMLEncoder()", "XMLDecoder()")
+    abstract val serdeContext: HttpProtocolUnitTestGenerator.SerdeContext
+
+    val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
+    val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
+    val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
+
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
-
-        val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
-        val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
-        val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
-
         HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
             responseTestBuilder,
             errorTestBuilder,
             httpProtocolCustomizable,
+            serdeContext
         ).generateProtocolTests()
     }
 }
