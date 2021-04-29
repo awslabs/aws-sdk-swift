@@ -22,7 +22,7 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat,
         AWSJsonHttpResponseBindingErrorGenerator()
     )
-
+    override val serdeContext = serdeContextJSON
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
         HttpBindingResolver = AwsJsonHttpBindingResolver(ctx)
 }

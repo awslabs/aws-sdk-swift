@@ -13,7 +13,6 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val protocol: ShapeId = RestXmlTrait.ID
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolRestXMLCustomizations()
-
     override val httpResponseGenerator = HttpResponseGenerator(
         serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,
@@ -21,4 +20,5 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSRestXMLHttpResponseBindingErrorGenerator(),
         AWSRestXMLHttpResponseBindingErrorInitGeneratorFactory()
     )
+    override val serdeContext = serdeContextXML
 }
