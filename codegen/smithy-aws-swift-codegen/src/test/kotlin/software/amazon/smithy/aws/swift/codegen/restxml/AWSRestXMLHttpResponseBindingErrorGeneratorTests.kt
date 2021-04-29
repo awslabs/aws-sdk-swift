@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getFileContents
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.initContextFrom
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.listFilesFromManifest
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
@@ -90,7 +89,6 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `004 ComplexXMLErrorNoErrorWrapping Init renders without container`() {
         val context = setupTests("restxml/xml-errors-noerrorwrapping.smithy", "aws.protocoltests.restxml#RestXml")
-        print(listFilesFromManifest(context.manifest))
         val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLErrorNoErrorWrapping+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
