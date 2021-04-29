@@ -20,7 +20,7 @@ service RestXml {
 @http(uri: "/GreetingWithErrors", method: "PUT")
 operation GreetingWithErrors {
     output: GreetingWithErrorsOutput,
-    errors: [InvalidGreeting, ComplexError]
+    errors: [InvalidGreeting, ComplexXMLError]
 }
 
 structure GreetingWithErrorsOutput {
@@ -36,16 +36,16 @@ structure InvalidGreeting {
 
 @error("client")
 @httpError(403)
-structure ComplexError {
+structure ComplexXMLError {
     // Errors support HTTP bindings!
     @httpHeader("X-Header")
     Header: String,
 
     TopLevel: String,
 
-    Nested: ComplexNestedErrorData,
+    Nested: ComplexXMLNestedErrorData,
 }
 
-structure ComplexNestedErrorData {
+structure ComplexXMLNestedErrorData {
     Foo: String,
 }

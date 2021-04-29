@@ -8,10 +8,6 @@ import software.amazon.smithy.swift.codegen.defaultName
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 
-/*
- * TODO: Parsing response errors has not been implemented yet.  The code being generated here
- *       was lifted from restjson so that the protocol codegen tests will execute.
- */
 class AWSHttpResponseBindingRestXML : HttpResponseBindingErrorGeneratable {
     override fun renderHttpResponseBinding(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
         val operationErrorName = "${op.defaultName()}OutputError"
@@ -27,9 +23,8 @@ class AWSHttpResponseBindingRestXML : HttpResponseBindingErrorGeneratable {
 
             writer.openBlock("extension \$L: HttpResponseBinding {", "}", operationErrorName) {
                 writer.openBlock("public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {", "}") {
-                    writer.write("let errorDetails = try RestJSONError(httpResponse: httpResponse)")
-                    writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
-                    writer.write("try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)")
+                    writer.write("let errorDetails = try RestXMLError(httpResponse: httpResponse)")
+                    writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: nil, requestID: errorDetails.requestId)")
                 }
             }
         }

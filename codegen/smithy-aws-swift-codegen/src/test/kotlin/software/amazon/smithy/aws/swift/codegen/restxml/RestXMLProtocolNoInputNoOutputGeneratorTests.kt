@@ -2,7 +2,6 @@ package software.amazon.smithy.aws.swift.codegen.restxml
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.MockRestXmlProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getClientFileContents
 import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.initContextFrom
@@ -28,7 +27,7 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID, "restXml", "restXml")
 
-        val generator = MockRestXmlProtocolGenerator()
+        val generator = RestXmlProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)
         context.ctx.delegator.flushWriters()
         return context
