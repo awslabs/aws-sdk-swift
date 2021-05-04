@@ -4,13 +4,13 @@ import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftDependency
-import software.amazon.smithy.swift.codegen.defaultName
+import software.amazon.smithy.swift.codegen.capitalizedName
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 
 class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
     override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
-        val operationErrorName = "${op.defaultName()}OutputError"
+        val operationErrorName = "${op.capitalizedName()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
             .definitionFile("./$rootNamespace/models/$operationErrorName+HttpResponseBinding.swift")
