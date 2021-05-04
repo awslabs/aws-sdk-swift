@@ -10,7 +10,7 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.defaultName
+import software.amazon.smithy.swift.codegen.capitalizedName
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator.GenerationContext
@@ -31,7 +31,7 @@ class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
         val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
         val outputShape = ctx.model.expectShape(op.output.get())
         val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
-        val outputErrorName = "${op.defaultName()}OutputError"
+        val outputErrorName = "${op.capitalizedName()}OutputError"
         xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName, outputShapeName, outputErrorName)
     }
 
