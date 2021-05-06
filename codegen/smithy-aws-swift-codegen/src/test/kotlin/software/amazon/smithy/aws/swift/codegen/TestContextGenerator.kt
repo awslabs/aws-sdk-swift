@@ -40,7 +40,7 @@ class TestContextGenerator {
             SwiftCodegenPlugin().execute(pluginContext)
 
             val integrations = mutableListOf<SwiftIntegration>()
-            val provider = SwiftCodegenPlugin.createSymbolProvider(model, rootPackageNamespace, sdkId)
+            val provider = SwiftCodegenPlugin.createSymbolProvider(model, swiftSettings)
             val delegator = SwiftDelegator(swiftSettings, model, manifest, provider, integrations)
             val ctx = ProtocolGenerator.GenerationContext(swiftSettings, model, service, provider, integrations, protocol, delegator)
             return TestContext(ctx, manifest)
