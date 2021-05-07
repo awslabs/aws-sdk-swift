@@ -22,6 +22,7 @@ module("codegen")
 module("codegen/sdk-codegen")
 module("codegen/smithy-aws-swift-codegen")
 module("codegen/protocol-test-codegen")
+module("codegen/protocol-test-codegen-local")
 
 /**
  * The following code enables to optionally include aws-sdk-swift dependencies in source form for easier
