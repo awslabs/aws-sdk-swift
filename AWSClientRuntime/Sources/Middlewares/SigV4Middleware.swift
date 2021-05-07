@@ -31,7 +31,7 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
           Self.MOutput == H.Output {
         
         let originalRequest = input.build()
-        let crtRequest = originalRequest.toHttpRequest()
+        let crtUnsignedRequest = originalRequest.toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         let credentialsProvider = context.getCredentialsProvider().crtCredentialsProvider
 
@@ -53,11 +53,11 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
                                        signedBodyHeader: signedBodyHeaderType,
                                        signedBodyValue: signedBodyValue)
 
-            let signedRequestResult = try signer.signRequest(request: crtRequest, config: config)
-            let signedRequest = try signedRequestResult.get()
-            let sdkRequest = input.update(from: signedRequest, originalRequest: originalRequest)
+            let result = try signer.signRequest(request: crtUnsignedRequest, config: config)
+            let crtSignedRequest = try result.get()
+            let sdkSignedRequest = input.update(from: crtSignedRequest, originalRequest: originalRequest)
 
-            return next.handle(context: context, input: sdkRequest)
+            return next.handle(context: context, input: sdkSignedRequest)
         } catch CRTError.crtError(let error) {
             return .failure(CRTError.crtError(error))
         } catch let err {
