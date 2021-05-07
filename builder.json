@@ -8,8 +8,10 @@
   "build_steps": [
     "{gradlew} -p {source_dir}/codegen/smithy-aws-swift-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
+    "{gradlew} -p {source_dir}/codegen/protocol-test-codegen-local build",
     "swift build",
-    "{gradlew} -p {source_dir} testAllProtocols"
+    "{gradlew} -p {source_dir} testAllProtocols",
+    "{gradlew} -p {source_dir} testAllProtocolsLocal"
   ],
   "test_steps": [
     "swift test"
