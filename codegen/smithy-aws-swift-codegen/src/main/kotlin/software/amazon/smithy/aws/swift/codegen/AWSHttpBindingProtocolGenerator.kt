@@ -33,6 +33,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
 
     val serdeContextJSON = HttpProtocolUnitTestGenerator.SerdeContext("JSONEncoder()", "JSONDecoder()", ".secondsSince1970")
     val serdeContextXML = HttpProtocolUnitTestGenerator.SerdeContext("XMLEncoder()", "XMLDecoder()")
+    val serdeContextAWSQuery = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
     abstract val serdeContext: HttpProtocolUnitTestGenerator.SerdeContext
 
     val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
