@@ -1,12 +1,12 @@
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.aws.traits.auth.SigV4Trait
 
 abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
@@ -16,7 +16,7 @@ abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
         writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withHost(value: \"$endpointPrefix.\\(config.region).amazonaws.com\")")
-        if (serviceShape.hasTrait(SigV4Trait::class.java)) {
+        if (serviceShape.needsSigning) {
             val signingName = serviceShape.getTrait(SigV4Trait::class.java).get().name
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")

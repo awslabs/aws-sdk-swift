@@ -1,8 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import org.junit.jupiter.api.Assertions
+import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.build.PluginContext
+import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
@@ -19,6 +21,35 @@ data class TestContext(
     val ctx: ProtocolGenerator.GenerationContext,
     val manifest: MockManifest
 )
+
+fun Model.newTestContext(
+    serviceShapeId: String = "com.test#Example",
+    generator: ProtocolGenerator
+): TestContext {
+    return newTestContext(MockManifest(), serviceShapeId, generator)
+}
+
+fun Model.newTestContext(
+    manifest: MockManifest,
+    serviceShapeId: String,
+    generator: ProtocolGenerator
+): TestContext {
+    val settings = SwiftSettings.from(this, TestContextGenerator.buildDefaultSwiftSettingsObjectNode("com.test#Example"))
+    val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(this, settings)
+    val service = this.getShape(ShapeId.from(serviceShapeId)).get().asServiceShape().get()
+    val delegator = SwiftDelegator(settings, this, manifest, provider)
+
+    val ctx = ProtocolGenerator.GenerationContext(
+        settings,
+        this,
+        service,
+        provider,
+        listOf(),
+        generator.protocol,
+        delegator
+    )
+    return TestContext(ctx, manifest)
+}
 
 class TestContextGenerator {
     companion object {

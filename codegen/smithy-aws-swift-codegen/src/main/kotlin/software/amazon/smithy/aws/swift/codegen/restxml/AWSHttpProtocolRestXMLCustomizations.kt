@@ -4,20 +4,27 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
 import software.amazon.smithy.aws.swift.codegen.AWSHttpRequestXMLEncoder
 import software.amazon.smithy.aws.swift.codegen.AWSHttpResponseXMLDecoder
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
+import software.amazon.smithy.aws.swift.codegen.needsSigning
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
 class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
-    override fun renderMiddlewares(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware(endpointResolver: config.endpointResolver, serviceId: serviceName))")
 
-        val signingMiddleware = AWSSigningMiddleware()
-        val serviceShape = ctx.service
-        if (signingMiddleware.needsSigningMiddleware(serviceShape)) {
-            signingMiddleware.renderSigningMiddleware(writer, serviceShape, op, operationStackName)
+    override fun getDefaultProtocolMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<ProtocolMiddleware> {
+        val defaultMiddlewares = super.getDefaultProtocolMiddlewares(ctx)
+        val protocolMiddlewares = mutableListOf<ProtocolMiddleware>()
+        protocolMiddlewares.add(EndpointResolverMiddleware())
+
+        if(ctx.service.needsSigning) {
+            protocolMiddlewares.add(AWSSigningMiddleware())
         }
+
+        return defaultMiddlewares + protocolMiddlewares
     }
 
     override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
