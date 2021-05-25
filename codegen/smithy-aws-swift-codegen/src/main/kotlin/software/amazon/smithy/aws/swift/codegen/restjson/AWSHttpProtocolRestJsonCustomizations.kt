@@ -14,7 +14,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
 class AWSHttpProtocolRestJsonCustomizations : AWSHttpProtocolCustomizations() {
-    
+
     override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
         val properties = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
