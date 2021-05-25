@@ -4,6 +4,8 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.capitalizedName
+import software.amazon.smithy.swift.codegen.integration.MiddlewarePosition
+import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
@@ -11,9 +13,9 @@ class AWSXAmzTargetMiddleware : ProtocolMiddleware {
 
     override val name = "AWSXAmzTargetMiddleware"
 
-    override val middlewareStep = "serializeStep"
+    override val middlewareStep = MiddlewareStep.SERIALIZESTEP
 
-    override val position = ".before"
+    override val position = MiddlewarePosition.BEFORE
 
     override fun renderMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
@@ -27,7 +29,7 @@ class AWSXAmzTargetMiddleware : ProtocolMiddleware {
         val outputShape = ctx.model.expectShape(op.output.get())
         val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
         val outputErrorName = "${op.capitalizedName()}OutputError"
-        writer.write("$operationStackName.$middlewareStep.intercept(position: $position, middleware: XAmzTargetMiddleware<$inputShapeName, $outputShapeName, $outputErrorName>(${getParamsString(ctx, writer, serviceShape, op)}))")
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: XAmzTargetMiddleware<$inputShapeName, $outputShapeName, $outputErrorName>(${getParamsString(ctx, writer, serviceShape, op)}))")
     }
 
     override fun getParamsString(
