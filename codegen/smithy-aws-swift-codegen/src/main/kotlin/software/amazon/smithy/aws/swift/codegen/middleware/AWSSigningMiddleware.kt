@@ -26,17 +26,17 @@ class AWSSigningMiddleware : ProtocolMiddleware {
         // FIXME handle indentation properly or do swift formatting after the fact
         writer.write(
             "$operationStackName.$middlewareStep.intercept(position: $position,\n" +
-                "                                         middleware: SigV4Middleware(${renderParams(ctx, writer, serviceShape, op)}))"
+                "                                         middleware: SigV4Middleware(${getParamsString(ctx, writer, serviceShape, op)}))"
         )
     }
 
-    override fun renderParams(
+    override fun getParamsString(
         ctd: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape
-    ) {
+    ): String {
         val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-        writer.writeInline("unsignedBody: $hasUnsignedPayload")
+        return "unsignedBody: $hasUnsignedPayload"
     }
 }

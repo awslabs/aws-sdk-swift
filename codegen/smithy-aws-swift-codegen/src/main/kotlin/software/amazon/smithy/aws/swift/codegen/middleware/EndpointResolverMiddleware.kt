@@ -21,15 +21,15 @@ class EndpointResolverMiddleware : ProtocolMiddleware {
         op: OperationShape,
         operationStackName: String
     ) {
-        writer.write("$operationStackName.$middlewareStep.intercept(position: $position, middleware: EndpointResolverMiddleware(${renderParams(ctx, writer, serviceShape, op)}))")
+        writer.write("$operationStackName.$middlewareStep.intercept(position: $position, middleware: EndpointResolverMiddleware(${getParamsString(ctx, writer, serviceShape, op)}))")
     }
 
-    override fun renderParams(
+    override fun getParamsString(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape
-    ) {
-        writer.writeInline("endpointResolver: config.endpointResolver, serviceId: serviceName")
+    ): String {
+        return "endpointResolver: config.endpointResolver, serviceId: serviceName"
     }
 }

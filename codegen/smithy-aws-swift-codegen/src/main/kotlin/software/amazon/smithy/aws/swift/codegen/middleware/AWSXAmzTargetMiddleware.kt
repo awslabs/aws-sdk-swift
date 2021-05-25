@@ -27,17 +27,17 @@ class AWSXAmzTargetMiddleware : ProtocolMiddleware {
         val outputShape = ctx.model.expectShape(op.output.get())
         val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
         val outputErrorName = "${op.capitalizedName()}OutputError"
-        writer.write("$operationStackName.$middlewareStep.intercept(position: $position, middleware: XAmzTargetMiddleware<$inputShapeName, $outputShapeName, $outputErrorName>(${renderParams(ctx, writer, serviceShape, op)}))")
+        writer.write("$operationStackName.$middlewareStep.intercept(position: $position, middleware: XAmzTargetMiddleware<$inputShapeName, $outputShapeName, $outputErrorName>(${getParamsString(ctx, writer, serviceShape, op)}))")
     }
 
-    override fun renderParams(
+    override fun getParamsString(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape
-    ) {
+    ): String {
         val xAmzTargetValue = xAmzTargetValue(serviceShape, op)
-        writer.writeInline("xAmzTarget: \"${xAmzTargetValue}\"")
+        return "xAmzTarget: \"${xAmzTargetValue}\""
     }
 
     private fun xAmzTargetValue(serviceShape: ServiceShape, op: OperationShape): String {
