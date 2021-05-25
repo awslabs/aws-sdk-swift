@@ -17,12 +17,7 @@ class AWSHttpProtocolJson11Customizations : AWSHttpProtocolCustomizations() {
     override fun getDefaultProtocolMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<ProtocolMiddleware> {
         val defaultMiddlewares = super.getDefaultProtocolMiddlewares(ctx)
         val protocolMiddlewares = mutableListOf<ProtocolMiddleware>()
-        protocolMiddlewares.add(EndpointResolverMiddleware())
         protocolMiddlewares.add(AWSXAmzTargetMiddleware())
-
-        if(ctx.service.needsSigning) {
-            protocolMiddlewares.add(AWSSigningMiddleware())
-        }
 
         return defaultMiddlewares + protocolMiddlewares
     }

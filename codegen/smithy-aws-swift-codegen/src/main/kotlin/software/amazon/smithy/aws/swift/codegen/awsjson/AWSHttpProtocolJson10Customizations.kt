@@ -10,20 +10,16 @@ import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.capitalizedName
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator.GenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
 class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
 
-    override fun getDefaultProtocolMiddlewares(ctx: GenerationContext): List<ProtocolMiddleware> {
+    override fun getDefaultProtocolMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<ProtocolMiddleware> {
         val defaultMiddlewares = super.getDefaultProtocolMiddlewares(ctx)
         val protocolMiddlewares = mutableListOf<ProtocolMiddleware>()
-        protocolMiddlewares.add(EndpointResolverMiddleware())
         protocolMiddlewares.add(AWSXAmzTargetMiddleware())
-
-        if(ctx.service.needsSigning) {
-            protocolMiddlewares.add(AWSSigningMiddleware())
-        }
 
         return defaultMiddlewares + protocolMiddlewares
     }

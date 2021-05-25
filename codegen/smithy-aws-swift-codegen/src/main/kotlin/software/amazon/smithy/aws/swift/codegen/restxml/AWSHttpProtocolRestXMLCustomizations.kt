@@ -15,18 +15,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
 class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
 
-    override fun getDefaultProtocolMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<ProtocolMiddleware> {
-        val defaultMiddlewares = super.getDefaultProtocolMiddlewares(ctx)
-        val protocolMiddlewares = mutableListOf<ProtocolMiddleware>()
-        protocolMiddlewares.add(EndpointResolverMiddleware())
-
-        if(ctx.service.needsSigning) {
-            protocolMiddlewares.add(AWSSigningMiddleware())
-        }
-
-        return defaultMiddlewares + protocolMiddlewares
-    }
-
     override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
         val properties = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
