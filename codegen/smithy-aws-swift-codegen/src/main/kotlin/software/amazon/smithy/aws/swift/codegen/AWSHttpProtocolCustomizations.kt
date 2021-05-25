@@ -10,6 +10,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
+import software.amazon.smithy.swift.codegen.model.getTrait
 
 abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
     override fun getDefaultProtocolMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<ProtocolMiddleware> {
@@ -32,7 +33,7 @@ abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withHost(value: \"$endpointPrefix.\\(config.region).amazonaws.com\")")
         if (serviceShape.needsSigning) {
-            val signingName = serviceShape.getTrait(SigV4Trait::class.java).get().name
+            val signingName = serviceShape.getTrait<SigV4Trait>()?.name
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }
