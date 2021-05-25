@@ -40,7 +40,7 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         do {
             let credentials = try credentialsResult.get()
             let signedBodyValue = unsignedBody ? SignedBodyValue.unsignedPayload : SignedBodyValue.empty
-            //TODO: this value should be passed in via some config and able to be overrided in code generation
+            // TODO: this value should be passed in via some config and able to be overrided in code generation
             // via a customization
             let signedBodyHeaderType = SignedBodyHeaderType.contentSha256
             let signingRegion = context.getSigningRegion()
