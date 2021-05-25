@@ -3,15 +3,8 @@ package software.amazon.smithy.aws.swift.codegen.restxml
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
 import software.amazon.smithy.aws.swift.codegen.AWSHttpRequestXMLEncoder
 import software.amazon.smithy.aws.swift.codegen.AWSHttpResponseXMLDecoder
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
-import software.amazon.smithy.aws.swift.codegen.needsSigning
-import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
 class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
 

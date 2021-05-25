@@ -1,10 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
-import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.model.shapes.OperationShape
 
 class EndpointResolverMiddleware : ProtocolMiddleware {
 

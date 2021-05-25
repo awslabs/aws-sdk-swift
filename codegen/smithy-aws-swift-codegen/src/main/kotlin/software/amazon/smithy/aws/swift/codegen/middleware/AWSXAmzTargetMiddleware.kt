@@ -3,11 +3,11 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.capitalizedName
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
-import software.amazon.smithy.swift.codegen.capitalizedName
 
-class AWSXAmzTargetMiddleware: ProtocolMiddleware {
+class AWSXAmzTargetMiddleware : ProtocolMiddleware {
 
     override val name = "AWSXAmzTargetMiddleware"
 
@@ -36,8 +36,8 @@ class AWSXAmzTargetMiddleware: ProtocolMiddleware {
         serviceShape: ServiceShape,
         op: OperationShape
     ) {
-       val xAmzTargetValue = xAmzTargetValue(serviceShape, op)
-       writer.writeInline("xAmzTarget: \"${xAmzTargetValue}\"")
+        val xAmzTargetValue = xAmzTargetValue(serviceShape, op)
+        writer.writeInline("xAmzTarget: \"${xAmzTargetValue}\"")
     }
 
     private fun xAmzTargetValue(serviceShape: ServiceShape, op: OperationShape): String {

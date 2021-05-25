@@ -20,7 +20,6 @@ class AWSSigningMiddlewareTests {
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
 
-
         val result = serviceShape.needsSigning
 
         assert(result).equals(true)

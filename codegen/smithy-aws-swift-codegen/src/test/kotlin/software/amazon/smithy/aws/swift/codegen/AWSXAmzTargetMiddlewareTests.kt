@@ -2,8 +2,8 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
@@ -30,7 +30,7 @@ stack.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddlewar
             .id("com.test#ExampleOperation")
             .addTrait(UnsignedPayloadTrait())
             .input { ShapeId.from("com.test#TestInputShapeName") }
-            .output { ShapeId.from("com.test#TestOutputShapeName")}
+            .output { ShapeId.from("com.test#TestOutputShapeName") }
             .addError("com.test#TestErrorShapeName")
             .build()
         val opStackName = "stack"

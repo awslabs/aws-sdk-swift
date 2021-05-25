@@ -1,7 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import org.junit.jupiter.api.Assertions
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.build.PluginContext
 import software.amazon.smithy.codegen.core.SymbolProvider

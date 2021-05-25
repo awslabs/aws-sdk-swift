@@ -1,11 +1,11 @@
 package software.amazon.smithy.aws.swift.codegen.awsjson
 
-import software.amazon.smithy.aws.swift.codegen.*
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
+import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
+import software.amazon.smithy.aws.swift.codegen.AWSHttpRequestJsonEncoder
+import software.amazon.smithy.aws.swift.codegen.AWSHttpResponseJsonDecoder
+import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty

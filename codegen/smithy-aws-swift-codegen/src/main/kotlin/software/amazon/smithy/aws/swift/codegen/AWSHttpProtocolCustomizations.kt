@@ -2,13 +2,13 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
+import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
 abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
@@ -17,7 +17,7 @@ abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
         val protocolMiddlewares = mutableListOf<ProtocolMiddleware>()
         protocolMiddlewares.add(EndpointResolverMiddleware())
 
-        if(ctx.service.needsSigning) {
+        if (ctx.service.needsSigning) {
             protocolMiddlewares.add(AWSSigningMiddleware())
         }
 
