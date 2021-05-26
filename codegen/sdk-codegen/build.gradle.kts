@@ -35,6 +35,14 @@ tasks.create<SmithyBuild>("buildSdk") {
 // force rebuild every time while developing
 tasks["buildSdk"].outputs.upToDateWhen { false }
 
+buildscript {
+    val smithyVersion: String by project
+    dependencies {
+        classpath("software.amazon.smithy:smithy-aws-traits:$smithyVersion")
+        classpath("software.amazon.smithy:smithy-cli:$smithyVersion")
+    }
+}
+
 // get a project property by name if it exists (including from local.properties)
 fun getProperty(name: String): String? {
     if (project.hasProperty(name)) {
