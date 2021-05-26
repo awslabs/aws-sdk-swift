@@ -13,16 +13,16 @@ extension HttpContext {
     static let signingName = AttributeKey<String>(name: "SigningName")
     static let signingRegion = AttributeKey<String>(name: "SigningRegion")
 
-    func getCredentialsProvider() -> AWSCredentialsProvider {
-        return attributes.get(key: HttpContext.credentialsProvider)!
+    func getCredentialsProvider() -> AWSCredentialsProvider? {
+        return attributes.get(key: HttpContext.credentialsProvider)
     }
 
     func getRegion() -> String {
         return attributes.get(key: HttpContext.region)!
     }
     
-    func getSigningName() -> String {
-        return attributes.get(key: HttpContext.signingName)!
+    func getSigningName() -> String? {
+        return attributes.get(key: HttpContext.signingName)
     }
     
     func getSigningRegion() -> String {

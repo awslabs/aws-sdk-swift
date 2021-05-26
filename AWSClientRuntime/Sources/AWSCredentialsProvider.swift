@@ -16,6 +16,15 @@ public class AWSCredentialsProvider {
         let credsProvider = try CRTAWSCredentialsProvider(fromEnv: nil)
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
+    
+    public func getCredentials() throws -> AWSCredentials {
+         let credentials = crtCredentialsProvider.getCredentials()
+         let result = try credentials.get()
+        return AWSCredentials(accessKey: result.getAccessKey(),
+                              secret: result.getSecret(),
+                              sessionToken: result.getSessionToken(),
+                              expirationTimeout: Int(result.getExpirationTimeout()))
+    }
 
 //    public static func fromProfile() throws -> AWSCredentialsProvider {
 //

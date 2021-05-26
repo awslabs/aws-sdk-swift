@@ -10,7 +10,7 @@ import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRende
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class AWSSigningMiddleware : OperationMiddlewareRenderable {
+open class AWSSigningMiddleware : OperationMiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
 
@@ -26,9 +26,10 @@ class AWSSigningMiddleware : OperationMiddlewareRenderable {
         operationStackName: String
     ) {
         // FIXME handle indentation properly or do swift formatting after the fact
+        writer.write("let config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: SigV4Middleware(${middlewareParamsString(ctx, serviceShape, op)}))"
+                "                                         middleware: SigV4Middleware(config: config))"
         )
     }
 
