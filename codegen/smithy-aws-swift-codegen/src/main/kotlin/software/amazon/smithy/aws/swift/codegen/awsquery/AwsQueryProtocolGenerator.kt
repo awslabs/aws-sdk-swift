@@ -3,7 +3,8 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFactory
-import software.amazon.smithy.aws.swift.codegen.awsjson.AWSJsonHttpResponseBindingErrorGenerator
+import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
+import software.amazon.smithy.aws.swift.codegen.restxml.AWSXMLHttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
@@ -35,8 +36,10 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
-        AWSJsonHttpResponseBindingErrorGenerator()
+        AWSRestXMLHttpResponseBindingErrorGenerator(),
+        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
     )
+
     override val serdeContext = serdeContextAWSQuery
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
         HttpBindingResolver = AwsQueryHttpBindingResolver(ctx)

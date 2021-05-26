@@ -26,7 +26,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),
-        AWSRestXMLHttpResponseBindingErrorInitGeneratorFactory()
+        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
     )
     override val serdeContext = serdeContextXML
 
