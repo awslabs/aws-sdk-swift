@@ -9,14 +9,14 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator.GenerationContext
-import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
 class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
 
-    override fun getDefaultProtocolMiddlewares(ctx: GenerationContext): List<ProtocolMiddleware> {
-        val defaultMiddlewares = super.getDefaultProtocolMiddlewares(ctx)
-        val protocolMiddlewares = mutableListOf<ProtocolMiddleware>()
+    override fun baseMiddlewares(ctx: GenerationContext): List<OperationMiddlewareRenderable> {
+        val defaultMiddlewares = super.baseMiddlewares(ctx)
+        val protocolMiddlewares = mutableListOf<OperationMiddlewareRenderable>()
         protocolMiddlewares.add(AWSXAmzTargetMiddleware())
         return defaultMiddlewares + protocolMiddlewares
     }

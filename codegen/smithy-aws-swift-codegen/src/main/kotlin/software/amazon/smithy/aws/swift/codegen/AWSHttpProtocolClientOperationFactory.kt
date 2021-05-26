@@ -10,11 +10,11 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
+import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSHttpProtocolClientCustomizableFactory {
-    fun constructClientCustomizable(protocol: ShapeId): HttpProtocolCustomizable {
+    fun constructClientCustomizable(protocol: ShapeId): DefaultHttpProtocolCustomizable {
         when (protocol) {
             AwsJson1_0Trait.ID -> return AWSHttpProtocolJson10Customizations()
             AwsJson1_1Trait.ID -> return AWSHttpProtocolJson11Customizations()
@@ -24,7 +24,7 @@ class AWSHttpProtocolClientCustomizableFactory {
     }
 }
 
-class AWSHttpProtocolNoopCustomizations : HttpProtocolCustomizable() {
+class AWSHttpProtocolNoopCustomizations : DefaultHttpProtocolCustomizable() {
     override fun renderContextAttributes(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,

@@ -5,10 +5,10 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
-class EndpointResolverMiddleware : ProtocolMiddleware {
+class EndpointResolverMiddleware : OperationMiddlewareRenderable {
 
     override val name = "EndpointResolverMiddleware"
 
@@ -16,19 +16,18 @@ class EndpointResolverMiddleware : ProtocolMiddleware {
 
     override val position = MiddlewarePosition.BEFORE
 
-    override fun renderMiddleware(
+    override fun render(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape,
         operationStackName: String
     ) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: EndpointResolverMiddleware(${getParamsString(ctx, writer, serviceShape, op)}))")
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: EndpointResolverMiddleware(${middlewareParamsString(ctx, serviceShape, op)}))")
     }
 
-    override fun getParamsString(
+    override fun middlewareParamsString(
         ctx: ProtocolGenerator.GenerationContext,
-        writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {

@@ -6,10 +6,10 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.capitalizedName
 import software.amazon.smithy.swift.codegen.integration.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 
-class AWSXAmzTargetMiddleware : ProtocolMiddleware {
+class AWSXAmzTargetMiddleware : OperationMiddlewareRenderable {
 
     override val name = "AWSXAmzTargetMiddleware"
 
@@ -17,7 +17,7 @@ class AWSXAmzTargetMiddleware : ProtocolMiddleware {
 
     override val position = MiddlewarePosition.BEFORE
 
-    override fun renderMiddleware(
+    override fun render(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         serviceShape: ServiceShape,
@@ -29,12 +29,11 @@ class AWSXAmzTargetMiddleware : ProtocolMiddleware {
         val outputShape = ctx.model.expectShape(op.output.get())
         val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
         val outputErrorName = "${op.capitalizedName()}OutputError"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: XAmzTargetMiddleware<$inputShapeName, $outputShapeName, $outputErrorName>(${getParamsString(ctx, writer, serviceShape, op)}))")
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: XAmzTargetMiddleware<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(ctx, serviceShape, op)}))")
     }
 
-    override fun getParamsString(
+    override fun middlewareParamsString(
         ctx: ProtocolGenerator.GenerationContext,
-        writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {

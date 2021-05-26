@@ -7,15 +7,15 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
+import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizable
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 import software.amazon.smithy.swift.codegen.model.getTrait
 
-abstract class AWSHttpProtocolCustomizations : HttpProtocolCustomizable() {
-    override fun getDefaultProtocolMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<ProtocolMiddleware> {
-        val defaultMiddlewares = super.getDefaultProtocolMiddlewares(ctx)
-        val protocolMiddlewares = mutableListOf<ProtocolMiddleware>()
+abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizable() {
+    override fun baseMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<OperationMiddlewareRenderable> {
+        val defaultMiddlewares = super.baseMiddlewares(ctx)
+        val protocolMiddlewares = mutableListOf<OperationMiddlewareRenderable>()
         protocolMiddlewares.add(EndpointResolverMiddleware())
 
         if (ctx.service.needsSigning) {

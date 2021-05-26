@@ -6,11 +6,11 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class AWSSigningMiddleware : ProtocolMiddleware {
+class AWSSigningMiddleware : OperationMiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
 
@@ -18,7 +18,7 @@ class AWSSigningMiddleware : ProtocolMiddleware {
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun renderMiddleware(
+    override fun render(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         serviceShape: ServiceShape,
@@ -28,13 +28,12 @@ class AWSSigningMiddleware : ProtocolMiddleware {
         // FIXME handle indentation properly or do swift formatting after the fact
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: SigV4Middleware(${getParamsString(ctx, writer, serviceShape, op)}))"
+                "                                         middleware: SigV4Middleware(${middlewareParamsString(ctx, serviceShape, op)}))"
         )
     }
 
-    override fun getParamsString(
+    override fun middlewareParamsString(
         ctx: ProtocolGenerator.GenerationContext,
-        writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
