@@ -6,6 +6,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_1_ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.awsquery.AwsQueryProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.restxml.RestXmlProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -27,6 +28,7 @@ class AddProtocols : SwiftIntegration {
         AWSRestJson1ProtocolGenerator(),
         AwsJson1_0_ProtocolGenerator(),
         AwsJson1_1_ProtocolGenerator(),
-        RestXmlProtocolGenerator()
+        RestXmlProtocolGenerator(),
+        AwsQueryProtocolGenerator()
     )
 }
