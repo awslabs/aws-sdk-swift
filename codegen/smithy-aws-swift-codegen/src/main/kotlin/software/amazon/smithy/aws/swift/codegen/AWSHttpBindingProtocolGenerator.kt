@@ -18,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGene
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.json.StructDecodeGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
@@ -46,6 +47,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
     val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
 
+    override val shouldRenderDecodableBodyStructForEncodableTypes = true
+
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
         HttpProtocolTestGenerator(
             ctx,
@@ -67,5 +70,16 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     ) {
         val encodeGenerator = StructEncodeGenerator(ctx, members, writer, defaultTimestampFormat)
         encodeGenerator.render()
+    }
+
+    override fun renderStructDecode(
+        ctx: ProtocolGenerator.GenerationContext,
+        shapeMetaData: Map<ShapeMetadata, Any>,
+        members: List<MemberShape>,
+        writer: SwiftWriter,
+        defaultTimestampFormat: TimestampFormatTrait.Format
+    ) {
+        val decoder = StructDecodeGenerator(ctx, members, writer, defaultTimestampFormat)
+        decoder.render()
     }
 }
