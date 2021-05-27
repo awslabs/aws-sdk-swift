@@ -48,6 +48,10 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         // TODO: Fill in implementation
     }
 
+    override fun shouldRenderHttpBodyMiddleware(shape: Shape): Boolean {
+        return true
+    }
+
     override fun httpBodyMiddleware(
         writer: SwiftWriter,
         ctx: ProtocolGenerator.GenerationContext,
