@@ -1,23 +1,53 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.MiddlewarePosition
+import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class AWSSigningMiddleware {
+open class AWSSigningMiddleware : OperationMiddlewareRenderable {
 
-    fun needsSigningMiddleware(serviceShape: ServiceShape): Boolean {
-        return serviceShape.hasTrait(SigV4Trait::class.java)
+    override val name = "AWSSigningMiddleware"
+
+    override val middlewareStep = MiddlewareStep.FINALIZESTEP
+
+    override val position = MiddlewarePosition.AFTER
+
+    open fun renderConfigDeclaration(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceShape: ServiceShape,
+        op: OperationShape
+    ) {
+        writer.write("let config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
     }
 
-    fun renderSigningMiddleware(writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape, operationStackName: String) {
-        val hasUnsignedPayload = op.hasTrait(UnsignedPayloadTrait::class.java)
+    override fun render(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceShape: ServiceShape,
+        op: OperationShape,
+        operationStackName: String
+    ) {
         // FIXME handle indentation properly or do swift formatting after the fact
+        renderConfigDeclaration(ctx, writer, serviceShape, op)
         writer.write(
-            "$operationStackName.finalizeStep.intercept(position: .after,\n" +
-                "                                         middleware: SigV4Middleware(unsignedBody: $hasUnsignedPayload))"
+            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
+                "                                         middleware: SigV4Middleware(config: config))"
         )
+    }
+
+    override fun middlewareParamsString(
+        ctx: ProtocolGenerator.GenerationContext,
+        serviceShape: ServiceShape,
+        op: OperationShape
+    ): String {
+        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
+        return "unsignedBody: $hasUnsignedPayload"
     }
 }
