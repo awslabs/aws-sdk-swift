@@ -7,12 +7,12 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizable
+import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizations
 import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
 
-abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizable() {
+abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
     override fun baseMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<OperationMiddlewareRenderable> {
         val defaultMiddlewares = super.baseMiddlewares(ctx)
         val protocolMiddlewares = mutableListOf<OperationMiddlewareRenderable>()
