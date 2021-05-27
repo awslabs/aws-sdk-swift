@@ -10,7 +10,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSHttpProtocolAwsQueryCustomizations : AWSHttpProtocolCustomizations() {
     override fun renderMiddlewares(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        //TODO -- implementation
+        // TODO -- implementation
     }
 
     override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {

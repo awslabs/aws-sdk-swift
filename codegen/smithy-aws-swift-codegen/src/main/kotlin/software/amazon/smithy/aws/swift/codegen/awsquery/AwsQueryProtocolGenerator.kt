@@ -4,16 +4,13 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFactory
 import software.amazon.smithy.aws.swift.codegen.awsjson.AWSJsonHttpResponseBindingErrorGenerator
-import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJsonHttpBindingResolver
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 
 open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    //TODO: Rename defaultContentType to differentiate between request & response
+    // TODO: Rename defaultContentType to differentiate between request & response
     // Requests are:
     //  application/x-www-form-urlencoded
     // Responses are:
