@@ -53,7 +53,9 @@ Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSCl
 ## Alpha SDK Testing Instructions
 *Steps*
 
-1. We have 4 available SDKs in our alpha release: Lambda, DynamoDb, Cognito Identity and Cognito Identity Provider. We will walk you through how you can use Cognitoidentity  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
+1. We have a few SDKs available in our alpha release listed under `/AlphaSwiftSDK`. If there is an SDK you would like to see in that list for testing that isn't there, please let us know (@wooj2 & @kneekey23). 
+
+We will walk you through how you can use Cognitoidentity  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
 
 ```bash
 mkdir TestSdk
@@ -79,7 +81,7 @@ name: "TestSdk",
 platforms: [.macOS(.v10_15), .iOS(.v13)],
 dependencies: [
 // Dependencies declare other packages that this package depends on.
-.package(name: "Cognitoidentity", url: "https://github.com/awslabs/aws-sdk-swift", .branch("release-1.0.0-alpha")),
+.package(name: "Cognitoidentity", url: "https://github.com/awslabs/aws-sdk-swift", .branch("release-1.1.0-alpha")),
 ],
 targets: [
 // Targets are the basic building blocks of a package. A target can define a module or a test suite.
