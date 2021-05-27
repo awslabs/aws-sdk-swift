@@ -1,6 +1,5 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -8,15 +7,14 @@ import software.amazon.smithy.swift.codegen.integration.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
 import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class AWSSigningMiddleware : OperationMiddlewareRenderable {
+class EndpointResolverMiddleware : OperationMiddlewareRenderable {
 
-    override val name = "AWSSigningMiddleware"
+    override val name = "EndpointResolverMiddleware"
 
-    override val middlewareStep = MiddlewareStep.FINALIZESTEP
+    override val middlewareStep = MiddlewareStep.BUILDSTEP
 
-    override val position = MiddlewarePosition.AFTER
+    override val position = MiddlewarePosition.BEFORE
 
     override fun render(
         ctx: ProtocolGenerator.GenerationContext,
@@ -25,11 +23,7 @@ class AWSSigningMiddleware : OperationMiddlewareRenderable {
         op: OperationShape,
         operationStackName: String
     ) {
-        // FIXME handle indentation properly or do swift formatting after the fact
-        writer.write(
-            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: SigV4Middleware(${middlewareParamsString(ctx, serviceShape, op)}))"
-        )
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: EndpointResolverMiddleware(${middlewareParamsString(ctx, serviceShape, op)}))")
     }
 
     override fun middlewareParamsString(
@@ -37,7 +31,6 @@ class AWSSigningMiddleware : OperationMiddlewareRenderable {
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
-        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-        return "unsignedBody: $hasUnsignedPayload"
+        return "endpointResolver: config.endpointResolver, serviceId: serviceName"
     }
 }

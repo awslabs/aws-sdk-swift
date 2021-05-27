@@ -4,35 +4,20 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
 import software.amazon.smithy.aws.swift.codegen.AWSHttpRequestJsonEncoder
 import software.amazon.smithy.aws.swift.codegen.AWSHttpResponseJsonDecoder
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.capitalizedName
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator.GenerationContext
 
 class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
 
-    override fun renderMiddlewares(ctx: GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write("$operationStackName.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware(endpointResolver: config.endpointResolver, serviceId: serviceName))")
-
-        val signingMiddleware = AWSSigningMiddleware()
-        val serviceShape = ctx.service
-        if (signingMiddleware.needsSigningMiddleware(serviceShape)) {
-            signingMiddleware.renderSigningMiddleware(writer, serviceShape, op, operationStackName)
-        }
-
-        val xAmzTargetMiddleware = AWSXAmzTargetMiddleware()
-        val inputShape = ctx.model.expectShape(op.input.get())
-        val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
-        val outputShape = ctx.model.expectShape(op.output.get())
-        val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
-        val outputErrorName = "${op.capitalizedName()}OutputError"
-        xAmzTargetMiddleware.xAmzTargetMiddleware(writer, serviceShape, op, operationStackName, inputShapeName, outputShapeName, outputErrorName)
+    override fun baseMiddlewares(ctx: GenerationContext): List<OperationMiddlewareRenderable> {
+        val defaultMiddlewares = super.baseMiddlewares(ctx)
+        val protocolMiddlewares = listOf<OperationMiddlewareRenderable>(AWSXAmzTargetMiddleware())
+        return defaultMiddlewares + protocolMiddlewares
     }
 
     override fun renderMiddlewareForGeneratedRequestTests(
@@ -51,7 +36,7 @@ class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
         }
     }
 
-    override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
+    override fun getClientProperties(ctx: GenerationContext): List<ClientProperty> {
         val properties = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
