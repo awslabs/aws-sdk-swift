@@ -15,8 +15,7 @@ import software.amazon.smithy.swift.codegen.model.getTrait
 abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
     override fun baseMiddlewares(ctx: ProtocolGenerator.GenerationContext): List<OperationMiddlewareRenderable> {
         val defaultMiddlewares = super.baseMiddlewares(ctx)
-        val protocolMiddlewares = mutableListOf<OperationMiddlewareRenderable>()
-        protocolMiddlewares.add(EndpointResolverMiddleware())
+        val protocolMiddlewares = mutableListOf<OperationMiddlewareRenderable>(EndpointResolverMiddleware())
 
         if (ctx.service.needsSigning) {
             protocolMiddlewares.add(AWSSigningMiddleware())

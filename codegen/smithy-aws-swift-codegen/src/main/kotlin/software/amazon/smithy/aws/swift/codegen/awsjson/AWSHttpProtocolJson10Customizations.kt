@@ -16,8 +16,7 @@ class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
 
     override fun baseMiddlewares(ctx: GenerationContext): List<OperationMiddlewareRenderable> {
         val defaultMiddlewares = super.baseMiddlewares(ctx)
-        val protocolMiddlewares = mutableListOf<OperationMiddlewareRenderable>()
-        protocolMiddlewares.add(AWSXAmzTargetMiddleware())
+        val protocolMiddlewares = listOf<OperationMiddlewareRenderable>(AWSXAmzTargetMiddleware())
         return defaultMiddlewares + protocolMiddlewares
     }
 
