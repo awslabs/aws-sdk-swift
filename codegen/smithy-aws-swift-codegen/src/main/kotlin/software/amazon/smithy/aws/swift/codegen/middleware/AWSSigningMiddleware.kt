@@ -10,13 +10,22 @@ import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRende
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class AWSSigningMiddleware : OperationMiddlewareRenderable {
+open class AWSSigningMiddleware : OperationMiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
 
     override val middlewareStep = MiddlewareStep.FINALIZESTEP
 
     override val position = MiddlewarePosition.AFTER
+
+    open fun renderConfigDeclaration(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceShape: ServiceShape,
+        op: OperationShape
+    ) {
+        writer.write("let config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
+    }
 
     override fun render(
         ctx: ProtocolGenerator.GenerationContext,
@@ -26,9 +35,10 @@ class AWSSigningMiddleware : OperationMiddlewareRenderable {
         operationStackName: String
     ) {
         // FIXME handle indentation properly or do swift formatting after the fact
+        renderConfigDeclaration(ctx, writer, serviceShape, op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: SigV4Middleware(${middlewareParamsString(ctx, serviceShape, op)}))"
+                "                                         middleware: SigV4Middleware(config: config))"
         )
     }
 

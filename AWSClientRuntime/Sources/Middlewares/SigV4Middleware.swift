@@ -10,10 +10,10 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
                               OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "Sigv4Signer"
 
-    let unsignedBody: Bool
+    let config: SigV4Config
 
-    public init(unsignedBody: Bool) {
-        self.unsignedBody = unsignedBody
+    public init(config: SigV4Config) {
+        self.config = config
     }
 
     public typealias MInput = SdkHttpRequestBuilder
@@ -33,27 +33,34 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         let originalRequest = input.build()
         let crtUnsignedRequest = originalRequest.toHttpRequest()
         let signer = SigV4HttpRequestSigner()
-        let credentialsProvider = context.getCredentialsProvider().crtCredentialsProvider
-
-        let credentialsResult = credentialsProvider.getCredentials()
-
+        guard let credentialsProvider = context.getCredentialsProvider() else {
+            return .failure(ClientError.authError("AwsSigv4Signer requires a credentialsProvider"))
+        }
+        
+        guard let signingName = context.getSigningName() ?? config.signingService else {
+            return .failure(ClientError.authError("AwsSigv4Signer requires a signing service"))
+        }
+        
+        let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,
+                                 shouldNormalizeURIPath: config.shouldNormalizeURIPath,
+                                 omitSessionToken: config.omitSessionToken)
+        let signedBodyValue: AWSSignedBodyValue = config.unsignedBody ? .unsignedPayload : .empty
+        let signingRegion = context.getSigningRegion()
+        
         do {
-            let credentials = try credentialsResult.get()
-            let signedBodyValue = unsignedBody ? SignedBodyValue.unsignedPayload : SignedBodyValue.empty
-            // TODO: this value should be passed in via some config and able to be overrided in code generation
-            // via a customization
-            let signedBodyHeaderType = SignedBodyHeaderType.contentSha256
-            let signingRegion = context.getSigningRegion()
-            let signingName = context.getSigningName()
-           
-            let config = SigningConfig(credentials: credentials,
-                                       date: AWSDate(),
-                                       service: signingName,
-                                       region: signingRegion,
-                                       signedBodyHeader: signedBodyHeaderType,
-                                       signedBodyValue: signedBodyValue)
+            let credentials = try credentialsProvider.getCredentials()
+            
+            let signingConfig = AWSSigningConfig(credentials: credentials,
+                                                 signedBodyHeader: config.signedBodyHeader,
+                                                 signedBodyValue: signedBodyValue,
+                                                 flags: flags,
+                                                 date: Date(),
+                                                 service: signingName,
+                                                 region: signingRegion,
+                                                 signatureType: config.signatureType)
 
-            let result = try signer.signRequest(request: crtUnsignedRequest, config: config)
+            let result = try signer.signRequest(request: crtUnsignedRequest,
+                                                config: signingConfig.toCRTType())
             let crtSignedRequest = try result.get()
             let sdkSignedRequest = input.update(from: crtSignedRequest, originalRequest: originalRequest)
 
