@@ -16,6 +16,7 @@ let package = Package(
         .library(name: "Cognitoidentity", targets: ["Cognitoidentity"]),
         .library(name: "S3", targets: ["S3"]),
         .library(name: "Pinpoint", targets: ["Pinpoint"]),
+        .library(name: "Secretsmanager", targets: ["Secretsmanager"]),
     ],
     targets: [
         .target(
@@ -90,6 +91,16 @@ let package = Package(
                 "AWSClientRuntime"
             ],
             path: "./AlphaSwiftSDK/Pinpoint"
+        ),
+	.target(name: "Secretsmanager",
+            dependencies: [
+                .product(
+                    name: "ClientRuntime",
+                    package: "ClientRuntime"
+                ),
+                "AWSClientRuntime"
+            ],
+            path: "./AlphaSwiftSDK/Secretsmanager"
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
