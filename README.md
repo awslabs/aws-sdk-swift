@@ -49,3 +49,101 @@ See the local.properties definition above to specify this in a config file.
 
 ##### Testing Locally
 Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSClientRuntime` Swift packages.
+
+## Alpha SDK Testing Instructions
+*Steps*
+
+1. We have 4 available SDKs in our alpha release: Lambda, DynamoDb, Cognito Identity and Cognito Identity Provider. We will walk you through how you can use Cognitoidentity  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
+
+```bash
+mkdir TestSdk
+cd TestSdk
+swift package init --type executable
+xed .
+```
+
+Once Xcode is open, open Package.swift.  Update the file to mirror the following.  Notice the three following changes:
+
+* Platforms is set to `[.macOS(.v10_15), .iOS(.v13)]`,
+* dependencies: - has a .package which references the Cognitoidentity package
+* the first target “TestSDK” has a dependency listed as “Cognitoidentity”
+
+```swift
+// swift-tools-version:5.3
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+name: "TestSdk",
+platforms: [.macOS(.v10_15), .iOS(.v13)],
+dependencies: [
+// Dependencies declare other packages that this package depends on.
+.package(name: "Cognitoidentity", url: "https://github.com/awslabs/aws-sdk-swift", .branch("release-1.0.0-alpha")),
+],
+targets: [
+// Targets are the basic building blocks of a package. A target can define a module or a test suite.
+// Targets can depend on other targets in this package, and on products in packages this package depends on.
+.target(
+name: "TestSdk",
+dependencies: [
+"Cognitoidentity"
+]),
+.testTarget(
+name: "TestSdkTests",
+dependencies: ["TestSdk"]),
+]
+)
+```
+
+Update the scheme in Xcode to put your AWS credentials in env variables (we don’t have auto credential resolution quite finished yet, only 3/4 done sry)
+
+Variable names are:*
+```
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+```
+(if you need help with getting these values, talk to wooj@ or nickik@
+
+Then you can open up main.swift, and instantiate Cognitoidentity as follows:
+
+```swift
+import Cognitoidentity
+import Foundation
+
+//this config file will be moved out of the client,
+// I realize this is a pain right now and we have an open ticket for it.
+let config = try! CognitoidentityClient.CognitoidentityClientConfiguration.default()
+let cognitoIdentityClient = try! CognitoidentityClient(config: config)
+let cognitoInputCall = CreateIdentityPoolInput(allowClassicFlow: nil,
+allowUnauthenticatedIdentities: true,
+cognitoIdentityProviders: nil,
+developerProviderName: "com.amazonaws.mytestapplication",
+identityPoolName: "identityPoolMadeWithSwiftSDK",
+identityPoolTags: nil,
+openIdConnectProviderARNs: nil,
+samlProviderARNs: nil,
+supportedLoginProviders: nil)
+
+cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
+switch(result) {
+case .success(let output):
+print("\(output)")
+case .failure(let error):
+print("\(error)")
+}
+}
+```
+
+As a result, you should be able to:
+
+    1. Log into your AWS console, go to us-east-1 (we default region to us-east-1, no region resolver yet)
+    2. Click on cognito
+    3. click on cognito identity pools
+    4. Verify that you see the newly created identity pool name: identityPoolMadeWithSwiftSDK
+
+
+If you’ve made it this far... Congrats!🎉
+
+*What’s next?*
+Try some other calls?  Help us better understand what you think the most critical features are next.  Run into any bugs? Give us feedback on the call-site interface. etc...
