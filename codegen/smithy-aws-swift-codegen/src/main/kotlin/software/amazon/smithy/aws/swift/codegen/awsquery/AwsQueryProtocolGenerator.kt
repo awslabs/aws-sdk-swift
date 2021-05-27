@@ -5,9 +5,14 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizabl
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFactory
 import software.amazon.smithy.aws.swift.codegen.awsjson.AWSJsonHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
+import software.amazon.smithy.model.shapes.MemberShape
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
+import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     // TODO: Rename defaultContentType to differentiate between request & response
@@ -27,4 +32,15 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSJsonHttpResponseBindingErrorGenerator()
     )
     override val serdeContext = serdeContextAWSQuery
+
+    override fun renderStructEncode(
+        ctx: ProtocolGenerator.GenerationContext,
+        shapeContainingMembers: Shape,
+        shapeMetadata: Map<ShapeMetadata, Any>,
+        members: List<MemberShape>,
+        writer: SwiftWriter,
+        defaultTimestampFormat: TimestampFormatTrait.Format,
+    ) {
+        // TODO: Fill in implementation
+    }
 }

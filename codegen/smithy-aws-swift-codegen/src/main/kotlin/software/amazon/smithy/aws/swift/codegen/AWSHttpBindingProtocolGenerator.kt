@@ -5,6 +5,10 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.shapes.MemberShape
+import software.amazon.smithy.model.shapes.Shape
+import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.CodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
@@ -14,6 +18,8 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGene
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeGenerator
+import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
 
@@ -49,5 +55,17 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             httpProtocolCustomizable,
             serdeContext
         ).generateProtocolTests()
+    }
+
+    override fun renderStructEncode(
+        ctx: ProtocolGenerator.GenerationContext,
+        shapeContainingMembers: Shape,
+        shapeMetadata: Map<ShapeMetadata, Any>,
+        members: List<MemberShape>,
+        writer: SwiftWriter,
+        defaultTimestampFormat: TimestampFormatTrait.Format,
+    ) {
+        val encodeGenerator = StructEncodeGenerator(ctx, members, writer, defaultTimestampFormat)
+        encodeGenerator.render()
     }
 }
