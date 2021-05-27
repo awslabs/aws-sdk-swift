@@ -43,11 +43,13 @@ public struct AWSSigningConfig {
         self.signatureType = signatureType
         self.signingAlgorithm = signingAlgorithm
     }
-    
+}
+
+extension AWSSigningConfig {
     func toCRTType() -> SigningConfig {
         return SigningConfig(credentials: credentials?.toCRTType(),
                              credentialsProvider: credentialsProvider?.crtCredentialsProvider,
-                             date: date.awsDate,
+                             date: date.awsDateTimeIntervalSince1970,
                              service: service,
                              region: region,
                              expiration: expiration,

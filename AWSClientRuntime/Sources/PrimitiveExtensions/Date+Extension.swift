@@ -9,7 +9,7 @@ import AwsCommonRuntimeKit
 import struct Foundation.Date
 
 extension Date {
-    var awsDate: AWSDate {
+    var awsDateTimeIntervalSince1970: AWSDate {
         return AWSDate(epochS: self.timeIntervalSince1970)
     }
 }

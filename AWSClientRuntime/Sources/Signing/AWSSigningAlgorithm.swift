@@ -8,7 +8,9 @@ import AwsCommonRuntimeKit
 
 public enum AWSSigningAlgorithm {
     case sigv4
-    
+}
+
+extension AWSSigningAlgorithm {
     func toCRTType() -> SigningAlgorithmType {
         switch self {
             case .sigv4: return .signingV4

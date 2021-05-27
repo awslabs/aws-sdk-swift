@@ -18,6 +18,15 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
 
     override val position = MiddlewarePosition.AFTER
 
+    open fun renderConfigDeclaration(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceShape: ServiceShape,
+        op: OperationShape
+    ) {
+        writer.write("let config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
+    }
+
     override fun render(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
@@ -26,7 +35,7 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
         operationStackName: String
     ) {
         // FIXME handle indentation properly or do swift formatting after the fact
-        writer.write("let config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
+        renderConfigDeclaration(ctx, writer, serviceShape, op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
                 "                                         middleware: SigV4Middleware(config: config))"

@@ -36,20 +36,19 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         guard let credentialsProvider = context.getCredentialsProvider() else {
             return .failure(ClientError.authError("AwsSigv4Signer requires a credentialsProvider"))
         }
-
+        
+        guard let signingName = context.getSigningName() ?? config.signingService else {
+            return .failure(ClientError.authError("AwsSigv4Signer requires a signing service"))
+        }
+        
+        let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,
+                                 shouldNormalizeURIPath: config.shouldNormalizeURIPath,
+                                 omitSessionToken: config.omitSessionToken)
+        let signedBodyValue: AWSSignedBodyValue = config.unsignedBody ? .unsignedPayload : .empty
+        let signingRegion = context.getSigningRegion()
+        
         do {
             let credentials = try credentialsProvider.getCredentials()
-            let signedBodyValue: AWSSignedBodyValue = config.unsignedBody ? .unsignedPayload : .empty
-            let signingRegion = context.getSigningRegion()
-            
-            guard let signingName = context.getSigningName() ?? config.signingService else {
-                return .failure(ClientError.authError("AwsSigv4Signer requires a signing service"))
-                
-            }
-            
-            let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,
-                                     shouldNormalizeURIPath: config.shouldNormalizeURIPath,
-                                     omitSessionToken: config.omitSessionToken)
             
             let signingConfig = AWSSigningConfig(credentials: credentials,
                                                  signedBodyHeader: config.signedBodyHeader,

@@ -13,7 +13,9 @@ public enum AWSSignedBodyHeader {
 
     /// Add the "x-amz-content-sha256" header with the canonical request's body value
     case contentSha256
-    
+}
+
+extension AWSSignedBodyHeader {
     func toCRTType() -> SignedBodyHeaderType {
         switch self {
         case .none: return .none

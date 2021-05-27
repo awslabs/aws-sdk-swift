@@ -13,7 +13,9 @@ public enum AWSSignedBodyValue {
     case unsignedPayload
     case streamingSha256Payload
     case streamingSha256Events
-    
+}
+
+extension AWSSignedBodyValue {
     func toCRTType() -> SignedBodyValue {
         switch self {
         case .empty: return .empty

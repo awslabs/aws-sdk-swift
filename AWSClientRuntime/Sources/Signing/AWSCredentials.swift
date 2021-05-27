@@ -12,7 +12,9 @@ public struct AWSCredentials {
     let secret: String?
     let sessionToken: String?
     let expirationTimeout: Int
-    
+}
+
+extension AWSCredentials {
     func toCRTType() -> CRTCredentials? {
         guard let accessKey = accessKey,
               let secret = secret,

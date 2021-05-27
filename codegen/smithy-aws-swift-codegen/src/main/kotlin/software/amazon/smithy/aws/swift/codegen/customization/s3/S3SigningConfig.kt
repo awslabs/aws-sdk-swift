@@ -8,9 +8,8 @@ import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ProtocolMiddleware
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
@@ -24,8 +23,8 @@ class S3SigningConfig : SwiftIntegration {
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
-        resolved: List<ProtocolMiddleware>
-    ): List<ProtocolMiddleware> {
+        resolved: List<OperationMiddlewareRenderable>
+    ): List<OperationMiddlewareRenderable> {
         if (!ctx.service.isS3) return resolved
 
         val middleware = resolved.filterNot {
@@ -39,9 +38,8 @@ class S3SigningConfig : SwiftIntegration {
 }
 
 private class S3SigningMiddleware() : AWSSigningMiddleware() {
-    override fun getParamsString(
+    override fun middlewareParamsString(
         ctx: ProtocolGenerator.GenerationContext,
-        writer: SwiftWriter,
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
