@@ -63,8 +63,6 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         outputErrorSymbol: Symbol,
         requestBindings: List<HttpBindingDescriptor>
     ): Middleware {
-        // TODO: Create new implementation of HttpBodyMiddleware which ignores HTTP binding traits per:
-        //      https://awslabs.github.io/smithy/1.0/spec/aws/aws-query-protocol.html#protocol-behavior
-        return HttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
+        return AwsQueryHttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
     }
 }
