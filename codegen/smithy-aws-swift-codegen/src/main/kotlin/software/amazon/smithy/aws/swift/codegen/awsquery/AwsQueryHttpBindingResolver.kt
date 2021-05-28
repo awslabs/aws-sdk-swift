@@ -1,16 +1,16 @@
-package software.amazon.smithy.aws.swift.codegen.awsjson
+package software.amazon.smithy.aws.swift.codegen.awsquery
 
 import software.amazon.smithy.aws.swift.codegen.protocols.core.StaticHttpBindingResolver
 import software.amazon.smithy.model.pattern.UriPattern
 import software.amazon.smithy.model.traits.HttpTrait
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-class AwsJsonHttpBindingResolver(
+class AwsQueryHttpBindingResolver(
     private val context: ProtocolGenerator.GenerationContext,
-) : StaticHttpBindingResolver(context, awsJsonHttpTrait) {
+) : StaticHttpBindingResolver(context, awsQueryHttpTrait) {
 
     companion object {
-        private val awsJsonHttpTrait: HttpTrait = HttpTrait
+        private val awsQueryHttpTrait: HttpTrait = HttpTrait
             .builder()
             .code(200)
             .method("POST")
