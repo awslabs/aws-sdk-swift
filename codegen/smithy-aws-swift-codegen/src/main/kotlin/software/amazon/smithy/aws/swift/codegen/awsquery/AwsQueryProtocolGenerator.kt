@@ -13,6 +13,7 @@ import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
+import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.HttpBodyMiddleware
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
@@ -36,6 +37,8 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSJsonHttpResponseBindingErrorGenerator()
     )
     override val serdeContext = serdeContextAWSQuery
+    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
+        HttpBindingResolver = AwsQueryHttpBindingResolver(ctx)
 
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
