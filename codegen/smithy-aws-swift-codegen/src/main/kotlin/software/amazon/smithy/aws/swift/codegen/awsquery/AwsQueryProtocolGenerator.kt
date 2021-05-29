@@ -14,7 +14,6 @@ import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
-import software.amazon.smithy.swift.codegen.integration.HttpBodyMiddleware
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
@@ -63,8 +62,6 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         outputErrorSymbol: Symbol,
         requestBindings: List<HttpBindingDescriptor>
     ): Middleware {
-        // TODO: Create new implementation of HttpBodyMiddleware which ignores HTTP binding traits per:
-        //      https://awslabs.github.io/smithy/1.0/spec/aws/aws-query-protocol.html#protocol-behavior
-        return HttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
+        return AwsQueryHttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
     }
 }
