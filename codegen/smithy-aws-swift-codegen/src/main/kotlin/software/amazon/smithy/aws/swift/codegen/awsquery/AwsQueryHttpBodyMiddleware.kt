@@ -19,18 +19,6 @@ class AwsQueryHttpBodyMiddleware(
     override val typeName = "${inputSymbol.name}BodyMiddleware"
 
     override fun generateMiddlewareClosure() {
-        renderEncodedBody()
-    }
-
-    override fun generateInit() {
-        writer.write("public init() {}")
-    }
-
-    private fun renderEncodedBody() {
-        renderSerializablePayload()
-    }
-
-    private fun renderSerializablePayload() {
         writer.openBlock("do {", "} catch let err {") {
             writer.write("let encoder = context.getEncoder()")
             writer.write("let data = try encoder.encode(input.operationInput)")
@@ -41,5 +29,9 @@ class AwsQueryHttpBodyMiddleware(
         writer.write("return .failure(err)")
         writer.dedent()
         writer.write("}")
+    }
+
+    override fun generateInit() {
+        writer.write("public init() {}")
     }
 }
