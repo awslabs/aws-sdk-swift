@@ -57,6 +57,6 @@ public class AWSCredentialsProvider {
         return AWSCredentials(accessKey: result.getAccessKey(),
                               secret: result.getSecret(),
                               sessionToken: result.getSessionToken(),
-                              expirationTimeout: Int(result.getExpirationTimeout()))
+                              expirationTimeout: result.getExpirationTimeout())
     }
 }
