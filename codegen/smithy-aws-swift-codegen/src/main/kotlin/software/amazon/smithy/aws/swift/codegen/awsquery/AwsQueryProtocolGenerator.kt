@@ -14,7 +14,6 @@ import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
-import software.amazon.smithy.swift.codegen.integration.HttpBodyMiddleware
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
