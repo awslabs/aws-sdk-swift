@@ -49,11 +49,11 @@ struct CredentialsProviderStaticConfig: CRTCredentialsProviderStaticConfigOption
          secret: String,
          sessionToken: String,
          shutDownOptions: ShutDownCallback? = nil) {
-        if let shutDownOptions = shutDownOptions {
-            self.shutDownOptions = CRTCredentialsProviderShutdownOptions(shutDownCallback: shutDownOptions)
-        }
         self.accessKey = accessKey
         self.secret = secret
         self.sessionToken = sessionToken
+        if let shutDownOptions = shutDownOptions {
+            self.shutDownOptions = CRTCredentialsProviderShutdownOptions(shutDownCallback: shutDownOptions)
+        }
     }
 }

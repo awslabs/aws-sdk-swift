@@ -14,7 +14,7 @@ public struct AWSCredentialsProviderChainDefaultConfig {
 
 extension AWSCredentialsProviderChainDefaultConfig {
     func toCRTType() -> CRTCredentialsProviderChainDefaultConfig {
-        return CredentialsProviderChainDefaultConfig(shutDownOptions: shutDownCallback, bootstrap: client.bootstrap)
+        return CredentialsProviderChainDefaultConfig(bootstrap: client.bootstrap, shutDownOptions: shutDownCallback)
     }
 }
 
@@ -23,11 +23,10 @@ struct CredentialsProviderChainDefaultConfig: CRTCredentialsProviderChainDefault
     
     var bootstrap: ClientBootstrap
     
-    init(shutDownOptions: ShutDownCallback? = nil,
-         bootstrap: ClientBootstrap) {
+    init(bootstrap: ClientBootstrap, shutDownOptions: ShutDownCallback? = nil) {
+        self.bootstrap = bootstrap
         if let shutDownOptions = shutDownOptions {
             self.shutDownOptions = CRTCredentialsProviderShutdownOptions(shutDownCallback: shutDownOptions)
         }
-        self.bootstrap = bootstrap
     }
 }

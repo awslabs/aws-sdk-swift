@@ -14,7 +14,7 @@ public struct AWSCredentialsProviderCachedConfig {
 
 extension AWSCredentialsProviderCachedConfig {
     func toCRTType() -> CRTCredentialsProviderCachedConfig {
-        return CredentialsProviderCachedConfig(shutDownOptions: shutDownCallback, source: source, refreshTime: Int64(refreshTime))
+        return CredentialsProviderCachedConfig(source: source, refreshTime: Int64(refreshTime), shutDownOptions: shutDownCallback)
     }
 }
 
@@ -25,12 +25,9 @@ struct CredentialsProviderCachedConfig: CRTCredentialsProviderCachedConfig {
     
     var refreshTime: Int64
     
-    init(shutDownOptions: ShutDownCallback? = nil,
-         source: AWSCredentialsProvider,
-         refreshTime: Int64) {
-        if let shutDownOptions = shutDownOptions {
-            self.shutDownOptions = CRTCredentialsProviderShutdownOptions(shutDownCallback: shutDownOptions)
-        }
+    init(source: AWSCredentialsProvider,
+         refreshTime: Int64,
+         shutDownOptions: ShutDownCallback? = nil) {
         self.source = source.crtCredentialsProvider
         self.refreshTime = refreshTime
     }

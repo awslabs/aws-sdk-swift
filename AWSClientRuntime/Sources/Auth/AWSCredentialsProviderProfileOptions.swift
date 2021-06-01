@@ -30,10 +30,10 @@ public struct AWSCredentialsProviderProfileOptions {
 
 extension AWSCredentialsProviderProfileOptions {
     func toCRTType() -> CredentialsProviderProfileOptions {
-        return CredentialsProviderProfileOptions(shutdownOptions: shutdownCallback,
-                                                 configFileNameOverride: configFileNameOverride,
+        return CredentialsProviderProfileOptions(configFileNameOverride: configFileNameOverride,
                                                  profileFileNameOverride: profileFileNameOverride,
-                                                 credentialsFileNameOverride: credentialsFileNameOverride)
+                                                 credentialsFileNameOverride: credentialsFileNameOverride,
+                                                 shutdownOptions: shutdownCallback)
     }
 }
 
@@ -46,15 +46,15 @@ struct CredentialsProviderProfileOptions: CRTCredentialsProviderProfileOptions {
     
     var credentialsFileNameOverride: String?
     
-    init(shutdownOptions: ShutDownCallback? = nil,
-         configFileNameOverride: String? = nil,
+    init(configFileNameOverride: String? = nil,
          profileFileNameOverride: String? = nil,
-         credentialsFileNameOverride: String? = nil) {
-        if let shutdownOptions = shutdownOptions {
-            self.shutdownOptions = CRTCredentialsProviderShutdownOptions(shutDownCallback: shutdownOptions)
-        }
+         credentialsFileNameOverride: String? = nil,
+         shutdownOptions: ShutDownCallback? = nil) {
         self.configFileNameOverride = configFileNameOverride
         self.profileFileNameOverride = profileFileNameOverride
         self.credentialsFileNameOverride = credentialsFileNameOverride
+        if let shutdownOptions = shutdownOptions {
+            self.shutdownOptions = CRTCredentialsProviderShutdownOptions(shutDownCallback: shutdownOptions)
+        }
     }
 }
