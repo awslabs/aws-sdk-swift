@@ -1,9 +1,9 @@
 package software.amazon.smithy.aws.swift.codegen.awsjson
 
-import software.amazon.smithy.aws.swift.codegen.protocols.core.StaticHttpBindingResolver
 import software.amazon.smithy.model.pattern.UriPattern
 import software.amazon.smithy.model.traits.HttpTrait
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHttpBindingResolver
 
 class AwsJsonHttpBindingResolver(
     private val context: ProtocolGenerator.GenerationContext,
