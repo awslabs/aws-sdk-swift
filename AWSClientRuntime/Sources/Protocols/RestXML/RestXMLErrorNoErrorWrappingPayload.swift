@@ -8,7 +8,7 @@
 public struct RestXMLErrorNoErrorWrappingPayload: Decodable {
     public let errorCode: String
     public let requestId: String
-    public let message: String
+    public let message: String?
     enum CodingKeys: String, CodingKey {
         case errorCode = "Code"
         case requestId = "RequestId"
