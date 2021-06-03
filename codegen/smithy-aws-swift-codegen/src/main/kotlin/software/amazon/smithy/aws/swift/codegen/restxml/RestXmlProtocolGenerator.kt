@@ -12,6 +12,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.DynamicNodeEncodingGeneratorStrategy
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -43,5 +44,16 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         val xmlNamespaces = encoder.xmlNamespaces
         val dynamicNodeEncoding = DynamicNodeEncodingGeneratorStrategy(ctx, shapeContainingMembers, xmlNamespaces)
         dynamicNodeEncoding.renderIfNeeded()
+    }
+
+    override fun renderStructDecode(
+        ctx: ProtocolGenerator.GenerationContext,
+        shapeMetaData: Map<ShapeMetadata, Any>,
+        members: List<MemberShape>,
+        writer: SwiftWriter,
+        defaultTimestampFormat: TimestampFormatTrait.Format
+    ) {
+        val decoder = StructDecodeXMLGenerator(ctx, members, writer, defaultTimestampFormat)
+        decoder.render()
     }
 }

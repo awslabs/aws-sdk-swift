@@ -14,9 +14,10 @@ import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
-import software.amazon.smithy.swift.codegen.integration.HttpBodyMiddleware
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.formurl.StructEncodeFormURLGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -40,6 +41,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
         HttpBindingResolver = AwsQueryHttpBindingResolver(ctx)
 
+    override val shouldRenderDecodableBodyStructForEncodableTypes = false
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
@@ -48,7 +50,19 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
     ) {
-        // TODO: Fill in implementation
+        val encoder = StructEncodeFormURLGenerator(ctx, shapeContainingMembers, shapeMetadata, members, writer, defaultTimestampFormat)
+        encoder.render()
+    }
+
+    override fun renderStructDecode(
+        ctx: ProtocolGenerator.GenerationContext,
+        shapeMetaData: Map<ShapeMetadata, Any>,
+        members: List<MemberShape>,
+        writer: SwiftWriter,
+        defaultTimestampFormat: TimestampFormatTrait.Format
+    ) {
+        val decoder = StructDecodeXMLGenerator(ctx, members, writer, defaultTimestampFormat)
+        decoder.render()
     }
 
     override fun shouldRenderHttpBodyMiddleware(shape: Shape): Boolean {
@@ -63,8 +77,6 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         outputErrorSymbol: Symbol,
         requestBindings: List<HttpBindingDescriptor>
     ): Middleware {
-        // TODO: Create new implementation of HttpBodyMiddleware which ignores HTTP binding traits per:
-        //      https://awslabs.github.io/smithy/1.0/spec/aws/aws-query-protocol.html#protocol-behavior
-        return HttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
+        return AwsQueryHttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
     }
 }

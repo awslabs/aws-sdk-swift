@@ -1,21 +1,21 @@
-import Lambda
+import S3
 import Foundation
+import ClientRuntime
 
-let config = try! LambdaClient.LambdaClientConfiguration.default()
-let lambdaClient = try! LambdaClient(config: config)
-let data = "{}".data(using: .utf8)
-let invokeInput = InvokeInput(clientContext: nil,
-                              functionName: "test",
-                              invocationType: .requestresponse,
-                              logType: .tail,
-                              payload: data,
-                              qualifier: nil)
-lambdaClient.invoke(input: invokeInput) { (result) in
-    switch result {
+let config = try! S3Client.S3ClientConfiguration.default()
+let s3Client = try! S3Client(config: config)
+let data = "hello".data(using: .utf8)
+let input = PutObjectInput(body: data, bucket: "nickijustinsite", key: "index.html")
+
+let fileProvider = StreamSourceProvider.fromData(data: data!)
+
+s3Client.putObject(input: input, streamSource: fileProvider.unwrap()) { completion in
+    switch completion {
     case .failure(let error):
         print(error)
-    case .success(let output):
-        print(output)
+    case .success(let object):
+        print("success")
+        print(object)
     }
 }
 
