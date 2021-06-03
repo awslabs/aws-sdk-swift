@@ -1,6 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
-import software.amazon.smithy.aws.swift.codegen.restxml.httpResponse.AWSRestXMLHttpResponseTraitWithoutPayload
+import software.amazon.smithy.aws.swift.codegen.restxml.httpResponse.AWSXMLHttpResponseTraitWithoutPayload
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
@@ -15,7 +15,7 @@ import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTrai
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.HttpResponseTraitPayloadFactory
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.HttpResponseTraitWithoutHttpPayloadFactory
 
-class AWSRestXMLHttpResponseBindingErrorInitGeneratorFactory : HttpResponseBindingErrorInitGeneratorFactory {
+class AWSXMLHttpResponseBindingErrorInitGeneratorFactory : HttpResponseBindingErrorInitGeneratorFactory {
     override fun construct(
         ctx: ProtocolGenerator.GenerationContext,
         structureShape: StructureShape,
@@ -29,12 +29,12 @@ class AWSRestXMLHttpResponseBindingErrorInitGeneratorFactory : HttpResponseBindi
             httpBindingResolver,
             serviceErrorProtocolSymbol,
             defaultTimestampFormat,
-            AWSRestXMLHttpResponseTraitPayloadFactory()
+            AWSXMLHttpResponseTraitPayloadFactory()
         )
     }
 }
 
-class AWSRestXMLHttpResponseTraitPayloadFactory : HttpResponseTraitPayloadFactory {
+class AWSXMLHttpResponseTraitPayloadFactory : HttpResponseTraitPayloadFactory {
     override fun construct(
         ctx: ProtocolGenerator.GenerationContext,
         responseBindings: List<HttpBindingDescriptor>,
@@ -46,18 +46,18 @@ class AWSRestXMLHttpResponseTraitPayloadFactory : HttpResponseTraitPayloadFactor
             responseBindings,
             errorShapeName,
             writer,
-            AWSRestXMLHttpResponseTraitWithoutHttpPayloadFactory()
+            AWSXMLHttpResponseTraitWithoutHttpPayloadFactory()
         )
     }
 }
 
-class AWSRestXMLHttpResponseTraitWithoutHttpPayloadFactory : HttpResponseTraitWithoutHttpPayloadFactory {
+class AWSXMLHttpResponseTraitWithoutHttpPayloadFactory : HttpResponseTraitWithoutHttpPayloadFactory {
     override fun construct(
         ctx: ProtocolGenerator.GenerationContext,
         responseBindings: List<HttpBindingDescriptor>,
         outputShapeName: String,
         writer: SwiftWriter
     ): HttpResponseBindingRenderable {
-        return AWSRestXMLHttpResponseTraitWithoutPayload(ctx, responseBindings, outputShapeName, writer)
+        return AWSXMLHttpResponseTraitWithoutPayload(ctx, responseBindings, outputShapeName, writer)
     }
 }

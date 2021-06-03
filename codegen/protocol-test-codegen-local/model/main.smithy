@@ -77,9 +77,6 @@ structure EnumPayloadInput {
     payload: StringEnum
 }
 
-@enum([{"value": "enumvalue", "name": "V"}])
-string StringEnum
-
 @http(uri: "/StringPayload", method: "POST")
 @httpRequestTests([
     {

@@ -26,7 +26,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),
-        AWSRestXMLHttpResponseBindingErrorInitGeneratorFactory()
+        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
     )
     override val serdeContext = serdeContextXML
 
@@ -48,12 +48,12 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun renderStructDecode(
         ctx: ProtocolGenerator.GenerationContext,
-        shapeMetaData: Map<ShapeMetadata, Any>,
+        shapeMetadata: Map<ShapeMetadata, Any>,
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format
     ) {
-        val decoder = StructDecodeXMLGenerator(ctx, members, writer, defaultTimestampFormat)
+        val decoder = StructDecodeXMLGenerator(ctx, members, mapOf(), writer, defaultTimestampFormat)
         decoder.render()
     }
 }
