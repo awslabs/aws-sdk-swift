@@ -41,7 +41,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
         HttpBindingResolver = AwsQueryHttpBindingResolver(ctx)
 
-    override val shouldRenderDecodableBodyStructForEncodableTypes = false
+    override val shouldRenderDecodableBodyStructForInputShapes = false
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
@@ -56,12 +56,12 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun renderStructDecode(
         ctx: ProtocolGenerator.GenerationContext,
-        shapeMetaData: Map<ShapeMetadata, Any>,
+        shapeMetadata: Map<ShapeMetadata, Any>,
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format
     ) {
-        val decoder = StructDecodeXMLGenerator(ctx, members, writer, defaultTimestampFormat)
+        val decoder = StructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()
     }
 

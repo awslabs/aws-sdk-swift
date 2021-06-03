@@ -47,7 +47,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
     val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
 
-    override val shouldRenderDecodableBodyStructForEncodableTypes = true
+    override val shouldRenderDecodableBodyStructForInputShapes = true
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
         HttpProtocolTestGenerator(
