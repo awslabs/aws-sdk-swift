@@ -15,8 +15,9 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingRenderable
 import software.amazon.smithy.swift.codegen.isBoxed
+import software.amazon.smithy.swift.codegen.model.getTrait
 
-class AWSRestXMLHttpResponseTraitWithoutPayload(
+class AWSXMLHttpResponseTraitWithoutPayload(
     val ctx: ProtocolGenerator.GenerationContext,
     val responseBindings: List<HttpBindingDescriptor>,
     val outputShapeName: String,
@@ -62,8 +63,8 @@ class AWSRestXMLHttpResponseTraitWithoutPayload(
     }
 
     fun serviceDisablesWrappingOfErrorProperties(): Boolean {
-        ctx.service.getTrait(RestXmlTrait::class.java)?.let {
-            return it.get().isNoErrorWrapping
+        ctx.service.getTrait<RestXmlTrait>()?.let {
+            return it.isNoErrorWrapping
         }
         return false
     }
