@@ -21,7 +21,9 @@ env:
 jobs:
   #TODO: add linux compatibility after aws-crt-swift supports Linux appropriately.
   ios-compat:
-    runs-on: macos-latest
+    runs-on: macos-11
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.5.app
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
@@ -45,7 +47,9 @@ jobs:
           chmod a+x builder.pyz
           GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" SWIFTSDK_DEPS_USE_LOCAL_PATHS=1 AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
   macos-compat:
-    runs-on: macos-latest
+    runs-on: macos-11
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.5.app
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
