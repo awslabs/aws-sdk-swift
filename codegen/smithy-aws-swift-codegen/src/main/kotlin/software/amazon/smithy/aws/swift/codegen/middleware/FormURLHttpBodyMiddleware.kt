@@ -1,4 +1,4 @@
-package software.amazon.smithy.aws.swift.codegen.awsquery
+package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.Middleware
@@ -7,7 +7,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 
-class AwsQueryHttpBodyMiddleware(
+class FormURLHttpBodyMiddleware(
     private val writer: SwiftWriter,
     ctx: ProtocolGenerator.GenerationContext,
     inputSymbol: Symbol,

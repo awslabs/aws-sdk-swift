@@ -1,16 +1,16 @@
-package software.amazon.smithy.aws.swift.codegen.awsquery
+package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.model.pattern.UriPattern
 import software.amazon.smithy.model.traits.HttpTrait
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHttpBindingResolver
 
-class AwsQueryHttpBindingResolver(
+class FormURLHttpBindingResolver(
     private val context: ProtocolGenerator.GenerationContext,
-) : StaticHttpBindingResolver(context, awsQueryHttpTrait) {
+) : StaticHttpBindingResolver(context, httpTrait) {
 
     companion object {
-        private val awsQueryHttpTrait: HttpTrait = HttpTrait
+        private val httpTrait: HttpTrait = HttpTrait
             .builder()
             .code(200)
             .method("POST")
