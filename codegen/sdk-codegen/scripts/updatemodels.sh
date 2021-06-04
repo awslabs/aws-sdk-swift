@@ -1,18 +1,46 @@
 #!/bin/bash
 
-OUTPUT_DIR = "../aws-models/"
-mkdir newmodels
-cd newmodels
-git clone https://github.com/aws/aws-models.git
-cd ..
+OUTPUT_DIR="../aws-models"
 
-for smithymodel in /newmodels/*/smithy/model.json; do
-   # read file
+if [ ! -d ${OUTPUT_DIR} ]; then
+    echo "Could not find ${OUTPUT_DIR}"
+    echo "  Are you running the script in the right location?"
+    exit 1
+fi
 
-   #get sdk id
+TEMPDIR=`mktemp -d`
+fetchGitHubRepo() {
+    mkdir -p ${TEMPDIR}
+    pushd ${TEMPDIR}
+    git clone git@github.com:aws/aws-models.git
+    #git clone https://github.com/aws/aws-models.git
+    popd
+}
+cleanup() {
+    rm -Rf ${TEMPDIR}
+}
 
-   #get version
 
-   #create new file name from sdk id and version
+#if [ ! -d ${TEMPDIR} ]; then
+fetchGitHubRepo
+#else
+#    echo "No need to fetch new models"
+#fi
 
-   # mv smithymodel to OUTPUT_DIR/newfilename
+JSON_MODEL_FILES=`find ${TEMPDIR}/aws-models |grep -e "smithy\/model\.json$"`
+
+for model in ${JSON_MODEL_FILES}; do
+    SDKID=`cat ${model} |grep \"sdkId\": | sed 's/.*: \(.*\)/\1/g' | tr -d "\"" | tr -d "," | tr '[:upper:]' '[:lower:]' | tr " " "-"`
+    NUM_VERSIONS=`cat "${model}" | grep -e "\"version\": \"[0-9]*-[0-9]*-[0-9]*\"" |wc -l |awk '{print $1}'`
+    if [ ${NUM_VERSIONS} -ne 1 ]; then
+	echo "FAIL! ${model} does not have 1: ${NUM_VERSIONS}"
+	cleanup
+	exit 1
+    fi
+    VERSION=`cat "${model}" | grep -e "\"version\": \"[0-9]*-[0-9]*-[0-9]*\"" |awk '{print $2}' | tr -d "\"" |tr -d ","`
+    FILENAME="${SDKID}.${VERSION}.json"
+
+    cp -v $model ${OUTPUT_DIR}/${FILENAME}
+done
+
+cleanup
