@@ -19,7 +19,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationEc2QueryName
+import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.formurl.StructEncodeFormURLGenerator
@@ -27,7 +27,7 @@ import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXM
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    override val codingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationEc2QueryName())
+    override val codingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationXmlName())
     override val defaultContentType = "application/x-www-form-urlencoded"
     override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME
     override val protocol: ShapeId = Ec2QueryTrait.ID
