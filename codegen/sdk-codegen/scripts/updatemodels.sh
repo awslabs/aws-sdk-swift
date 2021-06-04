@@ -33,7 +33,7 @@ for model in ${JSON_MODEL_FILES}; do
     SDKID=`cat ${model} |grep \"sdkId\": | sed 's/.*: \(.*\)/\1/g' | tr -d "\"" | tr -d "," | tr '[:upper:]' '[:lower:]' | tr " " "-"`
     NUM_VERSIONS=`cat "${model}" | grep -e "\"version\": \"[0-9]*-[0-9]*-[0-9]*\"" |wc -l |awk '{print $1}'`
     if [ ${NUM_VERSIONS} -ne 1 ]; then
-	echo "FAIL! ${model} does not have 1: ${NUM_VERSIONS}"
+	echo "FAIL: ${model} does not have 1: ${NUM_VERSIONS}"
 	cleanup
 	exit 1
     fi
