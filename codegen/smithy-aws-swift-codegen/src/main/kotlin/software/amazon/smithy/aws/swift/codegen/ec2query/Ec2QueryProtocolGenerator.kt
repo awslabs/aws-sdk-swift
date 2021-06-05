@@ -1,4 +1,4 @@
-package software.amazon.smithy.aws.swift.codegen.awsquery
+package software.amazon.smithy.aws.swift.codegen.ec2query
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
@@ -7,7 +7,7 @@ import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
 import software.amazon.smithy.aws.swift.codegen.middleware.FormURLHttpBodyMiddleware
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSXMLHttpResponseBindingErrorInitGeneratorFactory
-import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
+import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
@@ -24,15 +24,10 @@ import software.amazon.smithy.swift.codegen.integration.serde.formurl.StructEnco
 import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
-open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    // TODO: Rename defaultContentType to differentiate between request & response
-    // Requests are:
-    //  application/x-www-form-urlencoded
-    // Responses are:
-    //  text/xml
+class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultContentType: String = "application/x-www-form-urlencoded"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.DATE_TIME
-    override val protocol: ShapeId = AwsQueryTrait.ID
+    override val protocol: ShapeId = Ec2QueryTrait.ID
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
     override val httpResponseGenerator = HttpResponseGenerator(
