@@ -56,7 +56,8 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
     ) {
-        val encoder = StructEncodeFormURLGenerator(ctx, shapeContainingMembers, shapeMetadata, members, writer, defaultTimestampFormat)
+        val customizations = AwsQueryFormURLEncodeCustomizations()
+        val encoder = StructEncodeFormURLGenerator(ctx, customizations, shapeContainingMembers, shapeMetadata, members, writer, defaultTimestampFormat)
         encoder.render()
     }
 
