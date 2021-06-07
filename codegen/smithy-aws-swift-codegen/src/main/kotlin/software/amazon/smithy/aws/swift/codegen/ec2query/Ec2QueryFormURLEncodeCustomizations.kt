@@ -4,6 +4,6 @@ import software.amazon.smithy.swift.codegen.integration.serde.formurl.FormURLEnc
 
 class Ec2QueryFormURLEncodeCustomizations : FormURLEncodeCustomizable {
     override fun alwaysUsesFlattenedCollections(): Boolean {
-        return false
+        return true
     }
 }
