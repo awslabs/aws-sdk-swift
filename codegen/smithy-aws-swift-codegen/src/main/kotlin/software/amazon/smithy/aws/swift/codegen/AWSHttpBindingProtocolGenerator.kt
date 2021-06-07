@@ -9,8 +9,6 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.CodingKeysGenerator
-import software.amazon.smithy.swift.codegen.integration.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
@@ -23,8 +21,6 @@ import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeG
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
-
-    override val codingKeysGenerator: CodingKeysGenerator = DefaultCodingKeysGenerator()
 
     override val serviceErrorProtocolSymbol: Symbol = Symbol.builder()
         .name("AWSHttpServiceError")

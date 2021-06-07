@@ -19,6 +19,8 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
+import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.formurl.StructEncodeFormURLGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
@@ -30,8 +32,9 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     //  application/x-www-form-urlencoded
     // Responses are:
     //  text/xml
-    override val defaultContentType: String = "application/x-www-form-urlencoded"
-    override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.DATE_TIME
+    override val codingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationXmlName())
+    override val defaultContentType = "application/x-www-form-urlencoded"
+    override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME
     override val protocol: ShapeId = AwsQueryTrait.ID
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)

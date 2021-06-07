@@ -9,6 +9,9 @@ import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
+import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGenerator
+import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.DynamicNodeEncodingGeneratorStrategy
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
@@ -16,6 +19,7 @@ import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXM
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
+    override val codingKeysGenerator: CodingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationXmlName())
     override val defaultContentType: String = "application/xml"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.DATE_TIME
     override val protocol: ShapeId = RestXmlTrait.ID
