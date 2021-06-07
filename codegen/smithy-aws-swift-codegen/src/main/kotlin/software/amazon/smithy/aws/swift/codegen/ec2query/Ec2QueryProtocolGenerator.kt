@@ -51,7 +51,8 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
     ) {
-        val encoder = StructEncodeFormURLGenerator(ctx, shapeContainingMembers, shapeMetadata, members, writer, defaultTimestampFormat)
+        val customizations = Ec2QueryFormURLEncodeCustomizations()
+        val encoder = StructEncodeFormURLGenerator(ctx, customizations, shapeContainingMembers, shapeMetadata, members, writer, defaultTimestampFormat)
         encoder.render()
     }
 
