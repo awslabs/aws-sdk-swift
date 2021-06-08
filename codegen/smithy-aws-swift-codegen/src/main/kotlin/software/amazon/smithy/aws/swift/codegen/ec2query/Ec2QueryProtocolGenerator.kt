@@ -4,9 +4,9 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFactory
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
+import software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse.AWSEc2QueryHttpResponseBindingErrorGenerator
+import software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse.AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.aws.swift.codegen.middleware.FormURLHttpBodyMiddleware
-import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
-import software.amazon.smithy.aws.swift.codegen.restxml.AWSXMLHttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
@@ -37,8 +37,8 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
-        AWSRestXMLHttpResponseBindingErrorGenerator(),
-        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
+        AWSEc2QueryHttpResponseBindingErrorGenerator(),
+        AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory()
     )
 
     override val serdeContext = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
