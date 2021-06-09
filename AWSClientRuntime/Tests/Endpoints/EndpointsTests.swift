@@ -88,65 +88,40 @@ class EndpointsTests: XCTestCase {
                                                                       signingRegion: "cn-east-1"))
     ]
     
-    func testNormalPartitionCreationWithOverrides() {
+    func testNormalPartitionCreationWithOverrides() throws {
         let testCase = endpointResolveTestCases[0]
-        do {
-            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
-            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
-        } catch let err {
-            XCTFail(err.localizedDescription)
-        }
-        
+        let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+        XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
     }
     
-    func testNonRegionalizedPartitionWithSomeOverrides() {
+    func testNonRegionalizedPartitionWithSomeOverrides() throws {
         let testCase = endpointResolveTestCases[1]
-        do {
-            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
-            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
-        } catch let err {
-            XCTFail(err.localizedDescription)
-        }
+        let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+        XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
     }
     
-    func testEuropeanPartitionWithSomeOverrides() {
+    func testEuropeanPartitionWithSomeOverrides() throws {
         let testCase = endpointResolveTestCases[2]
-        do {
-            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
-            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
-        } catch let err {
-            XCTFail(err.localizedDescription)
-        }
+        let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+        XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
     }
     
-    func testRegionWithUnmodeledEndpoints() {
+    func testRegionWithUnmodeledEndpoints() throws {
         let testCase = endpointResolveTestCases[3]
-        do {
-            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
-            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
-        } catch let err {
-            XCTFail(err.localizedDescription)
-        }
+        let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+        XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
     }
     
-    func testSpecifiedPartitionEndpoint() {
+    func testSpecifiedPartitionEndpoint() throws {
         let testCase = endpointResolveTestCases[4]
-        do {
-            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
-            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
-        } catch let err {
-            XCTFail(err.localizedDescription)
-        }
+        let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+        XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
     }
     
-    func testFipsEndpoint() {
+    func testFipsEndpoint() throws {
         let testCase = endpointResolveTestCases[5]
-        do {
-            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
-            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
-        } catch let err {
-            XCTFail(err.localizedDescription)
-        }
+        let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+        XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
     }
 }
 
