@@ -6,26 +6,26 @@
 //
 
 public struct Partition {
-
+    
     /// The partition name/id e.g. "aws"
     let id: String
-
+    
     /// The regular expression that specified the pattern that region names in the endpoint adhere to
     let regionRegex: String
-
+    
     /// Endpoint that works across all regions or if [isRegionalized] is false
     let partitionEndpoint: String
-
+    
     /// Flag indicating whether or not the service is regionalized in the partition. Some services have only a single,
     /// partition-global endpoint (e.g. CloudFront).
     let isRegionalized: Bool
-
+    
     /**
-    Default endpoint values for the partition. Some or all of the defaults specified may be superseded
-    by an entry in [endpoints].
+     Default endpoint values for the partition. Some or all of the defaults specified may be superseded
+     by an entry in [endpoints].
      */
     let defaults: ServiceEndpointMetadata
-
+    
     /// Map of endpoint names to their definitions
     let endpoints: [String: ServiceEndpointMetadata]
     
@@ -45,7 +45,7 @@ public struct Partition {
     
     func canResolveEndpoint(region: String) -> Bool {
         return endpoints[region] != nil || region.range(of: regionRegex,
-                                                            options: .regularExpression) != nil
+                                                        options: .regularExpression) != nil
     }
     
     func resolveEndpoint(region: String) throws -> AWSEndpoint {
@@ -56,6 +56,12 @@ public struct Partition {
     }
     
     func endpointDefinitionForRegion(region: String) -> ServiceEndpointMetadata {
-        return (!isRegionalized ? endpoints[partitionEndpoint] : endpoints[region]) ?? ServiceEndpointMetadata()
+        if let endpointMetadata = endpoints[region] {
+            return endpointMetadata
+        } else if !isRegionalized {
+            return endpoints[partitionEndpoint] ?? ServiceEndpointMetadata()
+        } else {
+            return ServiceEndpointMetadata()
+        }
     }
 }
