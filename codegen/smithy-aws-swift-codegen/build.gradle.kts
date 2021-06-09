@@ -14,6 +14,7 @@ val smithyVersion: String by project
 val kotestVersion: String by project
 val smithySwiftVersion: String by project
 val junitVersion: String by project
+val jacocoVersion: String by project
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
@@ -22,6 +23,10 @@ dependencies {
     implementation("software.amazon.smithy:smithy-protocol-test-traits:$smithyVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
+}
+
+jacoco {
+    toolVersion = "$jacocoVersion"
 }
 
 // Reusable license copySpec
