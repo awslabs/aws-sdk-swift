@@ -38,7 +38,9 @@ class EndpointsTests: XCTestCase {
                                               credentialScope: CredentialScope(serviceId: "foo"),
                                               signatureVersions: ["v4"]),
             endpoints: ["partition": ServiceEndpointMetadata(hostName: "some-global-thing.amazonaws.cn",
-                                                             credentialScope: CredentialScope(region: "cn-east-1"))]),
+                                                             credentialScope: CredentialScope(region: "cn-east-1")),
+                        "fips-partition": ServiceEndpointMetadata(hostName: "some-global-thing-fips.amazonaws.cn",
+                                                                  credentialScope: CredentialScope(region: "cn-east-1"))]),
         Partition(
             id: "part-id-3",
             regionRegex: "^(eu)-\\w+-\\d+$",
@@ -72,7 +74,18 @@ class EndpointsTests: XCTestCase {
                                                 expected: AWSEndpoint(endpoint: Endpoint(host: "service.eu-west-1.amazonaws.com",
                                                                                          protocolType: .https),
                                                                       signingName: "foo",
-                                                                      signingRegion: "eu-west-1"))
+                                                                      signingRegion: "eu-west-1")),
+                                    ResolveTest(description: "specified partition endpoint",
+                                                region: "partition",
+                                                expected: AWSEndpoint(endpoint: Endpoint(host: "some-global-thing.amazonaws.cn",
+                                                                                         protocolType: .https),
+                                                                      signingName: "foo",
+                                                                      signingRegion: "cn-east-1")),
+                                    ResolveTest(description: "fips partition endpoint",
+                                                region: "fips-partition",
+                                                expected: AWSEndpoint(endpoint: Endpoint(host: "some-global-thing-fips.amazonaws.cn"),
+                                                                      signingName: "foo",
+                                                                      signingRegion: "cn-east-1"))
     ]
     
     func testNormalPartitionCreationWithOverrides() {
@@ -98,6 +111,36 @@ class EndpointsTests: XCTestCase {
     
     func testEuropeanPartitionWithSomeOverrides() {
         let testCase = endpointResolveTestCases[2]
+        do {
+            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
+        } catch let err {
+            XCTFail(err.localizedDescription)
+        }
+    }
+    
+    func testRegionWithUnmodeledEndpoints() {
+        let testCase = endpointResolveTestCases[3]
+        do {
+            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
+        } catch let err {
+            XCTFail(err.localizedDescription)
+        }
+    }
+    
+    func testSpecifiedPartitionEndpoint() {
+        let testCase = endpointResolveTestCases[4]
+        do {
+            let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
+            XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
+        } catch let err {
+            XCTFail(err.localizedDescription)
+        }
+    }
+    
+    func testFipsEndpoint() {
+        let testCase = endpointResolveTestCases[5]
         do {
             let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
             XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
