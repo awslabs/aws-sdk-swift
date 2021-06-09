@@ -43,6 +43,8 @@ buildscript {
     }
 }
 
+fun <T> java.util.Optional<T>.orNull(): T? = this.orElse(null)
+
 // get a project property by name if it exists (including from local.properties)
 fun getProperty(name: String): String? {
     if (project.hasProperty(name)) {
@@ -60,77 +62,112 @@ fun getProperty(name: String): String? {
     return null
 }
 
-fun ObjectNode.Builder.call(block: ObjectNode.Builder.() -> Unit): ObjectNode.Builder = apply(block)
+// Represents information needed to generate a smithy projection JSON stanza
+data class AwsService(
+    val name: String,
+    val packageName: String,
+    val packageVersion: String,
+    val modelFile: File,
+    val projectionName: String,
+    val gitRepo: String,
+    val shouldGenerateUnitTestTarget: Boolean,
+    val sdkId: String
+)
+
+// Generates a smithy-build.json file by creating a new projection.
+// The generated smithy-build.json file is not committed to git since
+// it's rebuilt each time codegen is performed.
+fun generateSmithyBuild(services: List<AwsService>): String {
+    val buildStandaloneSdk = getProperty("buildStandaloneSdk")?.toBoolean() ?: false
+    val projections = services.joinToString(",") { service ->
+        // escape windows paths for valid json
+        val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
+        """
+            "${service.projectionName}": {
+                "imports": ["$absModelPath"],
+                "plugins": {
+                    "swift-codegen": {
+                      "service": "${service.name}",
+                      "module" : "${service.packageName}",
+                      "moduleVersion": "${service.packageVersion}",
+                      "homepage": "https://docs.amplify.aws/",
+                      "sdkId": "${service.sdkId}",
+                      "author": "Amazon Web Services",
+                      "gitRepo": "${service.gitRepo}",
+                      "swiftVersion": "5.3.0",
+                      "shouldGenerateUnitTestTarget": false,
+                      "build": {
+                          "rootProject": $buildStandaloneSdk
+                      }
+                    }
+                }
+            }
+        """
+    }
+    return """
+    {
+        "version": "1.0",
+        "projections": {
+            $projections
+        }
+    }
+    """.trimIndent()
+}
+
+// Returns an AwsService model for every JSON file found in in directory defined by property `modelsDirProp`
+fun discoverServices(): List<AwsService> {
+    val modelsDirProp: String by project
+    val modelsDir = project.file(modelsDirProp)
+    val models = fileTree(modelsDir).filter { it.isFile }.files.toMutableSet()
+    val onlyIncludeModels = getProperty("onlyIncludeModels")
+    val excludeModels = getProperty("excludeModels")
+    var filteredModels = models
+
+    onlyIncludeModels?.let {
+        val modelsToInclude = it.split(",").map { "$it.json" }.map { it.trim() }
+        filteredModels = models.filter { modelsToInclude.contains(it.name) }.toMutableSet()
+    }
+    // If a model is specified in both onlyIncludeModels and excludeModels, it is excluded.
+    excludeModels?.let {
+        val modelsToExclude = it.split(",").map { "$it.json" }.map { it.trim() }
+        filteredModels = filteredModels.filterNot { modelsToExclude.contains(it.name) }.toMutableSet()
+    }
+
+    return filteredModels
+        .map { file ->
+        val model = Model.assembler().addImport(file.absolutePath).assemble().result.get()
+        val services: List<ServiceShape> = model.shapes(ServiceShape::class.java).sorted().toList()
+        require(services.size == 1) { "Expected one service per aws model, but found ${services.size} in ${file.absolutePath}: ${services.map { it.id }}" }
+        val service = services.first()
+        file to service
+        }.map{ (file, service) ->
+            val serviceApi = service.getTrait(software.amazon.smithy.aws.traits.ServiceTrait::class.java).orNull()
+                ?: error { "Expected aws.api#service trait attached to model ${file.absolutePath}" }
+            val (name, version, _) = file.name.split(".")
+
+            logger.info("discovered service: ${serviceApi.sdkId}")
+
+            AwsService(
+                name = service.id.toString(),
+                packageName = "${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}",
+                packageVersion = "1.0",
+                modelFile = file,
+                projectionName = name + "." + version.toLowerCase(),
+                sdkId = serviceApi.sdkId,
+                gitRepo = "https://github.com/aws-amplify/aws-sdk-swift.git",
+                shouldGenerateUnitTestTarget = false)
+        }
+}
+val discoveredServices: List<AwsService> by lazy { discoverServices() }
 
 // Generates a smithy-build.json file by creating a new projection for every
 // JSON model file found in aws-models/. The generated smithy-build.json file is
 // not committed to git since it's rebuilt each time codegen is performed.
 tasks.register("generate-smithy-build") {
-    doLast {
-        val projectionsBuilder = Node.objectNodeBuilder()
-        val modelsDirProp: String by project
-        val modelsDir = project.file(modelsDirProp)
-        val models = fileTree(modelsDir).filter { it.isFile }.files.toMutableSet()
-        val onlyIncludeModels = getProperty("onlyIncludeModels")
-        val excludeModels = getProperty("excludeModels")
-        var filteredModels = models
-        onlyIncludeModels?.let {
-            val modelsToInclude = it.split(",").map { "$it.json" }.map { it.trim() }
-            filteredModels = models.filter { modelsToInclude.contains(it.name) }.toMutableSet()
-        }
-        // If a model is specified in both onlyIncludeModels and excludeModels, it is excluded.
-        excludeModels?.let {
-            val modelsToExclude = it.split(",").map { "$it.json" }.map { it.trim() }
-            filteredModels = filteredModels.filterNot { modelsToExclude.contains(it.name) }.toMutableSet()
-        }
-
-        filteredModels.forEach { file ->
-            val model = Model.assembler()
-                    .addImport(file.absolutePath)
-                    // Grab the result directly rather than worrying about checking for errors via unwrap.
-                    // All we care about here is the service shape, any unchecked errors will be exposed
-                    // as part of the actual build task done by the smithy gradle plugin.
-                    .assemble().result.get()
-            val services = model.shapes(ServiceShape::class.javaObjectType).sorted().toList()
-            if (services.size != 1) {
-                throw Exception("There must be exactly one service in each aws model file, but found " +
-                        "${services.size} in ${file.name}: ${services.map { it.id }}")
-            }
-            val service = services[0]
-            var (sdkId, version, _) = file.name.split(".")
-            sdkId = sdkId.replace("-", "").toLowerCase()
-            val projectionContents = Node.objectNodeBuilder()
-                    .withMember("imports", Node.fromStrings("${modelsDir.absolutePath}${File.separator}${file.name}"))
-                    .withMember("plugins", Node.objectNode()
-                            .withMember("swift-codegen",
-                                    Node.objectNodeBuilder()
-                                            .withMember("service", Node.from(service.id.toString()))
-                                            .withMember("module", Node.from(sdkId.capitalize()))
-                                            .withMember("moduleVersion", Node.from("1.0"))
-                                            .withMember("homepage", Node.from("https://docs.amplify.aws/"))
-                                            .withMember("sdkId", Node.from(sdkId.capitalize()))
-                                            .withMember("author", Node.from("Amazon Web Services"))
-                                            .withMember("gitRepo", Node.from("https://github.com/aws-amplify/aws-sdk-swift.git"))
-                                            .withMember("swiftVersion", Node.from("5.3.0"))
-                                            .withMember("shouldGenerateUnitTestTarget", Node.from(false))
-                                            .call {
-                                                val buildStandaloneSdk = getProperty("buildStandaloneSdk")?.toBoolean() ?: false
-                                                withMember("build", Node.objectNodeBuilder()
-                                                        .withMember("rootProject", buildStandaloneSdk)
-                                                        .build()
-                                                )
-                                            }
-                                            .build()
-                            )
-                    )
-                    .build()
-            projectionsBuilder.withMember(sdkId + "." + version.toLowerCase(), projectionContents)
-        }
-
-        file("smithy-build.json").writeText(Node.prettyPrintJson(Node.objectNodeBuilder()
-                .withMember("version", "1.0")
-                .withMember("projections", projectionsBuilder.build())
-                .build()))
+    group = "codegen"
+    description = "generate smithy-build.json"
+    doFirst {
+        projectDir.resolve("smithy-build.json").writeText(generateSmithyBuild(discoveredServices))
     }
 }
 
