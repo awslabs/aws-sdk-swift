@@ -46,6 +46,7 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         HttpBindingResolver = FormURLHttpBindingResolver(ctx)
 
     override val shouldRenderDecodableBodyStructForInputShapes = false
+    override val shouldRenderCodingKeysForEncodable = false
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
