@@ -17,14 +17,14 @@ public struct RestXMLError {
             do {
             let decoded: ErrorResponseContainer<RestXMLErrorPayload> = try XMLDecoder().decode(responseBody: responseBody)
                 self.errorCode = decoded.error.errorCode
+                self.message = decoded.error.message
                 self.requestId = decoded.requestId
-                self.message = decoded.message
                 return
             } catch {
                 let decoded: RestXMLErrorNoErrorWrappingPayload = try XMLDecoder().decode(responseBody: responseBody)
                 self.errorCode = decoded.errorCode
-                self.requestId = decoded.requestId
                 self.message = decoded.message
+                self.requestId = decoded.requestId
                 return
             }
         }

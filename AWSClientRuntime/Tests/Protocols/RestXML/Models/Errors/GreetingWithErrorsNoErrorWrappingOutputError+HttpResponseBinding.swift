@@ -13,7 +13,7 @@ import ClientRuntime
 extension GreetingWithErrorsNoErrorWrappingOutputError: HttpResponseBinding {
     public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
         let errorDetails = try RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: nil, requestID: errorDetails.requestId)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
 }
 
