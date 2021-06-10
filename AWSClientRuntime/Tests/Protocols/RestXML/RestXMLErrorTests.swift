@@ -49,6 +49,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 )
                 XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.message, actual.message)
+                XCTAssertEqual("foo-id", actual._requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -103,6 +104,8 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)
+                XCTAssertEqual("Hi", actual._message)
+                XCTAssertEqual("foo-id", actual._requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -154,10 +157,48 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)
+                XCTAssertEqual("Hi", actual._message)
+                XCTAssertEqual("foo-id", actual._requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
 
+        } catch let err {
+            XCTFail(err.localizedDescription)
+        }
+    }
+
+    func testUnhandledAccessDeniedErrors() {
+        do {
+            guard let httpResponse = buildHttpResponse(
+                code: 403,
+                headers: [
+                    "Content-Type": "application/xml",
+                    "X-Header": "Header"
+                ],
+                content: HttpBody.data("""
+                <?xml version="1.0" encoding="UTF-8"?>
+                <Error>
+                    <Code>AccessDenied</Code>
+                    <Message>Access Denied</Message>
+                    <RequestId>abcdefg123456</RequestId>
+                    <HostId>987654321abcdefg</HostId>
+                </Error>
+                """.data(using: .utf8)),
+                host: host
+            ) else {
+                XCTFail("Something is wrong with the created http response")
+                return
+            }
+
+            let decoder = XMLDecoder()
+            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            if case .unknown(let actual) = greetingWithErrorsOutputError {
+                XCTAssertEqual("Access Denied", actual._message)
+                XCTAssertEqual("abcdefg123456", actual._requestID)
+            } else {
+                XCTFail("The deserialized error type does not match expected type")
+            }
         } catch let err {
             XCTFail(err.localizedDescription)
         }
