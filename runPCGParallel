@@ -61,7 +61,6 @@ if ! wait ${AWSQUERY_EXEC}; then
     FAILEDJOB=1
 fi
 
-echo "are we here?"
 banner() {
     echo "==============================================="
     echo " Logs for: $1"

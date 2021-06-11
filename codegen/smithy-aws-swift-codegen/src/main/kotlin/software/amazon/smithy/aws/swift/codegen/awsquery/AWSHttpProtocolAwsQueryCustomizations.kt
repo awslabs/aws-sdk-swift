@@ -28,7 +28,7 @@ class AWSHttpProtocolAwsQueryCustomizations : AWSHttpProtocolCustomizations() {
     }
 
     private fun renderFormURLBodyComparison(writer: SwiftWriter, symbol: Symbol, appendBody: Boolean, expectedData: String, actualData: String) {
-        writer.write("self.assertEqualFormURLBody($expectedData, $actualData)")
+        writer.write("self.assertEqualFormURBody($expectedData, $actualData)")
     }
 
     override fun alwaysHasHttpBody(): Boolean {
