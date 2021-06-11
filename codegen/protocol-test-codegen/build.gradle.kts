@@ -48,7 +48,6 @@ val enabledProtocols = listOf("aws-json-10", "aws-json-11", "aws-restjson", "res
 
 enabledProtocols.forEach {
     tasks.register<ProtocolTestTask>("testProtocol-${it}") {
-        dependsOn(tasks.build)
         group = "Verification"
         protocol = it
         plugin = "swift-codegen"
@@ -60,3 +59,31 @@ tasks.register("testAllProtocols") {
     val allTests = tasks.withType<ProtocolTestTask>()
     dependsOn(allTests)
 }
+
+
+tasks.register("test-protocol-single-codegen-aws-json-10") {
+    val pcgtask = tasks.findByName("testProtocol-aws-json-10")
+    dependsOn(pcgtask)
+}
+
+tasks.register("test-protocol-single-codegen-aws-json-11") {
+    val pcgtask = tasks.findByName("testProtocol-aws-json-11")
+    dependsOn(pcgtask)
+}
+
+tasks.register("test-protocol-single-codegen-aws-restjson") {
+    val pcgtask = tasks.findByName("testProtocol-aws-restjson")
+    dependsOn(pcgtask)
+}
+
+tasks.register("test-protocol-single-codegen-rest-xml") {
+    val pcgtask = tasks.findByName("testProtocol-rest-xml")
+    dependsOn(pcgtask)
+}
+
+tasks.register("test-protocol-single-codegen-aws-query") {
+    val pcgtask = tasks.findByName("testProtocol-aws-query")
+    dependsOn(pcgtask)
+}
+
+

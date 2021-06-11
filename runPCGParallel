@@ -1,0 +1,87 @@
+#!/bin/bash
+
+GRADLE=$1
+SRCDIR=$2
+if [ $# -ne 2 ]; then
+    echo "usage: runPCGParallel [GRADLE] [SRCDIR]"
+    exit 1
+fi
+
+runInBackground() {
+    ${GRADLE} -p ${SRCDIR} $1
+}
+JSON10_TEMP=`mktemp`
+JSON11_TEMP=`mktemp`
+RESTJSON_TEMP=`mktemp`
+RESTXML_TEMP=`mktemp`
+AWSQUERY_TEMP=`mktemp`
+
+echo "json10 logs:   ${JSON10_TEMP}"
+echo "json11 logs:   ${JSON11_TEMP}"
+echo "restjson logs: ${RESTJSON_TEMP}"
+echo "restxml logs:  ${RESTXML_TEMP}"
+echo "awsquery logs: ${AWSQUERY_TEMP}"
+
+${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-aws-json-10 > $JSON10_TEMP 2>&1    &
+JSON10_EXEC=$!
+${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-aws-json-11 > $JSON11_TEMP 2>&1    &
+JSON11_EXEC=$!
+${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-aws-restjson > $RESTJSON_TEMP 2>&1 &
+RESTJSON_EXEC=$!
+${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-rest-xml     > $RESTXML_TEMP 2>&1  &
+RESTXML_EXEC=$!
+${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-aws-query    > $AWSQUERY_TEMP 2>&1 &
+AWSQUERY_EXEC=$!
+
+cleanup() {
+    JOBS=`jobs -p`
+    echo "Jobs are: ${JOBS}"
+    kill -9 $(jobs -p)
+    exit 1
+}
+
+trap cleanup SIGINT
+
+FAILEDJOB=0
+
+if ! wait ${JSON10_EXEC}; then
+    FAILEDJOB=1
+fi
+if ! wait ${JSON11_EXEC}; then
+    FAILEDJOB=1
+fi
+if ! wait ${RESTJSON_EXEC}; then
+    FAILEDJOB=1
+fi
+if ! wait ${RESTXML_EXEC}; then
+    FAILEDJOB=1
+fi
+
+if ! wait ${AWSQUERY_EXEC}; then
+    FAILEDJOB=1
+fi
+
+echo "are we here?"
+banner() {
+    echo "==============================================="
+    echo " Logs for: $1"
+    echo "==============================================+"
+}
+
+banner "JSON10"
+cat $JSON10_TEMP
+
+banner "JSON11"
+cat $JSON11_TEMP
+
+banner "RESTJSON"
+cat $RESTJSON_TEMP
+
+banner "RESTXML"
+cat $RESTXML_TEMP
+
+banner "AWSQUERY"
+cat $AWSQUERY_TEMP
+
+
+exit $FAILEDJOB
