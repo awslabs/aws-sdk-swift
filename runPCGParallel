@@ -3,7 +3,7 @@
 # Example:
 #./runPCGParallel ./gradlew $HOME/Projects/Amplify/SwiftSDK/aws-sdk-swift
 #
-
+DATE_START=`date`
 GRADLE=$1
 SRCDIR=$2
 if [ $# -ne 2 ]; then
@@ -120,4 +120,7 @@ cat $RJE_TEMP
 banner "AWS Rest Json Extras"
 cat $ARJ_TEMP
 
+DATE_END=`date`
+echo "Start time: $DATE_START"
+echo "End time  : $DATE_END"
 exit $FAILEDJOB

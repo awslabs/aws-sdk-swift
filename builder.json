@@ -10,8 +10,7 @@
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen-local build",
     "swift build",
-    "{source_dir}/runPCGParallel {gradlew} {source_dir}",
-    "{gradlew} -p {source_dir} testAllProtocolsLocal"
+    "{source_dir}/runPCGParallel {gradlew} {source_dir}"
   ],
   "test_steps": [
     "swift test"
