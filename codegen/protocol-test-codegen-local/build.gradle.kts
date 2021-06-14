@@ -86,7 +86,6 @@ fun exposeLocalTestsToMainGradleTestSuite() {
     val enabledProtocols = listOf("rest_json_extras", "aws-restjson")
     enabledProtocols.forEach {
         tasks.register<ProtocolTestTask>("testProtocol-${it}") {
-            dependsOn(tasks.build)
             group = "Verification"
             protocol = it
             plugin = "swift-codegen"
@@ -96,6 +95,14 @@ fun exposeLocalTestsToMainGradleTestSuite() {
         group = "Verification"
         val allTests = tasks.withType<ProtocolTestTask>()
         dependsOn(allTests)
+    }
+    tasks.register("test-protocol-singlelocal-rest_json_extras") {
+	val pcgtask = tasks.findByName("testProtocol-rest_json_extras")
+	dependsOn(pcgtask)
+    }
+    tasks.register("test-protocol-singlelocal-aws-restjson") {
+	val pcgtask = tasks.findByName("testProtocol-aws-restjson")
+	dependsOn(pcgtask)
     }
 }
 exposeLocalTestsToMainGradleTestSuite()

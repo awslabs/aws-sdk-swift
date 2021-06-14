@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Example:
+#./runPCGParallel ./gradlew $HOME/Projects/Amplify/SwiftSDK/aws-sdk-swift
+#
+
 GRADLE=$1
 SRCDIR=$2
 if [ $# -ne 2 ]; then
@@ -16,11 +20,17 @@ RESTJSON_TEMP=`mktemp`
 RESTXML_TEMP=`mktemp`
 AWSQUERY_TEMP=`mktemp`
 
+RJE_TEMP=`mktemp`
+ARJ_TEMP=`mktemp`
+
 echo "json10 logs:   ${JSON10_TEMP}"
 echo "json11 logs:   ${JSON11_TEMP}"
 echo "restjson logs: ${RESTJSON_TEMP}"
 echo "restxml logs:  ${RESTXML_TEMP}"
 echo "awsquery logs: ${AWSQUERY_TEMP}"
+echo "rj_extra logs: ${RJE_TEMP}"
+echo "arj_extra logs: ${ARJ_TEMP}"  
+
 
 ${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-aws-json-10 > $JSON10_TEMP 2>&1    &
 JSON10_EXEC=$!
@@ -32,6 +42,11 @@ ${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-rest-xml     > $RESTXML_TEMP
 RESTXML_EXEC=$!
 ${GRADLE} -p ${SRCDIR} test-protocol-single-codegen-aws-query    > $AWSQUERY_TEMP 2>&1 &
 AWSQUERY_EXEC=$!
+${GRADLE} -p ${SRCDIR} test-protocol-singlelocal-rest_json_extras > $RJE_TEMP 2>&1 &
+RJE_EXEC=$!
+${GRADLE} -p ${SRCDIR} test-protocol-singlelocal-aws-restjson     > $ARJ_TEMP 2>&1 &
+ARJ_EXEC=$!
+
 
 cleanup() {
     JOBS=`jobs -p`
@@ -43,23 +58,40 @@ cleanup() {
 trap cleanup SIGINT
 
 FAILEDJOB=0
+PIDS="${JSON10_EXEC} ${JSON11_EXEC} ${RESTJSON_EXEC} ${RESTXML_EXEC} ${AWSQUERY_EXEC} ${RJE_EXEC} ${ARJ_EXEC}"
 
-if ! wait ${JSON10_EXEC}; then
-    FAILEDJOB=1
-fi
-if ! wait ${JSON11_EXEC}; then
-    FAILEDJOB=1
-fi
-if ! wait ${RESTJSON_EXEC}; then
-    FAILEDJOB=1
-fi
-if ! wait ${RESTXML_EXEC}; then
-    FAILEDJOB=1
-fi
+for proc in $PIDS; do
+    if ! wait $proc; then
+	FAILEDJOB=1
+    else
+	echo "Succeeded: $proc"
+    fi
+done
 
-if ! wait ${AWSQUERY_EXEC}; then
-    FAILEDJOB=1
-fi
+#if ! wait ${JSON10_EXEC}; then
+#    FAILEDJOB=1
+#fi
+#if ! wait ${JSON11_EXEC}; then
+#    FAILEDJOB=1
+#fi
+#if ! wait ${RESTJSON_EXEC}; then
+#    FAILEDJOB=1
+#fi
+#if ! wait ${RESTXML_EXEC}; then
+#    FAILEDJOB=1
+#fi
+#if ! wait ${AWSQUERY_EXEC}; then
+#    FAILEDJOB=1
+#fi
+#if ! wait ${RJE_EXEC}; then
+#    FAILEDJOB=1
+#fi
+#if ! wait ${ARJ_EXEC}; then
+#    FAILEDJOB=1
+#fi
+
+
+
 
 banner() {
     echo "==============================================="
@@ -82,5 +114,10 @@ cat $RESTXML_TEMP
 banner "AWSQUERY"
 cat $AWSQUERY_TEMP
 
+banner "RestJSON Extras"
+cat $RJE_TEMP
+
+banner "AWS Rest Json Extras"
+cat $ARJ_TEMP
 
 exit $FAILEDJOB
