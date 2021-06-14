@@ -77,24 +77,21 @@ Once Xcode is open, open Package.swift.  Update the file to mirror the following
 import PackageDescription
 
 let package = Package(
-name: "TestSdk",
-platforms: [.macOS(.v10_15), .iOS(.v13)],
-dependencies: [
-// Dependencies declare other packages that this package depends on.
-.package(name: "Cognitoidentity", url: "https://github.com/awslabs/aws-sdk-swift", .branch("release-1.1.0-alpha")),
-],
-targets: [
-// Targets are the basic building blocks of a package. A target can define a module or a test suite.
-// Targets can depend on other targets in this package, and on products in packages this package depends on.
-.target(
-name: "TestSdk",
-dependencies: [
-"Cognitoidentity"
-]),
-.testTarget(
-name: "TestSdkTests",
-dependencies: ["TestSdk"]),
-]
+    name: "TestSdk",
+    platforms: [.macOS(.v10_15), .iOS(.v13)],
+    dependencies: [
+        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", .branch("release-1.1.0-alpha")),
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        .target(
+            name: "TestSdk",
+            dependencies: [.product(name: "Cognitoidentity", package: "AWSSwiftSDK")]),
+        .testTarget(
+            name: "TestSdkTests",
+            dependencies: ["TestSdk"]),
+    ]
 )
 ```
 
