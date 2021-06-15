@@ -8,7 +8,7 @@
 import AwsCommonRuntimeKit
 import ClientRuntime
 
-public class AWSRetryStrategy {
+public class AWSRetryer: Retryer {
     let crtRetryStrategy: CRTAWSRetryStrategy
     
     public init(options: AWSRetryOptions) throws {
