@@ -15,7 +15,7 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
 
     public var _requestID: String?
 
-    public var _retryable: Bool? = false
+    public var _retryable: Bool = false
 
     public var _type: ErrorType = .unknown
 }
