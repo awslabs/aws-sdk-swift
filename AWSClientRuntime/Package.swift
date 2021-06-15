@@ -1,5 +1,6 @@
 // swift-tools-version:5.4
 import PackageDescription
+import class Foundation.ProcessInfo
 
 let package = Package(
     name: "AWSClientRuntime",
@@ -9,10 +10,6 @@ let package = Package(
     ],
     products: [
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
-    ],
-    dependencies: [
-        .package(name: "ClientRuntime", path: "~/Projects/Amplify/SwiftSDK/smithy-swift/Packages"),
-        .package(name: "AwsCrt", path: "~/Projects/Amplify/SwiftSDK/aws-crt-swift")
     ],
     targets: [
         .target(
@@ -34,3 +31,17 @@ let package = Package(
         )
     ]
 )
+
+let relatedDependenciesBranch = "master"
+
+if let smithySwiftDir = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR"] {
+    package.dependencies += [
+        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch(relatedDependenciesBranch)),
+        .package(name: "ClientRuntime", path: "\(smithySwiftDir)/Packages")
+    ]
+} else {
+    package.dependencies += [
+        .package(name: "AwsCrt", path: "~/Projects/Amplify/SwiftSDK/aws-crt-swift"),
+        .package(name: "ClientRuntime", path: "~/Projects/Amplify/SwiftSDK/smithy-swift/Packages")
+    ]
+}
