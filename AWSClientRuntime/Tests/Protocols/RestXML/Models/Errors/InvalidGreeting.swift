@@ -15,7 +15,7 @@ public struct InvalidGreeting: ClientRuntime.ServiceError, Equatable {
     public var _statusCode: HttpStatusCode?
     public var _message: String?
     public var _requestID: String?
-    public var _retryable: Bool? = false
+    public var _retryable: Bool = false
     public var _type: ErrorType = .client
     public var message: String?
 

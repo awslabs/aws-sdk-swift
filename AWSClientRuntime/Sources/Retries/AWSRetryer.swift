@@ -40,5 +40,40 @@ public class AWSRetryer: Retryer {
     public func releaseToken(token: AWSRetryToken) {
         crtRetryStrategy.releaseToken(token: token.crtToken)
     }
+    
+    public func isErrorRetryable<E>(error: SdkError<E>) -> Bool {
+        switch error {
+        case .client(let clientError) :
+            switch clientError {
+            case .networkError(_):
+                return true
+            case .crtError(_):
+                return true
+            default:
+                return false
+            }
+        case .service(let serviceError):
+            let castedServiceError = serviceError as? ServiceError
+            return castedServiceError?._retryable ?? false
+        case .unknown(_):
+            return false
+        }
+    }
+    
+    public func getErrorType<E>(error: SdkError<E>) -> AWSRetryError {
+        switch error {
+        case .client(let clientError) :
+            switch clientError {
+            case .crtError(_):
+                return .transient
+            default:
+                return .clientError
+            }
+        case .service(_):
+            return .serverError
+        case .unknown(_):
+            return .clientError
+        }
+    }
 }
 
