@@ -15,11 +15,12 @@ public struct XAmzTargetMiddleware<OperationStackInput: Encodable & Reflection,
 
     public func handle<H>(context: Context,
                           input: SerializeStepInput<OperationStackInput>,
-                          next: H) -> Result<OperationOutput<OperationStackOutput, OperationStackError>, Error>
+                          next: H) -> Result<OperationOutput<OperationStackOutput>, MError>
     where H: Handler,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
-          Self.Context == H.Context {
+          Self.Context == H.Context,
+          Self.MError == H.MiddlewareError {
 
         input.builder.withHeader(name: "X-Amz-Target", value: xAmzTarget)
 
@@ -27,6 +28,7 @@ public struct XAmzTargetMiddleware<OperationStackInput: Encodable & Reflection,
     }
 
     public typealias MInput = SerializeStepInput<OperationStackInput>
-    public typealias MOutput = OperationOutput<OperationStackOutput, OperationStackError>
+    public typealias MOutput = OperationOutput<OperationStackOutput>
+    public typealias MError = SdkError<OperationStackError>
     public typealias Context = HttpContext
 }

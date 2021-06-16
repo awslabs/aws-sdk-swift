@@ -17,11 +17,12 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
     
     public func handle<H>(context: Context,
                           input: SdkHttpRequestBuilder,
-                          next: H) -> Result<OperationOutput<OperationStackOutput, OperationStackError>, Error>
+                          next: H) -> Result<OperationOutput<OperationStackOutput>, MError>
     where H: Handler,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
-          Self.Context == H.Context {
+          Self.Context == H.Context,
+          Self.MError == H.MiddlewareError {
         
         let region = context.getRegion()
         do {
@@ -51,12 +52,13 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                 .withHeader(name: "Host", value: host)
             
             return next.handle(context: updatedContext, input: input)
-        } catch let err {
-            return .failure(err)
+        } catch {
+            return .failure(.client(ClientError.unknownError(("Endpoint is unable to be resolved"))))
         }
     }
     
     public typealias MInput = SdkHttpRequestBuilder
-    public typealias MOutput = OperationOutput<OperationStackOutput, OperationStackError>
+    public typealias MOutput = OperationOutput<OperationStackOutput>
     public typealias Context = HttpContext
+    public typealias MError = SdkError<OperationStackError>
 }

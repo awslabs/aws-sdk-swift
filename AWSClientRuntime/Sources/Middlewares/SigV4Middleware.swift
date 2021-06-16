@@ -18,27 +18,30 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
 
     public typealias MInput = SdkHttpRequestBuilder
 
-    public typealias MOutput = OperationOutput<OperationStackOutput, OperationStackError>
+    public typealias MOutput = OperationOutput<OperationStackOutput>
 
     public typealias Context = HttpContext
+    
+    public typealias MError = SdkError<OperationStackError>
 
     public func handle<H>(context: HttpContext,
                           input: SdkHttpRequestBuilder,
-                          next: H) -> Result<OperationOutput<OperationStackOutput, OperationStackError>, Error>
+                          next: H) -> Result<OperationOutput<OperationStackOutput>, MError>
     where H: Handler,
           Self.Context == H.Context,
           Self.MInput == H.Input,
-          Self.MOutput == H.Output {
+          Self.MOutput == H.Output,
+          Self.MError == H.MiddlewareError {
         
         let originalRequest = input.build()
         let crtUnsignedRequest = originalRequest.toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         guard let credentialsProvider = context.getCredentialsProvider() else {
-            return .failure(ClientError.authError("AwsSigv4Signer requires a credentialsProvider"))
+            return .failure(.client(ClientError.authError("AwsSigv4Signer requires a credentialsProvider")))
         }
         
         guard let signingName = context.getSigningName() ?? config.signingService else {
-            return .failure(ClientError.authError("AwsSigv4Signer requires a signing service"))
+            return .failure(.client(ClientError.authError("AwsSigv4Signer requires a signing service")))
         }
         
         let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,
@@ -66,9 +69,9 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
 
             return next.handle(context: context, input: sdkSignedRequest)
         } catch CRTError.crtError(let error) {
-            return .failure(CRTError.crtError(error))
+            return .failure(.client(ClientError.crtError(CRTError.crtError(error))))
         } catch let err {
-            return .failure(err)
+            return .failure(.client(ClientError.unknownError(err.localizedDescription)))
         }
     }
 }
