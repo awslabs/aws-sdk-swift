@@ -9,12 +9,12 @@
     "{gradlew} -p {source_dir}/codegen/smithy-aws-swift-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen-local build",
-    "swift build",
+    "cd {source_dir}/AWSClientRuntime && swift build",
     "{gradlew} -p {source_dir} testAllProtocols",
     "{gradlew} -p {source_dir} testAllProtocolsLocal"
   ],
   "test_steps": [
-    "swift test"
+    "cd {source_dir}/AWSClientRuntime && swift test"
   ],
   "build_dir": "target/build",
   "hosts": {
