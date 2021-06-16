@@ -26,7 +26,7 @@ class FormURLHttpBodyMiddleware(
             writer.write("input.builder.withBody(body)")
         }
         writer.indent()
-        writer.write("return .failure(err)")
+        writer.write("return .failure(.client(ClientError.serializationFailed(err.localizedDescription)))")
         writer.dedent()
         writer.write("}")
     }
