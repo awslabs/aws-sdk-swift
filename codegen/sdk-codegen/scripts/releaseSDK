@@ -4,13 +4,19 @@
 # This will eventually be updated by task inside of gradle
 
 usage() {
-    echo "releaseSDK [SDKDIR] [TARGETDIR]"
+    echo "Usage: "
+    echo "  releaseSDK [SDKDIR] [TARGETDIR]"
     echo "Example: "
-    echo "./releaseSDK ../build/smithyprojections/sdk-codegen/s3.2006-03-01 ../../../AlphaSwiftSDK"
+    echo "  ./releaseSDK ../build/smithyprojections/sdk-codegen/s3.2006-03-01 ../../../AlphaSwiftSDK"
 }
 
 SDKDIR=$1
 TARGET=$2
+
+if [ $# -ne 2 ]; then
+    usage
+    exit 1
+fi
 
 if [ ! -d ${SDKDIR} ]; then
    echo "Could not find ${SDKDIR}"
