@@ -64,6 +64,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
 }
 
 public struct ComplexError: AWSHttpServiceError {
+    public var _isThrottling: Bool = false
     public var _headers: Headers?
     public var _message: String?
     public var _requestID: String?

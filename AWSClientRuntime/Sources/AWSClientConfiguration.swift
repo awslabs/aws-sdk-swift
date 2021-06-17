@@ -10,5 +10,5 @@ public protocol AWSClientConfiguration {
     var region: String { get set }
     var signingRegion: String {get set}
     var endpointResolver: EndpointResolver {get set}
-    var retryer: Retryer { get set}
+    var retryer: AWSRetryer { get set}
 }

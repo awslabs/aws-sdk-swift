@@ -9,13 +9,13 @@ import ClientRuntime
 import AwsCommonRuntimeKit
 
 public struct AWSExponentialBackOffRetryOptions {
-    let client: CRTClientEngine
+    let client: HttpClientEngine
     let maxRetries: Int
     let backOffScaleFactor: UInt32
     let jitterMode: AWSExponentialBackOffJitterMode
     let generateRandom: (() -> UInt64)?
     
-    public init(client: CRTClientEngine,
+    public init(client: HttpClientEngine,
                 maxRetries: Int = 10,
                 backOffScaleFactor: UInt32 = 25,
                 jitterMode: AWSExponentialBackOffJitterMode = .default,

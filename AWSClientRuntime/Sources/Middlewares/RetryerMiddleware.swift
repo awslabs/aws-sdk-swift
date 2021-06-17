@@ -48,14 +48,13 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
           Self.MOutput == H.Output,
           Self.Context == H.Context,
           Self.MError == H.MiddlewareError {
-        
+        // always release the token at the end of the scope
         defer { retryer.releaseToken(token: token)}
         // first call to this function is the first time we make the request
         let response = next.handle(context: context, input: input)
         
         switch response {
         case .failure(let error):
-            //can retry if its a network error
             if retryer.isErrorRetryable(error: error) {
                 let errorType = retryer.getErrorType(error: error)
                 let newToken = try retryer.scheduleRetry(token: token, error: errorType)

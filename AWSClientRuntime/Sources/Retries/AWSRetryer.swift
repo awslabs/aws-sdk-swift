@@ -15,7 +15,7 @@ public class AWSRetryer: Retryer {
         self.crtRetryStrategy = try CRTAWSRetryStrategy(options: options.toCRTType())
     }
     
-    convenience init(clientEngine: CRTClientEngine) throws {
+    public convenience init(clientEngine: HttpClientEngine) throws {
         let backOffOptions = AWSExponentialBackOffRetryOptions(client: clientEngine)
         let retryOptions = AWSRetryOptions(backOffRetryOptions: backOffOptions)
         try self.init(options: retryOptions)
