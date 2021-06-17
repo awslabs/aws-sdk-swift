@@ -19,7 +19,7 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
     }
     
     public func handle<H>(context: Context,
-                          input: SdkHttpRequest,
+                          input: SdkHttpRequestBuilder,
                           next: H) -> Result<OperationOutput<Output>, SdkError<OutputError>>
     where H: Handler,
           Self.MInput == H.Input,
@@ -37,11 +37,11 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
         }
     }
     
-    func tryRequest<H>(token: AWSRetryToken,
-                       errorType: AWSRetryError? = nil,
+    func tryRequest<H>(token: RetryToken,
+                       errorType: RetryError? = nil,
                        partitionId: String,
                        context: Context,
-                       input: SdkHttpRequest,
+                       input: SdkHttpRequestBuilder,
                        next: H) throws -> Result<OperationOutput<Output>, SdkError<OutputError>>
     where H: Handler,
           Self.MInput == H.Input,
@@ -71,7 +71,7 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
     
 
     
-    public typealias MInput = SdkHttpRequest
+    public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<Output>
     public typealias Context = HttpContext
     public typealias MError = SdkError<OutputError>

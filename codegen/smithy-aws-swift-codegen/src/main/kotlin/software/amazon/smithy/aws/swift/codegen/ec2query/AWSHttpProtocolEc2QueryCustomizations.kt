@@ -11,9 +11,6 @@ import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSHttpProtocolEc2QueryCustomizations : AWSHttpProtocolCustomizations() {
-    override fun renderMiddlewares(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        // TODO -- implementation
-    }
 
     override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
         val properties = mutableListOf<ClientProperty>()

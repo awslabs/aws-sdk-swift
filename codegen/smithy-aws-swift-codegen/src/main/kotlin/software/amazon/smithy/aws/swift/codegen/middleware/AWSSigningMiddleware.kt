@@ -16,7 +16,7 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
 
     override val middlewareStep = MiddlewareStep.FINALIZESTEP
 
-    override val position = MiddlewarePosition.AFTER
+    override val position = MiddlewarePosition.BEFORE
 
     open fun renderConfigDeclaration(
         ctx: ProtocolGenerator.GenerationContext,
@@ -24,7 +24,7 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
         serviceShape: ServiceShape,
         op: OperationShape
     ) {
-        writer.write("let config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
+        writer.write("let sigv4Config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
     }
 
     override fun render(
@@ -38,7 +38,7 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
         renderConfigDeclaration(ctx, writer, serviceShape, op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: SigV4Middleware(config: config))"
+                "                                         middleware: SigV4Middleware(config: sigv4Config))"
         )
     }
 
