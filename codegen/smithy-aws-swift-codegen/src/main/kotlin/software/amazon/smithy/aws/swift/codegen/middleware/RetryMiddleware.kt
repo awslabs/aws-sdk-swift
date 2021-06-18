@@ -23,7 +23,7 @@ class RetryMiddleware : OperationMiddlewareRenderable {
         op: OperationShape,
         operationStackName: String
     ) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: RetryerMiddleware(${middlewareParamsString(ctx, serviceShape, op)}))")
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: RetrierMiddleware(${middlewareParamsString(ctx, serviceShape, op)}))")
     }
 
     override fun middlewareParamsString(
@@ -31,6 +31,6 @@ class RetryMiddleware : OperationMiddlewareRenderable {
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
-        return "retryer: config.retryer"
+        return "retrier: config.retrier"
     }
 }
