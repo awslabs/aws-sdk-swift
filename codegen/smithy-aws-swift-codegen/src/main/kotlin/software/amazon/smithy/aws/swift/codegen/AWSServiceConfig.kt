@@ -30,7 +30,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
     override fun renderStaticDefaultImplementation(serviceSymbol: Symbol) {
         writer.openBlock("public static func `default`() throws -> ${serviceSymbol.name}Configuration {", "}") {
             writer.write("let awsCredsProvider = try AWSCredentialsProvider.fromEnv()") // TODO: should be this be the default creds provider?
-            writer.write("return ${serviceSymbol.name}Configuration(credentialsProvider: awsCredsProvider)")
+            writer.write("return try ${serviceSymbol.name}Configuration(credentialsProvider: awsCredsProvider)")
         }
     }
 
@@ -40,11 +40,11 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
 
     override fun renderConvenienceInits(serviceSymbol: Symbol) {
         writer.addImport("AWSClientRuntime")
-        writer.openBlock("public convenience init(credentialsProvider: AWSCredentialsProvider) {", "}") {
+        writer.openBlock("public convenience init(credentialsProvider: AWSCredentialsProvider) throws {", "}") {
             writer.write("let region = \"us-east-1\"") // FIXME: get region from a region resolver
             writer.write("let signingRegion = \"us-east-1\"") // FIXME: get region from a region resolver
             writer.write("let endpointResolver = DefaultEndpointResolver()")
-            writer.openBlock("self.init(", ")") {
+            writer.openBlock("try self.init(", ")") {
                 val configFieldsSortedByName = getConfigFields().sortedBy { it.name }
                 for ((index, member) in configFieldsSortedByName.withIndex()) {
                     val memberName = member.name

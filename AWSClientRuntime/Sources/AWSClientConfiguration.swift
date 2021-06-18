@@ -6,11 +6,8 @@
 import ClientRuntime
 
 public protocol AWSClientConfiguration {
-
     var credentialsProvider: AWSCredentialsProvider { get set }
     var region: String { get set }
     var signingRegion: String {get set}
     var endpointResolver: EndpointResolver {get set}
-  
-    // TODO: add some kind of retryer options or configuration
 }

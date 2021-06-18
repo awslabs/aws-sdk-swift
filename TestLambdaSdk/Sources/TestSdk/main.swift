@@ -3,7 +3,7 @@ import Foundation
 import ClientRuntime
 
 let config = try! S3Client.S3ClientConfiguration.default()
-let s3Client = try! S3Client(config: config)
+let s3Client = S3Client(config: config)
 let data = "hello".data(using: .utf8)
 let input = PutObjectInput(body: data, bucket: "nickijustinsite", key: "index.html")
 

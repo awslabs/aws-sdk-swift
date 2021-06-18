@@ -9,11 +9,12 @@
 import ClientRuntime
 
 public struct ComplexXMLError: ClientRuntime.ServiceError, Equatable {
+    public var _isThrottling: Bool = false
     public var _headers: Headers?
     public var _statusCode: HttpStatusCode?
     public var _message: String?
     public var _requestID: String?
-    public var _retryable: Bool? = false
+    public var _retryable: Bool = false
     public var _type: ErrorType = .client
     public var header: String?
     public var nested: ComplexXMLNestedErrorData?

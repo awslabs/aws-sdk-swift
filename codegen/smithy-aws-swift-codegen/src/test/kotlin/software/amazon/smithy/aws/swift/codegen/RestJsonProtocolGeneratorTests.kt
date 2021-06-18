@@ -83,8 +83,8 @@ class RestJsonProtocolGeneratorTests {
                 let encoder: RequestEncoder
                 let decoder: ResponseDecoder
             
-                public init(config: ExampleClientConfiguration) throws {
-                    client = try SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
+                public init(config: ExampleClientConfiguration) {
+                    client = SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
                     let encoder = JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
                     self.encoder = config.encoder ?? encoder
@@ -106,7 +106,7 @@ class RestJsonProtocolGeneratorTests {
                         endpointResolver: EndpointResolver,
                         region: String,
                         signingRegion: String
-                    )
+                    ) throws
                     {
                         self.credentialsProvider = credentialsProvider
                         self.endpointResolver = endpointResolver
@@ -114,11 +114,11 @@ class RestJsonProtocolGeneratorTests {
                         self.signingRegion = signingRegion
                     }
             
-                    public convenience init(credentialsProvider: AWSCredentialsProvider) {
+                    public convenience init(credentialsProvider: AWSCredentialsProvider) throws {
                         let region = "us-east-1"
                         let signingRegion = "us-east-1"
                         let endpointResolver = DefaultEndpointResolver()
-                        self.init(
+                        try self.init(
                             credentialsProvider: credentialsProvider,
                             endpointResolver: endpointResolver,
                             region: region,
@@ -128,7 +128,7 @@ class RestJsonProtocolGeneratorTests {
             
                     public static func `default`() throws -> ExampleClientConfiguration {
                         let awsCredsProvider = try AWSCredentialsProvider.fromEnv()
-                        return ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
+                        return try ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
                     }
                 }
             }
