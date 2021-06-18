@@ -5,9 +5,9 @@
 
 usage() {
     echo "Usage: "
-    echo "  releaseSDK [SDKDIR] [TARGETDIR]"
+    echo "  stageSDK [SDKDIR] [TARGETDIR]"
     echo "Example: "
-    echo "  ./releaseSDK ../build/smithyprojections/sdk-codegen/s3.2006-03-01 ../../../AlphaSwiftSDK"
+    echo "  ./stageSDK ../build/smithyprojections/sdk-codegen/s3.2006-03-01 ../../../AlphaSwiftSDK"
 }
 
 SDKDIR=$1
