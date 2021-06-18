@@ -1,6 +1,14 @@
 #!/bin/sh
 
+#
 # Quick script to iterate through each sdk and report back which succeeds/fails building
+#
+
+# Note: Instead of running this script it may be quicker to:
+#   * Run `releaseSDK` for each of the desired SDKs
+#   * Run `swift build` at the top level of aws-sdk-swift
+#   The top level aws-sdk-swift Package.swift file will create a dependency graph with all
+#   of the sdks and avoid re-compiling dependencies across all SDKs
 
 usage() {
     echo "Usage:"
