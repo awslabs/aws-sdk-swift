@@ -43,9 +43,9 @@ jobs:
           CI_USER: ${{ secrets.CI_USER }}
           CI_ACCESS_TOKEN: ${{ secrets.CI_ACCESS_TOKEN }}
         run: |
-	  ./gradlew -p codegen/sdk-codegen stageSdks
-	  cd scripts && ./generatePackageSwift.swift > ../Package.swift
-	  ls release
-	  cat Package.swift
+            ./gradlew -p codegen/sdk-codegen stageSdks
+            cd scripts && ./generatePackageSwift.swift > ../Package.swift
+            ls release
+            cat Package.swift
 	  
 	  
