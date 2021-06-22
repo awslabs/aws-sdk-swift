@@ -160,6 +160,29 @@ fun discoverServices(): List<AwsService> {
 }
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
 
+val AwsService.outputDir: String
+    get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
+
+val AwsService.destinationDir: String
+    get(){
+        return rootProject.file("release").absolutePath
+    }
+
+task("stageSdks") {
+    group = "codegen"
+    description = "relocate generated SDK(s) from build directory to release dir"
+    doLast {
+        discoveredServices.forEach {
+            logger.info("copying ${it.outputDir} to ${it.destinationDir}")
+            copy {
+                from("${it.outputDir}")
+                into("${it.destinationDir}")
+                exclude("Package.swift")
+            }
+        }
+    }
+}
+
 // Generates a smithy-build.json file by creating a new projection for every
 // JSON model file found in aws-models/. The generated smithy-build.json file is
 // not committed to git since it's rebuilt each time codegen is performed.
