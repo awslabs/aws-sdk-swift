@@ -47,5 +47,3 @@ jobs:
             cd scripts && ./generatePackageSwift.swift > ../Package.swift
             ls release
             cat Package.swift
-	  
-	  
