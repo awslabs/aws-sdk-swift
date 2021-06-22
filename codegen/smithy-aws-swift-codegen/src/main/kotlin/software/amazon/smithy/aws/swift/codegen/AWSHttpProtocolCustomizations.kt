@@ -3,6 +3,7 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.RetryMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
@@ -22,6 +23,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
             protocolMiddlewares.add(AWSSigningMiddleware())
         }
 
+        protocolMiddlewares.add(UserAgentMiddleware())
         return defaultMiddlewares + protocolMiddlewares
     }
 
