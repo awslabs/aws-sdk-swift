@@ -40,4 +40,3 @@ public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding,
     public typealias MError = SdkError<OperationStackError>
     public typealias Context = HttpContext
 }
-

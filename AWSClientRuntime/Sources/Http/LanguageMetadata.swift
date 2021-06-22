@@ -18,6 +18,6 @@ public struct LanguageMetadata {
 
 extension LanguageMetadata: CustomStringConvertible {
     public var description: String {
-        return extras.count > 0 ? "lang/swift/\(version)\(extras.map{ " md/\($0.key)/\($0.value.encodeUaToken())"})" : "lang/swift/\(version)"
+        return extras.count > 0 ? "lang/swift/\(version)\(extras.map { " md/\($0.key)/\($0.value.encodeUaToken())"})" : "lang/swift/\(version)"
     }
 }

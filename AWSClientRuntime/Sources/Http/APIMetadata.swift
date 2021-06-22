@@ -9,7 +9,7 @@ public struct APIMetadata {
     let serviceId: String
     let version: String
     
-    public init(serviceId: String, version:String) {
+    public init(serviceId: String, version: String) {
         self.serviceId = serviceId
         self.version = version
     }

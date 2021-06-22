@@ -68,8 +68,6 @@ public struct RetrierMiddleware<Output: HttpResponseBinding,
         }
     }
     
-    
-    
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<Output>
     public typealias Context = HttpContext
