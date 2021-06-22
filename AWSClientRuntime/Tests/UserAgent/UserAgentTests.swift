@@ -19,13 +19,13 @@ class UserAgentTests: XCTestCase {
     func testXAmzUserAgent() {
         let apiMeta = APIMetadata(serviceId: "Test Service", version: "1.2.3")
         let sdkMeta = SDKMetadata(name: "swift", version: apiMeta.version)
-        let osMeta = OSMetadata(family: .macOS, version: "11.4")
-        let langMeta = LanguageMetadata(version: "5.4")
+        let osMeta = OSMetadata(family: currentOS, version: "11.4")
+        let langMeta = LanguageMetadata(version: currentSwiftVersion)
         let awsUserAgent = AWSUserAgentMetadata(sdkMetadata: sdkMeta,
                                       apiMetadata: apiMeta,
                                       osMetadata: osMeta,
                                       languageMetadata: langMeta)
         let expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/macOS/11.4 lang/swift/5.4"
-        XCTAssert(awsUserAgent.xAmzUserAgent == expected)
+        XCTAssert(awsUserAgent.xAmzUserAgent == expected, awsUserAgent.xAmzUserAgent)
     }
 }
