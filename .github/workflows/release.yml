@@ -48,6 +48,7 @@ jobs:
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
           GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+          ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           cd scripts && ./generatePackageSwift.swift > ../Package.swift
           ls release
