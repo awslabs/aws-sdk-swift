@@ -23,7 +23,6 @@ env:
 
 jobs:
   macos-release:
-    needs: macos-compat
     runs-on: macos-11
     env:
       DEVELOPER_DIR: /Applications/Xcode_12.5.app
