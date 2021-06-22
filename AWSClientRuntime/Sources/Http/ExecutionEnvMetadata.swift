@@ -20,7 +20,7 @@ extension ExecutionEnvMetadata: CustomStringConvertible {
     }
     
     static func detectExecEnv() -> ExecutionEnvMetadata? {
-        guard let _ = ProcessInfo.processInfo.environment["AWS_LAMBDA_FUNCTION_NAME"] else {
+        guard ProcessInfo.processInfo.environment["AWS_LAMBDA_FUNCTION_NAME"] != nil else {
             return nil
         }
         return ExecutionEnvMetadata(name: "lambda")
