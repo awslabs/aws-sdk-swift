@@ -51,4 +51,4 @@ jobs:
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./scripts/generatePackageSwift.swift > Package.swift
-	  cat Package.swift
+          cat Package.swift
