@@ -46,8 +46,8 @@ jobs:
           CI_ACCESS_TOKEN: ${{ secrets.CI_ACCESS_TOKEN }}
         run: |
           mkdir -p release/Dynamo
-	  echo "somecontents" > release/Dynamo/SomeFile.txt
-	  echo "//This is part of the release" >> Package.swift
+          echo "somecontents" > release/Dynamo/SomeFile.txt
+          echo "//This is part of the release" >> Package.swift
           cat Package.swift
       - uses: actions/checkout@v2
       - name: pull-request
