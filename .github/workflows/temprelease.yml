@@ -1,4 +1,4 @@
-name: Release
+name: TempReleaseDebugging
 
 on:
   push:
@@ -45,10 +45,23 @@ jobs:
           CI_USER: ${{ secrets.CI_USER }}
           CI_ACCESS_TOKEN: ${{ secrets.CI_ACCESS_TOKEN }}
         run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
-          ./gradlew -p codegen/sdk-codegen build
-          ./gradlew -p codegen/sdk-codegen stageSdks
-          ./scripts/generatePackageSwift.swift > Package.swift
-	  cat Package.swift ##syntax error
+          mkdir -p release/Dynamo
+	  echo "somecontents" > release/Dynamo/SomeFile.txt
+	  echo "//This is part of the release" >> Package.swift
+          cat Package.swift
+      - uses: actions/checkout@v2
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+          with: ""
+          source_branch: "master"
+          destination_branch: "release_version"
+          pr_title: "release test"
+          pr_body: "automated release*"
+          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"
+          pr_reviewer: "wooj2"
+          pr_assignee: "wooj2"
+          pr_label: "auto-pr"
+          pr_milestone: "" 
+          pr_draft: true
+          pr_allow_empty: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
