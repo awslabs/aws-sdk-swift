@@ -7,10 +7,10 @@
 import ClientRuntime
         
 public struct OSMetadata {
-    let family: OSFamily
+    let family: PlatformOperatingSystem
     let version: String?
     
-    public init(family: OSFamily, version: String? = nil) {
+    public init(family: PlatformOperatingSystem, version: String? = nil) {
         self.family = family
         self.version = version
     }
@@ -21,6 +21,11 @@ extension OSMetadata: CustomStringConvertible {
         guard let version = version else {
             return "os/\(family)"
         }
-        return "os/\(family)/\(version.encodeUaToken())"
+        let versionSanitized = version.sanitizeForUserAgentToken()
+        guard !versionSanitized.isEmpty else {
+            return "os/\(family)"
+        }
+        
+        return "os/\(family)/\(versionSanitized)"
     }
 }

@@ -18,6 +18,6 @@ public struct APIMetadata {
 extension APIMetadata: CustomStringConvertible {
     public var description: String {
         let formattedServiceId = serviceId.replacingOccurrences(of: " ", with: "-").lowercased()
-        return "api/\(formattedServiceId)/\(version.encodeUaToken())"
+        return "api/\(formattedServiceId)/\(version.sanitizeForUserAgentToken())"
     }
 }

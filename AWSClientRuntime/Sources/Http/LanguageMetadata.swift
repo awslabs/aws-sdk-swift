@@ -10,7 +10,7 @@ public struct LanguageMetadata {
     let version: String
     let extras: [String: String]
     
-    public init(version: String = currentSwiftVersion, extras: [String: String] = [String: String]()) {
+    public init(version: String = swiftVersion, extras: [String: String] = [String: String]()) {
         self.version = version
         self.extras = extras
     }
@@ -18,7 +18,7 @@ public struct LanguageMetadata {
 
 extension LanguageMetadata: CustomStringConvertible {
     public var description: String {
-        return !extras.isEmpty ? "lang/swift/\(version)\(extras.map {" md/\($0.key)/\($0.value.encodeUaToken())"})"
+        return !extras.isEmpty ? "lang/swift/\(version)\(extras.map {" md/\($0.key)/\($0.value.sanitizeForUserAgentToken())"})"
             : "lang/swift/\(version)"
     }
 }

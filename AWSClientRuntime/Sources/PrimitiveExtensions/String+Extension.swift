@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
         
-private let VALID_TCHAR: Set<Character> = Set(arrayLiteral: Character("!"),
+private let VALID_CHAR = Set(arrayLiteral: Character("!"),
                                               Character("#"),
                                               Character("$"),
                                               Character("%"),
@@ -22,8 +22,8 @@ private let VALID_TCHAR: Set<Character> = Set(arrayLiteral: Character("!"),
                                               Character("~"))
 
 extension String {
-    func encodeUaToken() -> String {
-        return self.filter({ VALID_TCHAR.contains($0)
+    func sanitizeForUserAgentToken() -> String {
+        return self.filter({ VALID_CHAR.contains($0)
                             || $0.isNumber
                             || $0.isLetter}).replacingOccurrences(of: " ", with: "_")
     }

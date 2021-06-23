@@ -6,12 +6,12 @@
 //
 import ClientRuntime
 
-let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
-let USER_AGENT: String = "User-Agent"
-
 public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding,
                                   OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "UserAgentHeader"
+    
+    private let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
+    private let USER_AGENT: String = "User-Agent"
     
     let metadata: AWSUserAgentMetadata
     
