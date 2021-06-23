@@ -6,7 +6,7 @@
 //
 import ClientRuntime
 
-let X_AMZ_USER_AGENT: String = "x-amz-uzer-agent"
+let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
 let USER_AGENT: String = "User-Agent"
 
 public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding,

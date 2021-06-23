@@ -7,7 +7,7 @@
 import class Foundation.ProcessInfo
         
 public struct ExecutionEnvMetadata {
-    let  name: String
+    let name: String
     
     public init(name: String) {
         self.name = name
@@ -20,9 +20,9 @@ extension ExecutionEnvMetadata: CustomStringConvertible {
     }
     
     static func detectExecEnv() -> ExecutionEnvMetadata? {
-        guard ProcessInfo.processInfo.environment["AWS_LAMBDA_FUNCTION_NAME"] != nil else {
+        guard let execEnv = ProcessInfo.processInfo.environment["AWS_EXECUTION_ENV"] else {
             return nil
         }
-        return ExecutionEnvMetadata(name: "lambda")
+        return ExecutionEnvMetadata(name: execEnv)
     }
 }
