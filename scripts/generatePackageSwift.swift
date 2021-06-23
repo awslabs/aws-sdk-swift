@@ -72,7 +72,7 @@ func generateTargets(_ releasedSDKs: [String]) {
     
 }
 
-let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "../release")
+let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "release")
 let releasedSDKs = sdksToIncludeInTargets.sorted()
 
 generateHeader()
