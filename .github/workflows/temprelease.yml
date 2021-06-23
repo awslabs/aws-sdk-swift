@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: pull-request
         uses: repo-sync/pull-request@v2
-          with: ""
+          with:
           source_branch: "master"
           destination_branch: "release_version"
           pr_title: "release test"
