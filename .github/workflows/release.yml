@@ -21,6 +21,13 @@ env:
   AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
   SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
 
+# This release script is work in progress.  We will need to update the script to
+# * Ensure that unit tests pass for all targets prior to generating a release
+# * Create release based on one of the platform's built results
+# * Add Readme.md file in release folder
+# * Pin to versions of aws-crt-swift and smithy-swift
+#
+
 jobs:
   macos-release:
     runs-on: macos-11
