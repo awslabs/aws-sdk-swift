@@ -20,4 +20,6 @@ class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
         properties.add(AWSHttpResponseXMLDecoder(responseDecoderOptions))
         return properties
     }
+
+
 }
