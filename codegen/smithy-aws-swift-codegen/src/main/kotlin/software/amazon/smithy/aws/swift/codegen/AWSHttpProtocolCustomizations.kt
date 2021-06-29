@@ -53,6 +53,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         val responseDecoderOptions = mutableMapOf<String, String>()
         // TODO:: Subject to change if Foundation dependency is removed
         requestEncoderOptions["dateEncodingStrategy"] = ".secondsSince1970"
+        requestEncoderOptions["nonConformingFloatEncodingStrategy"] = ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
         responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
         responseDecoderOptions["nonConformingFloatEncodingStrategy"] =  ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
         properties.add(AWSHttpRequestJsonEncoder(requestEncoderOptions))
