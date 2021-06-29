@@ -87,9 +87,11 @@ class RestJsonProtocolGeneratorTests {
                     client = SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
                     let encoder = JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
+                    encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
                     self.encoder = config.encoder ?? encoder
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .secondsSince1970
+                    decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
                     self.decoder = config.decoder ?? decoder
                     self.config = config
                 }
