@@ -55,7 +55,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         requestEncoderOptions["dateEncodingStrategy"] = ".secondsSince1970"
         requestEncoderOptions["nonConformingFloatEncodingStrategy"] = ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
         responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
-        responseDecoderOptions["nonConformingFloatEncodingStrategy"] =  ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
+        responseDecoderOptions["nonConformingFloatDecodingStrategy"] =  ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
         properties.add(AWSHttpRequestJsonEncoder(requestEncoderOptions))
         properties.add(AWSHttpResponseJsonDecoder(responseDecoderOptions))
         return properties
