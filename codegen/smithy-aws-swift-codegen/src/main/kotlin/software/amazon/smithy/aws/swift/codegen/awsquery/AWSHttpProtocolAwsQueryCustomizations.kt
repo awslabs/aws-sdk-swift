@@ -4,6 +4,7 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
 import software.amazon.smithy.aws.swift.codegen.AWSHttpRequestFormURLEncoder
 import software.amazon.smithy.aws.swift.codegen.AWSHttpResponseXMLDecoder
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
@@ -20,11 +21,11 @@ class AWSHttpProtocolAwsQueryCustomizations : AWSHttpProtocolCustomizations() {
         return properties
     }
 
-    override fun customRenderBodyComparison(test: HttpRequestTestCase): ((SwiftWriter, Symbol, Boolean, String, String) -> Unit)? {
+    override fun customRenderBodyComparison(test: HttpRequestTestCase): ((SwiftWriter, HttpRequestTestCase, Symbol, Shape, Boolean, String, String) -> Unit)? {
         return this::renderFormURLBodyComparison
     }
 
-    private fun renderFormURLBodyComparison(writer: SwiftWriter, symbol: Symbol, appendBody: Boolean, expectedData: String, actualData: String) {
+    private fun renderFormURLBodyComparison(writer: SwiftWriter, test: HttpRequestTestCase, symbol: Symbol, shape: Shape, appendBody: Boolean, expectedData: String, actualData: String) {
         writer.write("self.assertEqualFormURLBody($expectedData, $actualData)")
     }
 
