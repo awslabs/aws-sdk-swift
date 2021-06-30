@@ -8,11 +8,10 @@ import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSHttpProtocolEc2QueryCustomizations : AWSHttpProtocolCustomizations() {
 
-    override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
+    override fun getClientProperties(): List<ClientProperty> {
         val properties = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
