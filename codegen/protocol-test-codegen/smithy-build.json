@@ -110,6 +110,28 @@
           "shouldGenerateUnitTestTarget": true
         }
       }
-    }
+    },
+    "ec2-query": {
+      "transforms": [
+        {
+          "name": "includeServices",
+          "args": {
+            "services": ["aws.protocoltests.ec2#AwsEc2"]
+          }
+        }
+      ],
+      "plugins": {
+        "swift-codegen": {
+          "service": "aws.protocoltests.ec2#AwsEc2",
+          "module": "Ec2QueryTestSDK",
+          "moduleVersion": "1.0",
+          "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
+          "author": "Amazon Web Services",
+          "homepage": "https://docs.amplify.aws/",
+          "swiftVersion": "5.3.0",
+          "shouldGenerateUnitTestTarget": true
+        }
+      }
+    }      
   }
 }

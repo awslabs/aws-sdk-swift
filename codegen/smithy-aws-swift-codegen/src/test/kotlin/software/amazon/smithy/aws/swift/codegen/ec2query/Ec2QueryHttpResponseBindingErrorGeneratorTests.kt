@@ -19,7 +19,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             public enum GreetingWithErrorsOutputError: Equatable {
                 case complexError(ComplexError)
                 case invalidGreeting(InvalidGreeting)
-                case unknown(UnknownServiceError)
+                case unknown(UnknownAWSHttpServiceError)
             }
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
