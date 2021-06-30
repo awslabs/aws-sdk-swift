@@ -21,11 +21,11 @@ class AWSHttpProtocolAwsQueryCustomizations : AWSHttpProtocolCustomizations() {
         return properties
     }
 
-    override fun customRenderBodyComparison(test: HttpRequestTestCase): ((SwiftWriter, HttpRequestTestCase, Symbol, Shape, Boolean, String, String) -> Unit)? {
+    override fun customRenderBodyComparison(test: HttpRequestTestCase): ((SwiftWriter, HttpRequestTestCase, Symbol, Shape, String, String) -> Unit)? {
         return this::renderFormURLBodyComparison
     }
 
-    private fun renderFormURLBodyComparison(writer: SwiftWriter, test: HttpRequestTestCase, symbol: Symbol, shape: Shape, appendBody: Boolean, expectedData: String, actualData: String) {
+    private fun renderFormURLBodyComparison(writer: SwiftWriter, test: HttpRequestTestCase, symbol: Symbol, shape: Shape, expectedData: String, actualData: String) {
         writer.write("self.assertEqualFormURLBody($expectedData, $actualData)")
     }
 
