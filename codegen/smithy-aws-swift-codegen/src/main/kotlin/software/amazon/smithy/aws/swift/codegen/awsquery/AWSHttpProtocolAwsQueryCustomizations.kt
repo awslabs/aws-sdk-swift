@@ -11,7 +11,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSHttpProtocolAwsQueryCustomizations : AWSHttpProtocolCustomizations() {
 
-    override fun getClientProperties(ctx: ProtocolGenerator.GenerationContext): List<ClientProperty> {
+    override fun getClientProperties(): List<ClientProperty> {
         val properties = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
