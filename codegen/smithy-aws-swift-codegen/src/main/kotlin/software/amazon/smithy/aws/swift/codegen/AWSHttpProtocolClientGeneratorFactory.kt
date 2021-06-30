@@ -18,7 +18,7 @@ class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory
     ): HttpProtocolClientGenerator {
         val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
         val config = AWSServiceConfig(writer, serviceName)
-        val clientProperties = httpProtocolCustomizable.getClientProperties(ctx)
+        val clientProperties = httpProtocolCustomizable.getClientProperties()
         return HttpProtocolClientGenerator(ctx, writer, clientProperties, config, httpBindingResolver, defaultContentType, httpProtocolCustomizable)
     }
 }

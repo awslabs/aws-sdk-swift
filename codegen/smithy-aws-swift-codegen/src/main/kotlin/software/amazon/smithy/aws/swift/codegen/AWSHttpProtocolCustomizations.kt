@@ -9,6 +9,7 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizations
 import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -44,5 +45,18 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
         val endpointData = Node.parse(EndpointResolverGenerator::class.java.getResource("/software.amazon.smithy.aws.swift.codegen/endpoints.json").readText()).expectObjectNode()
         EndpointResolverGenerator(endpointData).render(ctx)
+    }
+
+    override fun getClientProperties(): List<ClientProperty> {
+        val properties = mutableListOf<ClientProperty>()
+        val requestEncoderOptions = mutableMapOf<String, String>()
+        val responseDecoderOptions = mutableMapOf<String, String>()
+        requestEncoderOptions["dateEncodingStrategy"] = ".secondsSince1970"
+        requestEncoderOptions["nonConformingFloatEncodingStrategy"] = ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
+        responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
+        responseDecoderOptions["nonConformingFloatDecodingStrategy"] = ".convertFromString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
+        properties.add(AWSHttpRequestJsonEncoder(requestEncoderOptions))
+        properties.add(AWSHttpResponseJsonDecoder(responseDecoderOptions))
+        return properties
     }
 }

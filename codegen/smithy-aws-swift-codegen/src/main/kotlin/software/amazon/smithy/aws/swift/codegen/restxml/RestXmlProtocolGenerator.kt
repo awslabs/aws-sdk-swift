@@ -8,6 +8,7 @@ import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGenerator
@@ -59,5 +60,21 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     ) {
         val decoder = StructDecodeXMLGenerator(ctx, members, mapOf(), writer, defaultTimestampFormat)
         decoder.render()
+    }
+
+    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext) {
+        val ignoredTests = setOf(
+            // FIXME - escaped strings not fully supported in rest xml
+            "SimpleScalarPropertiesComplexEscapes"
+        )
+        HttpProtocolTestGenerator(
+            ctx,
+            requestTestBuilder,
+            responseTestBuilder,
+            errorTestBuilder,
+            httpProtocolCustomizable,
+            serdeContext,
+            ignoredTests
+        ).generateProtocolTests()
     }
 }
