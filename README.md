@@ -2,7 +2,7 @@
 
 The **AWS SDK for Swift** is a pure Swift SDK for AWS services.
 
-**WARNING: Beta releases may contain bugs and no guarantee is made about API stability. They are not recommended for production use!**
+**WARNING: Releases prior to 1.0.0 may contain bugs and no guarantee is made about API stability. They are not intended for use in production!**
 
 ## License
 
@@ -55,7 +55,7 @@ Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSCl
 
 1. We have all of the AWS SDKs available in our alpha release listed under `/release` except AWS Locations (coming soon).
 
-We will walk you through how you can use CognitoIdentity  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
+We will walk you through how you can use `CognitoIdentity`  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
 
 ```bash
 mkdir TestSdk
@@ -67,8 +67,8 @@ xed .
 Once Xcode is open, open Package.swift.  Update the file to mirror the following.  Notice the three following changes:
 
 * Platforms is set to `[.macOS(.v10_15), .iOS(.v13)]`,
-* dependencies: - has a .package which references the CognitoIdentity package
-* the first target “TestSDK” has a dependency listed as “CognitoIdentity”
+* dependencies: - has a .package which references the `CognitoIdentity` package
+* the first target “TestSDK” has a dependency listed as `CognitoIdentity`
 
 ```swift
 // swift-tools-version:5.4
