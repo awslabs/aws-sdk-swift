@@ -13,7 +13,7 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
         val operationErrorName = "${op.capitalizedName()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/$operationErrorName+Extensions.swift")
+            .definitionFile("./$rootNamespace/models/$operationErrorName.swift")
             .name(operationErrorName)
             .build()
 
