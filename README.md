@@ -2,7 +2,7 @@
 
 The **AWS SDK for Swift** is a pure Swift SDK for AWS services.
 
-**WARNING: All interfaces are subject to change.**
+**WARNING: Releases prior to 1.0.0 may contain bugs and no guarantee is made about API stability. They are not intended for use in production!**
 
 ## License
 
@@ -55,7 +55,7 @@ Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSCl
 
 1. We have all of the AWS SDKs available in our alpha release listed under `/release` except AWS Locations (coming soon).
 
-We will walk you through how you can use Cognitoidentity  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
+We will walk you through how you can use `CognitoIdentity`  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
 
 ```bash
 mkdir TestSdk
@@ -67,8 +67,8 @@ xed .
 Once Xcode is open, open Package.swift.  Update the file to mirror the following.  Notice the three following changes:
 
 * Platforms is set to `[.macOS(.v10_15), .iOS(.v13)]`,
-* dependencies: - has a .package which references the Cognitoidentity package
-* the first target “TestSDK” has a dependency listed as “Cognitoidentity”
+* dependencies: - has a .package which references the `CognitoIdentity` package
+* the first target “TestSDK” has a dependency listed as `CognitoIdentity`
 
 ```swift
 // swift-tools-version:5.4
@@ -87,7 +87,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "TestSdk",
-            dependencies: [.product(name: "Cognitoidentity", package: "AWSSwiftSDK")]),
+            dependencies: [.product(name: "CognitoIdentity", package: "AWSSwiftSDK")]),
         .testTarget(
             name: "TestSdkTests",
             dependencies: ["TestSdk"]),
@@ -104,33 +104,33 @@ AWS_SECRET_ACCESS_KEY
 ```
 (if you need help with getting these values, talk to wooj@ or nickik@
 
-Then you can open up main.swift, and instantiate Cognitoidentity as follows:
+Then you can open up main.swift, and instantiate CognitoIdentity as follows:
 
 ```swift
-import Cognitoidentity
+import CognitoIdentity
 import Foundation
 
 //this config file will be moved out of the client,
 // I realize this is a pain right now and we have an open ticket for it.
-let config = try! CognitoidentityClient.CognitoidentityClientConfiguration.default()
-let cognitoIdentityClient = CognitoidentityClient(config: config)
+let config = try! CognitoIdentityClient.CognitoIdentityClientConfiguration.default()
+let cognitoIdentityClient = CognitoIdentityClient(config: config)
 let cognitoInputCall = CreateIdentityPoolInput(allowClassicFlow: nil,
-allowUnauthenticatedIdentities: true,
-cognitoIdentityProviders: nil,
-developerProviderName: "com.amazonaws.mytestapplication",
-identityPoolName: "identityPoolMadeWithSwiftSDK",
-identityPoolTags: nil,
-openIdConnectProviderARNs: nil,
-samlProviderARNs: nil,
-supportedLoginProviders: nil)
+                                                allowUnauthenticatedIdentities: true,
+                                                cognitoIdentityProviders: nil,
+                                                developerProviderName: "com.amazonaws.mytestapplication",
+                                                identityPoolName: "identityPoolMadeWithSwiftSDK",
+                                                identityPoolTags: nil,
+                                                openIdConnectProviderARNs: nil,
+                                                samlProviderARNs: nil,
+                                                supportedLoginProviders: nil)
 
 cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
-switch(result) {
-case .success(let output):
-print("\(output)")
-case .failure(let error):
-print("\(error)")
-}
+        switch(result) {
+        case .success(let output):
+        print("\(output)")
+        case .failure(let error):
+        print("\(error)")
+    }
 }
 ```
 
