@@ -29,7 +29,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+Extensions.swift")
+        val contents = getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """

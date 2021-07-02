@@ -28,7 +28,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding has with correct cases`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+Extensions.swift")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
