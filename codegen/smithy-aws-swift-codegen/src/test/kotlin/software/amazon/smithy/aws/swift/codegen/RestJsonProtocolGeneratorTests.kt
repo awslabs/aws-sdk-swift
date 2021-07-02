@@ -18,7 +18,7 @@ class RestJsonProtocolGeneratorTests {
     @Test
     fun `define coding keys for unbound document payload members`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Example", "SmokeTestInput+Extensions.swift", context.manifest)
+        val contents = getModelFileContents("Example", "SmokeTestInput+Encodable.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
@@ -49,7 +49,7 @@ class RestJsonProtocolGeneratorTests {
     @Test
     fun `define coding keys for payload member`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Example", "ExplicitBlobInput+Extensions.swift", context.manifest)
+        val contents = getModelFileContents("Example", "ExplicitBlobInput+Encodable.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
