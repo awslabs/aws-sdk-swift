@@ -57,7 +57,7 @@ jobs:
           GIT_ASKPASS="$(pwd)/.github/scripts/git-ci-askpass.sh" AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
-	  ./scripts/mergeModels.sh release
+          ./scripts/mergeModels.sh release
           ./scripts/generatePackageSwift.swift > Package.swift
           cat Package.swift
       - name: Commit Changes
