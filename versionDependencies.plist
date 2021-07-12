@@ -4,7 +4,7 @@
 <dict>
 	<key>clientRuntimeVersion</key>
 	<string>0.0.1</string>
-	<key>crtVersion</key>
+	<key>awsCRTSwiftVersion</key>
 	<string>0.0.1</string>
 </dict>
 </plist>
