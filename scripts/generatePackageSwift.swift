@@ -1,6 +1,21 @@
 #!/usr/bin/swift
 import Foundation
 
+struct VersionDeps: Codable {
+    var awsCRTSwiftVersion: String
+    var clientRuntimeVersion: String
+}
+let plistFile = "versionDependencies.plist"
+
+func getVersionsOfDependencies() -> VersionDeps? {
+    guard let versionsPlist = FileManager.default.contents(atPath: plistFile),
+          let deps = try? PropertyListDecoder().decode(VersionDeps.self, from: versionsPlist)
+          else {
+        return nil
+    }
+    return deps
+}
+
 func generateHeader() {
     let header = """
     // swift-tools-version:5.4
@@ -21,7 +36,6 @@ let package = Package(
     print(packageHeader)
 }
 
-
 func generateProducts(_ releasedSDKs: [String]) {
 
     print("    products: [")
@@ -33,11 +47,11 @@ func generateProducts(_ releasedSDKs: [String]) {
 
 }
 
-func generateDependencies() {
+func generateDependencies(versions: VersionDeps) {
     let dependencies = """
     dependencies: [
-        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift", .branch("master")),
-        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift", .branch("master"))
+        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift.git", from: "\(versions.awsCRTSwiftVersion)"),
+        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift.git", from: "\(versions.clientRuntimeVersion)")
     ],
 """
     print(dependencies)
@@ -75,9 +89,15 @@ func generateTargets(_ releasedSDKs: [String]) {
 let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "release")
 let releasedSDKs = sdksToIncludeInTargets.sorted()
 
+guard let versions = getVersionsOfDependencies() else {
+    print("Failed to get version dependencies")
+    print("  Unable to to read: '\(plistFile)'")
+    exit(1)
+}
+
 generateHeader()
 generatePackageHeader()
 generateProducts(releasedSDKs)
-generateDependencies()
+generateDependencies(versions: versions)
 generateTargets(releasedSDKs)
 print(")")
