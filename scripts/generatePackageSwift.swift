@@ -8,11 +8,9 @@ struct VersionDeps: Codable {
 let plistFile = "versionDependencies.plist"
 
 func getVersionsOfDependencies() -> VersionDeps? {
-    let versionsPlist = FileManager.default.contents(atPath: plistFile)
-    guard let versionsPlist = versionsPlist,
+    guard let versionsPlist = FileManager.default.contents(atPath: plistFile),
           let deps = try? PropertyListDecoder().decode(VersionDeps.self, from: versionsPlist)
           else {
-        print("Unable to to read: '\(plistFile)'")
         return nil
     }
     return deps
@@ -93,6 +91,7 @@ let releasedSDKs = sdksToIncludeInTargets.sorted()
 
 guard let versions = getVersionsOfDependencies() else {
     print("Failed to get version dependencies")
+    print("  Unable to to read: '\(plistFile)'")
     exit(1)
 }
 
