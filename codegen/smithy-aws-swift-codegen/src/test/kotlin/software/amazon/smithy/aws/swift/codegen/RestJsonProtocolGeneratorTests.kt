@@ -95,7 +95,11 @@ class RestJsonProtocolGeneratorTests {
                     self.decoder = config.decoder ?? decoder
                     self.config = config
                 }
-            
+
+                deinit {
+                    client.close()
+                }
+
                 public class ExampleClientConfiguration: ClientRuntime.Configuration, AWSClientConfiguration {
             
                     public var region: String

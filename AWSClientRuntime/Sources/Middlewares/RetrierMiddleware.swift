@@ -57,7 +57,7 @@ public struct RetrierMiddleware<Output: HttpResponseBinding,
             if retrier.isErrorRetryable(error: error) {
                 let errorType = retrier.getErrorType(error: error)
                 let newToken = try retrier.scheduleRetry(token: token, error: errorType)
-                //TODO: rewind the stream once streaming is properly implemented
+                // TODO: rewind the stream once streaming is properly implemented
                 return try tryRequest(token: newToken, partitionId: partitionId, context: context, input: input, next: next)
             } else {
                 return serviceResponse
