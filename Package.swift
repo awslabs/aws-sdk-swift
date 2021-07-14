@@ -2,12 +2,16 @@
 import PackageDescription
 import class Foundation.FileManager
 
-// This Package.swift file can be used to compile against locally
-// - generated version of the AWS Swift SDK
-// - checked out version of ClientRuntime
-// - checked out version of AwsCrt
-
 /*
+ This Package.swift file is used to compile against locally
+   - generated version of the AWS Swift SDK
+   - checked out version of ClientRuntime
+   - checked out version of AwsCrt
+
+ Note: This Package.swift file is overwritten in our tagged releases
+
+
+ In order to use setup local development:
  1. Create a folder:
    mkdir -p ~/Projects/Amplify/SwiftSDK
    cd ~/Projects/Amplify/SwiftSDK
