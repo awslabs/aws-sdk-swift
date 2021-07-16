@@ -106,18 +106,25 @@ class RestJsonProtocolGeneratorTests {
                     public var credentialsProvider: AWSCredentialsProvider
                     public var signingRegion: String
                     public var endpointResolver: EndpointResolver
-            
+
+                    public let clientLogMode: ClientLogMode
+                    public let logger: LogAgent
+
                     public init (
                         credentialsProvider: AWSCredentialsProvider,
                         endpointResolver: EndpointResolver,
                         region: String,
-                        signingRegion: String
+                        signingRegion: String,
+                        clientLogMode: ClientLogMode = .request,
+                        logger: LogAgent? = nil
                     ) throws
                     {
                         self.credentialsProvider = credentialsProvider
                         self.endpointResolver = endpointResolver
                         self.region = region
                         self.signingRegion = signingRegion
+                        self.clientLogMode = clientLogMode
+                        self.logger = logger ?? SwiftLogger(label: "ExampleClient")
                     }
             
                     public convenience init(credentialsProvider: AWSCredentialsProvider) throws {
@@ -136,6 +143,19 @@ class RestJsonProtocolGeneratorTests {
                         let awsCredsProvider = try AWSCredentialsProvider.fromEnv()
                         return try ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
                     }
+                }
+            }
+
+            public struct ExampleClientLogHandlerFactory: SDKLogHandlerFactory {
+                public var label = "ExampleClient"
+                let logLevel: SDKLogLevel
+                public func construct(label: String) -> LogHandler {
+                    var handler = StreamLogHandler.standardOutput(label: label)
+                    handler.logLevel = logLevel.toLoggerType()
+                    return handler
+                }
+                public init(logLevel: SDKLogLevel) {
+                    self.logLevel = logLevel
                 }
             }
             """.trimIndent()
