@@ -16,7 +16,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public enum GreetingWithErrorsOutputError: Equatable {
+            public enum GreetingWithErrorsOutputError: Swift.Error, Equatable {
                 case complexError(ComplexError)
                 case invalidGreeting(InvalidGreeting)
                 case unknown(UnknownAWSHttpServiceError)

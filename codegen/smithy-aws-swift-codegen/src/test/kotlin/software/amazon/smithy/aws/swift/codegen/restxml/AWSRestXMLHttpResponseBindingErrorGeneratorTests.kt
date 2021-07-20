@@ -17,7 +17,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public enum GreetingWithErrorsOutputError: Equatable {
+            public enum GreetingWithErrorsOutputError: Swift.Error, Equatable {
                 case complexXMLError(ComplexXMLError)
                 case invalidGreeting(InvalidGreeting)
                 case unknown(UnknownAWSHttpServiceError)
