@@ -8,21 +8,33 @@ do {
     let config = try DynamoDbClient.DynamoDbClientConfiguration(credentialsProvider: credProvider)
     let client = DynamoDbClient(config: config)
     createMoviesTable(client: client, name: tableName) { result in
-        result.flatMap { tableCreating in
+        switch result {
+        case .success(let tableCreating):
             if(tableCreating) {
                 //wait for table to be created because waiters aren't implemented yet
                 waitForTableToBeReady(client: client, name: tableName) { result in
-                    result.flatMap { tableReady in
+                    switch result {
+                    case .success(let tableReady):
                         if tableReady {
-                            loadMoviesTable(client: client, name: tableName)
+                            loadMoviesTable(client: client, name: tableName) { moviesLoaded in
+                                print("movies loaded")
+                            }
                         }
+                    case .failure(let err):
+                        print(err)
                     }
+
                 }
             }
+        case .failure(let err):
+            print(err)
         }
+
+        
     }
-    
 }
+
+
 
 func waitForTableToBeReady(client: DynamoDbClient, name: String, completion: @escaping (Result<Bool, Error>) -> Void) {
     while(true) {
