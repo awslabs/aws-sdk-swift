@@ -1,59 +1,67 @@
 import DynamoDB
 import Darwin
 import AWSClientRuntime
+import Foundation
 
 do {
     let tableName = "Movies"
     let credProvider = try AWSCredentialsProvider.fromProfile()
     let config = try DynamoDbClient.DynamoDbClientConfiguration(credentialsProvider: credProvider)
     let client = DynamoDbClient(config: config)
-    createMoviesTable(client: client, name: tableName) { result in
-        switch result {
-        case .success(let tableCreating):
-            if(tableCreating) {
-                //wait for table to be created because waiters aren't implemented yet
-                waitForTableToBeReady(client: client, name: tableName) { result in
-                    switch result {
-                    case .success(let tableReady):
-                        if tableReady {
-                            loadMoviesTable(client: client, name: tableName) { moviesLoaded in
-                                print("movies loaded")
-                            }
-                        }
-                    case .failure(let err):
-                        print(err)
-                    }
-
-                }
-            }
-        case .failure(let err):
-            print(err)
-        }
-
-        
+    loadMoviesTable(client: client, name: tableName) { moviesLoaded in
+        print("movies loaded")
     }
+//    createMoviesTable(client: client, name: tableName) { result in
+//        switch result {
+//        case .success(let tableCreating):
+//            if(tableCreating) {
+//                //wait for table to be created because waiters aren't implemented yet
+//                let tableReady = waitForTableToBeReady(client: client, name: tableName)
+//                if tableReady {
+//                    loadMoviesTable(client: client, name: tableName) { moviesLoaded in
+//                        print("movies loaded")
+//                    }
+//                }
+//            } else {
+//                loadMoviesTable(client: client, name: tableName) { moviesLoaded in
+//                    print("movies loaded")
+//                }
+//            }
+//        case .failure(let err):
+//            print(err)
+//        }
+//    }
 }
 
 
 
-func waitForTableToBeReady(client: DynamoDbClient, name: String, completion: @escaping (Result<Bool, Error>) -> Void) {
-    while(true) {
+func waitForTableToBeReady(client: DynamoDbClient, name: String) -> Bool {
+    let semaphore = DispatchSemaphore(value: 0)
+    var ready = false
+    while(!ready) {
         let request = DescribeTableInput(tableName: name)
+        
         client.describeTable(input: request) { result in
             switch result {
             case .success(let resp):
                 if resp.table?.tableStatus != .creating {
                     print("table is ready")
-                    completion(.success(true))
+                    ready = true
+                    semaphore.signal()
+                    break
                 }
             case .failure(let err):
                 print(err)
-                completion(.failure(err))
+                ready = false
+                semaphore.signal()
+                break
             }
         }
         print("waiting for table to be ready....")
-        sleep(1000)
+        
     }
+    semaphore.wait()
+    return ready
 }
 
 
@@ -93,6 +101,35 @@ func tableExists(client: DynamoDbClient, name: String, completion: @escaping (Bo
     }
 }
 
-func loadMoviesTable(client: DynamoDbClient, name: String, completion: (Result<Bool, Error>) -> Void) {
-    
+func loadMoviesTable(client: DynamoDbClient, name: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+    if let url = Bundle.main.url(forResource: "Resources/data", withExtension: "json") {
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            
+            
+            let movies = try decoder.decode([Movie].self, from: data)
+            var completions = 0
+            for movie in movies {
+                let request = PutItemInput(item: movie.toAttributeValues(), tableName: name)
+                client.putItem(input: request) { result in
+                    switch result {
+                    case .success(let response):
+                        print(response)
+                        completions += 1
+                        if completions == movies.count {
+                            completion(.success(true))
+                        }
+                    case .failure(let err):
+                        completion(.failure(err))
+                    }
+                }
+            }
+            
+        } catch {
+            print("error:\(error)")
+            completion(.failure(error))
+        }
+    }
 }
+

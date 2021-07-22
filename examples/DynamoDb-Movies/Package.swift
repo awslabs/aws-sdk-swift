@@ -15,7 +15,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .executableTarget(
             name: "DynamoDb-Movies",
-            dependencies: [.product(name: "DynamoDB", package: "AWSSwiftSDK")]),
+            dependencies: [.product(name: "DynamoDB", package: "AWSSwiftSDK")],
+            resources: [.copy("Resources/data.json")]),
         .testTarget(
             name: "DynamoDb-MoviesTests",
             dependencies: ["DynamoDb-Movies"]),
