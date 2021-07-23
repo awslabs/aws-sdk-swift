@@ -9,33 +9,54 @@ import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
+import software.amazon.smithy.model.traits.AuthTrait
+import software.amazon.smithy.model.traits.HttpBasicAuthTrait
+import software.amazon.smithy.model.traits.OptionalAuthTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 
 class AWSSigningMiddlewareTests {
     @Test
-    fun `needsSigningMiddleware does have SigV4Trait`() {
+    fun `service has SigV4Trait and operation has auth trait`() {
+        val sigV4Trait = SigV4Trait.builder().name("ExampleService").build()
+        val authList = listOf(HttpBasicAuthTrait().toShapeId(), sigV4Trait.toShapeId())
+
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
-            .addTrait(SigV4Trait.builder().name("ExampleService").build())
+            .addTrait(sigV4Trait)
+            .build()
+        val operationShape = OperationShape.builder()
+            .id("com.test#ExampleOperation")
+            .addTrait(UnsignedPayloadTrait())
+            .addTrait(AuthTrait(authList))
+            .build()
+        val model = Model.builder()
+            .addShape(serviceShape)
+            .addShape(operationShape)
             .build()
 
-        val result = serviceShape.needsSigning
-
-        assert(result).equals(true)
+        val hasAuthScheme = AWSSigningMiddleware.hasSigV4AuthScheme(model, serviceShape, operationShape)
+        assert(hasAuthScheme)
     }
 
     @Test
-    fun `needsSigningMiddleware does not have SigV4Trait`() {
+    fun `service has SigV4trait but operation does not have auth`() {
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
+        val operationShape = OperationShape.builder()
+            .id("com.test#ExampleOperation")
+            .addTrait(OptionalAuthTrait())
+            .build()
+        val model = Model.builder()
+            .addShape(serviceShape)
+            .addShape(operationShape)
+            .build()
 
-        val result = serviceShape.needsSigning
-
-        assert(result).equals(false)
+        val hasAuthScheme = AWSSigningMiddleware.hasSigV4AuthScheme(model, serviceShape, operationShape)
+        assert(!hasAuthScheme)
     }
 
     @Test
