@@ -58,20 +58,6 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
 
     companion object {
         /**
-         * Returns if the SigV4Trait is an auth scheme supported by the service.
-         *
-         * @param model        model definition
-         * @param serviceShape service shape for the API
-         * @return if the SigV4 trait is used by the service.
-         */
-        fun isSupportedAuthentication(model: Model, serviceShape: ServiceShape): Boolean =
-            ServiceIndex
-                .of(model)
-                .getAuthSchemes(serviceShape)
-                .values
-                .any { it.javaClass == SigV4Trait::class.java }
-
-        /**
          * Get the SigV4Trait auth name to sign request for
          *
          * @param serviceShape service shape for the API
@@ -83,7 +69,7 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
         }
 
         /**
-         * Returns if the SigV4Trait is a auth scheme for the service and operation.
+         * Returns if the SigV4Trait is an auth scheme for the service and operation.
          *
          * @param model     model definition
          * @param service   service shape for the API
