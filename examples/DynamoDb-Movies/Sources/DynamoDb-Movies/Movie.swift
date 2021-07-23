@@ -12,8 +12,12 @@ struct Movie: Codable {
     let year: Int
     let title: String
     let info: Info
+}
+
+struct Info: Codable {
+    let directors: [String]
     let releaseDate: Date
-    let rating: Int
+    let rating: Double
     let genres: [String]
     let imageUrl: String
     let plot: String
@@ -22,9 +26,7 @@ struct Movie: Codable {
     let actors: [String]
     
     enum CodingKeys: String, CodingKey {
-        case year
-        case title
-        case info
+        case directors
         case releaseDate = "release_date"
         case rating
         case genres
@@ -36,24 +38,21 @@ struct Movie: Codable {
     }
 }
 
-struct Info: Codable {
-    let directors: [String]
-}
-
 extension Movie {
     func toAttributeValues() -> [String: AttributeValue] {
         var attributeValues = [String: AttributeValue]()
         attributeValues["year"] = .n(String(year))
         attributeValues["title"] = .s(title)
-        attributeValues["info"] = .m(["directors": .ss(info.directors)])
-        attributeValues["releaseDate"] = .s(releaseDate.iso8601FractionalSeconds())
-        attributeValues["rating"] = .n(String(rating))
-        attributeValues["genres"] = .ss(genres)
-        attributeValues["imageUrl"] = .s(imageUrl)
-        attributeValues["plot"] = .s(plot)
-        attributeValues["rank"] = .n(String(rank))
-        attributeValues["runningTime"] = .n(String(runningTime))
-        attributeValues["actors"] = .ss(actors)
+        attributeValues["info"] = .m(["directors": .ss(info.directors),
+                                      "release_date": .s(info.releaseDate.iso8601FractionalSeconds()),
+                                      "rating": .n(String(info.rating)),
+                                      "genres": .ss(info.genres),
+                                      "image_url": .s(info.imageUrl),
+                                      "plot":.s(info.plot),
+                                      "rank": .n(String(info.rank)),
+                                      "running_time_secs": .n(String(info.runningTime)),
+                                      "actors": .ss(info.actors)])
+        
         return attributeValues
     }
 }

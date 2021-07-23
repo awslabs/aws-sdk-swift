@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -16,7 +16,7 @@ let package = Package(
         .executableTarget(
             name: "DynamoDb-Movies",
             dependencies: [.product(name: "DynamoDB", package: "AWSSwiftSDK")],
-            resources: [.copy("Resources/data.json")]),
+            resources: [.process("Resources/data.json")]),
         .testTarget(
             name: "DynamoDb-MoviesTests",
             dependencies: ["DynamoDb-Movies"]),
