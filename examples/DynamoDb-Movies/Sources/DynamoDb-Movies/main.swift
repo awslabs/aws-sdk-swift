@@ -2,7 +2,6 @@
 //  SPDX-License-Identifier: Apache-2.0.
 
 import DynamoDB
-import Darwin
 import ClientRuntime
 import AWSClientRuntime
 import Foundation

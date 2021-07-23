@@ -16,9 +16,6 @@ let package = Package(
         .executableTarget(
             name: "DynamoDb-Movies",
             dependencies: [.product(name: "DynamoDB", package: "AWSSwiftSDK")],
-            resources: [.process("Resources/data.json")]),
-        .testTarget(
-            name: "DynamoDb-MoviesTests",
-            dependencies: ["DynamoDb-Movies"]),
+            resources: [.copy("Resources/data.json")])
     ]
 )
