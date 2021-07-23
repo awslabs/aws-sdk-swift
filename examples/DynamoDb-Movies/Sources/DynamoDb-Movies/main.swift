@@ -57,8 +57,6 @@ func checkMovies(client: DynamoDbClient, name: String) {
     }
 }
 
-
-
 func waitForTableToBeReady(client: DynamoDbClient, name: String) -> Bool {
     let semaphore = DispatchSemaphore(value: 0)
     var ready = false
@@ -87,7 +85,6 @@ func waitForTableToBeReady(client: DynamoDbClient, name: String) -> Bool {
     semaphore.wait()
     return ready
 }
-
 
 func createMoviesTable(client: DynamoDbClient, name: String, completion: @escaping (Result<Bool, Error>) -> Void) {
     tableExists(client: client, name: name) { tableExists in
