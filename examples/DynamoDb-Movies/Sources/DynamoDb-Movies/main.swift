@@ -25,6 +25,8 @@ do {
             print(err)
         }
     }
+} catch let err {
+    print(err)
 }
 
 func loadAndCheck(client: DynamoDbClient, name: String) {
