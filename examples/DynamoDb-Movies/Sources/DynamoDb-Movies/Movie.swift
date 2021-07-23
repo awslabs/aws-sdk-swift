@@ -1,9 +1,5 @@
-//
-//  File.swift
-//  
-//
-//  Created by Stone, Nicki on 7/21/21.
-//
+//  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+//  SPDX-License-Identifier: Apache-2.0.
 
 import Foundation
 import DynamoDB
