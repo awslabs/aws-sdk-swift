@@ -28,4 +28,3 @@ val ServiceShape.arnNamespace: String
  */
 val ServiceShape.endpointPrefix: String
     get() = expectTrait<ServiceTrait>().endpointPrefix
-

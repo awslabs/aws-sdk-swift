@@ -1,6 +1,8 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
@@ -36,7 +38,7 @@ class AWSSigningMiddlewareTests {
             .build()
 
         val hasAuthScheme = AWSSigningMiddleware.hasSigV4AuthScheme(model, serviceShape, operationShape)
-        assert(hasAuthScheme)
+        assertTrue(hasAuthScheme)
     }
 
     @Test
@@ -56,7 +58,7 @@ class AWSSigningMiddlewareTests {
             .build()
 
         val hasAuthScheme = AWSSigningMiddleware.hasSigV4AuthScheme(model, serviceShape, operationShape)
-        assert(!hasAuthScheme)
+        assertFalse(hasAuthScheme)
     }
 
     @Test
