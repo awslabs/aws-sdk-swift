@@ -9,7 +9,12 @@ import ClientRuntime
 
 public struct AWSCredentialsProviderChainDefaultConfig {
     let shutDownCallback: ShutDownCallback?
-    let client: CRTClientEngine
+    let client: HttpClientEngine
+    
+    public init(client: HttpClientEngine, shutDownCallback: ShutDownCallback? = nil) {
+        self.client = client
+        self.shutDownCallback = shutDownCallback
+    }
 }
 
 extension AWSCredentialsProviderChainDefaultConfig {
