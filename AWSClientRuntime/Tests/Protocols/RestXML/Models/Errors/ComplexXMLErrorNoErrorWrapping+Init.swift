@@ -17,9 +17,9 @@ extension ComplexXMLErrorNoErrorWrapping: AWSHttpServiceError {
         } else {
             self.header = nil
         }
-        if case .data(let data) = httpResponse.body,
-            let unwrappedData = data,
+        if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
+            let unwrappedData = reader.toBytes().toData()
             let output: ComplexXMLErrorNoErrorWrappingBody = try responseDecoder.decode(responseBody: unwrappedData)
             self.nested = output.nested
             self.topLevel = output.topLevel
