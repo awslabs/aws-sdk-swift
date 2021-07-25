@@ -32,10 +32,10 @@ class AWSXMLHttpResponseTraitWithoutPayload(
             .toMutableSet()
 
         if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writer.write("if case .data(let data) = httpResponse.body,")
+            writer.write("if case .stream(let reader) = httpResponse.body,")
             writer.indent()
-            writer.write("let unwrappedData = data,")
             writer.write("let responseDecoder = decoder {")
+            writer.write("let unwrappedData = reader.toBytes().toData()")
             if (serviceDisablesWrappingOfErrorProperties()) {
                 renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
             } else {
