@@ -35,7 +35,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
             writer.write("if case .stream(let reader) = httpResponse.body,")
             writer.indent()
             writer.write("let responseDecoder = decoder {")
-            writer.write("let unwrappedData = reader.toBytes().toData()")
+            writer.write("let data = reader.toBytes().toData()")
             if (serviceDisablesWrappingOfErrorProperties()) {
                 renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
             } else {
@@ -70,14 +70,14 @@ class AWSXMLHttpResponseTraitWithoutPayload(
     }
 
     fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
-        writer.write("let output: ${outputShapeName}Body = try responseDecoder.decode(responseBody: unwrappedData)")
+        writer.write("let output: ${outputShapeName}Body = try responseDecoder.decode(responseBody: data)")
         bodyMembersWithoutQueryTrait.sorted().forEach {
             writer.write("self.$it = output.$it")
         }
     }
 
     fun renderWithErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
-        writer.write("let output: ErrorResponseContainer<${outputShapeName}Body> = try responseDecoder.decode(responseBody: unwrappedData)")
+        writer.write("let output: ErrorResponseContainer<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)")
         bodyMembersWithoutQueryTrait.sorted().forEach {
             writer.write("self.$it = output.error.$it")
         }
