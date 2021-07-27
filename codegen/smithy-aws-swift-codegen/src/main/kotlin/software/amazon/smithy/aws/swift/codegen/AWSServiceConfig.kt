@@ -25,33 +25,33 @@ val AWS_CONFIG_FIELDS = listOf(
 
 class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {
     override val typesToConformConfigTo: List<String>
-        get() = super.typesToConformConfigTo + listOf("AWSClientConfiguration")
+        get() = super.typesToConformConfigTo + listOf("AWSRuntimeConfiguration")
 
-    override fun renderStaticDefaultImplementation(serviceSymbol: Symbol) {
-        writer.openBlock("public static func `default`() throws -> ${serviceSymbol.name}Configuration {", "}") {
-            writer.write("let awsCredsProvider = try AWSCredentialsProvider.fromEnv()") // TODO: should be this be the default creds provider?
-            writer.write("return try ${serviceSymbol.name}Configuration(credentialsProvider: awsCredsProvider)")
+    override val typeName: String = "AWSClientConfiguration"
+
+    override fun renderOtherInitializers(serviceSymbol: Symbol) {
+        val awsConfigFields = getOtherConfigFields().sortedBy { it.name }
+        var configParams = ""
+        awsConfigFields.forEach {
+            configParams += "${it.name}: ${it.type}, "
         }
-    }
-
-    override fun getConfigFields(): List<ConfigField> {
-        return AWS_CONFIG_FIELDS
-    }
-
-    override fun renderConvenienceInits(serviceSymbol: Symbol) {
-        writer.addImport("AWSClientRuntime")
-        writer.openBlock("public convenience init(credentialsProvider: AWSCredentialsProvider) throws {", "}") {
-            writer.write("let region = \"us-east-1\"") // FIXME: get region from a region resolver
-            writer.write("let signingRegion = \"us-east-1\"") // FIXME: get region from a region resolver
-            writer.write("let endpointResolver = DefaultEndpointResolver()")
-            writer.openBlock("try self.init(", ")") {
-                val configFieldsSortedByName = getConfigFields().sortedBy { it.name }
-                for ((index, member) in configFieldsSortedByName.withIndex()) {
-                    val memberName = member.name
-                    val terminator = if (index == configFieldsSortedByName.size - 1) "" else ","
-                    writer.write("\$L: \$L$terminator", memberName, memberName)
-                }
+        writer.openBlock("public init(${configParams}runtimeConfig: SDKRuntimeConfiguration) throws {", "}") {
+            writer.write("self.region = region")
+            writer.write("self.signingRegion = signingRegion ?? region")
+            writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
+            writer.openBlock("if let credProvider = credentialsProvider {", "} else") {
+                writer.write("self.credentialsProvider = credProvider")
+            }
+            writer.indent().write("self.credentialsProvider = try AWSCredentialsProvider.fromChain(runtimeConfig.httpClientEngine)")
+            writer.dedent().write("}")
+            val runtimeTimeConfigFields = getRuntimeConfigFields().sortedBy { it.name }
+            runtimeTimeConfigFields.forEach {
+                writer.write("self.${it.name} = runtimeConfig.${it.name}")
             }
         }
+    }
+
+    override fun getOtherConfigFields(): List<ConfigField> {
+        return AWS_CONFIG_FIELDS
     }
 }
