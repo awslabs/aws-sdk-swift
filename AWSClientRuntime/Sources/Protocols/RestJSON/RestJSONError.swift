@@ -28,9 +28,9 @@ public struct RestJSONError {
 
         var type = httpResponse.headers.value(for: X_AMZN_ERROR_TYPE_HEADER_NAME)
 
-        if case .data(let data) = httpResponse.body,
-            let unwrappedData = data {
-            let output: RestJSONErrorPayload = try JSONDecoder().decode(responseBody: unwrappedData)
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            let output: RestJSONErrorPayload = try JSONDecoder().decode(responseBody: data)
             if message == nil {
                 message = output.resolvedErrorMessage
             }

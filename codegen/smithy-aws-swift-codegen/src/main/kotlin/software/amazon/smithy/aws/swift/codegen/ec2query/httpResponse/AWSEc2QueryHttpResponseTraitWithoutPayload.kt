@@ -30,11 +30,10 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
             .toMutableSet()
 
         if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writer.write("if case .data(let data) = httpResponse.body,")
+            writer.write("if case .stream(let reader) = httpResponse.body,")
             writer.indent()
-            writer.write("let unwrappedData = data,")
             writer.write("let responseDecoder = decoder {")
-
+            writer.write("let data = reader.toBytes().toData()")
             renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
 
             writer.dedent()
@@ -59,7 +58,7 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
     }
 
     fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
-        writer.write("let output: Ec2NarrowedResponse<${outputShapeName}Body> = try responseDecoder.decode(responseBody: unwrappedData)")
+        writer.write("let output: Ec2NarrowedResponse<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)")
         bodyMembersWithoutQueryTrait.sorted().forEach {
             writer.write("self.$it = output.errors.error.$it")
         }

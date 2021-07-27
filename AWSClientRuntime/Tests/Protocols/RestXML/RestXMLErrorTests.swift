@@ -21,7 +21,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 headers: [
                     "Content-Type": "application/xml"
                 ],
-                content: HttpBody.data("""
+                content: HttpBody.stream(ByteStream.from(data:"""
                 <ErrorResponse>
                    <Error>
                       <Type>Sender</Type>
@@ -32,7 +32,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                    <RequestId>foo-id</RequestId>
                 </ErrorResponse>
 
-                """.data(using: .utf8)),
+                """.data(using: .utf8)!)),
                 host: host
             ) else {
                 XCTFail("Something is wrong with the created http response")
@@ -67,7 +67,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     "Content-Type": "application/xml",
                     "X-Header": "Header"
                 ],
-                content: HttpBody.data("""
+                content: HttpBody.stream(ByteStream.from(data:"""
                 <ErrorResponse>
                    <Error>
                       <Type>Sender</Type>
@@ -81,7 +81,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                    <RequestId>foo-id</RequestId>
                 </ErrorResponse>
 
-                """.data(using: .utf8)),
+                """.data(using: .utf8)!)),
                 host: host
             ) else {
                 XCTFail("Something is wrong with the created http response")
@@ -123,7 +123,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     "Content-Type": "application/xml",
                     "X-Header": "Header"
                 ],
-                content: HttpBody.data("""
+                content: HttpBody.stream(ByteStream.from(data:"""
                    <Error>
                       <Type>Sender</Type>
                       <Code>ComplexXMLErrorNoErrorWrapping</Code>
@@ -134,7 +134,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                       </Nested>
                       <RequestId>foo-id</RequestId>
                    </Error>
-                """.data(using: .utf8)),
+                """.data(using: .utf8)!)),
                 host: host
             ) else {
                 XCTFail("Something is wrong with the created http response")
@@ -176,7 +176,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     "Content-Type": "application/xml",
                     "X-Header": "Header"
                 ],
-                content: HttpBody.data("""
+                content: HttpBody.stream(ByteStream.from(data:"""
                 <?xml version="1.0" encoding="UTF-8"?>
                 <Error>
                     <Code>AccessDenied</Code>
@@ -184,7 +184,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     <RequestId>abcdefg123456</RequestId>
                     <HostId>987654321abcdefg</HostId>
                 </Error>
-                """.data(using: .utf8)),
+                """.data(using: .utf8)!)),
                 host: host
             ) else {
                 XCTFail("Something is wrong with the created http response")

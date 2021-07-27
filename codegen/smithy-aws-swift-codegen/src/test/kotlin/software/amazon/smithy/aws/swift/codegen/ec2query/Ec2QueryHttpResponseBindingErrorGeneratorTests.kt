@@ -61,10 +61,10 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             """
             extension ComplexError: AWSHttpServiceError {
                 public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
-                    if case .data(let data) = httpResponse.body,
-                        let unwrappedData = data,
+                    if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
-                        let output: Ec2NarrowedResponse<ComplexErrorBody> = try responseDecoder.decode(responseBody: unwrappedData)
+                        let data = reader.toBytes().toData()
+                        let output: Ec2NarrowedResponse<ComplexErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.errors.error.nested
                         self.topLevel = output.errors.error.topLevel
                     } else {
