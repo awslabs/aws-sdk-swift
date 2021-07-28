@@ -135,7 +135,7 @@ class RestJsonProtocolGeneratorTests {
                         if let credProvider = credentialsProvider {
                             self.credentialsProvider = credProvider
                         } else {
-                            self.credentialsProvider = try AWSCredentialsProvider.fromChain(runtimeConfig.httpClientEngine)
+                            self.credentialsProvider = try AWSCredentialsProvider.fromChain()
                         }
                         self.clientLogMode = runtimeConfig.clientLogMode
                         self.decoder = runtimeConfig.decoder
