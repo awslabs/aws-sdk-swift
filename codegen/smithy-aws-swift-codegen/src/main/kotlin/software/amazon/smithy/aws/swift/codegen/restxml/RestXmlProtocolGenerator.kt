@@ -63,18 +63,14 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     }
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
-        val ignoredTests = setOf(
-            // FIXME - escaped strings not fully supported in rest xml
-            "SimpleScalarPropertiesComplexEscapes"
-        )
-        return HttpProtocolTestGenerator(
+        HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
             responseTestBuilder,
             errorTestBuilder,
             httpProtocolCustomizable,
             serdeContext,
-            ignoredTests
+            setOf()
         ).generateProtocolTests()
     }
 }
