@@ -108,8 +108,8 @@ class RestJsonProtocolGeneratorTests {
             
                 public class ExampleClientConfiguration: SDKRuntimeConfiguration, AWSRuntimeConfiguration {
             
-                    public var encoder: RequestEncoder
-                    public var decoder: ResponseDecoder
+                    public var encoder: RequestEncoder?
+                    public var decoder: ResponseDecoder?
                     public var httpClientEngine: HttpClientEngine
                     public var httpClientConfiguration: HttpClientConfiguration
                     public var idempotencyTokenGenerator: IdempotencyTokenGenerator

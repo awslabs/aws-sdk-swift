@@ -12,8 +12,14 @@ const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 const val ENDPOINT_RESOLVER = "endpointResolver"
 
 val AWS_CONFIG_FIELDS = listOf(
-    ConfigField(REGION_CONFIG_NAME, buildSymbol { this.name = "String"
-                                                    this.nullable = false }, "The region to send requests to. (Required)"),
+    ConfigField(
+        REGION_CONFIG_NAME,
+        buildSymbol {
+            this.name = "String"
+            this.nullable = false
+        },
+        "The region to send requests to. (Required)"
+    ),
     ConfigField(
         CREDENTIALS_PROVIDER_CONFIG_NAME, AWSRuntimeTypes.Core.CredentialsProvider,
         "The credentials provider to use to authenticate requests."
@@ -59,8 +65,8 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.openBlock("public convenience init(", ") throws {") {
             val awsConfigFields = getOtherConfigFields().sortedBy { it.memberName }
             awsConfigFields.forEachIndexed { index, configField ->
-                val terminator = if(index != awsConfigFields.lastIndex) ", " else ""
-                writer.write("${configField.memberName}: \$D${terminator}", configField.type)
+                val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
+                writer.write("${configField.memberName}: \$D$terminator", configField.type)
             }
         }
         val awsConfigFields = getOtherConfigFields().sortedBy { it.memberName }

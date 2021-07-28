@@ -60,9 +60,10 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         return properties
     }
 
-    override fun getServiceClient(ctx: ProtocolGenerator.GenerationContext,
-                                  writer: SwiftWriter,
-                                  serviceConfig: ServiceConfig
+    override fun getServiceClient(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         val clientProperties = getClientProperties()
