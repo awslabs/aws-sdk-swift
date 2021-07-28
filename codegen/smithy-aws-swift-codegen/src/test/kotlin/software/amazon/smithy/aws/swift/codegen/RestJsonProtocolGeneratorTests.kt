@@ -108,8 +108,8 @@ class RestJsonProtocolGeneratorTests {
             
                 public class ExampleClientConfiguration: SDKRuntimeConfiguration, AWSRuntimeConfiguration {
             
-                    public var encoder: RequestEncoder?
-                    public var decoder: ResponseDecoder?
+                    public var encoder: RequestEncoder
+                    public var decoder: ResponseDecoder
                     public var httpClientEngine: HttpClientEngine
                     public var httpClientConfiguration: HttpClientConfiguration
                     public var idempotencyTokenGenerator: IdempotencyTokenGenerator
@@ -122,7 +122,13 @@ class RestJsonProtocolGeneratorTests {
                     public var signingRegion: String
                     public var endpointResolver: EndpointResolver
             
-                    public init(credentialsProvider: AWSCredentialsProvider? = nil, endpointResolver: EndpointResolver? = nil, region: String? = nil, signingRegion: String? = nil, runtimeConfig: SDKRuntimeConfiguration) throws {
+                    public init(
+                        credentialsProvider: AWSCredentialsProvider? = nil,
+                        endpointResolver: EndpointResolver? = nil,
+                        region: String,
+                        signingRegion: String? = nil,
+                        runtimeConfig: SDKRuntimeConfiguration
+                    ) throws {
                         self.region = region
                         self.signingRegion = signingRegion ?? region
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
@@ -141,7 +147,12 @@ class RestJsonProtocolGeneratorTests {
                         self.retrier = runtimeConfig.retrier
                     }
             
-                    public convenience init(credentialsProvider: AWSCredentialsProvider? = nil, endpointResolver: EndpointResolver? = nil, region: String? = nil, signingRegion: String? = nil) throws {
+                    public convenience init(
+                        credentialsProvider: AWSCredentialsProvider? = nil,
+                        endpointResolver: EndpointResolver? = nil,
+                        region: String,
+                        signingRegion: String? = nil
+                    ) throws {
                         let defaultRuntimeConfig = try DefaultSDKRuntimeConfiguration("ExampleClient")
                         try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
