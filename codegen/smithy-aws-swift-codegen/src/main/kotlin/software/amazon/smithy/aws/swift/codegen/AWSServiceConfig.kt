@@ -52,7 +52,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.openBlock("if let credProvider = credentialsProvider {", "} else {") {
             writer.write("self.credentialsProvider = credProvider")
         }
-        writer.indent().write("self.credentialsProvider = try AWSCredentialsProvider.fromChain(runtimeConfig.httpClientEngine)")
+        writer.indent().write("self.credentialsProvider = try AWSCredentialsProvider.fromChain()")
         writer.dedent().write("}")
         val runtimeTimeConfigFields = getRuntimeConfigFields().sortedBy { it.memberName }
         runtimeTimeConfigFields.forEach {

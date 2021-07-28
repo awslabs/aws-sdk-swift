@@ -9,17 +9,15 @@ import ClientRuntime
 
 public struct AWSCredentialsProviderChainDefaultConfig {
     let shutDownCallback: ShutDownCallback?
-    let client: HttpClientEngine
     
-    public init(client: HttpClientEngine, shutDownCallback: ShutDownCallback? = nil) {
-        self.client = client
+    public init(shutDownCallback: ShutDownCallback? = nil) {
         self.shutDownCallback = shutDownCallback
     }
 }
 
 extension AWSCredentialsProviderChainDefaultConfig {
     func toCRTType() -> CRTCredentialsProviderChainDefaultConfig {
-        return CredentialsProviderChainDefaultConfig(bootstrap: client.bootstrap, shutDownOptions: shutDownCallback)
+        return CredentialsProviderChainDefaultConfig(bootstrap: SDKDefaultIO.shared.clientBootstrap, shutDownOptions: shutDownCallback)
     }
 }
 
