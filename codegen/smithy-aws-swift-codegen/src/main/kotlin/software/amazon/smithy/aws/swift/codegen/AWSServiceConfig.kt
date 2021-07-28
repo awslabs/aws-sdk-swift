@@ -29,17 +29,17 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
 
     override val typeName: String = "AWSClientConfiguration"
 
-    override fun renderOtherInitializers(serviceSymbol: Symbol) {
+    override fun renderMainInitializer(serviceSymbol: Symbol) {
         val awsConfigFields = getOtherConfigFields().sortedBy { it.name }
         var configParams = ""
         awsConfigFields.forEach {
-            configParams += "${it.name}: ${it.type}, "
+            configParams += "${it.name}: ${it.type}? = nil, "
         }
         writer.openBlock("public init(${configParams}runtimeConfig: SDKRuntimeConfiguration) throws {", "}") {
             writer.write("self.region = region")
             writer.write("self.signingRegion = signingRegion ?? region")
             writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
-            writer.openBlock("if let credProvider = credentialsProvider {", "} else") {
+            writer.openBlock("if let credProvider = credentialsProvider {", "} else {") {
                 writer.write("self.credentialsProvider = credProvider")
             }
             writer.indent().write("self.credentialsProvider = try AWSCredentialsProvider.fromChain(runtimeConfig.httpClientEngine)")
@@ -48,6 +48,21 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
             runtimeTimeConfigFields.forEach {
                 writer.write("self.${it.name} = runtimeConfig.${it.name}")
             }
+        }
+    }
+
+    override fun renderConvenienceInitializers(serviceSymbol: Symbol) {
+        val awsConfigFields = getOtherConfigFields().sortedBy { it.name }
+        var configParams = ""
+        var configParamValues = ""
+        awsConfigFields.forEachIndexed { index, configField ->
+            val terminator = if(index != awsConfigFields.lastIndex) ", " else ""
+            configParams += "${configField.name}: ${configField.type}? = nil${terminator}"
+            configParamValues += "${configField.name}: ${configField.name}, "
+        }
+        writer.openBlock("public convenience init(${configParams}) throws {", "}") {
+            writer.write("let defaultRuntimeConfig = try DefaultSDKRuntimeConfiguration(\"${serviceName}\")")
+            writer.write("try self.init(${configParamValues}runtimeConfig: defaultRuntimeConfig)")
         }
     }
 

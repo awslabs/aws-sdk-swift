@@ -10,8 +10,10 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizations
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 
 abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
     override fun baseMiddlewares(ctx: ProtocolGenerator.GenerationContext, op: OperationShape): List<OperationMiddlewareRenderable> {
@@ -56,5 +58,14 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         properties.add(AWSHttpRequestJsonEncoder(requestEncoderOptions))
         properties.add(AWSHttpResponseJsonDecoder(responseDecoderOptions))
         return properties
+    }
+
+    override fun getServiceClient(ctx: ProtocolGenerator.GenerationContext,
+                                  writer: SwiftWriter,
+                                  serviceConfig: ServiceConfig
+    ): HttpProtocolServiceClient {
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        val clientProperties = getClientProperties()
+        return AWSHttpProtocolServiceClient(ctx, writer, clientProperties, serviceConfig)
     }
 }
