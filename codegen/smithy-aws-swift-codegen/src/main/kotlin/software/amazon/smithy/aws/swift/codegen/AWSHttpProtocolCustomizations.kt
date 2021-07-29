@@ -60,7 +60,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         return properties
     }
 
-    override fun getServiceClient(
+    override fun serviceClient(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         serviceConfig: ServiceConfig

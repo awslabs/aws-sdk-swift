@@ -11,33 +11,11 @@ const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 const val ENDPOINT_RESOLVER = "endpointResolver"
 
-val AWS_CONFIG_FIELDS = listOf(
-    ConfigField(
-        REGION_CONFIG_NAME,
-        buildSymbol {
-            this.name = "String"
-            this.nullable = false
-        },
-        "The region to send requests to. (Required)"
-    ),
-    ConfigField(
-        CREDENTIALS_PROVIDER_CONFIG_NAME, AWSRuntimeTypes.Core.CredentialsProvider,
-        "The credentials provider to use to authenticate requests."
-    ),
-    ConfigField(SIGNING_REGION_CONFIG_NAME, buildSymbol { this.name = "String" }, "The region to sign requests in. (Required)"),
-    ConfigField(
-        ENDPOINT_RESOLVER, AWSRuntimeTypes.Core.EndpointResolver,
-        "The endpoint resolver used to resolve endpoints."
-    )
-)
-
 class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {
     override val typesToConformConfigTo: List<String>
-        get() = super.typesToConformConfigTo + listOf("AWSRuntimeConfiguration")
+        get() = listOf("AWSClientConfiguration")
 
-    override val typeName: String = "AWSClientConfiguration"
-
-    override fun renderMainInitializer(serviceSymbol: Symbol) {
+    override fun renderInitializers(serviceSymbol: Symbol) {
         writer.openBlock("public init(", ") throws {") {
             val awsConfigFields = getOtherConfigFields().sortedBy { it.memberName }
             awsConfigFields.forEach {
@@ -54,14 +32,12 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         }
         writer.indent().write("self.credentialsProvider = try AWSCredentialsProvider.fromChain()")
         writer.dedent().write("}")
-        val runtimeTimeConfigFields = getRuntimeConfigFields().sortedBy { it.memberName }
+        val runtimeTimeConfigFields = sdkRuntimeConfigFields().sortedBy { it.memberName }
         runtimeTimeConfigFields.forEach {
             writer.write("self.${it.memberName} = runtimeConfig.${it.memberName}")
         }
         writer.dedent().write("}")
-    }
-
-    override fun renderConvenienceInitializers(serviceSymbol: Symbol) {
+        writer.write("")
         writer.openBlock("public convenience init(", ") throws {") {
             val awsConfigFields = getOtherConfigFields().sortedBy { it.memberName }
             awsConfigFields.forEachIndexed { index, configField ->
@@ -81,6 +57,24 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
     }
 
     override fun getOtherConfigFields(): List<ConfigField> {
-        return AWS_CONFIG_FIELDS
+        return listOf(
+            ConfigField(
+                REGION_CONFIG_NAME,
+                buildSymbol {
+                    this.name = "String"
+                    this.nullable = false
+                },
+                "The region to send requests to. (Required)"
+            ),
+            ConfigField(
+                CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
+                "The credentials provider to use to authenticate requests."
+            ),
+            ConfigField(SIGNING_REGION_CONFIG_NAME, buildSymbol { this.name = "String" }, "The region to sign requests in. (Required)"),
+            ConfigField(
+                ENDPOINT_RESOLVER, AWSClientRuntimeTypes.Core.EndpointResolver,
+                "The endpoint resolver used to resolve endpoints."
+            )
+        )
     }
 }

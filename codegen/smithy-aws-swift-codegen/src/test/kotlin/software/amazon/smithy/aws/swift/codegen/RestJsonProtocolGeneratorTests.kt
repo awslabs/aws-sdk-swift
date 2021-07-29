@@ -106,7 +106,7 @@ class RestJsonProtocolGeneratorTests {
                     client.close()
                 }
             
-                public class ExampleClientConfiguration: SDKRuntimeConfiguration, AWSRuntimeConfiguration {
+                public class ExampleClientConfiguration: AWSClientConfiguration {
             
                     public var encoder: RequestEncoder?
                     public var decoder: ResponseDecoder?
