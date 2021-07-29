@@ -108,19 +108,19 @@ class RestJsonProtocolGeneratorTests {
             
                 public class ExampleClientConfiguration: AWSClientConfiguration {
             
-                    public var encoder: RequestEncoder?
-                    public var decoder: ResponseDecoder?
-                    public var httpClientEngine: HttpClientEngine
-                    public var httpClientConfiguration: HttpClientConfiguration
-                    public var idempotencyTokenGenerator: IdempotencyTokenGenerator
-                    public var retrier: Retrier
                     public var clientLogMode: ClientLogMode
+                    public var decoder: ResponseDecoder?
+                    public var encoder: RequestEncoder?
+                    public var httpClientConfiguration: HttpClientConfiguration
+                    public var httpClientEngine: HttpClientEngine
+                    public var idempotencyTokenGenerator: IdempotencyTokenGenerator
                     public var logger: LogAgent
+                    public var retrier: Retrier
             
-                    public var region: String
                     public var credentialsProvider: AWSCredentialsProvider
-                    public var signingRegion: String
                     public var endpointResolver: EndpointResolver
+                    public var region: String
+                    public var signingRegion: String
             
                     public init(
                         credentialsProvider: AWSCredentialsProvider? = nil,
