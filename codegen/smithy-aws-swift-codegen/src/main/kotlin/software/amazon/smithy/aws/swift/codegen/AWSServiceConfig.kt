@@ -16,8 +16,8 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         get() = listOf("AWSClientConfiguration")
 
     override fun renderInitializers(serviceSymbol: Symbol) {
+        val awsConfigFields = otherRuntimeConfigProperties()
         writer.openBlock("public init(", ") throws {") {
-            val awsConfigFields = getOtherConfigFields().sortedBy { it.memberName }
             awsConfigFields.forEach {
                 writer.write("${it.memberName}: \$D, ", it.type)
             }
@@ -32,20 +32,21 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         }
         writer.indent().write("self.credentialsProvider = try AWSCredentialsProvider.fromChain()")
         writer.dedent().write("}")
-        val runtimeTimeConfigFields = sdkRuntimeConfigFields().sortedBy { it.memberName }
+        val runtimeTimeConfigFields = sdkRuntimeConfigProperties()
         runtimeTimeConfigFields.forEach {
             writer.write("self.${it.memberName} = runtimeConfig.${it.memberName}")
         }
         writer.dedent().write("}")
         writer.write("")
+
         writer.openBlock("public convenience init(", ") throws {") {
-            val awsConfigFields = getOtherConfigFields().sortedBy { it.memberName }
+
             awsConfigFields.forEachIndexed { index, configField ->
                 val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
                 writer.write("${configField.memberName}: \$D$terminator", configField.type)
             }
         }
-        val awsConfigFields = getOtherConfigFields().sortedBy { it.memberName }
+
         var configParamValues = ""
         awsConfigFields.forEach {
             configParamValues += "${it.memberName}: ${it.memberName}, "
@@ -56,7 +57,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.dedent().write("}")
     }
 
-    override fun getOtherConfigFields(): List<ConfigField> {
+    override fun otherRuntimeConfigProperties(): List<ConfigField> {
         return listOf(
             ConfigField(
                 REGION_CONFIG_NAME,
@@ -75,6 +76,6 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
                 ENDPOINT_RESOLVER, AWSClientRuntimeTypes.Core.EndpointResolver,
                 "The endpoint resolver used to resolve endpoints."
             )
-        )
+        ).sortedBy { it.memberName }
     }
 }
