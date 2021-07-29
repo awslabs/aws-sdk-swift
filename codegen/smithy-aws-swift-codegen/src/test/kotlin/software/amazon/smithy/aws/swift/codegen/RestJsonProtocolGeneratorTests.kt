@@ -78,12 +78,12 @@ class RestJsonProtocolGeneratorTests {
             """
             public class ExampleClient {
                 let client: SdkHttpClient
-                let config: ExampleClientConfiguration
+                let config: AWSClientConfiguration
                 let serviceName = "Example"
                 let encoder: RequestEncoder
                 let decoder: ResponseDecoder
             
-                public init(config: ExampleClientConfiguration) {
+                public init(config: AWSClientConfiguration) {
                     client = SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
                     let encoder = JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
@@ -95,57 +95,70 @@ class RestJsonProtocolGeneratorTests {
                     self.decoder = config.decoder ?? decoder
                     self.config = config
                 }
-
+            
+                public convenience init(region: String? = nil) throws {
+                    let unwrappedRegion = region ?? "us-east-1"
+                    let config = try ExampleClientConfiguration(region: unwrappedRegion)
+                    self.init(config: config)
+                }
+            
                 deinit {
                     client.close()
                 }
-
-                public class ExampleClientConfiguration: ClientRuntime.Configuration, AWSClientConfiguration {
             
-                    public var region: String
+                public class ExampleClientConfiguration: AWSClientConfiguration {
+            
+                    public var clientLogMode: ClientLogMode
+                    public var decoder: ResponseDecoder?
+                    public var encoder: RequestEncoder?
+                    public var httpClientConfiguration: HttpClientConfiguration
+                    public var httpClientEngine: HttpClientEngine
+                    public var idempotencyTokenGenerator: IdempotencyTokenGenerator
+                    public var logger: LogAgent
+                    public var retrier: Retrier
+            
                     public var credentialsProvider: AWSCredentialsProvider
-                    public var signingRegion: String
                     public var endpointResolver: EndpointResolver
-
-                    public let clientLogMode: ClientLogMode
-                    public let logger: LogAgent
-
-                    public init (
-                        credentialsProvider: AWSCredentialsProvider,
-                        endpointResolver: EndpointResolver,
+                    public var region: String
+                    public var signingRegion: String
+            
+                    public init(
+                        credentialsProvider: AWSCredentialsProvider? = nil,
+                        endpointResolver: EndpointResolver? = nil,
                         region: String,
-                        signingRegion: String,
-                        clientLogMode: ClientLogMode = .request,
-                        logger: LogAgent? = nil
-                    ) throws
-                    {
-                        self.credentialsProvider = credentialsProvider
-                        self.endpointResolver = endpointResolver
+                        signingRegion: String? = nil,
+                        runtimeConfig: SDKRuntimeConfiguration
+                    ) throws {
                         self.region = region
-                        self.signingRegion = signingRegion
-                        self.clientLogMode = clientLogMode
-                        self.logger = logger ?? SwiftLogger(label: "ExampleClient")
+                        self.signingRegion = signingRegion ?? region
+                        self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
+                        if let credProvider = credentialsProvider {
+                            self.credentialsProvider = credProvider
+                        } else {
+                            self.credentialsProvider = try AWSCredentialsProvider.fromChain()
+                        }
+                        self.clientLogMode = runtimeConfig.clientLogMode
+                        self.decoder = runtimeConfig.decoder
+                        self.encoder = runtimeConfig.encoder
+                        self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
+                        self.httpClientEngine = runtimeConfig.httpClientEngine
+                        self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
+                        self.logger = runtimeConfig.logger
+                        self.retrier = runtimeConfig.retrier
                     }
             
-                    public convenience init(credentialsProvider: AWSCredentialsProvider) throws {
-                        let region = "us-east-1"
-                        let signingRegion = "us-east-1"
-                        let endpointResolver = DefaultEndpointResolver()
-                        try self.init(
-                            credentialsProvider: credentialsProvider,
-                            endpointResolver: endpointResolver,
-                            region: region,
-                            signingRegion: signingRegion
-                        )
-                    }
-            
-                    public static func `default`() throws -> ExampleClientConfiguration {
-                        let awsCredsProvider = try AWSCredentialsProvider.fromEnv()
-                        return try ExampleClientConfiguration(credentialsProvider: awsCredsProvider)
+                    public convenience init(
+                        credentialsProvider: AWSCredentialsProvider? = nil,
+                        endpointResolver: EndpointResolver? = nil,
+                        region: String,
+                        signingRegion: String? = nil
+                    ) throws {
+                        let defaultRuntimeConfig = try DefaultSDKRuntimeConfiguration("ExampleClient")
+                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
                 }
             }
-
+            
             public struct ExampleClientLogHandlerFactory: SDKLogHandlerFactory {
                 public var label = "ExampleClient"
                 let logLevel: SDKLogLevel

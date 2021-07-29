@@ -5,9 +5,11 @@
 
 import ClientRuntime
 
-public protocol AWSClientConfiguration {
+public protocol AWSRuntimeConfiguration {
     var credentialsProvider: AWSCredentialsProvider { get set }
     var region: String { get set }
     var signingRegion: String {get set}
     var endpointResolver: EndpointResolver {get set}
 }
+
+public typealias AWSClientConfiguration = SDKRuntimeConfiguration & AWSRuntimeConfiguration

@@ -4,54 +4,78 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ConfigField
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.model.buildSymbol
 
 const val REGION_CONFIG_NAME = "region"
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 const val ENDPOINT_RESOLVER = "endpointResolver"
 
-val AWS_CONFIG_FIELDS = listOf(
-    ConfigField(REGION_CONFIG_NAME, "String", "The region to send requests to. (Required)"),
-    ConfigField(
-        CREDENTIALS_PROVIDER_CONFIG_NAME, "AWSCredentialsProvider",
-        "The credentials provider to use to authenticate requests."
-    ),
-    ConfigField(SIGNING_REGION_CONFIG_NAME, "String", "The region to sign requests in. (Required)"),
-    ConfigField(
-        ENDPOINT_RESOLVER, "EndpointResolver",
-        "The endpoint resolver used to resolve endpoints."
-    )
-)
-
 class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {
     override val typesToConformConfigTo: List<String>
-        get() = super.typesToConformConfigTo + listOf("AWSClientConfiguration")
+        get() = listOf("AWSClientConfiguration")
 
-    override fun renderStaticDefaultImplementation(serviceSymbol: Symbol) {
-        writer.openBlock("public static func `default`() throws -> ${serviceSymbol.name}Configuration {", "}") {
-            writer.write("let awsCredsProvider = try AWSCredentialsProvider.fromEnv()") // TODO: should be this be the default creds provider?
-            writer.write("return try ${serviceSymbol.name}Configuration(credentialsProvider: awsCredsProvider)")
+    override fun renderInitializers(serviceSymbol: Symbol) {
+        val awsConfigFields = otherRuntimeConfigProperties()
+        writer.openBlock("public init(", ") throws {") {
+            awsConfigFields.forEach {
+                writer.write("${it.memberName}: \$D, ", it.type)
+            }
+            writer.write("runtimeConfig: SDKRuntimeConfiguration")
         }
-    }
+        writer.indent()
+        writer.write("self.region = region")
+        writer.write("self.signingRegion = signingRegion ?? region")
+        writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
+        writer.openBlock("if let credProvider = credentialsProvider {", "} else {") {
+            writer.write("self.credentialsProvider = credProvider")
+        }
+        writer.indent().write("self.credentialsProvider = try AWSCredentialsProvider.fromChain()")
+        writer.dedent().write("}")
+        val runtimeTimeConfigFields = sdkRuntimeConfigProperties()
+        runtimeTimeConfigFields.forEach {
+            writer.write("self.${it.memberName} = runtimeConfig.${it.memberName}")
+        }
+        writer.dedent().write("}")
+        writer.write("")
 
-    override fun getConfigFields(): List<ConfigField> {
-        return AWS_CONFIG_FIELDS
-    }
+        writer.openBlock("public convenience init(", ") throws {") {
 
-    override fun renderConvenienceInits(serviceSymbol: Symbol) {
-        writer.addImport("AWSClientRuntime")
-        writer.openBlock("public convenience init(credentialsProvider: AWSCredentialsProvider) throws {", "}") {
-            writer.write("let region = \"us-east-1\"") // FIXME: get region from a region resolver
-            writer.write("let signingRegion = \"us-east-1\"") // FIXME: get region from a region resolver
-            writer.write("let endpointResolver = DefaultEndpointResolver()")
-            writer.openBlock("try self.init(", ")") {
-                val configFieldsSortedByName = getConfigFields().sortedBy { it.name }
-                for ((index, member) in configFieldsSortedByName.withIndex()) {
-                    val memberName = member.name
-                    val terminator = if (index == configFieldsSortedByName.size - 1) "" else ","
-                    writer.write("\$L: \$L$terminator", memberName, memberName)
-                }
+            awsConfigFields.forEachIndexed { index, configField ->
+                val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
+                writer.write("${configField.memberName}: \$D$terminator", configField.type)
             }
         }
+
+        var configParamValues = ""
+        awsConfigFields.forEach {
+            configParamValues += "${it.memberName}: ${it.memberName}, "
+        }
+        writer.indent()
+        writer.write("let defaultRuntimeConfig = try DefaultSDKRuntimeConfiguration(\"${serviceName}\")")
+        writer.write("try self.init(${configParamValues}runtimeConfig: defaultRuntimeConfig)")
+        writer.dedent().write("}")
+    }
+
+    override fun otherRuntimeConfigProperties(): List<ConfigField> {
+        return listOf(
+            ConfigField(
+                REGION_CONFIG_NAME,
+                buildSymbol {
+                    this.name = "String"
+                    this.nullable = false
+                },
+                "The region to send requests to. (Required)"
+            ),
+            ConfigField(
+                CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
+                "The credentials provider to use to authenticate requests."
+            ),
+            ConfigField(SIGNING_REGION_CONFIG_NAME, buildSymbol { this.name = "String" }, "The region to sign requests in. (Required)"),
+            ConfigField(
+                ENDPOINT_RESOLVER, AWSClientRuntimeTypes.Core.EndpointResolver,
+                "The endpoint resolver used to resolve endpoints."
+            )
+        ).sortedBy { it.memberName }
     }
 }

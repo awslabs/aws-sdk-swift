@@ -95,25 +95,13 @@ let package = Package(
 )
 ```
 
-Update the scheme in Xcode to put your AWS credentials in env variables (we don’t have auto credential resolution quite finished yet, only 3/4 done sry)
-
-Variable names are:*
-```
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-```
-(if you need help with getting these values, talk to wooj@ or nickik@
-
 Then you can open up main.swift, and instantiate CognitoIdentity as follows:
 
 ```swift
 import CognitoIdentity
 import Foundation
 
-//this config file will be moved out of the client,
-// I realize this is a pain right now and we have an open ticket for it.
-let config = try! CognitoIdentityClient.CognitoIdentityClientConfiguration.default()
-let cognitoIdentityClient = CognitoIdentityClient(config: config)
+let cognitoIdentityClient = CognitoIdentityClient()
 let cognitoInputCall = CreateIdentityPoolInput(allowClassicFlow: nil,
                                                 allowUnauthenticatedIdentities: true,
                                                 cognitoIdentityProviders: nil,
@@ -136,7 +124,7 @@ cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
 
 As a result, you should be able to:
 
-    1. Log into your AWS console, go to us-east-1 (we default region to us-east-1, no region resolver yet)
+    1. Log into your AWS console, go to us-east-1 (we default region to us-east-1 but you can pass in a region, no region resolver yet)
     2. Click on cognito
     3. click on cognito identity pools
     4. Verify that you see the newly created identity pool name: identityPoolMadeWithSwiftSDK

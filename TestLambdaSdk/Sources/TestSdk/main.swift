@@ -4,8 +4,7 @@ import ClientRuntime
 
 do {
     
-    let config = try S3Client.S3ClientConfiguration.default()
-    let s3Client = S3Client(config: config)
+    let s3Client = try S3Client(region: "us-east-1")
     guard let data = "hello".data(using: .utf8) else {
         print("why is data empty")
         fatalError()

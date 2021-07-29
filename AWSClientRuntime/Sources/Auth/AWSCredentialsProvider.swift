@@ -46,7 +46,8 @@ public class AWSCredentialsProvider {
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
-    public static func fromChain(_ config: AWSCredentialsProviderChainDefaultConfig) throws -> AWSCredentialsProvider {
+    public static func fromChain(shutDownCallback: ShutDownCallback? = nil) throws -> AWSCredentialsProvider {
+        let config = AWSCredentialsProviderChainDefaultConfig(shutDownCallback: shutDownCallback)
         let credsProvider = try CRTAWSCredentialsProvider(fromChainDefault: config.toCRTType())
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
