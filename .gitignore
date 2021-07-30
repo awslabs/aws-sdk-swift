@@ -22,3 +22,4 @@ AWSClientRuntime/AWSClientRuntime.xcodeproj/
 AWSClientRuntime/.swiftpm/xcode/xcuserdata/*
 AWSClientRuntime/.swiftpm/xcode/package.xcworkspace/xcuserdata/*
 codegen/protocol-test-codegen-local/smithy-build.json
+codegen/protocol-test-codegen/smithy-build.json
