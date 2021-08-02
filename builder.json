@@ -16,15 +16,13 @@
       "cd {source_dir}/codegen && swift test"
   ],
   "build_dir": "target/build",
+  "env": {
+    "JAVA_HOME": "{java_home}"
+  },
   "hosts": {
-    "ubuntu": {
+    "linux": {
       "packages": [
-        "openjdk-8-jdk-headless"
-      ]
-    },
-    "debian": {
-      "packages": [
-        "openjdk-8-jdk-headless"
+        "openjdk-11-jdk-headless"
       ]
     }
   },

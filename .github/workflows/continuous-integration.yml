@@ -106,7 +106,6 @@ jobs:
           --env GITHUB_REF \
           --env CI_USER \
           --env CI_ACCESS_TOKEN \
-          --env JAVA_HOME \
           --env GIT_ASKPASS="/root/${{ env.PACKAGE_NAME}}/.github/scripts/git-ci-askpass.sh" \
           --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME}}${{ env.AWS_CRT_SWIFT_CI_DIR }}" \
           --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME}}${{ env.AWS_SDK_SWIFT_CI_DIR }}" \
