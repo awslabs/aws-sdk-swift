@@ -20,7 +20,7 @@
     "JAVA_HOME": "{java_home}"
   },
   "hosts": {
-    "linux": {
+    "al2": {
       "packages": [
         "java-11-openjdk-devel"
       ]
