@@ -22,7 +22,7 @@
   "hosts": {
     "linux": {
       "packages": [
-        "openjdk-11-jdk-headless"
+        "java-openjdk11"
       ]
     }
   },
