@@ -22,7 +22,7 @@
         "java-11-amazon-corretto-headless"
       ],
       "env": {
-        "JAVA_HOME": "/usr/lib/jvm/java-11-amazon-corretto"
+        "JAVA_HOME": "/usr/lib/jvm/java-11-amazon-corretto.x86_64"
       }
     },
     "ubuntu": {
