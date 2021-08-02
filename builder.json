@@ -16,14 +16,22 @@
       "cd {source_dir}/codegen && swift test"
   ],
   "build_dir": "target/build",
-  "env": {
-    "JAVA_HOME": "{java_home}"
-  },
   "hosts": {
     "al2": {
       "packages": [
         "java-11-amazon-corretto-headless"
-      ]
+      ],
+      "env": {
+        "JAVA_HOME": "/usr/lib/jvm/java-11-amazon-corretto"
+      }
+    },
+    "ubuntu": {
+      "packages": [
+        "openjdk-11-jdk-headless"
+      ],
+      "env": {
+        "JAVA_HOME": "/usr/lib/jvm/openjdk-11-jdk"
+      }
     }
   },
   "upstream": [
