@@ -46,7 +46,6 @@ class RestJSONErrorTests: HttpResponseTestBase {
         } else {
             XCTFail("The deserialized error type does not match expected type")
         }
-        print(try? GreetingWithErrorsError(errorType: nil, httpResponse: httpResponse, decoder: decoder, message: nil, requestID: nil))
     }
 
     func testSanitizeErrorName() {
