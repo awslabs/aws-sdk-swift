@@ -17,15 +17,21 @@
   ],
   "build_dir": "target/build",
   "hosts": {
-    "ubuntu": {
+    "al2": {
       "packages": [
-        "openjdk-8-jdk-headless"
-      ]
+        "java-11-amazon-corretto-headless"
+      ],
+      "env": {
+        "JAVA_HOME": "/usr/lib/jvm/java-11-amazon-corretto.x86_64"
+      }
     },
     "debian": {
       "packages": [
-        "openjdk-8-jdk-headless"
-      ]
+        "openjdk-11-jdk-headless"
+      ],
+      "env": {
+        "JAVA_HOME": "/usr/lib/jvm/openjdk-11-jdk"
+      }
     }
   },
   "upstream": [

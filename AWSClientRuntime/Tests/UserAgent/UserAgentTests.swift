@@ -25,7 +25,19 @@ class UserAgentTests: XCTestCase {
                                       apiMetadata: apiMeta,
                                       osMetadata: osMeta,
                                       languageMetadata: langMeta)
-        let expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/macOS/11.4 lang/swift/9.9"
+        var expected: String = ""
+        switch currentOS {
+        case .linux:
+            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/linux/11.4 lang/swift/9.9"
+        case .macOS:
+            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/macOS/11.4 lang/swift/9.9"
+        case .iOS:
+            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/iOS/11.4 lang/swift/9.9"
+        case .unknown:
+            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/unknown/11.4 lang/swift/9.9"
+        default:
+            XCTFail("Unexpected OS")
+        }
         XCTAssert(awsUserAgent.xAmzUserAgent == expected, awsUserAgent.xAmzUserAgent)
     }
 }
