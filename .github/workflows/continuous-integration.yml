@@ -97,7 +97,7 @@ jobs:
           --env CI_USER \
           --env CI_ACCESS_TOKEN \
           --env GIT_ASKPASS="/root/${{ env.PACKAGE_NAME}}/.github/scripts/git-ci-askpass.sh" \
-          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME}}${{ env.AWS_CRT_SWIFT_CI_DIR }}" \
+          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME}}/target/build/deps/aws-crt-swift" \
           --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME}}${{ env.AWS_SDK_SWIFT_CI_DIR }}" \
           --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME}}${{ env.SMITHY_SWIFT_CI_DIR }}" \
           $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
