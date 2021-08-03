@@ -36,7 +36,6 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         runtimeTimeConfigFields.forEach {
             writer.write("self.${it.memberName} = runtimeConfig.${it.memberName}")
         }
-        writer.write("self.initialize()")
         writer.dedent().write("}")
         writer.write("")
 

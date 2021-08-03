@@ -145,7 +145,6 @@ class RestJsonProtocolGeneratorTests {
                         self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
                         self.logger = runtimeConfig.logger
                         self.retrier = runtimeConfig.retrier
-                        self.initialize()
                     }
             
                     public convenience init(

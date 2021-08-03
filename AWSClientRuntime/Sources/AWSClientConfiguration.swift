@@ -13,10 +13,4 @@ public protocol AWSRuntimeConfiguration {
     var endpointResolver: EndpointResolver {get set}
 }
 
-public extension AWSRuntimeConfiguration {
-    func initialize() {
-        AwsCommonRuntimeKit.initialize()
-    }
-}
-
 public typealias AWSClientConfiguration = SDKRuntimeConfiguration & AWSRuntimeConfiguration
