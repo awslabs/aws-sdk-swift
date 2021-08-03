@@ -8,9 +8,18 @@ import Foundation
 
 do {
     let tableName = "Movies"
-    let credProvider = try AWSCredentialsProvider.fromProfile()
-    let config = try DynamoDbClient.DynamoDbClientConfiguration(credentialsProvider: credProvider)
+    //CHOOSE: comment out the below lines that apply to your scenario.
+    //if you already have aws credentials set up on your machine in ~/.aws/credentials, you can use this constructor
+   // let client = try DynamoDbClient(region: "us-east-1")
+    
+    //if you do not have aws credentials set up on your machine, feel free to add your credentials as env variables in xcode and pass the env cred provider to the client
+//    AWS_ACCESS_KEY_ID
+//    AWS_SECRET_ACCESS_KEY
+    
+    let credProvider = try AWSCredentialsProvider.fromEnv()
+    let config = try DynamoDbClient.DynamoDbClientConfiguration(credentialsProvider: credProvider, region: "us-east-1")
     let client = DynamoDbClient(config: config)
+    
     createMoviesTable(client: client, name: tableName) { result in
         switch result {
         case .success(let tableCreating):
