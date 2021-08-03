@@ -1,5 +1,5 @@
 FROM swift:5.4-focal
-# can remove both lines once repos are public but needed in order to test for now
+# TODO: Remove the following 2 lines when repos are public
 ARG GIT_ACCESS_TOKEN
 RUN git config --global url."https://${GIT_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
 

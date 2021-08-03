@@ -25,7 +25,7 @@
         "JAVA_HOME": "/usr/lib/jvm/java-11-amazon-corretto.x86_64"
       }
     },
-    "ubuntu": {
+    "debian": {
       "packages": [
         "openjdk-11-jdk-headless"
       ],
