@@ -28,14 +28,9 @@ public class AWSCredentialsProvider {
     }
     
     public static func fromStatic(_ credentials: AWSCredentials) throws -> AWSCredentialsProvider {
-        guard let accessKey = credentials.accessKey,
-              let secret = credentials.secret,
-              let sessionToken = credentials.sessionToken else {
-            throw ClientError.authError("Unable to create static credentials provider.  Required: accessKey, secret, and sessionToken.")
-        }
-        let config = AWSCredentialsProviderStaticConfig(accessKey: accessKey,
-                                                        secret: secret,
-                                                        sessionToken: sessionToken)
+        let config = AWSCredentialsProviderStaticConfig(accessKey: credentials.accessKey,
+                                                        secret: credentials.secret,
+                                                        sessionToken: credentials.sessionToken)
         let credsProvider = try CRTAWSCredentialsProvider(fromStatic: config.toCRTType())
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
@@ -55,9 +50,13 @@ public class AWSCredentialsProvider {
     public func getCredentials() throws -> AWSCredentials {
         let credentials = crtCredentialsProvider.getCredentials()
         let result = try credentials.get()
-        return AWSCredentials(accessKey: result.getAccessKey(),
-                              secret: result.getSecret(),
-                              sessionToken: result.getSessionToken(),
-                              expirationTimeout: result.getExpirationTimeout())
+        guard let accessKey = result.getAccessKey(),
+              let secret = result.getSecret() else {
+            throw ClientError.authError("Unable to get credentials.  Required: accessKey, secret.")
+        }
+        return AWSCredentials(accessKey: accessKey,
+                              secret: secret,
+                              expirationTimeout: result.getExpirationTimeout(),
+                              sessionToken: result.getSessionToken())
     }
 }

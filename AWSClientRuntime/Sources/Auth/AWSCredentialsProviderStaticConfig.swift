@@ -14,11 +14,11 @@ public struct AWSCredentialsProviderStaticConfig {
     
     public let secret: String
     
-    public let sessionToken: String
+    public let sessionToken: String?
     
     public init(accessKey: String,
                 secret: String,
-                sessionToken: String,
+                sessionToken: String? = nil,
                 shutDownCallback: ShutDownCallback? = nil) {
         self.accessKey = accessKey
         self.secret = secret
@@ -43,11 +43,11 @@ struct CredentialsProviderStaticConfig: CRTCredentialsProviderStaticConfigOption
     
     var secret: String
     
-    var sessionToken: String
+    var sessionToken: String?
     
     init(accessKey: String,
          secret: String,
-         sessionToken: String,
+         sessionToken: String? = nil,
          shutDownOptions: ShutDownCallback? = nil) {
         self.accessKey = accessKey
         self.secret = secret
