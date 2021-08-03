@@ -4,7 +4,6 @@
  */
 
 import ClientRuntime
-import AwsCommonRuntimeKit
 
 public protocol AWSRuntimeConfiguration {
     var credentialsProvider: AWSCredentialsProvider { get set }
