@@ -36,7 +36,8 @@ val enabledProtocols = listOf(
 
     // service specific tests
     //ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService"),
-    //ProtocolTest("glacier", "com.amazonaws.glacier#Glacier")
+    //ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK")
+    //ProtocolTest("s3", "com.amazonaws.s3#AmazonS3", "S3TestSDK")
 )
 
 // This project doesn't produce a JAR.

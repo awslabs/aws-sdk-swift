@@ -7,179 +7,74 @@ import class Foundation.FileManager
 let baseDir = "./protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
 let baseDirLocal = "./protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
 
-let package = Package(
+var package = Package(
     name: "ProtocolCodegenTests",
     platforms: [
         .macOS(.v10_15), .iOS(.v13)
     ],
     products: [
-        .library(name: "AWSRestJsonTestSDK", targets: ["AWSRestJsonTestSDK"]),
-        .library(name: "AWSJson1_0TestSDK", targets: ["AWSJson1_0TestSDK"]),
-        .library(name: "AWSJson1_1TestSDK", targets: ["AWSJson1_1TestSDK"]),
-        .library(name: "RestXmlTestSDK", targets: ["RestXmlTestSDK"]),
-        .library(name: "AWSQueryTestSDK", targets: ["AWSQueryTestSDK"]),
-
-        .library(name: "aws_restjson", targets: ["aws_restjson"]),
-        .library(name: "rest_json_extras", targets: ["rest_json_extras"])
     ],
     targets: [
-        .target(
-            name: "AWSRestJsonTestSDK",
-            dependencies: [
-                .product(name: "ClientRuntime",
-                         package: "ClientRuntime"
-                ),
-                .product(
-                    name: "AWSClientRuntime",
-                    package: "AWSClientRuntime"
-                ),
-            ],
-            path: "\(baseDir)/aws-restjson/swift-codegen/AWSRestJsonTestSDK"
-        ),
-        .testTarget(
-            name: "AWSRestJsonTestSDKTests",
-            dependencies: [
-                "AWSRestJsonTestSDK",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
-            ],
-            path: "\(baseDir)/aws-restjson/swift-codegen/AWSRestJsonTestSDKTests"
-        ),
-        
-        .target(
-            name: "AWSJson1_0TestSDK",
-            dependencies: [
-                .product(
-                    name: "ClientRuntime",
-                    package: "ClientRuntime"
-                ),
-                .product(
-                    name: "AWSClientRuntime",
-                    package: "AWSClientRuntime"
-                ),
-            ],
-            path: "\(baseDir)/aws-json-10/swift-codegen/AWSJson1_0TestSDK"
-        ),
-        .testTarget(
-            name: "AWSJson1_0TestSDKTests",
-            dependencies: [
-                "AWSJson1_0TestSDK",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
-            ],
-            path: "\(baseDir)/aws-json-10/swift-codegen/AWSJson1_0TestSDKTests"
-        ),
-        .target(
-            name: "AWSJson1_1TestSDK",
-            dependencies: [
-                .product(
-                    name: "ClientRuntime",
-                    package: "ClientRuntime"
-                ),
-                .product(
-                    name: "AWSClientRuntime",
-                    package: "AWSClientRuntime"
-                ),
-            ],
-            path: "\(baseDir)/aws-json-11/swift-codegen/AWSJson1_1TestSDK"
-        ),
-        .testTarget(
-            name: "AWSJson1_1TestSDKTests",
-            dependencies: [
-                "AWSJson1_1TestSDK",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
-            ],
-            path: "\(baseDir)/aws-json-11/swift-codegen/AWSJson1_1TestSDKTests"
-        ),
-        .target(
-            name: "RestXmlTestSDK",
-            dependencies: [
-                .product(
-                    name: "ClientRuntime",
-                    package: "ClientRuntime"
-                ),
-                .product(
-                    name: "AWSClientRuntime",
-                    package: "AWSClientRuntime"
-                ),
-            ],
-            path: "\(baseDir)/rest-xml/swift-codegen/RestXmlTestSDK"
-        ),
-        .testTarget(
-            name: "RestXmlTestSDKTests",
-            dependencies: [
-                "RestXmlTestSDK",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
-            ],
-            path: "\(baseDir)/rest-xml/swift-codegen/RestXmlTestSDKTests"
-        ),
-        .target(
-            name: "AWSQueryTestSDK",
-            dependencies: [
-                .product(
-                    name: "ClientRuntime",
-                    package: "ClientRuntime"
-                ),
-                .product(
-                    name: "AWSClientRuntime",
-                    package: "AWSClientRuntime"
-                ),
-            ],
-            path: "\(baseDir)/aws-query/swift-codegen/AWSQueryTestSDK"
-        ),
-        .testTarget(
-            name: "AWSQueryTestSDKTests",
-            dependencies: [
-                "AWSQueryTestSDK",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
-            ],
-            path: "\(baseDir)/aws-query/swift-codegen/AWSQueryTestSDKTests"
-        ),
-        .target(
-            name: "aws_restjson",
-            dependencies: [
-                .product(
-                    name: "ClientRuntime",
-                    package: "ClientRuntime"
-                ),
-                .product(
-                    name: "AWSClientRuntime",
-                    package: "AWSClientRuntime"
-                ),
-            ],
-            path: "\(baseDirLocal)/aws-restjson/swift-codegen/aws_restjson"
-        ),
-        .testTarget(
-            name: "aws_restjsonTests",
-            dependencies: [
-                "aws_restjson",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
-            ],
-            path: "\(baseDirLocal)/aws-restjson/swift-codegen/aws_restjsonTests"
-        ),
-        .target(
-            name: "rest_json_extras",
-            dependencies: [
-                .product(
-                    name: "ClientRuntime",
-                    package: "ClientRuntime"
-                ),
-                .product(
-                    name: "AWSClientRuntime",
-                    package: "AWSClientRuntime"
-                ),
-            ],
-            path: "\(baseDirLocal)/rest_json_extras/swift-codegen/rest_json_extras"
-        ),
-        .testTarget(
-            name: "rest_json_extrasTests",
-            dependencies: [
-                "rest_json_extras",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime")
-            ],
-            path: "\(baseDirLocal)/rest_json_extras/swift-codegen/rest_json_extrasTests"
-        )
     ]
 )
-    
+
+appendLibTarget(name: "AWSRestJsonTestSDK", path: "\(baseDir)/aws-restjson")
+appendTstTarget(name: "AWSRestJsonTestSDKTests", path: "\(baseDir)/aws-restjson", dependency: "AWSRestJsonTestSDK")
+
+appendLibTarget(name: "AWSJson1_0TestSDK", path: "\(baseDir)/aws-json-10")
+appendTstTarget(name: "AWSJson1_0TestSDKTests", path: "\(baseDir)/aws-json-10", dependency: "AWSJson1_0TestSDK")
+
+appendLibTarget(name: "AWSJson1_1TestSDK", path: "\(baseDir)/aws-json-11")
+appendTstTarget(name: "AWSJson1_1TestSDKTests", path: "\(baseDir)/aws-json-11", dependency: "AWSJson1_1TestSDK")
+
+appendLibTarget(name: "RestXmlTestSDK", path: "\(baseDir)/rest-xml")
+appendTstTarget(name: "RestXmlTestSDKTests", path: "\(baseDir)/rest-xml", dependency: "RestXmlTestSDK")
+
+appendLibTarget(name: "AWSQueryTestSDK", path: "\(baseDir)/aws-query")
+appendTstTarget(name: "AWSQueryTestSDKTests", path: "\(baseDir)/aws-query", dependency: "AWSQueryTestSDK")
+
+//Service specific
+//appendLibTarget(name: "S3TestSDK", path: "\(baseDir)/s3")
+//appendTstTarget(name: "S3TestSDKTests", path: "\(baseDir)/s3", dependency: "S3TestSDK")
+
+//Local tests
+appendLibTarget(name: "aws_restjson", path: "\(baseDirLocal)/aws-restjson")
+appendTstTarget(name: "aws_restjsonTests", path: "\(baseDirLocal)/aws-restjson", dependency: "aws_restjson")
+appendLibTarget(name: "rest_json_extras", path: "\(baseDirLocal)/rest_json_extras")
+appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_extras", dependency: "rest_json_extras")
+
+func appendLibTarget(name: String, path: String) {
+    package.targets.append(
+        .target(name: name,
+                dependencies:  [
+                    .product(
+                        name: "ClientRuntime",
+                        package: "ClientRuntime"
+                    ),
+                    .product(
+                        name: "AWSClientRuntime",
+                        package: "AWSClientRuntime"
+                    ),
+                ],
+                path: "\(path)/swift-codegen/\(name)")
+    )
+    package.products.append(
+        .library(name: name, targets: [name])
+    )
+}
+
+func appendTstTarget(name: String, path: String, dependency: String) {
+    package.targets.append(.testTarget(name: name,
+                                       dependencies:  [
+                                        ._byNameItem(name: dependency, condition: nil),
+                                        .product(name: "SmithyTestUtil", package: "ClientRuntime")
+                                       ],
+                                       path: "\(path)/swift-codegen/\(name)")
+    )
+}
+
+
+
 if let smithySwiftDir = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR"],
    let sdkDir = ProcessInfo.processInfo.environment["AWS_SDK_SWIFT_CI_DIR"] {
     package.dependencies += [
