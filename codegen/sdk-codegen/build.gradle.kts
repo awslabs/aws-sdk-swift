@@ -78,13 +78,21 @@ data class AwsService(
 // The generated smithy-build.json file is not committed to git since
 // it's rebuilt each time codegen is performed.
 fun generateSmithyBuild(services: List<AwsService>): String {
+    require(services.isNotEmpty()) {
+        "No services discovered. Verify aws.services and aws.protocols properties in local.build. Aborting."
+    }
     val buildStandaloneSdk = getProperty("buildStandaloneSdk")?.toBoolean() ?: false
     val projections = services.joinToString(",") { service ->
         // escape windows paths for valid json
         val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
+        val importPaths = mutableListOf(absModelPath)
+        if (file(service.modelExtrasDir).exists()) {
+            importPaths.add(service.modelExtrasDir.replace("\\", "\\\\"))
+        }
+        val imports = importPaths.joinToString { "\"$it\"" }
         """
             "${service.projectionName}": {
-                "imports": ["$absModelPath"],
+                "imports": [$imports],
                 "plugins": {
                     "swift-codegen": {
                       "service": "${service.name}",
@@ -166,6 +174,12 @@ val AwsService.outputDir: String
 val AwsService.destinationDir: String
     get(){
         return rootProject.file("release").absolutePath
+    }
+
+val AwsService.modelExtrasDir: String
+    get() {
+        val sanitizedName = projectionName.split(".")[0]
+        return rootProject.file("codegen/sdk-codegen/aws-models-test/${sanitizedName}").absolutePath
     }
 
 task("stageSdks") {
