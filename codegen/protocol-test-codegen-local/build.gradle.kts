@@ -46,7 +46,6 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
                       "author": "Amazon Web Services",
                       "homepage": "https://docs.amplify.aws/",
                       "swiftVersion": "5.4.0",
-                      "shouldGenerateUnitTestTarget": true,
                       "build": {
                         "rootProject": true
                       }

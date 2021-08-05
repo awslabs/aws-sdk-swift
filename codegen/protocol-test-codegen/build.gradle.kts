@@ -111,8 +111,7 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
                   "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                   "author": "Amazon Web Services",
                   "homepage": "https://docs.amplify.aws/",
-                  "swiftVersion": "5.4.0",
-                  "shouldGenerateUnitTestTarget": true
+                  "swiftVersion": "5.4.0"
                 }
               }
             }"""
