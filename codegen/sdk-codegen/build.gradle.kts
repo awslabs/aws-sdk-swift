@@ -70,7 +70,6 @@ data class AwsService(
     val modelFile: File,
     val projectionName: String,
     val gitRepo: String,
-    val shouldGenerateUnitTestTarget: Boolean,
     val sdkId: String
 )
 
@@ -103,7 +102,6 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "author": "Amazon Web Services",
                       "gitRepo": "${service.gitRepo}",
                       "swiftVersion": "5.3.0",
-                      "shouldGenerateUnitTestTarget": false,
                       "build": {
                           "rootProject": $buildStandaloneSdk
                       }
@@ -162,8 +160,7 @@ fun discoverServices(): List<AwsService> {
                 modelFile = file,
                 projectionName = name + "." + version.toLowerCase(),
                 sdkId = serviceApi.sdkId,
-                gitRepo = "https://github.com/aws-amplify/aws-sdk-swift.git",
-                shouldGenerateUnitTestTarget = false)
+                gitRepo = "https://github.com/aws-amplify/aws-sdk-swift.git")
         }
 }
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
