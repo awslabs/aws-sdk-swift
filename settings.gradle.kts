@@ -8,7 +8,6 @@ pluginManagement {
 }
 
 rootProject.name = "aws-sdk-swift"
-enableFeaturePreview("GRADLE_METADATA")
 
 
 fun module(path: String) {
