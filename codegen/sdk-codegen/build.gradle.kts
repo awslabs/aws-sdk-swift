@@ -103,7 +103,7 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "author": "Amazon Web Services",
                       "gitRepo": "${service.gitRepo}",
                       "swiftVersion": "5.3.0",
-                      "shouldGenerateUnitTestTarget": true,
+                      "shouldGenerateUnitTestTarget": false,
                       "build": {
                           "rootProject": $buildStandaloneSdk
                       }
