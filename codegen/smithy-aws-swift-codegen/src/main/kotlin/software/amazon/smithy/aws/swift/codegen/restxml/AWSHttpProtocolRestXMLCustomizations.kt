@@ -15,6 +15,8 @@ class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
         // TODO: Subject to change if Foundation dependency is removed
         requestEncoderOptions["dateEncodingStrategy"] = ".secondsSince1970"
         responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
+        responseDecoderOptions["trimValueWhitespaces"] = "false"
+        responseDecoderOptions["removeWhitespaceElements"] = "true"
         properties.add(AWSHttpRequestXMLEncoder(requestEncoderOptions))
         properties.add(AWSHttpResponseXMLDecoder(responseDecoderOptions))
         return properties
