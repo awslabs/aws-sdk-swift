@@ -85,10 +85,9 @@ fun generateSmithyBuild(services: List<AwsService>): String {
         // escape windows paths for valid json
         val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
         val importPaths = mutableListOf(absModelPath)
-//TODO: Re-enable after we figure out how to release
-//        if (file(service.modelExtrasDir).exists()) {
-//            importPaths.add(service.modelExtrasDir.replace("\\", "\\\\"))
-//        }
+        if (file(service.modelExtrasDir).exists()) {
+            importPaths.add(service.modelExtrasDir.replace("\\", "\\\\"))
+        }
         val imports = importPaths.joinToString { "\"$it\"" }
         """
             "${service.projectionName}": {
@@ -190,6 +189,7 @@ task("stageSdks") {
                 from("${it.outputDir}")
                 into("${it.destinationDir}")
                 exclude("Package.swift")
+                exclude("*Tests")
             }
         }
     }
