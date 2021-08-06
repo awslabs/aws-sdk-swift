@@ -63,7 +63,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     }
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
-        HttpProtocolTestGenerator(
+        return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
             responseTestBuilder,
