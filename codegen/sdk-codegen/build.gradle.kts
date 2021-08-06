@@ -85,9 +85,10 @@ fun generateSmithyBuild(services: List<AwsService>): String {
         // escape windows paths for valid json
         val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
         val importPaths = mutableListOf(absModelPath)
-        if (file(service.modelExtrasDir).exists()) {
-            importPaths.add(service.modelExtrasDir.replace("\\", "\\\\"))
-        }
+//TODO: Re-enable after we figure out how to release
+//        if (file(service.modelExtrasDir).exists()) {
+//            importPaths.add(service.modelExtrasDir.replace("\\", "\\\\"))
+//        }
         val imports = importPaths.joinToString { "\"$it\"" }
         """
             "${service.projectionName}": {
