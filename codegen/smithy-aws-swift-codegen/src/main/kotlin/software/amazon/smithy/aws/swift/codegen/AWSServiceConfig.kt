@@ -20,7 +20,8 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         val awsConfigFields = otherRuntimeConfigProperties()
         writer.openBlock("public init(", ") throws {") {
             awsConfigFields.forEach {
-                writer.write("${it.memberName}: \$D, ", it.type)
+                val formatter = if(it.memberName == "region") "\$N" else "\$D"
+                writer.write("${it.memberName}: $formatter, ", it.type)
             }
             writer.write("runtimeConfig: \$N", ClientRuntimeTypes.Core.SDKRuntimeConfiguration)
         }
@@ -44,7 +45,8 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
 
             awsConfigFields.forEachIndexed { index, configField ->
                 val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
-                writer.write("${configField.memberName}: \$D$terminator", configField.type)
+                val formatter = if(configField.memberName == "region") "\$N" else "\$D"
+                writer.write("${configField.memberName}: $formatter$terminator", configField.type)
             }
         }
 
