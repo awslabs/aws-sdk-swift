@@ -23,9 +23,9 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     private fun renderResolver(writer: SwiftWriter) {
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
 
-        writer.openBlock("struct DefaultEndpointResolver : EndpointResolver {", "}") {
-            writer.openBlock("func resolve(serviceId: String, region: String) throws -> AWSEndpoint {", "}") {
-                writer.write("return try AWSEndpoint.resolveEndpoint(partitions: servicePartitions, region: region)")
+        writer.openBlock("struct DefaultEndpointResolver : \$N {", "}", AWSClientRuntimeTypes.Core.EndpointResolver) {
+            writer.openBlock("func resolve(serviceId: String, region: String) throws -> \$N {", "}", AWSClientRuntimeTypes.Core.AWSEndpoint) {
+                writer.write("return try \$N.resolveEndpoint(partitions: servicePartitions, region: region)", AWSClientRuntimeTypes.Core.AWSEndpoint)
             }
         }
     }
@@ -45,12 +45,12 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     }
 
     private fun renderPartition(writer: SwiftWriter, partitionNode: PartitionNode) {
-        writer.openBlock("AWSClientRuntime.Partition(", "),") {
+        writer.openBlock("\$N(", "),", AWSClientRuntimeTypes.Core.Partition) {
             writer.write("id: \$S,", partitionNode.id)
                 .write("regionRegex: \$S,", partitionNode.config.expectStringMember("regionRegex").value)
                 .write("partitionEndpoint: \$S,", partitionNode.partitionEndpoint ?: "")
                 .write("isRegionalized: \$L,", partitionNode.partitionEndpoint == null)
-                .openBlock("defaults: ServiceEndpointMetadata(", "),") {
+                .openBlock("defaults: \$N(", "),", AWSClientRuntimeTypes.Core.ServiceEndpointMetadata) {
                     renderServiceEndpointMetadata(writer, partitionNode.defaults)
                 }
                 .openBlock("endpoints: [", "]") {
@@ -66,9 +66,9 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         partitionNode.endpoints.members.forEach {
             val definitionNode = it.value.expectObjectNode()
             if (definitionNode.members.isEmpty()) {
-                writer.write("\$S: ServiceEndpointMetadata(),", it.key.value)
+                writer.write("\$S: \$N(),", it.key.value, AWSClientRuntimeTypes.Core.ServiceEndpointMetadata)
             } else {
-                writer.openBlock("\$S: ServiceEndpointMetadata(", "),", it.key.value) {
+                writer.openBlock("\$S: \$N(", "),", it.key.value, AWSClientRuntimeTypes.Core.ServiceEndpointMetadata) {
                     renderServiceEndpointMetadata(writer, it.value.expectObjectNode())
                 }
             }
@@ -96,7 +96,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
         }
 
         credentialScope.ifPresent {
-            writer.writeInline("credentialScope: CredentialScope(")
+            writer.writeInline("credentialScope: \$N(", AWSClientRuntimeTypes.Core.CredentialScope)
             val region = it.getStringMember("region")
             val service = it.getStringMember("service")
             region.ifPresent {

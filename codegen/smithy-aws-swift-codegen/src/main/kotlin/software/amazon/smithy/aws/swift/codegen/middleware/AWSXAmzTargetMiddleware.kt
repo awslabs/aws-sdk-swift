@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -29,7 +30,7 @@ class AWSXAmzTargetMiddleware : OperationMiddlewareRenderable {
         val outputShape = ctx.model.expectShape(op.output.get())
         val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
         val outputErrorName = "${op.capitalizedName()}OutputError"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: XAmzTargetMiddleware<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(ctx, serviceShape, op)}))")
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(ctx, serviceShape, op)}))", AWSClientRuntimeTypes.AWSJSON.XAmzTargetMiddleware)
     }
 
     override fun middlewareParamsString(

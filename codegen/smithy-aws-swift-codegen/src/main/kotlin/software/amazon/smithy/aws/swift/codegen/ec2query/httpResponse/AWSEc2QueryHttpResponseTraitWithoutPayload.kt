@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.model.knowledge.HttpBinding
 import software.amazon.smithy.model.shapes.BooleanShape
 import software.amazon.smithy.model.shapes.ByteShape
@@ -58,7 +59,7 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
     }
 
     fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
-        writer.write("let output: Ec2NarrowedResponse<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)")
+        writer.write("let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
         bodyMembersWithoutQueryTrait.sorted().forEach {
             writer.write("self.$it = output.errors.error.$it")
         }

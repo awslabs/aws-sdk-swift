@@ -22,7 +22,7 @@ class AWSXAmzTargetMiddlewareTests {
     @Test
     fun `xAmzTargetMiddleware happypath`() {
         val expectedContents = """
-stack.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<TestInputShapeName, TestOutputShapeName, ExampleOperationOutputError>(xAmzTarget: "ExampleServiceShapeName.ExampleOperation"))
+stack.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TestInputShapeName, TestOutputShapeName, ExampleOperationOutputError>(xAmzTarget: "ExampleServiceShapeName.ExampleOperation"))
 """
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
