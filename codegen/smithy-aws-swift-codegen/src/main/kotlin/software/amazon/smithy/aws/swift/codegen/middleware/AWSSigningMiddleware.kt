@@ -44,7 +44,8 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
         renderConfigDeclaration(ctx, writer, serviceShape, op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: \$N(config: sigv4Config))", AWSClientRuntimeTypes.Signing.SigV4Middleware
+                "                                         middleware: \$N(config: sigv4Config))",
+            AWSClientRuntimeTypes.Signing.SigV4Middleware
         )
     }
 
