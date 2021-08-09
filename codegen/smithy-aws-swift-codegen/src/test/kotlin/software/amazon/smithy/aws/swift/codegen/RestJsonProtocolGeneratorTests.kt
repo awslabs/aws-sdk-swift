@@ -96,7 +96,7 @@ class RestJsonProtocolGeneratorTests {
                     self.config = config
                 }
             
-                public convenience init(region: Swift.String) throws {
+                public convenience init(region: Swift.String? = nil) throws {
                     let unwrappedRegion = region ?? "us-east-1"
                     let config = try ExampleClientConfiguration(region: unwrappedRegion)
                     self.init(config: config)
