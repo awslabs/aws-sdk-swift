@@ -44,6 +44,6 @@ private class S3SigningMiddleware() : AWSSigningMiddleware() {
         op: OperationShape
     ): String {
         val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-        return "signedBodyHeader: .contentSha256, unsignedBody: $hasUnsignedPayload"
+        return "useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: $hasUnsignedPayload"
     }
 }
