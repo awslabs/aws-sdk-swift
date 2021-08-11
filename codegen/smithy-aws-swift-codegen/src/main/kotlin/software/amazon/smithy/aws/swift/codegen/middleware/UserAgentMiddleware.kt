@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -23,7 +24,7 @@ class UserAgentMiddleware : OperationMiddlewareRenderable {
         op: OperationShape,
         operationStackName: String
     ) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: UserAgentMiddleware(${middlewareParamsString(ctx, serviceShape, op)}))")
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(${middlewareParamsString(ctx, serviceShape, op)}))", AWSClientRuntimeTypes.Core.UserAgentMiddleware)
     }
 
     override fun middlewareParamsString(
@@ -31,6 +32,6 @@ class UserAgentMiddleware : OperationMiddlewareRenderable {
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
-        return "metadata: AWSUserAgentMetadata.fromEnv(apiMetadata: APIMetadata(serviceId: serviceName, version: \"${ctx.settings.moduleVersion}\"))"
+        return "metadata: ${AWSClientRuntimeTypes.Core.AWSUserAgentMetadata}.fromEnv(apiMetadata: ${AWSClientRuntimeTypes.Core.APIMetadata}(serviceId: serviceName, version: \"${ctx.settings.moduleVersion}\"))"
     }
 }

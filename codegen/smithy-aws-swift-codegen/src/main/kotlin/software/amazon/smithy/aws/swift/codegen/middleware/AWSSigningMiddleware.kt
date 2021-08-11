@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.Model
@@ -29,7 +30,7 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
         serviceShape: ServiceShape,
         op: OperationShape
     ) {
-        writer.write("let sigv4Config = SigV4Config(${middlewareParamsString(ctx, serviceShape, op)})")
+        writer.write("let sigv4Config = \$N(${middlewareParamsString(ctx, serviceShape, op)})", AWSClientRuntimeTypes.Signing.SigV4Config)
     }
 
     override fun render(
@@ -43,7 +44,8 @@ open class AWSSigningMiddleware : OperationMiddlewareRenderable {
         renderConfigDeclaration(ctx, writer, serviceShape, op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: SigV4Middleware(config: sigv4Config))"
+                "                                         middleware: \$N(config: sigv4Config))",
+            AWSClientRuntimeTypes.Signing.SigV4Middleware
         )
     }
 

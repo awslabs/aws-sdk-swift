@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.awsjson
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
@@ -30,7 +31,7 @@ class AWSHttpProtocolJson11Customizations : AWSHttpProtocolCustomizations() {
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         if (test.headers.keys.contains("X-Amz-Target")) {
             val XAmzTargetValue = test.headers["X-Amz-Target"]
-            writer.write("$operationStack.serializeStep.intercept(position: .before, middleware: XAmzTargetMiddleware<${inputSymbol.name}, $outputSymbol, $outputErrorName>(xAmzTarget: \"${XAmzTargetValue}\"))")
+            writer.write("$operationStack.serializeStep.intercept(position: .before, middleware: \$N<${inputSymbol.name}, $outputSymbol, $outputErrorName>(xAmzTarget: \"${XAmzTargetValue}\"))", AWSClientRuntimeTypes.AWSJSON.XAmzTargetMiddleware)
         }
     }
 }

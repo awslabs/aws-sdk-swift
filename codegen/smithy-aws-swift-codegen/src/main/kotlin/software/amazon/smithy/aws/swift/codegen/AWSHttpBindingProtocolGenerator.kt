@@ -22,17 +22,9 @@ import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
 
-    override val serviceErrorProtocolSymbol: Symbol = Symbol.builder()
-        .name("AWSHttpServiceError")
-        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, "")
-        .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
-        .build()
+    override val serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSHttpServiceError
 
-    override val unknownServiceErrorSymbol: Symbol = Symbol.builder()
-        .name("UnknownAWSHttpServiceError")
-        .namespace(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, "")
-        .addDependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
-        .build()
+    override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHttpServiceError
 
     val serdeContextJSON = HttpProtocolUnitTestGenerator.SerdeContext("JSONEncoder()", "JSONDecoder()", ".secondsSince1970")
     val serdeContextXML = HttpProtocolUnitTestGenerator.SerdeContext("XMLEncoder()", "XMLDecoder()")
