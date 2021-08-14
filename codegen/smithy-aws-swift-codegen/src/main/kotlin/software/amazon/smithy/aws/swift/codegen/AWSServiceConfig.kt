@@ -25,14 +25,14 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         val awsConfigFields = otherRuntimeConfigProperties()
         writer.openBlock("public init(", ") throws {") {
             awsConfigFields.forEach {
-                val formatter = if (it.memberName == "region") "\$N" else "\$D"
-                writer.write("${it.memberName}: $formatter, ", it.type)
+                writer.write("${it.memberName}: \$D, ", it.type)
             }
             writer.write("runtimeConfig: \$N", ClientRuntimeTypes.Core.SDKRuntimeConfiguration)
         }
         writer.indent()
-        writer.write("self.region = region")
-        writer.write("self.signingRegion = signingRegion ?? region")
+        writer.write("let defaultRegion = DefaultRegionResolver.resolveDefaultRegion()")
+        writer.write("self.region = region ?? defaultRegion")
+        writer.write("self.signingRegion = signingRegion ?? defaultRegion")
         writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
         writer.openBlock("if let credProvider = credentialsProvider {", "} else {") {
             writer.write("self.credentialsProvider = credProvider")
@@ -50,8 +50,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
 
             awsConfigFields.forEachIndexed { index, configField ->
                 val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
-                val formatter = if (configField.memberName == "region") "\$N" else "\$D"
-                writer.write("${configField.memberName}: $formatter$terminator", configField.type)
+                writer.write("${configField.memberName}: \$D$terminator", configField.type)
             }
         }
 
