@@ -16,7 +16,7 @@ class RegionTests: XCTestCase {
     }
     
     func testItResolvesRegionFromEnvironment() {
-        let region = DefaultRegionResolver().resolveRegionFromProviders()
+        let region = MockRegionResolver().resolveRegionFromProviders()
         XCTAssertEqual(region, "us-west-1")
     }
     
@@ -26,3 +26,29 @@ class RegionTests: XCTestCase {
 
 }
 
+    
+struct MockEnvironment: Environment {
+    func environmentVariable(key: String) -> String? {
+        return "us-west-1"
+    }
+}
+
+struct MockRegionResolver: RegionResolver {
+    var providers: [RegionProvider]
+    
+    init() {
+        self.providers = [EnvironmentRegionProvider(env: MockEnvironment())]
+    }
+    
+    func resolveRegionFromProviders() -> String? {
+        for provider in providers {
+            guard let region = provider.resolveRegion() else {
+                return nil
+            }
+            
+            return region
+        }
+        
+        return nil
+    }
+}
