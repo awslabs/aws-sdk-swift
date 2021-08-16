@@ -1,3 +1,8 @@
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0.
+ */
+
 package software.amazon.smithy.aws.swift.codegen.restxml.httpResponse
 
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
