@@ -24,7 +24,7 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
     Self.Context == H.Context,
     Self.MError == H.MiddlewareError {
         
-        guard let region = context.getRegion() else {
+        guard let region = context.getRegion(), !region.isEmpty else {
             return .failure(.client(ClientError.unknownError(("Region is unable to be resolved"))))
         }
         
