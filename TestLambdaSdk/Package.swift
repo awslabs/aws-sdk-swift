@@ -1,6 +1,11 @@
 // swift-tools-version:5.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0.
+ */
+
 import PackageDescription
 
 let package = Package(
