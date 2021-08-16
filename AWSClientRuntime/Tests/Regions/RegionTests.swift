@@ -16,7 +16,7 @@ class RegionTests: XCTestCase {
     }
     
     func testItResolvesRegionFromEnvironment() {
-        let region = DefaultRegionResolver.resolveDefaultRegion()
+        let region = DefaultRegionResolver().resolveRegionFromProviders()
         XCTAssertEqual(region, "us-west-1")
     }
     

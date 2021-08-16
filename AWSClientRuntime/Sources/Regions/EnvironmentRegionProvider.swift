@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import class Foundation.ProcessInfo
-struct EnvironmentRegionResolver: RegionResolver {
+struct EnvironmentRegionProvider: RegionProvider {
     private let AWS_ENVIRON_REGION = "AWS_REGION"
     func resolveRegion() -> String? {
         if let value = ProcessInfo.processInfo.environment[AWS_ENVIRON_REGION] {

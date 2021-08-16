@@ -119,16 +119,19 @@ class RestJsonProtocolGeneratorTests {
                     public var credentialsProvider: AWSClientRuntime.AWSCredentialsProvider
                     public var endpointResolver: AWSClientRuntime.EndpointResolver
                     public var region: Swift.String?
+                    public var regionResolver: AWSClientRuntime.RegionResolver
                     public var signingRegion: Swift.String?
             
                     public init(
                         credentialsProvider: AWSClientRuntime.AWSCredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
                         region: Swift.String? = nil,
+                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
                     ) throws {
-                        let defaultRegion = DefaultRegionResolver.resolveDefaultRegion()
+                        self.regionResolver = regionResolver ?? DefaultRegionResolver()
+                        let defaultRegion = self.regionResolver.resolveRegionFromProviders()
                         self.region = region ?? defaultRegion
                         self.signingRegion = signingRegion ?? defaultRegion
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
@@ -151,10 +154,11 @@ class RestJsonProtocolGeneratorTests {
                         credentialsProvider: AWSClientRuntime.AWSCredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
                         region: Swift.String? = nil,
+                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil
                     ) throws {
                         let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
-                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
+                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
                 }
             }

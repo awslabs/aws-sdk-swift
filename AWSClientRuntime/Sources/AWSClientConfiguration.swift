@@ -10,6 +10,7 @@ public protocol AWSRuntimeConfiguration {
     var region: String? { get set }
     var signingRegion: String? {get set}
     var endpointResolver: EndpointResolver {get set}
+    var regionResolver: RegionResolver {get set}
 }
 
 public typealias AWSClientConfiguration = SDKRuntimeConfiguration & AWSRuntimeConfiguration

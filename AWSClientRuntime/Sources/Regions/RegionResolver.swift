@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-protocol RegionResolver {
-    func resolveRegion() -> String?
+public protocol RegionResolver {
+    var providers: [RegionProvider] {get set}
+    func resolveRegionFromProviders() -> String?
 }
