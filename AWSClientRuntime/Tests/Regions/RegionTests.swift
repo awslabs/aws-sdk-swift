@@ -16,8 +16,15 @@ class RegionTests: XCTestCase {
     }
     
     func testItResolvesRegionFromEnvironment() {
-        let region = MockRegionResolver().resolveRegionFromProviders()
+        let providers = [EnvironmentRegionProvider(env: MockEnvironment())]
+        let region = MockRegionResolver(providers: providers).resolveRegionFromProviders()
         XCTAssertEqual(region, "us-west-1")
+    }
+    
+    func testCustomChain() {
+        let providers: [RegionProvider] = [MockRegionProvider1(), MockRegionProvider2(), MockRegionProvider3()]
+        let region = MockRegionResolver(providers: providers).resolveRegionFromProviders()
+        XCTAssertEqual(region, "us-east-1")
     }
     
     func mockEnvironmentVar(name: String, value: String, overwrite: Bool) {
@@ -33,17 +40,35 @@ struct MockEnvironment: Environment {
     }
 }
 
+struct MockRegionProvider1: RegionProvider {
+    func resolveRegion() -> String? {
+        return nil
+    }
+}
+
+struct MockRegionProvider2: RegionProvider {
+    func resolveRegion() -> String? {
+        return "us-east-1"
+    }
+}
+
+struct MockRegionProvider3: RegionProvider {
+    func resolveRegion() -> String? {
+        return "us-east-2"
+    }
+}
+
 struct MockRegionResolver: RegionResolver {
     var providers: [RegionProvider]
     
-    init() {
-        self.providers = [EnvironmentRegionProvider(env: MockEnvironment())]
+    init(providers: [RegionProvider]) {
+        self.providers = providers
     }
     
     func resolveRegionFromProviders() -> String? {
         for provider in providers {
             guard let region = provider.resolveRegion() else {
-                return nil
+                continue
             }
             
             return region
