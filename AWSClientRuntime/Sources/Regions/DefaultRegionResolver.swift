@@ -9,7 +9,7 @@ public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     
     public init(providers: [RegionProvider] = [EnvironmentRegionProvider()]) {
-        //TODO: add more region resolvers i.e. Profile, etc
+        // TODO: add more region resolvers i.e. Profile, etc
         self.providers = providers
     }
     

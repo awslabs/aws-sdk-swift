@@ -6,11 +6,14 @@ package software.amazon.smithy.aws.swift.codegen.customization.s3
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
+import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
+import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
 /**
@@ -20,6 +23,10 @@ class S3SigningConfig : SwiftIntegration {
 
     override val order: Byte
         get() = 127
+
+    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
+        return model.expectShape<ServiceShape>(settings.service).isS3
+    }
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
