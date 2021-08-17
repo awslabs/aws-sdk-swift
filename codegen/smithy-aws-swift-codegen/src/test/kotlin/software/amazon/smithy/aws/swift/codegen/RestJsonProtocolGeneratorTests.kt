@@ -131,7 +131,7 @@ class RestJsonProtocolGeneratorTests {
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
                     ) throws {
                         self.regionResolver = regionResolver ?? DefaultRegionResolver()
-                        let defaultRegion = self.regionResolver.resolveRegionFromProviders()
+                        let defaultRegion = self.regionResolver.resolveRegion()
                         self.region = region ?? defaultRegion
                         self.signingRegion = signingRegion ?? defaultRegion
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
