@@ -8,9 +8,9 @@
 public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     
-    public init() {
+    public init(providers: [RegionProvider] = [EnvironmentRegionProvider()]) {
         //TODO: add more region resolvers i.e. Profile, etc
-        self.providers = [EnvironmentRegionProvider()]
+        self.providers = providers
     }
     
     public func resolveRegion() -> String? {

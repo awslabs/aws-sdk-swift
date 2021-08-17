@@ -6,25 +6,27 @@
 //
 import class Foundation.ProcessInfo
 
-struct EnvironmentRegionProvider: RegionProvider {
+public struct EnvironmentRegionProvider: RegionProvider {
     private let AWS_ENVIRON_REGION = "AWS_REGION"
     private let env: Environment
     
-    init(env: Environment = ProcessEnvironment()) {
+    public init(env: Environment = ProcessEnvironment()) {
         self.env = env
     }
     
-    func resolveRegion() -> String? {
+    public func resolveRegion() -> String? {
         return env.environmentVariable(key: AWS_ENVIRON_REGION)
     }
 }
 
-struct ProcessEnvironment: Environment {
-    func environmentVariable(key: String) -> String? {
+public struct ProcessEnvironment: Environment {
+    public init() {}
+    
+    public func environmentVariable(key: String) -> String? {
         return ProcessInfo.processInfo.environment[key]
     }
 }
 
-protocol Environment {
+public protocol Environment {
     func environmentVariable(key: String) -> String?
 }
