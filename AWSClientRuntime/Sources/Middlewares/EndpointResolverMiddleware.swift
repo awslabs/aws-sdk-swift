@@ -19,12 +19,15 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                           input: SdkHttpRequestBuilder,
                           next: H) -> Result<OperationOutput<OperationStackOutput>, MError>
     where H: Handler,
-          Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context,
-          Self.MError == H.MiddlewareError {
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context,
+    Self.MError == H.MiddlewareError {
         
-        let region = context.getRegion()
+        guard let region = context.getRegion(), !region.isEmpty else {
+            return .failure(.client(ClientError.unknownError(("Region is unable to be resolved"))))
+        }
+        
         do {
             let awsEndpoint = try endpointResolver.resolve(serviceId: serviceId,
                                                            region: region)
@@ -48,7 +51,7 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                 .withHost(host)
                 .withPort(awsEndpoint.endpoint.port)
                 .withPath(context.getPath())
-                // TODO: investigate if this header should be the same host value as the actual host and where this header should be set
+            // TODO: investigate if this header should be the same host value as the actual host and where this header should be set
                 .withHeader(name: "Host", value: host)
             
             return next.handle(context: updatedContext, input: input)
