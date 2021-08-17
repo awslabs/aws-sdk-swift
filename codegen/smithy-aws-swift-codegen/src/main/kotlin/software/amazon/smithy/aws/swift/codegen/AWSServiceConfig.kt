@@ -32,7 +32,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         }
         writer.indent()
         writer.write("self.regionResolver = regionResolver ?? DefaultRegionResolver()")
-        writer.write("let defaultRegion = self.regionResolver.resolveRegionFromProviders()")
+        writer.write("let defaultRegion = self.regionResolver.resolveRegion()")
         writer.write("self.region = region ?? defaultRegion")
         writer.write("self.signingRegion = signingRegion ?? defaultRegion")
         writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
