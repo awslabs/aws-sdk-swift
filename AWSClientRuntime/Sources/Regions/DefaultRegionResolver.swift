@@ -6,22 +6,19 @@
 //
 
 public struct DefaultRegionResolver: RegionResolver {
-    public var providers: [RegionProvider]
+    public let providers: [RegionProvider]
     
     public init() {
         //TODO: add more region resolvers i.e. Profile, etc
         self.providers = [EnvironmentRegionProvider()]
     }
     
-    public func resolveRegionFromProviders() -> String? {
+    public func resolveRegion() -> String? {
         for provider in providers {
-            guard let region = provider.resolveRegion() else {
-                return nil
+            if let region = provider.resolveRegion() {
+                return region
             }
-            
-            return region
         }
-        
         return nil
     }
 }

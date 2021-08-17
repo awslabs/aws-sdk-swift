@@ -6,6 +6,6 @@
 //
 
 public protocol RegionResolver {
-    var providers: [RegionProvider] {get set}
-    func resolveRegionFromProviders() -> String?
+    var providers: [RegionProvider] {get}
+    func resolveRegion() -> String?
 }

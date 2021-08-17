@@ -44,7 +44,8 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
             return .failure(.client(ClientError.authError("AwsSigv4Signer requires a signing service")))
         }
         
-        guard let signingRegion = context.getSigningRegion() else {
+        guard let signingRegion = context.getSigningRegion(),
+              !signingRegion.isEmpty else {
             return .failure(.client(ClientError.authError("AwsSigv4Signer requires a signing region")))
         }
         

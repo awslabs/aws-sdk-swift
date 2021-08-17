@@ -8,7 +8,7 @@ import class Foundation.ProcessInfo
 
 struct EnvironmentRegionProvider: RegionProvider {
     private let AWS_ENVIRON_REGION = "AWS_REGION"
-    let env: Environment
+    private let env: Environment
     
     init(env: Environment = ProcessEnvironment()) {
         self.env = env
