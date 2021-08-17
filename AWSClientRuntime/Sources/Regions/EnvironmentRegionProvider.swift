@@ -26,7 +26,3 @@ public struct ProcessEnvironment: Environment {
         return ProcessInfo.processInfo.environment[key]
     }
 }
-
-public protocol Environment {
-    func environmentVariable(key: String) -> String?
-}
