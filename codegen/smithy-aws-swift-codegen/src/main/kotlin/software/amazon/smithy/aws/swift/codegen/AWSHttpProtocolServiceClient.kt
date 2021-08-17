@@ -21,8 +21,7 @@ class AWSHttpProtocolServiceClient(
 ) : HttpProtocolServiceClient(ctx, writer, properties, serviceConfig) {
     override fun renderConvenienceInit(serviceSymbol: Symbol) {
         writer.openBlock("public convenience init(region: \$D) throws {", "}", SwiftTypes.String) {
-            writer.write("let unwrappedRegion = region ?? \"us-east-1\"") // TODO: replace with call to region resolver
-            writer.write("let config = try ${serviceConfig.typeName}(region: unwrappedRegion)")
+            writer.write("let config = try ${serviceConfig.typeName}(region: region)")
             writer.write("self.init(config: config)")
         }
     }

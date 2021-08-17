@@ -97,8 +97,7 @@ class RestJsonProtocolGeneratorTests {
                 }
             
                 public convenience init(region: Swift.String? = nil) throws {
-                    let unwrappedRegion = region ?? "us-east-1"
-                    let config = try ExampleClientConfiguration(region: unwrappedRegion)
+                    let config = try ExampleClientConfiguration(region: region)
                     self.init(config: config)
                 }
             
@@ -119,18 +118,22 @@ class RestJsonProtocolGeneratorTests {
             
                     public var credentialsProvider: AWSClientRuntime.AWSCredentialsProvider
                     public var endpointResolver: AWSClientRuntime.EndpointResolver
-                    public var region: Swift.String
-                    public var signingRegion: Swift.String
+                    public var region: Swift.String?
+                    public var regionResolver: AWSClientRuntime.RegionResolver
+                    public var signingRegion: Swift.String?
             
                     public init(
                         credentialsProvider: AWSClientRuntime.AWSCredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
-                        region: Swift.String,
+                        region: Swift.String? = nil,
+                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
                     ) throws {
-                        self.region = region
-                        self.signingRegion = signingRegion ?? region
+                        self.regionResolver = regionResolver ?? DefaultRegionResolver()
+                        let defaultRegion = self.regionResolver.resolveRegion()
+                        self.region = region ?? defaultRegion
+                        self.signingRegion = signingRegion ?? defaultRegion
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
                         if let credProvider = credentialsProvider {
                             self.credentialsProvider = credProvider
@@ -150,11 +153,12 @@ class RestJsonProtocolGeneratorTests {
                     public convenience init(
                         credentialsProvider: AWSClientRuntime.AWSCredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
-                        region: Swift.String,
+                        region: Swift.String? = nil,
+                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil
                     ) throws {
                         let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
-                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
+                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
                 }
             }

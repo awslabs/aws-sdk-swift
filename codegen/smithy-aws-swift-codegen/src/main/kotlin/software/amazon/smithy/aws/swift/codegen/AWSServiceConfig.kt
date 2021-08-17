@@ -16,6 +16,7 @@ const val REGION_CONFIG_NAME = "region"
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 const val ENDPOINT_RESOLVER = "endpointResolver"
+const val REGION_RESOLVER = "regionResolver"
 
 class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {
     override val typesToConformConfigTo: List<Symbol>
@@ -25,14 +26,15 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         val awsConfigFields = otherRuntimeConfigProperties()
         writer.openBlock("public init(", ") throws {") {
             awsConfigFields.forEach {
-                val formatter = if (it.memberName == "region") "\$N" else "\$D"
-                writer.write("${it.memberName}: $formatter, ", it.type)
+                writer.write("${it.memberName}: \$D, ", it.type)
             }
             writer.write("runtimeConfig: \$N", ClientRuntimeTypes.Core.SDKRuntimeConfiguration)
         }
         writer.indent()
-        writer.write("self.region = region")
-        writer.write("self.signingRegion = signingRegion ?? region")
+        writer.write("self.regionResolver = regionResolver ?? DefaultRegionResolver()")
+        writer.write("let defaultRegion = self.regionResolver.resolveRegion()")
+        writer.write("self.region = region ?? defaultRegion")
+        writer.write("self.signingRegion = signingRegion ?? defaultRegion")
         writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
         writer.openBlock("if let credProvider = credentialsProvider {", "} else {") {
             writer.write("self.credentialsProvider = credProvider")
@@ -50,8 +52,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
 
             awsConfigFields.forEachIndexed { index, configField ->
                 val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
-                val formatter = if (configField.memberName == "region") "\$N" else "\$D"
-                writer.write("${configField.memberName}: $formatter$terminator", configField.type)
+                writer.write("${configField.memberName}: \$D$terminator", configField.type)
             }
         }
 
@@ -70,17 +71,19 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
             ConfigField(
                 REGION_CONFIG_NAME,
                 SwiftTypes.String,
+                "\$T",
                 "The region to send requests to. (Required)"
             ),
             ConfigField(
                 CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
-                "The credentials provider to use to authenticate requests."
+                documentation = "The credentials provider to use to authenticate requests."
             ),
-            ConfigField(SIGNING_REGION_CONFIG_NAME, SwiftTypes.String, "The region to sign requests in. (Required)"),
+            ConfigField(SIGNING_REGION_CONFIG_NAME, SwiftTypes.String, "\$T", "The region to sign requests in. (Required)"),
             ConfigField(
                 ENDPOINT_RESOLVER, AWSClientRuntimeTypes.Core.EndpointResolver,
-                "The endpoint resolver used to resolve endpoints."
-            )
+                documentation = "The endpoint resolver used to resolve endpoints."
+            ),
+            ConfigField(REGION_RESOLVER, AWSClientRuntimeTypes.Core.RegionResolver, documentation = "The region resolver uses an array of region providers to resolve the region.")
         ).sortedBy { it.memberName }
     }
 }

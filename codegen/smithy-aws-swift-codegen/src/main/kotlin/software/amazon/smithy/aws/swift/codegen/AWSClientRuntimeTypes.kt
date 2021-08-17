@@ -43,6 +43,7 @@ object AWSClientRuntimeTypes {
         val CredentialScope = runtimeSymbol("CredentialScope")
         val UnknownAWSHttpServiceError = runtimeSymbol("UnknownAWSHttpServiceError")
         val AWSHttpServiceError = runtimeSymbol("AWSHttpServiceError")
+        val RegionResolver = runtimeSymbol("RegionResolver")
     }
 }
 
