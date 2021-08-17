@@ -32,8 +32,6 @@ class S3SigningConfig : SwiftIntegration {
         ctx: ProtocolGenerator.GenerationContext,
         resolved: List<OperationMiddlewareRenderable>
     ): List<OperationMiddlewareRenderable> {
-        if (!ctx.service.isS3) return resolved
-
         val middleware = resolved.filterNot {
             it.name == "AWSSigningMiddleware"
         }.toMutableList()
