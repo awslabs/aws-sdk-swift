@@ -13,7 +13,7 @@ class MutateHeadersMiddleware(
     val extraHeaders: Map<String, String> = emptyMap(),
     val overrideHeaders: Map<String, String> = emptyMap(),
     val addMissingHeaders: Map<String, String> = emptyMap(),
-): OperationMiddlewareRenderable {
+) : OperationMiddlewareRenderable {
     override val name = "MutateHeaderMiddleware"
 
     override val middlewareStep = MiddlewareStep.BUILDSTEP
@@ -38,35 +38,35 @@ class MutateHeadersMiddleware(
 
         val overrideHeadersString: StringBuilder = StringBuilder()
         overrideHeaders.forEach {
-            val terminator = if(it.key == overrideHeaders.keys.last()) "" else ","
+            val terminator = if (it.key == overrideHeaders.keys.last()) "" else ","
             overrideHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
         }
-        val extraHeadersString: StringBuilder =StringBuilder()
+        val extraHeadersString: StringBuilder = StringBuilder()
         extraHeaders.forEach {
-            val terminator = if(it.key == extraHeaders.keys.last()) "" else ","
+            val terminator = if (it.key == extraHeaders.keys.last()) "" else ","
             extraHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
         }
         val addMissingHeadersString: StringBuilder = StringBuilder()
         addMissingHeaders.forEach {
-            val terminator = if(it.key == addMissingHeaders.keys.last()) "" else ","
+            val terminator = if (it.key == addMissingHeaders.keys.last()) "" else ","
             addMissingHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
         }
         val paramString = StringBuilder()
-        if(overrideHeaders.isNotEmpty()) {
-            paramString.append("overrides: [${overrideHeadersString}]")
+        if (overrideHeaders.isNotEmpty()) {
+            paramString.append("overrides: [$overrideHeadersString]")
         }
-        if(overrideHeaders.isNotEmpty() && extraHeaders.isNotEmpty()) {
+        if (overrideHeaders.isNotEmpty() && extraHeaders.isNotEmpty()) {
             paramString.append(", ")
         }
 
         if (extraHeaders.isNotEmpty()) {
-            paramString.append("additional: [${extraHeadersString}]")
+            paramString.append("additional: [$extraHeadersString]")
         }
 
-        if((extraHeaders.isNotEmpty() || overrideHeaders.isNotEmpty()) && addMissingHeaders.isNotEmpty()) paramString.append(", ")
+        if ((extraHeaders.isNotEmpty() || overrideHeaders.isNotEmpty()) && addMissingHeaders.isNotEmpty()) paramString.append(", ")
 
-        if(addMissingHeaders.isNotEmpty()) {
-            paramString.append("conditionallySet: [${addMissingHeadersString}]")
+        if (addMissingHeaders.isNotEmpty()) {
+            paramString.append("conditionallySet: [$addMissingHeadersString]")
         }
 
         return paramString.toString()
