@@ -35,21 +35,40 @@ class MutateHeadersMiddleware(
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
-        val overrideHeadersString = ""
+
+        val overrideHeadersString: StringBuilder = StringBuilder()
         overrideHeaders.forEach {
             val terminator = if(it.key == overrideHeaders.keys.last()) "" else ","
-            overrideHeadersString.plus("\"${it.key}\": \"${it.value}\"$terminator")
+            overrideHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
         }
-        val extraHeadersString = ""
+        val extraHeadersString: StringBuilder =StringBuilder()
         extraHeaders.forEach {
             val terminator = if(it.key == extraHeaders.keys.last()) "" else ","
-            extraHeadersString.plus("\"${it.key}\": \"${it.value}\"$terminator")
+            extraHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
         }
-        val missingHeadersString = ""
+        val addMissingHeadersString: StringBuilder = StringBuilder()
         addMissingHeaders.forEach {
             val terminator = if(it.key == addMissingHeaders.keys.last()) "" else ","
-            missingHeadersString.plus("\"${it.key}\": \"${it.value}\"$terminator")
+            addMissingHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
         }
-        return "overrides: [$overrideHeadersString], additional: [$extraHeadersString], conditionallySet: [$addMissingHeaders]"
+        val paramString = StringBuilder()
+        if(overrideHeaders.isNotEmpty()) {
+            paramString.append("overrides: [${overrideHeadersString}]")
+        }
+        if(overrideHeaders.isNotEmpty() && extraHeaders.isNotEmpty()) {
+            paramString.append(", ")
+        }
+
+        if (extraHeaders.isNotEmpty()) {
+            paramString.append("additional: [${extraHeadersString}]")
+        }
+
+        if((extraHeaders.isNotEmpty() || overrideHeaders.isNotEmpty()) && addMissingHeaders.isNotEmpty()) paramString.append(", ")
+
+        if(addMissingHeaders.isNotEmpty()) {
+            paramString.append("conditionallySet: [${addMissingHeadersString}]")
+        }
+
+        return paramString.toString()
     }
 }
