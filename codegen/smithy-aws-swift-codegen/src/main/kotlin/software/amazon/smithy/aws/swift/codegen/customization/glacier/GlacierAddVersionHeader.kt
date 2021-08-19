@@ -10,7 +10,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectShape
 
-class GlacierAddVersionHeader: SwiftIntegration {
+class GlacierAddVersionHeader : SwiftIntegration {
 
     override fun enabledForService(model: Model, settings: SwiftSettings) =
         model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
