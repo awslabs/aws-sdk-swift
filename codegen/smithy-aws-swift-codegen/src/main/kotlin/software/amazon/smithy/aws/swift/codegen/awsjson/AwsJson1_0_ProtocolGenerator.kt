@@ -25,7 +25,7 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
     override val httpResponseGenerator = HttpResponseGenerator(
-        serviceErrorProtocolSymbol,
+        serviceErrorProtocolSymbol(),
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSJsonHttpResponseBindingErrorGenerator()

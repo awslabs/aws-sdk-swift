@@ -22,6 +22,9 @@ object AWSClientRuntimeTypes {
     object RestXML {
         val RestXMLError = runtimeSymbol("RestXMLError")
         val ErrorResponseContainer = runtimeSymbol("ErrorResponseContainer")
+        object S3 {
+            val S3HttpServiceError = runtimeSymbol("S3HttpServiceError")
+        }
     }
 
     object Signing {

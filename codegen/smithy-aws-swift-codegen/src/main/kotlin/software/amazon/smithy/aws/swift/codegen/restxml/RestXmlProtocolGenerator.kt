@@ -5,9 +5,11 @@
 
 package software.amazon.smithy.aws.swift.codegen.restxml
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFactory
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
+import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
@@ -25,6 +27,10 @@ import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXM
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
+    override fun serviceErrorProtocolSymbol(): Symbol {
+        // wrong
+        return AWSClientRuntimeTypes.RestXML.S3.S3HttpServiceError
+    }
     override val codingKeysGenerator: CodingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationXmlName())
     override val defaultContentType: String = "application/xml"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.DATE_TIME
@@ -32,7 +38,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolRestXMLCustomizations()
     override val httpResponseGenerator = HttpResponseGenerator(
-        serviceErrorProtocolSymbol,
+        serviceErrorProtocolSymbol(),
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),
