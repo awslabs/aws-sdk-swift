@@ -5,7 +5,6 @@
 
 package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
