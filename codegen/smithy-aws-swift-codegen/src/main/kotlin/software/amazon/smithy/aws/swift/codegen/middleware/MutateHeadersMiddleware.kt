@@ -40,7 +40,7 @@ class MutateHeadersMiddleware(
         val extraHeadersString = extraHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
         val addMissingHeadersString = addMissingHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
 
-        var parameters =  mutableListOf<String>()
+        var parameters = mutableListOf<String>()
         if (overrideHeadersString.isNotEmpty()) {
             parameters.add("overrides: [$overrideHeadersString]")
         }
@@ -50,6 +50,6 @@ class MutateHeadersMiddleware(
         if (addMissingHeadersString.isNotEmpty()) {
             parameters.add("conditionallySet: [$addMissingHeadersString]")
         }
-        return parameters.joinToString {it}
+        return parameters.joinToString { it }
     }
 }
