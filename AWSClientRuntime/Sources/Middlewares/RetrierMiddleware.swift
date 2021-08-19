@@ -28,7 +28,7 @@ public struct RetrierMiddleware<Output: HttpResponseBinding,
           Self.MError == H.MiddlewareError {
         
         do {
-            let partitionId = "\(context.getServiceName()) - \(context.getRegion())"
+            let partitionId = "\(context.getServiceName()) - \(String(describing: context.getRegion()))"
             let token = try retrier.acquireToken(partitionId: partitionId)
             return try tryRequest(token: token, partitionId: partitionId, context: context, input: input, next: next)
             
