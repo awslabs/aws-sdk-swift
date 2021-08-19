@@ -64,7 +64,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """            
-            extension ComplexXMLError: AWSClientRuntime.AWSHttpServiceError {
+            extension ComplexXMLError {
                 public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
                         self.header = headerHeaderValue
@@ -74,7 +74,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
                         let data = reader.toBytes().toData()
-                        let output: ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
+                        let output: AWSClientRuntime.ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.error.nested
                         self.topLevel = output.error.topLevel
                     } else {
@@ -130,7 +130,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension ComplexXMLErrorNoErrorWrapping: AWSClientRuntime.AWSHttpServiceError {
+            extension ComplexXMLErrorNoErrorWrapping {
                 public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
                         self.header = headerHeaderValue
