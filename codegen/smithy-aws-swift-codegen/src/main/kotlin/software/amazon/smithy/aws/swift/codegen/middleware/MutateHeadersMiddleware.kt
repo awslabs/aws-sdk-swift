@@ -10,9 +10,9 @@ import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRende
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class MutateHeadersMiddleware(
-    val extraHeaders: Map<String, String> = emptyMap(),
-    val overrideHeaders: Map<String, String> = emptyMap(),
-    val addMissingHeaders: Map<String, String> = emptyMap(),
+    private val extraHeaders: Map<String, String> = emptyMap(),
+    private val overrideHeaders: Map<String, String> = emptyMap(),
+    private val addMissingHeaders: Map<String, String> = emptyMap(),
 ) : OperationMiddlewareRenderable {
     override val name = "MutateHeaderMiddleware"
 
@@ -27,7 +27,8 @@ class MutateHeadersMiddleware(
         op: OperationShape,
         operationStackName: String
     ) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(${middlewareParamsString(ctx, serviceShape, op)}))", ClientRuntimeTypes.Middleware.MutateHeadersMiddleware)
+        val paramsString = middlewareParamsString(ctx, serviceShape, op)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N($paramsString))", ClientRuntimeTypes.Middleware.MutateHeadersMiddleware)
     }
 
     override fun middlewareParamsString(
@@ -35,40 +36,20 @@ class MutateHeadersMiddleware(
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
+        val overrideHeadersString = overrideHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
+        val extraHeadersString = extraHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
+        val addMissingHeadersString = addMissingHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
 
-        val overrideHeadersString: StringBuilder = StringBuilder()
-        overrideHeaders.forEach {
-            val terminator = if (it.key == overrideHeaders.keys.last()) "" else ","
-            overrideHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
+        var parameters =  mutableListOf<String>()
+        if (overrideHeadersString.isNotEmpty()) {
+            parameters.add("overrides: [$overrideHeadersString]")
         }
-        val extraHeadersString: StringBuilder = StringBuilder()
-        extraHeaders.forEach {
-            val terminator = if (it.key == extraHeaders.keys.last()) "" else ","
-            extraHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
+        if (extraHeadersString.isNotEmpty()) {
+            parameters.add("additional: [$extraHeadersString]")
         }
-        val addMissingHeadersString: StringBuilder = StringBuilder()
-        addMissingHeaders.forEach {
-            val terminator = if (it.key == addMissingHeaders.keys.last()) "" else ","
-            addMissingHeadersString.append("\"${it.key}\": \"${it.value}\"$terminator")
+        if (addMissingHeadersString.isNotEmpty()) {
+            parameters.add("conditionallySet: [$addMissingHeadersString]")
         }
-        val paramString = StringBuilder()
-        if (overrideHeaders.isNotEmpty()) {
-            paramString.append("overrides: [$overrideHeadersString]")
-        }
-        if (overrideHeaders.isNotEmpty() && extraHeaders.isNotEmpty()) {
-            paramString.append(", ")
-        }
-
-        if (extraHeaders.isNotEmpty()) {
-            paramString.append("additional: [$extraHeadersString]")
-        }
-
-        if ((extraHeaders.isNotEmpty() || overrideHeaders.isNotEmpty()) && addMissingHeaders.isNotEmpty()) paramString.append(", ")
-
-        if (addMissingHeaders.isNotEmpty()) {
-            paramString.append("conditionallySet: [$addMissingHeadersString]")
-        }
-
-        return paramString.toString()
+        return parameters.joinToString {it}
     }
 }

@@ -14,12 +14,12 @@ class ApiGatewayAddAcceptHeader : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings) =
         model.expectShape<ServiceShape>(settings.service).sdkId.equals("API Gateway", ignoreCase = true)
 
-    private val addAcceptHeaderMiddleware = MutateHeadersMiddleware(extraHeaders = mapOf("Accept" to "application/json"))
+    private val acceptHeaderMiddleware = MutateHeadersMiddleware(extraHeaders = mapOf("Accept" to "application/json"))
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
         resolved: List<OperationMiddlewareRenderable>
     ): List<OperationMiddlewareRenderable> {
-        return resolved + addAcceptHeaderMiddleware
+        return resolved + acceptHeaderMiddleware
     }
 }
