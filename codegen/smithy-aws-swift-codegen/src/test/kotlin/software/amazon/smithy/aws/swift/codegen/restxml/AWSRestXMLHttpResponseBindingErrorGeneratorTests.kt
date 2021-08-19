@@ -91,7 +91,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
     @Test
-    fun `004 ComplexXMLError extends from AWSHttpServiceError (soon to be changed to S3 Specific) `() {
+    fun `004 ComplexXMLError extends from AWSHttpServiceError`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
         val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLError.swift")
         contents.shouldSyntacticSanityCheck()
