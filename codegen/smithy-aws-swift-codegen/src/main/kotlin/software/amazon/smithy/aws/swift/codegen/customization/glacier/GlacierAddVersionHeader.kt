@@ -10,6 +10,10 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectShape
 
+/**
+ * Adds a middleware that sets the "X-Amz-Glacier-Version" header to the service model version for all requests
+ * See https://docs.aws.amazon.com/amazonglacier/latest/dev/api-common-request-headers.html
+ */
 class GlacierAddVersionHeader : SwiftIntegration {
 
     override fun enabledForService(model: Model, settings: SwiftSettings) =
