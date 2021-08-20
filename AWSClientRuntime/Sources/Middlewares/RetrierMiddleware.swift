@@ -22,13 +22,16 @@ public struct RetrierMiddleware<Output: HttpResponseBinding,
                           input: SdkHttpRequestBuilder,
                           next: H) -> Result<OperationOutput<Output>, SdkError<OutputError>>
     where H: Handler,
-          Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context,
-          Self.MError == H.MiddlewareError {
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context,
+    Self.MError == H.MiddlewareError {
         
+        guard let region = context.getRegion(), !region.isEmpty else {
+            return .failure(.client(ClientError.unknownError(("Region is unable to be resolved"))))
+        }
         do {
-            let partitionId = "\(context.getServiceName()) - \(String(describing: context.getRegion()))"
+            let partitionId = "\(context.getServiceName()) - \(region))"
             let token = try retrier.acquireToken(partitionId: partitionId)
             return try tryRequest(token: token, partitionId: partitionId, context: context, input: input, next: next)
             
@@ -44,10 +47,10 @@ public struct RetrierMiddleware<Output: HttpResponseBinding,
                        input: SdkHttpRequestBuilder,
                        next: H) throws -> Result<OperationOutput<Output>, SdkError<OutputError>>
     where H: Handler,
-          Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context,
-          Self.MError == H.MiddlewareError {
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context,
+    Self.MError == H.MiddlewareError {
         defer { retrier.releaseToken(token: token)}
         
         let serviceResponse = next.handle(context: context, input: input)
