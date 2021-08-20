@@ -20,6 +20,8 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     api("software.amazon.smithy:smithy-swift-codegen:$smithySwiftVersion")
     api("software.amazon.smithy:smithy-aws-traits:$smithyVersion")
+    api("software.amazon.smithy:smithy-aws-iam-traits:$smithyVersion")
+    api("software.amazon.smithy:smithy-aws-cloudformation-traits:$smithyVersion")
     implementation("software.amazon.smithy:smithy-protocol-test-traits:$smithyVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
