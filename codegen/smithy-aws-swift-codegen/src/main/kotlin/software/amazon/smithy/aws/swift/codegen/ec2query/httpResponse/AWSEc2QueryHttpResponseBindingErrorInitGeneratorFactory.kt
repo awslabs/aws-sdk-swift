@@ -5,7 +5,6 @@
 
 package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -24,14 +23,12 @@ class AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory : HttpResponseBind
         ctx: ProtocolGenerator.GenerationContext,
         structureShape: StructureShape,
         httpBindingResolver: HttpBindingResolver,
-        serviceErrorProtocolSymbol: Symbol,
         defaultTimestampFormat: TimestampFormatTrait.Format,
     ): HttpResponseBindingRenderable {
         return HttpResponseBindingErrorInitGenerator(
             ctx,
             structureShape,
             httpBindingResolver,
-            serviceErrorProtocolSymbol,
             defaultTimestampFormat,
             AWSEc2QueryHttpResponseTraitPayloadFactory()
         )

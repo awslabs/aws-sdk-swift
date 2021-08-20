@@ -64,7 +64,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """            
-            extension ComplexXMLError: AWSClientRuntime.AWSHttpServiceError {
+            extension ComplexXMLError {
                 public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
                         self.header = headerHeaderValue
@@ -74,7 +74,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
                         let data = reader.toBytes().toData()
-                        let output: ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
+                        let output: AWSClientRuntime.ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.error.nested
                         self.topLevel = output.error.topLevel
                     } else {
@@ -90,15 +90,47 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
-
     @Test
-    fun `004 ComplexXMLErrorNoErrorWrapping Init renders without container`() {
+    fun `004 ComplexXMLError extends from AWSHttpServiceError`() {
+        val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
+        val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLError.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+            """            
+            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+                public var _headers: ClientRuntime.Headers?
+                public var _statusCode: ClientRuntime.HttpStatusCode?
+                public var _message: Swift.String?
+                public var _requestID: Swift.String?
+                public var _retryable: Swift.Bool = false
+                public var _isThrottling: Swift.Bool = false
+                public var _type: ClientRuntime.ErrorType = .client
+                public var header: Swift.String?
+                public var nested: RestXmlClientTypes.ComplexXMLNestedErrorData?
+                public var topLevel: Swift.String?
+            
+                public init (
+                    header: Swift.String? = nil,
+                    nested: RestXmlClientTypes.ComplexXMLNestedErrorData? = nil,
+                    topLevel: Swift.String? = nil
+                )
+                {
+                    self.header = header
+                    self.nested = nested
+                    self.topLevel = topLevel
+                }
+            }
+            """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+    @Test
+    fun `005 ComplexXMLErrorNoErrorWrapping Init renders without container`() {
         val context = setupTests("restxml/xml-errors-noerrorwrapping.smithy", "aws.protocoltests.restxml#RestXml")
         val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLErrorNoErrorWrapping+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension ComplexXMLErrorNoErrorWrapping: AWSClientRuntime.AWSHttpServiceError {
+            extension ComplexXMLErrorNoErrorWrapping {
                 public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
                         self.header = headerHeaderValue

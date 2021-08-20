@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
 import software.amazon.smithy.aws.swift.codegen.restxml.httpResponse.AWSXMLHttpResponseTraitWithoutPayload
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -25,14 +24,12 @@ class AWSXMLHttpResponseBindingErrorInitGeneratorFactory : HttpResponseBindingEr
         ctx: ProtocolGenerator.GenerationContext,
         structureShape: StructureShape,
         httpBindingResolver: HttpBindingResolver,
-        serviceErrorProtocolSymbol: Symbol,
         defaultTimestampFormat: TimestampFormatTrait.Format,
     ): HttpResponseBindingRenderable {
         return HttpResponseBindingErrorInitGenerator(
             ctx,
             structureShape,
             httpBindingResolver,
-            serviceErrorProtocolSymbol,
             defaultTimestampFormat,
             AWSXMLHttpResponseTraitPayloadFactory()
         )

@@ -64,7 +64,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension ComplexError: AWSClientRuntime.AWSHttpServiceError {
+            extension ComplexError {
                 public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
@@ -86,6 +86,36 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
+    @Test
+    fun `004 ComplexError constructor conforms to AWSHttpServiceError`() {
+        val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/ComplexError.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+            """
+            public struct ComplexError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+                public var _headers: ClientRuntime.Headers?
+                public var _statusCode: ClientRuntime.HttpStatusCode?
+                public var _message: Swift.String?
+                public var _requestID: Swift.String?
+                public var _retryable: Swift.Bool = false
+                public var _isThrottling: Swift.Bool = false
+                public var _type: ClientRuntime.ErrorType = .client
+                public var nested: AwsEc2ClientTypes.ComplexNestedErrorData?
+                public var topLevel: Swift.String?
+            
+                public init (
+                    nested: AwsEc2ClientTypes.ComplexNestedErrorData? = nil,
+                    topLevel: Swift.String? = nil
+                )
+                {
+                    self.nested = nested
+                    self.topLevel = topLevel
+                }
+            }
+            """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
             TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, Ec2QueryTrait.ID, "ec2query", "ec2query")

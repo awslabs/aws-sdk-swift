@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.restxml.httpResponse
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.RestXML.ErrorResponseContainer
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.knowledge.HttpBinding
 import software.amazon.smithy.model.shapes.BooleanShape
@@ -82,7 +83,8 @@ class AWSXMLHttpResponseTraitWithoutPayload(
     }
 
     fun renderWithErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
-        writer.write("let output: ErrorResponseContainer<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)")
+        writer.addImport(ErrorResponseContainer)
+        writer.write("let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", ErrorResponseContainer)
         bodyMembersWithoutQueryTrait.sorted().forEach {
             writer.write("self.$it = output.error.$it")
         }
