@@ -26,11 +26,9 @@ import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeX
 import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
-class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    override fun serviceErrorProtocolSymbol(): Symbol {
-        // wrong
-        return AWSClientRuntimeTypes.RestXML.S3.S3HttpServiceError
-    }
+class RestXmlProtocolGenerator() : AWSHttpBindingProtocolGenerator() {
+    override var serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSHttpServiceError
+
     override val codingKeysGenerator: CodingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationXmlName())
     override val defaultContentType: String = "application/xml"
     override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.DATE_TIME
@@ -38,7 +36,6 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolRestXMLCustomizations()
     override val httpResponseGenerator = HttpResponseGenerator(
-        serviceErrorProtocolSymbol(),
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),

@@ -2,6 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.s3
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
+import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.StructureShape
@@ -117,7 +118,12 @@ class S3ErrorIntegration : SwiftIntegration {
             }
         }
     }
-    // override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
-    // Maybe there is a way to add _requestId2 here. i mean.. surely there is.
-    // }
+    override fun serviceErrorProtocolSymbol(): Symbol? {
+        return AWSClientRuntimeTypes.RestXML.S3.S3HttpServiceError
+    }
+//     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
+//         print(model)
+//         return model
+//    // Maybe there is a way to add _requestId2 here. i mean.. surely there is.
+//     }
 }
