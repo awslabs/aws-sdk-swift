@@ -8,7 +8,7 @@
 import AwsCommonRuntimeKit
 import ClientRuntime
         
-struct WrappedCRTCredentialsProvider: CRTCredentialsProvider {
+struct WrappedCredentialsProvider: CRTCredentialsProvider {
     var allocator: Allocator
     let credentialsProvider: CredentialsProvider
     let logger: SwiftLogger

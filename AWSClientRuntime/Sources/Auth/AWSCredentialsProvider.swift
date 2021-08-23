@@ -48,7 +48,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
     }
     
     public static func fromCustom(credentialsProvider: CredentialsProvider) -> AWSCredentialsProvider {
-        let crtCredentialsProviderWrapper = WrappedCRTCredentialsProvider(credentialsProvider: credentialsProvider)
+        let crtCredentialsProviderWrapper = WrappedCredentialsProvider(credentialsProvider: credentialsProvider)
         let credsProvider = CRTAWSCredentialsProvider(fromProvider: crtCredentialsProviderWrapper)
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
