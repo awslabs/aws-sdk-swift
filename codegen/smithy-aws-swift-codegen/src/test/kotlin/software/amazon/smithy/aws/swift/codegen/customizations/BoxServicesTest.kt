@@ -1,6 +1,5 @@
 package software.amazon.smithy.aws.swift.codegen.customizations
 
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
@@ -12,7 +11,6 @@ import software.amazon.smithy.model.traits.BoxTrait
 import software.amazon.smithy.swift.codegen.model.AddOperationShapes
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
-import software.amazon.smithy.swift.codegen.model.isNumberShape
 
 class BoxServicesTest {
     @Test
@@ -34,7 +32,7 @@ class BoxServicesTest {
                 long: PrimitiveLong,
                 double: PrimitiveDouble,
                 boxedAlready: BoxedField,
-                notBoxed: NotBoxedField,
+                notPrimitive: NotPrimitiveField,
                 other: Other
             }
             
@@ -43,7 +41,7 @@ class BoxServicesTest {
             
             structure Other {}
             
-            integer NotBoxedField
+            integer NotPrimitiveField
         """
         val model = smithy.toSmithyModel()
         val ctx = model.newTestContext("com.test#Example", AwsJson1_0_ProtocolGenerator()).ctx
@@ -52,14 +50,13 @@ class BoxServicesTest {
 
         // get the synthetic input which is the one that will be transformed
         val struct = transformed.expectShape<StructureShape>("smithy.swift.synthetic#FooInput")
-        struct.members().forEach {
-            val target = transformed.expectShape(it.target)
-            if (target.isBooleanShape || target.isNumberShape) {
-                assertTrue(it.hasTrait<BoxTrait>())
-            } else {
-                assertFalse(target.hasTrait<BoxTrait>())
-                assertFalse(it.hasTrait<BoxTrait>())
-            }
-        }
+        val intMember = struct.getMember("int")
+        val boolMember = struct.getMember("bool")
+        val longMember = struct.getMember("long")
+        val notPrimitiveMember = struct.getMember("notPrimitive")
+        assertTrue(intMember.get().hasTrait<BoxTrait>())
+        assertTrue(boolMember.get().hasTrait<BoxTrait>())
+        assertTrue(longMember.get().hasTrait<BoxTrait>())
+        assertTrue(notPrimitiveMember.get().hasTrait<BoxTrait>())
     }
 }
