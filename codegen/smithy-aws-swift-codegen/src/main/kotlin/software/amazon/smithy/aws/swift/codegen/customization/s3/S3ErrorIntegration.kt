@@ -35,18 +35,15 @@ class S3ErrorIntegration : SwiftIntegration {
 
         )
 
-    private val s3MembersParams = SectionWriter { writer, previousValue ->
-        if (previousValue != null) {
-            for (line in previousValue.lines()) {
-                if (line.endsWith(") throws {")) {
-                    val firstpart = line.removeSuffix(") throws {")
-                    writer.writeInline(firstpart)
-                    writer.write(", requestID2: \$D) throws {", SwiftTypes.String)
-                } else {
-                    writer.write(line)
-                }
-            }
-        }
+    private val s3MembersParams = SectionWriter { writer, _ ->
+        writer.write(
+            "public init (httpResponse: \$N, decoder: \$D, message: \$D, requestID: \$D, requestID2: \$D) throws {",
+            ClientRuntimeTypes.Http.HttpResponse,
+            ClientRuntimeTypes.Serde.ResponseDecoder,
+            SwiftTypes.String,
+            SwiftTypes.String,
+            SwiftTypes.String
+        )
     }
 
     private val s3MembersAssignment = SectionWriter { writer, _ ->
@@ -118,12 +115,8 @@ class S3ErrorIntegration : SwiftIntegration {
             }
         }
     }
+
     override fun serviceErrorProtocolSymbol(): Symbol? {
         return AWSClientRuntimeTypes.RestXML.S3.S3HttpServiceError
     }
-//     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
-//         print(model)
-//         return model
-//    // Maybe there is a way to add _requestId2 here. i mean.. surely there is.
-//     }
 }

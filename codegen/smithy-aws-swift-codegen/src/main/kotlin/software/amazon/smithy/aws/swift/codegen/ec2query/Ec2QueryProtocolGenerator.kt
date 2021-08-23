@@ -39,7 +39,6 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
     override val httpResponseGenerator = HttpResponseGenerator(
-        //serviceErrorProtocolSymbol(),
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSEc2QueryHttpResponseBindingErrorGenerator(),
