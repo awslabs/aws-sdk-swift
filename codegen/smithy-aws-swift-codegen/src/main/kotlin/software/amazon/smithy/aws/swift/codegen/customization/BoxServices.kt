@@ -33,7 +33,7 @@ import software.amazon.smithy.utils.ToSmithyBuilder
  * need to be boxed for the API to work properly (e.g. sending default values). The
  * rest of these services are at risk of similar behavior because they aren't true coral services
  */
-class BoxServices: SwiftIntegration {
+class BoxServices : SwiftIntegration {
     override val order: Byte = -127
 
     private val serviceIds = listOf(
