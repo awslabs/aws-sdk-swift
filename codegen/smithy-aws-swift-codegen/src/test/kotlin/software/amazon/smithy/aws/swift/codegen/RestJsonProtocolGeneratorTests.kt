@@ -116,14 +116,14 @@ class RestJsonProtocolGeneratorTests {
                     public var logger: ClientRuntime.LogAgent
                     public var retrier: ClientRuntime.Retrier
             
-                    public var credentialsProvider: AWSClientRuntime.AWSCredentialsProvider
+                    public var credentialsProvider: AWSClientRuntime.CredentialsProvider
                     public var endpointResolver: AWSClientRuntime.EndpointResolver
                     public var region: Swift.String?
                     public var regionResolver: AWSClientRuntime.RegionResolver
                     public var signingRegion: Swift.String?
             
                     public init(
-                        credentialsProvider: AWSClientRuntime.AWSCredentialsProvider? = nil,
+                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
                         region: Swift.String? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
@@ -136,7 +136,7 @@ class RestJsonProtocolGeneratorTests {
                         self.signingRegion = signingRegion ?? defaultRegion
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
                         if let credProvider = credentialsProvider {
-                            self.credentialsProvider = credProvider
+                            self.credentialsProvider = AWSClientRuntime.AWSCredentialsProvider.fromCustom(credentialsProvider: credProvider)
                         } else {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
                         }
@@ -151,7 +151,7 @@ class RestJsonProtocolGeneratorTests {
                     }
             
                     public convenience init(
-                        credentialsProvider: AWSClientRuntime.AWSCredentialsProvider? = nil,
+                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
                         region: Swift.String? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,

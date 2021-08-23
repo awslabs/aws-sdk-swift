@@ -6,7 +6,7 @@
 import ClientRuntime
 
 public protocol AWSRuntimeConfiguration {
-    var credentialsProvider: AWSCredentialsProvider { get set }
+    var credentialsProvider: CredentialsProvider { get set }
     var region: String? { get set }
     var signingRegion: String? {get set}
     var endpointResolver: EndpointResolver {get set}

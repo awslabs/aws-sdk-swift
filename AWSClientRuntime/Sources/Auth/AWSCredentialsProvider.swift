@@ -5,7 +5,7 @@
 import AwsCommonRuntimeKit
 import ClientRuntime
 
-public class AWSCredentialsProvider {
+public class AWSCredentialsProvider: CredentialsProvider {
     let crtCredentialsProvider: CRTAWSCredentialsProvider
     
     init(awsCredentialsProvider: CRTAWSCredentialsProvider) {
@@ -44,6 +44,12 @@ public class AWSCredentialsProvider {
     public static func fromChain(shutDownCallback: ShutDownCallback? = nil) throws -> AWSCredentialsProvider {
         let config = AWSCredentialsProviderChainDefaultConfig(shutDownCallback: shutDownCallback)
         let credsProvider = try CRTAWSCredentialsProvider(fromChainDefault: config.toCRTType())
+        return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
+    }
+    
+    public static func fromCustom(credentialsProvider: CredentialsProvider) -> AWSCredentialsProvider {
+        let crtCredentialsProviderWrapper = WrappedCRTCredentialsProvider(credentialsProvider: credentialsProvider)
+        let credsProvider = CRTAWSCredentialsProvider(fromProvider: crtCredentialsProviderWrapper)
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
