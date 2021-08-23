@@ -12,6 +12,7 @@ import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.shapes.ShapeId
+import software.amazon.smithy.model.validation.ValidatedResultException
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
@@ -114,4 +115,23 @@ fun String.shouldSyntacticSanityCheck() {
     }
     Assertions.assertEquals(openBraces, closedBraces, "unmatched open/closed braces:\n$this")
     Assertions.assertEquals(openParens, closedParens, "unmatched open/close parens:\n$this")
+}
+
+/**
+ * Load and initialize a model from a String
+ */
+fun String.toSmithyModel(sourceLocation: String? = null, serviceShapeId: String? = null): Model {
+    val processed = if (this.trimStart().startsWith("\$version")) this else "\$version: \"1.0\"\n$this"
+    val model = try {
+        Model.assembler()
+            .discoverModels()
+            .addUnparsedModel(sourceLocation ?: "test.smithy", processed)
+            .assemble()
+            .unwrap()
+    } catch (e: ValidatedResultException) {
+        System.err.println("Model failed to parse:")
+        System.err.println(this)
+        throw e
+    }
+    return model
 }
