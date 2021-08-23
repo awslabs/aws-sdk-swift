@@ -22,7 +22,7 @@ import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
 
-    override val serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSHttpServiceError
+    override var serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSHttpServiceError
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHttpServiceError
 

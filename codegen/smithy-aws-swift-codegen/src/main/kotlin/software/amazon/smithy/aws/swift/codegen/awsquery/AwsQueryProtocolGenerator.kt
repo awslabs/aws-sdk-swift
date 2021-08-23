@@ -44,7 +44,6 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
     override val httpResponseGenerator = HttpResponseGenerator(
-        serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),

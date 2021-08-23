@@ -32,7 +32,6 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolRestXMLCustomizations()
     override val httpResponseGenerator = HttpResponseGenerator(
-        serviceErrorProtocolSymbol,
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),

@@ -32,4 +32,9 @@ public struct RestXMLError {
         requestId = nil
         message = nil
     }
+    public init(errorCode: String? = nil, requestId: String? = nil, message: String? = nil) {
+        self.errorCode = errorCode
+        self.requestId = requestId
+        self.message = message
+    }
 }
