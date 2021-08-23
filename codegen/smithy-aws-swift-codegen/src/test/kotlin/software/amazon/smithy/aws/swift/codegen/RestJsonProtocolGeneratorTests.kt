@@ -136,7 +136,7 @@ class RestJsonProtocolGeneratorTests {
                         self.signingRegion = signingRegion ?? defaultRegion
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
                         if let credProvider = credentialsProvider {
-                            self.credentialsProvider = AWSClientRuntime.AWSCredentialsProvider.fromCustom(credentialsProvider: credProvider)
+                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credentialsProvider: credProvider)
                         } else {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
                         }

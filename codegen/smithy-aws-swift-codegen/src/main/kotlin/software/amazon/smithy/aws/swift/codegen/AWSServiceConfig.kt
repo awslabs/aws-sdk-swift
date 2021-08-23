@@ -37,7 +37,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.write("self.signingRegion = signingRegion ?? defaultRegion")
         writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
         writer.openBlock("if let credProvider = credentialsProvider {", "} else {") {
-            writer.write("self.credentialsProvider = \$N.fromCustom(credentialsProvider: credProvider)", AWSClientRuntimeTypes.Core.AWSCredentialsProvider)
+            writer.write("self.credentialsProvider = try \$N.fromCustom(credentialsProvider: credProvider)", AWSClientRuntimeTypes.Core.AWSCredentialsProvider)
         }
         writer.indent().write("self.credentialsProvider = try \$N.fromChain()", AWSClientRuntimeTypes.Core.AWSCredentialsProvider)
         writer.dedent().write("}")

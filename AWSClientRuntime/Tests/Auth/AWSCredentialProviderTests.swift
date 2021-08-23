@@ -13,7 +13,7 @@ import XCTest
 class AWSCredentialProviderTests: XCTestCase {
     
     func testYouCanUseCustomCredentialsProvider() throws {
-        let awsCredsProvider = AWSCredentialsProvider.fromCustom(credentialsProvider: MyCustomCredentialsProvider())
+        let awsCredsProvider = try AWSCredentialsProvider.fromCustom(credentialsProvider: MyCustomCredentialsProvider())
         let credentials = try awsCredsProvider.getCredentials()
         XCTAssertEqual(credentials.accessKey, "MYACCESSKEY")
         XCTAssertEqual(credentials.secret, "sekrit")

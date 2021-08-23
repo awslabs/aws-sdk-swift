@@ -22,7 +22,8 @@ struct WrappedCredentialsProvider: CRTCredentialsProvider {
         do {
             let credentials = try credentialsProvider.getCredentials()
             let emptyError = AWSError(errorCode: 0)
-            credentialCallbackData.onCredentialsResolved?(credentials.toCRTType(), CRTError.crtError(emptyError))
+            let crtCredentials = credentials.toCRTType()
+            credentialCallbackData.onCredentialsResolved?(crtCredentials, CRTError.crtError(emptyError))
         } catch let err {
             logger.log(level: .debug, "An error occurred with retrieving credentials from your custom credentials provider. Error: \(err)")
             
