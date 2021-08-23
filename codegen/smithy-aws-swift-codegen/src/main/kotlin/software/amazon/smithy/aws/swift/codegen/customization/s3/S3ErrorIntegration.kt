@@ -27,8 +27,8 @@ class S3ErrorIntegration : SwiftIntegration {
     }
     override val sectionWriters: List<SectionWriterBinding>
         get() = listOf(
-            SectionWriterBinding(HttpResponseBindingErrorInitGenerator.ErrorMembersParams, s3MembersParams),
-            SectionWriterBinding(HttpResponseBindingErrorInitGenerator.ErrorMembersAssignment, s3MembersAssignment),
+            SectionWriterBinding(HttpResponseBindingErrorInitGenerator.HttpResponseBindingErrorInit, s3MembersParams),
+            SectionWriterBinding(HttpResponseBindingErrorInitGenerator.HttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
             SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
             SectionWriterBinding(HttpResponseBindingErrorNarrowGenerator.HttpResponseBindingErrorNarrowGeneratorSectionId, httpResponseBindingErrorNarrow),
             SectionWriterBinding(AWSRestXMLHttpResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBinding)
