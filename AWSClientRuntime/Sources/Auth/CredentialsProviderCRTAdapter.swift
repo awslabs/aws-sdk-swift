@@ -8,7 +8,7 @@
 import AwsCommonRuntimeKit
 import ClientRuntime
         
-struct WrappedCredentialsProvider: CRTCredentialsProvider {
+struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
     var allocator: Allocator
     let credentialsProvider: CredentialsProvider
     let logger: SwiftLogger
@@ -25,7 +25,7 @@ struct WrappedCredentialsProvider: CRTCredentialsProvider {
             let crtCredentials = credentials.toCRTType()
             credentialCallbackData.onCredentialsResolved?(crtCredentials, CRTError.crtError(emptyError))
         } catch let err {
-            logger.log(level: .debug, "An error occurred with retrieving credentials from your custom credentials provider. Error: \(err)")
+            logger.error("An error occurred with retrieving credentials from your custom credentials provider. Error: \(err)")
             
             credentialCallbackData.onCredentialsResolved?(nil, CRTError.crtError(AWSError(errorCode: -1)))
         }
