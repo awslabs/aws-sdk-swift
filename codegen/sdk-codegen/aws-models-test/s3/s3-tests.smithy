@@ -34,6 +34,9 @@ apply PutObject @httpRequestTests([
         uri: "/mybucket/mykey",
         host: "s3.us-west-2.amazonaws.com",
         body: "foobar",
+	queryParams: [
+	    "x-id=PutObject"
+	],
         bodyMediaType: "application/octet-stream",
         headers: {
             "Content-Type": "application/octet-stream"
@@ -45,13 +48,16 @@ apply PutObject @httpRequestTests([
         }
     },
     {
-        id: "PutOtTbjectExplicitContenype",
+        id: "PutObjectExplicitContentType",
         documentation: "This test case validates https://github.com/awslabs/aws-sdk-kotlin/issues/193",
         protocol: "aws.protocols#restXml",
         method: "PUT",
         uri: "/mybucket/mykey",
         host: "s3.us-west-2.amazonaws.com",
         body: "{\"foo\":\"bar\"}",
+	queryParams: [
+	    "x-id=PutObject"
+	],
         headers: {
             "Content-Type": "application/json"
         },
