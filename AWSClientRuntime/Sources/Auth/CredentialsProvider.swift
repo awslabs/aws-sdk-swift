@@ -6,5 +6,6 @@
 //
         
 public protocol CredentialsProvider {
+    /// Resolves `AWSCredentials` through custom means
     func getCredentials() throws -> AWSCredentials
 }
