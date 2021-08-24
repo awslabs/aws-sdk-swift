@@ -37,6 +37,6 @@ class RetryMiddleware : OperationMiddlewareRenderable {
         serviceShape: ServiceShape,
         op: OperationShape
     ): String {
-        return "retrier: config.retrier"
+        return "retryer: config.retryer"
     }
 }
