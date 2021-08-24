@@ -39,8 +39,8 @@ extension HttpContextBuilder {
     }
 
     @discardableResult
-    public func withCredentialsProvider(value: AWSCredentialsProvider) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKey<AWSCredentialsProvider>(name: "AWSCredentialsProvider"), value: value)
+    public func withCredentialsProvider(value: CredentialsProvider) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<CredentialsProvider>(name: "CredentialsProvider"), value: value)
         return self
     }
     
