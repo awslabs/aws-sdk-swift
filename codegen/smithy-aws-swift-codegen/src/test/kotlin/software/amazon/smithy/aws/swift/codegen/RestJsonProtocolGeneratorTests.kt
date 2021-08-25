@@ -114,7 +114,7 @@ class RestJsonProtocolGeneratorTests {
                     public var httpClientEngine: ClientRuntime.HttpClientEngine
                     public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
                     public var logger: ClientRuntime.LogAgent
-                    public var retrier: ClientRuntime.Retrier
+                    public var retryer: ClientRuntime.SDKRetryer
             
                     public var credentialsProvider: AWSClientRuntime.CredentialsProvider
                     public var endpointResolver: AWSClientRuntime.EndpointResolver
@@ -147,7 +147,7 @@ class RestJsonProtocolGeneratorTests {
                         self.httpClientEngine = runtimeConfig.httpClientEngine
                         self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
                         self.logger = runtimeConfig.logger
-                        self.retrier = runtimeConfig.retrier
+                        self.retryer = runtimeConfig.retryer
                     }
             
                     public convenience init(

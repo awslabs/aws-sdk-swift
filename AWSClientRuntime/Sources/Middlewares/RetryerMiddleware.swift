@@ -7,15 +7,15 @@
 
 import ClientRuntime
 
-public struct RetrierMiddleware<Output: HttpResponseBinding,
+public struct RetryerMiddleware<Output: HttpResponseBinding,
                                 OutputError: HttpResponseBinding>: Middleware {
     
-    public var id: String = "Retrier"
+    public var id: String = "Retryer"
     
-    let retrier: Retrier
+    let retryer: SDKRetryer
     
-    public init(retrier: Retrier) {
-        self.retrier = retrier
+    public init(retryer: SDKRetryer) {
+        self.retryer = retryer
     }
     
     public func handle<H>(context: Context,
@@ -32,7 +32,7 @@ public struct RetrierMiddleware<Output: HttpResponseBinding,
         }
         do {
             let partitionId = "\(context.getServiceName()) - \(region))"
-            let token = try retrier.acquireToken(partitionId: partitionId)
+            let token = try retryer.acquireToken(partitionId: partitionId)
             return try tryRequest(token: token, partitionId: partitionId, context: context, input: input, next: next)
             
         } catch let err {
@@ -51,22 +51,22 @@ public struct RetrierMiddleware<Output: HttpResponseBinding,
     Self.MOutput == H.Output,
     Self.Context == H.Context,
     Self.MError == H.MiddlewareError {
-        defer { retrier.releaseToken(token: token)}
+        defer { retryer.releaseToken(token: token)}
         
         let serviceResponse = next.handle(context: context, input: input)
         
         switch serviceResponse {
         case .failure(let error):
-            if retrier.isErrorRetryable(error: error) {
-                let errorType = retrier.getErrorType(error: error)
-                let newToken = try retrier.scheduleRetry(token: token, error: errorType)
+            if retryer.isErrorRetryable(error: error) {
+                let errorType = retryer.getErrorType(error: error)
+                let newToken = try retryer.scheduleRetry(token: token, error: errorType)
                 // TODO: rewind the stream once streaming is properly implemented
                 return try tryRequest(token: newToken, partitionId: partitionId, context: context, input: input, next: next)
             } else {
                 return serviceResponse
             }
         case .success:
-            retrier.recordSuccess(token: token)
+            retryer.recordSuccess(token: token)
             return serviceResponse
         }
     }
