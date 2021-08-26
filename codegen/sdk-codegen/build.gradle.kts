@@ -13,6 +13,7 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.gradle.tasks.SmithyBuild
 import kotlin.streams.toList
 import java.util.Properties
+import software.amazon.smithy.gradle.tasks.SwiftFormatTask
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
@@ -206,7 +207,26 @@ tasks.register("generate-smithy-build") {
     }
 }
 
+discoveredServices.forEach {
+    tasks.register<SwiftFormatTask>("format-${it.sdkId}") {
+        dependsOn(tasks["buildSdk"])
+        group = "Formatting"
+        pathToGeneratedSDK = it.outputDir
+    }
+}
+
+tasks.register("formatAllSdks") {
+    group = "Formatting"
+    val allFormatTasks = tasks.withType<SwiftFormatTask>()
+    dependsOn(allFormatTasks)
+}
+
 // Run the `buildSdk` automatically.
 tasks["build"]
     .dependsOn(tasks["generate-smithy-build"])
     .finalizedBy(tasks["buildSdk"])
+    .finalizedBy(tasks["formatAllSdks"])
+
+
+
+
