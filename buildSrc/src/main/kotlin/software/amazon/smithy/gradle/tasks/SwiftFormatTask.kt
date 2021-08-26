@@ -25,7 +25,7 @@ open class SwiftFormatTask: DefaultTask() {
             project.exec {
                 workingDir = generatedBuildDir
                 executable = "swift-format"
-                args = listOf("format . -i -r")
+                args = listOf("format", ".", "-i", "-r", "-p")
             }
         }
         else {
