@@ -6,14 +6,12 @@
 // This build file has been adapted from the Go v2 SDK, here:
 // https://github.com/aws/aws-sdk-go-v2/blob/master/codegen/sdk-codegen/build.gradle.kts
 
-import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.node.Node
-import software.amazon.smithy.model.node.ObjectNode
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.gradle.tasks.SmithyBuild
-import kotlin.streams.toList
-import java.util.Properties
 import software.amazon.smithy.gradle.tasks.SwiftFormatTask
+import software.amazon.smithy.model.Model
+import software.amazon.smithy.model.shapes.ServiceShape
+import java.util.Properties
+import kotlin.streams.toList
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
@@ -226,7 +224,3 @@ tasks["build"]
     .dependsOn(tasks["generate-smithy-build"])
     .finalizedBy(tasks["buildSdk"])
     .finalizedBy(tasks["formatAllSdks"])
-
-
-
-
