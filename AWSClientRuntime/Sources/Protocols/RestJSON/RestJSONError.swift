@@ -12,10 +12,10 @@ public struct RestJSONError {
     public let errorMessage: String?
 
     // header identifying the error code
-    let X_AMZN_ERROR_TYPE_HEADER_NAME = "X-Amzn-Errortype"
+    let X_AMZN_ERROR_TYPE_HEADER_NAME = "x-amzn-ErrorType"
 
     // returned by RESTFUL services that do no send a payload (like in a HEAD request)
-    let X_AMZN_ERROR_MESSAGE_HEADER_NAME = "x-amzn-error-message"
+    let X_AMZN_ERROR_MESSAGE_HEADER_NAME = "x-amzn-ErrorMessage"
 
     // error message header returned by event stream errors
     let X_AMZN_EVENT_ERROR_MESSAGE_HEADER_NAME = ":error-message"
