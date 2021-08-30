@@ -53,7 +53,7 @@ Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSCl
 ## Alpha SDK Testing Instructions
 *Steps*
 
-1. We have all of the AWS SDKs available in our alpha release listed under `/release` except AWS Locations (coming soon).
+1. We have all of the AWS SDKs available in our alpha release listed under `/release` in a tagged branch.
 
 We will walk you through how you can use `CognitoIdentity`  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
 
@@ -80,7 +80,7 @@ let package = Package(
     name: "TestSdk",
     platforms: [.macOS(.v10_15), .iOS(.v13)],
     dependencies: [
-        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.1"),
+        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.8"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -97,20 +97,14 @@ let package = Package(
 
 Then you can open up main.swift, and instantiate CognitoIdentity as follows:
 
+If you are running Swift <5.5:
 ```swift
 import CognitoIdentity
 import Foundation
 
 let cognitoIdentityClient = CognitoIdentityClient()
-let cognitoInputCall = CreateIdentityPoolInput(allowClassicFlow: nil,
-                                                allowUnauthenticatedIdentities: true,
-                                                cognitoIdentityProviders: nil,
-                                                developerProviderName: "com.amazonaws.mytestapplication",
-                                                identityPoolName: "identityPoolMadeWithSwiftSDK",
-                                                identityPoolTags: nil,
-                                                openIdConnectProviderARNs: nil,
-                                                samlProviderARNs: nil,
-                                                supportedLoginProviders: nil)
+let cognitoInputCall = CreateIdentityPoolInput(developerProviderName: "com.amazonaws.mytestapplication",
+                                               identityPoolName: "identityPoolMadeWithSwiftSDK")
 
 cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
         switch(result) {
@@ -119,6 +113,19 @@ cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
         case .failure(let error):
         print("\(error)")
     }
+}
+```
+If you are running 5.5+:
+```swift
+import CognitoIdentity
+
+func createIdentityPool() async throws -> CreateIdentityPoolOutputResponse {
+    let cognitoIdentityClient = try CognitoIdentityClient(region: "us-east-1")
+    let cognitoInputCall = CreateIdentityPoolInput(developerProviderName: "com.amazonaws.mytestapplication",
+                                                    identityPoolName: "identityPoolMadeWithSwiftSDK")
+    
+    let result = try await cognitoIdentityClient.createIdentityPool(input: cognitoInputCall)
+    return result
 }
 ```
 
