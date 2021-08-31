@@ -17,7 +17,7 @@ public struct RestJSONError {
     // returned by RESTFUL services that do no send a payload (like in a HEAD request)
     let X_AMZN_ERROR_MESSAGE_HEADER_NAME = "x-amzn-error-message"
     
-    //returned by some services like Cognito
+    // returned by some services like Cognito
     let X_AMZN_ERRORMESSAGE_HEADER_NAME = "x-amzn-ErrorMessage"
 
     // error message header returned by event stream errors
