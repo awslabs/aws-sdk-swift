@@ -28,7 +28,6 @@ import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCus
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.formurl.StructEncodeFormURLGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -76,7 +75,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format
     ) {
-        val decoder = StructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
+        val decoder = AwsQueryStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()
     }
 
