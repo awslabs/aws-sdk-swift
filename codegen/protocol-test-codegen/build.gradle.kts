@@ -32,11 +32,11 @@ val enabledProtocols = listOf(
     ProtocolTest("aws-restjson", "aws.protocoltests.restjson#RestJson", "AWSRestJsonTestSDK"),
     ProtocolTest("rest-xml", "aws.protocoltests.restxml#RestXml", "RestXmlTestSDK"),
     ProtocolTest("rest-xml-xmlns", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace", "RestXmlWithNamespaceTestSDK"),
-    ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK")
+    ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK"),
 
     // service specific tests
-    //ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService"),
-    //ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK")
+    ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService", "APIGatewayTestSDK"),
+    ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK")
     //ProtocolTest("s3", "com.amazonaws.s3#AmazonS3", "S3TestSDK")
 )
 
