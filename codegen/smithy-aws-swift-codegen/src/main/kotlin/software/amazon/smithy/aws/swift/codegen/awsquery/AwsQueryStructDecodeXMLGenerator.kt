@@ -38,7 +38,7 @@ class AwsQueryStructDecodeXMLGenerator(
             writer.write("let $containerName = try decoder.container(keyedBy: CodingKeys.self)")
         }
         members.forEach { member ->
-            renderSingleMember(member, containerName, false)
+            renderSingleMember(member, containerName)
         }
     }
 }
