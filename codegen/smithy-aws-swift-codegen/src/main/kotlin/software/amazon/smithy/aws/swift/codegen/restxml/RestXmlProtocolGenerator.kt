@@ -66,6 +66,15 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     }
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
+        val testToIgnore = setOf(
+            "S3DefaultAddressing",
+            "S3VirtualHostAddressing",
+            "S3PathAddressing",
+            "S3VirtualHostDualstackAddressing",
+            "S3VirtualHostAccelerateAddressing",
+            "S3VirtualHostDualstackAccelerateAddressing",
+            "S3OperationAddressingPreferred"
+        )
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
@@ -73,7 +82,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             errorTestBuilder,
             httpProtocolCustomizable,
             serdeContext,
-            setOf()
+            testToIgnore
         ).generateProtocolTests()
     }
 }
