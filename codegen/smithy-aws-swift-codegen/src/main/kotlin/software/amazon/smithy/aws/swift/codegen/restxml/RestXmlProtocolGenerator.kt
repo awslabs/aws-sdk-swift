@@ -21,7 +21,6 @@ import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCoding
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.DynamicNodeEncodingGeneratorStrategy
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -62,11 +61,20 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format
     ) {
-        val decoder = StructDecodeXMLGenerator(ctx, members, mapOf(), writer, defaultTimestampFormat)
+        val decoder = RestXmlStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()
     }
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
+        val testsToIgnore = setOf(
+            "S3DefaultAddressing",
+            "S3VirtualHostAddressing",
+            "S3PathAddressing",
+            "S3VirtualHostDualstackAddressing",
+            "S3VirtualHostAccelerateAddressing",
+            "S3VirtualHostDualstackAccelerateAddressing",
+            "S3OperationAddressingPreferred"
+        )
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
@@ -74,7 +82,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             errorTestBuilder,
             httpProtocolCustomizable,
             serdeContext,
-            setOf()
+            testsToIgnore
         ).generateProtocolTests()
     }
 }
