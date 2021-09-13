@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
-import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientGeneratorFactory
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
 import software.amazon.smithy.aws.swift.codegen.middleware.FormURLHttpBodyMiddleware
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
@@ -40,7 +39,6 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val defaultContentType = "application/x-www-form-urlencoded"
     override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME
     override val protocol: ShapeId = AwsQueryTrait.ID
-    override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
     override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
     override val httpResponseGenerator = HttpResponseGenerator(
         unknownServiceErrorSymbol,
