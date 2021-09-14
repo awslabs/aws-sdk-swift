@@ -39,7 +39,7 @@ class PresignerGenerator : SwiftIntegration {
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
-                renderPresigner(writer, ctx, delegator, presignableOperation)
+                renderPresigner(writer, ctx, delegator, op, inputType)
             }
         }
     }
@@ -48,7 +48,8 @@ class PresignerGenerator : SwiftIntegration {
         writer: SwiftWriter,
         ctx: CodegenContext,
         delegator: SwiftDelegator,
-        presignableOperation: PresignableOperation
+        op: OperationShape,
+        inputType: String
     ) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
@@ -60,8 +61,6 @@ class PresignerGenerator : SwiftIntegration {
         val operationsIndex = OperationIndex.of(ctx.model)
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext)
 
-        val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
-        val inputType = op.input.get().getName()
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock("public func presign(config: \$N) -> \$T {", "}", AWSClientConfiguration, SdkHttpRequest) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
@@ -73,7 +72,12 @@ class PresignerGenerator : SwiftIntegration {
                     prop.renderConfiguration(writer)
                 }
 
-                val generator = MiddlewareExecutionGenerator(protocolGeneratorContext, writer, httpBindingResolver, "content-type", protocolGenerator.httpProtocolCustomizable, operationStackName)
+                val generator = MiddlewareExecutionGenerator(protocolGeneratorContext,
+                    writer,
+                    httpBindingResolver,
+                    protocolGenerator.defaultContentType,
+                    protocolGenerator.httpProtocolCustomizable,
+                    operationStackName)
                 generator.render(operationsIndex, op) { writer, _ ->
                     writer.write("return nil")
                 }
