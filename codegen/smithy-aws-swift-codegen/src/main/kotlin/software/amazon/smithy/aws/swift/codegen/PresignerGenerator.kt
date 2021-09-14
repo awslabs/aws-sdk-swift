@@ -72,12 +72,14 @@ class PresignerGenerator : SwiftIntegration {
                     prop.renderConfiguration(writer)
                 }
 
-                val generator = MiddlewareExecutionGenerator(protocolGeneratorContext,
+                val generator = MiddlewareExecutionGenerator(
+                    protocolGeneratorContext,
                     writer,
                     httpBindingResolver,
                     protocolGenerator.defaultContentType,
                     protocolGenerator.httpProtocolCustomizable,
-                    operationStackName)
+                    operationStackName
+                )
                 generator.render(operationsIndex, op) { writer, _ ->
                     writer.write("return nil")
                 }
