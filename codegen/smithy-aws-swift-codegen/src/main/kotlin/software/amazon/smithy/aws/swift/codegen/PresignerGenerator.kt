@@ -63,7 +63,7 @@ class PresignerGenerator : SwiftIntegration {
         val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
         val inputType = op.input.get().getName()
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("func presign(config: \$N) -> \$T {", "}", AWSClientConfiguration, SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$N) -> \$T {", "}", AWSClientConfiguration, SdkHttpRequest) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
                 val operationStackName = "operation"
@@ -80,7 +80,7 @@ class PresignerGenerator : SwiftIntegration {
 
                 val requestBuilderName = "presignedRequestBuilder"
                 val builtRequestName = "builtRequest"
-                writer.write("let $requestBuilderName = $operationStackName.presignedRequest(context: context.build(), input: self, next: \$N())", NoopHandler)
+                writer.write("let $requestBuilderName = $operationStackName.presignedRequest(context: context.build(), input: input, next: \$N())", NoopHandler)
                 writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
                     writer.write("return nil")
                 }

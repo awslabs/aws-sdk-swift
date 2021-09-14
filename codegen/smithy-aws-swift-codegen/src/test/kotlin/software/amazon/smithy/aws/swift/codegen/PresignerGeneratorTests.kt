@@ -19,7 +19,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension GetFooInput {
-                func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -54,7 +54,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before,
                                                              middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0"))))
-                    let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: self, next: ClientRuntime.NoopHandler())
+                    let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -76,7 +76,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PostFooInput {
-                func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -112,7 +112,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before,
                                                              middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0"))))
-                    let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: self, next: ClientRuntime.NoopHandler())
+                    let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -134,7 +134,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PutFooInput {
-                func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -170,7 +170,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before,
                                                              middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0"))))
-                    let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: self, next: ClientRuntime.NoopHandler())
+                    let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
