@@ -36,7 +36,7 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
 
-        val middleware =  AWSXAmzTargetMiddleware()
+        val middleware = AWSXAmzTargetMiddleware()
         operationMiddleware.appendMiddleware(operation, middleware.middlewareStep, middleware)
     }
 }
