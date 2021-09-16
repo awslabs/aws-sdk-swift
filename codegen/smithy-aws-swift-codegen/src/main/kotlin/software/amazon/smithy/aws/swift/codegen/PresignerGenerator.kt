@@ -78,6 +78,7 @@ class PresignerGenerator : SwiftIntegration {
                     httpBindingResolver,
                     protocolGenerator.defaultContentType,
                     protocolGenerator.httpProtocolCustomizable,
+                    protocolGenerator.operationMiddleware,
                     operationStackName
                 )
                 generator.render(operationsIndex, op) { writer, _ ->

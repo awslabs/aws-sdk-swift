@@ -11,6 +11,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGenera
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolClientGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 
 class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory {
     override fun createHttpProtocolClientGenerator(
@@ -19,10 +20,11 @@ class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory
         writer: SwiftWriter,
         serviceName: String,
         defaultContentType: String,
-        httpProtocolCustomizable: HttpProtocolCustomizable
+        httpProtocolCustomizable: HttpProtocolCustomizable,
+        operationMiddleware: OperationMiddleware
     ): HttpProtocolClientGenerator {
         val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
         val config = AWSServiceConfig(writer, serviceName)
-        return HttpProtocolClientGenerator(ctx, writer, config, httpBindingResolver, defaultContentType, httpProtocolCustomizable)
+        return HttpProtocolClientGenerator(ctx, writer, config, httpBindingResolver, defaultContentType, httpProtocolCustomizable, operationMiddleware)
     }
 }

@@ -18,11 +18,11 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator.Genera
 
 class AWSHttpProtocolJson10Customizations : AWSHttpProtocolCustomizations() {
 
-    override fun baseMiddlewares(ctx: GenerationContext, op: OperationShape): List<OperationMiddlewareRenderable> {
-        val defaultMiddlewares = super.baseMiddlewares(ctx, op)
-        val protocolMiddlewares = listOf<OperationMiddlewareRenderable>(AWSXAmzTargetMiddleware())
-        return defaultMiddlewares + protocolMiddlewares
-    }
+//    override fun baseMiddlewares(ctx: GenerationContext, op: OperationShape): List<OperationMiddlewareRenderable> {
+//        val defaultMiddlewares = super.baseMiddlewares(ctx, op)
+//        val protocolMiddlewares = listOf<OperationMiddlewareRenderable>(AWSXAmzTargetMiddleware())
+//        return defaultMiddlewares + protocolMiddlewares
+//    }
 
     override fun renderMiddlewareForGeneratedRequestTests(
         writer: SwiftWriter,

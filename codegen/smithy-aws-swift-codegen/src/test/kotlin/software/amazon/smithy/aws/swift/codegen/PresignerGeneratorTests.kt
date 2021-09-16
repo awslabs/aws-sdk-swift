@@ -187,6 +187,7 @@ class PresignerGeneratorTests {
         val generator = AWSRestJson1ProtocolGenerator()
 
         val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, generator)
+        codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
         presigner.writeAdditionalFiles(codegenContext, context.ctx.delegator)
         context.ctx.delegator.flushWriters()
         return context

@@ -10,9 +10,11 @@ import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftSettings
+import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
 import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
@@ -27,19 +29,28 @@ class S3SigningConfig : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
         return model.expectShape<ServiceShape>(settings.service).isS3
     }
-
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
-        resolved: List<OperationMiddlewareRenderable>
-    ): List<OperationMiddlewareRenderable> {
-        val middleware = resolved.filterNot {
-            it.name == "AWSSigningMiddleware"
-        }.toMutableList()
-
-        middleware.add(S3SigningMiddleware())
-
-        return middleware
+        operationShape: OperationShape,
+        operationMiddleware: OperationMiddleware
+    ) {
+        val s3SigningMiddleware = S3SigningMiddleware()
+        operationMiddleware.removeMiddleware(operationShape, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
+        operationMiddleware.appendMiddleware(operationShape, s3SigningMiddleware.middlewareStep, s3SigningMiddleware)
     }
+
+//    override fun customizeMiddleware(
+//        ctx: ProtocolGenerator.GenerationContext,
+//        resolved: List<OperationMiddlewareRenderable>
+//    ): List<OperationMiddlewareRenderable> {
+//        val middleware = resolved.filterNot {
+//            it.name == "AWSSigningMiddleware"
+//        }.toMutableList()
+//
+//        middleware.add(S3SigningMiddleware())
+//
+//        return middleware
+//    }
 }
 
 private class S3SigningMiddleware() : AWSSigningMiddleware() {
