@@ -25,19 +25,13 @@ class GlacierAddVersionHeader : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware
     ) {
-        val middleware = MutateHeadersMiddleware(
-            extraHeaders = mapOf(
-                "X-Amz-Glacier-Version" to ctx.model.expectShape<ServiceShape>(ctx.settings.service).version
+        operationMiddleware.appendMiddleware(
+            operationShape,
+            MutateHeadersMiddleware(
+                extraHeaders = mapOf(
+                    "X-Amz-Glacier-Version" to ctx.model.expectShape<ServiceShape>(ctx.settings.service).version
+                )
             )
         )
-        operationMiddleware.appendMiddleware(operationShape, middleware.middlewareStep, middleware)
     }
-//    override fun customizeMiddleware(
-//        ctx: ProtocolGenerator.GenerationContext,
-//        resolved: List<OperationMiddlewareRenderable>
-//    ) = resolved + MutateHeadersMiddleware(
-//        extraHeaders = mapOf(
-//            "X-Amz-Glacier-Version" to ctx.model.expectShape<ServiceShape>(ctx.settings.service).version
-//        )
-//    )
 }

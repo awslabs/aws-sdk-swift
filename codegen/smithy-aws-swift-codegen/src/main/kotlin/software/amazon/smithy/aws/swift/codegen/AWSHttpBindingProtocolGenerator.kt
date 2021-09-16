@@ -78,19 +78,13 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
-
-        val endpointResolverMiddleware = EndpointResolverMiddleware()
-        val retryMiddleware = RetryMiddleware()
-        operationMiddleware.appendMiddleware(operation, endpointResolverMiddleware.middlewareStep, endpointResolverMiddleware)
-        operationMiddleware.appendMiddleware(operation, retryMiddleware.middlewareStep, retryMiddleware)
+        operationMiddleware.appendMiddleware(operation, EndpointResolverMiddleware())
+        operationMiddleware.appendMiddleware(operation, RetryMiddleware())
 
         if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, operation)) {
-            val signingMiddleware = AWSSigningMiddleware()
-            operationMiddleware.appendMiddleware(operation, signingMiddleware.middlewareStep, signingMiddleware)
+            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware())
         }
-        val userAgentMiddleware = UserAgentMiddleware()
-        operationMiddleware.appendMiddleware(operation, userAgentMiddleware.middlewareStep, userAgentMiddleware)
-//        protocolMiddlewares.add(UserAgentMiddleware())
-//        return defaultMiddlewares + protocolMiddlewares
+
+        operationMiddleware.appendMiddleware(operation, UserAgentMiddleware())
     }
 }

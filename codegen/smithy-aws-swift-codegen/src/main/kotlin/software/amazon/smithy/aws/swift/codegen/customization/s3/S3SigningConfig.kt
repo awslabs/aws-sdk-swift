@@ -33,23 +33,9 @@ class S3SigningConfig : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware
     ) {
-        val s3SigningMiddleware = S3SigningMiddleware()
         operationMiddleware.removeMiddleware(operationShape, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        operationMiddleware.appendMiddleware(operationShape, s3SigningMiddleware.middlewareStep, s3SigningMiddleware)
+        operationMiddleware.appendMiddleware(operationShape, S3SigningMiddleware())
     }
-
-//    override fun customizeMiddleware(
-//        ctx: ProtocolGenerator.GenerationContext,
-//        resolved: List<OperationMiddlewareRenderable>
-//    ): List<OperationMiddlewareRenderable> {
-//        val middleware = resolved.filterNot {
-//            it.name == "AWSSigningMiddleware"
-//        }.toMutableList()
-//
-//        middleware.add(S3SigningMiddleware())
-//
-//        return middleware
-//    }
 }
 
 private class S3SigningMiddleware() : AWSSigningMiddleware() {

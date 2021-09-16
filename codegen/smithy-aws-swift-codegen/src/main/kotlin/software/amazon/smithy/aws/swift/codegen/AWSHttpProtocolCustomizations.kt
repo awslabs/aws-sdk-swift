@@ -17,17 +17,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 
 abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
-//    override fun baseMiddlewares(ctx: ProtocolGenerator.GenerationContext, op: OperationShape): List<OperationMiddlewareRenderable> {
-//        val defaultMiddlewares = super.baseMiddlewares(ctx, op)
-//        val protocolMiddlewares = mutableListOf(EndpointResolverMiddleware(), RetryMiddleware())
-//
-//        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
-//            protocolMiddlewares.add(AWSSigningMiddleware())
-//        }
-//
-//        protocolMiddlewares.add(UserAgentMiddleware())
-//        return defaultMiddlewares + protocolMiddlewares
-//    }
 
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait

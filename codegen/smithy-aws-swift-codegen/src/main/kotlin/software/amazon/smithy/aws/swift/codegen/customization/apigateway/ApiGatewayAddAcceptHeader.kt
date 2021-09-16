@@ -22,6 +22,6 @@ class ApiGatewayAddAcceptHeader : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware
     ) {
-        operationMiddleware.appendMiddleware(operationShape, acceptHeaderMiddleware.middlewareStep, acceptHeaderMiddleware)
+        operationMiddleware.appendMiddleware(operationShape, acceptHeaderMiddleware)
     }
 }

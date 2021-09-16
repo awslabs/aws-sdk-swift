@@ -14,12 +14,6 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 
 class AWSHttpProtocolJson11Customizations : AWSHttpProtocolCustomizations() {
 
-//    override fun baseMiddlewares(ctx: ProtocolGenerator.GenerationContext, op: OperationShape): List<OperationMiddlewareRenderable> {
-//        val defaultMiddlewares = super.baseMiddlewares(ctx, op)
-//        val protocolMiddlewares = listOf<OperationMiddlewareRenderable>(AWSXAmzTargetMiddleware())
-//        return defaultMiddlewares + protocolMiddlewares
-//    }
-
     override fun renderMiddlewareForGeneratedRequestTests(
         writer: SwiftWriter,
         test: HttpRequestTestCase,
