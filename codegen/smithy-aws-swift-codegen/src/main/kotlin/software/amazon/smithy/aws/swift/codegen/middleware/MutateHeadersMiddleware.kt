@@ -4,16 +4,16 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.MiddlewarePosition
-import software.amazon.smithy.swift.codegen.integration.MiddlewareStep
-import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 class MutateHeadersMiddleware(
     private val extraHeaders: Map<String, String> = emptyMap(),
     private val overrideHeaders: Map<String, String> = emptyMap(),
     private val addMissingHeaders: Map<String, String> = emptyMap(),
-) : OperationMiddlewareRenderable {
+) : MiddlewareRenderable {
     override val name = "MutateHeaderMiddleware"
 
     override val middlewareStep = MiddlewareStep.BUILDSTEP

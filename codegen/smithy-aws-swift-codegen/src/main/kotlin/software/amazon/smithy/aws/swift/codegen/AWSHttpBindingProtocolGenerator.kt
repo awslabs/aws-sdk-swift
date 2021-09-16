@@ -4,8 +4,13 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.RetryMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
+import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -70,5 +75,16 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     ) {
         val decoder = StructDecodeGenerator(ctx, members, writer, defaultTimestampFormat)
         decoder.render()
+    }
+
+    override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
+        operationMiddleware.appendMiddleware(operation, EndpointResolverMiddleware())
+        operationMiddleware.appendMiddleware(operation, RetryMiddleware())
+
+        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, operation)) {
+            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware())
+        }
+
+        operationMiddleware.appendMiddleware(operation, UserAgentMiddleware())
     }
 }

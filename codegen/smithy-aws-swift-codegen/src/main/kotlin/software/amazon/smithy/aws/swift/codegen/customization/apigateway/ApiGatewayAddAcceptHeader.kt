@@ -3,11 +3,12 @@ package software.amazon.smithy.aws.swift.codegen.customization.apigateway
 import software.amazon.smithy.aws.swift.codegen.middleware.MutateHeadersMiddleware
 import software.amazon.smithy.aws.swift.codegen.sdkId
 import software.amazon.smithy.model.Model
+import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 class ApiGatewayAddAcceptHeader : SwiftIntegration {
@@ -18,8 +19,9 @@ class ApiGatewayAddAcceptHeader : SwiftIntegration {
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
-        resolved: List<OperationMiddlewareRenderable>
-    ): List<OperationMiddlewareRenderable> {
-        return resolved + acceptHeaderMiddleware
+        operationShape: OperationShape,
+        operationMiddleware: OperationMiddleware
+    ) {
+        operationMiddleware.appendMiddleware(operationShape, acceptHeaderMiddleware)
     }
 }

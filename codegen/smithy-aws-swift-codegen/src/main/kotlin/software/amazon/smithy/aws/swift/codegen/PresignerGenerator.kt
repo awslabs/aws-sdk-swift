@@ -12,8 +12,8 @@ import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.CodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
-import software.amazon.smithy.swift.codegen.integration.MiddlewareExecutionGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 data class PresignableOperation(
@@ -78,6 +78,7 @@ class PresignerGenerator : SwiftIntegration {
                     httpBindingResolver,
                     protocolGenerator.defaultContentType,
                     protocolGenerator.httpProtocolCustomizable,
+                    protocolGenerator.operationMiddleware,
                     operationStackName
                 )
                 generator.render(operationsIndex, op) { writer, _ ->

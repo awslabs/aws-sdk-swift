@@ -6,9 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.RetryMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -16,22 +13,10 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizations
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
-import software.amazon.smithy.swift.codegen.integration.OperationMiddlewareRenderable
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 
 abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
-    override fun baseMiddlewares(ctx: ProtocolGenerator.GenerationContext, op: OperationShape): List<OperationMiddlewareRenderable> {
-        val defaultMiddlewares = super.baseMiddlewares(ctx, op)
-        val protocolMiddlewares = mutableListOf(EndpointResolverMiddleware(), RetryMiddleware())
-
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
-            protocolMiddlewares.add(AWSSigningMiddleware())
-        }
-
-        protocolMiddlewares.add(UserAgentMiddleware())
-        return defaultMiddlewares + protocolMiddlewares
-    }
 
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
