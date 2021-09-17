@@ -93,7 +93,7 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                 "plugins": {
                     "swift-codegen": {
                       "service": "${service.name}",
-                      "module" : "AWS${service.packageName}",
+                      "module" : "${service.packageName}",
                       "moduleVersion": "${service.packageVersion}",
                       "homepage": "https://docs.amplify.aws/",
                       "sdkId": "${service.sdkId}",
@@ -153,7 +153,7 @@ fun discoverServices(): List<AwsService> {
 
             AwsService(
                 name = service.id.toString(),
-                packageName = "${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}",
+                packageName = "AWS${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}",
                 packageVersion = "1.0",
                 modelFile = file,
                 projectionName = name + "." + version.toLowerCase(),
