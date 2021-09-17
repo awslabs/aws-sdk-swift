@@ -6,13 +6,11 @@
 // This build file has been adapted from the Go v2 SDK, here:
 // https://github.com/aws/aws-sdk-go-v2/blob/master/codegen/sdk-codegen/build.gradle.kts
 
-import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.node.Node
-import software.amazon.smithy.model.node.ObjectNode
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.gradle.tasks.SmithyBuild
-import kotlin.streams.toList
+import software.amazon.smithy.model.Model
+import software.amazon.smithy.model.shapes.ServiceShape
 import java.util.Properties
+import kotlin.streams.toList
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
@@ -101,7 +99,7 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "sdkId": "${service.sdkId}",
                       "author": "Amazon Web Services",
                       "gitRepo": "${service.gitRepo}",
-                      "swiftVersion": "5.3.0",
+                      "swiftVersion": "5.4.0",
                       "build": {
                           "rootProject": $buildStandaloneSdk
                       }
@@ -155,7 +153,7 @@ fun discoverServices(): List<AwsService> {
 
             AwsService(
                 name = service.id.toString(),
-                packageName = "${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}",
+                packageName = "AWS${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}",
                 packageVersion = "1.0",
                 modelFile = file,
                 projectionName = name + "." + version.toLowerCase(),

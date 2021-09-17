@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import S3
+import AWSS3
 import Foundation
 import ClientRuntime
 

@@ -14,7 +14,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         //FIXME change this path to be non-localized
-        .package(name: "S3", path: "~/Projects/Amplify/SwiftSDK/aws-sdk-swift/codegen/sdk-codegen/build/smithyprojections/sdk-codegen/s3.2006-03-01/swift-codegen"),
+        .package(name: "AWSS3", path: "~/Projects/Amplify/SwiftSDK/aws-sdk-swift/codegen/sdk-codegen/build/smithyprojections/sdk-codegen/s3.2006-03-01/swift-codegen"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -22,7 +22,7 @@ let package = Package(
         .executableTarget(
             name: "TestSdk",
             dependencies: [
-                "S3"
+                "AWSS3"
             ]),
         .testTarget(
             name: "TestSdkTests",
