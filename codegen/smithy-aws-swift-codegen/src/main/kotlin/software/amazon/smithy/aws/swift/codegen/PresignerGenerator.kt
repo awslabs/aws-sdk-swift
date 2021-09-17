@@ -76,12 +76,11 @@ class PresignerGenerator : SwiftIntegration {
                     protocolGeneratorContext,
                     writer,
                     httpBindingResolver,
-                    protocolGenerator.defaultContentType,
                     protocolGenerator.httpProtocolCustomizable,
                     protocolGenerator.operationMiddleware,
                     operationStackName
                 )
-                generator.render(operationsIndex, op) { writer, _ ->
+                generator.render(op) { writer, _ ->
                     writer.write("return nil")
                 }
 
