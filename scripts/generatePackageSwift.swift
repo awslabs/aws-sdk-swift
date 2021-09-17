@@ -47,8 +47,7 @@ func generateProducts(_ releasedSDKs: [String]) {
     print("    products: [")
     print("        .library(name: \"AWSClientRuntime\", targets: [\"AWSClientRuntime\"]),")
     for sdk in releasedSDKs {
-        let prefixedName = "AWS\(sdk)"
-        print("        .library(name: \"\(prefixedName)\", targets: [\"\(prefixedName)\"]),")
+        print("        .library(name: \"\(sdk)\", targets: [\"\(sdk)\"]),")
     }
     print("    ],")
 
@@ -87,8 +86,7 @@ func generateTargets(_ releasedSDKs: [String]) {
 """
     print(targetsBeginning)
     for sdk in releasedSDKs {
-        let prefixedName = "AWS\(sdk)"
-        print("        .target(name: \"\(prefixedName)\", dependencies: [.product(name: \"ClientRuntime\", package: \"ClientRuntime\"), \"AWSClientRuntime\"], path: \"./release/\(sdk)\"),")
+        print("        .target(name: \"\(sdk)\", dependencies: [.product(name: \"ClientRuntime\", package: \"ClientRuntime\"), \"AWSClientRuntime\"], path: \"./release/\(sdk)\"),")
     }
     print("        ]")
     
