@@ -93,7 +93,7 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                 "plugins": {
                     "swift-codegen": {
                       "service": "${service.name}",
-                      "module" : "${service.packageName}",
+                      "module" : "AWS${service.packageName}",
                       "moduleVersion": "${service.packageVersion}",
                       "homepage": "https://docs.amplify.aws/",
                       "sdkId": "${service.sdkId}",
