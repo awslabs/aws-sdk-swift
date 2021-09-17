@@ -1,10 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.codegen.core.SymbolProvider
+import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
@@ -20,22 +20,12 @@ class MutateHeadersMiddleware(
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(
-        ctx: ProtocolGenerator.GenerationContext,
-        writer: SwiftWriter,
-        serviceShape: ServiceShape,
-        op: OperationShape,
-        operationStackName: String
-    ) {
-        val paramsString = middlewareParamsString(ctx, serviceShape, op)
+    override fun render(model: Model, symbolProvider: SymbolProvider, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+        val paramsString = middlewareParamsString(model, symbolProvider, op)
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N($paramsString))", ClientRuntimeTypes.Middleware.MutateHeadersMiddleware)
     }
 
-    override fun middlewareParamsString(
-        ctx: ProtocolGenerator.GenerationContext,
-        serviceShape: ServiceShape,
-        op: OperationShape
-    ): String {
+    override fun middlewareParamsString(model: Model, symbolProvider: SymbolProvider, op: OperationShape): String {
         val overrideHeadersString = overrideHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
         val extraHeadersString = extraHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
         val addMissingHeadersString = addMissingHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }

@@ -88,7 +88,7 @@ stack.finalizeStep.intercept(position: .before,
         val opStackName = "stack"
         val sut = AWSSigningMiddleware()
 
-        sut.render(context, writer, serviceShape, operationShape, opStackName)
+        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
@@ -115,7 +115,7 @@ stack.finalizeStep.intercept(position: .before,
         val opStackName = "stack"
         val sut = AWSSigningMiddleware()
 
-        sut.render(context, writer, serviceShape, operationShape, opStackName)
+        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)

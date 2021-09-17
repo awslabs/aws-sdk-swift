@@ -54,9 +54,9 @@ stack.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XA
             .addShape(errorShape)
             .build()
         val context = model.newTestContext("com.test#ExampleServiceShapeName", AwsJson1_0_ProtocolGenerator()).ctx
-        val sut = AWSXAmzTargetMiddleware()
+        val sut = AWSXAmzTargetMiddleware(context.service)
 
-        sut.render(context, writer, serviceShape, operationShape, opStackName)
+        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)

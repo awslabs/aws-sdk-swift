@@ -44,13 +44,22 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     override val shouldRenderCodingKeysForEncodable = true
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
+        val testsToIgnore = setOf(
+            "RestJsonHttpPayloadTraitsWithBlob",
+            "RestJsonHttpPayloadTraitsWithMediaTypeWithBlob",
+            "RestJsonStreamingTraitsWithBlob",
+            "RestJsonStreamingTraitsRequireLengthWithBlob",
+            "RestJsonStreamingTraitsWithMediaTypeWithBlob"
+        )
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
             responseTestBuilder,
             errorTestBuilder,
             httpProtocolCustomizable,
-            serdeContext
+            operationMiddleware,
+            serdeContext,
+            testsToIgnore
         ).generateProtocolTests()
     }
 
@@ -85,6 +94,6 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware())
         }
 
-        operationMiddleware.appendMiddleware(operation, UserAgentMiddleware())
+        operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
     }
 }

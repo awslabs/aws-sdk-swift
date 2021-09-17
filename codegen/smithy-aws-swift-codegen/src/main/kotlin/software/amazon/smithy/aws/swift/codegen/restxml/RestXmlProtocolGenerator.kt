@@ -71,7 +71,8 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             "S3VirtualHostDualstackAddressing",
             "S3VirtualHostAccelerateAddressing",
             "S3VirtualHostDualstackAccelerateAddressing",
-            "S3OperationAddressingPreferred"
+            "S3OperationAddressingPreferred",
+            "HttpPayloadTraitsWithMediaTypeWithBlob" // content type
         )
         return HttpProtocolTestGenerator(
             ctx,
@@ -79,6 +80,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             responseTestBuilder,
             errorTestBuilder,
             httpProtocolCustomizable,
+            operationMiddleware,
             serdeContext,
             testsToIgnore
         ).generateProtocolTests()
