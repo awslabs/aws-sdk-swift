@@ -6,15 +6,16 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
+import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.OptionalAuthTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
@@ -30,23 +31,24 @@ open class AWSSigningMiddleware : MiddlewareRenderable {
     override val position = MiddlewarePosition.BEFORE
 
     open fun renderConfigDeclaration(
-        ctx: ProtocolGenerator.GenerationContext,
+        model: Model,
+        symbolProvider: SymbolProvider,
         writer: SwiftWriter,
-        serviceShape: ServiceShape,
         op: OperationShape
     ) {
-        writer.write("let sigv4Config = \$N(${middlewareParamsString(ctx, serviceShape, op)})", AWSClientRuntimeTypes.Signing.SigV4Config)
+        writer.addImport(SigV4Config)
+        writer.write("let sigv4Config = \$N(${middlewareParamsString(model, symbolProvider, op)})", SigV4Config)
     }
 
     override fun render(
-        ctx: ProtocolGenerator.GenerationContext,
+        model: Model,
+        symbolProvider: SymbolProvider,
         writer: SwiftWriter,
-        serviceShape: ServiceShape,
         op: OperationShape,
         operationStackName: String
     ) {
         // FIXME handle indentation properly or do swift formatting after the fact
-        renderConfigDeclaration(ctx, writer, serviceShape, op)
+        renderConfigDeclaration(model, symbolProvider, writer, op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
                 "                                         middleware: \$N(config: sigv4Config))",
@@ -55,8 +57,8 @@ open class AWSSigningMiddleware : MiddlewareRenderable {
     }
 
     override fun middlewareParamsString(
-        ctx: ProtocolGenerator.GenerationContext,
-        serviceShape: ServiceShape,
+        model: Model,
+        symbolProvider: SymbolProvider,
         op: OperationShape
     ): String {
         val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()

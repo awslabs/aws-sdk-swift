@@ -5,17 +5,18 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.AWSJSON.XAmzTargetMiddleware
+import software.amazon.smithy.codegen.core.SymbolProvider
+import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
+import software.amazon.smithy.swift.codegen.ServiceGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
-import software.amazon.smithy.swift.codegen.model.capitalizedName
 
-class AWSXAmzTargetMiddleware : MiddlewareRenderable {
+class AWSXAmzTargetMiddleware(val serviceShape: ServiceShape) : MiddlewareRenderable {
 
     override val name = "AWSXAmzTargetMiddleware"
 
@@ -24,23 +25,22 @@ class AWSXAmzTargetMiddleware : MiddlewareRenderable {
     override val position = MiddlewarePosition.BEFORE
 
     override fun render(
-        ctx: ProtocolGenerator.GenerationContext,
+        model: Model,
+        symbolProvider: SymbolProvider,
         writer: SwiftWriter,
-        serviceShape: ServiceShape,
         op: OperationShape,
         operationStackName: String
     ) {
-        val inputShape = ctx.model.expectShape(op.input.get())
-        val inputShapeName = ctx.symbolProvider.toSymbol(inputShape).name
-        val outputShape = ctx.model.expectShape(op.output.get())
-        val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
-        val outputErrorName = "${op.capitalizedName()}OutputError"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(ctx, serviceShape, op)}))", AWSClientRuntimeTypes.AWSJSON.XAmzTargetMiddleware)
+        val inputShapeName = ServiceGenerator.getOperationInputShapeName(symbolProvider, model, op)
+        val outputShapeName = ServiceGenerator.getOperationOutputShapeName(symbolProvider, model, op)
+        val outputErrorName = ServiceGenerator.getOperationErrorShapeName(op)
+        writer.addImport(XAmzTargetMiddleware)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(model, symbolProvider, op)}))", XAmzTargetMiddleware)
     }
 
     override fun middlewareParamsString(
-        ctx: ProtocolGenerator.GenerationContext,
-        serviceShape: ServiceShape,
+        model: Model,
+        symbolProvider: SymbolProvider,
         op: OperationShape
     ): String {
         val xAmzTargetValue = xAmzTargetValue(serviceShape, op)

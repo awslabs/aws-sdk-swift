@@ -6,6 +6,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.s3
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
+import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -40,8 +41,8 @@ class S3SigningConfig : SwiftIntegration {
 
 private class S3SigningMiddleware() : AWSSigningMiddleware() {
     override fun middlewareParamsString(
-        ctx: ProtocolGenerator.GenerationContext,
-        serviceShape: ServiceShape,
+        model: Model,
+        symbolProvider: SymbolProvider,
         op: OperationShape
     ): String {
         val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
