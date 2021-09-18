@@ -96,6 +96,8 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     }
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
+        // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSQuery
+        // we always need to have an InputBodyMiddleware
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
         operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(true))
     }
