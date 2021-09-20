@@ -59,7 +59,7 @@ class PresignerGenerator : SwiftIntegration {
         writer.addImport(SdkHttpRequest)
 
         val operationsIndex = OperationIndex.of(ctx.model)
-        val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext)
+        val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock("public func presign(config: \$N) -> \$T {", "}", AWSClientConfiguration, SdkHttpRequest) {

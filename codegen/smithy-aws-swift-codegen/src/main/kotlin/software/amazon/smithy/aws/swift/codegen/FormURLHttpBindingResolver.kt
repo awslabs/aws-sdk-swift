@@ -12,7 +12,8 @@ import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHtt
 
 class FormURLHttpBindingResolver(
     private val context: ProtocolGenerator.GenerationContext,
-) : StaticHttpBindingResolver(context, httpTrait) {
+    private val contentType: String
+) : StaticHttpBindingResolver(context, httpTrait, contentType) {
 
     companion object {
         private val httpTrait: HttpTrait = HttpTrait

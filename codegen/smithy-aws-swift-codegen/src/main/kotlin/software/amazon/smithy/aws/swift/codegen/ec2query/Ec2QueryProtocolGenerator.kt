@@ -44,8 +44,8 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     )
 
     override val serdeContext = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
-    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
-        HttpBindingResolver = FormURLHttpBindingResolver(ctx)
+    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, contentType: String):
+        HttpBindingResolver = FormURLHttpBindingResolver(ctx, contentType)
 
     override val shouldRenderDecodableBodyStructForInputShapes = false
     override val shouldRenderCodingKeysForEncodable = false
