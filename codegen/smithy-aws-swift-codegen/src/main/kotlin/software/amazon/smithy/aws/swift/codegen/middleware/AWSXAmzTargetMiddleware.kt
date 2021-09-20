@@ -35,14 +35,10 @@ class AWSXAmzTargetMiddleware(val serviceShape: ServiceShape) : MiddlewareRender
         val outputShapeName = ServiceGenerator.getOperationOutputShapeName(symbolProvider, model, op)
         val outputErrorName = ServiceGenerator.getOperationErrorShapeName(op)
         writer.addImport(XAmzTargetMiddleware)
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(model, symbolProvider, op)}))", XAmzTargetMiddleware)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(op)}))", XAmzTargetMiddleware)
     }
 
-    override fun middlewareParamsString(
-        model: Model,
-        symbolProvider: SymbolProvider,
-        op: OperationShape
-    ): String {
+    private fun middlewareParamsString(op: OperationShape): String {
         val xAmzTargetValue = xAmzTargetValue(serviceShape, op)
         return "xAmzTarget: \"${xAmzTargetValue}\""
     }

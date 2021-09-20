@@ -23,10 +23,10 @@ class RetryMiddleware : MiddlewareRenderable {
     override val position = MiddlewarePosition.AFTER
 
     override fun render(model: Model, symbolProvider: SymbolProvider, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(${middlewareParamsString(model, symbolProvider, op)}))", AWSClientRuntimeTypes.Core.RetryerMiddleware)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(${middlewareParamsString()}))", AWSClientRuntimeTypes.Core.RetryerMiddleware)
     }
 
-    override fun middlewareParamsString(model: Model, symbolProvider: SymbolProvider, op: OperationShape): String {
+    private fun middlewareParamsString(): String {
         return "retryer: config.retryer"
     }
 }

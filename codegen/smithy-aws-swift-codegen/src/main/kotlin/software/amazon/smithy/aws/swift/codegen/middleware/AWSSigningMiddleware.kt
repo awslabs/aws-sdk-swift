@@ -30,16 +30,6 @@ open class AWSSigningMiddleware : MiddlewareRenderable {
 
     override val position = MiddlewarePosition.BEFORE
 
-    open fun renderConfigDeclaration(
-        model: Model,
-        symbolProvider: SymbolProvider,
-        writer: SwiftWriter,
-        op: OperationShape
-    ) {
-        writer.addImport(SigV4Config)
-        writer.write("let sigv4Config = \$N(${middlewareParamsString(model, symbolProvider, op)})", SigV4Config)
-    }
-
     override fun render(
         model: Model,
         symbolProvider: SymbolProvider,
@@ -47,20 +37,19 @@ open class AWSSigningMiddleware : MiddlewareRenderable {
         op: OperationShape,
         operationStackName: String
     ) {
-        // FIXME handle indentation properly or do swift formatting after the fact
-        renderConfigDeclaration(model, symbolProvider, writer, op)
+        renderConfigDeclaration(writer, op)
         writer.write(
-            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()},\n" +
-                "                                         middleware: \$N(config: sigv4Config))",
+            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(config: sigv4Config))",
             AWSClientRuntimeTypes.Signing.SigV4Middleware
         )
     }
 
-    override fun middlewareParamsString(
-        model: Model,
-        symbolProvider: SymbolProvider,
-        op: OperationShape
-    ): String {
+    private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape) {
+        writer.addImport(SigV4Config)
+        writer.write("let sigv4Config = \$N(${middlewareParamsString(op)})", SigV4Config)
+    }
+
+    private fun middlewareParamsString(op: OperationShape): String {
         val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
         return "unsignedBody: $hasUnsignedPayload"
     }
