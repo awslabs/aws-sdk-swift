@@ -22,7 +22,9 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-open class AWSSigningMiddleware : MiddlewareRenderable {
+typealias AWSSigningMiddlewareParamsCallback = (OperationShape) -> String
+
+open class AWSSigningMiddleware(val paramsCallback: AWSSigningMiddlewareParamsCallback? = null) : MiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
 
@@ -50,8 +52,12 @@ open class AWSSigningMiddleware : MiddlewareRenderable {
     }
 
     private fun middlewareParamsString(op: OperationShape): String {
-        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-        return "unsignedBody: $hasUnsignedPayload"
+        paramsCallback?.let {
+            return it(op)
+        } ?: run {
+            val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
+            return "unsignedBody: $hasUnsignedPayload"
+        }
     }
 
     companion object {
