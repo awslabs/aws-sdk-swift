@@ -51,8 +51,8 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     )
 
     override val serdeContext = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
-    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
-        HttpBindingResolver = FormURLHttpBindingResolver(ctx)
+    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
+        HttpBindingResolver = FormURLHttpBindingResolver(ctx, defaultContentType)
 
     override val shouldRenderDecodableBodyStructForInputShapes = false
     override val shouldRenderCodingKeysForEncodable = false

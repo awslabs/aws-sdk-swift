@@ -30,8 +30,8 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSJsonHttpResponseBindingErrorGenerator()
     )
     override val serdeContext = serdeContextJSON
-    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext):
-        HttpBindingResolver = AwsJsonHttpBindingResolver(ctx)
+    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
+        HttpBindingResolver = AwsJsonHttpBindingResolver(ctx, defaultContentType)
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)

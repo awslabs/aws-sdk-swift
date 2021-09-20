@@ -12,7 +12,8 @@ import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHtt
 
 class AwsJsonHttpBindingResolver(
     private val context: ProtocolGenerator.GenerationContext,
-) : StaticHttpBindingResolver(context, awsJsonHttpTrait) {
+    private val defaultContentType: String
+) : StaticHttpBindingResolver(context, awsJsonHttpTrait, defaultContentType) {
 
     companion object {
         private val awsJsonHttpTrait: HttpTrait = HttpTrait
