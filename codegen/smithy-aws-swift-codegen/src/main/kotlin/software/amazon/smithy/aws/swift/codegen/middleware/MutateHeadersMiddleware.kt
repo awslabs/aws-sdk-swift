@@ -21,11 +21,11 @@ class MutateHeadersMiddleware(
     override val position = MiddlewarePosition.AFTER
 
     override fun render(model: Model, symbolProvider: SymbolProvider, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        val paramsString = middlewareParamsString(model, symbolProvider, op)
+        val paramsString = middlewareParamsString()
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N($paramsString))", ClientRuntimeTypes.Middleware.MutateHeadersMiddleware)
     }
 
-    override fun middlewareParamsString(model: Model, symbolProvider: SymbolProvider, op: OperationShape): String {
+    private fun middlewareParamsString(): String {
         val overrideHeadersString = overrideHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
         val extraHeadersString = extraHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }
         val addMissingHeadersString = addMissingHeaders.entries.joinToString { "\"${it.key}\": \"${it.value}\"" }

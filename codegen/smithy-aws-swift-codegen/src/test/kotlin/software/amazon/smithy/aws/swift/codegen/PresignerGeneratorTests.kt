@@ -51,8 +51,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware(retryer: config.retryer))
                     let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
-                    operation.finalizeStep.intercept(position: .before,
-                                                             middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
+                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware())
                     let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
@@ -110,8 +109,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware(retryer: config.retryer))
                     let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
-                    operation.finalizeStep.intercept(position: .before,
-                                                             middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
+                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware())
                     let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
@@ -169,8 +167,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware(retryer: config.retryer))
                     let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
-                    operation.finalizeStep.intercept(position: .before,
-                                                             middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
+                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware())
                     let presignedRequestBuilder = operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())

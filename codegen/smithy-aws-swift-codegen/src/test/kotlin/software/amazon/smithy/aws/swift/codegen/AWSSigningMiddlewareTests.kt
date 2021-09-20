@@ -71,8 +71,7 @@ class AWSSigningMiddlewareTests {
         val expectedContents =
             """
 let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: true)
-stack.finalizeStep.intercept(position: .before,
-                                         middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
+stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
@@ -99,8 +98,7 @@ stack.finalizeStep.intercept(position: .before,
         val expectedContents =
             """
 let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
-stack.finalizeStep.intercept(position: .before,
-                                         middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
+stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
