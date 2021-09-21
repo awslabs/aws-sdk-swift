@@ -14,6 +14,7 @@ import software.amazon.smithy.swift.codegen.ServiceGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 class AWSXAmzTargetMiddleware(val serviceShape: ServiceShape) : MiddlewareRenderable {
@@ -29,7 +30,8 @@ class AWSXAmzTargetMiddleware(val serviceShape: ServiceShape) : MiddlewareRender
         symbolProvider: SymbolProvider,
         writer: SwiftWriter,
         op: OperationShape,
-        operationStackName: String
+        operationStackName: String,
+        executionContext: MiddlewareRenderableExecutionContext
     ) {
         val inputShapeName = ServiceGenerator.getOperationInputShapeName(symbolProvider, model, op)
         val outputShapeName = ServiceGenerator.getOperationOutputShapeName(symbolProvider, model, op)

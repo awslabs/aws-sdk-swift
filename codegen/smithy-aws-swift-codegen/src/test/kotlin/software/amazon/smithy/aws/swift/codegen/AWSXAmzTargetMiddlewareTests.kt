@@ -22,6 +22,7 @@ import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 
 class AWSXAmzTargetMiddlewareTests {
     @Test
@@ -56,7 +57,7 @@ stack.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XA
         val context = model.newTestContext("com.test#ExampleServiceShapeName", AwsJson1_0_ProtocolGenerator()).ctx
         val sut = AWSXAmzTargetMiddleware(context.service)
 
-        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName)
+        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.CLIENT)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
