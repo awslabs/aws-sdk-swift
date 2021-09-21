@@ -12,6 +12,7 @@ public struct SigV4Config {
     let useDoubleURIEncode: Bool
     let shouldNormalizeURIPath: Bool
     let omitSessionToken: Bool
+    let expiration: Int64
     let signedBodyHeader: AWSSignedBodyHeader
     let unsignedBody: Bool
     
@@ -21,6 +22,7 @@ public struct SigV4Config {
                 useDoubleURIEncode: Bool = true,
                 shouldNormalizeURIPath: Bool = true,
                 omitSessionToken: Bool = false,
+                expiration: Int64 = 0,
                 signedBodyHeader: AWSSignedBodyHeader = .none,
                 unsignedBody: Bool) {
         self.credentialsProvider = credentialsProvider
@@ -29,6 +31,7 @@ public struct SigV4Config {
         self.useDoubleURIEncode = useDoubleURIEncode
         self.shouldNormalizeURIPath = shouldNormalizeURIPath
         self.omitSessionToken = omitSessionToken
+        self.expiration = expiration
         self.signedBodyHeader = signedBodyHeader
         self.unsignedBody = unsignedBody
     }

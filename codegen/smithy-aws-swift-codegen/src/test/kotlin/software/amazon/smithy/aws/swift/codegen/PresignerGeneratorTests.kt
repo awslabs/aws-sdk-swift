@@ -19,7 +19,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension GetFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration, sigv4Config: AWSClientRuntime.SigV4Config? = nil) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -50,7 +50,7 @@ class PresignerGeneratorTests {
                     operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFooInput, GetFooOutputResponse, GetFooOutputError>(contentType: "application/json"))
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware(retryer: config.retryer))
-                    let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+                    let sigv4Config = sigv4Config ?? AWSClientRuntime.SigV4Config(unsignedBody: false)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware())
@@ -76,7 +76,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PostFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration, sigv4Config: AWSClientRuntime.SigV4Config? = nil) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -108,7 +108,7 @@ class PresignerGeneratorTests {
                     operation.serializeStep.intercept(position: .after, middleware: PostFooInputBodyMiddleware())
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware(retryer: config.retryer))
-                    let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+                    let sigv4Config = sigv4Config ?? AWSClientRuntime.SigV4Config(unsignedBody: false)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware())
@@ -134,7 +134,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PutFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration, sigv4Config: AWSClientRuntime.SigV4Config? = nil) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -166,7 +166,7 @@ class PresignerGeneratorTests {
                     operation.serializeStep.intercept(position: .after, middleware: PutFooInputBodyMiddleware())
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware(retryer: config.retryer))
-                    let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+                    let sigv4Config = sigv4Config ?? AWSClientRuntime.SigV4Config(unsignedBody: false)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware())

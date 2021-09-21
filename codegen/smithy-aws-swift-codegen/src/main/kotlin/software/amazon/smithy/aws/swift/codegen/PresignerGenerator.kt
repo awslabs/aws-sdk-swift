@@ -1,9 +1,9 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSClientConfiguration
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
-import software.amazon.smithy.model.knowledge.OperationIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpRequest
@@ -14,6 +14,7 @@ import software.amazon.smithy.swift.codegen.core.CodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 data class PresignableOperation(
@@ -58,11 +59,10 @@ class PresignerGenerator : SwiftIntegration {
         writer.addImport(AWSClientConfiguration)
         writer.addImport(SdkHttpRequest)
 
-        val operationsIndex = OperationIndex.of(ctx.model)
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("public func presign(config: \$N) -> \$T {", "}", AWSClientConfiguration, SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$N, sigv4Config: \$D) -> \$T {", "}", AWSClientConfiguration, SigV4Config, SdkHttpRequest) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
                 val operationStackName = "operation"
@@ -78,7 +78,8 @@ class PresignerGenerator : SwiftIntegration {
                     httpBindingResolver,
                     protocolGenerator.httpProtocolCustomizable,
                     protocolGenerator.operationMiddleware,
-                    operationStackName
+                    operationStackName,
+                    MiddlewareRenderableExecutionContext.PRESIGNER
                 )
                 generator.render(op) { writer, _ ->
                     writer.write("return nil")

@@ -18,6 +18,7 @@ import software.amazon.smithy.model.traits.OptionalAuthTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
@@ -37,18 +38,22 @@ open class AWSSigningMiddleware(val paramsCallback: AWSSigningMiddlewareParamsCa
         symbolProvider: SymbolProvider,
         writer: SwiftWriter,
         op: OperationShape,
-        operationStackName: String
+        operationStackName: String,
+        executionContext: MiddlewareRenderableExecutionContext
     ) {
-        renderConfigDeclaration(writer, op)
+        renderConfigDeclaration(writer, op, executionContext)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(config: sigv4Config))",
             AWSClientRuntimeTypes.Signing.SigV4Middleware
         )
     }
 
-    private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape) {
+    private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape, executionContext: MiddlewareRenderableExecutionContext) {
         writer.addImport(SigV4Config)
-        writer.write("let sigv4Config = \$N(${middlewareParamsString(op)})", SigV4Config)
+        when (executionContext) {
+            MiddlewareRenderableExecutionContext.PRESIGNER -> writer.write("let sigv4Config = sigv4Config ?? \$N(${middlewareParamsString(op)})", SigV4Config)
+            else -> writer.write("let sigv4Config = \$N(${middlewareParamsString(op)})", SigV4Config)
+        }
     }
 
     private fun middlewareParamsString(op: OperationShape): String {
