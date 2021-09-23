@@ -51,7 +51,7 @@ open class AWSSigningMiddleware(val paramsCallback: AWSSigningMiddlewareParamsCa
     private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape, executionContext: MiddlewareRenderableExecutionContext) {
         writer.addImport(SigV4Config)
         when (executionContext) {
-            MiddlewareRenderableExecutionContext.PRESIGNER -> writer.write("let sigv4Config = sigv4Config ?? \$N(${middlewareParamsString(op)})", SigV4Config)
+            MiddlewareRenderableExecutionContext.PRESIGNER -> writer.write("let sigv4Config = \$N(expiration: expiration, ${middlewareParamsString(op)})", SigV4Config)
             else -> writer.write("let sigv4Config = \$N(${middlewareParamsString(op)})", SigV4Config)
         }
     }
