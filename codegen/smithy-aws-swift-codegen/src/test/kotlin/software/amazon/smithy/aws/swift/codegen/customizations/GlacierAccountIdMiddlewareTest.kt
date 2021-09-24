@@ -57,7 +57,7 @@ class GlacierAccountIdMiddlewareTest {
         val contents = writer.toString()
         val expectedContents = """
 stack.initializeStep.intercept(position: .after, id: "GlacierAccountIdAutoFill") { (context, input, next) -> Swift.Result<ClientRuntime.OperationOutput<TestOutputShapeName>, ClientRuntime.SdkError<ExampleOperationOutputError>> in
-    guard let accountId = input.accountId, !accountId.isEmpty {
+    guard let accountId = input.accountId, !accountId.isEmpty else {
         var copiedInput = input
         copiedInput.accountId = "-"
         return next.handle(context: context, input: copiedInput)
