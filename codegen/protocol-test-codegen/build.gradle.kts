@@ -2,8 +2,8 @@
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0.
  */
-import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.gradle.tasks.ProtocolTestTask
+import software.amazon.smithy.gradle.tasks.SmithyBuild
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
@@ -36,7 +36,7 @@ val enabledProtocols = listOf(
 
     // service specific tests
     //ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService"),
-    //ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK")
+    ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK"),
     ProtocolTest("s3", "com.amazonaws.s3#AmazonS3", "S3TestSDK")
 )
 
