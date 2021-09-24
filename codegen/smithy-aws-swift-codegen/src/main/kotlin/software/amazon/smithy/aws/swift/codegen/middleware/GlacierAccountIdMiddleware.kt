@@ -31,11 +31,12 @@ class GlacierAccountIdMiddleware() : MiddlewareRenderable {
             ClientRuntimeTypes.Middleware.OperationOutput,
             ClientRuntimeTypes.Core.SdkError
         ) {
-            writer.write("var copiedInput = input")
-            writer.openBlock("if input.${accountId.memberName}.isNilOrEmpty {", "}") {
+            writer.openBlock("guard let accountId = input.${accountId.memberName}, !accountId.isEmpty {", "}") {
+                writer.write("var copiedInput = input")
                 writer.write("copiedInput.${accountId.memberName} = \"-\"")
+                writer.write("return next.handle(context: context, input: copiedInput)")
             }
-            writer.write("return next.handle(context: context, input: copiedInput)")
+            writer.write("return next.handle(context: context, input: input)")
         }
     }
 }
