@@ -5,4 +5,5 @@ software.amazon.smithy.aws.swift.codegen.customization.apigateway.ApiGatewayAddA
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAddVersionHeader
 software.amazon.smithy.aws.swift.codegen.customization.BoxServices
 software.amazon.smithy.aws.swift.codegen.customization.PresignableModelIntegration
+software.amazon.smithy.aws.swift.codegen.customization.polly.PollyGetPresignerIntegration
 software.amazon.smithy.aws.swift.codegen.PresignerGenerator
