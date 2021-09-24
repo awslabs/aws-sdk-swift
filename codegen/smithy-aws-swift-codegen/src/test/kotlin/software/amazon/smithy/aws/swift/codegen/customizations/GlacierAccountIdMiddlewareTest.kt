@@ -16,46 +16,46 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 
 class GlacierAccountIdMiddlewareTest {
-        @Test
+    @Test
     fun testGlacierMiddlewareRendersCorrectly() {
-            val writer = SwiftWriter("testName")
-            val serviceShape = ServiceShape.builder()
-                .id("com.test#Glacier")
-                .version("1.0")
-                .build()
-            val accountIdMember = MemberShape.builder()
-                .id("com.test#TestInputShapeName\$accountId")
-                .target("smithy.api#String")
-                .build()
-            val inputShape = StructureShape.builder()
-                .id("com.test#TestInputShapeName")
-                .addMember(accountIdMember)
-                .build()
-            val outputShape = StructureShape.builder().id("com.test#TestOutputShapeName").build()
-            val errorShape = StructureShape.builder().id("com.test#TestErrorShapeName").build()
-            val operationShape = OperationShape.builder()
-                .id("com.test#ExampleOperation")
-                .addTrait(UnsignedPayloadTrait())
-                .input { ShapeId.from("com.test#TestInputShapeName") }
-                .output { ShapeId.from("com.test#TestOutputShapeName") }
-                .addError("com.test#TestErrorShapeName")
-                .build()
-            val model = Model.builder()
-                .addShape(serviceShape)
-                .addShape(operationShape)
-                .addShape(accountIdMember)
-                .addShape(inputShape)
-                .addShape(outputShape)
-                .addShape(errorShape)
-                .build()
-            val context = model.newTestContext(serviceShapeId = "com.test#Glacier", generator = AWSRestJson1ProtocolGenerator()).ctx
-            val opStackName = "stack"
-            val glacierMiddleware = GlacierAccountIdMiddleware()
+        val writer = SwiftWriter("testName")
+        val serviceShape = ServiceShape.builder()
+            .id("com.test#Glacier")
+            .version("1.0")
+            .build()
+        val accountIdMember = MemberShape.builder()
+            .id("com.test#TestInputShapeName\$accountId")
+            .target("smithy.api#String")
+            .build()
+        val inputShape = StructureShape.builder()
+            .id("com.test#TestInputShapeName")
+            .addMember(accountIdMember)
+            .build()
+        val outputShape = StructureShape.builder().id("com.test#TestOutputShapeName").build()
+        val errorShape = StructureShape.builder().id("com.test#TestErrorShapeName").build()
+        val operationShape = OperationShape.builder()
+            .id("com.test#ExampleOperation")
+            .addTrait(UnsignedPayloadTrait())
+            .input { ShapeId.from("com.test#TestInputShapeName") }
+            .output { ShapeId.from("com.test#TestOutputShapeName") }
+            .addError("com.test#TestErrorShapeName")
+            .build()
+        val model = Model.builder()
+            .addShape(serviceShape)
+            .addShape(operationShape)
+            .addShape(accountIdMember)
+            .addShape(inputShape)
+            .addShape(outputShape)
+            .addShape(errorShape)
+            .build()
+        val context = model.newTestContext(serviceShapeId = "com.test#Glacier", generator = AWSRestJson1ProtocolGenerator()).ctx
+        val opStackName = "stack"
+        val glacierMiddleware = GlacierAccountIdMiddleware()
 
-            glacierMiddleware.render(model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.CLIENT)
+        glacierMiddleware.render(model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.CLIENT)
 
-            val contents = writer.toString()
-            val expectedContents = """
+        val contents = writer.toString()
+        val expectedContents = """
 stack.initializeStep.intercept(position: .after, id: "GlacierAccountIdAutoFill") { (context, input, next) -> Swift.Result<ClientRuntime.OperationOutput<TestOutputShapeName>, ClientRuntime.SdkError<ExampleOperationOutputError>> in
     guard let accountId = input.accountId, !accountId.isEmpty {
         var copiedInput = input
@@ -64,6 +64,6 @@ stack.initializeStep.intercept(position: .after, id: "GlacierAccountIdAutoFill")
     }
     return next.handle(context: context, input: input)
 }"""
-            contents.shouldContainOnlyOnce(expectedContents)
+        contents.shouldContainOnlyOnce(expectedContents)
     }
 }
