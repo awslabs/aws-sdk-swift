@@ -32,7 +32,7 @@ class GlacierAccountIdMiddleware() : MiddlewareRenderable {
             ClientRuntimeTypes.Core.SdkError
         ) {
             writer.write("var copiedInput = input")
-            writer.openBlock("if input.\$N.isEmptyOrNil {", "}", accountId.memberName) {
+            writer.openBlock("if input.${accountId.memberName}.isEmptyOrNil {", "}") {
                 writer.write("copiedInput.${accountId.memberName} = \"-\"")
             }
             writer.write("return next.handle(context: context, input: copiedInput)")

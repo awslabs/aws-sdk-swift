@@ -28,7 +28,7 @@ class GlacierAccountIdDefault : SwiftIntegration {
     ) {
         val input = operationShape.input.getOrNull()?.let { ctx.model.expectShape<StructureShape>(it) }
         val needsAccountIdMiddleware = input?.memberNames?.any { it.lowercase() == "accountid" } ?: false
-        if(needsAccountIdMiddleware) {
+        if (needsAccountIdMiddleware) {
             operationMiddleware.appendMiddleware(
                 operationShape,
                 GlacierAccountIdMiddleware()

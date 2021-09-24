@@ -45,10 +45,10 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
         val ignoredTests = setOf(
-                // Glacier customizations
-                "GlacierChecksums", // aws-sdk-swift#208
-                "GlacierMultipartChecksums", // aws-sdk-swift#208
-            )
+            // Glacier customizations
+            "GlacierChecksums", // aws-sdk-swift#208
+            "GlacierMultipartChecksums", // aws-sdk-swift#208
+        )
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
