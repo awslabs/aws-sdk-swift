@@ -39,6 +39,8 @@ appendLibTarget(name: "AWSQueryTestSDK", path: "\(baseDir)/aws-query")
 appendTstTarget(name: "AWSQueryTestSDKTests", path: "\(baseDir)/aws-query", dependency: "AWSQueryTestSDK")
 
 //Service specific
+appendLibTarget(name: "GlacierTestSDK", path: "\(baseDir)/glacier")
+appendTstTarget(name: "GlacierTestSDKTests", path: "\(baseDir)/glacier", dependency: "GlacierTestSDK")
 appendLibTarget(name: "S3TestSDK", path: "\(baseDir)/s3")
 appendTstTarget(name: "S3TestSDKTests", path: "\(baseDir)/s3", dependency: "S3TestSDK")
 
@@ -71,7 +73,7 @@ func appendLibTarget(name: String, path: String) {
 func appendTstTarget(name: String, path: String, dependency: String) {
     package.targets.append(.testTarget(name: name,
                                        dependencies:  [
-                                        ._byNameItem(name: dependency, condition: nil),
+                                        .byNameItem(name: dependency, condition: nil),
                                         .product(name: "SmithyTestUtil", package: "ClientRuntime")
                                        ],
                                        path: "\(path)/swift-codegen/\(name)")
