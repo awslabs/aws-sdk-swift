@@ -19,7 +19,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension GetFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Int64) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Swift.Int64) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -76,7 +76,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PostFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Int64) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Swift.Int64) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -134,7 +134,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PutFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Int64) -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Swift.Int64) -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()

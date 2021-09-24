@@ -8,6 +8,7 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpRequest
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.SwiftDelegator
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.CodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
@@ -61,7 +62,7 @@ class PresignerGenerator : SwiftIntegration {
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("public func presign(config: \$N, expiration: Int64) -> \$T {", "}", AWSClientConfiguration, SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$N, expiration: \$N) -> \$T {", "}", AWSClientConfiguration, SwiftTypes.Int64, SdkHttpRequest) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
                 val operationStackName = "operation"
