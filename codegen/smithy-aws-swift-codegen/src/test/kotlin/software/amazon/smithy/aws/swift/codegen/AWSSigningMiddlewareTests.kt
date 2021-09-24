@@ -124,7 +124,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
     fun `renderSigningMiddleware unsignedBody true, presigner`() {
         val expectedContents =
             """
-let sigv4Config = sigv4Config ?? AWSClientRuntime.SigV4Config(unsignedBody: true)
+let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: true)
 stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
@@ -151,7 +151,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
     fun `renderSigningMiddleware unsignedBody false, presigner`() {
         val expectedContents =
             """
-let sigv4Config = sigv4Config ?? AWSClientRuntime.SigV4Config(unsignedBody: false)
+let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
 stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val serviceShape = ServiceShape.builder()
