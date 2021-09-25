@@ -32,9 +32,9 @@ class PollySynthesizeSpeechGETQueryItemMiddleware(
                 when (memberTargetShape) {
                     is ListShape -> {
                         val rawValueIfNeeded = rawValueIfNeeded(memberTargetShape.member.target)
-                        val value = "item$rawValueIfNeeded"
+                        val queryValue = "item$rawValueIfNeeded"
                         writer.openBlock("$memberName.forEach { item in ", "}") {
-                            writeRenderItem(queryKey, value)
+                            writeRenderItem(queryKey, queryValue)
                         }
                     }
                     else -> {
