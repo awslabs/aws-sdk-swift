@@ -18,7 +18,6 @@ class SynthesizeSpeechInputGETQueryItemMiddleware : MiddlewareRenderable {
     override val position = MiddlewarePosition.AFTER
 
     override fun render(model: Model, symbolProvider: SymbolProvider, writer: SwiftWriter, op: OperationShape, operationStackName: String, executionContext: MiddlewareRenderableExecutionContext) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: ${name}())")
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: $name())")
     }
-
 }
