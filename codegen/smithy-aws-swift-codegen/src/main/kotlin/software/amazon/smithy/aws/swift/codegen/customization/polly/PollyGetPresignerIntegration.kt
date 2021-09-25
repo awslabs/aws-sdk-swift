@@ -82,7 +82,6 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            // TODO: CREATE TYPE FOR URL IN CLIENTRUNTIME
             writer.openBlock(
                 "public func presignURL(config: \$N, expiration: \$N) -> \$T {", "}",
                 AWSClientRuntimeTypes.Core.AWSClientConfiguration,
@@ -141,11 +140,9 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
     private fun renderMiddlewareClassForQueryString(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {
 
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
-        val protocolGenerator = codegenContext.protocolGenerator?.let { it } ?: run { return }
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
-//        val operationMiddleware = resolveOperationMiddleware(protocolGenerator, op)
-//        val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(ctx, protocolGenerator.defaultContentType)
 
+        // TODO: operation index is overkill - we can simplify this
         val opIndex = OperationIndex.of(ctx.model)
 
         val inputShape = opIndex.getInput(op).get()
