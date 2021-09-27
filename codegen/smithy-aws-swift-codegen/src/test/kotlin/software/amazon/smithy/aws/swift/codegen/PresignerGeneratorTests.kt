@@ -28,12 +28,10 @@ class PresignerGeneratorTests {
                     let decoder = ClientRuntime.JSONDecoder()
                     decoder.dateDecodingStrategy = .secondsSince1970
                     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-                    let urlPath = "/foo"
                     let context = ClientRuntime.HttpContextBuilder()
                                   .withEncoder(value: encoder)
                                   .withDecoder(value: decoder)
                                   .withMethod(value: .get)
-                                  .withPath(value: urlPath)
                                   .withServiceName(value: serviceName)
                                   .withOperation(value: "getFoo")
                                   .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
@@ -43,6 +41,7 @@ class PresignerGeneratorTests {
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
                     var operation = ClientRuntime.OperationStack<GetFooInput, GetFooOutputResponse, GetFooOutputError>(id: "getFoo")
+                    operation.initializeStep.intercept(position: .after, middleware: GetFooInputURLPathMiddleware())
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware(endpointResolver: config.endpointResolver, serviceId: serviceName))
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0"))))
                     operation.serializeStep.intercept(position: .after, middleware: GetFooInputHeadersMiddleware())
@@ -85,12 +84,10 @@ class PresignerGeneratorTests {
                     let decoder = ClientRuntime.JSONDecoder()
                     decoder.dateDecodingStrategy = .secondsSince1970
                     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-                    let urlPath = "/foo"
                     let context = ClientRuntime.HttpContextBuilder()
                                   .withEncoder(value: encoder)
                                   .withDecoder(value: decoder)
                                   .withMethod(value: .post)
-                                  .withPath(value: urlPath)
                                   .withServiceName(value: serviceName)
                                   .withOperation(value: "postFoo")
                                   .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
@@ -100,6 +97,7 @@ class PresignerGeneratorTests {
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
                     var operation = ClientRuntime.OperationStack<PostFooInput, PostFooOutputResponse, PostFooOutputError>(id: "postFoo")
+                    operation.initializeStep.intercept(position: .after, middleware: PostFooInputURLPathMiddleware())
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware(endpointResolver: config.endpointResolver, serviceId: serviceName))
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0"))))
                     operation.serializeStep.intercept(position: .after, middleware: PostFooInputHeadersMiddleware())
@@ -143,12 +141,10 @@ class PresignerGeneratorTests {
                     let decoder = ClientRuntime.JSONDecoder()
                     decoder.dateDecodingStrategy = .secondsSince1970
                     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-                    let urlPath = "/foo"
                     let context = ClientRuntime.HttpContextBuilder()
                                   .withEncoder(value: encoder)
                                   .withDecoder(value: decoder)
                                   .withMethod(value: .put)
-                                  .withPath(value: urlPath)
                                   .withServiceName(value: serviceName)
                                   .withOperation(value: "putFoo")
                                   .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
@@ -158,6 +154,7 @@ class PresignerGeneratorTests {
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
                     var operation = ClientRuntime.OperationStack<PutFooInput, PutFooOutputResponse, PutFooOutputError>(id: "putFoo")
+                    operation.initializeStep.intercept(position: .after, middleware: PutFooInputURLPathMiddleware())
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware(endpointResolver: config.endpointResolver, serviceId: serviceName))
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0"))))
                     operation.serializeStep.intercept(position: .after, middleware: PutFooInputHeadersMiddleware())
