@@ -142,9 +142,7 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
 
-        // TODO: operation index is overkill - we can simplify this
         val opIndex = OperationIndex.of(ctx.model)
-
         val inputShape = opIndex.getInput(op).get()
         val outputShape = opIndex.getOutput(op).get()
         val operationErrorName = ServiceGenerator.getOperationErrorShapeName(op)

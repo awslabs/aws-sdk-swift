@@ -46,6 +46,7 @@ class PollySynthesizeSpeechGETQueryItemMiddleware(
             }
         }
     }
+
     private fun rawValueIfNeeded(shapeId: ShapeId): String {
         return if (ctx.model.expectShape(shapeId).isEnum) ".rawValue" else ""
     }
