@@ -167,7 +167,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val model = Model.builder().addShape(serviceShape).addShape(operationShape).build()
         val context = model.newTestContext(generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
-        val sut = AWSSigningMiddleware{
+        val sut = AWSSigningMiddleware {
             "expiration: expiration, unsignedBody: false"
         }
 
