@@ -4,6 +4,7 @@ import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.SynthesizeSpeechInputGETQueryItemMiddleware
+import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.OperationIndex
@@ -26,6 +27,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecu
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.model.hasTrait
 
 internal val PRESIGNABLE_GET_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.polly#Parrot_v1" to setOf(
@@ -104,7 +106,8 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
                     protocolGenerator.httpProtocolCustomizable,
                     operationMiddleware,
                     operationStackName,
-                    MiddlewareRenderableExecutionContext.PRESIGNER_POLLY_GET_REQUEST
+                    MiddlewareRenderableExecutionContext.PRESIGNER,
+                    ::overrideHttpMethodWithGet
                 )
                 generator.render(op) { writer, _ ->
                     writer.write("return nil")
@@ -124,6 +127,7 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
             }
         }
     }
+
     private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, op: OperationShape): OperationMiddleware {
         val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.BUILDSTEP, "UserAgentMiddleware")
@@ -132,9 +136,16 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputQueryItemMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputHeadersMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
+        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
+        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters))
         operationMiddlewareCopy.appendMiddleware(op, SynthesizeSpeechInputGETQueryItemMiddleware())
 
         return operationMiddlewareCopy
+    }
+
+    private fun customSigningParameters(op: OperationShape): String {
+        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
+        return "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: $hasUnsignedPayload"
     }
 
     private fun renderMiddlewareClassForQueryString(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {
@@ -160,5 +171,9 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
             val queryItemMiddleware = PollySynthesizeSpeechGETQueryItemMiddleware(ctx, inputSymbol, outputSymbol, outputErrorSymbol, inputShape, writer)
             MiddlewareGenerator(writer, queryItemMiddleware).generate()
         }
+    }
+
+    private fun overrideHttpMethodWithGet(): String {
+        return "get"
     }
 }

@@ -139,7 +139,9 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val model = Model.builder().addShape(serviceShape).addShape(operationShape).build()
         val context = model.newTestContext(generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
-        val sut = AWSSigningMiddleware()
+        val sut = AWSSigningMiddleware {
+            "expiration: expiration, unsignedBody: true"
+        }
 
         sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.PRESIGNER)
 
@@ -165,7 +167,9 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val model = Model.builder().addShape(serviceShape).addShape(operationShape).build()
         val context = model.newTestContext(generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
-        val sut = AWSSigningMiddleware()
+        val sut = AWSSigningMiddleware{
+            "expiration: expiration, unsignedBody: false"
+        }
 
         sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.PRESIGNER)
 
