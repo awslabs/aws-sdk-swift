@@ -36,6 +36,6 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
 
-        operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.service))
+        operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service))
     }
 }

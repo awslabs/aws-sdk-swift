@@ -16,7 +16,6 @@ import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
@@ -84,8 +83,7 @@ class PresignerGenerator : SwiftIntegration {
                     httpBindingResolver,
                     protocolGenerator.httpProtocolCustomizable,
                     operationMiddleware,
-                    operationStackName,
-                    MiddlewareRenderableExecutionContext.PRESIGNER
+                    operationStackName
                 )
                 generator.render(op) { writer, _ ->
                     writer.write("return nil")

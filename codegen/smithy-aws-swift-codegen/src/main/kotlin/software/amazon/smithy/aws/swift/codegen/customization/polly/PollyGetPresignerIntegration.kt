@@ -23,7 +23,6 @@ import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
@@ -106,7 +105,6 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
                     protocolGenerator.httpProtocolCustomizable,
                     operationMiddleware,
                     operationStackName,
-                    MiddlewareRenderableExecutionContext.PRESIGNER,
                     ::overrideHttpMethodWithGet
                 )
                 generator.render(op) { writer, _ ->
