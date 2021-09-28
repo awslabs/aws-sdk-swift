@@ -10,18 +10,17 @@ import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectShape
 
-class GlacierAccountIdMiddleware() : MiddlewareRenderable {
+class GlacierAccountIdMiddleware(private val model: Model, private val symbolProvider: SymbolProvider) : MiddlewareRenderable {
     override val name = "GlacierAccountIdAutoFill"
 
     override val middlewareStep = MiddlewareStep.INITIALIZESTEP
 
     override val position = MiddlewarePosition.BEFORE
 
-    override fun render(model: Model, symbolProvider: SymbolProvider, writer: SwiftWriter, op: OperationShape, operationStackName: String, executionContext: MiddlewareRenderableExecutionContext) {
+    override fun render(writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val outputShapeName = ServiceGenerator.getOperationOutputShapeName(symbolProvider, model, op)
         val outputErrorShapeName = ServiceGenerator.getOperationErrorShapeName(op)
         val accountId = model.expectShape<StructureShape>(op.input.get()).members().first { it.memberName.lowercase() == "accountid" }

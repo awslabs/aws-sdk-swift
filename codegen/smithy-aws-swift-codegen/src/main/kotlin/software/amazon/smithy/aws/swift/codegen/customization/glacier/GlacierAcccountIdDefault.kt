@@ -31,7 +31,7 @@ class GlacierAccountIdDefault : SwiftIntegration {
         if (needsAccountIdMiddleware) {
             operationMiddleware.prependMiddleware(
                 operationShape,
-                GlacierAccountIdMiddleware()
+                GlacierAccountIdMiddleware(ctx.model, ctx.symbolProvider)
             )
         }
     }
