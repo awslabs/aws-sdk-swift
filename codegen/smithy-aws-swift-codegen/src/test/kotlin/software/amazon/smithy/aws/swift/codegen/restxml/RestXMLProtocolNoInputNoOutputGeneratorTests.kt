@@ -24,7 +24,6 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests {
         val expectedContents =
             """
             class NoInputAndNoOutputRequestTest: HttpRequestTestBase {
-                let host = "my-api.us-east-2.amazonaws.com"
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
