@@ -19,7 +19,7 @@ class GlacierAccountIdMiddleware() : MiddlewareRenderable {
 
     override val middlewareStep = MiddlewareStep.INITIALIZESTEP
 
-    override val position = MiddlewarePosition.AFTER
+    override val position = MiddlewarePosition.BEFORE
 
     override fun render(model: Model, symbolProvider: SymbolProvider, writer: SwiftWriter, op: OperationShape, operationStackName: String, executionContext: MiddlewareRenderableExecutionContext) {
         val outputShapeName = ServiceGenerator.getOperationOutputShapeName(symbolProvider, model, op)
