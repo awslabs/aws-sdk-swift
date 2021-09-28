@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.Model
@@ -20,7 +19,6 @@ import software.amazon.smithy.model.traits.AuthTrait
 import software.amazon.smithy.model.traits.HttpBasicAuthTrait
 import software.amazon.smithy.model.traits.OptionalAuthTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 
 class AWSSigningMiddlewareTests {
     @Test
@@ -74,21 +72,14 @@ class AWSSigningMiddlewareTests {
 let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: true)
 stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
-        val serviceShape = ServiceShape.builder()
-            .id("com.test#Example")
-            .version("1.0")
-            .addTrait(SigV4Trait.builder().name("ExampleService").build())
-            .build()
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")
             .addTrait(UnsignedPayloadTrait())
             .build()
-        val model = Model.builder().addShape(serviceShape).addShape(operationShape).build()
-        val context = model.newTestContext(generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
         val sut = AWSSigningMiddleware()
 
-        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.CLIENT)
+        sut.render(writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
@@ -101,20 +92,13 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
 let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
 stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
-        val serviceShape = ServiceShape.builder()
-            .id("com.test#Example")
-            .version("1.0")
-            .addTrait(SigV4Trait.builder().name("ExampleService").build())
-            .build()
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")
             .build()
-        val model = Model.builder().addShape(serviceShape).addShape(operationShape).build()
-        val context = model.newTestContext(generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
         val sut = AWSSigningMiddleware()
 
-        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.CLIENT)
+        sut.render(writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
@@ -127,23 +111,16 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
 let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: true)
 stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
-        val serviceShape = ServiceShape.builder()
-            .id("com.test#Example")
-            .version("1.0")
-            .addTrait(SigV4Trait.builder().name("ExampleService").build())
-            .build()
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")
             .addTrait(UnsignedPayloadTrait())
             .build()
-        val model = Model.builder().addShape(serviceShape).addShape(operationShape).build()
-        val context = model.newTestContext(generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
         val sut = AWSSigningMiddleware {
             "expiration: expiration, unsignedBody: true"
         }
 
-        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.PRESIGNER)
+        sut.render(writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
@@ -156,22 +133,15 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
 let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
 stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
-        val serviceShape = ServiceShape.builder()
-            .id("com.test#Example")
-            .version("1.0")
-            .addTrait(SigV4Trait.builder().name("ExampleService").build())
-            .build()
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")
             .build()
-        val model = Model.builder().addShape(serviceShape).addShape(operationShape).build()
-        val context = model.newTestContext(generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
         val sut = AWSSigningMiddleware {
             "expiration: expiration, unsignedBody: false"
         }
 
-        sut.render(context.model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.PRESIGNER)
+        sut.render(writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)

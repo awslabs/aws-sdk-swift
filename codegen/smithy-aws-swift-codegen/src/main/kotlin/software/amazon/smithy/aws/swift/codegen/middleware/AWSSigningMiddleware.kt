@@ -9,7 +9,6 @@ import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
-import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.shapes.OperationShape
@@ -18,7 +17,6 @@ import software.amazon.smithy.model.traits.OptionalAuthTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
@@ -34,21 +32,18 @@ open class AWSSigningMiddleware(val paramsCallback: AWSSigningMiddlewareParamsCa
     override val position = MiddlewarePosition.BEFORE
 
     override fun render(
-        model: Model,
-        symbolProvider: SymbolProvider,
         writer: SwiftWriter,
         op: OperationShape,
         operationStackName: String,
-        executionContext: MiddlewareRenderableExecutionContext
     ) {
-        renderConfigDeclaration(writer, op, executionContext)
+        renderConfigDeclaration(writer, op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(config: sigv4Config))",
             AWSClientRuntimeTypes.Signing.SigV4Middleware
         )
     }
 
-    private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape, executionContext: MiddlewareRenderableExecutionContext) {
+    private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape) {
         writer.addImport(SigV4Config)
         writer.write("let sigv4Config = \$N(${middlewareParamsString(op)})", SigV4Config)
     }
