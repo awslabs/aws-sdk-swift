@@ -21,8 +21,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
             ],
             content: HttpBody.data("""
             {\"TopLevel\": \"Top level\"}
-            """.data(using: .utf8)),
-            host: host
+            """.data(using: .utf8))
             ) else {
                 XCTFail("Something is wrong with the created http response")
                 return

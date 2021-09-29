@@ -32,8 +32,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                    <RequestId>foo-id</RequestId>
                 </ErrorResponse>
 
-                """.data(using: .utf8)!)),
-                host: host
+                """.data(using: .utf8)!))
             ) else {
                 XCTFail("Something is wrong with the created http response")
                 return
@@ -81,8 +80,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                    <RequestId>foo-id</RequestId>
                 </ErrorResponse>
 
-                """.data(using: .utf8)!)),
-                host: host
+                """.data(using: .utf8)!))
             ) else {
                 XCTFail("Something is wrong with the created http response")
                 return
@@ -134,8 +132,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                       </Nested>
                       <RequestId>foo-id</RequestId>
                    </Error>
-                """.data(using: .utf8)!)),
-                host: host
+                """.data(using: .utf8)!))
             ) else {
                 XCTFail("Something is wrong with the created http response")
                 return
@@ -184,8 +181,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     <RequestId>abcdefg123456</RequestId>
                     <HostId>987654321abcdefg</HostId>
                 </Error>
-                """.data(using: .utf8)!)),
-                host: host
+                """.data(using: .utf8)!))
             ) else {
                 XCTFail("Something is wrong with the created http response")
                 return

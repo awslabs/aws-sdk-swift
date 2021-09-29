@@ -24,7 +24,6 @@ class RestXMLProtocolXMLAttributesGeneratorTests {
         val expectedContents =
             """
             class XmlAttributesRequestTest: HttpRequestTestBase {
-                let host = "my-api.us-east-2.amazonaws.com"
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
