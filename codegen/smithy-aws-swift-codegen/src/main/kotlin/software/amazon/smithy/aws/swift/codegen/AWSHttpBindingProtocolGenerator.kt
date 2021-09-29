@@ -44,6 +44,10 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     override val shouldRenderCodingKeysForEncodable = true
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
+        val ignoredTests = setOf(
+            "GlacierChecksums", // aws-sdk-swift#208
+            "GlacierMultipartChecksums", // aws-sdk-swift#208
+        )
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
@@ -51,7 +55,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             errorTestBuilder,
             httpProtocolCustomizable,
             operationMiddleware,
-            serdeContext
+            serdeContext,
+            ignoredTests
         ).generateProtocolTests()
     }
 
