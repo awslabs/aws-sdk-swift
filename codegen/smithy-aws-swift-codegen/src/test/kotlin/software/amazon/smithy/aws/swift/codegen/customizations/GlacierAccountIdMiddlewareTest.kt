@@ -13,7 +13,6 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderableExecutionContext
 
 class GlacierAccountIdMiddlewareTest {
     @Test
@@ -50,9 +49,9 @@ class GlacierAccountIdMiddlewareTest {
             .build()
         val context = model.newTestContext(serviceShapeId = "com.test#Glacier", generator = AWSRestJson1ProtocolGenerator()).ctx
         val opStackName = "stack"
-        val glacierMiddleware = GlacierAccountIdMiddleware()
+        val glacierMiddleware = GlacierAccountIdMiddleware(model, context.symbolProvider)
 
-        glacierMiddleware.render(model, context.symbolProvider, writer, operationShape, opStackName, MiddlewareRenderableExecutionContext.CLIENT)
+        glacierMiddleware.render(writer, operationShape, opStackName)
 
         val contents = writer.toString()
         val expectedContents = """
