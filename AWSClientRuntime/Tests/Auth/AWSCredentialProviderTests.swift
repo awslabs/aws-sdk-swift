@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
@@ -27,6 +27,25 @@ class AWSCredentialProviderTests: XCTestCase {
         XCTAssertEqual(credentials.accessKey, "MYACCESSKEY")
         XCTAssertEqual(credentials.secret, "sekrit")
     }
+    
+    func testCredentialsProviderIsNonBlocking() throws {
+        let awsCredsProvider = try AWSCredentialsProvider.fromCustom(MyCustomThreadTestCredentialsProvider())
+        let expectation = XCTestExpectation(description: "credentials received")
+        DispatchQueue.global().async {
+            do {
+                let credentialsResult = try awsCredsProvider.getCredentials()
+                let credentials = try credentialsResult.get()
+                XCTAssertEqual(credentials.accessKey, "MYACCESSKEY")
+                XCTAssertEqual(credentials.secret, "sekrit")
+                expectation.fulfill()
+            } catch let err {
+                XCTFail(err.localizedDescription)
+            }
+        }
+        let thisCodeShouldStillRun = true
+        XCTAssertTrue(thisCodeShouldStillRun)
+        wait(for: [expectation], timeout: 20.0)
+    }
 }
 
 struct MyCustomCredentialsProvider: CredentialsProvider {
@@ -41,12 +60,10 @@ struct MyCustomThreadTestCredentialsProvider: CredentialsProvider {
     func getCredentials() throws -> SdkFuture<AWSCredentials> {
         let group = DispatchGroup()
         let future = SdkFuture<AWSCredentials>()
-        let sleepVal = Int.random(in: 1...4)
         for _ in 0...1000 {
             group.enter()
-
             DispatchQueue.global().async {
-                usleep(useconds_t(sleepVal))
+                usleep(useconds_t(1000))
                 future.fulfill(AWSCredentials(accessKey: "MYACCESSKEY", secret: "sekrit", expirationTimeout: 30))
                 group.leave()
             }
