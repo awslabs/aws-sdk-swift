@@ -55,8 +55,8 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         let signedBodyValue: AWSSignedBodyValue = config.unsignedBody ? .unsignedPayload : .empty
         
         do {
-            let credentials = try credentialsProvider.getCredentials()
-            
+            let credentialsResult = try credentialsProvider.getCredentials()
+            let credentials = try credentialsResult.get()
             let signingConfig = AWSSigningConfig(credentials: credentials,
                                                  expiration: config.expiration,
                                                  signedBodyHeader: config.signedBodyHeader,

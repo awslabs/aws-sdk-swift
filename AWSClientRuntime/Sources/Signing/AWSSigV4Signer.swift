@@ -18,8 +18,8 @@ public class AWSSigV4Signer {
                                       date: ClientRuntime.Date,
                                       expiration: Int64) -> ClientRuntime.URL? {
         do {
-            let credentials = try credentialsProvider.getCredentials()
-            
+            let credentialsResult = try credentialsProvider.getCredentials()
+            let credentials = try credentialsResult.get()
             let flags = SigningFlags(useDoubleURIEncode: true,
                                      shouldNormalizeURIPath: true,
                                      omitSessionToken: false)
