@@ -11,18 +11,6 @@ import XCTest
 
 @testable import AWSClientRuntime
 
-extension Formatter {
-    // Inspired from:
-    // https://stackoverflow.com/questions/28016578/how-can-i-parse-create-a-date-time-stamp-formatted-with-fractional-seconds-utc
-    static let iso8601withFractionalSeconds: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
-        return formatter
-    }()
-}
-
 class Sigv4SigningTests: XCTestCase {
     override func setUp() {
         AwsCommonRuntimeKit.initialize()
@@ -35,8 +23,8 @@ class Sigv4SigningTests: XCTestCase {
     }
 
     func testPresigner() throws {
-        let dateString = "20150830T123600Z"
-        let dateFormatter = ISO8601DateFormatter.iso8601withFractionalSeconds
+        let dateString = "2015-08-30T12:36:00Z"
+        let dateFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
         guard let date = dateFormatter.date(from: dateString) else {
             XCTFail("Unable to parse date")
             return
