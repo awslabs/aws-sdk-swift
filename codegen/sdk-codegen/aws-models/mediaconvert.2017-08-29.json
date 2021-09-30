@@ -1899,6 +1899,22 @@
                 ]
             }
         },
+        "com.amazonaws.mediaconvert#BurnInSubtitleStylePassthrough": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Ignore this setting unless your output captions are burned in. Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                "smithy.api#enum": [
+                    {
+                        "value": "ENABLED",
+                        "name": "ENABLED"
+                    },
+                    {
+                        "value": "DISABLED",
+                        "name": "DISABLED"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.mediaconvert#BurninDestinationSettings": {
             "type": "structure",
             "members": {
@@ -1907,6 +1923,13 @@
                     "traits": {
                         "smithy.api#documentation": "If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
                         "smithy.api#jsonName": "alignment"
+                    }
+                },
+                "ApplyFontColor": {
+                    "target": "com.amazonaws.mediaconvert#BurninSubtitleApplyFontColor",
+                    "traits": {
+                        "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are burned in. Specify how the service applies the color specified in the setting Font color (BurninSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                        "smithy.api#jsonName": "applyFontColor"
                     }
                 },
                 "BackgroundColor": {
@@ -1921,6 +1944,13 @@
                     "traits": {
                         "smithy.api#documentation": "Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.",
                         "smithy.api#jsonName": "backgroundOpacity"
+                    }
+                },
+                "FallbackFont": {
+                    "target": "com.amazonaws.mediaconvert#BurninSubtitleFallbackFont",
+                    "traits": {
+                        "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                        "smithy.api#jsonName": "fallbackFont"
                     }
                 },
                 "FontColor": {
@@ -1956,6 +1986,13 @@
                     "traits": {
                         "smithy.api#documentation": "A positive integer indicates the exact font size in points. Set to 0 for automatic font size selection. All burn-in and DVB-Sub font settings must match.",
                         "smithy.api#jsonName": "fontSize"
+                    }
+                },
+                "HexFontColor": {
+                    "target": "com.amazonaws.mediaconvert#__stringMin6Max8Pattern09aFAF609aFAF2",
+                    "traits": {
+                        "smithy.api#documentation": "Ignore this setting unless your BurninSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.",
+                        "smithy.api#jsonName": "hexFontColor"
                     }
                 },
                 "OutlineColor": {
@@ -2000,6 +2037,13 @@
                         "smithy.api#jsonName": "shadowYOffset"
                     }
                 },
+                "StylePassthrough": {
+                    "target": "com.amazonaws.mediaconvert#BurnInSubtitleStylePassthrough",
+                    "traits": {
+                        "smithy.api#documentation": "Ignore this setting unless your output captions are burned in. Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                        "smithy.api#jsonName": "stylePassthrough"
+                    }
+                },
                 "TeletextSpacing": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleTeletextSpacing",
                     "traits": {
@@ -2038,6 +2082,26 @@
                     {
                         "value": "LEFT",
                         "name": "LEFT"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#BurninSubtitleApplyFontColor": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are burned in. Specify how the service applies the color specified in the setting Font color (BurninSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                "smithy.api#enum": [
+                    {
+                        "value": "WHITE_TEXT_ONLY",
+                        "name": "WHITE_TEXT_ONLY"
+                    },
+                    {
+                        "value": "ALL_TEXT",
+                        "name": "ALL_TEXT"
                     }
                 ]
             }
@@ -2058,6 +2122,38 @@
                     {
                         "value": "WHITE",
                         "name": "WHITE"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#BurninSubtitleFallbackFont": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                "smithy.api#enum": [
+                    {
+                        "value": "BEST_MATCH",
+                        "name": "BEST_MATCH"
+                    },
+                    {
+                        "value": "MONOSPACED_SANSSERIF",
+                        "name": "MONOSPACED_SANSSERIF"
+                    },
+                    {
+                        "value": "MONOSPACED_SERIF",
+                        "name": "MONOSPACED_SERIF"
+                    },
+                    {
+                        "value": "PROPORTIONAL_SANSSERIF",
+                        "name": "PROPORTIONAL_SANSSERIF"
+                    },
+                    {
+                        "value": "PROPORTIONAL_SERIF",
+                        "name": "PROPORTIONAL_SERIF"
                     }
                 ]
             }
@@ -2090,6 +2186,14 @@
                     {
                         "value": "BLUE",
                         "name": "BLUE"
+                    },
+                    {
+                        "value": "HEX",
+                        "name": "HEX"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -2122,6 +2226,10 @@
                     {
                         "value": "BLUE",
                         "name": "BLUE"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -2142,6 +2250,10 @@
                     {
                         "value": "WHITE",
                         "name": "WHITE"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -2158,6 +2270,10 @@
                     {
                         "value": "PROPORTIONAL",
                         "name": "PROPORTIONAL"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -2798,7 +2914,7 @@
                 "FragmentLength": {
                     "target": "com.amazonaws.mediaconvert#__integerMin1Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Length of fragments to generate (in seconds). Fragment length must be compatible with GOP size and Framerate. Note that fragments will end on the next keyframe after this number of seconds, so actual fragment length may be longer. When Emit Single File is checked, the fragmentation is internal to a single output file and it does not cause the creation of many output files as in other output types.",
+                        "smithy.api#documentation": "Specify the length, in whole seconds, of the mp4 fragments. When you don't specify a value, MediaConvert defaults to 2. Related setting: Use Fragment length control (FragmentLengthControl) to specify whether the encoder enforces this value strictly.",
                         "smithy.api#jsonName": "fragmentLength"
                     }
                 },
@@ -2807,6 +2923,13 @@
                     "traits": {
                         "smithy.api#documentation": "Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. When you enable Write HLS manifest (WriteHlsManifest), MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest (WriteDashManifest), MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md",
                         "smithy.api#jsonName": "imageBasedTrickPlay"
+                    }
+                },
+                "ImageBasedTrickPlaySettings": {
+                    "target": "com.amazonaws.mediaconvert#CmafImageBasedTrickPlaySettings",
+                    "traits": {
+                        "smithy.api#documentation": "Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED",
+                        "smithy.api#jsonName": "imageBasedTrickPlaySettings"
                     }
                 },
                 "ManifestCompression": {
@@ -2861,8 +2984,15 @@
                 "SegmentLength": {
                     "target": "com.amazonaws.mediaconvert#__integerMin1Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Use this setting to specify the length, in seconds, of each individual CMAF segment. This value applies to the whole package; that is, to every output in the output group. Note that segments end on the first keyframe after this number of seconds, so the actual segment length might be slightly longer. If you set Segment control (CmafSegmentControl) to single file, the service puts the content of each output in a single file that has metadata that marks these segments. If you set it to segmented files, the service creates multiple files for each output, each with the content of one segment.",
+                        "smithy.api#documentation": "Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (CmafSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.",
                         "smithy.api#jsonName": "segmentLength"
+                    }
+                },
+                "SegmentLengthControl": {
+                    "target": "com.amazonaws.mediaconvert#CmafSegmentLengthControl",
+                    "traits": {
+                        "smithy.api#documentation": "Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                        "smithy.api#jsonName": "segmentLengthControl"
                     }
                 },
                 "StreamInfResolution": {
@@ -2921,8 +3051,62 @@
                     {
                         "value": "THUMBNAIL_AND_FULLFRAME",
                         "name": "THUMBNAIL_AND_FULLFRAME"
+                    },
+                    {
+                        "value": "ADVANCED",
+                        "name": "ADVANCED"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.mediaconvert#CmafImageBasedTrickPlaySettings": {
+            "type": "structure",
+            "members": {
+                "IntervalCadence": {
+                    "target": "com.amazonaws.mediaconvert#CmafIntervalCadence",
+                    "traits": {
+                        "smithy.api#documentation": "The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.",
+                        "smithy.api#jsonName": "intervalCadence"
+                    }
+                },
+                "ThumbnailHeight": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin2Max4096",
+                    "traits": {
+                        "smithy.api#documentation": "Height of each thumbnail within each tile image, in pixels.  Leave blank to maintain aspect ratio with thumbnail width.  If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected.  Must be divisible by 2.",
+                        "smithy.api#jsonName": "thumbnailHeight"
+                    }
+                },
+                "ThumbnailInterval": {
+                    "target": "com.amazonaws.mediaconvert#__doubleMin0Max2147483647",
+                    "traits": {
+                        "smithy.api#documentation": "Enter the interval, in seconds, that MediaConvert uses to generate thumbnails.  If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate.  For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.",
+                        "smithy.api#jsonName": "thumbnailInterval"
+                    }
+                },
+                "ThumbnailWidth": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin8Max4096",
+                    "traits": {
+                        "smithy.api#documentation": "Width of each thumbnail within each tile image, in pixels.  Default is 312.  Must be divisible by 8.",
+                        "smithy.api#jsonName": "thumbnailWidth"
+                    }
+                },
+                "TileHeight": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin1Max2048",
+                    "traits": {
+                        "smithy.api#documentation": "Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.",
+                        "smithy.api#jsonName": "tileHeight"
+                    }
+                },
+                "TileWidth": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin1Max512",
+                    "traits": {
+                        "smithy.api#documentation": "Number of thumbnails in each row of a tile image.  Set a value between 1 and 512.",
+                        "smithy.api#jsonName": "tileWidth"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED"
             }
         },
         "com.amazonaws.mediaconvert#CmafInitializationVectorInManifest": {
@@ -2937,6 +3121,22 @@
                     {
                         "value": "EXCLUDE",
                         "name": "EXCLUDE"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#CmafIntervalCadence": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.",
+                "smithy.api#enum": [
+                    {
+                        "value": "FOLLOW_IFRAME",
+                        "name": "FOLLOW_IFRAME"
+                    },
+                    {
+                        "value": "FOLLOW_CUSTOM",
+                        "name": "FOLLOW_CUSTOM"
                     }
                 ]
             }
@@ -3033,6 +3233,22 @@
                     {
                         "value": "SEGMENTED_FILES",
                         "name": "SEGMENTED_FILES"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#CmafSegmentLengthControl": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                "smithy.api#enum": [
+                    {
+                        "value": "EXACT",
+                        "name": "EXACT"
+                    },
+                    {
+                        "value": "GOP_MULTIPLE",
+                        "name": "GOP_MULTIPLE"
                     }
                 ]
             }
@@ -4181,6 +4397,13 @@
                         "smithy.api#jsonName": "imageBasedTrickPlay"
                     }
                 },
+                "ImageBasedTrickPlaySettings": {
+                    "target": "com.amazonaws.mediaconvert#DashIsoImageBasedTrickPlaySettings",
+                    "traits": {
+                        "smithy.api#documentation": "Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED",
+                        "smithy.api#jsonName": "imageBasedTrickPlaySettings"
+                    }
+                },
                 "MinBufferTime": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
@@ -4219,8 +4442,15 @@
                 "SegmentLength": {
                     "target": "com.amazonaws.mediaconvert#__integerMin1Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Length of mpd segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer. When Emit Single File is checked, the segmentation is internal to a single output file and it does not cause the creation of many output files as in other output types.",
+                        "smithy.api#documentation": "Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 30. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (DashIsoSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.",
                         "smithy.api#jsonName": "segmentLength"
+                    }
+                },
+                "SegmentLengthControl": {
+                    "target": "com.amazonaws.mediaconvert#DashIsoSegmentLengthControl",
+                    "traits": {
+                        "smithy.api#documentation": "Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                        "smithy.api#jsonName": "segmentLengthControl"
                     }
                 },
                 "WriteSegmentTimelineInRepresentation": {
@@ -4267,6 +4497,76 @@
                     {
                         "value": "THUMBNAIL_AND_FULLFRAME",
                         "name": "THUMBNAIL_AND_FULLFRAME"
+                    },
+                    {
+                        "value": "ADVANCED",
+                        "name": "ADVANCED"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#DashIsoImageBasedTrickPlaySettings": {
+            "type": "structure",
+            "members": {
+                "IntervalCadence": {
+                    "target": "com.amazonaws.mediaconvert#DashIsoIntervalCadence",
+                    "traits": {
+                        "smithy.api#documentation": "The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.",
+                        "smithy.api#jsonName": "intervalCadence"
+                    }
+                },
+                "ThumbnailHeight": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin1Max4096",
+                    "traits": {
+                        "smithy.api#documentation": "Height of each thumbnail within each tile image, in pixels.  Leave blank to maintain aspect ratio with thumbnail width.  If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected.  Must be divisible by 2.",
+                        "smithy.api#jsonName": "thumbnailHeight"
+                    }
+                },
+                "ThumbnailInterval": {
+                    "target": "com.amazonaws.mediaconvert#__doubleMin0Max2147483647",
+                    "traits": {
+                        "smithy.api#documentation": "Enter the interval, in seconds, that MediaConvert uses to generate thumbnails.  If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate.  For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.",
+                        "smithy.api#jsonName": "thumbnailInterval"
+                    }
+                },
+                "ThumbnailWidth": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin8Max4096",
+                    "traits": {
+                        "smithy.api#documentation": "Width of each thumbnail within each tile image, in pixels.  Default is 312.  Must be divisible by 8.",
+                        "smithy.api#jsonName": "thumbnailWidth"
+                    }
+                },
+                "TileHeight": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin1Max2048",
+                    "traits": {
+                        "smithy.api#documentation": "Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.",
+                        "smithy.api#jsonName": "tileHeight"
+                    }
+                },
+                "TileWidth": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin1Max512",
+                    "traits": {
+                        "smithy.api#documentation": "Number of thumbnails in each row of a tile image.  Set a value between 1 and 512.",
+                        "smithy.api#jsonName": "tileWidth"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED"
+            }
+        },
+        "com.amazonaws.mediaconvert#DashIsoIntervalCadence": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.",
+                "smithy.api#enum": [
+                    {
+                        "value": "FOLLOW_IFRAME",
+                        "name": "FOLLOW_IFRAME"
+                    },
+                    {
+                        "value": "FOLLOW_CUSTOM",
+                        "name": "FOLLOW_CUSTOM"
                     }
                 ]
             }
@@ -4331,6 +4631,22 @@
                     {
                         "value": "SEGMENTED_FILES",
                         "name": "SEGMENTED_FILES"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#DashIsoSegmentLengthControl": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                "smithy.api#enum": [
+                    {
+                        "value": "EXACT",
+                        "name": "EXACT"
+                    },
+                    {
+                        "value": "GOP_MULTIPLE",
+                        "name": "GOP_MULTIPLE"
                     }
                 ]
             }
@@ -4972,6 +5288,13 @@
                         "smithy.api#jsonName": "alignment"
                     }
                 },
+                "ApplyFontColor": {
+                    "target": "com.amazonaws.mediaconvert#DvbSubtitleApplyFontColor",
+                    "traits": {
+                        "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are DVB-SUB. Specify how the service applies the color specified in the setting Font color (DvbSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                        "smithy.api#jsonName": "applyFontColor"
+                    }
+                },
                 "BackgroundColor": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleBackgroundColor",
                     "traits": {
@@ -5005,6 +5328,13 @@
                     "traits": {
                         "smithy.api#documentation": "Use this setting, along with DDS x-coordinate (ddsXCoordinate), to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the top of the frame and the top of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.",
                         "smithy.api#jsonName": "ddsYCoordinate"
+                    }
+                },
+                "FallbackFont": {
+                    "target": "com.amazonaws.mediaconvert#DvbSubSubtitleFallbackFont",
+                    "traits": {
+                        "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                        "smithy.api#jsonName": "fallbackFont"
                     }
                 },
                 "FontColor": {
@@ -5049,6 +5379,13 @@
                         "smithy.api#jsonName": "height"
                     }
                 },
+                "HexFontColor": {
+                    "target": "com.amazonaws.mediaconvert#__stringMin6Max8Pattern09aFAF609aFAF2",
+                    "traits": {
+                        "smithy.api#documentation": "Ignore this setting unless your DvbSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.",
+                        "smithy.api#jsonName": "hexFontColor"
+                    }
+                },
                 "OutlineColor": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleOutlineColor",
                     "traits": {
@@ -5089,6 +5426,13 @@
                     "traits": {
                         "smithy.api#documentation": "Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.",
                         "smithy.api#jsonName": "shadowYOffset"
+                    }
+                },
+                "StylePassthrough": {
+                    "target": "com.amazonaws.mediaconvert#DvbSubtitleStylePassthrough",
+                    "traits": {
+                        "smithy.api#documentation": "Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                        "smithy.api#jsonName": "stylePassthrough"
                     }
                 },
                 "SubtitlingType": {
@@ -5146,6 +5490,34 @@
                 "smithy.api#documentation": "DVB Sub Source Settings"
             }
         },
+        "com.amazonaws.mediaconvert#DvbSubSubtitleFallbackFont": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                "smithy.api#enum": [
+                    {
+                        "value": "BEST_MATCH",
+                        "name": "BEST_MATCH"
+                    },
+                    {
+                        "value": "MONOSPACED_SANSSERIF",
+                        "name": "MONOSPACED_SANSSERIF"
+                    },
+                    {
+                        "value": "MONOSPACED_SERIF",
+                        "name": "MONOSPACED_SERIF"
+                    },
+                    {
+                        "value": "PROPORTIONAL_SANSSERIF",
+                        "name": "PROPORTIONAL_SANSSERIF"
+                    },
+                    {
+                        "value": "PROPORTIONAL_SERIF",
+                        "name": "PROPORTIONAL_SERIF"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.mediaconvert#DvbSubtitleAlignment": {
             "type": "string",
             "traits": {
@@ -5158,6 +5530,26 @@
                     {
                         "value": "LEFT",
                         "name": "LEFT"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#DvbSubtitleApplyFontColor": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are DVB-SUB. Specify how the service applies the color specified in the setting Font color (DvbSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                "smithy.api#enum": [
+                    {
+                        "value": "WHITE_TEXT_ONLY",
+                        "name": "WHITE_TEXT_ONLY"
+                    },
+                    {
+                        "value": "ALL_TEXT",
+                        "name": "ALL_TEXT"
                     }
                 ]
             }
@@ -5178,6 +5570,10 @@
                     {
                         "value": "WHITE",
                         "name": "WHITE"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -5210,6 +5606,14 @@
                     {
                         "value": "BLUE",
                         "name": "BLUE"
+                    },
+                    {
+                        "value": "HEX",
+                        "name": "HEX"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -5242,6 +5646,10 @@
                     {
                         "value": "BLUE",
                         "name": "BLUE"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -5262,6 +5670,26 @@
                     {
                         "value": "WHITE",
                         "name": "WHITE"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#DvbSubtitleStylePassthrough": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                "smithy.api#enum": [
+                    {
+                        "value": "ENABLED",
+                        "name": "ENABLED"
+                    },
+                    {
+                        "value": "DISABLED",
+                        "name": "DISABLED"
                     }
                 ]
             }
@@ -5278,6 +5706,10 @@
                     {
                         "value": "PROPORTIONAL",
                         "name": "PROPORTIONAL"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -6306,7 +6738,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "Hexadecimal value as per EIA-608 Line 21 Data Services, section 9.5.1.5 05h Content Advisory."
+                "smithy.api#documentation": "If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory."
             }
         },
         "com.amazonaws.mediaconvert#F4vMoovPlacement": {
@@ -6913,7 +7345,7 @@
         "com.amazonaws.mediaconvert#H264FieldEncoding": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields.",
+                "smithy.api#documentation": "The video encoding method for your MPEG-4 AVC output. Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF encoding for interlaced outputs.",
                 "smithy.api#enum": [
                     {
                         "value": "PAFF",
@@ -6922,6 +7354,10 @@
                     {
                         "value": "FORCE_FIELD",
                         "name": "FORCE_FIELD"
+                    },
+                    {
+                        "value": "MBAFF",
+                        "name": "MBAFF"
                     }
                 ]
             }
@@ -7223,7 +7659,7 @@
                 "FieldEncoding": {
                     "target": "com.amazonaws.mediaconvert#H264FieldEncoding",
                     "traits": {
-                        "smithy.api#documentation": "Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields.",
+                        "smithy.api#documentation": "The video encoding method for your MPEG-4 AVC output. Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF encoding for interlaced outputs.",
                         "smithy.api#jsonName": "fieldEncoding"
                     }
                 },
@@ -7328,7 +7764,7 @@
                 "NumberBFramesBetweenReferenceFrames": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max7",
                     "traits": {
-                        "smithy.api#documentation": "Number of B-frames between reference frames.",
+                        "smithy.api#documentation": "Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.",
                         "smithy.api#jsonName": "numberBFramesBetweenReferenceFrames"
                     }
                 },
@@ -8130,7 +8566,7 @@
                 "NumberBFramesBetweenReferenceFrames": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max7",
                     "traits": {
-                        "smithy.api#documentation": "Number of B-frames between reference frames.",
+                        "smithy.api#documentation": "Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.",
                         "smithy.api#jsonName": "numberBFramesBetweenReferenceFrames"
                     }
                 },
@@ -8898,6 +9334,13 @@
                         "smithy.api#jsonName": "imageBasedTrickPlay"
                     }
                 },
+                "ImageBasedTrickPlaySettings": {
+                    "target": "com.amazonaws.mediaconvert#HlsImageBasedTrickPlaySettings",
+                    "traits": {
+                        "smithy.api#documentation": "Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED",
+                        "smithy.api#jsonName": "imageBasedTrickPlaySettings"
+                    }
+                },
                 "ManifestCompression": {
                     "target": "com.amazonaws.mediaconvert#HlsManifestCompression",
                     "traits": {
@@ -8957,8 +9400,15 @@
                 "SegmentLength": {
                     "target": "com.amazonaws.mediaconvert#__integerMin1Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Length of MPEG-2 Transport Stream segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer.",
+                        "smithy.api#documentation": "Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (HlsSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.",
                         "smithy.api#jsonName": "segmentLength"
+                    }
+                },
+                "SegmentLengthControl": {
+                    "target": "com.amazonaws.mediaconvert#HlsSegmentLengthControl",
+                    "traits": {
+                        "smithy.api#documentation": "Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                        "smithy.api#jsonName": "segmentLengthControl"
                     }
                 },
                 "SegmentsPerSubdirectory": {
@@ -9040,8 +9490,62 @@
                     {
                         "value": "THUMBNAIL_AND_FULLFRAME",
                         "name": "THUMBNAIL_AND_FULLFRAME"
+                    },
+                    {
+                        "value": "ADVANCED",
+                        "name": "ADVANCED"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.mediaconvert#HlsImageBasedTrickPlaySettings": {
+            "type": "structure",
+            "members": {
+                "IntervalCadence": {
+                    "target": "com.amazonaws.mediaconvert#HlsIntervalCadence",
+                    "traits": {
+                        "smithy.api#documentation": "The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.",
+                        "smithy.api#jsonName": "intervalCadence"
+                    }
+                },
+                "ThumbnailHeight": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin2Max4096",
+                    "traits": {
+                        "smithy.api#documentation": "Height of each thumbnail within each tile image, in pixels.  Leave blank to maintain aspect ratio with thumbnail width.  If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected.  Must be divisible by 2.",
+                        "smithy.api#jsonName": "thumbnailHeight"
+                    }
+                },
+                "ThumbnailInterval": {
+                    "target": "com.amazonaws.mediaconvert#__doubleMin0Max2147483647",
+                    "traits": {
+                        "smithy.api#documentation": "Enter the interval, in seconds, that MediaConvert uses to generate thumbnails.  If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate.  For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.",
+                        "smithy.api#jsonName": "thumbnailInterval"
+                    }
+                },
+                "ThumbnailWidth": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin8Max4096",
+                    "traits": {
+                        "smithy.api#documentation": "Width of each thumbnail within each tile image, in pixels.  Default is 312.  Must be divisible by 8.",
+                        "smithy.api#jsonName": "thumbnailWidth"
+                    }
+                },
+                "TileHeight": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin1Max2048",
+                    "traits": {
+                        "smithy.api#documentation": "Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.",
+                        "smithy.api#jsonName": "tileHeight"
+                    }
+                },
+                "TileWidth": {
+                    "target": "com.amazonaws.mediaconvert#__integerMin1Max512",
+                    "traits": {
+                        "smithy.api#documentation": "Number of thumbnails in each row of a tile image.  Set a value between 1 and 512.",
+                        "smithy.api#jsonName": "tileWidth"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED"
             }
         },
         "com.amazonaws.mediaconvert#HlsInitializationVectorInManifest": {
@@ -9056,6 +9560,22 @@
                     {
                         "value": "EXCLUDE",
                         "name": "EXCLUDE"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#HlsIntervalCadence": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.",
+                "smithy.api#enum": [
+                    {
+                        "value": "FOLLOW_IFRAME",
+                        "name": "FOLLOW_IFRAME"
+                    },
+                    {
+                        "value": "FOLLOW_CUSTOM",
+                        "name": "FOLLOW_CUSTOM"
                     }
                 ]
             }
@@ -9197,6 +9717,22 @@
                     {
                         "value": "SEGMENTED_FILES",
                         "name": "SEGMENTED_FILES"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mediaconvert#HlsSegmentLengthControl": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                "smithy.api#enum": [
+                    {
+                        "value": "EXACT",
+                        "name": "EXACT"
+                    },
+                    {
+                        "value": "GOP_MULTIPLE",
+                        "name": "GOP_MULTIPLE"
                     }
                 ]
             }
@@ -10247,7 +10783,7 @@
                 "ExtendedDataServices": {
                     "target": "com.amazonaws.mediaconvert#ExtendedDataServices",
                     "traits": {
-                        "smithy.api#documentation": "Hexadecimal value as per EIA-608 Line 21 Data Services, section 9.5.1.5 05h Content Advisory.",
+                        "smithy.api#documentation": "If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.",
                         "smithy.api#jsonName": "extendedDataServices"
                     }
                 },
@@ -10488,7 +11024,7 @@
                 "ExtendedDataServices": {
                     "target": "com.amazonaws.mediaconvert#ExtendedDataServices",
                     "traits": {
-                        "smithy.api#documentation": "Hexadecimal value as per EIA-608 Line 21 Data Services, section 9.5.1.5 05h Content Advisory.",
+                        "smithy.api#documentation": "If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.",
                         "smithy.api#jsonName": "extendedDataServices"
                     }
                 },
@@ -11935,6 +12471,22 @@
                 ]
             }
         },
+        "com.amazonaws.mediaconvert#M2tsDataPtsControl": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.",
+                "smithy.api#enum": [
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
+                    },
+                    {
+                        "value": "ALIGN_TO_VIDEO",
+                        "name": "ALIGN_TO_VIDEO"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.mediaconvert#M2tsEbpAudioInterval": {
             "type": "string",
             "traits": {
@@ -12169,6 +12721,13 @@
                     "traits": {
                         "smithy.api#documentation": "Controls what buffer model to use for accurate interleaving. If set to MULTIPLEX, use multiplex  buffer model. If set to NONE, this can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.",
                         "smithy.api#jsonName": "bufferModel"
+                    }
+                },
+                "DataPTSControl": {
+                    "target": "com.amazonaws.mediaconvert#M2tsDataPtsControl",
+                    "traits": {
+                        "smithy.api#documentation": "If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.",
+                        "smithy.api#jsonName": "dataPTSControl"
                     }
                 },
                 "DvbNitSettings": {
@@ -12409,6 +12968,22 @@
                 ]
             }
         },
+        "com.amazonaws.mediaconvert#M3u8DataPtsControl": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.",
+                "smithy.api#enum": [
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
+                    },
+                    {
+                        "value": "ALIGN_TO_VIDEO",
+                        "name": "ALIGN_TO_VIDEO"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.mediaconvert#M3u8NielsenId3": {
             "type": "string",
             "traits": {
@@ -12479,6 +13054,13 @@
                     "traits": {
                         "smithy.api#documentation": "Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.",
                         "smithy.api#jsonName": "audioPids"
+                    }
+                },
+                "DataPTSControl": {
+                    "target": "com.amazonaws.mediaconvert#M3u8DataPtsControl",
+                    "traits": {
+                        "smithy.api#documentation": "If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.",
+                        "smithy.api#jsonName": "dataPTSControl"
                     }
                 },
                 "MaxPcrInterval": {
@@ -13368,7 +13950,7 @@
         "com.amazonaws.mediaconvert#Mpeg2GopSizeUnits": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.",
+                "smithy.api#documentation": "Specify the units for GOP size (GopSize). If you don't specify a value here, by default the encoder measures GOP size in frames.",
                 "smithy.api#enum": [
                     {
                         "value": "FRAMES",
@@ -13593,14 +14175,14 @@
                 "GopSize": {
                     "target": "com.amazonaws.mediaconvert#__doubleMin0",
                     "traits": {
-                        "smithy.api#documentation": "GOP Length (keyframe interval) in frames or seconds. Must be greater than zero.",
+                        "smithy.api#documentation": "Specify the interval between keyframes, in seconds or frames, for this output. Default: 12 Related settings: When you specify the GOP size in seconds, set GOP mode control (GopSizeUnits) to Specified, seconds (SECONDS). The default value for GOP mode control (GopSizeUnits) is Frames (FRAMES).",
                         "smithy.api#jsonName": "gopSize"
                     }
                 },
                 "GopSizeUnits": {
                     "target": "com.amazonaws.mediaconvert#Mpeg2GopSizeUnits",
                     "traits": {
-                        "smithy.api#documentation": "Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.",
+                        "smithy.api#documentation": "Specify the units for GOP size (GopSize). If you don't specify a value here, by default the encoder measures GOP size in frames.",
                         "smithy.api#jsonName": "gopSizeUnits"
                     }
                 },
@@ -13649,7 +14231,7 @@
                 "NumberBFramesBetweenReferenceFrames": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max7",
                     "traits": {
-                        "smithy.api#documentation": "Number of B-frames between reference frames.",
+                        "smithy.api#documentation": "Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.",
                         "smithy.api#jsonName": "numberBFramesBetweenReferenceFrames"
                     }
                 },
@@ -13886,6 +14468,22 @@
                 "smithy.api#documentation": "If you are using DRM, set DRM System (MsSmoothEncryptionSettings) to specify the value SpekeKeyProvider."
             }
         },
+        "com.amazonaws.mediaconvert#MsSmoothFragmentLengthControl": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Specify how you want MediaConvert to determine the fragment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Fragment length (FragmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                "smithy.api#enum": [
+                    {
+                        "value": "EXACT",
+                        "name": "EXACT"
+                    },
+                    {
+                        "value": "GOP_MULTIPLE",
+                        "name": "GOP_MULTIPLE"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.mediaconvert#MsSmoothGroupSettings": {
             "type": "structure",
             "members": {
@@ -13927,8 +14525,15 @@
                 "FragmentLength": {
                     "target": "com.amazonaws.mediaconvert#__integerMin1Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Use Fragment length (FragmentLength) to specify the mp4 fragment sizes in seconds. Fragment length must be compatible with GOP size and frame rate.",
+                        "smithy.api#documentation": "Specify how you want MediaConvert to determine the fragment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Fragment length (FragmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
                         "smithy.api#jsonName": "fragmentLength"
+                    }
+                },
+                "FragmentLengthControl": {
+                    "target": "com.amazonaws.mediaconvert#MsSmoothFragmentLengthControl",
+                    "traits": {
+                        "smithy.api#documentation": "Specify how you want MediaConvert to determine the fragment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Fragment length (FragmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.",
+                        "smithy.api#jsonName": "fragmentLengthControl"
                     }
                 },
                 "ManifestEncoding": {
@@ -15622,6 +16227,13 @@
                     "traits": {
                         "smithy.api#documentation": "Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3 (SERVER_SIDE_ENCRYPTION_S3). If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).",
                         "smithy.api#jsonName": "encryptionType"
+                    }
+                },
+                "KmsEncryptionContext": {
+                    "target": "com.amazonaws.mediaconvert#__stringPatternAZaZ0902",
+                    "traits": {
+                        "smithy.api#documentation": "Optionally, specify the encryption context that you want to use alongside your KMS key. AWS KMS uses this encryption context as additional authenticated data (AAD) to support authenticated encryption. This value must be a base64-encoded UTF-8 string holding JSON which represents a string-string map. To use this setting, you must also set Server-side encryption (S3ServerSideEncryptionType) to AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). For more information about encryption context, see: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context.",
+                        "smithy.api#jsonName": "kmsEncryptionContext"
                     }
                 },
                 "KmsKeyArn": {
@@ -19044,6 +19656,15 @@
                 }
             }
         },
+        "com.amazonaws.mediaconvert#__integerMin1Max2048": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 2048
+                }
+            }
+        },
         "com.amazonaws.mediaconvert#__integerMin1Max2147483640": {
             "type": "integer",
             "traits": {
@@ -19086,6 +19707,24 @@
                 "smithy.api#range": {
                     "min": 1,
                     "max": 4
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#__integerMin1Max4096": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 4096
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#__integerMin1Max512": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 512
                 }
             }
         },
@@ -19158,6 +19797,15 @@
                 "smithy.api#range": {
                     "min": 2,
                     "max": 2147483647
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#__integerMin2Max4096": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 2,
+                    "max": 4096
                 }
             }
         },
@@ -19284,6 +19932,15 @@
                 "smithy.api#range": {
                     "min": 8,
                     "max": 12
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#__integerMin8Max4096": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 8,
+                    "max": 4096
                 }
             }
         },
@@ -19817,6 +20474,16 @@
                     "max": 3
                 },
                 "smithy.api#pattern": "^[A-Za-z]{3}$"
+            }
+        },
+        "com.amazonaws.mediaconvert#__stringMin6Max8Pattern09aFAF609aFAF2": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 6,
+                    "max": 8
+                },
+                "smithy.api#pattern": "^[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$"
             }
         },
         "com.amazonaws.mediaconvert#__stringMin9Max19PatternAZ26EastWestCentralNorthSouthEastWest1912": {
