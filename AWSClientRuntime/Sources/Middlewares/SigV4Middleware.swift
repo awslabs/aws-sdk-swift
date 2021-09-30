@@ -32,7 +32,6 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
     Self.MError == H.MiddlewareError {
-
         
         let originalRequest = input.build()
         let crtUnsignedRequest = originalRequest.toHttpRequest()
