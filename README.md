@@ -67,8 +67,8 @@ xed .
 Once Xcode is open, open Package.swift.  Update the file to mirror the following.  Notice the three following changes:
 
 * Platforms is set to `[.macOS(.v10_15), .iOS(.v13)]`,
-* dependencies: - has a .package which references the `CognitoIdentity` package
-* the first target “TestSDK” has a dependency listed as `CognitoIdentity`
+* dependencies: - has a .package which references the `AWSCognitoIdentity` package
+* the first target “TestSDK” has a dependency listed as `AWSCognitoIdentity`
 
 ```swift
 // swift-tools-version:5.4
@@ -80,14 +80,14 @@ let package = Package(
     name: "TestSdk",
     platforms: [.macOS(.v10_15), .iOS(.v13)],
     dependencies: [
-        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.8"),
+        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.9"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "TestSdk",
-            dependencies: [.product(name: "CognitoIdentity", package: "AWSSwiftSDK")]),
+            dependencies: [.product(name: "AWSCognitoIdentity", package: "AWSSwiftSDK")]),
         .testTarget(
             name: "TestSdkTests",
             dependencies: ["TestSdk"]),
@@ -100,9 +100,8 @@ Then you can open up main.swift, and instantiate CognitoIdentity as follows:
 If you are running Swift <5.5:
 ```swift
 import CognitoIdentity
-import Foundation
 
-let cognitoIdentityClient = CognitoIdentityClient()
+let cognitoIdentityClient = try CognitoIdentityClient(region: "us-east-1")
 let cognitoInputCall = CreateIdentityPoolInput(developerProviderName: "com.amazonaws.mytestapplication",
                                                identityPoolName: "identityPoolMadeWithSwiftSDK")
 
