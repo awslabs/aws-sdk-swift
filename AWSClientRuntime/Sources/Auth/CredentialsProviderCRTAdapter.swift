@@ -20,7 +20,8 @@ struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
     
     func getCredentials(credentialCallbackData: CRTCredentialsProviderCallbackData) {
         do {
-            let credentials = try credentialsProvider.getCredentials()
+            let credentialsResult = try credentialsProvider.getCredentials()
+            let credentials = try credentialsResult.get()
             let emptyError = AWSError(errorCode: 0)
             let crtCredentials = credentials.toCRTType()
             credentialCallbackData.onCredentialsResolved?(crtCredentials, CRTError.crtError(emptyError))
@@ -29,6 +30,5 @@ struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
             
             credentialCallbackData.onCredentialsResolved?(nil, CRTError.crtError(AWSError(errorCode: -1)))
         }
-        
     }
 }

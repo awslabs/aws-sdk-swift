@@ -53,16 +53,18 @@ public class AWSCredentialsProvider: CredentialsProvider {
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
-    public func getCredentials() throws -> AWSCredentials {
+    public func getCredentials() throws -> SdkFuture<AWSCredentials> {
         let credentials = crtCredentialsProvider.getCredentials()
         let result = try credentials.get()
         guard let accessKey = result.getAccessKey(),
               let secret = result.getSecret() else {
             throw ClientError.authError("Unable to get credentials.  Required: accessKey, secret.")
         }
-        return AWSCredentials(accessKey: accessKey,
-                              secret: secret,
-                              expirationTimeout: result.getExpirationTimeout(),
-                              sessionToken: result.getSessionToken())
+        let future = SdkFuture<AWSCredentials>()
+        future.fulfill(AWSCredentials(accessKey: accessKey,
+                                      secret: secret,
+                                      expirationTimeout: result.getExpirationTimeout(),
+                                      sessionToken: result.getSessionToken()))
+        return future
     }
 }

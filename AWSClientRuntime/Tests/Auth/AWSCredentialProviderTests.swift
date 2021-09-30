@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
@@ -14,14 +14,17 @@ class AWSCredentialProviderTests: XCTestCase {
     
     func testYouCanUseCustomCredentialsProvider() throws {
         let awsCredsProvider = try AWSCredentialsProvider.fromCustom(MyCustomCredentialsProvider())
-        let credentials = try awsCredsProvider.getCredentials()
+        let credentialsResult = try awsCredsProvider.getCredentials()
+        let credentials = try credentialsResult.get()
         XCTAssertEqual(credentials.accessKey, "MYACCESSKEY")
         XCTAssertEqual(credentials.secret, "sekrit")
     }
 }
 
 struct MyCustomCredentialsProvider: CredentialsProvider {
-    func getCredentials() throws -> AWSCredentials {
-        return AWSCredentials(accessKey: "MYACCESSKEY", secret: "sekrit", expirationTimeout: 30)
+    func getCredentials() throws -> SdkFuture<AWSCredentials> {
+        let future = SdkFuture<AWSCredentials>()
+        future.fulfill(AWSCredentials(accessKey: "MYACCESSKEY", secret: "sekrit", expirationTimeout: 30))
+        return future
     }
 }
