@@ -4,6 +4,7 @@ software.amazon.smithy.aws.swift.codegen.customization.s3.S3ErrorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.apigateway.ApiGatewayAddAcceptHeader
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAddVersionHeader
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAccountIdDefault
+software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierChecksum
 software.amazon.smithy.aws.swift.codegen.customization.BoxServices
 software.amazon.smithy.aws.swift.codegen.customization.PresignableModelIntegration
 software.amazon.smithy.aws.swift.codegen.customization.polly.PollyGetPresignerIntegration
