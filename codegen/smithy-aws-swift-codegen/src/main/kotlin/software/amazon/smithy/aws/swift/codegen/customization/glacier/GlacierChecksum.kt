@@ -15,6 +15,11 @@ import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
+/**
+ * Adds a middleware for Glacier to autofill accountId when not set
+ * See: https://github.com/awslabs/aws-sdk-swift/issues/208
+ * See also: https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
+ */
 class GlacierChecksum: SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings) =
         model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
