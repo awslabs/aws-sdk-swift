@@ -30,7 +30,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                   guard let data = data else {
                             return next.handle(context: context, input: input)
                         }
-                  if !input.currentHeaders.exists(name: sha256HashHeaderName) {
+                  if !request.headers.exists(name: sha256HashHeaderName) {
                       let base64Encoded = ByteBuffer(data: data).base64EncodedSha256()
                       input.withHeader(name: sha256TreeHashHeaderName, value: base64Encoded)
                   }
