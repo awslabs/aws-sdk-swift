@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWSAPIGateway - ApiGatewayClientTypes.DomainName</title>
+    <link rel="stylesheet" type="text/css" href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway">
+            <strong>
+                AWSAPIGateway
+            </strong>
+            <span>Documentation</span>
+        </a>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Member Of</a></li><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#apigatewayclienttypes.domainname.init(from:)">init(from:​)</a></li><li class="initializer"><a href="#apigatewayclienttypes.domainname.init(certificatearn:certificatename:certificateuploaddate:distributiondomainname:distributionhostedzoneid:domainname:domainnamestatus:domainnamestatusmessage:endpointconfiguration:mutualtlsauthentication:ownershipverificationcertificatearn:regionalcertificatearn:regionalcertificatename:regionaldomainname:regionalhostedzoneid:securitypolicy:tags:)">init(certificate​Arn:​certificate​Name:​certificate​Upload​Date:​distribution​Domain​Name:​distribution​Hosted​Zone​Id:​domain​Name:​domain​Name​Status:​domain​Name​Status​Message:​endpoint​Configuration:​mutual​Tls​Authentication:​ownership​Verification​Certificate​Arn:​regional​Certificate​Arn:​regional​Certificate​Name:​regional​Domain​Name:​regional​Hosted​Zone​Id:​security​Policy:​tags:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#apigatewayclienttypes.domainname.debugdescription">debug​Description</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.certificatearn">certificate​Arn</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.certificatename">certificate​Name</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.certificateuploaddate">certificate​Upload​Date</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.distributiondomainname">distribution​Domain​Name</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.distributionhostedzoneid">distribution​Hosted​Zone​Id</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.domainname">domain​Name</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.domainnamestatus">domain​Name​Status</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.domainnamestatusmessage">domain​Name​Status​Message</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.endpointconfiguration">endpoint​Configuration</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.mutualtlsauthentication">mutual​Tls​Authentication</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.ownershipverificationcertificatearn">ownership​Verification​Certificate​Arn</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.regionalcertificatearn">regional​Certificate​Arn</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.regionalcertificatename">regional​Certificate​Name</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.regionaldomainname">regional​Domain​Name</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.regionalhostedzoneid">regional​Hosted​Zone​Id</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.securitypolicy">security​Policy</a></li><li class="variable"><a href="#apigatewayclienttypes.domainname.tags">tags</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#apigatewayclienttypes.domainname.encode(to:)">encode(to:​)</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Structure</small>
+    <code class="name">Api​Gateway​Client​Types.​Domain​Name</code>
+</h1>
+
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">struct</span> <span class="type">DomainName</span>: <span class="type">Swift</span>.<span class="type">Equatable</span>  </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a custom domain name as a user-friendly host name of an API (RestApi).</p>
+<div class="Remarks">
+When you deploy an API, API Gateway creates a default host name for the API. This default API host name is of the {restapi-id}.execute-api.{region}.amazonaws.com format. With the default host name, you can access the API's root resource with the URL of https://{restapi-id}.execute-api.{region}.amazonaws.com/{stage}/. When you set up a custom domain name of apis.example.com for this API, you can then access the same resource using the URL of the https://apis.examples.com/myApi, where myApi is the base path mapping (BasePathMapping) of your API under the custom domain name.
+
+</div>
+<div class="discussion">
+    <html><body><pre class="highlight"><code>    &lt;/<span class="variable">div</span>&gt;
+  &lt;<span class="variable">div</span> <span class="keyword">class</span>=<span class="string literal">"seeAlso"</span>&gt;
+    &lt;<span class="variable">a</span> <span class="variable">href</span>=<span class="string literal">"https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html"</span>&gt;<span class="variable">Set</span> <span class="variable">a</span> <span class="variable">Custom</span> <span class="variable">Host</span> <span class="variable">Name</span> <span class="keyword">for</span> <span class="variable">an</span> <span class="variable">API</span>
+  &lt;/<span class="variable">div</span>&gt;
+</code></pre></body></html>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+ -->
+<!-- Pages: 1 -->
+<svg width="1110pt" height="243pt"
+ viewBox="0.00 0.00 1110.06 243.49" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 239.49)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-239.49 1106.06,-239.49 1106.06,4 -4,4"/>
+<!-- ApiGatewayClientTypes.DomainName -->
+<g id="node1" class="node structure current">
+<title>ApiGatewayClientTypes.DomainName</title>
+<g id="a_node1"><a xlink:href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DomainName" xlink:title="ApiGatewayClientTypes.DomainName">
+<path fill="none" stroke="black" stroke-width="3" d="M679.77,-136.04C679.77,-136.04 417.77,-136.04 417.77,-136.04 411.77,-136.04 405.77,-130.04 405.77,-124.04 405.77,-124.04 405.77,-112.04 405.77,-112.04 405.77,-106.04 411.77,-100.04 417.77,-100.04 417.77,-100.04 679.77,-100.04 679.77,-100.04 685.77,-100.04 691.77,-106.04 691.77,-112.04 691.77,-112.04 691.77,-124.04 691.77,-124.04 691.77,-130.04 685.77,-136.04 679.77,-136.04"/>
+<text text-anchor="middle" x="548.77" y="-114.34" font-family="Menlo" font-size="14.00">ApiGatewayClientTypes.DomainName</text>
+</a>
+</g>
+</g>
+<!-- ClientRuntime.Reflection -->
+<g id="node2" class="node unknown">
+<title>ClientRuntime.Reflection</title>
+<path fill="none" stroke="black" d="M1090.06,-71.16C1090.06,-71.16 895.06,-71.16 895.06,-71.16 889.06,-71.16 883.06,-65.16 883.06,-59.16 883.06,-59.16 883.06,-47.16 883.06,-47.16 883.06,-41.16 889.06,-35.16 895.06,-35.16 895.06,-35.16 1090.06,-35.16 1090.06,-35.16 1096.06,-35.16 1102.06,-41.16 1102.06,-47.16 1102.06,-47.16 1102.06,-59.16 1102.06,-59.16 1102.06,-65.16 1096.06,-71.16 1090.06,-71.16"/>
+<text text-anchor="middle" x="992.56" y="-49.46" font-family="Menlo" font-size="14.00">ClientRuntime.Reflection</text>
+</g>
+<!-- ApiGatewayClientTypes.DomainName&#45;&gt;ClientRuntime.Reflection -->
+<g id="edge3" class="edge conformsTo">
+<title>ApiGatewayClientTypes.DomainName&#45;&gt;ClientRuntime.Reflection</title>
+<path fill="none" stroke="black" d="M672.09,-100.01C734.66,-90.86 810.35,-79.8 872.45,-70.72"/>
+<polygon fill="black" stroke="black" points="873.3,-74.13 882.69,-69.22 872.29,-67.21 873.3,-74.13"/>
+</g>
+<!-- Swift.Codable -->
+<g id="node3" class="node unknown">
+<title>Swift.Codable</title>
+<path fill="none" stroke="black" d="M357.75,-36C357.75,-36 165.75,-36 165.75,-36 159.75,-36 153.75,-30 153.75,-24 153.75,-24 153.75,-12 153.75,-12 153.75,-6 159.75,0 165.75,0 165.75,0 357.75,0 357.75,0 363.75,0 369.75,-6 369.75,-12 369.75,-12 369.75,-24 369.75,-24 369.75,-30 363.75,-36 357.75,-36"/>
+<text text-anchor="middle" x="261.75" y="-14.3" font-family="Menlo" font-size="14.00">Swift.Codable</text>
+</g>
+<!-- ApiGatewayClientTypes.DomainName&#45;&gt;Swift.Codable -->
+<g id="edge2" class="edge conformsTo">
+<title>ApiGatewayClientTypes.DomainName&#45;&gt;Swift.Codable</title>
+<path fill="none" stroke="black" d="M497.13,-100.04C448.3,-83.02 375.01,-57.48 323.2,-39.42"/>
+<polygon fill="black" stroke="black" points="324.06,-36.01 313.47,-36.02 321.76,-42.62 324.06,-36.01"/>
+</g>
+<!-- Swift.Equatable -->
+<g id="node4" class="node unknown">
+<title>Swift.Equatable</title>
+<path fill="none" stroke="black" d="M204,-201.78C204,-201.78 12,-201.78 12,-201.78 6,-201.78 0,-195.78 0,-189.78 0,-189.78 0,-177.78 0,-177.78 0,-171.78 6,-165.78 12,-165.78 12,-165.78 204,-165.78 204,-165.78 210,-165.78 216,-171.78 216,-177.78 216,-177.78 216,-189.78 216,-189.78 216,-195.78 210,-201.78 204,-201.78"/>
+<text text-anchor="middle" x="108" y="-180.08" font-family="Menlo" font-size="14.00">Swift.Equatable</text>
+</g>
+<!-- ApiGatewayClientTypes.DomainName&#45;&gt;Swift.Equatable -->
+<g id="edge4" class="edge conformsTo">
+<title>ApiGatewayClientTypes.DomainName&#45;&gt;Swift.Equatable</title>
+<path fill="none" stroke="black" d="M428.04,-136.05C365.13,-145.43 288.51,-156.86 226.01,-166.18"/>
+<polygon fill="black" stroke="black" points="225.48,-162.72 216.11,-167.65 226.52,-169.64 225.48,-162.72"/>
+</g>
+<!-- Swift.CustomDebugStringConvertible -->
+<g id="node5" class="node unknown">
+<title>Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M980.04,-235.49C980.04,-235.49 701.04,-235.49 701.04,-235.49 695.04,-235.49 689.04,-229.49 689.04,-223.49 689.04,-223.49 689.04,-211.49 689.04,-211.49 689.04,-205.49 695.04,-199.49 701.04,-199.49 701.04,-199.49 980.04,-199.49 980.04,-199.49 986.04,-199.49 992.04,-205.49 992.04,-211.49 992.04,-211.49 992.04,-223.49 992.04,-223.49 992.04,-229.49 986.04,-235.49 980.04,-235.49"/>
+<text text-anchor="middle" x="840.54" y="-213.79" font-family="Menlo" font-size="14.00">Swift.CustomDebugStringConvertible</text>
+</g>
+<!-- ApiGatewayClientTypes.DomainName&#45;&gt;Swift.CustomDebugStringConvertible -->
+<g id="edge1" class="edge conformsTo">
+<title>ApiGatewayClientTypes.DomainName&#45;&gt;Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M601.61,-136.05C651.23,-152.97 725.51,-178.28 778.06,-196.19"/>
+<polygon fill="black" stroke="black" points="777.01,-199.53 787.6,-199.45 779.27,-192.91 777.01,-199.53"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for ApiGatewayClientTypes.DomainName.</figcaption>
+</figure>
+        <h3>Member Of</h3>
+<dl>
+    <dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes">ApiGatewayClientTypes</a></code></dt>
+<dd></dd>
+</dl>
+<h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>ClientRuntime.Reflection</code></dt>
+<dt class="unknown"><code>Swift.Codable</code></dt>
+<dt class="unknown"><code>Swift.CustomDebugStringConvertible</code></dt>
+<dt class="unknown"><code>Swift.Equatable</code></dt>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="apigatewayclienttypes.domainname.init(from:)">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.init(from:)">init(from:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (<span class="variable">from</span> <span class="variable">decoder</span>: <span class="type">Swift</span>.<span class="type">Decoder</span>) <span class="keyword">throws</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="initializer" id="apigatewayclienttypes.domainname.init(certificatearn:certificatename:certificateuploaddate:distributiondomainname:distributionhostedzoneid:domainname:domainnamestatus:domainnamestatusmessage:endpointconfiguration:mutualtlsauthentication:ownershipverificationcertificatearn:regionalcertificatearn:regionalcertificatename:regionaldomainname:regionalhostedzoneid:securitypolicy:tags:)">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.init(certificatearn:certificatename:certificateuploaddate:distributiondomainname:distributionhostedzoneid:domainname:domainnamestatus:domainnamestatusmessage:endpointconfiguration:mutualtlsauthentication:ownershipverificationcertificatearn:regionalcertificatearn:regionalcertificatename:regionaldomainname:regionalhostedzoneid:securitypolicy:tags:)">init(certificate​Arn:​certificate​Name:​certificate​Upload​Date:​distribution​Domain​Name:​distribution​Hosted​Zone​Id:​domain​Name:​domain​Name​Status:​domain​Name​Status​Message:​endpoint​Configuration:​mutual​Tls​Authentication:​ownership​Verification​Certificate​Arn:​regional​Certificate​Arn:​regional​Certificate​Name:​regional​Domain​Name:​regional​Hosted​Zone​Id:​security​Policy:​tags:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (
+            <span class="variable">certificateArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">certificateName</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">certificateUploadDate</span>: <span class="type">ClientRuntime</span>.<span class="type">Date</span>? = <span class="keyword">nil</span>,
+            <span class="variable">distributionDomainName</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">distributionHostedZoneId</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">domainName</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">domainNameStatus</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">DomainNameStatus</span>? = <span class="keyword">nil</span>,
+            <span class="variable">domainNameStatusMessage</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">endpointConfiguration</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">EndpointConfiguration</span>? = <span class="keyword">nil</span>,
+            <span class="variable">mutualTlsAuthentication</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">MutualTlsAuthentication</span>? = <span class="keyword">nil</span>,
+            <span class="variable">ownershipVerificationCertificateArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">regionalCertificateArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">regionalCertificateName</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">regionalDomainName</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">regionalHostedZoneId</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+            <span class="variable">securityPolicy</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">SecurityPolicy</span>? = <span class="keyword">nil</span>,
+            <span class="variable">tags</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">String</span>]? = <span class="keyword">nil</span>
+        ) </body></html></code></pre>
+</div>
+</div>
+    </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="apigatewayclienttypes.domainname.debugdescription">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.debugdescription">debug​Description</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">debugDescription</span>: <span class="type">Swift</span>.<span class="type">String</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.certificatearn">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.certificatearn">certificate​Arn</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">certificateArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.certificatename">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.certificatename">certificate​Name</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">certificateName</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The name of the certificate that will be used by edge-optimized endpoint for this domain name.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.certificateuploaddate">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.certificateuploaddate">certificate​Upload​Date</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">certificateUploadDate</span>: <span class="type">ClientRuntime</span>.<span class="type">Date</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.distributiondomainname">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.distributiondomainname">distribution​Domain​Name</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">distributionDomainName</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the <a target="_blank" href="https://aws.amazon.com/documentation/cloudfront/">Amazon CloudFront documentation.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.distributionhostedzoneid">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.distributionhostedzoneid">distribution​Hosted​Zone​Id</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">distributionHostedZoneId</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-regional-api-custom-domain-create.html">Set up a Regional Custom Domain Name and <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#apigateway_region">AWS Regions and Endpoints for API Gateway.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.domainname">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.domainname">domain​Name</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">domainName</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The custom domain name as an API host name, for example, my-api.example.com.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.domainnamestatus">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.domainnamestatus">domain​Name​Status</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">domainNameStatus</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">DomainNameStatus</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The status of the DomainName migration. The valid values are AVAILABLE, UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.domainnamestatusmessage">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.domainnamestatusmessage">domain​Name​Status​Message</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">domainNameStatusMessage</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>An optional text message containing detailed information about status of the DomainName migration.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.endpointconfiguration">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.endpointconfiguration">endpoint​Configuration</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">endpointConfiguration</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">EndpointConfiguration</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The endpoint configuration of this DomainName showing the endpoint types of the domain name.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.mutualtlsauthentication">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.mutualtlsauthentication">mutual​Tls​Authentication</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">mutualTlsAuthentication</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">MutualTlsAuthentication</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.ownershipverificationcertificatearn">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.ownershipverificationcertificatearn">ownership​Verification​Certificate​Arn</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">ownershipVerificationCertificateArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.regionalcertificatearn">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.regionalcertificatearn">regional​Certificate​Arn</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">regionalCertificateArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The reference to an AWS-managed certificate that will be used for validating the regional domain name. AWS Certificate Manager is the only supported source.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.regionalcertificatename">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.regionalcertificatename">regional​Certificate​Name</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">regionalCertificateName</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The name of the certificate that will be used for validating the regional domain name.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.regionaldomainname">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.regionaldomainname">regional​Domain​Name</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">regionalDomainName</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.regionalhostedzoneid">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.regionalhostedzoneid">regional​Hosted​Zone​Id</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">regionalHostedZoneId</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-regional-api-custom-domain-create.html">Set up a Regional Custom Domain Name and  <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#apigateway_region">AWS Regions and Endpoints for API Gateway.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.securitypolicy">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.securitypolicy">security​Policy</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">securityPolicy</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">SecurityPolicy</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="apigatewayclienttypes.domainname.tags">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.tags">tags</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">tags</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">String</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The collection of tags. Each tag element is associated with a given resource.</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="apigatewayclienttypes.domainname.encode(to:)">
+    <h3>
+        <code><a href="#apigatewayclienttypes.domainname.encode(to:)">encode(to:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">encode</span>(<span class="variable">to</span> <span class="variable">encoder</span>: <span class="type">Swift</span>.<span class="type">Encoder</span>) <span class="keyword">throws</span>  </body></html></code></pre>
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2021-10-06T23:48:18+0000">October 6, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+</p>
+    </footer>
+</body>
+</html>

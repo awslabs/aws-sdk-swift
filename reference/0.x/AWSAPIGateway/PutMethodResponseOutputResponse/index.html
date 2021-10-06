@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWSAPIGateway - PutMethodResponseOutputResponse</title>
+    <link rel="stylesheet" type="text/css" href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway">
+            <strong>
+                AWSAPIGateway
+            </strong>
+            <span>Documentation</span>
+        </a>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#putmethodresponseoutputresponse.init(httpresponse:decoder:)">init(http​Response:​decoder:​)</a></li><li class="initializer"><a href="#putmethodresponseoutputresponse.init(responsemodels:responseparameters:statuscode:)">init(response​Models:​response​Parameters:​status​Code:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#putmethodresponseoutputresponse.debugdescription">debug​Description</a></li><li class="variable"><a href="#putmethodresponseoutputresponse.responsemodels">response​Models</a></li><li class="variable"><a href="#putmethodresponseoutputresponse.responseparameters">response​Parameters</a></li><li class="variable"><a href="#putmethodresponseoutputresponse.statuscode">status​Code</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Structure</small>
+    <code class="name">Put​Method​Response​Output​Response</code>
+</h1>
+
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">struct</span> <span class="type">PutMethodResponseOutputResponse</span>: <span class="type">Swift</span>.<span class="type">Equatable</span>  </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template. <!-- API Gateway sends back the status code to the caller as the HTTP status code. Parameters and models can be used to transform the response from the method's integration.--></p>
+<div class="remarks">
+
+</div>
+<div class="discussion">
+    <html><body><pre class="highlight"><code>      &lt;<span class="variable">h4</span>&gt;<span class="variable">Example</span>: <span class="type">A</span> <span class="variable">MethodResponse</span> <span class="variable">instance</span> <span class="variable">of</span> <span class="variable">an</span> <span class="variable">API</span>&lt;/<span class="variable">h4</span>&gt;
+      &lt;<span class="variable">h5</span>&gt;<span class="variable">Request</span>&lt;/<span class="variable">h5</span>&gt;
+      <span class="variable">The</span> <span class="variable">example</span> <span class="variable">request</span> <span class="variable">retrieves</span> <span class="variable">a</span> <span class="variable">MethodResponse</span> <span class="variable">of</span> <span class="variable">the</span> <span class="number literal">200</span> <span class="variable">status</span> <span class="variable">code</span>.
+      &lt;<span class="variable">pre</span>&gt;<span class="variable">GET</span> /<span class="variable">restapis</span>/<span class="variable">fugvjdxtri</span>/<span class="variable">resources</span>/3kzxbg5sa2/<span class="variable">methods</span>/<span class="variable">GET</span>/<span class="variable">responses</span>/<span class="number literal">200</span> <span class="variable">HTTP</span>/<span class="number literal">1.1</span>
+</code></pre></body></html>
+<p>Content-Type: application/json
+Host: apigateway.us-east-1.amazonaws.com
+X-Amz-Date: 20160603T222952Z
+Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160603/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}</pre>
+<h5>Response</h5>
+The successful response returns 200 OK status and a payload as follows:
+<pre>{
+&quot;_links&quot;: {
+&quot;curies&quot;: {
+&quot;href&quot;: &quot;https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html&quot;,
+&quot;name&quot;: &quot;methodresponse&quot;,
+&quot;templated&quot;: true
+},
+&quot;self&quot;: {
+&quot;href&quot;: &quot;/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200&quot;,
+&quot;title&quot;: &quot;200&quot;
+},
+&quot;methodresponse:delete&quot;: {
+&quot;href&quot;: &quot;/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200&quot;
+},
+&quot;methodresponse:update&quot;: {
+&quot;href&quot;: &quot;/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200&quot;
+}
+},
+&quot;responseModels&quot;: {
+&quot;application/json&quot;: &quot;Empty&quot;
+},
+&quot;responseParameters&quot;: {
+&quot;method.response.header.Content-Type&quot;: false
+},
+&quot;statusCode&quot;: &quot;200&quot;
+}</pre></p>
+
+<html><body><pre class="highlight"><code>  &lt;/<span class="variable">div</span>&gt;
+  &lt;<span class="variable">div</span> <span class="keyword">class</span>=<span class="string literal">"seeAlso"</span>&gt;
+    <span class="variable">Method</span>, <span class="variable">IntegrationResponse</span>, <span class="variable">Integration</span>
+    &lt;<span class="variable">a</span> <span class="variable">href</span>=<span class="string literal">"https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html"</span>&gt;<span class="variable">Creating</span> <span class="variable">an</span> <span class="variable">API</span>
+  &lt;/<span class="variable">div</span>&gt;
+</code></pre></body></html>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+ -->
+<!-- Pages: 1 -->
+<svg width="1050pt" height="242pt"
+ viewBox="0.00 0.00 1050.10 241.73" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 237.73)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-237.73 1046.1,-237.73 1046.1,4 -4,4"/>
+<!-- PutMethodResponseOutputResponse -->
+<g id="node1" class="node structure current">
+<title>PutMethodResponseOutputResponse</title>
+<g id="a_node1"><a xlink:href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutMethodResponseOutputResponse" xlink:title="PutMethodResponseOutputResponse">
+<path fill="none" stroke="black" stroke-width="3" d="M578.58,-143.64C578.58,-143.64 324.58,-143.64 324.58,-143.64 318.58,-143.64 312.58,-137.64 312.58,-131.64 312.58,-131.64 312.58,-119.64 312.58,-119.64 312.58,-113.64 318.58,-107.64 324.58,-107.64 324.58,-107.64 578.58,-107.64 578.58,-107.64 584.58,-107.64 590.58,-113.64 590.58,-119.64 590.58,-119.64 590.58,-131.64 590.58,-131.64 590.58,-137.64 584.58,-143.64 578.58,-143.64"/>
+<text text-anchor="middle" x="451.58" y="-121.94" font-family="Menlo" font-size="14.00">PutMethodResponseOutputResponse</text>
+</a>
+</g>
+</g>
+<!-- Swift.Equatable -->
+<g id="node2" class="node unknown">
+<title>Swift.Equatable</title>
+<path fill="none" stroke="black" d="M1030.1,-161.31C1030.1,-161.31 838.1,-161.31 838.1,-161.31 832.1,-161.31 826.1,-155.31 826.1,-149.31 826.1,-149.31 826.1,-137.31 826.1,-137.31 826.1,-131.31 832.1,-125.31 838.1,-125.31 838.1,-125.31 1030.1,-125.31 1030.1,-125.31 1036.1,-125.31 1042.1,-131.31 1042.1,-137.31 1042.1,-137.31 1042.1,-149.31 1042.1,-149.31 1042.1,-155.31 1036.1,-161.31 1030.1,-161.31"/>
+<text text-anchor="middle" x="934.1" y="-139.61" font-family="Menlo" font-size="14.00">Swift.Equatable</text>
+</g>
+<!-- PutMethodResponseOutputResponse&#45;&gt;Swift.Equatable -->
+<g id="edge1" class="edge conformsTo">
+<title>PutMethodResponseOutputResponse&#45;&gt;Swift.Equatable</title>
+<path fill="none" stroke="black" d="M590.82,-130.74C661.91,-133.34 747.49,-136.47 815.42,-138.96"/>
+<polygon fill="black" stroke="black" points="815.62,-142.47 825.74,-139.34 815.87,-135.47 815.62,-142.47"/>
+</g>
+<!-- Swift.CustomDebugStringConvertible -->
+<g id="node3" class="node unknown">
+<title>Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M417.71,-36C417.71,-36 138.71,-36 138.71,-36 132.71,-36 126.71,-30 126.71,-24 126.71,-24 126.71,-12 126.71,-12 126.71,-6 132.71,0 138.71,0 138.71,0 417.71,0 417.71,0 423.71,0 429.71,-6 429.71,-12 429.71,-12 429.71,-24 429.71,-24 429.71,-30 423.71,-36 417.71,-36"/>
+<text text-anchor="middle" x="278.21" y="-14.3" font-family="Menlo" font-size="14.00">Swift.CustomDebugStringConvertible</text>
+</g>
+<!-- PutMethodResponseOutputResponse&#45;&gt;Swift.CustomDebugStringConvertible -->
+<g id="edge2" class="edge conformsTo">
+<title>PutMethodResponseOutputResponse&#45;&gt;Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M422.56,-107.62C393.31,-89.46 348.02,-61.34 315.98,-41.45"/>
+<polygon fill="black" stroke="black" points="317.66,-38.38 307.32,-36.08 313.97,-44.32 317.66,-38.38"/>
+</g>
+<!-- ClientRuntime.HttpResponseBinding -->
+<g id="node4" class="node unknown">
+<title>ClientRuntime.HttpResponseBinding</title>
+<path fill="none" stroke="black" d="M283,-233.73C283,-233.73 12,-233.73 12,-233.73 6,-233.73 0,-227.73 0,-221.73 0,-221.73 0,-209.73 0,-209.73 0,-203.73 6,-197.73 12,-197.73 12,-197.73 283,-197.73 283,-197.73 289,-197.73 295,-203.73 295,-209.73 295,-209.73 295,-221.73 295,-221.73 295,-227.73 289,-233.73 283,-233.73"/>
+<text text-anchor="middle" x="147.5" y="-212.03" font-family="Menlo" font-size="14.00">ClientRuntime.HttpResponseBinding</text>
+</g>
+<!-- PutMethodResponseOutputResponse&#45;&gt;ClientRuntime.HttpResponseBinding -->
+<g id="edge3" class="edge conformsTo">
+<title>PutMethodResponseOutputResponse&#45;&gt;ClientRuntime.HttpResponseBinding</title>
+<path fill="none" stroke="black" d="M390.78,-143.65C341.03,-158.39 270.62,-179.26 218.33,-194.75"/>
+<polygon fill="black" stroke="black" points="217.05,-191.47 208.46,-197.67 219.04,-198.19 217.05,-191.47"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for PutMethodResponseOutputResponse.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>ClientRuntime.HttpResponseBinding</code></dt>
+<dt class="unknown"><code>Swift.CustomDebugStringConvertible</code></dt>
+<dt class="unknown"><code>Swift.Equatable</code></dt>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="putmethodresponseoutputresponse.init(httpresponse:decoder:)">
+    <h3>
+        <code><a href="#putmethodresponseoutputresponse.init(httpresponse:decoder:)">init(http​Response:​decoder:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (<span class="variable">httpResponse</span>: <span class="type">ClientRuntime</span>.<span class="type">HttpResponse</span>, <span class="variable">decoder</span>: <span class="type">ClientRuntime</span>.<span class="type">ResponseDecoder</span>? = <span class="keyword">nil</span>) <span class="keyword">throws</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="initializer" id="putmethodresponseoutputresponse.init(responsemodels:responseparameters:statuscode:)">
+    <h3>
+        <code><a href="#putmethodresponseoutputresponse.init(responsemodels:responseparameters:statuscode:)">init(response​Models:​response​Parameters:​status​Code:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (
+        <span class="variable">responseModels</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">String</span>]? = <span class="keyword">nil</span>,
+        <span class="variable">responseParameters</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">Bool</span>]? = <span class="keyword">nil</span>,
+        <span class="variable">statusCode</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>
+    ) </body></html></code></pre>
+</div>
+</div>
+    </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="putmethodresponseoutputresponse.debugdescription">
+    <h3>
+        <code><a href="#putmethodresponseoutputresponse.debugdescription">debug​Description</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">debugDescription</span>: <span class="type">Swift</span>.<span class="type">String</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="variable" id="putmethodresponseoutputresponse.responsemodels">
+    <h3>
+        <code><a href="#putmethodresponseoutputresponse.responsemodels">response​Models</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">responseModels</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">String</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="putmethodresponseoutputresponse.responseparameters">
+    <h3>
+        <code><a href="#putmethodresponseoutputresponse.responseparameters">response​Parameters</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">responseParameters</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">Bool</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="putmethodresponseoutputresponse.statuscode">
+    <h3>
+        <code><a href="#putmethodresponseoutputresponse.statuscode">status​Code</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">statusCode</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The method response's status code.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2021-10-06T23:48:19+0000">October 6, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+</p>
+    </footer>
+</body>
+</html>

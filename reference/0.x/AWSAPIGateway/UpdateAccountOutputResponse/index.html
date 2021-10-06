@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWSAPIGateway - UpdateAccountOutputResponse</title>
+    <link rel="stylesheet" type="text/css" href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway">
+            <strong>
+                AWSAPIGateway
+            </strong>
+            <span>Documentation</span>
+        </a>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#updateaccountoutputresponse.init(httpresponse:decoder:)">init(http​Response:​decoder:​)</a></li><li class="initializer"><a href="#updateaccountoutputresponse.init(apikeyversion:cloudwatchrolearn:features:throttlesettings:)">init(api​Key​Version:​cloudwatch​Role​Arn:​features:​throttle​Settings:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#updateaccountoutputresponse.debugdescription">debug​Description</a></li><li class="variable"><a href="#updateaccountoutputresponse.apikeyversion">api​Key​Version</a></li><li class="variable"><a href="#updateaccountoutputresponse.cloudwatchrolearn">cloudwatch​Role​Arn</a></li><li class="variable"><a href="#updateaccountoutputresponse.features">features</a></li><li class="variable"><a href="#updateaccountoutputresponse.throttlesettings">throttle​Settings</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Structure</small>
+    <code class="name">Update​Account​Output​Response</code>
+</h1>
+
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">struct</span> <span class="type">UpdateAccountOutputResponse</span>: <span class="type">Swift</span>.<span class="type">Equatable</span>  </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents an AWS account that is associated with API Gateway.</p>
+<div class="remarks">
+To view the account info, call GET on this resource.
+<h4>Error Codes</h4>
+The following exception may be thrown when the request fails.
+
+</div>
+<div class="discussion">
+    <html><body><pre class="highlight"><code>        <span class="variable">UnauthorizedException</span>
+        <span class="variable">NotFoundException</span>
+        <span class="variable">TooManyRequestsException</span>
+
+      <span class="variable">For</span> <span class="variable">detailed</span> <span class="variable">error</span> <span class="variable">code</span> <span class="variable">information</span>, <span class="variable">including</span> <span class="variable">the</span> <span class="variable">corresponding</span> <span class="variable">HTTP</span> <span class="variable">Status</span> <span class="variable">Codes</span>, <span class="variable">see</span> &lt;<span class="variable">a</span> <span class="variable">href</span>=<span class="string literal">"https://docs.aws.amazon.com/apigateway/api-reference/handling-errors/#api-error-codes"</span>&gt;<span class="variable">API</span> <span class="variable">Gateway</span> <span class="variable">Error</span> <span class="variable">Codes</span>
+        &lt;<span class="variable">h4</span>&gt;<span class="variable">Example</span>: <span class="type">Get</span> <span class="variable">the</span> <span class="variable">information</span> <span class="variable">about</span> <span class="variable">an</span> <span class="variable">account</span>.&lt;/<span class="variable">h4</span>&gt;
+        &lt;<span class="variable">h5</span>&gt;<span class="variable">Request</span>&lt;/<span class="variable">h5</span>&gt;
+        &lt;<span class="variable">pre</span>&gt;<span class="variable">GET</span> /<span class="variable">account</span> <span class="variable">HTTP</span>/<span class="number literal">1.1</span>
+</code></pre></body></html>
+<p>Content-Type: application/json
+Host: apigateway.us-east-1.amazonaws.com
+X-Amz-Date: 20160531T184618Z
+Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}
+</pre>
+<h5>Response</h5>
+The successful response returns a 200 OK status code and a payload similar to the following:
+<pre>{
+&quot;_links&quot;: {
+&quot;curies&quot;: {
+&quot;href&quot;: &quot;https://docs.aws.amazon.com/apigateway/latest/developerguide/account-apigateway-{rel}.html&quot;,
+&quot;name&quot;: &quot;account&quot;,
+&quot;templated&quot;: true
+},
+&quot;self&quot;: {
+&quot;href&quot;: &quot;/account&quot;
+},
+&quot;account:update&quot;: {
+&quot;href&quot;: &quot;/account&quot;
+}
+},
+&quot;cloudwatchRoleArn&quot;: &quot;arn:aws:iam::123456789012:role/apigAwsProxyRole&quot;,
+&quot;throttleSettings&quot;: {
+&quot;rateLimit&quot;: 500,
+&quot;burstLimit&quot;: 1000
+}
+}
+</pre>
+In addition to making the REST API call directly, you can use the AWS CLI and an AWS SDK to access this resource.
+</div>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-limits.html">API Gateway Limits
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Developer Guide,
+<a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-account.html">AWS CLI
+</div></p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+ -->
+<!-- Pages: 1 -->
+<svg width="1023pt" height="242pt"
+ viewBox="0.00 0.00 1022.98 241.73" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 237.73)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-237.73 1018.98,-237.73 1018.98,4 -4,4"/>
+<!-- UpdateAccountOutputResponse -->
+<g id="node1" class="node structure current">
+<title>UpdateAccountOutputResponse</title>
+<g id="a_node1"><a xlink:href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateAccountOutputResponse" xlink:title="UpdateAccountOutputResponse">
+<path fill="none" stroke="black" stroke-width="3" d="M538.28,-143.64C538.28,-143.64 318.28,-143.64 318.28,-143.64 312.28,-143.64 306.28,-137.64 306.28,-131.64 306.28,-131.64 306.28,-119.64 306.28,-119.64 306.28,-113.64 312.28,-107.64 318.28,-107.64 318.28,-107.64 538.28,-107.64 538.28,-107.64 544.28,-107.64 550.28,-113.64 550.28,-119.64 550.28,-119.64 550.28,-131.64 550.28,-131.64 550.28,-137.64 544.28,-143.64 538.28,-143.64"/>
+<text text-anchor="middle" x="428.28" y="-121.94" font-family="Menlo" font-size="14.00">UpdateAccountOutputResponse</text>
+</a>
+</g>
+</g>
+<!-- ClientRuntime.HttpResponseBinding -->
+<g id="node2" class="node unknown">
+<title>ClientRuntime.HttpResponseBinding</title>
+<path fill="none" stroke="black" d="M1002.98,-161.31C1002.98,-161.31 731.98,-161.31 731.98,-161.31 725.98,-161.31 719.98,-155.31 719.98,-149.31 719.98,-149.31 719.98,-137.31 719.98,-137.31 719.98,-131.31 725.98,-125.31 731.98,-125.31 731.98,-125.31 1002.98,-125.31 1002.98,-125.31 1008.98,-125.31 1014.98,-131.31 1014.98,-137.31 1014.98,-137.31 1014.98,-149.31 1014.98,-149.31 1014.98,-155.31 1008.98,-161.31 1002.98,-161.31"/>
+<text text-anchor="middle" x="867.48" y="-139.61" font-family="Menlo" font-size="14.00">ClientRuntime.HttpResponseBinding</text>
+</g>
+<!-- UpdateAccountOutputResponse&#45;&gt;ClientRuntime.HttpResponseBinding -->
+<g id="edge1" class="edge conformsTo">
+<title>UpdateAccountOutputResponse&#45;&gt;ClientRuntime.HttpResponseBinding</title>
+<path fill="none" stroke="black" d="M550.33,-130.55C599.69,-132.53 657.31,-134.85 709.79,-136.96"/>
+<polygon fill="black" stroke="black" points="709.74,-140.46 719.87,-137.37 710.02,-133.47 709.74,-140.46"/>
+</g>
+<!-- Swift.Equatable -->
+<g id="node3" class="node unknown">
+<title>Swift.Equatable</title>
+<path fill="none" stroke="black" d="M366.47,-36C366.47,-36 174.47,-36 174.47,-36 168.47,-36 162.47,-30 162.47,-24 162.47,-24 162.47,-12 162.47,-12 162.47,-6 168.47,0 174.47,0 174.47,0 366.47,0 366.47,0 372.47,0 378.47,-6 378.47,-12 378.47,-12 378.47,-24 378.47,-24 378.47,-30 372.47,-36 366.47,-36"/>
+<text text-anchor="middle" x="270.47" y="-14.3" font-family="Menlo" font-size="14.00">Swift.Equatable</text>
+</g>
+<!-- UpdateAccountOutputResponse&#45;&gt;Swift.Equatable -->
+<g id="edge2" class="edge conformsTo">
+<title>UpdateAccountOutputResponse&#45;&gt;Swift.Equatable</title>
+<path fill="none" stroke="black" d="M401.87,-107.62C375.47,-89.62 334.72,-61.82 305.61,-41.96"/>
+<polygon fill="black" stroke="black" points="307.21,-38.82 296.97,-36.08 303.26,-44.6 307.21,-38.82"/>
+</g>
+<!-- Swift.CustomDebugStringConvertible -->
+<g id="node4" class="node unknown">
+<title>Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M291,-233.73C291,-233.73 12,-233.73 12,-233.73 6,-233.73 0,-227.73 0,-221.73 0,-221.73 0,-209.73 0,-209.73 0,-203.73 6,-197.73 12,-197.73 12,-197.73 291,-197.73 291,-197.73 297,-197.73 303,-203.73 303,-209.73 303,-209.73 303,-221.73 303,-221.73 303,-227.73 297,-233.73 291,-233.73"/>
+<text text-anchor="middle" x="151.5" y="-212.03" font-family="Menlo" font-size="14.00">Swift.CustomDebugStringConvertible</text>
+</g>
+<!-- UpdateAccountOutputResponse&#45;&gt;Swift.CustomDebugStringConvertible -->
+<g id="edge3" class="edge conformsTo">
+<title>UpdateAccountOutputResponse&#45;&gt;Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M372.93,-143.65C327.92,-158.31 264.3,-179.01 216.8,-194.48"/>
+<polygon fill="black" stroke="black" points="215.65,-191.17 207.22,-197.59 217.82,-197.83 215.65,-191.17"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for UpdateAccountOutputResponse.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>ClientRuntime.HttpResponseBinding</code></dt>
+<dt class="unknown"><code>Swift.CustomDebugStringConvertible</code></dt>
+<dt class="unknown"><code>Swift.Equatable</code></dt>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="updateaccountoutputresponse.init(httpresponse:decoder:)">
+    <h3>
+        <code><a href="#updateaccountoutputresponse.init(httpresponse:decoder:)">init(http​Response:​decoder:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (<span class="variable">httpResponse</span>: <span class="type">ClientRuntime</span>.<span class="type">HttpResponse</span>, <span class="variable">decoder</span>: <span class="type">ClientRuntime</span>.<span class="type">ResponseDecoder</span>? = <span class="keyword">nil</span>) <span class="keyword">throws</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="initializer" id="updateaccountoutputresponse.init(apikeyversion:cloudwatchrolearn:features:throttlesettings:)">
+    <h3>
+        <code><a href="#updateaccountoutputresponse.init(apikeyversion:cloudwatchrolearn:features:throttlesettings:)">init(api​Key​Version:​cloudwatch​Role​Arn:​features:​throttle​Settings:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (
+        <span class="variable">apiKeyVersion</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+        <span class="variable">cloudwatchRoleArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+        <span class="variable">features</span>: [<span class="type">Swift</span>.<span class="type">String</span>]? = <span class="keyword">nil</span>,
+        <span class="variable">throttleSettings</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">ThrottleSettings</span>? = <span class="keyword">nil</span>
+    ) </body></html></code></pre>
+</div>
+</div>
+    </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="updateaccountoutputresponse.debugdescription">
+    <h3>
+        <code><a href="#updateaccountoutputresponse.debugdescription">debug​Description</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">debugDescription</span>: <span class="type">Swift</span>.<span class="type">String</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="variable" id="updateaccountoutputresponse.apikeyversion">
+    <h3>
+        <code><a href="#updateaccountoutputresponse.apikeyversion">api​Key​Version</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">apiKeyVersion</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The version of the API keys used for the account.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updateaccountoutputresponse.cloudwatchrolearn">
+    <h3>
+        <code><a href="#updateaccountoutputresponse.cloudwatchrolearn">cloudwatch​Role​Arn</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">cloudwatchRoleArn</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The ARN of an Amazon CloudWatch role for the current Account.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updateaccountoutputresponse.features">
+    <h3>
+        <code><a href="#updateaccountoutputresponse.features">features</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">features</span>: [<span class="type">Swift</span>.<span class="type">String</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A list of features supported for the account. When usage plans are enabled, the features list will include an entry of &quot;UsagePlans&quot;.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updateaccountoutputresponse.throttlesettings">
+    <h3>
+        <code><a href="#updateaccountoutputresponse.throttlesettings">throttle​Settings</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">throttleSettings</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">ThrottleSettings</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Specifies the API request limits configured for the current Account.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2021-10-06T23:48:09+0000">October 6, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+</p>
+    </footer>
+</body>
+</html>
