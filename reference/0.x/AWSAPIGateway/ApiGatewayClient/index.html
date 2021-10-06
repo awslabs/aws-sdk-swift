@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWSAPIGateway - ApiGatewayClient</title>
+    <link rel="stylesheet" type="text/css" href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway">
+            <strong>
+                AWSAPIGateway
+            </strong>
+            <span>Documentation</span>
+        </a>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#apigatewayclient.init(config:)">init(config:​)</a></li><li class="initializer"><a href="#apigatewayclient.init(region:)">init(region:​)</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#apigatewayclient.createapikey(input:completion:)">create​Api​Key(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createauthorizer(input:completion:)">create​Authorizer(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createbasepathmapping(input:completion:)">create​Base​Path​Mapping(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createdeployment(input:completion:)">create​Deployment(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createdocumentationpart(input:completion:)">create​Documentation​Part(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createdocumentationversion(input:completion:)">create​Documentation​Version(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createdomainname(input:completion:)">create​Domain​Name(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createmodel(input:completion:)">create​Model(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createrequestvalidator(input:completion:)">create​Request​Validator(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createresource(input:completion:)">create​Resource(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createrestapi(input:completion:)">create​Rest​Api(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createstage(input:completion:)">create​Stage(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createusageplan(input:completion:)">create​Usage​Plan(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createusageplankey(input:completion:)">create​Usage​Plan​Key(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.createvpclink(input:completion:)">create​Vpc​Link(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteapikey(input:completion:)">delete​Api​Key(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteauthorizer(input:completion:)">delete​Authorizer(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletebasepathmapping(input:completion:)">delete​Base​Path​Mapping(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteclientcertificate(input:completion:)">delete​Client​Certificate(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletedeployment(input:completion:)">delete​Deployment(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletedocumentationpart(input:completion:)">delete​Documentation​Part(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletedocumentationversion(input:completion:)">delete​Documentation​Version(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletedomainname(input:completion:)">delete​Domain​Name(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletegatewayresponse(input:completion:)">delete​Gateway​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteintegration(input:completion:)">delete​Integration(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteintegrationresponse(input:completion:)">delete​Integration​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletemethod(input:completion:)">delete​Method(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletemethodresponse(input:completion:)">delete​Method​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletemodel(input:completion:)">delete​Model(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleterequestvalidator(input:completion:)">delete​Request​Validator(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteresource(input:completion:)">delete​Resource(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleterestapi(input:completion:)">delete​Rest​Api(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletestage(input:completion:)">delete​Stage(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteusageplan(input:completion:)">delete​Usage​Plan(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deleteusageplankey(input:completion:)">delete​Usage​Plan​Key(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.deletevpclink(input:completion:)">delete​Vpc​Link(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.flushstageauthorizerscache(input:completion:)">flush​Stage​Authorizers​Cache(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.flushstagecache(input:completion:)">flush​Stage​Cache(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.generateclientcertificate(input:completion:)">generate​Client​Certificate(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getaccount(input:completion:)">get​Account(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getapikey(input:completion:)">get​Api​Key(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getapikeys(input:completion:)">get​Api​Keys(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getauthorizer(input:completion:)">get​Authorizer(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getauthorizers(input:completion:)">get​Authorizers(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getbasepathmapping(input:completion:)">get​Base​Path​Mapping(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getbasepathmappings(input:completion:)">get​Base​Path​Mappings(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getclientcertificate(input:completion:)">get​Client​Certificate(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getclientcertificates(input:completion:)">get​Client​Certificates(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdeployment(input:completion:)">get​Deployment(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdeployments(input:completion:)">get​Deployments(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdocumentationpart(input:completion:)">get​Documentation​Part(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdocumentationparts(input:completion:)">get​Documentation​Parts(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdocumentationversion(input:completion:)">get​Documentation​Version(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdocumentationversions(input:completion:)">get​Documentation​Versions(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdomainname(input:completion:)">get​Domain​Name(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getdomainnames(input:completion:)">get​Domain​Names(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getexport(input:completion:)">get​Export(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getgatewayresponse(input:completion:)">get​Gateway​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getgatewayresponses(input:completion:)">get​Gateway​Responses(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getintegration(input:completion:)">get​Integration(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getintegrationresponse(input:completion:)">get​Integration​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getmethod(input:completion:)">get​Method(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getmethodresponse(input:completion:)">get​Method​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getmodel(input:completion:)">get​Model(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getmodeltemplate(input:completion:)">get​Model​Template(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getmodels(input:completion:)">get​Models(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getrequestvalidator(input:completion:)">get​Request​Validator(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getrequestvalidators(input:completion:)">get​Request​Validators(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getresource(input:completion:)">get​Resource(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getresources(input:completion:)">get​Resources(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getrestapi(input:completion:)">get​Rest​Api(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getrestapis(input:completion:)">get​Rest​Apis(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getsdk(input:completion:)">get​Sdk(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getsdktype(input:completion:)">get​Sdk​Type(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getsdktypes(input:completion:)">get​Sdk​Types(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getstage(input:completion:)">get​Stage(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getstages(input:completion:)">get​Stages(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.gettags(input:completion:)">get​Tags(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getusage(input:completion:)">get​Usage(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getusageplan(input:completion:)">get​Usage​Plan(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getusageplankey(input:completion:)">get​Usage​Plan​Key(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getusageplankeys(input:completion:)">get​Usage​Plan​Keys(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getusageplans(input:completion:)">get​Usage​Plans(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getvpclink(input:completion:)">get​Vpc​Link(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.getvpclinks(input:completion:)">get​Vpc​Links(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.importapikeys(input:completion:)">import​Api​Keys(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.importdocumentationparts(input:completion:)">import​Documentation​Parts(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.importrestapi(input:completion:)">import​Rest​Api(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.putgatewayresponse(input:completion:)">put​Gateway​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.putintegration(input:completion:)">put​Integration(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.putintegrationresponse(input:completion:)">put​Integration​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.putmethod(input:completion:)">put​Method(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.putmethodresponse(input:completion:)">put​Method​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.putrestapi(input:completion:)">put​Rest​Api(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.tagresource(input:completion:)">tag​Resource(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.testinvokeauthorizer(input:completion:)">test​Invoke​Authorizer(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.testinvokemethod(input:completion:)">test​Invoke​Method(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.untagresource(input:completion:)">untag​Resource(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateaccount(input:completion:)">update​Account(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateapikey(input:completion:)">update​Api​Key(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateauthorizer(input:completion:)">update​Authorizer(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatebasepathmapping(input:completion:)">update​Base​Path​Mapping(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateclientcertificate(input:completion:)">update​Client​Certificate(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatedeployment(input:completion:)">update​Deployment(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatedocumentationpart(input:completion:)">update​Documentation​Part(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatedocumentationversion(input:completion:)">update​Documentation​Version(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatedomainname(input:completion:)">update​Domain​Name(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updategatewayresponse(input:completion:)">update​Gateway​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateintegration(input:completion:)">update​Integration(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateintegrationresponse(input:completion:)">update​Integration​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatemethod(input:completion:)">update​Method(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatemethodresponse(input:completion:)">update​Method​Response(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatemodel(input:completion:)">update​Model(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updaterequestvalidator(input:completion:)">update​Request​Validator(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateresource(input:completion:)">update​Resource(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updaterestapi(input:completion:)">update​Rest​Api(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatestage(input:completion:)">update​Stage(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateusage(input:completion:)">update​Usage(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updateusageplan(input:completion:)">update​Usage​Plan(input:​completion:​)</a></li><li class="function"><a href="#apigatewayclient.updatevpclink(input:completion:)">update​Vpc​Link(input:​completion:​)</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">Api​Gateway​Client</code>
+</h1>
+
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">ApiGatewayClient</span>  </body></html></code></pre>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+ -->
+<!-- Pages: 1 -->
+<svg width="872pt" height="116pt"
+ viewBox="0.00 0.00 872.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 868,-112 868,4 -4,4"/>
+<!-- ApiGatewayClient -->
+<g id="node1" class="node class current">
+<title>ApiGatewayClient</title>
+<g id="a_node1"><a xlink:href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClient" xlink:title="ApiGatewayClient">
+<path fill="none" stroke="black" stroke-width="3" d="M528,-108C528,-108 336,-108 336,-108 330,-108 324,-102 324,-96 324,-96 324,-84 324,-84 324,-78 330,-72 336,-72 336,-72 528,-72 528,-72 534,-72 540,-78 540,-84 540,-84 540,-96 540,-96 540,-102 534,-108 528,-108"/>
+<text text-anchor="middle" x="432" y="-86.3" font-family="Menlo" font-size="14.00">ApiGatewayClient</text>
+</a>
+</g>
+</g>
+<!-- ApiGatewayClientProtocol -->
+<g id="node2" class="node protocol">
+<title>ApiGatewayClientProtocol</title>
+<g id="a_node2"><a xlink:href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientProtocol" xlink:title="ApiGatewayClientProtocol">
+<path fill="none" stroke="black" d="M529.5,-36C529.5,-36 334.5,-36 334.5,-36 328.5,-36 322.5,-30 322.5,-24 322.5,-24 322.5,-12 322.5,-12 322.5,-6 328.5,0 334.5,0 334.5,0 529.5,0 529.5,0 535.5,0 541.5,-6 541.5,-12 541.5,-12 541.5,-24 541.5,-24 541.5,-30 535.5,-36 529.5,-36"/>
+<text text-anchor="middle" x="432" y="-14.3" font-family="Menlo" font-size="14.00">ApiGatewayClientProtocol</text>
+</a>
+</g>
+</g>
+<!-- ApiGatewayClient&#45;&gt;ApiGatewayClientProtocol -->
+<g id="edge1" class="edge conformsTo">
+<title>ApiGatewayClient&#45;&gt;ApiGatewayClientProtocol</title>
+<path fill="none" stroke="black" d="M432,-71.7C432,-63.98 432,-54.71 432,-46.11"/>
+<polygon fill="black" stroke="black" points="435.5,-46.1 432,-36.1 428.5,-46.1 435.5,-46.1"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for ApiGatewayClient.</figcaption>
+</figure>
+        <h3>Nested Types</h3>
+<dl>
+    <dt class="class"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClient_ApiGatewayClientConfiguration">ApiGatewayClient.ApiGatewayClientConfiguration</a></code></dt>
+<dd></dd>
+</dl>
+<h3>Conforms To</h3>
+<dl>
+    <dt class="protocol"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientProtocol">ApiGatewayClientProtocol</a></code></dt>
+<dd><p><fullname>Amazon API Gateway</fullname>
+Amazon API Gateway helps developers deliver robust, secure, and scalable mobile and web application back ends. API Gateway allows developers to securely connect mobile and web applications to APIs that run on AWS Lambda, Amazon EC2, or other publicly addressable web services that are hosted outside of AWS.</p>
+</dd>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="apigatewayclient.init(config:)">
+    <h3>
+        <code><a href="#apigatewayclient.init(config:)">init(config:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">config</span>: <span class="type">AWSClientRuntime</span>.<span class="type">AWSClientConfiguration</span>)  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="initializer" id="apigatewayclient.init(region:)">
+    <h3>
+        <code><a href="#apigatewayclient.init(region:)">init(region:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="attribute">convenience</span> <span class="keyword">init</span>(<span class="variable">region</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>) <span class="keyword">throws</span>  </body></html></code></pre>
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="apigatewayclient.createapikey(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createapikey(input:completion:)">create​Api​Key(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createApiKey</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateApiKeyInput"><span class="type">CreateApiKeyInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateApiKeyOutputResponse"><span class="type">CreateApiKeyOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateApiKeyOutputError"><span class="type">CreateApiKeyOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Create an ApiKey resource.</p>
+<div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-api-key.html">AWS CLI</div>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createauthorizer(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createauthorizer(input:completion:)">create​Authorizer(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createAuthorizer</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateAuthorizerInput"><span class="type">CreateAuthorizerInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateAuthorizerOutputResponse"><span class="type">CreateAuthorizerOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateAuthorizerOutputError"><span class="type">CreateAuthorizerOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Adds a new Authorizer resource to an existing RestApi resource.</p>
+<div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS CLI</div>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createbasepathmapping(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createbasepathmapping(input:completion:)">create​Base​Path​Mapping(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createBasePathMapping</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateBasePathMappingInput"><span class="type">CreateBasePathMappingInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateBasePathMappingOutputResponse"><span class="type">CreateBasePathMappingOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateBasePathMappingOutputError"><span class="type">CreateBasePathMappingOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new BasePathMapping resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createdeployment(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createdeployment(input:completion:)">create​Deployment(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createDeployment</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDeploymentInput"><span class="type">CreateDeploymentInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDeploymentOutputResponse"><span class="type">CreateDeploymentOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDeploymentOutputError"><span class="type">CreateDeploymentOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a Deployment resource, which makes a specified RestApi callable over the internet.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createdocumentationpart(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createdocumentationpart(input:completion:)">create​Documentation​Part(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createDocumentationPart</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDocumentationPartInput"><span class="type">CreateDocumentationPartInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDocumentationPartOutputResponse"><span class="type">CreateDocumentationPartOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDocumentationPartOutputError"><span class="type">CreateDocumentationPartOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createdocumentationversion(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createdocumentationversion(input:completion:)">create​Documentation​Version(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createDocumentationVersion</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDocumentationVersionInput"><span class="type">CreateDocumentationVersionInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDocumentationVersionOutputResponse"><span class="type">CreateDocumentationVersionOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDocumentationVersionOutputError"><span class="type">CreateDocumentationVersionOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createdomainname(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createdomainname(input:completion:)">create​Domain​Name(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createDomainName</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDomainNameInput"><span class="type">CreateDomainNameInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDomainNameOutputResponse"><span class="type">CreateDomainNameOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateDomainNameOutputError"><span class="type">CreateDomainNameOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new domain name.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createmodel(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createmodel(input:completion:)">create​Model(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createModel</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateModelInput"><span class="type">CreateModelInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateModelOutputResponse"><span class="type">CreateModelOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateModelOutputError"><span class="type">CreateModelOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Adds a new Model resource to an existing RestApi resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createrequestvalidator(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createrequestvalidator(input:completion:)">create​Request​Validator(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createRequestValidator</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateRequestValidatorInput"><span class="type">CreateRequestValidatorInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateRequestValidatorOutputResponse"><span class="type">CreateRequestValidatorOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateRequestValidatorOutputError"><span class="type">CreateRequestValidatorOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a ReqeustValidator of a given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createresource(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createresource(input:completion:)">create​Resource(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createResource</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateResourceInput"><span class="type">CreateResourceInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateResourceOutputResponse"><span class="type">CreateResourceOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateResourceOutputError"><span class="type">CreateResourceOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a Resource resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createrestapi(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createrestapi(input:completion:)">create​Rest​Api(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createRestApi</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateRestApiInput"><span class="type">CreateRestApiInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateRestApiOutputResponse"><span class="type">CreateRestApiOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateRestApiOutputError"><span class="type">CreateRestApiOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new RestApi resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createstage(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createstage(input:completion:)">create​Stage(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createStage</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateStageInput"><span class="type">CreateStageInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateStageOutputResponse"><span class="type">CreateStageOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateStageOutputError"><span class="type">CreateStageOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new Stage resource that references a pre-existing Deployment for the API.</p>
+<!--   Creates a Stage resource.  -->
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createusageplan(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createusageplan(input:completion:)">create​Usage​Plan(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createUsagePlan</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateUsagePlanInput"><span class="type">CreateUsagePlanInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateUsagePlanOutputResponse"><span class="type">CreateUsagePlanOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateUsagePlanOutputError"><span class="type">CreateUsagePlanOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createusageplankey(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createusageplankey(input:completion:)">create​Usage​Plan​Key(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createUsagePlanKey</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateUsagePlanKeyInput"><span class="type">CreateUsagePlanKeyInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateUsagePlanKeyOutputResponse"><span class="type">CreateUsagePlanKeyOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateUsagePlanKeyOutputError"><span class="type">CreateUsagePlanKeyOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a usage plan key for adding an existing API key to a usage plan.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.createvpclink(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.createvpclink(input:completion:)">create​Vpc​Link(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">createVpcLink</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateVpcLinkInput"><span class="type">CreateVpcLinkInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateVpcLinkOutputResponse"><span class="type">CreateVpcLinkOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/CreateVpcLinkOutputError"><span class="type">CreateVpcLinkOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteapikey(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteapikey(input:completion:)">delete​Api​Key(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteApiKey</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteApiKeyInput"><span class="type">DeleteApiKeyInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteApiKeyOutputResponse"><span class="type">DeleteApiKeyOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteApiKeyOutputError"><span class="type">DeleteApiKeyOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes the ApiKey resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteauthorizer(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteauthorizer(input:completion:)">delete​Authorizer(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteAuthorizer</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteAuthorizerInput"><span class="type">DeleteAuthorizerInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteAuthorizerOutputResponse"><span class="type">DeleteAuthorizerOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteAuthorizerOutputError"><span class="type">DeleteAuthorizerOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes an existing Authorizer resource.</p>
+<div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/delete-authorizer.html">AWS CLI</div>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletebasepathmapping(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletebasepathmapping(input:completion:)">delete​Base​Path​Mapping(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteBasePathMapping</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteBasePathMappingInput"><span class="type">DeleteBasePathMappingInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteBasePathMappingOutputResponse"><span class="type">DeleteBasePathMappingOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteBasePathMappingOutputError"><span class="type">DeleteBasePathMappingOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes the BasePathMapping resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteclientcertificate(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteclientcertificate(input:completion:)">delete​Client​Certificate(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteClientCertificate</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteClientCertificateInput"><span class="type">DeleteClientCertificateInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteClientCertificateOutputResponse"><span class="type">DeleteClientCertificateOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteClientCertificateOutputError"><span class="type">DeleteClientCertificateOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes the ClientCertificate resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletedeployment(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletedeployment(input:completion:)">delete​Deployment(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteDeployment</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDeploymentInput"><span class="type">DeleteDeploymentInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDeploymentOutputResponse"><span class="type">DeleteDeploymentOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDeploymentOutputError"><span class="type">DeleteDeploymentOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletedocumentationpart(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletedocumentationpart(input:completion:)">delete​Documentation​Part(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteDocumentationPart</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDocumentationPartInput"><span class="type">DeleteDocumentationPartInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDocumentationPartOutputResponse"><span class="type">DeleteDocumentationPartOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDocumentationPartOutputError"><span class="type">DeleteDocumentationPartOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletedocumentationversion(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletedocumentationversion(input:completion:)">delete​Documentation​Version(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteDocumentationVersion</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDocumentationVersionInput"><span class="type">DeleteDocumentationVersionInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDocumentationVersionOutputResponse"><span class="type">DeleteDocumentationVersionOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDocumentationVersionOutputError"><span class="type">DeleteDocumentationVersionOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletedomainname(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletedomainname(input:completion:)">delete​Domain​Name(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteDomainName</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDomainNameInput"><span class="type">DeleteDomainNameInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDomainNameOutputResponse"><span class="type">DeleteDomainNameOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteDomainNameOutputError"><span class="type">DeleteDomainNameOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes the DomainName resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletegatewayresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletegatewayresponse(input:completion:)">delete​Gateway​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteGatewayResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteGatewayResponseInput"><span class="type">DeleteGatewayResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteGatewayResponseOutputResponse"><span class="type">DeleteGatewayResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteGatewayResponseOutputError"><span class="type">DeleteGatewayResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteintegration(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteintegration(input:completion:)">delete​Integration(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteIntegration</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteIntegrationInput"><span class="type">DeleteIntegrationInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteIntegrationOutputResponse"><span class="type">DeleteIntegrationOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteIntegrationOutputError"><span class="type">DeleteIntegrationOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a delete integration.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteintegrationresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteintegrationresponse(input:completion:)">delete​Integration​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteIntegrationResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteIntegrationResponseInput"><span class="type">DeleteIntegrationResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteIntegrationResponseOutputResponse"><span class="type">DeleteIntegrationResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteIntegrationResponseOutputError"><span class="type">DeleteIntegrationResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a delete integration response.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletemethod(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletemethod(input:completion:)">delete​Method(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteMethod</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteMethodInput"><span class="type">DeleteMethodInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteMethodOutputResponse"><span class="type">DeleteMethodOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteMethodOutputError"><span class="type">DeleteMethodOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes an existing Method resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletemethodresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletemethodresponse(input:completion:)">delete​Method​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteMethodResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteMethodResponseInput"><span class="type">DeleteMethodResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteMethodResponseOutputResponse"><span class="type">DeleteMethodResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteMethodResponseOutputError"><span class="type">DeleteMethodResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes an existing MethodResponse resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletemodel(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletemodel(input:completion:)">delete​Model(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteModel</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteModelInput"><span class="type">DeleteModelInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteModelOutputResponse"><span class="type">DeleteModelOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteModelOutputError"><span class="type">DeleteModelOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes a model.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleterequestvalidator(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleterequestvalidator(input:completion:)">delete​Request​Validator(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteRequestValidator</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteRequestValidatorInput"><span class="type">DeleteRequestValidatorInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteRequestValidatorOutputResponse"><span class="type">DeleteRequestValidatorOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteRequestValidatorOutputError"><span class="type">DeleteRequestValidatorOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes a RequestValidator of a given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteresource(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteresource(input:completion:)">delete​Resource(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteResource</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteResourceInput"><span class="type">DeleteResourceInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteResourceOutputResponse"><span class="type">DeleteResourceOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteResourceOutputError"><span class="type">DeleteResourceOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes a Resource resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleterestapi(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleterestapi(input:completion:)">delete​Rest​Api(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteRestApi</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteRestApiInput"><span class="type">DeleteRestApiInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteRestApiOutputResponse"><span class="type">DeleteRestApiOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteRestApiOutputError"><span class="type">DeleteRestApiOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes the specified API.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletestage(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletestage(input:completion:)">delete​Stage(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteStage</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteStageInput"><span class="type">DeleteStageInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteStageOutputResponse"><span class="type">DeleteStageOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteStageOutputError"><span class="type">DeleteStageOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes a Stage resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteusageplan(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteusageplan(input:completion:)">delete​Usage​Plan(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteUsagePlan</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteUsagePlanInput"><span class="type">DeleteUsagePlanInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteUsagePlanOutputResponse"><span class="type">DeleteUsagePlanOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteUsagePlanOutputError"><span class="type">DeleteUsagePlanOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes a usage plan of a given plan Id.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deleteusageplankey(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deleteusageplankey(input:completion:)">delete​Usage​Plan​Key(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteUsagePlanKey</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteUsagePlanKeyInput"><span class="type">DeleteUsagePlanKeyInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteUsagePlanKeyOutputResponse"><span class="type">DeleteUsagePlanKeyOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteUsagePlanKeyOutputError"><span class="type">DeleteUsagePlanKeyOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes a usage plan key  and remove the underlying API key from the associated usage plan.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.deletevpclink(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.deletevpclink(input:completion:)">delete​Vpc​Link(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">deleteVpcLink</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteVpcLinkInput"><span class="type">DeleteVpcLinkInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteVpcLinkOutputResponse"><span class="type">DeleteVpcLinkOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/DeleteVpcLinkOutputError"><span class="type">DeleteVpcLinkOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Deletes an existing VpcLink of a specified identifier.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.flushstageauthorizerscache(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.flushstageauthorizerscache(input:completion:)">flush​Stage​Authorizers​Cache(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">flushStageAuthorizersCache</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/FlushStageAuthorizersCacheInput"><span class="type">FlushStageAuthorizersCacheInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/FlushStageAuthorizersCacheOutputResponse"><span class="type">FlushStageAuthorizersCacheOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/FlushStageAuthorizersCacheOutputError"><span class="type">FlushStageAuthorizersCacheOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Flushes all authorizer cache entries on a stage.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.flushstagecache(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.flushstagecache(input:completion:)">flush​Stage​Cache(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">flushStageCache</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/FlushStageCacheInput"><span class="type">FlushStageCacheInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/FlushStageCacheOutputResponse"><span class="type">FlushStageCacheOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/FlushStageCacheOutputError"><span class="type">FlushStageCacheOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Flushes a stage's cache.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.generateclientcertificate(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.generateclientcertificate(input:completion:)">generate​Client​Certificate(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">generateClientCertificate</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GenerateClientCertificateInput"><span class="type">GenerateClientCertificateInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GenerateClientCertificateOutputResponse"><span class="type">GenerateClientCertificateOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GenerateClientCertificateOutputError"><span class="type">GenerateClientCertificateOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Generates a ClientCertificate resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getaccount(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getaccount(input:completion:)">get​Account(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getAccount</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAccountInput"><span class="type">GetAccountInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAccountOutputResponse"><span class="type">GetAccountOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAccountOutputError"><span class="type">GetAccountOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about the current Account resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getapikey(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getapikey(input:completion:)">get​Api​Key(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getApiKey</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetApiKeyInput"><span class="type">GetApiKeyInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetApiKeyOutputResponse"><span class="type">GetApiKeyOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetApiKeyOutputError"><span class="type">GetApiKeyOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about the current ApiKey resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getapikeys(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getapikeys(input:completion:)">get​Api​Keys(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getApiKeys</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetApiKeysInput"><span class="type">GetApiKeysInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetApiKeysOutputResponse"><span class="type">GetApiKeysOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetApiKeysOutputError"><span class="type">GetApiKeysOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about the current ApiKeys resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getauthorizer(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getauthorizer(input:completion:)">get​Authorizer(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getAuthorizer</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAuthorizerInput"><span class="type">GetAuthorizerInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAuthorizerOutputResponse"><span class="type">GetAuthorizerOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAuthorizerOutputError"><span class="type">GetAuthorizerOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Describe an existing Authorizer resource.</p>
+<div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizer.html">AWS CLI</div>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getauthorizers(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getauthorizers(input:completion:)">get​Authorizers(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getAuthorizers</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAuthorizersInput"><span class="type">GetAuthorizersInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAuthorizersOutputResponse"><span class="type">GetAuthorizersOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetAuthorizersOutputError"><span class="type">GetAuthorizersOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Describe an existing Authorizers resource.</p>
+<div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizers.html">AWS CLI</div>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getbasepathmapping(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getbasepathmapping(input:completion:)">get​Base​Path​Mapping(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getBasePathMapping</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetBasePathMappingInput"><span class="type">GetBasePathMappingInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetBasePathMappingOutputResponse"><span class="type">GetBasePathMappingOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetBasePathMappingOutputError"><span class="type">GetBasePathMappingOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Describe a BasePathMapping resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getbasepathmappings(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getbasepathmappings(input:completion:)">get​Base​Path​Mappings(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getBasePathMappings</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetBasePathMappingsInput"><span class="type">GetBasePathMappingsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetBasePathMappingsOutputResponse"><span class="type">GetBasePathMappingsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetBasePathMappingsOutputError"><span class="type">GetBasePathMappingsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a collection of BasePathMapping resources.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getclientcertificate(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getclientcertificate(input:completion:)">get​Client​Certificate(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getClientCertificate</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetClientCertificateInput"><span class="type">GetClientCertificateInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetClientCertificateOutputResponse"><span class="type">GetClientCertificateOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetClientCertificateOutputError"><span class="type">GetClientCertificateOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about the current ClientCertificate resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getclientcertificates(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getclientcertificates(input:completion:)">get​Client​Certificates(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getClientCertificates</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetClientCertificatesInput"><span class="type">GetClientCertificatesInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetClientCertificatesOutputResponse"><span class="type">GetClientCertificatesOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetClientCertificatesOutputError"><span class="type">GetClientCertificatesOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets a collection of ClientCertificate resources.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdeployment(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdeployment(input:completion:)">get​Deployment(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDeployment</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDeploymentInput"><span class="type">GetDeploymentInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDeploymentOutputResponse"><span class="type">GetDeploymentOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDeploymentOutputError"><span class="type">GetDeploymentOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about a Deployment resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdeployments(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdeployments(input:completion:)">get​Deployments(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDeployments</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDeploymentsInput"><span class="type">GetDeploymentsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDeploymentsOutputResponse"><span class="type">GetDeploymentsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDeploymentsOutputError"><span class="type">GetDeploymentsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about a Deployments collection.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdocumentationpart(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdocumentationpart(input:completion:)">get​Documentation​Part(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDocumentationPart</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationPartInput"><span class="type">GetDocumentationPartInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationPartOutputResponse"><span class="type">GetDocumentationPartOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationPartOutputError"><span class="type">GetDocumentationPartOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdocumentationparts(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdocumentationparts(input:completion:)">get​Documentation​Parts(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDocumentationParts</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationPartsInput"><span class="type">GetDocumentationPartsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationPartsOutputResponse"><span class="type">GetDocumentationPartsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationPartsOutputError"><span class="type">GetDocumentationPartsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdocumentationversion(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdocumentationversion(input:completion:)">get​Documentation​Version(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDocumentationVersion</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationVersionInput"><span class="type">GetDocumentationVersionInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationVersionOutputResponse"><span class="type">GetDocumentationVersionOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationVersionOutputError"><span class="type">GetDocumentationVersionOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdocumentationversions(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdocumentationversions(input:completion:)">get​Documentation​Versions(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDocumentationVersions</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationVersionsInput"><span class="type">GetDocumentationVersionsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationVersionsOutputResponse"><span class="type">GetDocumentationVersionsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDocumentationVersionsOutputError"><span class="type">GetDocumentationVersionsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdomainname(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdomainname(input:completion:)">get​Domain​Name(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDomainName</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDomainNameInput"><span class="type">GetDomainNameInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDomainNameOutputResponse"><span class="type">GetDomainNameOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDomainNameOutputError"><span class="type">GetDomainNameOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a domain name that is contained in a simpler, more intuitive URL that can be called.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getdomainnames(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getdomainnames(input:completion:)">get​Domain​Names(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getDomainNames</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDomainNamesInput"><span class="type">GetDomainNamesInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDomainNamesOutputResponse"><span class="type">GetDomainNamesOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetDomainNamesOutputError"><span class="type">GetDomainNamesOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a collection of DomainName resources.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getexport(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getexport(input:completion:)">get​Export(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getExport</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetExportInput"><span class="type">GetExportInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetExportOutputResponse"><span class="type">GetExportOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetExportOutputError"><span class="type">GetExportOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Exports a deployed version of a RestApi in a specified format.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getgatewayresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getgatewayresponse(input:completion:)">get​Gateway​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getGatewayResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetGatewayResponseInput"><span class="type">GetGatewayResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetGatewayResponseOutputResponse"><span class="type">GetGatewayResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetGatewayResponseOutputError"><span class="type">GetGatewayResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets a GatewayResponse of a specified response type on the given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getgatewayresponses(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getgatewayresponses(input:completion:)">get​Gateway​Responses(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getGatewayResponses</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetGatewayResponsesInput"><span class="type">GetGatewayResponsesInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetGatewayResponsesOutputResponse"><span class="type">GetGatewayResponsesOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetGatewayResponsesOutputError"><span class="type">GetGatewayResponsesOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getintegration(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getintegration(input:completion:)">get​Integration(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getIntegration</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetIntegrationInput"><span class="type">GetIntegrationInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetIntegrationOutputResponse"><span class="type">GetIntegrationOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetIntegrationOutputError"><span class="type">GetIntegrationOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Get the integration settings.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getintegrationresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getintegrationresponse(input:completion:)">get​Integration​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getIntegrationResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetIntegrationResponseInput"><span class="type">GetIntegrationResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetIntegrationResponseOutputResponse"><span class="type">GetIntegrationResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetIntegrationResponseOutputError"><span class="type">GetIntegrationResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a get integration response.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getmethod(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getmethod(input:completion:)">get​Method(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getMethod</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetMethodInput"><span class="type">GetMethodInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetMethodOutputResponse"><span class="type">GetMethodOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetMethodOutputError"><span class="type">GetMethodOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Describe an existing Method resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getmethodresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getmethodresponse(input:completion:)">get​Method​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getMethodResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetMethodResponseInput"><span class="type">GetMethodResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetMethodResponseOutputResponse"><span class="type">GetMethodResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetMethodResponseOutputError"><span class="type">GetMethodResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Describes a MethodResponse resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getmodel(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getmodel(input:completion:)">get​Model(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getModel</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelInput"><span class="type">GetModelInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelOutputResponse"><span class="type">GetModelOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelOutputError"><span class="type">GetModelOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Describes an existing model defined for a RestApi resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getmodeltemplate(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getmodeltemplate(input:completion:)">get​Model​Template(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getModelTemplate</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelTemplateInput"><span class="type">GetModelTemplateInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelTemplateOutputResponse"><span class="type">GetModelTemplateOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelTemplateOutputError"><span class="type">GetModelTemplateOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Generates a sample mapping template that can be used to transform a payload into the structure of a model.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getmodels(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getmodels(input:completion:)">get​Models(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getModels</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelsInput"><span class="type">GetModelsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelsOutputResponse"><span class="type">GetModelsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetModelsOutputError"><span class="type">GetModelsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Describes existing Models defined for a RestApi resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getrequestvalidator(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getrequestvalidator(input:completion:)">get​Request​Validator(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getRequestValidator</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRequestValidatorInput"><span class="type">GetRequestValidatorInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRequestValidatorOutputResponse"><span class="type">GetRequestValidatorOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRequestValidatorOutputError"><span class="type">GetRequestValidatorOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets a RequestValidator of a given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getrequestvalidators(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getrequestvalidators(input:completion:)">get​Request​Validators(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getRequestValidators</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRequestValidatorsInput"><span class="type">GetRequestValidatorsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRequestValidatorsOutputResponse"><span class="type">GetRequestValidatorsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRequestValidatorsOutputError"><span class="type">GetRequestValidatorsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets the RequestValidators collection of a given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getresource(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getresource(input:completion:)">get​Resource(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getResource</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetResourceInput"><span class="type">GetResourceInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetResourceOutputResponse"><span class="type">GetResourceOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetResourceOutputError"><span class="type">GetResourceOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Lists information about a resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getresources(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getresources(input:completion:)">get​Resources(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getResources</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetResourcesInput"><span class="type">GetResourcesInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetResourcesOutputResponse"><span class="type">GetResourcesOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetResourcesOutputError"><span class="type">GetResourcesOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Lists information about a collection of Resource resources.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getrestapi(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getrestapi(input:completion:)">get​Rest​Api(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getRestApi</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRestApiInput"><span class="type">GetRestApiInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRestApiOutputResponse"><span class="type">GetRestApiOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRestApiOutputError"><span class="type">GetRestApiOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Lists the RestApi resource in the collection.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getrestapis(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getrestapis(input:completion:)">get​Rest​Apis(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getRestApis</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRestApisInput"><span class="type">GetRestApisInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRestApisOutputResponse"><span class="type">GetRestApisOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetRestApisOutputError"><span class="type">GetRestApisOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Lists the RestApis resources for your collection.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getsdk(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getsdk(input:completion:)">get​Sdk(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getSdk</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkInput"><span class="type">GetSdkInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkOutputResponse"><span class="type">GetSdkOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkOutputError"><span class="type">GetSdkOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Generates a client SDK for a RestApi and Stage.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getsdktype(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getsdktype(input:completion:)">get​Sdk​Type(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getSdkType</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkTypeInput"><span class="type">GetSdkTypeInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkTypeOutputResponse"><span class="type">GetSdkTypeOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkTypeOutputError"><span class="type">GetSdkTypeOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getsdktypes(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getsdktypes(input:completion:)">get​Sdk​Types(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getSdkTypes</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkTypesInput"><span class="type">GetSdkTypesInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkTypesOutputResponse"><span class="type">GetSdkTypesOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetSdkTypesOutputError"><span class="type">GetSdkTypesOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getstage(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getstage(input:completion:)">get​Stage(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getStage</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetStageInput"><span class="type">GetStageInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetStageOutputResponse"><span class="type">GetStageOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetStageOutputError"><span class="type">GetStageOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about a Stage resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getstages(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getstages(input:completion:)">get​Stages(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getStages</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetStagesInput"><span class="type">GetStagesInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetStagesOutputResponse"><span class="type">GetStagesOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetStagesOutputError"><span class="type">GetStagesOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets information about one or more Stage resources.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.gettags(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.gettags(input:completion:)">get​Tags(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getTags</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetTagsInput"><span class="type">GetTagsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetTagsOutputResponse"><span class="type">GetTagsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetTagsOutputError"><span class="type">GetTagsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets the Tags collection for a given resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getusage(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getusage(input:completion:)">get​Usage(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getUsage</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsageInput"><span class="type">GetUsageInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsageOutputResponse"><span class="type">GetUsageOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsageOutputError"><span class="type">GetUsageOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets the usage data of a usage plan in a specified time interval.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getusageplan(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getusageplan(input:completion:)">get​Usage​Plan(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getUsagePlan</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanInput"><span class="type">GetUsagePlanInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanOutputResponse"><span class="type">GetUsagePlanOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanOutputError"><span class="type">GetUsagePlanOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets a usage plan of a given plan identifier.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getusageplankey(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getusageplankey(input:completion:)">get​Usage​Plan​Key(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getUsagePlanKey</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanKeyInput"><span class="type">GetUsagePlanKeyInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanKeyOutputResponse"><span class="type">GetUsagePlanKeyOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanKeyOutputError"><span class="type">GetUsagePlanKeyOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets a usage plan key of a given key identifier.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getusageplankeys(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getusageplankeys(input:completion:)">get​Usage​Plan​Keys(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getUsagePlanKeys</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanKeysInput"><span class="type">GetUsagePlanKeysInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanKeysOutputResponse"><span class="type">GetUsagePlanKeysOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlanKeysOutputError"><span class="type">GetUsagePlanKeysOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets all the usage plan keys representing the API keys added to a specified usage plan.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getusageplans(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getusageplans(input:completion:)">get​Usage​Plans(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getUsagePlans</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlansInput"><span class="type">GetUsagePlansInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlansOutputResponse"><span class="type">GetUsagePlansOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetUsagePlansOutputError"><span class="type">GetUsagePlansOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets all the usage plans of the caller's account.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getvpclink(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getvpclink(input:completion:)">get​Vpc​Link(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getVpcLink</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetVpcLinkInput"><span class="type">GetVpcLinkInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetVpcLinkOutputResponse"><span class="type">GetVpcLinkOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetVpcLinkOutputError"><span class="type">GetVpcLinkOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets a specified VPC link under the caller's account in a region.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.getvpclinks(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.getvpclinks(input:completion:)">get​Vpc​Links(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">getVpcLinks</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetVpcLinksInput"><span class="type">GetVpcLinksInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetVpcLinksOutputResponse"><span class="type">GetVpcLinksOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/GetVpcLinksOutputError"><span class="type">GetVpcLinksOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets the VpcLinks collection under the caller's account in a selected region.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.importapikeys(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.importapikeys(input:completion:)">import​Api​Keys(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">importApiKeys</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportApiKeysInput"><span class="type">ImportApiKeysInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportApiKeysOutputResponse"><span class="type">ImportApiKeysOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportApiKeysOutputError"><span class="type">ImportApiKeysOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Import API keys from an external source, such as a CSV-formatted file.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.importdocumentationparts(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.importdocumentationparts(input:completion:)">import​Documentation​Parts(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">importDocumentationParts</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportDocumentationPartsInput"><span class="type">ImportDocumentationPartsInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportDocumentationPartsOutputResponse"><span class="type">ImportDocumentationPartsOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportDocumentationPartsOutputError"><span class="type">ImportDocumentationPartsOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.importrestapi(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.importrestapi(input:completion:)">import​Rest​Api(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">importRestApi</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportRestApiInput"><span class="type">ImportRestApiInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportRestApiOutputResponse"><span class="type">ImportRestApiOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ImportRestApiOutputError"><span class="type">ImportRestApiOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A feature of the API Gateway control service for creating a new API from an external API definition file.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.putgatewayresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.putgatewayresponse(input:completion:)">put​Gateway​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">putGatewayResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutGatewayResponseInput"><span class="type">PutGatewayResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutGatewayResponseOutputResponse"><span class="type">PutGatewayResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutGatewayResponseOutputError"><span class="type">PutGatewayResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.putintegration(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.putintegration(input:completion:)">put​Integration(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">putIntegration</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutIntegrationInput"><span class="type">PutIntegrationInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutIntegrationOutputResponse"><span class="type">PutIntegrationOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutIntegrationOutputError"><span class="type">PutIntegrationOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Sets up a method's integration.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.putintegrationresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.putintegrationresponse(input:completion:)">put​Integration​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">putIntegrationResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutIntegrationResponseInput"><span class="type">PutIntegrationResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutIntegrationResponseOutputResponse"><span class="type">PutIntegrationResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutIntegrationResponseOutputError"><span class="type">PutIntegrationResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents a put integration.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.putmethod(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.putmethod(input:completion:)">put​Method(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">putMethod</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutMethodInput"><span class="type">PutMethodInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutMethodOutputResponse"><span class="type">PutMethodOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutMethodOutputError"><span class="type">PutMethodOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Add a method to an existing Resource resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.putmethodresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.putmethodresponse(input:completion:)">put​Method​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">putMethodResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutMethodResponseInput"><span class="type">PutMethodResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutMethodResponseOutputResponse"><span class="type">PutMethodResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutMethodResponseOutputError"><span class="type">PutMethodResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Adds a MethodResponse to an existing Method resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.putrestapi(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.putrestapi(input:completion:)">put​Rest​Api(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">putRestApi</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutRestApiInput"><span class="type">PutRestApiInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutRestApiOutputResponse"><span class="type">PutRestApiOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/PutRestApiOutputError"><span class="type">PutRestApiOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A feature of the API Gateway control service for updating an existing API with an input of external API definitions.
+The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.tagresource(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.tagresource(input:completion:)">tag​Resource(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">tagResource</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TagResourceInput"><span class="type">TagResourceInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TagResourceOutputResponse"><span class="type">TagResourceOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TagResourceOutputError"><span class="type">TagResourceOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Adds or updates a tag on a given resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.testinvokeauthorizer(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.testinvokeauthorizer(input:completion:)">test​Invoke​Authorizer(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">testInvokeAuthorizer</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TestInvokeAuthorizerInput"><span class="type">TestInvokeAuthorizerInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TestInvokeAuthorizerOutputResponse"><span class="type">TestInvokeAuthorizerOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TestInvokeAuthorizerOutputError"><span class="type">TestInvokeAuthorizerOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.</p>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use Lambda Function as Authorizer
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use Cognito User Pool as Authorizer
+</div>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.testinvokemethod(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.testinvokemethod(input:completion:)">test​Invoke​Method(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">testInvokeMethod</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TestInvokeMethodInput"><span class="type">TestInvokeMethodInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TestInvokeMethodOutputResponse"><span class="type">TestInvokeMethodOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/TestInvokeMethodOutputError"><span class="type">TestInvokeMethodOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Simulate the execution of a Method in your RestApi with headers, parameters, and an incoming request body.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.untagresource(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.untagresource(input:completion:)">untag​Resource(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">untagResource</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UntagResourceInput"><span class="type">UntagResourceInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UntagResourceOutputResponse"><span class="type">UntagResourceOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UntagResourceOutputError"><span class="type">UntagResourceOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Removes a tag from a given resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateaccount(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateaccount(input:completion:)">update​Account(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateAccount</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateAccountInput"><span class="type">UpdateAccountInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateAccountOutputResponse"><span class="type">UpdateAccountOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateAccountOutputError"><span class="type">UpdateAccountOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about the current Account resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateapikey(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateapikey(input:completion:)">update​Api​Key(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateApiKey</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateApiKeyInput"><span class="type">UpdateApiKeyInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateApiKeyOutputResponse"><span class="type">UpdateApiKeyOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateApiKeyOutputError"><span class="type">UpdateApiKeyOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about an ApiKey resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateauthorizer(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateauthorizer(input:completion:)">update​Authorizer(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateAuthorizer</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateAuthorizerInput"><span class="type">UpdateAuthorizerInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateAuthorizerOutputResponse"><span class="type">UpdateAuthorizerOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateAuthorizerOutputError"><span class="type">UpdateAuthorizerOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Updates an existing Authorizer resource.</p>
+<div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS CLI</div>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatebasepathmapping(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatebasepathmapping(input:completion:)">update​Base​Path​Mapping(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateBasePathMapping</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateBasePathMappingInput"><span class="type">UpdateBasePathMappingInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateBasePathMappingOutputResponse"><span class="type">UpdateBasePathMappingOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateBasePathMappingOutputError"><span class="type">UpdateBasePathMappingOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about the BasePathMapping resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateclientcertificate(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateclientcertificate(input:completion:)">update​Client​Certificate(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateClientCertificate</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateClientCertificateInput"><span class="type">UpdateClientCertificateInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateClientCertificateOutputResponse"><span class="type">UpdateClientCertificateOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateClientCertificateOutputError"><span class="type">UpdateClientCertificateOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about an ClientCertificate resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatedeployment(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatedeployment(input:completion:)">update​Deployment(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateDeployment</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDeploymentInput"><span class="type">UpdateDeploymentInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDeploymentOutputResponse"><span class="type">UpdateDeploymentOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDeploymentOutputError"><span class="type">UpdateDeploymentOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about a Deployment resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatedocumentationpart(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatedocumentationpart(input:completion:)">update​Documentation​Part(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateDocumentationPart</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDocumentationPartInput"><span class="type">UpdateDocumentationPartInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDocumentationPartOutputResponse"><span class="type">UpdateDocumentationPartOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDocumentationPartOutputError"><span class="type">UpdateDocumentationPartOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatedocumentationversion(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatedocumentationversion(input:completion:)">update​Documentation​Version(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateDocumentationVersion</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDocumentationVersionInput"><span class="type">UpdateDocumentationVersionInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDocumentationVersionOutputResponse"><span class="type">UpdateDocumentationVersionOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDocumentationVersionOutputError"><span class="type">UpdateDocumentationVersionOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatedomainname(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatedomainname(input:completion:)">update​Domain​Name(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateDomainName</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDomainNameInput"><span class="type">UpdateDomainNameInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDomainNameOutputResponse"><span class="type">UpdateDomainNameOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateDomainNameOutputError"><span class="type">UpdateDomainNameOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about the DomainName resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updategatewayresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updategatewayresponse(input:completion:)">update​Gateway​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateGatewayResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateGatewayResponseInput"><span class="type">UpdateGatewayResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateGatewayResponseOutputResponse"><span class="type">UpdateGatewayResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateGatewayResponseOutputError"><span class="type">UpdateGatewayResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Updates a GatewayResponse of a specified response type on the given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateintegration(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateintegration(input:completion:)">update​Integration(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateIntegration</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateIntegrationInput"><span class="type">UpdateIntegrationInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateIntegrationOutputResponse"><span class="type">UpdateIntegrationOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateIntegrationOutputError"><span class="type">UpdateIntegrationOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents an update integration.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateintegrationresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateintegrationresponse(input:completion:)">update​Integration​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateIntegrationResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateIntegrationResponseInput"><span class="type">UpdateIntegrationResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateIntegrationResponseOutputResponse"><span class="type">UpdateIntegrationResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateIntegrationResponseOutputError"><span class="type">UpdateIntegrationResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Represents an update integration response.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatemethod(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatemethod(input:completion:)">update​Method(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateMethod</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateMethodInput"><span class="type">UpdateMethodInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateMethodOutputResponse"><span class="type">UpdateMethodOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateMethodOutputError"><span class="type">UpdateMethodOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Updates an existing Method resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatemethodresponse(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatemethodresponse(input:completion:)">update​Method​Response(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateMethodResponse</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateMethodResponseInput"><span class="type">UpdateMethodResponseInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateMethodResponseOutputResponse"><span class="type">UpdateMethodResponseOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateMethodResponseOutputError"><span class="type">UpdateMethodResponseOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Updates an existing MethodResponse resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatemodel(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatemodel(input:completion:)">update​Model(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateModel</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateModelInput"><span class="type">UpdateModelInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateModelOutputResponse"><span class="type">UpdateModelOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateModelOutputError"><span class="type">UpdateModelOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about a model.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updaterequestvalidator(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updaterequestvalidator(input:completion:)">update​Request​Validator(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateRequestValidator</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateRequestValidatorInput"><span class="type">UpdateRequestValidatorInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateRequestValidatorOutputResponse"><span class="type">UpdateRequestValidatorOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateRequestValidatorOutputError"><span class="type">UpdateRequestValidatorOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Updates a RequestValidator of a given RestApi.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateresource(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateresource(input:completion:)">update​Resource(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateResource</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateResourceInput"><span class="type">UpdateResourceInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateResourceOutputResponse"><span class="type">UpdateResourceOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateResourceOutputError"><span class="type">UpdateResourceOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about a Resource resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updaterestapi(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updaterestapi(input:completion:)">update​Rest​Api(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateRestApi</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateRestApiInput"><span class="type">UpdateRestApiInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateRestApiOutputResponse"><span class="type">UpdateRestApiOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateRestApiOutputError"><span class="type">UpdateRestApiOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about the specified API.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatestage(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatestage(input:completion:)">update​Stage(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateStage</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateStageInput"><span class="type">UpdateStageInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateStageOutputResponse"><span class="type">UpdateStageOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateStageOutputError"><span class="type">UpdateStageOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Changes information about a Stage resource.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateusage(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateusage(input:completion:)">update​Usage(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateUsage</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateUsageInput"><span class="type">UpdateUsageInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateUsageOutputResponse"><span class="type">UpdateUsageOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateUsageOutputError"><span class="type">UpdateUsageOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updateusageplan(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updateusageplan(input:completion:)">update​Usage​Plan(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateUsagePlan</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateUsagePlanInput"><span class="type">UpdateUsagePlanInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateUsagePlanOutputResponse"><span class="type">UpdateUsagePlanOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateUsagePlanOutputError"><span class="type">UpdateUsagePlanOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Updates a usage plan of a given plan Id.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="apigatewayclient.updatevpclink(input:completion:)">
+    <h3>
+        <code><a href="#apigatewayclient.updatevpclink(input:completion:)">update​Vpc​Link(input:​completion:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">updateVpcLink</span>(<span class="variable">input</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateVpcLinkInput"><span class="type">UpdateVpcLinkInput</span></a>, <span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">ClientRuntime</span>.<span class="type">SdkResult</span>&lt;<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateVpcLinkOutputResponse"><span class="type">UpdateVpcLinkOutputResponse</span></a>, <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateVpcLinkOutputError"><span class="type">UpdateVpcLinkOutputError</span></a>&gt;) -&gt; <span class="type">Void</span>) </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Updates an existing VpcLink of a specified identifier.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2021-10-06T22:43:15+0000">October 6, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+</p>
+    </footer>
+</body>
+</html>

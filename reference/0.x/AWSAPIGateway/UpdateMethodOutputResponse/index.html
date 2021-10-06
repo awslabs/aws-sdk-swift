@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWSAPIGateway - UpdateMethodOutputResponse</title>
+    <link rel="stylesheet" type="text/css" href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway">
+            <strong>
+                AWSAPIGateway
+            </strong>
+            <span>Documentation</span>
+        </a>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#updatemethodoutputresponse.init(httpresponse:decoder:)">init(http​Response:​decoder:​)</a></li><li class="initializer"><a href="#updatemethodoutputresponse.init(apikeyrequired:authorizationscopes:authorizationtype:authorizerid:httpmethod:methodintegration:methodresponses:operationname:requestmodels:requestparameters:requestvalidatorid:)">init(api​Key​Required:​authorization​Scopes:​authorization​Type:​authorizer​Id:​http​Method:​method​Integration:​method​Responses:​operation​Name:​request​Models:​request​Parameters:​request​Validator​Id:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#updatemethodoutputresponse.debugdescription">debug​Description</a></li><li class="variable"><a href="#updatemethodoutputresponse.apikeyrequired">api​Key​Required</a></li><li class="variable"><a href="#updatemethodoutputresponse.authorizationscopes">authorization​Scopes</a></li><li class="variable"><a href="#updatemethodoutputresponse.authorizationtype">authorization​Type</a></li><li class="variable"><a href="#updatemethodoutputresponse.authorizerid">authorizer​Id</a></li><li class="variable"><a href="#updatemethodoutputresponse.httpmethod">http​Method</a></li><li class="variable"><a href="#updatemethodoutputresponse.methodintegration">method​Integration</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Structure</small>
+    <code class="name">Update​Method​Output​Response</code>
+</h1>
+
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">struct</span> <span class="type">UpdateMethodOutputResponse</span>: <span class="type">Swift</span>.<span class="type">Equatable</span>  </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Content-Type: application/json
+Host: apigateway.us-east-1.amazonaws.com
+X-Amz-Date: 20160603T210259Z
+Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160603/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}</pre></p>
+<h5>Response</h5>
+The successful response returns a 200 OK status code and a payload similar to the following:
+<pre>{
+"\_links": {
+"curies": \[
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html",
+"name": "integration",
+"templated": true
+},
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html",
+"name": "integrationresponse",
+"templated": true
+},
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html",
+"name": "method",
+"templated": true
+},
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html",
+"name": "methodresponse",
+"templated": true
+}
+\],
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET",
+"name": "GET",
+"title": "GET"
+},
+"integration:put": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"method:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET"
+},
+"method:integration": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"method:responses": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
+"name": "200",
+"title": "200"
+},
+"method:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET"
+},
+"methodresponse:put": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status\_code}",
+"templated": true
+}
+},
+"apiKeyRequired": true,
+"authorizationType": "NONE",
+"httpMethod": "GET",
+"\_embedded": {
+"method:integration": {
+"\_links": {
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"integration:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"integration:responses": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
+"name": "200",
+"title": "200"
+},
+"integration:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"integrationresponse:put": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status\_code}",
+"templated": true
+}
+},
+"cacheKeyParameters": \[\],
+"cacheNamespace": "3kzxbg5sa2",
+"credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole",
+"httpMethod": "POST",
+"passthroughBehavior": "WHEN\_NO\_MATCH",
+"requestParameters": {
+"integration.request.header.Content-Type": "'application/x-amz-json-1.1'"
+},
+"requestTemplates": {
+"application/json": "{\\n}"
+},
+"type": "AWS",
+"uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams",
+"\_embedded": {
+"integration:responses": {
+"\_links": {
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
+"name": "200",
+"title": "200"
+},
+"integrationresponse:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
+},
+"integrationresponse:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
+}
+},
+"responseParameters": {
+"method.response.header.Content-Type": "'application/xml'"
+},
+"responseTemplates": {
+"application/json": "$util.urlDecode("%3CkinesisStreams%3E%23foreach(%24stream%20in%20%24input.path(%27%24.StreamNames%27))%3Cstream%3E%3Cname%3E%24stream%3C%2Fname%3E%3C%2Fstream%3E%23end%3C%2FkinesisStreams%3E")"
+},
+"statusCode": "200"
+}
+}
+},
+"method:responses": {
+"\_links": {
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
+"name": "200",
+"title": "200"
+},
+"methodresponse:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200"
+},
+"methodresponse:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200"
+}
+},
+"responseModels": {
+"application/json": "Empty"
+},
+"responseParameters": {
+"method.response.header.Content-Type": false
+},
+"statusCode": "200"
+}
+}
+}</pre>
+In the example above, the response template for the 200 OK response maps the JSON output from the ListStreams action in the back end to an XML output. The mapping template is URL-encoded as %3CkinesisStreams%3E%23foreach(%24stream%20in%20%24input.path(%27%24.StreamNames%27))%3Cstream%3E%3Cname%3E%24stream%3C%2Fname%3E%3C%2Fstream%3E%23end%3C%2FkinesisStreams%3E and the output is decoded using the <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html#util-templat-reference">$util.urlDecode() helper function.
+</div>
+<div class="seeAlso">
+MethodResponse, Integration, IntegrationResponse, Resource,
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-method-settings.html">Set up an API's method
+</div>
+
+</div>
+<div class="discussion">
+    <html><body><pre class="highlight"><code>        <span class="variable">Represents</span> <span class="variable">a</span> <span class="variable">client</span>-<span class="variable">facing</span> <span class="variable">interface</span> <span class="variable">by</span> <span class="variable">which</span> <span class="variable">the</span> <span class="variable">client</span> <span class="variable">calls</span> <span class="variable">the</span> <span class="variable">API</span> <span class="variable">to</span> <span class="variable">access</span> <span class="variable">back</span>-<span class="variable">end</span> <span class="variable">resources</span>. <span class="type">A</span> <span class="variable">Method</span> <span class="variable">resource</span> <span class="keyword">is</span>
+        <span class="type">integrated</span> <span class="variable">with</span> <span class="variable">an</span> <span class="variable">Integration</span> <span class="variable">resource</span>. <span class="type">Both</span> <span class="variable">consist</span> <span class="variable">of</span> <span class="variable">a</span> <span class="variable">request</span> <span class="variable">and</span> <span class="variable">one</span> <span class="variable">or</span> <span class="variable">more</span> <span class="variable">responses</span>. <span class="type">The</span> <span class="variable">method</span> <span class="variable">request</span> <span class="variable">takes</span>
+        <span class="variable">the</span> <span class="variable">client</span> <span class="variable">input</span> <span class="variable">that</span> <span class="keyword">is</span> <span class="type">passed</span> <span class="variable">to</span> <span class="variable">the</span> <span class="variable">back</span> <span class="variable">end</span> <span class="variable">through</span> <span class="variable">the</span> <span class="variable">integration</span> <span class="variable">request</span>. <span class="type">A</span> <span class="variable">method</span> <span class="variable">response</span> <span class="variable">returns</span> <span class="variable">the</span> <span class="variable">output</span> <span class="variable">from</span>
+        <span class="variable">the</span> <span class="variable">back</span> <span class="variable">end</span> <span class="variable">to</span> <span class="variable">the</span> <span class="variable">client</span> <span class="variable">through</span> <span class="variable">an</span> <span class="variable">integration</span> <span class="variable">response</span>. <span class="type">A</span> <span class="variable">method</span> <span class="variable">request</span> <span class="keyword">is</span> <span class="type">embodied</span> <span class="keyword">in</span> <span class="variable">a</span> <span class="variable">Method</span> <span class="variable">resource</span>, <span class="variable">whereas</span>
+        <span class="variable">an</span> <span class="variable">integration</span> <span class="variable">request</span> <span class="keyword">is</span> <span class="type">embodied</span> <span class="keyword">in</span> <span class="variable">an</span> <span class="variable">Integration</span> <span class="variable">resource</span>.  <span class="type">On</span> <span class="variable">the</span> <span class="variable">other</span> <span class="variable">hand</span>, <span class="variable">a</span> <span class="variable">method</span> <span class="variable">response</span> <span class="keyword">is</span> <span class="type">represented</span>
+        <span class="variable">by</span> <span class="variable">a</span> <span class="variable">MethodResponse</span> <span class="variable">resource</span>, <span class="variable">whereas</span> <span class="variable">an</span> <span class="variable">integration</span> <span class="variable">response</span> <span class="keyword">is</span> <span class="type">represented</span> <span class="variable">by</span> <span class="variable">an</span> <span class="variable">IntegrationResponse</span> <span class="variable">resource</span>.
+
+    &lt;<span class="variable">div</span> <span class="keyword">class</span>=<span class="string literal">"remarks"</span>&gt;
+
+      &lt;<span class="variable">h4</span>&gt;<span class="variable">Example</span>: <span class="type">Retrive</span> <span class="variable">the</span> <span class="variable">GET</span> <span class="variable">method</span> <span class="variable">on</span> <span class="variable">a</span> <span class="variable">specified</span> <span class="variable">resource</span>&lt;/<span class="variable">h4</span>&gt;
+      &lt;<span class="variable">h5</span>&gt;<span class="variable">Request</span>&lt;/<span class="variable">h5</span>&gt;
+      <span class="variable">The</span> <span class="variable">following</span> <span class="variable">example</span> <span class="variable">request</span> <span class="variable">retrieves</span> <span class="variable">the</span> <span class="variable">information</span> <span class="variable">about</span> <span class="variable">the</span> <span class="variable">GET</span> <span class="variable">method</span> <span class="variable">on</span> <span class="variable">an</span> <span class="variable">API</span> <span class="variable">resource</span> (3kzxbg5sa2) <span class="variable">of</span> <span class="variable">an</span> <span class="variable">API</span> (<span class="variable">fugvjdxtri</span>).
+      &lt;<span class="variable">pre</span>&gt;<span class="variable">GET</span> /<span class="variable">restapis</span>/<span class="variable">fugvjdxtri</span>/<span class="variable">resources</span>/3kzxbg5sa2/<span class="variable">methods</span>/<span class="variable">GET</span> <span class="variable">HTTP</span>/<span class="number literal">1.1</span>
+</code></pre></body></html>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+ -->
+<!-- Pages: 1 -->
+<svg width="1023pt" height="242pt"
+ viewBox="0.00 0.00 1022.98 241.73" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 237.73)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-237.73 1018.98,-237.73 1018.98,4 -4,4"/>
+<!-- UpdateMethodOutputResponse -->
+<g id="node1" class="node structure current">
+<title>UpdateMethodOutputResponse</title>
+<g id="a_node1"><a xlink:href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/UpdateMethodOutputResponse" xlink:title="UpdateMethodOutputResponse">
+<path fill="none" stroke="black" stroke-width="3" d="M534.28,-143.64C534.28,-143.64 322.28,-143.64 322.28,-143.64 316.28,-143.64 310.28,-137.64 310.28,-131.64 310.28,-131.64 310.28,-119.64 310.28,-119.64 310.28,-113.64 316.28,-107.64 322.28,-107.64 322.28,-107.64 534.28,-107.64 534.28,-107.64 540.28,-107.64 546.28,-113.64 546.28,-119.64 546.28,-119.64 546.28,-131.64 546.28,-131.64 546.28,-137.64 540.28,-143.64 534.28,-143.64"/>
+<text text-anchor="middle" x="428.28" y="-121.94" font-family="Menlo" font-size="14.00">UpdateMethodOutputResponse</text>
+</a>
+</g>
+</g>
+<!-- ClientRuntime.HttpResponseBinding -->
+<g id="node2" class="node unknown">
+<title>ClientRuntime.HttpResponseBinding</title>
+<path fill="none" stroke="black" d="M1002.98,-161.31C1002.98,-161.31 731.98,-161.31 731.98,-161.31 725.98,-161.31 719.98,-155.31 719.98,-149.31 719.98,-149.31 719.98,-137.31 719.98,-137.31 719.98,-131.31 725.98,-125.31 731.98,-125.31 731.98,-125.31 1002.98,-125.31 1002.98,-125.31 1008.98,-125.31 1014.98,-131.31 1014.98,-137.31 1014.98,-137.31 1014.98,-149.31 1014.98,-149.31 1014.98,-155.31 1008.98,-161.31 1002.98,-161.31"/>
+<text text-anchor="middle" x="867.48" y="-139.61" font-family="Menlo" font-size="14.00">ClientRuntime.HttpResponseBinding</text>
+</g>
+<!-- UpdateMethodOutputResponse&#45;&gt;ClientRuntime.HttpResponseBinding -->
+<g id="edge1" class="edge conformsTo">
+<title>UpdateMethodOutputResponse&#45;&gt;ClientRuntime.HttpResponseBinding</title>
+<path fill="none" stroke="black" d="M546.56,-130.4C596.68,-132.41 655.83,-134.79 709.6,-136.95"/>
+<polygon fill="black" stroke="black" points="709.79,-140.47 719.92,-137.37 710.07,-133.47 709.79,-140.47"/>
+</g>
+<!-- Swift.Equatable -->
+<g id="node3" class="node unknown">
+<title>Swift.Equatable</title>
+<path fill="none" stroke="black" d="M366.47,-36C366.47,-36 174.47,-36 174.47,-36 168.47,-36 162.47,-30 162.47,-24 162.47,-24 162.47,-12 162.47,-12 162.47,-6 168.47,0 174.47,0 174.47,0 366.47,0 366.47,0 372.47,0 378.47,-6 378.47,-12 378.47,-12 378.47,-24 378.47,-24 378.47,-30 372.47,-36 366.47,-36"/>
+<text text-anchor="middle" x="270.47" y="-14.3" font-family="Menlo" font-size="14.00">Swift.Equatable</text>
+</g>
+<!-- UpdateMethodOutputResponse&#45;&gt;Swift.Equatable -->
+<g id="edge2" class="edge conformsTo">
+<title>UpdateMethodOutputResponse&#45;&gt;Swift.Equatable</title>
+<path fill="none" stroke="black" d="M401.87,-107.62C375.47,-89.62 334.72,-61.82 305.61,-41.96"/>
+<polygon fill="black" stroke="black" points="307.21,-38.82 296.97,-36.08 303.26,-44.6 307.21,-38.82"/>
+</g>
+<!-- Swift.CustomDebugStringConvertible -->
+<g id="node4" class="node unknown">
+<title>Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M291,-233.73C291,-233.73 12,-233.73 12,-233.73 6,-233.73 0,-227.73 0,-221.73 0,-221.73 0,-209.73 0,-209.73 0,-203.73 6,-197.73 12,-197.73 12,-197.73 291,-197.73 291,-197.73 297,-197.73 303,-203.73 303,-209.73 303,-209.73 303,-221.73 303,-221.73 303,-227.73 297,-233.73 291,-233.73"/>
+<text text-anchor="middle" x="151.5" y="-212.03" font-family="Menlo" font-size="14.00">Swift.CustomDebugStringConvertible</text>
+</g>
+<!-- UpdateMethodOutputResponse&#45;&gt;Swift.CustomDebugStringConvertible -->
+<g id="edge3" class="edge conformsTo">
+<title>UpdateMethodOutputResponse&#45;&gt;Swift.CustomDebugStringConvertible</title>
+<path fill="none" stroke="black" d="M372.93,-143.65C327.92,-158.31 264.3,-179.01 216.8,-194.48"/>
+<polygon fill="black" stroke="black" points="215.65,-191.17 207.22,-197.59 217.82,-197.83 215.65,-191.17"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for UpdateMethodOutputResponse.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>ClientRuntime.HttpResponseBinding</code></dt>
+<dt class="unknown"><code>Swift.CustomDebugStringConvertible</code></dt>
+<dt class="unknown"><code>Swift.Equatable</code></dt>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="updatemethodoutputresponse.init(httpresponse:decoder:)">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.init(httpresponse:decoder:)">init(http​Response:​decoder:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (<span class="variable">httpResponse</span>: <span class="type">ClientRuntime</span>.<span class="type">HttpResponse</span>, <span class="variable">decoder</span>: <span class="type">ClientRuntime</span>.<span class="type">ResponseDecoder</span>? = <span class="keyword">nil</span>) <span class="keyword">throws</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="initializer" id="updatemethodoutputresponse.init(apikeyrequired:authorizationscopes:authorizationtype:authorizerid:httpmethod:methodintegration:methodresponses:operationname:requestmodels:requestparameters:requestvalidatorid:)">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.init(apikeyrequired:authorizationscopes:authorizationtype:authorizerid:httpmethod:methodintegration:methodresponses:operationname:requestmodels:requestparameters:requestvalidatorid:)">init(api​Key​Required:​authorization​Scopes:​authorization​Type:​authorizer​Id:​http​Method:​method​Integration:​method​Responses:​operation​Name:​request​Models:​request​Parameters:​request​Validator​Id:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span> (
+        <span class="variable">apiKeyRequired</span>: <span class="type">Swift</span>.<span class="type">Bool</span>? = <span class="keyword">nil</span>,
+        <span class="variable">authorizationScopes</span>: [<span class="type">Swift</span>.<span class="type">String</span>]? = <span class="keyword">nil</span>,
+        <span class="variable">authorizationType</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+        <span class="variable">authorizerId</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+        <span class="variable">httpMethod</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+        <span class="variable">methodIntegration</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">Integration</span>? = <span class="keyword">nil</span>,
+        <span class="variable">methodResponses</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">MethodResponse</span>]? = <span class="keyword">nil</span>,
+        <span class="variable">operationName</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>,
+        <span class="variable">requestModels</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">String</span>]? = <span class="keyword">nil</span>,
+        <span class="variable">requestParameters</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">Bool</span>]? = <span class="keyword">nil</span>,
+        <span class="variable">requestValidatorId</span>: <span class="type">Swift</span>.<span class="type">String</span>? = <span class="keyword">nil</span>
+    ) </body></html></code></pre>
+</div>
+</div>
+    </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="updatemethodoutputresponse.debugdescription">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.debugdescription">debug​Description</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">debugDescription</span>: <span class="type">Swift</span>.<span class="type">String</span>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.apikeyrequired">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.apikeyrequired">api​Key​Required</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">apiKeyRequired</span>: <span class="type">Swift</span>.<span class="type">Bool</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A boolean flag specifying whether a valid ApiKey is required to invoke this method.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.authorizationscopes">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.authorizationscopes">authorization​Scopes</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">authorizationScopes</span>: [<span class="type">Swift</span>.<span class="type">String</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.authorizationtype">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.authorizationtype">authorization​Type</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">authorizationType</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.authorizerid">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.authorizerid">authorizer​Id</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">authorizerId</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.httpmethod">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.httpmethod">http​Method</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">httpMethod</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The method's HTTP verb.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.methodintegration">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.methodintegration">method​Integration</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">methodIntegration</span>: <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">Integration</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.</p>
+<div class="remarks">
+
+</div>
+<div class="discussion">
+    <html><body><pre class="highlight"><code>    &lt;<span class="variable">h4</span>&gt;<span class="variable">Example</span>: &lt;/<span class="variable">h4</span>&gt;
+    &lt;<span class="variable">h5</span>&gt;<span class="variable">Request</span>&lt;/<span class="variable">h5</span>&gt;
+
+    &lt;<span class="variable">pre</span>&gt;<span class="variable">GET</span> /<span class="variable">restapis</span>/<span class="variable">uojnr9hd57</span>/<span class="variable">resources</span>/0cjtch/<span class="variable">methods</span>/<span class="variable">GET</span>/<span class="variable">integration</span> <span class="variable">HTTP</span>/<span class="number literal">1.1</span>
+</code></pre></body></html>
+<p>Content-Type: application/json
+Host: apigateway.us-east-1.amazonaws.com
+Content-Length: 117
+X-Amz-Date: 20160613T213210Z
+Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}</pre>
+<h5>Response</h5>
+The successful response returns a 200 OK status code and a payload similar to the following:
+<pre>{
+&quot;_links&quot;: {
+&quot;curies&quot;: [
+{
+&quot;href&quot;: &quot;https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html&quot;,
+&quot;name&quot;: &quot;integration&quot;,
+&quot;templated&quot;: true
+},
+{
+&quot;href&quot;: &quot;https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html&quot;,
+&quot;name&quot;: &quot;integrationresponse&quot;,
+&quot;templated&quot;: true
+}
+],
+&quot;self&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration&quot;
+},
+&quot;integration:delete&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration&quot;
+},
+&quot;integration:responses&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200&quot;,
+&quot;name&quot;: &quot;200&quot;,
+&quot;title&quot;: &quot;200&quot;
+},
+&quot;integration:update&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration&quot;
+},
+&quot;integrationresponse:put&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}&quot;,
+&quot;templated&quot;: true
+}
+},
+&quot;cacheKeyParameters&quot;: [],
+&quot;cacheNamespace&quot;: &quot;0cjtch&quot;,
+&quot;credentials&quot;: &quot;arn:aws:iam::123456789012:role/apigAwsProxyRole&quot;,
+&quot;httpMethod&quot;: &quot;POST&quot;,
+&quot;passthroughBehavior&quot;: &quot;WHEN_NO_MATCH&quot;,
+&quot;requestTemplates&quot;: {
+&quot;application/json&quot;: &quot;{\n    &quot;a&quot;:  &quot;$input.params('operand1')&quot;,\n    &quot;b&quot;:  &quot;$input.params('operand2')&quot;, \n    &quot;op&quot;: &quot;$input.params('operator')&quot;   \n}&quot;
+},
+&quot;type&quot;: &quot;AWS&quot;,
+&quot;uri&quot;: &quot;arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations&quot;,
+&quot;_embedded&quot;: {
+&quot;integration:responses&quot;: {
+&quot;_links&quot;: {
+&quot;self&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200&quot;,
+&quot;name&quot;: &quot;200&quot;,
+&quot;title&quot;: &quot;200&quot;
+},
+&quot;integrationresponse:delete&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200&quot;
+},
+&quot;integrationresponse:update&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200&quot;
+}
+},
+&quot;responseParameters&quot;: {
+&quot;method.response.header.operator&quot;: &quot;integration.response.body.op&quot;,
+&quot;method.response.header.operand_2&quot;: &quot;integration.response.body.b&quot;,
+&quot;method.response.header.operand_1&quot;: &quot;integration.response.body.a&quot;
+},
+&quot;responseTemplates&quot;: {
+&quot;application/json&quot;: &quot;#set($res = $input.path('$'))\n{\n    &quot;result&quot;: &quot;$res.a, $res.b, $res.op =&gt; $res.c&quot;,\n  &quot;a&quot; : &quot;$res.a&quot;,\n  &quot;b&quot; : &quot;$res.b&quot;,\n  &quot;op&quot; : &quot;$res.op&quot;,\n  &quot;c&quot; : &quot;$res.c&quot;\n}&quot;
+},
+&quot;selectionPattern&quot;: &quot;&quot;,
+&quot;statusCode&quot;: &quot;200&quot;
+}
+}
+}</pre></p>
+
+<html><body><pre class="highlight"><code>  &lt;/<span class="variable">div</span>&gt;
+  &lt;<span class="variable">div</span> <span class="keyword">class</span>=<span class="string literal">"seeAlso"</span>&gt;
+    &lt;<span class="variable">a</span> <span class="variable">href</span>=<span class="string literal">"https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-integration.html"</span>&gt;<span class="variable">AWS</span> <span class="variable">CLI</span>
+  &lt;/<span class="variable">div</span>&gt;
+</code></pre></body></html>
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.methodresponses">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.methodresponses">method​Responses</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">methodResponses</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes"><span class="type">ApiGatewayClientTypes</span></a>.<span class="type">MethodResponse</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Gets a method response associated with a given HTTP status code.</p>
+<div class="remarks">
+The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response.
+<h4>Example: Get a 200 OK response of a GET method</h4>
+<h5>Request</h5>
+
+</div>
+<div class="discussion">
+    <html><body><pre class="highlight"><code>    &lt;<span class="variable">pre</span>&gt;<span class="variable">GET</span> /<span class="variable">restapis</span>/<span class="variable">uojnr9hd57</span>/<span class="variable">resources</span>/0cjtch/<span class="variable">methods</span>/<span class="variable">GET</span>/<span class="variable">responses</span>/<span class="number literal">200</span> <span class="variable">HTTP</span>/<span class="number literal">1.1</span>
+</code></pre></body></html>
+<p>Content-Type: application/json
+Host: apigateway.us-east-1.amazonaws.com
+Content-Length: 117
+X-Amz-Date: 20160613T215008Z
+Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}</pre>
+<h5>Response</h5>
+The successful response returns a 200 OK status code and a payload similar to the following:
+<pre>{
+&quot;_links&quot;: {
+&quot;curies&quot;: {
+&quot;href&quot;: &quot;https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html&quot;,
+&quot;name&quot;: &quot;methodresponse&quot;,
+&quot;templated&quot;: true
+},
+&quot;self&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200&quot;,
+&quot;title&quot;: &quot;200&quot;
+},
+&quot;methodresponse:delete&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200&quot;
+},
+&quot;methodresponse:update&quot;: {
+&quot;href&quot;: &quot;/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200&quot;
+}
+},
+&quot;responseModels&quot;: {
+&quot;application/json&quot;: &quot;Empty&quot;
+},
+&quot;responseParameters&quot;: {
+&quot;method.response.header.operator&quot;: false,
+&quot;method.response.header.operand_2&quot;: false,
+&quot;method.response.header.operand_1&quot;: false
+},
+&quot;statusCode&quot;: &quot;200&quot;
+}</pre></p>
+
+<html><body><pre class="highlight"><code>  &lt;/<span class="variable">div</span>&gt;
+  &lt;<span class="variable">div</span> <span class="keyword">class</span>=<span class="string literal">"seeAlso"</span>&gt;
+    &lt;<span class="variable">a</span> <span class="variable">href</span>=<span class="string literal">"https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-method-response.html"</span>&gt;<span class="variable">AWS</span> <span class="variable">CLI</span>
+  &lt;/<span class="variable">div</span>&gt;
+</code></pre></body></html>
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.operationname">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.operationname">operation​Name</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">operationName</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in the PetStore example.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.requestmodels">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.requestmodels">request​Models</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">requestModels</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">String</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A key-value map specifying data schemas, represented by Model resources, (as the mapped value) of the request payloads of given content types (as the mapping key).</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.requestparameters">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.requestparameters">request​Parameters</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">requestParameters</span>: [<span class="type">Swift</span>.<span class="type">String</span>:<span class="type">Swift</span>.<span class="type">Bool</span>]? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A key-value map defining required or optional method request parameters that can be accepted by API Gateway. A key is a method request parameter name matching the pattern of  method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false).  The method request parameter names defined here are available in Integration to be mapped to integration request parameters or templates.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="updatemethodoutputresponse.requestvalidatorid">
+    <h3>
+        <code><a href="#updatemethodoutputresponse.requestvalidatorid">request​Validator​Id</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">requestValidatorId</span>: <span class="type">Swift</span>.<span class="type">String</span>? </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>The identifier of a RequestValidator for request validation.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2021-10-06T22:43:00+0000">October 6, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+</p>
+    </footer>
+</body>
+</html>

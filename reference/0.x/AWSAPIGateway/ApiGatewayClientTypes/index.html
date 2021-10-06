@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWSAPIGateway - ApiGatewayClientTypes</title>
+    <link rel="stylesheet" type="text/css" href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway">
+            <strong>
+                AWSAPIGateway
+            </strong>
+            <span>Documentation</span>
+        </a>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Enumeration</small>
+    <code class="name">Api​Gateway​Client​Types</code>
+</h1>
+
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">ApiGatewayClientTypes</span>  </body></html></code></pre>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Nested Types</h3>
+<dl>
+    <dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_AccessLogSettings">ApiGatewayClientTypes.AccessLogSettings</a></code></dt>
+<dd><p>Access log settings, including the access log format and access log destination ARN.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ApiKey">ApiGatewayClientTypes.ApiKey</a></code></dt>
+<dd><p>A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.</p>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-api-keys.html">Use API Keys
+</div>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ApiKeySourceType">ApiGatewayClientTypes.ApiKeySourceType</a></code></dt>
+<dd></dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ApiKeysFormat">ApiGatewayClientTypes.ApiKeysFormat</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ApiStage">ApiGatewayClientTypes.ApiStage</a></code></dt>
+<dd><p>API stage name of the associated API stage in a usage plan.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Authorizer">ApiGatewayClientTypes.Authorizer</a></code></dt>
+<dd><p>Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.</p>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use Lambda Function as Authorizer
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use Cognito User Pool as Authorizer
+</div>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_AuthorizerType">ApiGatewayClientTypes.AuthorizerType</a></code></dt>
+<dd><p>The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_BasePathMapping">ApiGatewayClientTypes.BasePathMapping</a></code></dt>
+<dd><p>Represents the base path that callers of the API must provide as part of the URL after the domain name.</p>
+<div class="remarks">A custom domain name plus a BasePathMapping specification identifies a deployed RestApi in a given stage of the owner Account.</div>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html">Use Custom Domain Names
+</div>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_CacheClusterSize">ApiGatewayClientTypes.CacheClusterSize</a></code></dt>
+<dd><p>Returns the size of the CacheCluster.</p>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_CacheClusterStatus">ApiGatewayClientTypes.CacheClusterStatus</a></code></dt>
+<dd><p>Returns the status of the CacheCluster.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_CanarySettings">ApiGatewayClientTypes.CanarySettings</a></code></dt>
+<dd><p>Configuration settings of a canary deployment.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ClientCertificate">ApiGatewayClientTypes.ClientCertificate</a></code></dt>
+<dd><p>Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.</p>
+<div class="remarks">Client certificates are used to authenticate an API by the backend server. To authenticate an API client (or user), use IAM roles and policies, a custom Authorizer or an Amazon Cognito user pool.</div>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-client-side-ssl-authentication.html">Use Client-Side Certificate
+</div>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ConnectionType">ApiGatewayClientTypes.ConnectionType</a></code></dt>
+<dd></dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ContentHandlingStrategy">ApiGatewayClientTypes.ContentHandlingStrategy</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Deployment">ApiGatewayClientTypes.Deployment</a></code></dt>
+<dd><p>An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.</p>
+<div class="remarks">To create a deployment, call POST on the Deployments resource of a RestApi.
+To view, update, or delete a deployment, call GET, PATCH, or DELETE on the specified deployment resource (/restapis/{restapi\_id}/deployments/{deployment\_id}).</div>
+<div class="seeAlso">RestApi, Deployments, Stage,
+<a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-deployment.html">AWS CLI,
+<a href="https://aws.amazon.com/tools/">AWS SDKs
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DeploymentCanarySettings">ApiGatewayClientTypes.DeploymentCanarySettings</a></code></dt>
+<dd><p>The input configuration for a canary deployment.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DocumentationPart">ApiGatewayClientTypes.DocumentationPart</a></code></dt>
+<dd><p>A documentation part for a targeted API entity.</p>
+<div class="remarks">
+A documentation part consists of a content map (properties) and a target (location). The target specifies an API entity to which the documentation content applies. The supported API entity types are API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH\_PARAMETER, QUERY\_PARAMETER, REQUEST\_HEADER, REQUEST\_BODY, RESPONSE, RESPONSE\_HEADER, and RESPONSE\_BODY. Valid location fields depend on the API entity type. All valid fields are not required.
+The content map is a JSON string of API-specific key-value pairs. Although an API can use any shape for the content map, only the OpenAPI-compliant documentation fields will be injected into the associated API entity definition in the exported OpenAPI definition file.</div>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-documenting-api.html">Documenting an API, DocumentationParts
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DocumentationPartLocation">ApiGatewayClientTypes.DocumentationPartLocation</a></code></dt>
+<dd><p>Specifies the target API entity to which the documentation applies.</p>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DocumentationPartType">ApiGatewayClientTypes.DocumentationPartType</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DocumentationVersion">ApiGatewayClientTypes.DocumentationVersion</a></code></dt>
+<dd><p>A snapshot of the documentation of an API.</p>
+<div class="remarks">Publishing API documentation involves creating a documentation version associated with an API stage and exporting the versioned documentation to an external (e.g., OpenAPI) file.</div>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-documenting-api.html">Documenting an API, DocumentationPart, DocumentationVersions
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DomainName">ApiGatewayClientTypes.DomainName</a></code></dt>
+<dd><p>Represents a custom domain name as a user-friendly host name of an API (RestApi).</p>
+<div class="Remarks">
+When you deploy an API, API Gateway creates a default host name for the API. This default API host name is of the {restapi-id}.execute-api.{region}.amazonaws.com format. With the default host name, you can access the API's root resource with the URL of https://{restapi-id}.execute-api.{region}.amazonaws.com/{stage}/. When you set up a custom domain name of apis.example.com for this API, you can then access the same resource using the URL of the https://apis.examples.com/myApi, where myApi is the base path mapping (BasePathMapping) of your API under the custom domain name.
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_DomainNameStatus">ApiGatewayClientTypes.DomainNameStatus</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_EndpointConfiguration">ApiGatewayClientTypes.EndpointConfiguration</a></code></dt>
+<dd><p>The endpoint configuration to indicate the types of endpoints an API (RestApi) or its custom domain name (DomainName) has.</p>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_EndpointType">ApiGatewayClientTypes.EndpointType</a></code></dt>
+<dd><p>The endpoint type. The valid values are EDGE for edge-optimized API setup, most suitable for mobile applications; REGIONAL for regional API endpoint setup, most suitable for calling from AWS Region; and PRIVATE for private APIs.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_GatewayResponse">ApiGatewayClientTypes.GatewayResponse</a></code></dt>
+<dd><p>A gateway response of a given response type and status code, with optional response parameters and mapping templates.</p>
+<div class="remarks">
+For more information about valid gateway response types, see <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html">Gateway Response Types Supported by API Gateway
+<div class="example">
+<h4>Example: Get a Gateway Response of a given response type</h4>
+<h5>Request</h5>
+This example shows how to get a gateway response of the MISSING\_AUTHENTICATION\_TOKEN type.
+<pre>GET /restapis/o81lxisefl/gatewayresponses/MISSING\_AUTHENTICATION\_TOKEN HTTP/1.1
+Host: beta-apigateway.us-east-1.amazonaws.com
+Content-Type: application/json
+X-Amz-Date: 20170503T202516Z
+Authorization: AWS4-HMAC-SHA256 Credential={access-key-id}/20170503/us-east-1/apigateway/aws4\_request, SignedHeaders=content-type;host;x-amz-date, Signature=1b52460e3159c1a26cff29093855d50ea141c1c5b937528fecaf60f51129697a
+Cache-Control: no-cache
+Postman-Token: 3b2a1ce9-c848-2e26-2e2f-9c2caefbed45
+</pre>
+The response type is specified as a URL path.
+<h5>Response</h5>
+The successful operation returns the 200 OK status code and a payload similar to the following:
+<pre>{
+"\_links": {
+"curies": {
+"href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-gatewayresponse-{rel}.html",
+"name": "gatewayresponse",
+"templated": true
+},
+"self": {
+"href": "/restapis/o81lxisefl/gatewayresponses/MISSING\_AUTHENTICATION\_TOKEN"
+},
+"gatewayresponse:delete": {
+"href": "/restapis/o81lxisefl/gatewayresponses/MISSING\_AUTHENTICATION\_TOKEN"
+},
+"gatewayresponse:put": {
+"href": "/restapis/o81lxisefl/gatewayresponses/{response\_type}",
+"templated": true
+},
+"gatewayresponse:update": {
+"href": "/restapis/o81lxisefl/gatewayresponses/MISSING\_AUTHENTICATION\_TOKEN"
+}
+},
+"defaultResponse": false,
+"responseParameters": {
+"gatewayresponse.header.x-request-path": "method.request.path.petId",
+"gatewayresponse.header.Access-Control-Allow-Origin": "'a.b.c'",
+"gatewayresponse.header.x-request-query": "method.request.querystring.q",
+"gatewayresponse.header.x-request-header": "method.request.header.Accept"
+},
+"responseTemplates": {
+"application/json": "{\\n     "message": $context.error.messageString,\\n     "type":  "$context.error.responseType",\\n     "stage":  "$context.stage",\\n     "resourcePath":  "$context.resourcePath",\\n     "stageVariables.a":  "$stageVariables.a",\\n     "statusCode": "'404'"\\n}"
+},
+"responseType": "MISSING\_AUTHENTICATION\_TOKEN",
+"statusCode": "404"
+}</pre>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_GatewayResponseType">ApiGatewayClientTypes.GatewayResponseType</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Integration">ApiGatewayClientTypes.Integration</a></code></dt>
+<dd><p>Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.</p>
+<div class="remarks">In the API Gateway console, the built-in Lambda integration is an AWS integration.</div>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Creating an API
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_IntegrationResponse">ApiGatewayClientTypes.IntegrationResponse</a></code></dt>
+<dd><p>Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.</p>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Creating an API
+</div>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_IntegrationType">ApiGatewayClientTypes.IntegrationType</a></code></dt>
+<dd><p>The integration type. The valid value is HTTP for integrating an API method with an HTTP backend; AWS with any AWS service endpoints; MOCK for testing without actually invoking the backend; HTTP_PROXY for integrating with the HTTP proxy integration; AWS_PROXY for integrating with the Lambda proxy integration.</p>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_LocationStatusType">ApiGatewayClientTypes.LocationStatusType</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Method">ApiGatewayClientTypes.Method</a></code></dt>
+<dd><p>Content-Type: application/json
+Host: apigateway.us-east-1.amazonaws.com
+X-Amz-Date: 20160603T210259Z
+Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160603/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}</pre></p>
+<h5>Response</h5>
+The successful response returns a 200 OK status code and a payload similar to the following:
+<pre>{
+"\_links": {
+"curies": \[
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html",
+"name": "integration",
+"templated": true
+},
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html",
+"name": "integrationresponse",
+"templated": true
+},
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html",
+"name": "method",
+"templated": true
+},
+{
+"href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html",
+"name": "methodresponse",
+"templated": true
+}
+\],
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET",
+"name": "GET",
+"title": "GET"
+},
+"integration:put": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"method:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET"
+},
+"method:integration": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"method:responses": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
+"name": "200",
+"title": "200"
+},
+"method:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET"
+},
+"methodresponse:put": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status\_code}",
+"templated": true
+}
+},
+"apiKeyRequired": true,
+"authorizationType": "NONE",
+"httpMethod": "GET",
+"\_embedded": {
+"method:integration": {
+"\_links": {
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"integration:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"integration:responses": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
+"name": "200",
+"title": "200"
+},
+"integration:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration"
+},
+"integrationresponse:put": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status\_code}",
+"templated": true
+}
+},
+"cacheKeyParameters": \[\],
+"cacheNamespace": "3kzxbg5sa2",
+"credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole",
+"httpMethod": "POST",
+"passthroughBehavior": "WHEN\_NO\_MATCH",
+"requestParameters": {
+"integration.request.header.Content-Type": "'application/x-amz-json-1.1'"
+},
+"requestTemplates": {
+"application/json": "{\\n}"
+},
+"type": "AWS",
+"uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams",
+"\_embedded": {
+"integration:responses": {
+"\_links": {
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
+"name": "200",
+"title": "200"
+},
+"integrationresponse:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
+},
+"integrationresponse:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
+}
+},
+"responseParameters": {
+"method.response.header.Content-Type": "'application/xml'"
+},
+"responseTemplates": {
+"application/json": "$util.urlDecode("%3CkinesisStreams%3E%23foreach(%24stream%20in%20%24input.path(%27%24.StreamNames%27))%3Cstream%3E%3Cname%3E%24stream%3C%2Fname%3E%3C%2Fstream%3E%23end%3C%2FkinesisStreams%3E")"
+},
+"statusCode": "200"
+}
+}
+},
+"method:responses": {
+"\_links": {
+"self": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
+"name": "200",
+"title": "200"
+},
+"methodresponse:delete": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200"
+},
+"methodresponse:update": {
+"href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200"
+}
+},
+"responseModels": {
+"application/json": "Empty"
+},
+"responseParameters": {
+"method.response.header.Content-Type": false
+},
+"statusCode": "200"
+}
+}
+}</pre>
+In the example above, the response template for the 200 OK response maps the JSON output from the ListStreams action in the back end to an XML output. The mapping template is URL-encoded as %3CkinesisStreams%3E%23foreach(%24stream%20in%20%24input.path(%27%24.StreamNames%27))%3Cstream%3E%3Cname%3E%24stream%3C%2Fname%3E%3C%2Fstream%3E%23end%3C%2FkinesisStreams%3E and the output is decoded using the <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html#util-templat-reference">$util.urlDecode() helper function.
+</div>
+<div class="seeAlso">
+MethodResponse, Integration, IntegrationResponse, Resource,
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-method-settings.html">Set up an API's method
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_MethodResponse">ApiGatewayClientTypes.MethodResponse</a></code></dt>
+<dd><p>Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template. <!-- API Gateway sends back the status code to the caller as the HTTP status code. Parameters and models can be used to transform the response from the method's integration.--></p>
+<div class="remarks">
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_MethodSetting">ApiGatewayClientTypes.MethodSetting</a></code></dt>
+<dd><p>Specifies the method setting properties.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_MethodSnapshot">ApiGatewayClientTypes.MethodSnapshot</a></code></dt>
+<dd><p>Represents a summary of a Method resource, given a particular date and time.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Model">ApiGatewayClientTypes.Model</a></code></dt>
+<dd><p>Represents the data structure of a method's request or response payload.</p>
+<div class="remarks">
+A request model defines the data structure of the client-supplied request payload. A response model defines the data structure of the response payload returned by the back end. Although not required, models are useful for mapping payloads between the front end and back end.
+A model is used for generating an API's SDK, validating the input request body, and creating a skeletal mapping template.
+</div>
+<div class="seeAlso">
+Method, MethodResponse, <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html">Models and Mappings
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_MutualTlsAuthentication">ApiGatewayClientTypes.MutualTlsAuthentication</a></code></dt>
+<dd><p>If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your custom domain name.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_MutualTlsAuthenticationInput">ApiGatewayClientTypes.MutualTlsAuthenticationInput</a></code></dt>
+<dd><p>If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your custom domain name.</p>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Op">ApiGatewayClientTypes.Op</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_PatchOperation">ApiGatewayClientTypes.PatchOperation</a></code></dt>
+<dd><p>A single patch operation to apply to the specified resource. Please refer to
+http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.</p>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_PutMode">ApiGatewayClientTypes.PutMode</a></code></dt>
+<dd></dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_QuotaPeriodType">ApiGatewayClientTypes.QuotaPeriodType</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_QuotaSettings">ApiGatewayClientTypes.QuotaSettings</a></code></dt>
+<dd><p>Quotas configured for a usage plan.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_RequestValidator">ApiGatewayClientTypes.RequestValidator</a></code></dt>
+<dd><p>A set of validation rules for incoming Method requests.</p>
+<div class="remarks">
+In OpenAPI, a RequestValidator of an API is defined by the <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions.html#api-gateway-swagger-extensions-request-validators.requestValidator.html">x-amazon-apigateway-request-validators.requestValidator object. It the referenced using the <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions.html#api-gateway-swagger-extensions-request-validator">x-amazon-apigateway-request-validator property.
+</div>
+<div class="seeAlso"><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-method-request-validation.html">Enable Basic Request Validation in API Gateway</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Resource">ApiGatewayClientTypes.Resource</a></code></dt>
+<dd><p>Represents an API resource.</p>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Create an API
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_RestApi">ApiGatewayClientTypes.RestApi</a></code></dt>
+<dd><p>Represents a REST API.</p>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Create an API
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_SdkConfigurationProperty">ApiGatewayClientTypes.SdkConfigurationProperty</a></code></dt>
+<dd><p>A configuration property of an SDK type.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_SdkType">ApiGatewayClientTypes.SdkType</a></code></dt>
+<dd><p>A type of SDK that API Gateway can generate.</p>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_SecurityPolicy">ApiGatewayClientTypes.SecurityPolicy</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_Stage">ApiGatewayClientTypes.Stage</a></code></dt>
+<dd><p>Represents a unique identifier for a version of a deployed RestApi that is callable by users.</p>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-deploy-api.html">Deploy an API
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_StageKey">ApiGatewayClientTypes.StageKey</a></code></dt>
+<dd><p>A reference to a unique stage identified in the format {restApiId}/{stage}.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_ThrottleSettings">ApiGatewayClientTypes.ThrottleSettings</a></code></dt>
+<dd><p>The API request rate limits.</p>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_TlsConfig">ApiGatewayClientTypes.TlsConfig</a></code></dt>
+<dd></dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_UnauthorizedCacheControlHeaderStrategy">ApiGatewayClientTypes.UnauthorizedCacheControlHeaderStrategy</a></code></dt>
+<dd></dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_UsagePlan">ApiGatewayClientTypes.UsagePlan</a></code></dt>
+<dd><p>Represents a usage plan than can specify who can assess associated API stages with specified request limits and quotas.</p>
+<div class="remarks">
+In a usage plan, you associate an API by specifying the API's Id and a stage name of the specified API. You add plan customers by adding API keys to the plan.
+</div>
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create and Use Usage Plans
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_UsagePlanKey">ApiGatewayClientTypes.UsagePlanKey</a></code></dt>
+<dd><p>Represents a usage plan key to identify a plan customer.</p>
+<div class="remarks">
+To associate an API stage with a selected API key in a usage plan, you must create a UsagePlanKey resource to represent the selected ApiKey.
+</div>"
+<div class="seeAlso">
+<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create and Use Usage Plans
+</div>
+</dd>
+<dt class="structure"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_VpcLink">ApiGatewayClientTypes.VpcLink</a></code></dt>
+<dd><p>An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).</p>
+<div class="remarks">
+To enable access to a resource in an Amazon Virtual Private Cloud through Amazon API Gateway, you, as an API developer, create a VpcLink resource targeted for one or more network load balancers of the VPC and then integrate an API method with a private integration that uses the VpcLink. The private integration has an integration type of HTTP or HTTP\_PROXY and has a connection type of VPC\_LINK. The integration uses the connectionId property to identify the VpcLink used.
+</div>
+</dd>
+<dt class="enumeration"><code><a href="/aws-sdk-swift/reference/0.x/AWSAPIGateway/ApiGatewayClientTypes_VpcLinkStatus">ApiGatewayClientTypes.VpcLinkStatus</a></code></dt>
+<dd></dd>
+</dl>
+</section>
+
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2021-10-06T22:42:58+0000">October 6, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+</p>
+    </footer>
+</body>
+</html>
