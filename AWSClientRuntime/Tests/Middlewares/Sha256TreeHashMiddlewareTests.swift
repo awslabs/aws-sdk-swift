@@ -21,9 +21,9 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
         stack.finalizeStep.intercept(position: .after, middleware: Sha256TreeHashMiddleware())
         _ = stack.handleMiddleware(context: context, input: streamInput, next: MockHandler(callback: { context, input in
             let linear = input.headers.value(for: "X-Amz-Content-Sha256")
-            XCTAssertEqual(linear, "68aff0c5a91aa0491752bfb96e3fef33eb74953804f6a2f7b708d5bcefa8ff6b")
+            XCTAssertEqual(linear, "czz1E0SM5rIK0bxeUOsnwGrvrgwyBxOl3Zn05RvBymA=")
             let treeHash = input.headers.value(for: "X-Amz-Sha256-Tree-Hash")
-            XCTAssertEqual(treeHash, "154e26c78fd74d0c2c9b3cc4644191619dc4f2cd539ae2a74d5fd07957a3ee6a")
+            XCTAssertEqual(treeHash, "x7O1UHyNIXvn/g19LDbAILBPDnqTAz6FwI+MsNCADq0=")
           
         }))
     }

@@ -68,7 +68,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
             if bytesRead == 0 {
                 break
             }
-            let hash: ByteBuffer = oneMbTempBuffer.sha256()
+            let hash = oneMbTempBuffer.sha256()
             hashes.append(hash.toByteArray())
         }
 
@@ -96,16 +96,17 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                 tempHashArray.append(contentsOf: hashes[index + 1])
                 let tempByteBuffer = ByteBuffer(bytes: tempHashArray)
                 
-                let tempSha256: ByteBuffer = tempByteBuffer.sha256()
+                let tempSha256 = tempByteBuffer.sha256()
                 tempHashes.append(tempSha256.toByteArray())
                 
             } else {
                 tempHashes.append(hashes[index])
             }
         }
-        let byteBuf = ByteBuffer(bytes: tempHashes[0])
+         let byteBuf = ByteBuffer(bytes: tempHashes[0])
        
-        return byteBuf.sha256().toData().base64EncodedString()
+        return byteBuf.base64EncodedSha256()
+
     }
     
     public typealias MInput = SdkHttpRequestBuilder
