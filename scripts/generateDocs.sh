@@ -1,10 +1,13 @@
 #!/bin/bash
 usage() {
-    echo "Use case 1:"
-    echo " ./scripts/generateDocs release"
+    echo "Usage:"
+    echo "  ./scripts/generateDocs [releaseDir] [outputDirPrefix]" 
+    echo ""
+    echo "Example:"
+    echo " ./scripts/generateDocs release reference/0.x"
 }
 
-if [ $# -ne 1 ]; then
+if [ $# -ne 2 ]; then
     usage
     exit 1
 fi
@@ -14,6 +17,8 @@ if [ ! -d ${RELDIR} ]; then
     echo "Not a directory: ${RELDIR}"
     exit 1
 fi
+
+OUTDIR_PREFIX="$2"
 
 
 HAS_SWIFTDOC=`which swift-doc`
@@ -31,9 +36,9 @@ fi
 #After testing, update the line to generate for all SDKs
 #for sdk in `ls ${RELDIR} | grep -e "^AWS"`; do
 for sdk in `ls ${RELDIR} |grep -e "Polly\|APIGateway"`; do
-    echo "Generating ${sdk}"
-    OUTDIR="reference/0.x/${sdk}"
-    swift doc generate release/${sdk} --module-name ${sdk} --format html --base-url "/aws-sdk-swift/${OUTDIR}" --output ${OUTDIR}
+    OUTDIR="${OUTDIR_PREFIX}/${sdk}"
+    echo "Generating ${sdk}: ${OUTDIR}"
+    swift doc generate ${RELDIR}/${sdk} --module-name ${sdk} --format html --base-url "/aws-sdk-swift/${OUTDIR}" --output ${OUTDIR}
     if [ $? -ne 0 ]; then
 	echo "Failed on ${sdk}"
 	exit 1

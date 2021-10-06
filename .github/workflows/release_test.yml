@@ -59,14 +59,14 @@ jobs:
           ./scripts/mergeModels.sh release
           ./scripts/generatePackageSwift.swift > Package.swift
           cat Package.swift
-          ./scripts/generateDocs.sh release
+          ./scripts/generateDocs.sh release reference/0.x
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: reference
-          destination_dir: reference
+          publish_dir: reference/0.x
+          destination_dir: reference/0.x
           allow_empty_commit: false # optional, default is false
           user_name: AWS CI
           user_email: nobody@amazonaws.com
