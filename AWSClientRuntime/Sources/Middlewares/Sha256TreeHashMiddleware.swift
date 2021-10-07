@@ -109,5 +109,3 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
     public typealias Context = HttpContext
     public typealias MError = SdkError<OperationStackError>
 }
-
-

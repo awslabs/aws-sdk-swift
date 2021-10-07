@@ -14,7 +14,8 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
     func testTreeHashAllZeroes() {
         let context = HttpContextBuilder().build()
         let expectation = XCTestExpectation(description: "closure was run")
-        let byteArray: [UInt8] = Array(repeating: 0, count: 5767168)
+        let bytesIn5_5MB: Int = 1024*1024*5.5
+        let byteArray: [UInt8] = Array(repeating: 0, count: bytesIn5_5MB)
         let byteBuffer = ByteBuffer(bytes: byteArray)
         let streamInput = StreamInput(body: ByteStream.buffer(byteBuffer))
         var stack = OperationStack<StreamInput, StreamOutput, StreamError>(id: "TreeHashMiddlewareTestStack")
