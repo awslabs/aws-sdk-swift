@@ -13,6 +13,7 @@ import AwsCommonRuntimeKit
 class Sha256TreeHashMiddlewareTests: XCTestCase {
     func testTreeHashAllZeroes() {
         let context = HttpContextBuilder().build()
+        let expectation = XCTestExpectation(description: "closure was run")
         let byteArray: [UInt8] = Array(repeating: 0, count: 5767168)
         let byteBuffer = ByteBuffer(bytes: byteArray)
         let streamInput = StreamInput(body: ByteStream.buffer(byteBuffer))
@@ -24,7 +25,10 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
             XCTAssertEqual(linear, "czz1E0SM5rIK0bxeUOsnwGrvrgwyBxOl3Zn05RvBymA=")
             let treeHash = input.headers.value(for: "X-Amz-Sha256-Tree-Hash")
             XCTAssertEqual(treeHash, "x7O1UHyNIXvn/g19LDbAILBPDnqTAz6FwI+MsNCADq0=")
+            expectation.fulfill()
         }))
+        
+        wait(for: [expectation], timeout: 3.0)
     }
 }
 
