@@ -131,12 +131,12 @@ func createIdentityPool() async throws -> CreateIdentityPoolOutputResponse {
 As a result, you should be able to:
 
 1. Log into your [AWS console](https://console.aws.amazon.com/).
-2. Use the popup at the top-right corner of the screen, choose the region "US-East (N. Virginia)", also known as `us-east-1`. This is the default region, though you can specify another region in your code if you wish.
-3. In the Services popup, click on [Cognito](https://console.aws.amazon.com/cognito) (found under the heading "Security, Identity, & Compliance"). If you expect to play with this code for a while, consider clicking the star icon next to Cognito to mark it as a favorite, which will make it appear on your main console screen.
+2. Use the region switcher at the top-right corner of the screen to select the region "US-East (N. Virginia)", also known as `us-east-1`. This is the default region, though you can specify another region in your code if you wish.
+3. In the Services popup, click on [Cognito](https://console.aws.amazon.com/cognito) (found under the heading "Security, Identity, & Compliance").
 4. Click the "Manage Identity Pools" button on the "Amazon Cognito" page.
 5. Verify that you see the newly created identity pool name: `identityPoolMadeWithSwiftSDK`.
 
-If you’ve made it this far... Congrats!🎉
+If you’ve made it this far... congratulations! 🎉
 
 *What’s next?*
 Try some other calls?  Help us better understand what you think the most critical features are next.  Run into any bugs? Give us feedback on the call-site interface. etc...
