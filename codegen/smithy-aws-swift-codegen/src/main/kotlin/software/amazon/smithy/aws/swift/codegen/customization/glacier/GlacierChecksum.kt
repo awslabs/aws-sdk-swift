@@ -20,7 +20,7 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
  * See: https://github.com/awslabs/aws-sdk-swift/issues/208
  * See also: https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
  */
-class GlacierChecksum: SwiftIntegration {
+class GlacierChecksum : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings) =
         model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
 

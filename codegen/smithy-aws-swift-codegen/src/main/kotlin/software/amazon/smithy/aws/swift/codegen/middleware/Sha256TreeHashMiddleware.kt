@@ -7,7 +7,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
-class Sha256TreeHashMiddleware: MiddlewareRenderable {
+class Sha256TreeHashMiddleware : MiddlewareRenderable {
     override val name = "Sha256TreeHashMiddleware"
 
     override val middlewareStep = MiddlewareStep.FINALIZESTEP
