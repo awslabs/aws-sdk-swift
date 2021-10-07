@@ -81,6 +81,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             httpProtocolCustomizable,
             operationMiddleware,
             serdeContext,
+            listOf(),
             testsToIgnore
         ).generateProtocolTests()
     }
