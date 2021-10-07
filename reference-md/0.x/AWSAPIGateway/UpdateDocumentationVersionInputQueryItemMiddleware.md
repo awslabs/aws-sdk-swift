@@ -1,0 +1,66 @@
+# UpdateDocumentationVersionInputQueryItemMiddleware
+
+``` swift
+public struct UpdateDocumentationVersionInputQueryItemMiddleware: ClientRuntime.Middleware 
+```
+
+## Inheritance
+
+`ClientRuntime.Middleware`
+
+## Nested Type Aliases
+
+### `MInput`
+
+``` swift
+public typealias MInput = ClientRuntime.SerializeStepInput<UpdateDocumentationVersionInput>
+```
+
+### `MOutput`
+
+``` swift
+public typealias MOutput = ClientRuntime.OperationOutput<UpdateDocumentationVersionOutputResponse>
+```
+
+### `Context`
+
+``` swift
+public typealias Context = ClientRuntime.HttpContext
+```
+
+### `MError`
+
+``` swift
+public typealias MError = ClientRuntime.SdkError<UpdateDocumentationVersionOutputError>
+```
+
+## Initializers
+
+### `init()`
+
+``` swift
+public init() 
+```
+
+## Properties
+
+### `id`
+
+``` swift
+public let id: Swift.String = "UpdateDocumentationVersionInputQueryItemMiddleware"
+```
+
+## Methods
+
+### `handle(context:input:next:)`
+
+``` swift
+public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateDocumentationVersionInput>,
+                  next: H) -> Swift.Result<ClientRuntime.OperationOutput<UpdateDocumentationVersionOutputResponse>, MError>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context,
+    Self.MError == H.MiddlewareError
+```
