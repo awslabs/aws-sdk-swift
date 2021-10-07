@@ -24,18 +24,8 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
             XCTAssertEqual(linear, "czz1E0SM5rIK0bxeUOsnwGrvrgwyBxOl3Zn05RvBymA=")
             let treeHash = input.headers.value(for: "X-Amz-Sha256-Tree-Hash")
             XCTAssertEqual(treeHash, "x7O1UHyNIXvn/g19LDbAILBPDnqTAz6FwI+MsNCADq0=")
-          
         }))
     }
-    
-    func testNonSeekableStreamWithoutPrecomputedHash() {
-        
-    }
-    
-    func testNonSeekableStreamWithPrecomputedHash() {
-        
-    }
-    
 }
 
 struct StreamInput: Reflection, Encodable {
