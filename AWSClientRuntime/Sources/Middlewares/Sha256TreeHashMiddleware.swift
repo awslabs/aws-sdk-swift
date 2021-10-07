@@ -31,8 +31,8 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                       return next.handle(context: context, input: input)
                   }
                   if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
-                      let base64Encoded = ByteBuffer(data: data).base64EncodedSha256()
-                      input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: base64Encoded)
+                      let sha256 = ByteBuffer(data: data).sha256().encodeToHexString()
+                      input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: sha256)
                   }
               case .stream(let stream):
                   let streamBytes = stream.toBytes()
@@ -67,7 +67,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
             hashes.append(hash.toByteArray())
         }
         
-        return (bytes.base64EncodedSha256(), computeTreeHash(hashes: hashes))
+        return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
     
     /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes of 1MBm chunks of the data.
@@ -81,7 +81,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
         if hashCount == 1 {
             let byteArray = hashes[0]
             let byteBuffer = ByteBuffer(bytes: byteArray)
-            return byteBuffer.toData().base64EncodedString()
+            return byteBuffer.encodeToHexString()
         }
         var tempHashes = [[UInt8]]()
         for index in stride(from: 0, to: hashCount, by: 2) {
@@ -100,7 +100,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
         }
         let byteBuf = ByteBuffer(bytes: tempHashes[0])
         
-        return byteBuf.base64EncodedSha256()
+        return byteBuf.encodeToHexString()
         
     }
     
