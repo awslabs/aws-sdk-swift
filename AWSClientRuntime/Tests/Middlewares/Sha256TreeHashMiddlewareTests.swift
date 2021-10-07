@@ -14,7 +14,7 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
     func testTreeHashAllZeroes() {
         let context = HttpContextBuilder().build()
         let byteArray: [UInt8] = Array(repeating: 0, count: 5767168)
-        let byteBuffer = ByteBuffer(bytes: byteArray) // 5.5MB buffer
+        let byteBuffer = ByteBuffer(bytes: byteArray)
         let streamInput = StreamInput(body: ByteStream.buffer(byteBuffer))
         var stack = OperationStack<StreamInput, StreamOutput, StreamError>(id: "TreeHashMiddlewareTestStack")
         stack.serializeStep.intercept(position: .before, middleware: MockBodyMiddleware())

@@ -9,9 +9,9 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                                        OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "Sha256TreeHash"
     
-    private let sha256TreeHashHeaderName = "X-Amz-Sha256-Tree-Hash"
+    private let X_AMZ_SHA256_TREE_HASH_HEADER_NAME = "X-Amz-Sha256-Tree-Hash"
     
-    private let sha256HashHeaderName = "X-Amz-Content-Sha256"
+    private let X_AMZ_CONTENT_SHA256_HEADER_NAME = "X-Amz-Content-Sha256"
     
     public init() {}
     
@@ -28,11 +28,11 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
               switch request.body {
               case .data(let data):
                   guard let data = data else {
-                            return next.handle(context: context, input: input)
-                        }
-                  if !request.headers.exists(name: sha256HashHeaderName) {
+                      return next.handle(context: context, input: input)
+                  }
+                  if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
                       let base64Encoded = ByteBuffer(data: data).base64EncodedSha256()
-                      input.withHeader(name: sha256TreeHashHeaderName, value: base64Encoded)
+                      input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: base64Encoded)
                   }
               case .stream(let stream):
                   let streamBytes = stream.toBytes()
@@ -41,10 +41,10 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                   }
                   let (linearHash, treeHash) = computeHashes(bytes: streamBytes)
                   if let treeHash = treeHash {
-                      input.withHeader(name: sha256TreeHashHeaderName, value: treeHash)
+                      input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
                   }
                   if let linearHash = linearHash {
-                      input.withHeader(name: sha256HashHeaderName, value: linearHash)
+                      input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: linearHash)
                   }
                   
                   return next.handle(context: context, input: input)
@@ -71,7 +71,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
             let hash = oneMbTempBuffer.sha256()
             hashes.append(hash.toByteArray())
         }
-
+        
         return (bytes.base64EncodedSha256(), computeTreeHash(hashes: hashes))
     }
     
@@ -103,10 +103,10 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                 tempHashes.append(hashes[index])
             }
         }
-         let byteBuf = ByteBuffer(bytes: tempHashes[0])
-       
+        let byteBuf = ByteBuffer(bytes: tempHashes[0])
+        
         return byteBuf.base64EncodedSha256()
-
+        
     }
     
     public typealias MInput = SdkHttpRequestBuilder

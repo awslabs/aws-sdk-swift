@@ -47,7 +47,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         val ignoredTests = setOf(
             "GlacierMultipartChecksums", // aws-sdk-swift#208
         )
-        val imports = listOf (AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        val imports = listOf(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
