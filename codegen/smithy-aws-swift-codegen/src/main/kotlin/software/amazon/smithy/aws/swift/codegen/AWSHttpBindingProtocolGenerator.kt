@@ -44,6 +44,11 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     override val shouldRenderCodingKeysForEncodable = true
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
+        //TODO: enable these tests once this PR is merged/released into Smithy: https://github.com/awslabs/smithy/pull/930
+        val ignoredTests = setOf(
+            "GlacierChecksums", // aws-sdk-swift#208
+            "GlacierMultipartChecksums", // aws-sdk-swift#208
+        )
         val imports = listOf(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         return HttpProtocolTestGenerator(
             ctx,
@@ -53,7 +58,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             httpProtocolCustomizable,
             operationMiddleware,
             serdeContext,
-            imports
+            imports,
+            ignoredTests
         ).generateProtocolTests()
     }
 
