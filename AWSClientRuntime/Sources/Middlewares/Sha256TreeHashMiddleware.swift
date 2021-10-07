@@ -40,10 +40,8 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                       return next.handle(context: context, input: input)
                   }
                   let (linearHash, treeHash) = computeHashes(bytes: streamBytes)
-                  if let treeHash = treeHash {
+                  if let treeHash = treeHash, let linearHash = linearHash {
                       input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
-                  }
-                  if let linearHash = linearHash {
                       input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: linearHash)
                   }
               case .empty, .none:
