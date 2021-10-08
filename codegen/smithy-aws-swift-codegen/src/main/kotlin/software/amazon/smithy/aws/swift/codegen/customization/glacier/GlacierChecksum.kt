@@ -17,7 +17,7 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
 import java.util.Locale
 
 /**
- * Adds a middleware for Glacier to autofill accountId when not set
+ * Adds a middleware for Glacier to add checksum headers needed for payloads
  * See: https://github.com/awslabs/aws-sdk-swift/issues/208
  * See also: https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
  */
