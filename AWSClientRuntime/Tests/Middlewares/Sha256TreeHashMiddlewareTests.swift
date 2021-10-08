@@ -11,6 +11,14 @@ import AwsCommonRuntimeKit
 @testable import AWSClientRuntime
 
 class Sha256TreeHashMiddlewareTests: XCTestCase {
+    override func setUp() {
+        AwsCommonRuntimeKit.initialize()
+    }
+    
+    override func tearDown() {
+        AwsCommonRuntimeKit.cleanUp()
+    }
+    
     func testTreeHashAllZeroes() {
         let context = HttpContextBuilder().build()
         let expectation = XCTestExpectation(description: "closure was run")
