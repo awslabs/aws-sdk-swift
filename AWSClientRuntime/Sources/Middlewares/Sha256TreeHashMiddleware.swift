@@ -98,10 +98,9 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                 tempHashes.append(hashes[index])
             }
         }
+        
         let byteBuf = ByteBuffer(bytes: tempHashes[0])
-        
         return byteBuf.encodeToHexString()
-        
     }
     
     public typealias MInput = SdkHttpRequestBuilder
