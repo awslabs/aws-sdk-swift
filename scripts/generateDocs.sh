@@ -35,9 +35,12 @@ fi
 for sdk in `ls ${RELDIR} | grep -e "^AWS"`; do
     OUTDIR="${OUTDIR_PREFIX}/${sdk}"
     echo "Generating ${sdk}: ${OUTDIR}"
-    swift doc generate ${RELDIR}/${sdk} --module-name ${sdk} --format html --base-url "/aws-sdk-swift/${OUTDIR}" --output ${OUTDIR}
+    swift doc generate ${RELDIR}/${sdk} --module-name ${sdk} --base-url "/aws-sdk-swift/${OUTDIR}" --output ${OUTDIR}
     if [ $? -ne 0 ]; then
 	echo "Failed on ${sdk}"
 	exit 1
     fi
+    OUTFILECONFIG=${OUTDIR}/_config.yml
+    echo "theme: jekyll-theme-slate" > ${OUTFILECONFIG}
+    echo "Generated file ${OUTFILECONFIG}"
 done
