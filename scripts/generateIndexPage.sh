@@ -37,7 +37,7 @@ appendLine() {
 
 createFileWithLine "# AWS SDK Swift API Reference"
 for sdk in `ls ${OUTDIR_PREFIX} | grep -e "^AWS"`; do
-    appendLine "- [${sdk}](${sdk})"
+    appendLine "- [${sdk}](${sdk}/Home)"
 done
 echo "Generated file ${OUTFILE}"
 
