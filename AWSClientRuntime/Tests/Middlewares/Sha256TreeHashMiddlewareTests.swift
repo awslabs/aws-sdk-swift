@@ -41,7 +41,7 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
             let linear = input.headers.value(for: "X-Amz-Content-Sha256")
             XCTAssertEqual(linear, "733cf513448ce6b20ad1bc5e50eb27c06aefae0c320713a5dd99f4e51bc1ca60")
             let treeHash = input.headers.value(for: "X-Amz-Sha256-Tree-Hash")
-            XCTAssertEqual(treeHash, "861890b487038d840e9d71d43bbc0fd4571453fb9d9b1f370caa3582a29b0ec7")
+            XCTAssertEqual(treeHash, "a3a82dbe3644dd6046be472f2e3ec1f8ef47f8f3adb86d0de4de7a254f255455")
             expectation.fulfill()
             return .success(output)
         }))

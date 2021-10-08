@@ -32,7 +32,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                   }
                   if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
                       let sha256 = ByteBuffer(data: data).sha256().encodeToHexString()
-                      input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: sha256)
+                      input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
                   }
               case .stream(let stream):
                   let streamBytes = stream.toBytes()
@@ -67,39 +67,36 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
             hashes.append(hash.toByteArray())
         }
         
-        return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
+        return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: &hashes))
     }
     
-    /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes of 1MBm chunks of the data.
+    /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes of 1MB chunks of the data.
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
-    private func computeTreeHash(hashes: [[UInt8]]) -> String? {
+    private func computeTreeHash(hashes: inout [[UInt8]]) -> String? {
         guard !hashes.isEmpty else {
             return nil
         }
-        let hashCount = hashes.count
         
-        if hashCount == 1 {
-            let byteArray = hashes[0]
-            let byteBuffer = ByteBuffer(bytes: byteArray)
-            return byteBuffer.encodeToHexString()
-        }
-        var tempHashes = [[UInt8]]()
-        for index in stride(from: 0, to: hashCount, by: 2) {
-            if index + 1 <= hashCount - 1 {
-                var tempHashArray = [UInt8]()
-                tempHashArray.append(contentsOf: hashes[index])
-                tempHashArray.append(contentsOf: hashes[index + 1])
-                let tempByteBuffer = ByteBuffer(bytes: tempHashArray)
-                
-                let tempSha256 = tempByteBuffer.sha256()
-                tempHashes.append(tempSha256.toByteArray())
-                
-            } else {
-                tempHashes.append(hashes[index])
+        while hashes.count > 1 {
+            var tempHashes = [[UInt8]]()
+            for index in stride(from: 0, to: hashes.count, by: 2) {
+                if index + 1 <= hashes.count - 1 {
+                    var tempHashArray = [UInt8]()
+                    tempHashArray.append(contentsOf: hashes[index])
+                    tempHashArray.append(contentsOf: hashes[index + 1])
+                    let tempByteBuffer = ByteBuffer(bytes: tempHashArray)
+                    
+                    let tempSha256 = tempByteBuffer.sha256()
+                    tempHashes.append(tempSha256.toByteArray())
+                    
+                } else {
+                    tempHashes.append(hashes[index])
+                }
             }
+            hashes = tempHashes
         }
         
-        let byteBuf = ByteBuffer(bytes: tempHashes[0])
+        let byteBuf = ByteBuffer(bytes: hashes[0])
         return byteBuf.encodeToHexString()
     }
     
