@@ -14,6 +14,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
+import java.util.Locale
 
 /**
  * Adds a middleware for Glacier to autofill accountId when not set
@@ -22,7 +23,7 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
  */
 class GlacierChecksum : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings) =
-        model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
+        model.expectShape<ServiceShape>(settings.service).sdkId.lowercase(Locale.getDefault()) == "glacier"
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
