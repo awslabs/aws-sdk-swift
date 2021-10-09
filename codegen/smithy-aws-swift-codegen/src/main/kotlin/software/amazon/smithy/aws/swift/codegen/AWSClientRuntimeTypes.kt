@@ -49,6 +49,7 @@ object AWSClientRuntimeTypes {
         val UnknownAWSHttpServiceError = runtimeSymbol("UnknownAWSHttpServiceError")
         val AWSHttpServiceError = runtimeSymbol("AWSHttpServiceError")
         val RegionResolver = runtimeSymbol("RegionResolver")
+        val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
     }
 }
 
