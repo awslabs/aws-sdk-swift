@@ -67,36 +67,36 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
             hashes.append(hash.toByteArray())
         }
         
-        return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: &hashes))
+        return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
     
     /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes of 1MB chunks of the data.
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
-    private func computeTreeHash(hashes: inout [[UInt8]]) -> String? {
+    private func computeTreeHash(hashes: [[UInt8]]) -> String? {
         guard !hashes.isEmpty else {
             return nil
         }
-        
-        while hashes.count > 1 {
-            var tempHashes = [[UInt8]]()
-            for index in stride(from: 0, to: hashes.count, by: 2) {
-                if index + 1 <= hashes.count - 1 {
-                    var tempHashArray = [UInt8]()
-                    tempHashArray.append(contentsOf: hashes[index])
-                    tempHashArray.append(contentsOf: hashes[index + 1])
-                    let tempByteBuffer = ByteBuffer(bytes: tempHashArray)
+        var previousLevelHashes = hashes
+        while previousLevelHashes.count > 1 {
+            var currentLevelHashes = [[UInt8]]()
+            for index in stride(from: 0, to: previousLevelHashes.count, by: 2) {
+                if previousLevelHashes.count - index > 1 {
+                    var concatenatedLevelHash = [UInt8]()
+                    concatenatedLevelHash.append(contentsOf: previousLevelHashes[index])
+                    concatenatedLevelHash.append(contentsOf: previousLevelHashes[index + 1])
+                    let concatenatedLevelHashByteBuffer = ByteBuffer(bytes: concatenatedLevelHash)
                     
-                    let tempSha256 = tempByteBuffer.sha256()
-                    tempHashes.append(tempSha256.toByteArray())
+                    let md = concatenatedLevelHashByteBuffer.sha256()
+                    currentLevelHashes.append(md.toByteArray())
                     
                 } else {
-                    tempHashes.append(hashes[index])
+                    currentLevelHashes.append(previousLevelHashes[index])
                 }
             }
-            hashes = tempHashes
+            previousLevelHashes = currentLevelHashes
         }
         
-        let byteBuf = ByteBuffer(bytes: hashes[0])
+        let byteBuf = ByteBuffer(bytes: previousLevelHashes[0])
         return byteBuf.encodeToHexString()
     }
     
