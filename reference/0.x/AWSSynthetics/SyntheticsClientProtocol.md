@@ -1,0 +1,207 @@
+# SyntheticsClientProtocol
+
+<fullname>Amazon CloudWatch Synthetics</fullname>
+You can use Amazon CloudWatch Synthetics to continually monitor your services. You can
+create and manage canaries, which are modular, lightweight scripts
+that monitor your endpoints and APIs
+from the outside-in. You can set up your canaries to run
+24 hours a day, once per minute. The canaries help you check the availability and latency
+of your web services and troubleshoot anomalies by investigating load time data,
+screenshots of the UI, logs, and metrics. The canaries seamlessly integrate with CloudWatch
+ServiceLens to help you trace the causes of impacted nodes in your applications. For more
+information, see <a href="https:​//docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ServiceLens.html">Using ServiceLens to Monitor
+the Health of Your Applications in the Amazon CloudWatch User
+Guide.
+
+``` swift
+public protocol SyntheticsClientProtocol 
+```
+
+``` 
+     Before you create and manage canaries, be aware of the security considerations. For more
+     information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html">Security
+        Considerations for Synthetics Canaries.
+```
+
+## Requirements
+
+### createCanary(input:​completion:​)
+
+Creates a canary. Canaries are scripts that monitor your endpoints and APIs from the
+outside-in. Canaries help you check the availability and latency of your web services and
+troubleshoot anomalies by investigating load time data, screenshots of the UI, logs, and
+metrics. You can set up a canary to run continuously or just once.
+Do not use CreateCanary to modify an existing canary. Use <a href="https:​//docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_UpdateCanary.html">UpdateCanary instead.
+To create canaries, you must have the CloudWatchSyntheticsFullAccess policy.
+If you are creating a new IAM role for the canary, you also need the
+the iam:​CreateRole, iam:​CreatePolicy and
+iam:​AttachRolePolicy permissions. For more information, see <a href="https:​//docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Roles">Necessary
+Roles and Permissions.
+Do not include secrets or proprietary information in your canary names. The canary name
+makes up part of the Amazon Resource Name (ARN) for the canary, and the ARN is included in
+outbound calls over the internet. For more information, see <a href="https:​//docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html">Security
+Considerations for Synthetics Canaries.
+
+``` swift
+func createCanary(input: CreateCanaryInput, completion: @escaping (ClientRuntime.SdkResult<CreateCanaryOutputResponse, CreateCanaryOutputError>) -> Void)
+```
+
+### deleteCanary(input:​completion:​)
+
+Permanently deletes the specified canary.
+When you delete a canary, resources used and created by the canary are not automatically deleted. After you delete a canary that you do not intend to
+use again, you
+should also delete the following:​
+
+``` swift
+func deleteCanary(input: DeleteCanaryInput, completion: @escaping (ClientRuntime.SdkResult<DeleteCanaryOutputResponse, DeleteCanaryOutputError>) -> Void)
+```
+
+``` 
+           The Lambda functions and layers used by this canary. These have the prefix
+                 cwsyn-MyCanaryName
+              .
+
+
+           The CloudWatch alarms created for this canary. These alarms have a name of
+                 Synthetics-SharpDrop-Alarm-MyCanaryName
+              .
+
+
+           Amazon S3 objects and buckets, such as the canary's artifact location.
+
+
+           IAM roles created for the canary. If they were created in the console, these roles
+           have the name
+                 role/service-role/CloudWatchSyntheticsRole-MyCanaryName
+              .
+
+
+           CloudWatch Logs log groups created for the canary. These logs groups have the name
+                 /aws/lambda/cwsyn-MyCanaryName
+              .
+
+
+
+     Before you delete a canary, you might want to use GetCanary to display
+     the information about this canary. Make
+     note of the information returned by this operation so that you can delete these resources
+     after you delete the canary.
+```
+
+### describeCanaries(input:​completion:​)
+
+This operation returns a list of the canaries in your account, along with full details
+about each canary.
+This operation does not have resource-level authorization, so if a user is able to use
+DescribeCanaries, the user can see all of the canaries in the account. A
+deny policy can only be used to restrict access to all canaries. It cannot be used on
+specific resources.
+
+``` swift
+func describeCanaries(input: DescribeCanariesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCanariesOutputResponse, DescribeCanariesOutputError>) -> Void)
+```
+
+### describeCanariesLastRun(input:​completion:​)
+
+Use this operation to see information from the most recent run of each canary that you have created.
+
+``` swift
+func describeCanariesLastRun(input: DescribeCanariesLastRunInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCanariesLastRunOutputResponse, DescribeCanariesLastRunOutputError>) -> Void)
+```
+
+### describeRuntimeVersions(input:​completion:​)
+
+Returns a list of Synthetics canary runtime versions. For more information,
+see <a href="https:​//docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html">
+Canary Runtime Versions.
+
+``` swift
+func describeRuntimeVersions(input: DescribeRuntimeVersionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRuntimeVersionsOutputResponse, DescribeRuntimeVersionsOutputError>) -> Void)
+```
+
+### getCanary(input:​completion:​)
+
+Retrieves complete information about one canary. You must specify
+the name of the canary that you want. To get a list of canaries
+and their names, use <a href="https:​//docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html">DescribeCanaries.
+
+``` swift
+func getCanary(input: GetCanaryInput, completion: @escaping (ClientRuntime.SdkResult<GetCanaryOutputResponse, GetCanaryOutputError>) -> Void)
+```
+
+### getCanaryRuns(input:​completion:​)
+
+Retrieves a list of runs for a specified canary.
+
+``` swift
+func getCanaryRuns(input: GetCanaryRunsInput, completion: @escaping (ClientRuntime.SdkResult<GetCanaryRunsOutputResponse, GetCanaryRunsOutputError>) -> Void)
+```
+
+### listTagsForResource(input:​completion:​)
+
+Displays the tags associated with a canary.
+
+``` swift
+func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
+```
+
+### startCanary(input:​completion:​)
+
+Use this operation to run a canary that has already been created.
+The frequency of the canary runs is determined by the value of the canary's Schedule. To see a canary's schedule,
+use <a href="https:​//docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanary.html">GetCanary.
+
+``` swift
+func startCanary(input: StartCanaryInput, completion: @escaping (ClientRuntime.SdkResult<StartCanaryOutputResponse, StartCanaryOutputError>) -> Void)
+```
+
+### stopCanary(input:​completion:​)
+
+Stops the canary to prevent all future runs. If the canary is currently running,
+Synthetics stops waiting for the current run of the specified canary to complete. The
+run that is in progress completes on its own, publishes metrics, and uploads artifacts, but
+it is not recorded in Synthetics as a completed run.
+You can use StartCanary to start it running again
+with the canary’s current schedule at any point in the future.
+
+``` swift
+func stopCanary(input: StopCanaryInput, completion: @escaping (ClientRuntime.SdkResult<StopCanaryOutputResponse, StopCanaryOutputError>) -> Void)
+```
+
+### tagResource(input:​completion:​)
+
+Assigns one or more tags (key-value pairs) to the specified canary.
+Tags can help you organize and categorize your
+resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with
+certain tag values.
+Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.
+You can use the TagResource action with a canary that already has tags. If you specify a new tag key for the alarm,
+this tag is appended to the list of tags associated
+with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces
+the previous value for that tag.
+You can associate as many as 50 tags with a canary.
+
+``` swift
+func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
+```
+
+### untagResource(input:​completion:​)
+
+Removes one or more tags from the specified canary.
+
+``` swift
+func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
+```
+
+### updateCanary(input:​completion:​)
+
+Use this operation to change the settings of a canary that has
+already been created.
+You can't use this operation to update the tags of an existing canary. To
+change the tags of an existing canary, use
+<a href="https:​//docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html">TagResource.
+
+``` swift
+func updateCanary(input: UpdateCanaryInput, completion: @escaping (ClientRuntime.SdkResult<UpdateCanaryOutputResponse, UpdateCanaryOutputError>) -> Void)
+```

@@ -1,0 +1,405 @@
+# Route53DomainsClientProtocol
+
+Amazon Route 53 API actions let you register domain names and perform related operations.
+
+``` swift
+public protocol Route53DomainsClientProtocol 
+```
+
+## Requirements
+
+### acceptDomainTransferFromAnotherAwsAccount(input:​completion:​)
+
+Accepts the transfer of a domain from another AWS account to the current AWS account. You initiate a transfer between AWS accounts using
+<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount.
+
+``` swift
+func acceptDomainTransferFromAnotherAwsAccount(input: AcceptDomainTransferFromAnotherAwsAccountInput, completion: @escaping (ClientRuntime.SdkResult<AcceptDomainTransferFromAnotherAwsAccountOutputResponse, AcceptDomainTransferFromAnotherAwsAccountOutputError>) -> Void)
+```
+
+``` 
+	       Use either
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations or
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		to determine whether the operation succeeded.
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
+```
+
+### cancelDomainTransferToAnotherAwsAccount(input:​completion:​)
+
+Cancels the transfer of a domain from the current AWS account to another AWS account. You initiate a transfer between AWS accounts using
+<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount.
+
+``` swift
+func cancelDomainTransferToAnotherAwsAccount(input: CancelDomainTransferToAnotherAwsAccountInput, completion: @escaping (ClientRuntime.SdkResult<CancelDomainTransferToAnotherAwsAccountOutputResponse, CancelDomainTransferToAnotherAwsAccountOutputError>) -> Void)
+```
+
+``` 
+		         You must cancel the transfer before the other AWS account accepts the transfer using
+			<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html">AcceptDomainTransferFromAnotherAwsAccount.
+	
+	
+	       Use either
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations or
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		to determine whether the operation succeeded.
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
+```
+
+### checkDomainAvailability(input:​completion:​)
+
+This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must
+submit another request to determine the availability of the domain name.
+
+``` swift
+func checkDomainAvailability(input: CheckDomainAvailabilityInput, completion: @escaping (ClientRuntime.SdkResult<CheckDomainAvailabilityOutputResponse, CheckDomainAvailabilityOutputError>) -> Void)
+```
+
+### checkDomainTransferability(input:​completion:​)
+
+Checks whether a domain name can be transferred to Amazon Route 53.
+
+``` swift
+func checkDomainTransferability(input: CheckDomainTransferabilityInput, completion: @escaping (ClientRuntime.SdkResult<CheckDomainTransferabilityOutputResponse, CheckDomainTransferabilityOutputError>) -> Void)
+```
+
+### deleteTagsForDomain(input:​completion:​)
+
+This operation deletes the specified tags for a domain.
+All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
+
+``` swift
+func deleteTagsForDomain(input: DeleteTagsForDomainInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTagsForDomainOutputResponse, DeleteTagsForDomainOutputError>) -> Void)
+```
+
+### disableDomainAutoRenew(input:​completion:​)
+
+This operation disables automatic renewal of domain registration for the specified domain.
+
+``` swift
+func disableDomainAutoRenew(input: DisableDomainAutoRenewInput, completion: @escaping (ClientRuntime.SdkResult<DisableDomainAutoRenewOutputResponse, DisableDomainAutoRenewOutputError>) -> Void)
+```
+
+### disableDomainTransferLock(input:​completion:​)
+
+This operation removes the transfer lock on the domain (specifically the
+clientTransferProhibited status) to allow domain transfers. We recommend
+you refrain from performing this action unless you intend to transfer the domain to a
+different registrar. Successful submission returns an operation ID that you can use to track
+the progress and completion of the action. If the request is not completed successfully, the
+domain registrant will be notified by email.
+
+``` swift
+func disableDomainTransferLock(input: DisableDomainTransferLockInput, completion: @escaping (ClientRuntime.SdkResult<DisableDomainTransferLockOutputResponse, DisableDomainTransferLockOutputError>) -> Void)
+```
+
+### enableDomainAutoRenew(input:​completion:​)
+
+This operation configures Amazon Route 53 to automatically renew the specified domain before the domain registration expires.
+The cost of renewing your domain registration is billed to your AWS account.
+The period during which you can renew a domain name varies by TLD. For a list of TLDs and their renewal policies, see
+<a href="https:​//docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains That You Can Register with Amazon Route 53
+in the Amazon Route 53 Developer Guide. Route 53 requires that you renew before the end of the renewal period
+so we can complete processing before the deadline.
+
+``` swift
+func enableDomainAutoRenew(input: EnableDomainAutoRenewInput, completion: @escaping (ClientRuntime.SdkResult<EnableDomainAutoRenewOutputResponse, EnableDomainAutoRenewOutputError>) -> Void)
+```
+
+### enableDomainTransferLock(input:​completion:​)
+
+This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status)
+to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and
+completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+
+``` swift
+func enableDomainTransferLock(input: EnableDomainTransferLockInput, completion: @escaping (ClientRuntime.SdkResult<EnableDomainTransferLockOutputResponse, EnableDomainTransferLockOutputError>) -> Void)
+```
+
+### getContactReachabilityStatus(input:​completion:​)
+
+For operations that require confirmation that the email address for the registrant contact is valid,
+such as registering a new domain, this operation returns information about whether the registrant contact has responded.
+If you want us to resend the email, use the ResendContactReachabilityEmail operation.
+
+``` swift
+func getContactReachabilityStatus(input: GetContactReachabilityStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetContactReachabilityStatusOutputResponse, GetContactReachabilityStatusOutputError>) -> Void)
+```
+
+### getDomainDetail(input:​completion:​)
+
+This operation returns detailed information about a specified domain that is associated with the current AWS account.
+Contact information for the domain is also returned as part of the output.
+
+``` swift
+func getDomainDetail(input: GetDomainDetailInput, completion: @escaping (ClientRuntime.SdkResult<GetDomainDetailOutputResponse, GetDomainDetailOutputError>) -> Void)
+```
+
+### getDomainSuggestions(input:​completion:​)
+
+The GetDomainSuggestions operation returns a list of suggested domain names.
+
+``` swift
+func getDomainSuggestions(input: GetDomainSuggestionsInput, completion: @escaping (ClientRuntime.SdkResult<GetDomainSuggestionsOutputResponse, GetDomainSuggestionsOutputError>) -> Void)
+```
+
+### getOperationDetail(input:​completion:​)
+
+This operation returns the current status of an operation that is not completed.
+
+``` swift
+func getOperationDetail(input: GetOperationDetailInput, completion: @escaping (ClientRuntime.SdkResult<GetOperationDetailOutputResponse, GetOperationDetailOutputError>) -> Void)
+```
+
+### listDomains(input:​completion:​)
+
+This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
+
+``` swift
+func listDomains(input: ListDomainsInput, completion: @escaping (ClientRuntime.SdkResult<ListDomainsOutputResponse, ListDomainsOutputError>) -> Void)
+```
+
+### listOperations(input:​completion:​)
+
+Returns information about all of the operations that return an operation ID and that have ever been
+performed on domains that were registered by the current account.
+
+``` swift
+func listOperations(input: ListOperationsInput, completion: @escaping (ClientRuntime.SdkResult<ListOperationsOutputResponse, ListOperationsOutputError>) -> Void)
+```
+
+### listTagsForDomain(input:​completion:​)
+
+This operation returns all of the tags that are associated with the specified domain.
+All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
+
+``` swift
+func listTagsForDomain(input: ListTagsForDomainInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForDomainOutputResponse, ListTagsForDomainOutputError>) -> Void)
+```
+
+### registerDomain(input:​completion:​)
+
+This operation registers a domain. Domains are registered either by Amazon Registrar (for .com, .net, and .org domains) or by
+our registrar associate, Gandi (for all other domains). For some top-level domains (TLDs), this operation requires extra parameters.
+When you register a domain, Amazon Route 53 does the following:​
+
+``` swift
+func registerDomain(input: RegisterDomainInput, completion: @escaping (ClientRuntime.SdkResult<RegisterDomainOutputResponse, RegisterDomainOutputError>) -> Void)
+```
+
+``` 
+           Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns four name servers
+				to your hosted zone and automatically updates your domain registration with the names of these name servers.
+
+
+           Enables autorenew, so your domain registration will renew automatically each year. We'll notify you
+				in advance of the renewal date so you can choose whether to renew the registration.
+
+
+           Optionally enables privacy protection, so WHOIS queries return contact information either for Amazon Registrar
+				(for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you don't enable privacy
+				protection, WHOIS queries return the information that you entered for the registrant, admin, and tech contacts.
+
+
+           If registration is successful, returns an operation ID that you can use to track the progress and
+				completion of the action. If the request is not completed successfully, the domain registrant is notified by email.
+
+
+           Charges your AWS account an amount based on the top-level domain. For more information, see
+				<a href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing.
+```
+
+### rejectDomainTransferFromAnotherAwsAccount(input:​completion:​)
+
+Rejects the transfer of a domain from another AWS account to the current AWS account. You initiate a transfer between AWS accounts using
+<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount.
+
+``` swift
+func rejectDomainTransferFromAnotherAwsAccount(input: RejectDomainTransferFromAnotherAwsAccountInput, completion: @escaping (ClientRuntime.SdkResult<RejectDomainTransferFromAnotherAwsAccountOutputResponse, RejectDomainTransferFromAnotherAwsAccountOutputError>) -> Void)
+```
+
+``` 
+	       Use either
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations or
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		to determine whether the operation succeeded.
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
+```
+
+### renewDomain(input:​completion:​)
+
+This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your AWS account.
+We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the
+expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see
+<a href="https:​//docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-renew.html">Renewing Registration for a Domain
+in the Amazon Route 53 Developer Guide.
+
+``` swift
+func renewDomain(input: RenewDomainInput, completion: @escaping (ClientRuntime.SdkResult<RenewDomainOutputResponse, RenewDomainOutputError>) -> Void)
+```
+
+### resendContactReachabilityEmail(input:​completion:​)
+
+For operations that require confirmation that the email address for the registrant contact is valid,
+such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact.
+
+``` swift
+func resendContactReachabilityEmail(input: ResendContactReachabilityEmailInput, completion: @escaping (ClientRuntime.SdkResult<ResendContactReachabilityEmailOutputResponse, ResendContactReachabilityEmailOutputError>) -> Void)
+```
+
+### retrieveDomainAuthCode(input:​completion:​)
+
+This operation returns the AuthCode for the domain. To transfer a domain to another registrar, you provide this value to the new registrar.
+
+``` swift
+func retrieveDomainAuthCode(input: RetrieveDomainAuthCodeInput, completion: @escaping (ClientRuntime.SdkResult<RetrieveDomainAuthCodeOutputResponse, RetrieveDomainAuthCodeOutputError>) -> Void)
+```
+
+### transferDomain(input:​completion:​)
+
+Transfers a domain from another registrar to Amazon Route 53. When the transfer is complete, the domain is registered either with
+Amazon Registrar (for .com, .net, and .org domains) or with our registrar associate, Gandi (for all other TLDs).
+For more information about transferring domains, see the following topics:​
+
+``` swift
+func transferDomain(input: TransferDomainInput, completion: @escaping (ClientRuntime.SdkResult<TransferDomainOutputResponse, TransferDomainOutputError>) -> Void)
+```
+
+``` 
+           For transfer requirements, a detailed procedure, and information about viewing the status of a domain that you're transferring
+			to Route 53, see
+			<a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html">Transferring Registration for a
+			Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide.
+
+
+           For information about how to transfer a domain from one AWS account to another, see
+			<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount.
+			
+		
+
+           For information about how to transfer a domain to another domain registrar, see
+			<a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-from-route-53.html">Transferring a Domain from
+			Amazon Route 53 to Another Registrar in the Amazon Route 53 Developer Guide.
+
+
+	       If the registrar for your domain is also the DNS service provider for the domain, we highly recommend that you
+		transfer your DNS service to Route 53 or to another DNS service provider before you transfer your registration. Some registrars
+		provide free DNS service when you purchase a domain registration. When you transfer the registration, the previous registrar
+		will not renew your domain registration and could end your DNS service at any time.
+	
+		
+			        If the registrar for your domain is also the DNS service provider for the domain and you don't
+				transfer DNS service to another provider, your website, email, and the web applications associated with the domain
+				might become unavailable.
+		
+	
+	       If the transfer is successful, this method returns an operation ID that you can use to track the progress and
+		completion of the action. If the transfer doesn't complete successfully, the domain registrant will be notified by email.
+```
+
+### transferDomainToAnotherAwsAccount(input:​completion:​)
+
+Transfers a domain from the current AWS account to another AWS account. Note the following:​
+
+``` swift
+func transferDomainToAnotherAwsAccount(input: TransferDomainToAnotherAwsAccountInput, completion: @escaping (ClientRuntime.SdkResult<TransferDomainToAnotherAwsAccountOutputResponse, TransferDomainToAnotherAwsAccountOutputError>) -> Void)
+```
+
+``` 
+           The AWS account that you're transferring the domain to must accept the transfer. If the other account
+			doesn't accept the transfer within 3 days, we cancel the transfer. See
+			<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html">AcceptDomainTransferFromAnotherAwsAccount.
+			
+		
+
+           You can cancel the transfer before the other account accepts it. See
+			<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_CancelDomainTransferToAnotherAwsAccount.html">CancelDomainTransferToAnotherAwsAccount.
+			
+		
+
+           The other account can reject the transfer. See
+				<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_RejectDomainTransferFromAnotherAwsAccount.html">RejectDomainTransferFromAnotherAwsAccount.
+			
+		
+
+	
+	
+		         When you transfer a domain from one AWS account to another, Route 53 doesn't transfer the hosted zone that is associated
+			with the domain. DNS resolution isn't affected if the domain and the hosted zone are owned by separate accounts,
+			so transferring the hosted zone is optional. For information about transferring the hosted zone to another AWS account, see
+			<a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-migrating.html">Migrating a Hosted Zone to a
+			Different AWS Account in the Amazon Route 53 Developer Guide.
+	
+	
+	       Use either
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations or
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		to determine whether the operation succeeded.
+		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+		provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
+```
+
+### updateDomainContact(input:​completion:​)
+
+This operation updates the contact information for a particular domain. You must specify information for at least one contact:​
+registrant, administrator, or technical.
+If the update is successful, this method returns an operation ID that you can use to track the progress and completion of the action.
+If the request is not completed successfully, the domain registrant will be notified by email.
+
+``` swift
+func updateDomainContact(input: UpdateDomainContactInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainContactOutputResponse, UpdateDomainContactOutputError>) -> Void)
+```
+
+### updateDomainContactPrivacy(input:​completion:​)
+
+This operation updates the specified domain contact's privacy setting. When privacy protection is enabled,
+contact information such as email address is replaced either with contact information for Amazon Registrar (for .com, .net, and .org
+domains) or with contact information for our registrar associate, Gandi.
+This operation affects only the contact information for the specified contact type (registrant, administrator, or tech).
+If the request succeeds, Amazon Route 53 returns an operation ID that you can use with
+<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail
+to track the progress and completion of the action. If the request doesn't complete successfully, the domain registrant will be notified by email.
+
+``` swift
+func updateDomainContactPrivacy(input: UpdateDomainContactPrivacyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainContactPrivacyOutputResponse, UpdateDomainContactPrivacyOutputError>) -> Void)
+```
+
+``` 
+        By disabling the privacy service via API, you consent to the publication of the contact information provided for this domain
+		via the public WHOIS database. You certify that you are the registrant of this domain name and have the authority to make this decision.
+		You may withdraw your consent at any time by enabling privacy protection using either UpdateDomainContactPrivacy or the
+		Route 53 console. Enabling privacy protection removes the contact information provided for this domain from the WHOIS database.
+		For more information on our privacy practices, see
+		<a href="https://aws.amazon.com/privacy/">https://aws.amazon.com/privacy/.
+```
+
+### updateDomainNameservers(input:​completion:​)
+
+This operation replaces the current set of name servers for the domain with the specified set of name servers.
+If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain.
+If successful, this operation returns an operation ID that you can use to track the progress and completion of the action.
+If the request is not completed successfully, the domain registrant will be notified by email.
+
+``` swift
+func updateDomainNameservers(input: UpdateDomainNameserversInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainNameserversOutputResponse, UpdateDomainNameserversOutputError>) -> Void)
+```
+
+### updateTagsForDomain(input:​completion:​)
+
+This operation adds or updates tags for a specified domain.
+All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
+
+``` swift
+func updateTagsForDomain(input: UpdateTagsForDomainInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTagsForDomainOutputResponse, UpdateTagsForDomainOutputError>) -> Void)
+```
+
+### viewBilling(input:​completion:​)
+
+Returns all the domain-related billing records for the current AWS account for a specified period
+
+``` swift
+func viewBilling(input: ViewBillingInput, completion: @escaping (ClientRuntime.SdkResult<ViewBillingOutputResponse, ViewBillingOutputError>) -> Void)
+```

@@ -1,0 +1,425 @@
+# SnowballClient
+
+``` swift
+public class SnowballClient 
+```
+
+## Inheritance
+
+[`SnowballClientProtocol`](/aws-sdk-swift/reference/0.x/AWSSnowball/SnowballClientProtocol)
+
+## Initializers
+
+### `init(config:)`
+
+``` swift
+public init(config: AWSClientRuntime.AWSClientConfiguration) 
+```
+
+### `init(region:)`
+
+``` swift
+public convenience init(region: Swift.String? = nil) throws 
+```
+
+## Methods
+
+### `cancelCluster(input:completion:)`
+
+Cancels a cluster job. You can only cancel a cluster job while it's in the
+AwaitingQuorum status. You'll have at least an hour after creating a cluster
+job to cancel it.
+
+``` swift
+public func cancelCluster(input: CancelClusterInput, completion: @escaping (ClientRuntime.SdkResult<CancelClusterOutputResponse, CancelClusterOutputError>) -> Void)
+```
+
+### `cancelJob(input:completion:)`
+
+Cancels the specified job. You can only cancel a job before its JobState
+value changes to PreparingAppliance. Requesting the ListJobs or
+DescribeJob action returns a job's JobState as part of the
+response element data returned.
+
+``` swift
+public func cancelJob(input: CancelJobInput, completion: @escaping (ClientRuntime.SdkResult<CancelJobOutputResponse, CancelJobOutputError>) -> Void)
+```
+
+### `createAddress(input:completion:)`
+
+Creates an address for a Snow device to be shipped to. In most regions,
+addresses are validated at the time of creation. The address you provide must be located
+within the serviceable area of your region. If the address is invalid or unsupported, then an
+exception is thrown.
+
+``` swift
+public func createAddress(input: CreateAddressInput, completion: @escaping (ClientRuntime.SdkResult<CreateAddressOutputResponse, CreateAddressOutputError>) -> Void)
+```
+
+### `createCluster(input:completion:)`
+
+Creates an empty cluster. Each cluster supports five nodes. You use the CreateJob action separately to create the jobs for each of these nodes. The
+cluster does not ship until these five node jobs have been created.
+
+``` swift
+public func createCluster(input: CreateClusterInput, completion: @escaping (ClientRuntime.SdkResult<CreateClusterOutputResponse, CreateClusterOutputError>) -> Void)
+```
+
+### `createJob(input:completion:)`
+
+Creates a job to import or export data between Amazon S3 and your on-premises data
+center. Your AWS account must have the right trust policies and permissions in place to create
+a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide
+the clusterId value; the other job attributes are inherited from the cluster.
+
+``` swift
+public func createJob(input: CreateJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateJobOutputResponse, CreateJobOutputError>) -> Void)
+```
+
+``` 
+        Only the Snowball; Edge device type is supported when ordering clustered jobs.
+        The device capacity is optional.
+        Availability of device types differ by AWS Region. For more information about Region
+    availability, see <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&loc=4">AWS Regional Services.
+
+
+
+
+     <p class="title">
+        AWS Snow Family device types and their capacities.
+
+
+
+           Snow Family device type: SNC1_SSD
+
+
+
+                 Capacity: T14
+
+
+                 Description: Snowcone
+
+
+
+
+
+
+           Snow Family device type: SNC1_HDD
+
+
+
+                 Capacity: T8
+
+
+                 Description: Snowcone
+
+
+
+
+
+           Device type: EDGE_S
+
+
+
+                 Capacity: T98
+
+
+                 Description: Snowball Edge Storage Optimized for data transfer only
+
+
+
+
+
+
+
+           Device type: EDGE_CG
+
+
+
+                 Capacity: T42
+
+
+                 Description: Snowball Edge Compute Optimized with GPU
+
+
+
+
+
+           Device type: EDGE_C
+
+
+
+                 Capacity: T42
+
+
+                 Description: Snowball Edge Compute Optimized without GPU
+
+
+
+
+
+           Device type: EDGE
+
+
+
+                 Capacity: T100
+
+
+                 Description: Snowball Edge Storage Optimized with EC2 Compute
+
+
+
+
+
+           Device type: STANDARD
+
+
+
+                 Capacity: T50
+
+
+                 Description: Original Snowball device
+
+                    This device is only available in the Ningxia, Beijing, and Singapore AWS Regions.
+
+
+
+
+
+
+           Device type: STANDARD
+
+
+
+                 Capacity: T80
+
+
+                 Description: Original Snowball device
+
+                    This device is only available in the Ningxia, Beijing, and Singapore AWS Regions.
+```
+
+### `createLongTermPricing(input:completion:)`
+
+Creates a job with the long-term usage option for a device. The long-term usage is a
+1-year or 3-year long-term pricing type for the device. You are billed upfront, and AWS
+provides discounts for long-term pricing.
+
+``` swift
+public func createLongTermPricing(input: CreateLongTermPricingInput, completion: @escaping (ClientRuntime.SdkResult<CreateLongTermPricingOutputResponse, CreateLongTermPricingOutputError>) -> Void)
+```
+
+### `createReturnShippingLabel(input:completion:)`
+
+Creates a shipping label that will be used to return the Snow device to AWS.
+
+``` swift
+public func createReturnShippingLabel(input: CreateReturnShippingLabelInput, completion: @escaping (ClientRuntime.SdkResult<CreateReturnShippingLabelOutputResponse, CreateReturnShippingLabelOutputError>) -> Void)
+```
+
+### `describeAddress(input:completion:)`
+
+Takes an AddressId and returns specific details about that address in the
+form of an Address object.
+
+``` swift
+public func describeAddress(input: DescribeAddressInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAddressOutputResponse, DescribeAddressOutputError>) -> Void)
+```
+
+### `describeAddresses(input:completion:)`
+
+Returns a specified number of ADDRESS objects. Calling this API in one of
+the US regions will return addresses from the list of all addresses associated with this
+account in all US regions.
+
+``` swift
+public func describeAddresses(input: DescribeAddressesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAddressesOutputResponse, DescribeAddressesOutputError>) -> Void)
+```
+
+### `describeCluster(input:completion:)`
+
+Returns information about a specific cluster including shipping information, cluster
+status, and other important metadata.
+
+``` swift
+public func describeCluster(input: DescribeClusterInput, completion: @escaping (ClientRuntime.SdkResult<DescribeClusterOutputResponse, DescribeClusterOutputError>) -> Void)
+```
+
+### `describeJob(input:completion:)`
+
+Returns information about a specific job including shipping information, job status,
+and other important metadata.
+
+``` swift
+public func describeJob(input: DescribeJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeJobOutputResponse, DescribeJobOutputError>) -> Void)
+```
+
+### `describeReturnShippingLabel(input:completion:)`
+
+Information on the shipping label of a Snow device that is being returned to AWS.
+
+``` swift
+public func describeReturnShippingLabel(input: DescribeReturnShippingLabelInput, completion: @escaping (ClientRuntime.SdkResult<DescribeReturnShippingLabelOutputResponse, DescribeReturnShippingLabelOutputError>) -> Void)
+```
+
+### `getJobManifest(input:completion:)`
+
+Returns a link to an Amazon S3 presigned URL for the manifest file associated with the
+specified JobId value. You can access the manifest file for up to 60 minutes
+after this request has been made. To access the manifest file after 60 minutes have passed,
+you'll have to make another call to the GetJobManifest action.
+
+``` swift
+public func getJobManifest(input: GetJobManifestInput, completion: @escaping (ClientRuntime.SdkResult<GetJobManifestOutputResponse, GetJobManifestOutputError>) -> Void)
+```
+
+``` 
+     The manifest is an encrypted file that you can download after your job enters the
+    WithCustomer status. The manifest is decrypted by using the
+  UnlockCode code value, when you pass both values to the Snow device through the
+  Snowball client when the client is started for the first time.
+
+
+     As a best practice, we recommend that you don't save a copy of an
+    UnlockCode value in the same location as the manifest file for that job. Saving
+  these separately helps prevent unauthorized parties from gaining access to the Snow device
+  associated with that job.
+
+
+     The credentials of a given job, including its manifest file and unlock code, expire 360
+  days after the job is created.
+```
+
+### `getJobUnlockCode(input:completion:)`
+
+Returns the UnlockCode code value for the specified job. A particular
+UnlockCode value can be accessed for up to 360 days after the associated job
+has been created.
+
+``` swift
+public func getJobUnlockCode(input: GetJobUnlockCodeInput, completion: @escaping (ClientRuntime.SdkResult<GetJobUnlockCodeOutputResponse, GetJobUnlockCodeOutputError>) -> Void)
+```
+
+``` 
+     The UnlockCode value is a 29-character code with 25 alphanumeric
+  characters and 4 hyphens. This code is used to decrypt the manifest file when it is passed
+  along with the manifest to the Snow device through the Snowball client when the client is started
+  for the first time.
+
+     As a best practice, we recommend that you don't save a copy of the
+    UnlockCode in the same location as the manifest file for that job. Saving these
+  separately helps prevent unauthorized parties from gaining access to the Snow device associated
+  with that job.
+```
+
+### `getSnowballUsage(input:completion:)`
+
+Returns information about the Snow Family service limit for your account, and also the
+number of Snow devices your account has in use.
+
+``` swift
+public func getSnowballUsage(input: GetSnowballUsageInput, completion: @escaping (ClientRuntime.SdkResult<GetSnowballUsageOutputResponse, GetSnowballUsageOutputError>) -> Void)
+```
+
+``` 
+     The default service limit for the number of Snow devices that you can have at one time is
+  1. If you want to increase your service limit, contact AWS Support.
+```
+
+### `getSoftwareUpdates(input:completion:)`
+
+Returns an Amazon S3 presigned URL for an update file associated with a specified
+JobId.
+
+``` swift
+public func getSoftwareUpdates(input: GetSoftwareUpdatesInput, completion: @escaping (ClientRuntime.SdkResult<GetSoftwareUpdatesOutputResponse, GetSoftwareUpdatesOutputError>) -> Void)
+```
+
+### `listClusterJobs(input:completion:)`
+
+Returns an array of JobListEntry objects of the specified length. Each
+JobListEntry object is for a job in the specified cluster and contains a job's
+state, a job's ID, and other information.
+
+``` swift
+public func listClusterJobs(input: ListClusterJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListClusterJobsOutputResponse, ListClusterJobsOutputError>) -> Void)
+```
+
+### `listClusters(input:completion:)`
+
+Returns an array of ClusterListEntry objects of the specified length. Each
+ClusterListEntry object contains a cluster's state, a cluster's ID, and other
+important status information.
+
+``` swift
+public func listClusters(input: ListClustersInput, completion: @escaping (ClientRuntime.SdkResult<ListClustersOutputResponse, ListClustersOutputError>) -> Void)
+```
+
+### `listCompatibleImages(input:completion:)`
+
+This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs)
+that are owned by your AWS account that would be supported for use on a Snow device.
+Currently, supported AMIs are based on the CentOS 7 (x86\_64) - with Updates HVM, Ubuntu Server
+14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS
+Marketplace.
+
+``` swift
+public func listCompatibleImages(input: ListCompatibleImagesInput, completion: @escaping (ClientRuntime.SdkResult<ListCompatibleImagesOutputResponse, ListCompatibleImagesOutputError>) -> Void)
+```
+
+### `listJobs(input:completion:)`
+
+Returns an array of JobListEntry objects of the specified length. Each
+JobListEntry object contains a job's state, a job's ID, and a value that
+indicates whether the job is a job part, in the case of export jobs. Calling this API action
+in one of the US regions will return jobs from the list of all jobs associated with this
+account in all US regions.
+
+``` swift
+public func listJobs(input: ListJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListJobsOutputResponse, ListJobsOutputError>) -> Void)
+```
+
+### `listLongTermPricing(input:completion:)`
+
+Lists all long-term pricing types.
+
+``` swift
+public func listLongTermPricing(input: ListLongTermPricingInput, completion: @escaping (ClientRuntime.SdkResult<ListLongTermPricingOutputResponse, ListLongTermPricingOutputError>) -> Void)
+```
+
+### `updateCluster(input:completion:)`
+
+While a cluster's ClusterState value is in the AwaitingQuorum
+state, you can update some of the information associated with a cluster. Once the cluster
+changes to a different job state, usually 60 minutes after the cluster being created, this
+action is no longer available.
+
+``` swift
+public func updateCluster(input: UpdateClusterInput, completion: @escaping (ClientRuntime.SdkResult<UpdateClusterOutputResponse, UpdateClusterOutputError>) -> Void)
+```
+
+### `updateJob(input:completion:)`
+
+While a job's JobState value is New, you can update some of
+the information associated with a job. Once the job changes to a different job state, usually
+within 60 minutes of the job being created, this action is no longer available.
+
+``` swift
+public func updateJob(input: UpdateJobInput, completion: @escaping (ClientRuntime.SdkResult<UpdateJobOutputResponse, UpdateJobOutputError>) -> Void)
+```
+
+### `updateJobShipmentState(input:completion:)`
+
+Updates the state when a shipment state changes to a different state.
+
+``` swift
+public func updateJobShipmentState(input: UpdateJobShipmentStateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateJobShipmentStateOutputResponse, UpdateJobShipmentStateOutputError>) -> Void)
+```
+
+### `updateLongTermPricing(input:completion:)`
+
+Updates the long-term pricing type.
+
+``` swift
+public func updateLongTermPricing(input: UpdateLongTermPricingInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLongTermPricingOutputResponse, UpdateLongTermPricingOutputError>) -> Void)
+```

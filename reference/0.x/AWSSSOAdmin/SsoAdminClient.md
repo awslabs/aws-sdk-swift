@@ -1,0 +1,330 @@
+# SsoAdminClient
+
+``` swift
+public class SsoAdminClient 
+```
+
+## Inheritance
+
+[`SsoAdminClientProtocol`](/aws-sdk-swift/reference/0.x/AWSSSOAdmin/SsoAdminClientProtocol)
+
+## Initializers
+
+### `init(config:)`
+
+``` swift
+public init(config: AWSClientRuntime.AWSClientConfiguration) 
+```
+
+### `init(region:)`
+
+``` swift
+public convenience init(region: Swift.String? = nil) throws 
+```
+
+## Methods
+
+### `attachManagedPolicyToPermissionSet(input:completion:)`
+
+Attaches an IAM managed policy ARN to a permission set.
+
+``` swift
+public func attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>) -> Void)
+```
+
+``` 
+        If the permission set is already referenced by one or more account assignments, you will
+    need to call
+              ProvisionPermissionSet
+            after this operation.
+    Calling ProvisionPermissionSet applies the corresponding IAM policy updates to
+    all assigned accounts.
+```
+
+### `createAccountAssignment(input:completion:)`
+
+Assigns access to a principal for a specified Amazon Web Services account using a specified permission
+set.
+
+``` swift
+public func createAccountAssignment(input: CreateAccountAssignmentInput, completion: @escaping (ClientRuntime.SdkResult<CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>) -> Void)
+```
+
+``` 
+        The term principal here refers to a user or group that is defined
+    in Amazon Web Services SSO.
+
+
+        As part of a successful CreateAccountAssignment call, the specified
+    permission set will automatically be provisioned to the account in the form of an IAM
+    policy. That policy is attached to the SSO-created IAM role. If the permission set is
+    subsequently updated, the corresponding IAM policies attached to roles in your accounts will
+    not be updated automatically. In this case, you must call
+              ProvisionPermissionSet
+            to make these updates.
+```
+
+### `createInstanceAccessControlAttributeConfiguration(input:completion:)`
+
+Enables the attributes-based access control (ABAC) feature for the specified Amazon Web Services SSO
+instance. You can also specify new attributes to add to your ABAC configuration during the
+enabling process. For more information about ABAC, see <a href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+
+``` swift
+public func createInstanceAccessControlAttributeConfiguration(input: CreateInstanceAccessControlAttributeConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>) -> Void)
+```
+
+### `createPermissionSet(input:completion:)`
+
+Creates a permission set within a specified SSO instance.
+
+``` swift
+public func createPermissionSet(input: CreatePermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>) -> Void)
+```
+
+``` 
+        To grant users and groups access to Amazon Web Services account resources, use
+              CreateAccountAssignment
+           .
+```
+
+### `deleteAccountAssignment(input:completion:)`
+
+Deletes a principal's access from a specified Amazon Web Services account using a specified permission
+set.
+
+``` swift
+public func deleteAccountAssignment(input: DeleteAccountAssignmentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>) -> Void)
+```
+
+### `deleteInlinePolicyFromPermissionSet(input:completion:)`
+
+Deletes the inline policy from a specified permission set.
+
+``` swift
+public func deleteInlinePolicyFromPermissionSet(input: DeleteInlinePolicyFromPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>) -> Void)
+```
+
+### `deleteInstanceAccessControlAttributeConfiguration(input:completion:)`
+
+Disables the attributes-based access control (ABAC) feature for the specified Amazon Web Services SSO
+instance and deletes all of the attribute mappings that have been configured. Once deleted,
+any attributes that are received from an identity source and any custom attributes you have
+previously configured will not be passed. For more information about ABAC, see <a href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+
+``` swift
+public func deleteInstanceAccessControlAttributeConfiguration(input: DeleteInstanceAccessControlAttributeConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>) -> Void)
+```
+
+### `deletePermissionSet(input:completion:)`
+
+Deletes the specified permission set.
+
+``` swift
+public func deletePermissionSet(input: DeletePermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>) -> Void)
+```
+
+### `describeAccountAssignmentCreationStatus(input:completion:)`
+
+Describes the status of the assignment creation request.
+
+``` swift
+public func describeAccountAssignmentCreationStatus(input: DescribeAccountAssignmentCreationStatusInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>) -> Void)
+```
+
+### `describeAccountAssignmentDeletionStatus(input:completion:)`
+
+Describes the status of the assignment deletion request.
+
+``` swift
+public func describeAccountAssignmentDeletionStatus(input: DescribeAccountAssignmentDeletionStatusInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>) -> Void)
+```
+
+### `describeInstanceAccessControlAttributeConfiguration(input:completion:)`
+
+Returns the list of Amazon Web Services SSO identity store attributes that have been configured to
+work with attributes-based access control (ABAC) for the specified Amazon Web Services SSO instance. This
+will not return attributes configured and sent by an external identity provider.
+For more information about ABAC, see <a href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+
+``` swift
+public func describeInstanceAccessControlAttributeConfiguration(input: DescribeInstanceAccessControlAttributeConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>) -> Void)
+```
+
+### `describePermissionSet(input:completion:)`
+
+Gets the details of the permission set.
+
+``` swift
+public func describePermissionSet(input: DescribePermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>) -> Void)
+```
+
+### `describePermissionSetProvisioningStatus(input:completion:)`
+
+Describes the status for the given permission set provisioning request.
+
+``` swift
+public func describePermissionSetProvisioningStatus(input: DescribePermissionSetProvisioningStatusInput, completion: @escaping (ClientRuntime.SdkResult<DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>) -> Void)
+```
+
+### `detachManagedPolicyFromPermissionSet(input:completion:)`
+
+Detaches the attached IAM managed policy ARN from the specified permission set.
+
+``` swift
+public func detachManagedPolicyFromPermissionSet(input: DetachManagedPolicyFromPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>) -> Void)
+```
+
+### `getInlinePolicyForPermissionSet(input:completion:)`
+
+Obtains the inline policy assigned to the permission set.
+
+``` swift
+public func getInlinePolicyForPermissionSet(input: GetInlinePolicyForPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>) -> Void)
+```
+
+### `listAccountAssignmentCreationStatus(input:completion:)`
+
+Lists the status of the Amazon Web Services account assignment creation requests for a specified SSO
+instance.
+
+``` swift
+public func listAccountAssignmentCreationStatus(input: ListAccountAssignmentCreationStatusInput, completion: @escaping (ClientRuntime.SdkResult<ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>) -> Void)
+```
+
+### `listAccountAssignmentDeletionStatus(input:completion:)`
+
+Lists the status of the Amazon Web Services account assignment deletion requests for a specified SSO
+instance.
+
+``` swift
+public func listAccountAssignmentDeletionStatus(input: ListAccountAssignmentDeletionStatusInput, completion: @escaping (ClientRuntime.SdkResult<ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>) -> Void)
+```
+
+### `listAccountAssignments(input:completion:)`
+
+Lists the assignee of the specified Amazon Web Services account with the specified permission
+set.
+
+``` swift
+public func listAccountAssignments(input: ListAccountAssignmentsInput, completion: @escaping (ClientRuntime.SdkResult<ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>) -> Void)
+```
+
+### `listAccountsForProvisionedPermissionSet(input:completion:)`
+
+Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
+
+``` swift
+public func listAccountsForProvisionedPermissionSet(input: ListAccountsForProvisionedPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>) -> Void)
+```
+
+### `listInstances(input:completion:)`
+
+Lists the SSO instances that the caller has access to.
+
+``` swift
+public func listInstances(input: ListInstancesInput, completion: @escaping (ClientRuntime.SdkResult<ListInstancesOutputResponse, ListInstancesOutputError>) -> Void)
+```
+
+### `listManagedPoliciesInPermissionSet(input:completion:)`
+
+Lists the IAM managed policy that is attached to a specified permission set.
+
+``` swift
+public func listManagedPoliciesInPermissionSet(input: ListManagedPoliciesInPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>) -> Void)
+```
+
+### `listPermissionSetProvisioningStatus(input:completion:)`
+
+Lists the status of the permission set provisioning requests for a specified SSO
+instance.
+
+``` swift
+public func listPermissionSetProvisioningStatus(input: ListPermissionSetProvisioningStatusInput, completion: @escaping (ClientRuntime.SdkResult<ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>) -> Void)
+```
+
+### `listPermissionSets(input:completion:)`
+
+Lists the PermissionSets in an SSO instance.
+
+``` swift
+public func listPermissionSets(input: ListPermissionSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>) -> Void)
+```
+
+### `listPermissionSetsProvisionedToAccount(input:completion:)`
+
+Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
+
+``` swift
+public func listPermissionSetsProvisionedToAccount(input: ListPermissionSetsProvisionedToAccountInput, completion: @escaping (ClientRuntime.SdkResult<ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>) -> Void)
+```
+
+### `listTagsForResource(input:completion:)`
+
+Lists the tags that are attached to a specified resource.
+
+``` swift
+public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
+```
+
+### `provisionPermissionSet(input:completion:)`
+
+The process by which a specified permission set is provisioned to the specified
+target.
+
+``` swift
+public func provisionPermissionSet(input: ProvisionPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>) -> Void)
+```
+
+### `putInlinePolicyToPermissionSet(input:completion:)`
+
+Attaches an IAM inline policy to a permission set.
+
+``` swift
+public func putInlinePolicyToPermissionSet(input: PutInlinePolicyToPermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>) -> Void)
+```
+
+``` 
+        If the permission set is already referenced by one or more account assignments, you will
+    need to call
+              ProvisionPermissionSet
+            after this action to
+    apply the corresponding IAM policy updates to all assigned accounts.
+```
+
+### `tagResource(input:completion:)`
+
+Associates a set of tags with a specified resource.
+
+``` swift
+public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
+```
+
+### `untagResource(input:completion:)`
+
+Disassociates a set of tags from a specified resource.
+
+``` swift
+public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
+```
+
+### `updateInstanceAccessControlAttributeConfiguration(input:completion:)`
+
+Updates the Amazon Web Services SSO identity store attributes that you can use with the Amazon Web Services SSO
+instance for attributes-based access control (ABAC). When using an external identity provider
+as an identity source, you can pass attributes through the SAML assertion as an alternative to
+configuring attributes from the Amazon Web Services SSO identity store. If a SAML assertion passes any of
+these attributes, Amazon Web Services SSO replaces the attribute value with the value from the Amazon Web Services SSO
+identity store. For more information about ABAC, see <a href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+
+``` swift
+public func updateInstanceAccessControlAttributeConfiguration(input: UpdateInstanceAccessControlAttributeConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>) -> Void)
+```
+
+### `updatePermissionSet(input:completion:)`
+
+Updates an existing permission set.
+
+``` swift
+public func updatePermissionSet(input: UpdatePermissionSetInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>) -> Void)
+```

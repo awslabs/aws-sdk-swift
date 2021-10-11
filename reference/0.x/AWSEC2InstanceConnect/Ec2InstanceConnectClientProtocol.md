@@ -1,0 +1,33 @@
+# Ec2InstanceConnectClientProtocol
+
+Amazon EC2 Instance Connect enables system administrators to publish one-time use SSH
+public keys to EC2, providing users a simple and secure way to connect to their
+instances.
+
+``` swift
+public protocol Ec2InstanceConnectClientProtocol 
+```
+
+## Requirements
+
+### sendSerialConsoleSSHPublicKey(input:​completion:​)
+
+Pushes an SSH public key to the specified EC2 instance. The key remains for 60
+seconds, which gives you 60 seconds to establish a serial console connection to the
+instance using SSH. For more information, see <a href="https:​//docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html">EC2 Serial Console in
+the Amazon EC2 User Guide.
+
+``` swift
+func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput, completion: @escaping (ClientRuntime.SdkResult<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>) -> Void)
+```
+
+### sendSSHPublicKey(input:​completion:​)
+
+Pushes an SSH public key to the specified EC2 instance for use by the specified user.
+The key remains for 60 seconds. For more information, see <a href="https:​//docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html">Connect to
+your Linux instance using EC2 Instance Connect in the Amazon EC2
+User Guide.
+
+``` swift
+func sendSSHPublicKey(input: SendSSHPublicKeyInput, completion: @escaping (ClientRuntime.SdkResult<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>) -> Void)
+```

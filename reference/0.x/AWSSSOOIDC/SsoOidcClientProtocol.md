@@ -1,0 +1,54 @@
+# SsoOidcClientProtocol
+
+AWS Single Sign-On (SSO) OpenID Connect (OIDC) is a web service that enables a client
+(such as AWS CLI or a native application) to register with AWS SSO. The service also
+enables the client to fetch the user’s access token upon successful authentication and
+authorization with AWS SSO. This service conforms with the OAuth 2.0 based implementation of
+the device authorization grant standard (<a href="https:​//tools.ietf.org/html/rfc8628">https:​//tools.ietf.org/html/rfc8628).
+
+``` swift
+public protocol SsoOidcClientProtocol 
+```
+
+``` 
+     For general information about AWS SSO, see <a href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">What is AWS
+    Single Sign-On? in the AWS SSO User Guide.
+
+     This API reference guide describes the AWS SSO OIDC operations that you can call
+  programatically and includes detailed information on data types and errors.
+
+
+        AWS provides SDKs that consist of libraries and sample code for various programming
+    languages and platforms such as Java, Ruby, .Net, iOS, and Android. The SDKs provide a
+    convenient way to create programmatic access to AWS SSO and other AWS services. For more
+    information about the AWS SDKs, including how to download and install them, see <a href="http://aws.amazon.com/tools/">Tools for Amazon Web Services.
+```
+
+## Requirements
+
+### createToken(input:​completion:​)
+
+Creates and returns an access token for the authorized client. The access token issued
+will be used to fetch short-term credentials for the assigned roles in the AWS
+account.
+
+``` swift
+func createToken(input: CreateTokenInput, completion: @escaping (ClientRuntime.SdkResult<CreateTokenOutputResponse, CreateTokenOutputError>) -> Void)
+```
+
+### registerClient(input:​completion:​)
+
+Registers a client with AWS SSO. This allows clients to initiate device authorization.
+The output should be persisted for reuse through many authentication requests.
+
+``` swift
+func registerClient(input: RegisterClientInput, completion: @escaping (ClientRuntime.SdkResult<RegisterClientOutputResponse, RegisterClientOutputError>) -> Void)
+```
+
+### startDeviceAuthorization(input:​completion:​)
+
+Initiates device authorization by requesting a pair of verification codes from the authorization service.
+
+``` swift
+func startDeviceAuthorization(input: StartDeviceAuthorizationInput, completion: @escaping (ClientRuntime.SdkResult<StartDeviceAuthorizationOutputResponse, StartDeviceAuthorizationOutputError>) -> Void)
+```

@@ -1,0 +1,369 @@
+# InspectorClient
+
+``` swift
+public class InspectorClient 
+```
+
+## Inheritance
+
+[`InspectorClientProtocol`](/aws-sdk-swift/reference/0.x/AWSInspector/InspectorClientProtocol)
+
+## Initializers
+
+### `init(config:)`
+
+``` swift
+public init(config: AWSClientRuntime.AWSClientConfiguration) 
+```
+
+### `init(region:)`
+
+``` swift
+public convenience init(region: Swift.String? = nil) throws 
+```
+
+## Methods
+
+### `addAttributesToFindings(input:completion:)`
+
+Assigns attributes (key and value pairs) to the findings that are specified by the
+ARNs of the findings.
+
+``` swift
+public func addAttributesToFindings(input: AddAttributesToFindingsInput, completion: @escaping (ClientRuntime.SdkResult<AddAttributesToFindingsOutputResponse, AddAttributesToFindingsOutputError>) -> Void)
+```
+
+### `createAssessmentTarget(input:completion:)`
+
+Creates a new assessment target using the ARN of the resource group that is generated
+by CreateResourceGroup. If resourceGroupArn is not specified, all EC2
+instances in the current AWS account and region are included in the assessment target. If
+the <a href="https:​//docs.aws.amazon.com/inspector/latest/userguide/inspector_slr.html">service-linked role isn’t already registered, this action also creates and
+registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
+perform security assessments. You can create up to 50 assessment targets per AWS account.
+You can run up to 500 concurrent agents per AWS account. For more information, see <a href="https:​//docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html">
+Amazon Inspector Assessment Targets.
+
+``` swift
+public func createAssessmentTarget(input: CreateAssessmentTargetInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssessmentTargetOutputResponse, CreateAssessmentTargetOutputError>) -> Void)
+```
+
+### `createAssessmentTemplate(input:completion:)`
+
+Creates an assessment template for the assessment target that is specified by the ARN
+of the assessment target. If the <a href="https:​//docs.aws.amazon.com/inspector/latest/userguide/inspector_slr.html">service-linked role isn’t already registered, this action also creates and
+registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
+perform security assessments.
+
+``` swift
+public func createAssessmentTemplate(input: CreateAssessmentTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssessmentTemplateOutputResponse, CreateAssessmentTemplateOutputError>) -> Void)
+```
+
+### `createExclusionsPreview(input:completion:)`
+
+Starts the generation of an exclusions preview for the specified assessment template.
+The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can
+detect before it runs the assessment.
+
+``` swift
+public func createExclusionsPreview(input: CreateExclusionsPreviewInput, completion: @escaping (ClientRuntime.SdkResult<CreateExclusionsPreviewOutputResponse, CreateExclusionsPreviewOutputError>) -> Void)
+```
+
+### `createResourceGroup(input:completion:)`
+
+Creates a resource group using the specified set of tags (key and value pairs) that
+are used to select the EC2 instances to be included in an Amazon Inspector assessment
+target. The created resource group is then used to create an Amazon Inspector assessment
+target. For more information, see CreateAssessmentTarget.
+
+``` swift
+public func createResourceGroup(input: CreateResourceGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateResourceGroupOutputResponse, CreateResourceGroupOutputError>) -> Void)
+```
+
+### `deleteAssessmentRun(input:completion:)`
+
+Deletes the assessment run that is specified by the ARN of the assessment
+run.
+
+``` swift
+public func deleteAssessmentRun(input: DeleteAssessmentRunInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssessmentRunOutputResponse, DeleteAssessmentRunOutputError>) -> Void)
+```
+
+### `deleteAssessmentTarget(input:completion:)`
+
+Deletes the assessment target that is specified by the ARN of the assessment
+target.
+
+``` swift
+public func deleteAssessmentTarget(input: DeleteAssessmentTargetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssessmentTargetOutputResponse, DeleteAssessmentTargetOutputError>) -> Void)
+```
+
+### `deleteAssessmentTemplate(input:completion:)`
+
+Deletes the assessment template that is specified by the ARN of the assessment
+template.
+
+``` swift
+public func deleteAssessmentTemplate(input: DeleteAssessmentTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssessmentTemplateOutputResponse, DeleteAssessmentTemplateOutputError>) -> Void)
+```
+
+### `describeAssessmentRuns(input:completion:)`
+
+Describes the assessment runs that are specified by the ARNs of the assessment
+runs.
+
+``` swift
+public func describeAssessmentRuns(input: DescribeAssessmentRunsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAssessmentRunsOutputResponse, DescribeAssessmentRunsOutputError>) -> Void)
+```
+
+### `describeAssessmentTargets(input:completion:)`
+
+Describes the assessment targets that are specified by the ARNs of the assessment
+targets.
+
+``` swift
+public func describeAssessmentTargets(input: DescribeAssessmentTargetsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAssessmentTargetsOutputResponse, DescribeAssessmentTargetsOutputError>) -> Void)
+```
+
+### `describeAssessmentTemplates(input:completion:)`
+
+Describes the assessment templates that are specified by the ARNs of the assessment
+templates.
+
+``` swift
+public func describeAssessmentTemplates(input: DescribeAssessmentTemplatesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAssessmentTemplatesOutputResponse, DescribeAssessmentTemplatesOutputError>) -> Void)
+```
+
+### `describeCrossAccountAccessRole(input:completion:)`
+
+Describes the IAM role that enables Amazon Inspector to access your AWS
+account.
+
+``` swift
+public func describeCrossAccountAccessRole(input: DescribeCrossAccountAccessRoleInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCrossAccountAccessRoleOutputResponse, DescribeCrossAccountAccessRoleOutputError>) -> Void)
+```
+
+### `describeExclusions(input:completion:)`
+
+Describes the exclusions that are specified by the exclusions' ARNs.
+
+``` swift
+public func describeExclusions(input: DescribeExclusionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeExclusionsOutputResponse, DescribeExclusionsOutputError>) -> Void)
+```
+
+### `describeFindings(input:completion:)`
+
+Describes the findings that are specified by the ARNs of the findings.
+
+``` swift
+public func describeFindings(input: DescribeFindingsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFindingsOutputResponse, DescribeFindingsOutputError>) -> Void)
+```
+
+### `describeResourceGroups(input:completion:)`
+
+Describes the resource groups that are specified by the ARNs of the resource
+groups.
+
+``` swift
+public func describeResourceGroups(input: DescribeResourceGroupsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeResourceGroupsOutputResponse, DescribeResourceGroupsOutputError>) -> Void)
+```
+
+### `describeRulesPackages(input:completion:)`
+
+Describes the rules packages that are specified by the ARNs of the rules
+packages.
+
+``` swift
+public func describeRulesPackages(input: DescribeRulesPackagesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRulesPackagesOutputResponse, DescribeRulesPackagesOutputError>) -> Void)
+```
+
+### `getAssessmentReport(input:completion:)`
+
+Produces an assessment report that includes detailed and comprehensive results of a
+specified assessment run.
+
+``` swift
+public func getAssessmentReport(input: GetAssessmentReportInput, completion: @escaping (ClientRuntime.SdkResult<GetAssessmentReportOutputResponse, GetAssessmentReportOutputError>) -> Void)
+```
+
+### `getExclusionsPreview(input:completion:)`
+
+Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by
+the preview token. You can obtain the preview token by running the CreateExclusionsPreview
+API.
+
+``` swift
+public func getExclusionsPreview(input: GetExclusionsPreviewInput, completion: @escaping (ClientRuntime.SdkResult<GetExclusionsPreviewOutputResponse, GetExclusionsPreviewOutputError>) -> Void)
+```
+
+### `getTelemetryMetadata(input:completion:)`
+
+Information about the data that is collected for the specified assessment
+run.
+
+``` swift
+public func getTelemetryMetadata(input: GetTelemetryMetadataInput, completion: @escaping (ClientRuntime.SdkResult<GetTelemetryMetadataOutputResponse, GetTelemetryMetadataOutputError>) -> Void)
+```
+
+### `listAssessmentRunAgents(input:completion:)`
+
+Lists the agents of the assessment runs that are specified by the ARNs of the
+assessment runs.
+
+``` swift
+public func listAssessmentRunAgents(input: ListAssessmentRunAgentsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssessmentRunAgentsOutputResponse, ListAssessmentRunAgentsOutputError>) -> Void)
+```
+
+### `listAssessmentRuns(input:completion:)`
+
+Lists the assessment runs that correspond to the assessment templates that are
+specified by the ARNs of the assessment templates.
+
+``` swift
+public func listAssessmentRuns(input: ListAssessmentRunsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssessmentRunsOutputResponse, ListAssessmentRunsOutputError>) -> Void)
+```
+
+### `listAssessmentTargets(input:completion:)`
+
+Lists the ARNs of the assessment targets within this AWS account. For more
+information about assessment targets, see <a href="https:​//docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html">Amazon Inspector Assessment
+Targets.
+
+``` swift
+public func listAssessmentTargets(input: ListAssessmentTargetsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssessmentTargetsOutputResponse, ListAssessmentTargetsOutputError>) -> Void)
+```
+
+### `listAssessmentTemplates(input:completion:)`
+
+Lists the assessment templates that correspond to the assessment targets that are
+specified by the ARNs of the assessment targets.
+
+``` swift
+public func listAssessmentTemplates(input: ListAssessmentTemplatesInput, completion: @escaping (ClientRuntime.SdkResult<ListAssessmentTemplatesOutputResponse, ListAssessmentTemplatesOutputError>) -> Void)
+```
+
+### `listEventSubscriptions(input:completion:)`
+
+Lists all the event subscriptions for the assessment template that is specified by
+the ARN of the assessment template. For more information, see SubscribeToEvent and UnsubscribeFromEvent.
+
+``` swift
+public func listEventSubscriptions(input: ListEventSubscriptionsInput, completion: @escaping (ClientRuntime.SdkResult<ListEventSubscriptionsOutputResponse, ListEventSubscriptionsOutputError>) -> Void)
+```
+
+### `listExclusions(input:completion:)`
+
+List exclusions that are generated by the assessment run.
+
+``` swift
+public func listExclusions(input: ListExclusionsInput, completion: @escaping (ClientRuntime.SdkResult<ListExclusionsOutputResponse, ListExclusionsOutputError>) -> Void)
+```
+
+### `listFindings(input:completion:)`
+
+Lists findings that are generated by the assessment runs that are specified by the
+ARNs of the assessment runs.
+
+``` swift
+public func listFindings(input: ListFindingsInput, completion: @escaping (ClientRuntime.SdkResult<ListFindingsOutputResponse, ListFindingsOutputError>) -> Void)
+```
+
+### `listRulesPackages(input:completion:)`
+
+Lists all available Amazon Inspector rules packages.
+
+``` swift
+public func listRulesPackages(input: ListRulesPackagesInput, completion: @escaping (ClientRuntime.SdkResult<ListRulesPackagesOutputResponse, ListRulesPackagesOutputError>) -> Void)
+```
+
+### `listTagsForResource(input:completion:)`
+
+Lists all tags associated with an assessment template.
+
+``` swift
+public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
+```
+
+### `previewAgents(input:completion:)`
+
+Previews the agents installed on the EC2 instances that are part of the specified
+assessment target.
+
+``` swift
+public func previewAgents(input: PreviewAgentsInput, completion: @escaping (ClientRuntime.SdkResult<PreviewAgentsOutputResponse, PreviewAgentsOutputError>) -> Void)
+```
+
+### `registerCrossAccountAccessRole(input:completion:)`
+
+Registers the IAM role that grants Amazon Inspector access to AWS Services needed to
+perform security assessments.
+
+``` swift
+public func registerCrossAccountAccessRole(input: RegisterCrossAccountAccessRoleInput, completion: @escaping (ClientRuntime.SdkResult<RegisterCrossAccountAccessRoleOutputResponse, RegisterCrossAccountAccessRoleOutputError>) -> Void)
+```
+
+### `removeAttributesFromFindings(input:completion:)`
+
+Removes entire attributes (key and value pairs) from the findings that are specified
+by the ARNs of the findings where an attribute with the specified key exists.
+
+``` swift
+public func removeAttributesFromFindings(input: RemoveAttributesFromFindingsInput, completion: @escaping (ClientRuntime.SdkResult<RemoveAttributesFromFindingsOutputResponse, RemoveAttributesFromFindingsOutputError>) -> Void)
+```
+
+### `setTagsForResource(input:completion:)`
+
+Sets tags (key and value pairs) to the assessment template that is specified by the
+ARN of the assessment template.
+
+``` swift
+public func setTagsForResource(input: SetTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<SetTagsForResourceOutputResponse, SetTagsForResourceOutputError>) -> Void)
+```
+
+### `startAssessmentRun(input:completion:)`
+
+Starts the assessment run specified by the ARN of the assessment template. For this
+API to function properly, you must not exceed the limit of running up to 500 concurrent
+agents per AWS account.
+
+``` swift
+public func startAssessmentRun(input: StartAssessmentRunInput, completion: @escaping (ClientRuntime.SdkResult<StartAssessmentRunOutputResponse, StartAssessmentRunOutputError>) -> Void)
+```
+
+### `stopAssessmentRun(input:completion:)`
+
+Stops the assessment run that is specified by the ARN of the assessment
+run.
+
+``` swift
+public func stopAssessmentRun(input: StopAssessmentRunInput, completion: @escaping (ClientRuntime.SdkResult<StopAssessmentRunOutputResponse, StopAssessmentRunOutputError>) -> Void)
+```
+
+### `subscribeToEvent(input:completion:)`
+
+Enables the process of sending Amazon Simple Notification Service (SNS) notifications
+about a specified event to a specified SNS topic.
+
+``` swift
+public func subscribeToEvent(input: SubscribeToEventInput, completion: @escaping (ClientRuntime.SdkResult<SubscribeToEventOutputResponse, SubscribeToEventOutputError>) -> Void)
+```
+
+### `unsubscribeFromEvent(input:completion:)`
+
+Disables the process of sending Amazon Simple Notification Service (SNS)
+notifications about a specified event to a specified SNS topic.
+
+``` swift
+public func unsubscribeFromEvent(input: UnsubscribeFromEventInput, completion: @escaping (ClientRuntime.SdkResult<UnsubscribeFromEventOutputResponse, UnsubscribeFromEventOutputError>) -> Void)
+```
+
+### `updateAssessmentTarget(input:completion:)`
+
+Updates the assessment target that is specified by the ARN of the assessment
+target.
+If resourceGroupArn is not specified, all EC2 instances in the current AWS account
+and region are included in the assessment target.
+
+``` swift
+public func updateAssessmentTarget(input: UpdateAssessmentTargetInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssessmentTargetOutputResponse, UpdateAssessmentTargetOutputError>) -> Void)
+```
