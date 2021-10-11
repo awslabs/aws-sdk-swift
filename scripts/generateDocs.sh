@@ -32,6 +32,10 @@ if [ -d ${OUTDIR_PREFIX} ]; then
     exit 1
 fi
 
+for todel in `find ${RELDIR} | grep "Models\.swift"`; do
+    rm -f ${todel}
+done
+
 for sdk in `ls ${RELDIR} | grep -e "^AWS"`; do
     OUTDIR="${OUTDIR_PREFIX}/${sdk}"
     echo "Generating ${sdk}: ${OUTDIR}"
