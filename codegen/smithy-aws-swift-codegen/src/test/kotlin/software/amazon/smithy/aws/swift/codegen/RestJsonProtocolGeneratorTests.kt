@@ -155,9 +155,10 @@ class RestJsonProtocolGeneratorTests {
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
                         region: Swift.String? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
-                        signingRegion: Swift.String? = nil
+                        signingRegion: Swift.String? = nil,
+                        clientLogMode: ClientRuntime.ClientLogMode = .request
                     ) throws {
-                        let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
+                        let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient", clientLogMode: clientLogMode)
                         try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
                 }
