@@ -51,8 +51,11 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.openBlock("public convenience init(", ") throws {") {
 
             awsConfigFields.forEachIndexed { index, configField ->
-                val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
-                writer.write("${configField.memberName}: \$D$terminator", configField.type)
+                writer.write("${configField.memberName}: \$D,", configField.type)
+            }
+            val clientLogModeField = runtimeTimeConfigFields.firstOrNull { it.memberName == "clientLogMode" }
+            clientLogModeField?.let {
+                writer.write("${it.memberName}: \$X", it.type)
             }
         }
 
@@ -61,7 +64,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
             configParamValues += "${it.memberName}: ${it.memberName}, "
         }
         writer.indent()
-        writer.write("let defaultRuntimeConfig = try \$N(\"${serviceName}\")", ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration)
+        writer.write("let defaultRuntimeConfig = try \$N(\"${serviceName}\", clientLogMode: clientLogMode)", ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration)
         writer.write("try self.init(${configParamValues}runtimeConfig: defaultRuntimeConfig)")
         writer.dedent().write("}")
     }
@@ -72,7 +75,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
                 REGION_CONFIG_NAME,
                 SwiftTypes.String,
                 "\$T",
-                "The region to send requests to. (Required)"
+                documentation = "The region to send requests to. (Required)"
             ),
             ConfigField(
                 CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
