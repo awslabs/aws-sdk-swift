@@ -35,6 +35,9 @@ appendTstTarget(name: "AWSJson1_1TestSDKTests", path: "\(baseDir)/aws-json-11", 
 appendLibTarget(name: "RestXmlTestSDK", path: "\(baseDir)/rest-xml")
 appendTstTarget(name: "RestXmlTestSDKTests", path: "\(baseDir)/rest-xml", dependency: "RestXmlTestSDK")
 
+appendLibTarget(name: "RestXmlWithNamespaceTestSDK", path: "\(baseDir)/rest-xml-xmlns")
+appendTstTarget(name: "RestXmlWithNamespaceTestSDKTests", path: "\(baseDir)/rest-xml-xmlns", dependency: "RestXmlWithNamespaceTestSDK")
+
 appendLibTarget(name: "AWSQueryTestSDK", path: "\(baseDir)/aws-query")
 appendTstTarget(name: "AWSQueryTestSDKTests", path: "\(baseDir)/aws-query", dependency: "AWSQueryTestSDK")
 
