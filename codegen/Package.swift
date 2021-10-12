@@ -38,6 +38,9 @@ appendTstTarget(name: "RestXmlTestSDKTests", path: "\(baseDir)/rest-xml", depend
 appendLibTarget(name: "RestXmlWithNamespaceTestSDK", path: "\(baseDir)/rest-xml-xmlns")
 appendTstTarget(name: "RestXmlWithNamespaceTestSDKTests", path: "\(baseDir)/rest-xml-xmlns", dependency: "RestXmlWithNamespaceTestSDK")
 
+appendLibTarget(name: "Ec2QueryTestSDK", path: "\(baseDir)/ec2-query")
+appendTstTarget(name: "Ec2QueryTestSDKTests", path: "\(baseDir)/ec2-query", dependency: "Ec2QueryTestSDK")
+
 appendLibTarget(name: "AWSQueryTestSDK", path: "\(baseDir)/aws-query")
 appendTstTarget(name: "AWSQueryTestSDKTests", path: "\(baseDir)/aws-query", dependency: "AWSQueryTestSDK")
 

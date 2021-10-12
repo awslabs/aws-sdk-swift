@@ -64,6 +64,7 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
     }
 
     fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
+        writer.addImport(AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
         writer.write("let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
         bodyMembersWithoutQueryTrait.sorted().forEach {
             writer.write("self.$it = output.errors.error.$it")

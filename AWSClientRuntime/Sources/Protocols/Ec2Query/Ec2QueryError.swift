@@ -16,7 +16,12 @@ public struct Ec2QueryError {
         if case .data(let data) = httpResponse.body,
            let responseBody = data {
             let decoded: Ec2Response = try XMLDecoder().decode(responseBody: responseBody)
-
+            self.errorCode = decoded.errors.error.code
+            self.message = decoded.errors.error.message
+            self.requestId = decoded.requestId
+            return
+        } else if case .stream(let byteStream) = httpResponse.body {
+            let decoded: Ec2Response = try XMLDecoder().decode(responseBody: byteStream.toBytes().toData())
             self.errorCode = decoded.errors.error.code
             self.message = decoded.errors.error.message
             self.requestId = decoded.requestId
