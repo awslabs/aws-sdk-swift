@@ -27,6 +27,12 @@ class RegionTests: XCTestCase {
         let region = DefaultRegionResolver(providers: providers).resolveRegion()
         XCTAssertEqual(region, "us-east-1")
     }
+    
+    func testItResolvesRegionFromProfile() {
+        let providers = [ProfileRegionProvider(path: "/Users/nickik/.aws/config")]
+        let region = DefaultRegionResolver(providers: providers).resolveRegion()
+        XCTAssertEqual(region, "us-west-2")
+    }
 }
 
     
