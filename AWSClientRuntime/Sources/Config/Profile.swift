@@ -10,27 +10,18 @@ public struct Profile {
     public let name: String?
     public let propertyCount: Int
     let crtProfile: CRTAWSProfile?
-    let properties: [String: String]?
     
     init(crtProfile: CRTAWSProfile) {
         self.name = crtProfile.name
         self.propertyCount = crtProfile.propertyCount
         self.crtProfile = crtProfile
-        self.properties = nil
-    }
-    
-    init(name: String, properties: [String: String]) {
-        self.name = name
-        self.properties = properties
-        self.crtProfile = nil
-        self.propertyCount = properties.count
     }
     
     func getProperty(name: String) -> String? {
-        if let crtProfile = crtProfile {
-            let crtProperty = crtProfile.getProperty(name: name)
-            return crtProperty?.value
+        guard let crtProfile = crtProfile else {
+            return nil
         }
-        return properties?[name]
+        let crtProperty = crtProfile.getProperty(name: name)
+        return crtProperty?.value
     }
 }
