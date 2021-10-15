@@ -7,27 +7,25 @@
 import AwsCommonRuntimeKit
 
 public struct ProfileRegionProvider: RegionProvider {
-    let profileCollection: CRTAWSProfileCollection
+    let profileCollection: ProfileCollection
     let profileName: String
-    
     //TODO: expose these config fields up to the sdk so customer can override path and profile name
-    public init(profile: Profile = DefaultProfile()) {
-        self.profileCollection = CRTAWSProfileCollection(fromFile: profile.path, source: .config)
-        self.profileName = profile.profileName
+    public init(profileCollection: ProfileCollection, profileName: String) {
+        self.profileCollection = profileCollection
+        self.profileName = profileName
+    }
+    
+    public init(path: String = "~/.aws/config", profileName: String = "default") {
+        let profileCollection = CRTAWSProfileCollection(fromFile: path, source: .config)
+        
+        self.init(profileCollection: profileCollection, profileName: profileName)
     }
     
     public func resolveRegion() -> String? {
-        guard let profile = profileCollection.getProfile(name: profileName) else {
+        guard let profile = profileCollection.profile(for: profileName) else {
             return nil
         }
-        return profile.getProperty(name: "region")?.value
+        return profile.getProperty(name: "region")
     }
 }
 
-public struct DefaultProfile: Profile {
-    public var path: String = "~/.aws/config"
-    
-    public var profileName: String = "default"
-    
-    public init() {}
-}
