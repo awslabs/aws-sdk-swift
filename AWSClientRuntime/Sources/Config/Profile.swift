@@ -19,7 +19,7 @@ public struct Profile {
         self.properties = nil
     }
     
-    public init(name: String, properties: [String: String]) {
+    init(name: String, properties: [String: String]) {
         self.name = name
         self.properties = properties
         self.crtProfile = nil
