@@ -9,12 +9,13 @@ import AwsCommonRuntimeKit
 public struct ProfileRegionProvider: RegionProvider {
     let profileCollection: ProfileCollection
     let profileName: String
-    //TODO: expose these config fields up to the sdk so customer can override path and profile name
-    public init(profileCollection: ProfileCollection, profileName: String) {
+    
+    init(profileCollection: ProfileCollection, profileName: String) {
         self.profileCollection = profileCollection
         self.profileName = profileName
     }
     
+    //TODO: expose these config fields up to the sdk so customer can override path and profile name
     public init(path: String = "~/.aws/config", profileName: String = "default") {
         let profileCollection = CRTAWSProfileCollection(fromFile: path, source: .config)
         
