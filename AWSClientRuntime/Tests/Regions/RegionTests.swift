@@ -29,16 +29,20 @@ class RegionTests: XCTestCase {
     }
     
     func testItResolvesRegionFromProfile() {
-        let providers = [ProfileRegionProvider(path: "/Users/nickik/.aws/config")]
+        let providers = [ProfileRegionProvider(profile: MockProfile())]
         let region = DefaultRegionResolver(providers: providers).resolveRegion()
         XCTAssertEqual(region, "us-west-2")
     }
 }
-
     
 struct MockEnvironment: Environment {
     let region: String?
     func environmentVariable(key: String) -> String? {
         return region
     }
+}
+
+struct MockProfile: Profile {
+    var path: String = "./config"
+    var profileName: String = "default"
 }
