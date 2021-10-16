@@ -8,8 +8,8 @@
 public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     
-    public init(providers: [RegionProvider] = [EnvironmentRegionProvider()]) {
-        // TODO: add more region resolvers i.e. Profile, etc
+    public init(providers: [RegionProvider] = [EnvironmentRegionProvider(), ProfileRegionProvider()]) {
+        // TODO: add more region resolvers i.e. Imds, System Properties, etc
         self.providers = providers
     }
     
