@@ -31,7 +31,12 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
         do {
             let awsEndpoint = try endpointResolver.resolve(serviceId: serviceId,
                                                            region: region)
-            let host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"
+            var host = ""
+            if let overrideHost = context.getHost() {
+                host = overrideHost
+            } else {
+                host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"
+            }
             
             if let protocolType = awsEndpoint.endpoint.protocolType {
                 input.withProtocol(protocolType)
