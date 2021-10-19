@@ -7,7 +7,6 @@
         
 import AwsCommonRuntimeKit
 import ClientRuntime
-import CloudKit
         
 public struct AWSCredentialsProviderSTSConfig {
     public let shutDownCallback: ShutDownCallback?
