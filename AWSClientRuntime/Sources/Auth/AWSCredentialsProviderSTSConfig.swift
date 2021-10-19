@@ -9,11 +9,11 @@ import AwsCommonRuntimeKit
 import ClientRuntime
         
 public struct AWSCredentialsProviderSTSConfig {
-    public let shutDownCallback: ShutDownCallback?
     public let credentialsProvider: AWSCredentialsProvider
     public let roleArn: String
     public let sessionName: String
     public let durationSeconds: UInt16
+    public let shutDownCallback: ShutDownCallback?
     
     public init(credentialsProvider: AWSCredentialsProvider,
                 roleArn: String,
@@ -41,19 +41,13 @@ extension AWSCredentialsProviderSTSConfig {
 }
 
 struct CredentialsProviderSTSConfig: CRTCredentialsProviderSTSConfig {
-    var credentialsProvider: CRTAWSCredentialsProvider
-    
-    var roleArn: String
-    
-    var sessionName: String
-    
-    var durationSeconds: UInt16
-    
-    var shutDownOptions: CRTCredentialsProviderShutdownOptions?
-    
     var bootstrap: ClientBootstrap
-    
     var tlsContext: TlsContext
+    var credentialsProvider: CRTAWSCredentialsProvider
+    var roleArn: String
+    var sessionName: String
+    var durationSeconds: UInt16
+    var shutDownOptions: CRTCredentialsProviderShutdownOptions?
     
     init(bootstrap: ClientBootstrap,
          tlsContext: TlsContext,

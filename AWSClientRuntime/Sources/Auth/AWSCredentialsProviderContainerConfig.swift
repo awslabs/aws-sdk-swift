@@ -9,10 +9,10 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 public struct AWSCredentialsProviderContainerConfig {
-    public let shutDownCallback: ShutDownCallback?
     public let authToken: String?
     public let host: String?
     public let pathAndQuery: String?
+    public let shutDownCallback: ShutDownCallback?
     
     init(authToken: String? = nil,
          host: String? = nil,
@@ -38,17 +38,12 @@ extension AWSCredentialsProviderContainerConfig {
 }
 
 struct CredentialsProviderContainerConfig: CRTCredentialsProviderContainerConfig {
-    var shutDownOptions: CRTCredentialsProviderShutdownOptions?
-    
     var bootstrap: ClientBootstrap
-    
     var tlsContext: TlsContext
-    
     var authToken: String?
-    
     var pathAndQuery: String?
-    
     var host: String?
+    var shutDownOptions: CRTCredentialsProviderShutdownOptions?
     
     init(bootstrap: ClientBootstrap,
          tlsContext: TlsContext,

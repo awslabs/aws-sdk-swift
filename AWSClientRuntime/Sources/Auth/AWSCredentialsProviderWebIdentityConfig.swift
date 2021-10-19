@@ -25,11 +25,11 @@ extension AWSCredentialsProviderWebIdentityConfig {
 }
 
 struct CredentialsProviderWebIdentityConfig: CRTCredentialsProviderWebIdentityConfig {
-    var shutDownOptions: CRTCredentialsProviderShutdownOptions?
-    
     var bootstrap: ClientBootstrap
     
     var tlsContext: TlsContext
+    
+    var shutDownOptions: CRTCredentialsProviderShutdownOptions?
     
     init(bootstrap: ClientBootstrap,
          tlsContext: TlsContext,
