@@ -25,7 +25,6 @@ public struct AWSCredentialsProviderContainerConfig {
     }
 }
 
-
 extension AWSCredentialsProviderContainerConfig {
     func toCRTType() -> CredentialsProviderContainerConfig {
         return CredentialsProviderContainerConfig(bootstrap: SDKDefaultIO.shared.clientBootstrap,
