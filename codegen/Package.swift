@@ -79,7 +79,7 @@ func appendLibTarget(name: String, path: String) {
 func appendTstTarget(name: String, path: String, dependency: String) {
     package.targets.append(.testTarget(name: name,
                                        dependencies:  [
-                                        ._byNameItem(name: dependency, condition: nil),
+                                        .byNameItem(name: dependency, condition: nil),
                                         .product(name: "SmithyTestUtil", package: "ClientRuntime")
                                        ],
                                        path: "\(path)/swift-codegen/\(name)")
