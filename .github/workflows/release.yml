@@ -31,8 +31,6 @@ env:
 jobs:
   macos-release:
     runs-on: macos-11
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_12.5.app
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
