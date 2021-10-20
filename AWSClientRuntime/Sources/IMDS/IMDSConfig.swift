@@ -16,6 +16,7 @@ public struct IMDSConfig {
 }
 
 extension IMDSConfig {
+    // swiftlint:disable force_try
     func toCRTConfig() -> CRTIMDSClientOptions {
         let options = RetryOptions(backOffRetryOptions: ExponentialBackOffRetryOptions(maxRetries: retries))
         let crtRetryer = try! CRTAWSRetryStrategy(options: options.toCRTType())

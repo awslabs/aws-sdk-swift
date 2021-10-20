@@ -12,7 +12,7 @@ import ClientRuntime
 ///
 /// This client supports fetching tokens, retrying failures, and token caching according to the specified TTL.
 /// NOTE: This client ONLY supports IMDSv2. It will not fallback to IMDSv1.
-/// See [transitioning to IMDSv2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-transition-to-version-2) for more information.
+/// See https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-transition-to-version-2 for more information.
 public class IMDSClient {
     let crtIMDSClient: CRTIMDSClient
     
