@@ -15,7 +15,7 @@ public struct ProfileRegionProvider: RegionProvider {
         self.profileName = profileName
     }
     
-    //TODO: expose these config fields up to the sdk so customer can override path and profile name
+    // TODO: expose these config fields up to the sdk so customer can override path and profile name
     public init(path: String = "~/.aws/config", profileName: String = "default") {
         let profileCollection = CRTAWSProfileCollection(fromFile: path, source: .config)
         
@@ -29,4 +29,3 @@ public struct ProfileRegionProvider: RegionProvider {
         return profile.getProperty(name: "region")
     }
 }
-

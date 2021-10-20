@@ -8,20 +8,17 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
-import software.amazon.smithy.aws.swift.codegen.middleware.FormURLHttpBodyMiddleware
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSXMLHttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
+import software.amazon.smithy.swift.codegen.integration.HttpProtocolBodyMiddlewareGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
@@ -80,20 +77,10 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         decoder.render()
     }
 
-    override fun shouldRenderHttpBodyMiddleware(shape: Shape): Boolean {
-        return true
+    override fun httpProtocolBodyMiddleware(): HttpProtocolBodyMiddlewareGeneratorFactory {
+        return FormURLBodyMiddlewareGeneratorFactory()
     }
 
-    override fun httpBodyMiddleware(
-        writer: SwiftWriter,
-        ctx: ProtocolGenerator.GenerationContext,
-        inputSymbol: Symbol,
-        outputSymbol: Symbol,
-        outputErrorSymbol: Symbol,
-        requestBindings: List<HttpBindingDescriptor>
-    ): Middleware {
-        return FormURLHttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
-    }
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
         // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSQuery
