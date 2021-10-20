@@ -17,6 +17,7 @@ public struct DefaultRegionResolver: RegionResolver {
     public func resolveRegion() -> String? {
         for provider in providers {
             do {
+                // TODO: Verify that this does not block calling thread. If it does, we need to solve this similar to the way we solve this for the credentials provider
                 if let region = try provider.resolveRegion().get() {
                     return region
                 }
