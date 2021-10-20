@@ -29,4 +29,3 @@ public struct ProfileRegionProvider: RegionProvider {
         return profile.getProperty(name: "region")
     }
 }
-
