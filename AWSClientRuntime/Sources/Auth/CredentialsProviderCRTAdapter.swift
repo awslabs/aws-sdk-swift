@@ -18,7 +18,7 @@ struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
         self.allocator = defaultAllocator
     }
     
-    func getCredentials(credentialCallbackData: CRTCredentialsProviderCallbackData) {
+    func getCredentials(credentialCallbackData: CRTCredentialsCallbackData) {
         do {
             let credentialsResult = try credentialsProvider.getCredentials()
             let credentials = try credentialsResult.get()
