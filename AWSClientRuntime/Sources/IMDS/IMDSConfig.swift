@@ -16,9 +16,9 @@ public struct IMDSConfig {
 }
 
 extension IMDSConfig {
-    func toCRTConfig() throws -> CRTIMDSClientOptions {
+    func toCRTConfig() -> CRTIMDSClientOptions {
         let options = RetryOptions(backOffRetryOptions: ExponentialBackOffRetryOptions(maxRetries: retries))
-        let crtRetryer = try CRTAWSRetryStrategy(options: options.toCRTType())
+        let crtRetryer = try! CRTAWSRetryStrategy(options: options.toCRTType())
         return CRTIMDSClientOptions(bootstrap: SDKDefaultIO.shared.clientBootstrap, retryStrategy: crtRetryer)
     }
 }

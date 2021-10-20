@@ -16,8 +16,8 @@ import ClientRuntime
 public class IMDSClient {
     let crtIMDSClient: CRTIMDSClient
     
-    public init(config: IMDSConfig = IMDSConfig()) throws {
-        let crtConfig = try config.toCRTConfig()
+    public init(config: IMDSConfig = IMDSConfig()) {
+        let crtConfig = config.toCRTConfig()
         self.crtIMDSClient = CRTIMDSClient(options: crtConfig)
     }
     
