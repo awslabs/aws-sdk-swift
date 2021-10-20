@@ -22,10 +22,13 @@ public struct ProfileRegionProvider: RegionProvider {
         self.init(profileCollection: profileCollection, profileName: profileName)
     }
     
-    public func resolveRegion() -> String? {
+    public func resolveRegion() -> Future<String?> {
+        let future = Future<String?>()
         guard let profile = profileCollection.profile(for: profileName) else {
-            return nil
+            future.fulfill(nil)
+            return future
         }
-        return profile.getProperty(name: "region")
+        future.fulfill(profile.getProperty(name: "region"))
+        return future
     }
 }

@@ -4,19 +4,24 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+import AwsCommonRuntimeKit
 
 public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     
-    public init(providers: [RegionProvider] = [EnvironmentRegionProvider(), ProfileRegionProvider()]) {
-        // TODO: add more region resolvers i.e. Imds, System Properties, etc
+    public init(providers: [RegionProvider] = [EnvironmentRegionProvider(), ProfileRegionProvider(), IMDSRegionProvider()]) {
+        // TODO: add more region resolvers i.e. System Properties, etc
         self.providers = providers
     }
     
     public func resolveRegion() -> String? {
         for provider in providers {
-            if let region = provider.resolveRegion() {
-                return region
+            do {
+                if let region = try provider.resolveRegion().get() {
+                    return region
+                }
+            } catch {
+                return nil
             }
         }
         return nil
