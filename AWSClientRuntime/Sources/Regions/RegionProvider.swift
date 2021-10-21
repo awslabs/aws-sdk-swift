@@ -4,7 +4,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+import AwsCommonRuntimeKit
 
 public protocol RegionProvider {
-    func resolveRegion() -> String?
+    func resolveRegion() -> Future<String?>
 }
