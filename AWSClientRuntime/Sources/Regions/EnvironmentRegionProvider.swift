@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import class Foundation.ProcessInfo
+import AwsCommonRuntimeKit
 
 public struct EnvironmentRegionProvider: RegionProvider {
     private let AWS_ENVIRON_REGION = "AWS_REGION"
@@ -14,8 +15,10 @@ public struct EnvironmentRegionProvider: RegionProvider {
         self.env = env
     }
     
-    public func resolveRegion() -> String? {
-        return env.environmentVariable(key: AWS_ENVIRON_REGION)
+    public func resolveRegion() -> Future<String?> {
+        let future = Future<String?>()
+        future.fulfill(env.environmentVariable(key: AWS_ENVIRON_REGION))
+        return future
     }
 }
 

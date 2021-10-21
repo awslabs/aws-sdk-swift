@@ -5,14 +5,17 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import AwsCommonRuntimeKit
+import ClientRuntime
 
 public struct ProfileRegionProvider: RegionProvider {
     let profileCollection: ProfileCollection
     let profileName: String
+    let logger: SwiftLogger
     
     init(profileCollection: ProfileCollection, profileName: String) {
         self.profileCollection = profileCollection
         self.profileName = profileName
+        self.logger = SwiftLogger(label: "ProfileRegionResolver")
     }
     
     //TODO: expose these config fields up to the sdk so customer can override path and profile name
@@ -22,10 +25,18 @@ public struct ProfileRegionProvider: RegionProvider {
         self.init(profileCollection: profileCollection, profileName: profileName)
     }
     
-    public func resolveRegion() -> String? {
+    public func resolveRegion() -> Future<String?> {
+        let future = Future<String?>()
         guard let profile = profileCollection.profile(for: profileName) else {
-            return nil
+            future.fulfill(nil)
+            return future
         }
-        return profile.getProperty(name: "region")
+        guard let region = profile.getProperty(name: "region") else {
+            logger.info("Attempting to use \(profileName), but no region was found")
+            future.fulfill(nil)
+            return future
+        }
+        future.fulfill(region)
+        return future
     }
 }
