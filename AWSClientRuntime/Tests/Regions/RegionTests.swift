@@ -28,7 +28,6 @@ class RegionTests: XCTestCase {
         XCTAssertEqual(region, "us-east-1")
     }
 }
-
     
 struct MockEnvironment: Environment {
     let region: String?

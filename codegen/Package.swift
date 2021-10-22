@@ -35,6 +35,12 @@ appendTstTarget(name: "AWSJson1_1TestSDKTests", path: "\(baseDir)/aws-json-11", 
 appendLibTarget(name: "RestXmlTestSDK", path: "\(baseDir)/rest-xml")
 appendTstTarget(name: "RestXmlTestSDKTests", path: "\(baseDir)/rest-xml", dependency: "RestXmlTestSDK")
 
+appendLibTarget(name: "RestXmlWithNamespaceTestSDK", path: "\(baseDir)/rest-xml-xmlns")
+appendTstTarget(name: "RestXmlWithNamespaceTestSDKTests", path: "\(baseDir)/rest-xml-xmlns", dependency: "RestXmlWithNamespaceTestSDK")
+
+appendLibTarget(name: "Ec2QueryTestSDK", path: "\(baseDir)/ec2-query")
+appendTstTarget(name: "Ec2QueryTestSDKTests", path: "\(baseDir)/ec2-query", dependency: "Ec2QueryTestSDK")
+
 appendLibTarget(name: "AWSQueryTestSDK", path: "\(baseDir)/aws-query")
 appendTstTarget(name: "AWSQueryTestSDKTests", path: "\(baseDir)/aws-query", dependency: "AWSQueryTestSDK")
 
@@ -71,11 +77,14 @@ func appendLibTarget(name: String, path: String) {
 }
 
 func appendTstTarget(name: String, path: String, dependency: String) {
+    var dependencies: [Target.Dependency]  = [.product(name: "SmithyTestUtil", package: "ClientRuntime")]
+#if swift(>=5.5)
+    dependencies.append(.byNameItem(name: dependency, condition: nil))
+#else
+    dependencies.append(._byNameItem(name: dependency, condition: nil))
+#endif
     package.targets.append(.testTarget(name: name,
-                                       dependencies:  [
-                                        ._byNameItem(name: dependency, condition: nil),
-                                        .product(name: "SmithyTestUtil", package: "ClientRuntime")
-                                       ],
+                                       dependencies:  dependencies,
                                        path: "\(path)/swift-codegen/\(name)")
     )
 }

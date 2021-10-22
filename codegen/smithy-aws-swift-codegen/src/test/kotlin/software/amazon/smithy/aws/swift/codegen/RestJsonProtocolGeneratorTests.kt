@@ -77,6 +77,7 @@ class RestJsonProtocolGeneratorTests {
         val expectedContents =
             """
             public class ExampleClient {
+                public static let clientName = "ExampleClient"
                 let client: ClientRuntime.SdkHttpClient
                 let config: AWSClientRuntime.AWSClientConfiguration
                 let serviceName = "Example"

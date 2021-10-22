@@ -35,6 +35,24 @@ public class AWSCredentialsProvider: CredentialsProvider {
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
+    public static func fromWebIdentity(shutDownCallback: ShutDownCallback? = nil) throws -> AWSCredentialsProvider {
+        let config = AWSCredentialsProviderWebIdentityConfig(shutDownCallback: shutDownCallback)
+        let credsProvider = try CRTAWSCredentialsProvider(fromWebIdentity: config.toCRTType())
+        return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
+    }
+    
+    public static func fromSTS(_ config: AWSCredentialsProviderSTSConfig) throws -> AWSCredentialsProvider {
+        let stsConfig = config.toCRTType()
+        let credsProvider = try CRTAWSCredentialsProvider(fromSTS: stsConfig)
+        return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
+    }
+    
+    public static func fromContainer(_ config: AWSCredentialsProviderContainerConfig) throws -> AWSCredentialsProvider {
+        let containerConfig = config.toCRTType()
+        let credsProvider = try CRTAWSCredentialsProvider(fromContainer: containerConfig)
+        return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
+    }
+    
     public static func fromCached(_ config: AWSCredentialsProviderCachedConfig) throws -> AWSCredentialsProvider {
         var cachedConfig = config.toCRTType()
         let credsProvider = try CRTAWSCredentialsProvider(fromCached: &cachedConfig)
