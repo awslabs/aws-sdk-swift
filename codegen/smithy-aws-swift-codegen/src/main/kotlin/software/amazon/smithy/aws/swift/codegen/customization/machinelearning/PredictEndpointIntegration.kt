@@ -2,7 +2,6 @@ package software.amazon.smithy.aws.swift.codegen.customization.machinelearning
 
 import software.amazon.smithy.aws.swift.codegen.middleware.PredictInputEndpointURLHostMiddlewareRenderable
 import software.amazon.smithy.aws.swift.codegen.middleware.handlers.PredictInputEndpointURLHostMiddlewareHandler
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -17,7 +16,6 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
-import software.amazon.smithy.swift.codegen.model.capitalizedName
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 internal val ENABLED_OPERATIONS: Map<String, Set<String>> = mapOf(
