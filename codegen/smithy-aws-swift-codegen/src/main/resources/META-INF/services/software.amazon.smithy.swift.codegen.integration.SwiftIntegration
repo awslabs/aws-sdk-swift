@@ -7,5 +7,6 @@ software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAccountIdD
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierChecksum
 software.amazon.smithy.aws.swift.codegen.customization.BoxServices
 software.amazon.smithy.aws.swift.codegen.customization.PresignableModelIntegration
+software.amazon.smithy.aws.swift.codegen.customization.machinelearning.PredictEndpointIntegration
 software.amazon.smithy.aws.swift.codegen.customization.polly.PollyGetPresignerIntegration
 software.amazon.smithy.aws.swift.codegen.PresignerGenerator
