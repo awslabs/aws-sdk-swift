@@ -8,11 +8,11 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 public struct ProfileRegionProvider: RegionProvider {
-    let profileCollection: ProfileCollection
-    let profileName: String
+    let profileCollection: ProfileCollection?
+    let profileName: String?
     let logger: SwiftLogger
     
-    init(profileCollection: ProfileCollection, profileName: String) {
+    init(profileCollection: ProfileCollection?, profileName: String?) {
         self.profileCollection = profileCollection
         self.profileName = profileName
         self.logger = SwiftLogger(label: "ProfileRegionResolver")
@@ -27,6 +27,13 @@ public struct ProfileRegionProvider: RegionProvider {
     
     public func resolveRegion() -> Future<String?> {
         let future = Future<String?>()
+        guard let profileCollection = profileCollection,
+              let profileName = profileName else {
+            logger.info("No default profile collection was found at the default path of ~/.aws/config")
+            future.fulfill(nil)
+            return future
+        }
+        
         guard let profile = profileCollection.profile(for: profileName) else {
             future.fulfill(nil)
             return future
