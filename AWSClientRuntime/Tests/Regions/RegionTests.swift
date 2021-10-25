@@ -38,6 +38,15 @@ class RegionTests: XCTestCase {
         let region = DefaultRegionResolver(providers: providers).resolveRegion()
         XCTAssertEqual(region, "us-east-1")
     }
+    
+    func testChainWithBadProfileProviderFails() {
+        let providers: [RegionProvider] = [
+            EnvironmentRegionProvider(env: MockEnvironment(region: nil)),
+            ProfileRegionProvider(path: "~/.aws/configz", profileName: "default")
+        ]
+        let region = DefaultRegionResolver(providers: providers).resolveRegion()
+        XCTAssertEqual(region, nil)
+    }
 }
     
 struct MockEnvironment: Environment {
