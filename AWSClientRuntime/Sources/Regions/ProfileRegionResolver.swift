@@ -8,25 +8,33 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 public struct ProfileRegionProvider: RegionProvider {
-    let profileCollection: ProfileCollection
+    let profileCollection: ProfileCollection?
     let profileName: String
+    let path: String
     let logger: SwiftLogger
     
-    init(profileCollection: ProfileCollection, profileName: String) {
+    init(profileCollection: ProfileCollection?, profileName: String, path: String) {
         self.profileCollection = profileCollection
         self.profileName = profileName
         self.logger = SwiftLogger(label: "ProfileRegionResolver")
+        self.path = path
     }
     
     // TODO: expose these config fields up to the sdk so customer can override path and profile name
     public init(path: String = "~/.aws/config", profileName: String = "default") {
-        let profileCollection = CRTAWSProfileCollection(fromFile: path, source: .config)
-        
-        self.init(profileCollection: profileCollection, profileName: profileName)
+        self.init(profileCollection: nil, profileName: profileName, path: path)
     }
     
     public func resolveRegion() -> Future<String?> {
         let future = Future<String?>()
+
+        let profileCollection = profileCollection ?? CRTAWSProfileCollection(fromFile: path, source: .config)
+        guard let profileCollection = profileCollection else {
+            logger.info("No default profile collection was found at the path of \(path)")
+            future.fulfill(nil)
+            return future
+        }
+        
         guard let profile = profileCollection.profile(for: profileName) else {
             future.fulfill(nil)
             return future
