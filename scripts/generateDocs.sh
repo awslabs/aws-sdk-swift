@@ -48,3 +48,11 @@ for sdk in `ls ${RELDIR} | grep -e "^AWS"`; do
     echo "theme: jekyll-theme-slate" > ${OUTFILECONFIG}
     echo "Generated file ${OUTFILECONFIG}"
 done
+
+CHARS=$(python -c 'print u"\u200b".encode("utf8")')
+for generatedFile in `find ${OUTDIR} | grep "\.md$"`; do
+    TEMPFILE=`mktemp`
+    cat ${generatedFile} | sed -r 's/['"${CHARS}"']//g'  > ${TEMPFILE}
+    mv ${TEMPFILE} ${generatedFile}
+    echo "Stripped ${generatedFile}"
+done
