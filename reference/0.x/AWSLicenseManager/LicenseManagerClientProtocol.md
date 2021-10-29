@@ -1,7 +1,6 @@
 # LicenseManagerClientProtocol
 
-License Manager makes it easier to manage licenses from software vendors across multiple
-Amazon Web Services accounts and on-premises servers.
+License Manager makes it easier to manage licenses from software vendors across multiple Amazon Web Services accounts and on-premises servers.
 
 ``` swift
 public protocol LicenseManagerClientProtocol 
@@ -9,7 +8,7 @@ public protocol LicenseManagerClientProtocol
 
 ## Requirements
 
-### acceptGrant(input:​completion:​)
+### acceptGrant(input:completion:)
 
 Accepts the specified grant.
 
@@ -17,7 +16,7 @@ Accepts the specified grant.
 func acceptGrant(input: AcceptGrantInput, completion: @escaping (ClientRuntime.SdkResult<AcceptGrantOutputResponse, AcceptGrantOutputError>) -> Void)
 ```
 
-### checkInLicense(input:​completion:​)
+### checkInLicense(input:completion:)
 
 Checks in the specified license. Check in a license when it is no longer in use.
 
@@ -25,7 +24,7 @@ Checks in the specified license. Check in a license when it is no longer in use.
 func checkInLicense(input: CheckInLicenseInput, completion: @escaping (ClientRuntime.SdkResult<CheckInLicenseOutputResponse, CheckInLicenseOutputError>) -> Void)
 ```
 
-### checkoutBorrowLicense(input:​completion:​)
+### checkoutBorrowLicense(input:completion:)
 
 Checks out the specified license for offline use.
 
@@ -33,7 +32,7 @@ Checks out the specified license for offline use.
 func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput, completion: @escaping (ClientRuntime.SdkResult<CheckoutBorrowLicenseOutputResponse, CheckoutBorrowLicenseOutputError>) -> Void)
 ```
 
-### checkoutLicense(input:​completion:​)
+### checkoutLicense(input:completion:)
 
 Checks out the specified license.
 
@@ -41,7 +40,7 @@ Checks out the specified license.
 func checkoutLicense(input: CheckoutLicenseInput, completion: @escaping (ClientRuntime.SdkResult<CheckoutLicenseOutputResponse, CheckoutLicenseOutputError>) -> Void)
 ```
 
-### createGrant(input:​completion:​)
+### createGrant(input:completion:)
 
 Creates a grant for the specified license. A grant shares the use of license entitlements with specific Amazon Web Services accounts.
 
@@ -49,7 +48,7 @@ Creates a grant for the specified license. A grant shares the use of license ent
 func createGrant(input: CreateGrantInput, completion: @escaping (ClientRuntime.SdkResult<CreateGrantOutputResponse, CreateGrantOutputError>) -> Void)
 ```
 
-### createGrantVersion(input:​completion:​)
+### createGrantVersion(input:completion:)
 
 Creates a new version of the specified grant.
 
@@ -57,7 +56,7 @@ Creates a new version of the specified grant.
 func createGrantVersion(input: CreateGrantVersionInput, completion: @escaping (ClientRuntime.SdkResult<CreateGrantVersionOutputResponse, CreateGrantVersionOutputError>) -> Void)
 ```
 
-### createLicense(input:​completion:​)
+### createLicense(input:completion:)
 
 Creates a license.
 
@@ -65,20 +64,15 @@ Creates a license.
 func createLicense(input: CreateLicenseInput, completion: @escaping (ClientRuntime.SdkResult<CreateLicenseOutputResponse, CreateLicenseOutputError>) -> Void)
 ```
 
-### createLicenseConfiguration(input:​completion:​)
+### createLicenseConfiguration(input:completion:)
 
-Creates a license configuration.
-A license configuration is an abstraction of a customer license agreement that can be
-consumed and enforced by License Manager. Components include specifications for the license
-type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,
-Dedicated Instance, Dedicated Host, or all of these), license affinity  to host (how long a
-license must be associated with a host), and the number of licenses purchased and used.
+Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
 
 ``` swift
 func createLicenseConfiguration(input: CreateLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateLicenseConfigurationOutputResponse, CreateLicenseConfigurationOutputError>) -> Void)
 ```
 
-### createLicenseConversionTaskForResource(input:​completion:​)
+### createLicenseConversionTaskForResource(input:completion:)
 
 Creates a new license conversion task.
 
@@ -86,7 +80,7 @@ Creates a new license conversion task.
 func createLicenseConversionTaskForResource(input: CreateLicenseConversionTaskForResourceInput, completion: @escaping (ClientRuntime.SdkResult<CreateLicenseConversionTaskForResourceOutputResponse, CreateLicenseConversionTaskForResourceOutputError>) -> Void)
 ```
 
-### createLicenseManagerReportGenerator(input:​completion:​)
+### createLicenseManagerReportGenerator(input:completion:)
 
 Creates a report generator.
 
@@ -94,7 +88,7 @@ Creates a report generator.
 func createLicenseManagerReportGenerator(input: CreateLicenseManagerReportGeneratorInput, completion: @escaping (ClientRuntime.SdkResult<CreateLicenseManagerReportGeneratorOutputResponse, CreateLicenseManagerReportGeneratorOutputError>) -> Void)
 ```
 
-### createLicenseVersion(input:​completion:​)
+### createLicenseVersion(input:completion:)
 
 Creates a new version of the specified license.
 
@@ -102,18 +96,15 @@ Creates a new version of the specified license.
 func createLicenseVersion(input: CreateLicenseVersionInput, completion: @escaping (ClientRuntime.SdkResult<CreateLicenseVersionOutputResponse, CreateLicenseVersionOutputError>) -> Void)
 ```
 
-### createToken(input:​completion:​)
+### createToken(input:completion:)
 
-Creates a long-lived token.
-A refresh token is a JWT token used to get an access token. With an access token,
-you can call AssumeRoleWithWebIdentity to get role credentials that you can use to
-call License Manager to manage the specified license.
+Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
 
 ``` swift
 func createToken(input: CreateTokenInput, completion: @escaping (ClientRuntime.SdkResult<CreateTokenOutputResponse, CreateTokenOutputError>) -> Void)
 ```
 
-### deleteGrant(input:​completion:​)
+### deleteGrant(input:completion:)
 
 Deletes the specified grant.
 
@@ -121,7 +112,7 @@ Deletes the specified grant.
 func deleteGrant(input: DeleteGrantInput, completion: @escaping (ClientRuntime.SdkResult<DeleteGrantOutputResponse, DeleteGrantOutputError>) -> Void)
 ```
 
-### deleteLicense(input:​completion:​)
+### deleteLicense(input:completion:)
 
 Deletes the specified license.
 
@@ -129,26 +120,23 @@ Deletes the specified license.
 func deleteLicense(input: DeleteLicenseInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLicenseOutputResponse, DeleteLicenseOutputError>) -> Void)
 ```
 
-### deleteLicenseConfiguration(input:​completion:​)
+### deleteLicenseConfiguration(input:completion:)
 
-Deletes the specified license configuration.
-You cannot delete a license configuration that is in use.
+Deletes the specified license configuration. You cannot delete a license configuration that is in use.
 
 ``` swift
 func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLicenseConfigurationOutputResponse, DeleteLicenseConfigurationOutputError>) -> Void)
 ```
 
-### deleteLicenseManagerReportGenerator(input:​completion:​)
+### deleteLicenseManagerReportGenerator(input:completion:)
 
-Deletes the specified report generator.
-This action deletes the report generator, which stops it from generating future reports.
-The action cannot be reversed. It has no effect on the previous reports from this generator.
+Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
 
 ``` swift
 func deleteLicenseManagerReportGenerator(input: DeleteLicenseManagerReportGeneratorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLicenseManagerReportGeneratorOutputResponse, DeleteLicenseManagerReportGeneratorOutputError>) -> Void)
 ```
 
-### deleteToken(input:​completion:​)
+### deleteToken(input:completion:)
 
 Deletes the specified token. Must be called in the license home Region.
 
@@ -156,7 +144,7 @@ Deletes the specified token. Must be called in the license home Region.
 func deleteToken(input: DeleteTokenInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTokenOutputResponse, DeleteTokenOutputError>) -> Void)
 ```
 
-### extendLicenseConsumption(input:​completion:​)
+### extendLicenseConsumption(input:completion:)
 
 Extends the expiration date for license consumption.
 
@@ -164,16 +152,15 @@ Extends the expiration date for license consumption.
 func extendLicenseConsumption(input: ExtendLicenseConsumptionInput, completion: @escaping (ClientRuntime.SdkResult<ExtendLicenseConsumptionOutputResponse, ExtendLicenseConsumptionOutputError>) -> Void)
 ```
 
-### getAccessToken(input:​completion:​)
+### getAccessToken(input:completion:)
 
-Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens
-are valid for one hour.
+Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
 
 ``` swift
 func getAccessToken(input: GetAccessTokenInput, completion: @escaping (ClientRuntime.SdkResult<GetAccessTokenOutputResponse, GetAccessTokenOutputError>) -> Void)
 ```
 
-### getGrant(input:​completion:​)
+### getGrant(input:completion:)
 
 Gets detailed information about the specified grant.
 
@@ -181,7 +168,7 @@ Gets detailed information about the specified grant.
 func getGrant(input: GetGrantInput, completion: @escaping (ClientRuntime.SdkResult<GetGrantOutputResponse, GetGrantOutputError>) -> Void)
 ```
 
-### getLicense(input:​completion:​)
+### getLicense(input:completion:)
 
 Gets detailed information about the specified license.
 
@@ -189,7 +176,7 @@ Gets detailed information about the specified license.
 func getLicense(input: GetLicenseInput, completion: @escaping (ClientRuntime.SdkResult<GetLicenseOutputResponse, GetLicenseOutputError>) -> Void)
 ```
 
-### getLicenseConfiguration(input:​completion:​)
+### getLicenseConfiguration(input:completion:)
 
 Gets detailed information about the specified license configuration.
 
@@ -197,7 +184,7 @@ Gets detailed information about the specified license configuration.
 func getLicenseConfiguration(input: GetLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<GetLicenseConfigurationOutputResponse, GetLicenseConfigurationOutputError>) -> Void)
 ```
 
-### getLicenseConversionTask(input:​completion:​)
+### getLicenseConversionTask(input:completion:)
 
 Gets information about the specified license type conversion task.
 
@@ -205,7 +192,7 @@ Gets information about the specified license type conversion task.
 func getLicenseConversionTask(input: GetLicenseConversionTaskInput, completion: @escaping (ClientRuntime.SdkResult<GetLicenseConversionTaskOutputResponse, GetLicenseConversionTaskOutputError>) -> Void)
 ```
 
-### getLicenseManagerReportGenerator(input:​completion:​)
+### getLicenseManagerReportGenerator(input:completion:)
 
 Gets information about the specified report generator.
 
@@ -213,7 +200,7 @@ Gets information about the specified report generator.
 func getLicenseManagerReportGenerator(input: GetLicenseManagerReportGeneratorInput, completion: @escaping (ClientRuntime.SdkResult<GetLicenseManagerReportGeneratorOutputResponse, GetLicenseManagerReportGeneratorOutputError>) -> Void)
 ```
 
-### getLicenseUsage(input:​completion:​)
+### getLicenseUsage(input:completion:)
 
 Gets detailed information about the usage of the specified license.
 
@@ -221,7 +208,7 @@ Gets detailed information about the usage of the specified license.
 func getLicenseUsage(input: GetLicenseUsageInput, completion: @escaping (ClientRuntime.SdkResult<GetLicenseUsageOutputResponse, GetLicenseUsageOutputError>) -> Void)
 ```
 
-### getServiceSettings(input:​completion:​)
+### getServiceSettings(input:completion:)
 
 Gets the License Manager settings for the current Region.
 
@@ -229,18 +216,15 @@ Gets the License Manager settings for the current Region.
 func getServiceSettings(input: GetServiceSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetServiceSettingsOutputResponse, GetServiceSettingsOutputError>) -> Void)
 ```
 
-### listAssociationsForLicenseConfiguration(input:​completion:​)
+### listAssociationsForLicenseConfiguration(input:completion:)
 
-Lists the resource associations for the specified license configuration.
-Resource associations need not consume licenses from a license configuration.
-For example, an AMI or a stopped instance might not consume a license (depending on
-the license rules).
+Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
 
 ``` swift
 func listAssociationsForLicenseConfiguration(input: ListAssociationsForLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<ListAssociationsForLicenseConfigurationOutputResponse, ListAssociationsForLicenseConfigurationOutputError>) -> Void)
 ```
 
-### listDistributedGrants(input:​completion:​)
+### listDistributedGrants(input:completion:)
 
 Lists the grants distributed for the specified license.
 
@@ -248,7 +232,7 @@ Lists the grants distributed for the specified license.
 func listDistributedGrants(input: ListDistributedGrantsInput, completion: @escaping (ClientRuntime.SdkResult<ListDistributedGrantsOutputResponse, ListDistributedGrantsOutputError>) -> Void)
 ```
 
-### listFailuresForLicenseConfigurationOperations(input:​completion:​)
+### listFailuresForLicenseConfigurationOperations(input:completion:)
 
 Lists the license configuration operations that failed.
 
@@ -256,7 +240,7 @@ Lists the license configuration operations that failed.
 func listFailuresForLicenseConfigurationOperations(input: ListFailuresForLicenseConfigurationOperationsInput, completion: @escaping (ClientRuntime.SdkResult<ListFailuresForLicenseConfigurationOperationsOutputResponse, ListFailuresForLicenseConfigurationOperationsOutputError>) -> Void)
 ```
 
-### listLicenseConfigurations(input:​completion:​)
+### listLicenseConfigurations(input:completion:)
 
 Lists the license configurations for your account.
 
@@ -264,7 +248,7 @@ Lists the license configurations for your account.
 func listLicenseConfigurations(input: ListLicenseConfigurationsInput, completion: @escaping (ClientRuntime.SdkResult<ListLicenseConfigurationsOutputResponse, ListLicenseConfigurationsOutputError>) -> Void)
 ```
 
-### listLicenseConversionTasks(input:​completion:​)
+### listLicenseConversionTasks(input:completion:)
 
 Lists the license type conversion tasks for your account.
 
@@ -272,7 +256,7 @@ Lists the license type conversion tasks for your account.
 func listLicenseConversionTasks(input: ListLicenseConversionTasksInput, completion: @escaping (ClientRuntime.SdkResult<ListLicenseConversionTasksOutputResponse, ListLicenseConversionTasksOutputError>) -> Void)
 ```
 
-### listLicenseManagerReportGenerators(input:​completion:​)
+### listLicenseManagerReportGenerators(input:completion:)
 
 Lists the report generators for your account.
 
@@ -280,7 +264,7 @@ Lists the report generators for your account.
 func listLicenseManagerReportGenerators(input: ListLicenseManagerReportGeneratorsInput, completion: @escaping (ClientRuntime.SdkResult<ListLicenseManagerReportGeneratorsOutputResponse, ListLicenseManagerReportGeneratorsOutputError>) -> Void)
 ```
 
-### listLicenses(input:​completion:​)
+### listLicenses(input:completion:)
 
 Lists the licenses for your account.
 
@@ -288,7 +272,7 @@ Lists the licenses for your account.
 func listLicenses(input: ListLicensesInput, completion: @escaping (ClientRuntime.SdkResult<ListLicensesOutputResponse, ListLicensesOutputError>) -> Void)
 ```
 
-### listLicenseSpecificationsForResource(input:​completion:​)
+### listLicenseSpecificationsForResource(input:completion:)
 
 Describes the license configurations for the specified resource.
 
@@ -296,7 +280,7 @@ Describes the license configurations for the specified resource.
 func listLicenseSpecificationsForResource(input: ListLicenseSpecificationsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListLicenseSpecificationsForResourceOutputResponse, ListLicenseSpecificationsForResourceOutputError>) -> Void)
 ```
 
-### listLicenseVersions(input:​completion:​)
+### listLicenseVersions(input:completion:)
 
 Lists all versions of the specified license.
 
@@ -304,7 +288,7 @@ Lists all versions of the specified license.
 func listLicenseVersions(input: ListLicenseVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListLicenseVersionsOutputResponse, ListLicenseVersionsOutputError>) -> Void)
 ```
 
-### listReceivedGrants(input:​completion:​)
+### listReceivedGrants(input:completion:)
 
 Lists grants that are received but not accepted.
 
@@ -312,7 +296,7 @@ Lists grants that are received but not accepted.
 func listReceivedGrants(input: ListReceivedGrantsInput, completion: @escaping (ClientRuntime.SdkResult<ListReceivedGrantsOutputResponse, ListReceivedGrantsOutputError>) -> Void)
 ```
 
-### listReceivedLicenses(input:​completion:​)
+### listReceivedLicenses(input:completion:)
 
 Lists received licenses.
 
@@ -320,7 +304,7 @@ Lists received licenses.
 func listReceivedLicenses(input: ListReceivedLicensesInput, completion: @escaping (ClientRuntime.SdkResult<ListReceivedLicensesOutputResponse, ListReceivedLicensesOutputError>) -> Void)
 ```
 
-### listResourceInventory(input:​completion:​)
+### listResourceInventory(input:completion:)
 
 Lists resources managed using Systems Manager inventory.
 
@@ -328,7 +312,7 @@ Lists resources managed using Systems Manager inventory.
 func listResourceInventory(input: ListResourceInventoryInput, completion: @escaping (ClientRuntime.SdkResult<ListResourceInventoryOutputResponse, ListResourceInventoryOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists the tags for the specified license configuration.
 
@@ -336,7 +320,7 @@ Lists the tags for the specified license configuration.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listTokens(input:​completion:​)
+### listTokens(input:completion:)
 
 Lists your tokens.
 
@@ -344,17 +328,15 @@ Lists your tokens.
 func listTokens(input: ListTokensInput, completion: @escaping (ClientRuntime.SdkResult<ListTokensOutputResponse, ListTokensOutputError>) -> Void)
 ```
 
-### listUsageForLicenseConfiguration(input:​completion:​)
+### listUsageForLicenseConfiguration(input:completion:)
 
-Lists all license usage records for a license configuration, displaying license
-consumption details by resource at a selected point in time. Use this action to audit the
-current license consumption for any license inventory and configuration.
+Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
 
 ``` swift
 func listUsageForLicenseConfiguration(input: ListUsageForLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<ListUsageForLicenseConfigurationOutputResponse, ListUsageForLicenseConfigurationOutputError>) -> Void)
 ```
 
-### rejectGrant(input:​completion:​)
+### rejectGrant(input:completion:)
 
 Rejects the specified grant.
 
@@ -362,7 +344,7 @@ Rejects the specified grant.
 func rejectGrant(input: RejectGrantInput, completion: @escaping (ClientRuntime.SdkResult<RejectGrantOutputResponse, RejectGrantOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds the specified tags to the specified license configuration.
 
@@ -370,7 +352,7 @@ Adds the specified tags to the specified license configuration.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes the specified tags from the specified license configuration.
 
@@ -378,7 +360,7 @@ Removes the specified tags from the specified license configuration.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateLicenseConfiguration(input:​completion:​)
+### updateLicenseConfiguration(input:completion:)
 
 Modifies the attributes of an existing license configuration.
 
@@ -386,27 +368,23 @@ Modifies the attributes of an existing license configuration.
 func updateLicenseConfiguration(input: UpdateLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLicenseConfigurationOutputResponse, UpdateLicenseConfigurationOutputError>) -> Void)
 ```
 
-### updateLicenseManagerReportGenerator(input:​completion:​)
+### updateLicenseManagerReportGenerator(input:completion:)
 
-Updates a report generator.
-After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
+Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
 
 ``` swift
 func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerReportGeneratorInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLicenseManagerReportGeneratorOutputResponse, UpdateLicenseManagerReportGeneratorOutputError>) -> Void)
 ```
 
-### updateLicenseSpecificationsForResource(input:​completion:​)
+### updateLicenseSpecificationsForResource(input:completion:)
 
-Adds or removes the specified license configurations for the specified Amazon Web Services resource.
-You can update the license specifications of AMIs, instances, and hosts.
-You cannot update the license specifications for launch templates and CloudFormation templates,
-as they send license configurations to the operation that creates the resource.
+Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
 
 ``` swift
 func updateLicenseSpecificationsForResource(input: UpdateLicenseSpecificationsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLicenseSpecificationsForResourceOutputResponse, UpdateLicenseSpecificationsForResourceOutputError>) -> Void)
 ```
 
-### updateServiceSettings(input:​completion:​)
+### updateServiceSettings(input:completion:)
 
 Updates License Manager settings for the current Region.
 

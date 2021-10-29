@@ -8,7 +8,7 @@ public protocol SchemasClientProtocol
 
 ## Requirements
 
-### createDiscoverer(input:​completion:​)
+### createDiscoverer(input:completion:)
 
 Creates a discoverer.
 
@@ -16,7 +16,7 @@ Creates a discoverer.
 func createDiscoverer(input: CreateDiscovererInput, completion: @escaping (ClientRuntime.SdkResult<CreateDiscovererOutputResponse, CreateDiscovererOutputError>) -> Void)
 ```
 
-### createRegistry(input:​completion:​)
+### createRegistry(input:completion:)
 
 Creates a registry.
 
@@ -24,7 +24,7 @@ Creates a registry.
 func createRegistry(input: CreateRegistryInput, completion: @escaping (ClientRuntime.SdkResult<CreateRegistryOutputResponse, CreateRegistryOutputError>) -> Void)
 ```
 
-### createSchema(input:​completion:​)
+### createSchema(input:completion:)
 
 Creates a schema definition. Inactive schemas will be deleted after two years.
 
@@ -32,7 +32,7 @@ Creates a schema definition. Inactive schemas will be deleted after two years.
 func createSchema(input: CreateSchemaInput, completion: @escaping (ClientRuntime.SdkResult<CreateSchemaOutputResponse, CreateSchemaOutputError>) -> Void)
 ```
 
-### deleteDiscoverer(input:​completion:​)
+### deleteDiscoverer(input:completion:)
 
 Deletes a discoverer.
 
@@ -40,7 +40,7 @@ Deletes a discoverer.
 func deleteDiscoverer(input: DeleteDiscovererInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDiscovererOutputResponse, DeleteDiscovererOutputError>) -> Void)
 ```
 
-### deleteRegistry(input:​completion:​)
+### deleteRegistry(input:completion:)
 
 Deletes a Registry.
 
@@ -48,7 +48,7 @@ Deletes a Registry.
 func deleteRegistry(input: DeleteRegistryInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRegistryOutputResponse, DeleteRegistryOutputError>) -> Void)
 ```
 
-### deleteResourcePolicy(input:​completion:​)
+### deleteResourcePolicy(input:completion:)
 
 Delete the resource-based policy attached to the specified registry.
 
@@ -56,7 +56,7 @@ Delete the resource-based policy attached to the specified registry.
 func deleteResourcePolicy(input: DeleteResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>) -> Void)
 ```
 
-### deleteSchema(input:​completion:​)
+### deleteSchema(input:completion:)
 
 Delete a schema definition.
 
@@ -64,7 +64,7 @@ Delete a schema definition.
 func deleteSchema(input: DeleteSchemaInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSchemaOutputResponse, DeleteSchemaOutputError>) -> Void)
 ```
 
-### deleteSchemaVersion(input:​completion:​)
+### deleteSchemaVersion(input:completion:)
 
 Delete the schema version definition
 
@@ -72,7 +72,7 @@ Delete the schema version definition
 func deleteSchemaVersion(input: DeleteSchemaVersionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSchemaVersionOutputResponse, DeleteSchemaVersionOutputError>) -> Void)
 ```
 
-### describeCodeBinding(input:​completion:​)
+### describeCodeBinding(input:completion:)
 
 Describe the code binding URI.
 
@@ -80,7 +80,7 @@ Describe the code binding URI.
 func describeCodeBinding(input: DescribeCodeBindingInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCodeBindingOutputResponse, DescribeCodeBindingOutputError>) -> Void)
 ```
 
-### describeDiscoverer(input:​completion:​)
+### describeDiscoverer(input:completion:)
 
 Describes the discoverer.
 
@@ -88,7 +88,7 @@ Describes the discoverer.
 func describeDiscoverer(input: DescribeDiscovererInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDiscovererOutputResponse, DescribeDiscovererOutputError>) -> Void)
 ```
 
-### describeRegistry(input:​completion:​)
+### describeRegistry(input:completion:)
 
 Describes the registry.
 
@@ -96,7 +96,7 @@ Describes the registry.
 func describeRegistry(input: DescribeRegistryInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRegistryOutputResponse, DescribeRegistryOutputError>) -> Void)
 ```
 
-### describeSchema(input:​completion:​)
+### describeSchema(input:completion:)
 
 Retrieve the schema definition.
 
@@ -104,13 +104,13 @@ Retrieve the schema definition.
 func describeSchema(input: DescribeSchemaInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSchemaOutputResponse, DescribeSchemaOutputError>) -> Void)
 ```
 
-### exportSchema(input:​completion:​)
+### exportSchema(input:completion:)
 
 ``` swift
 func exportSchema(input: ExportSchemaInput, completion: @escaping (ClientRuntime.SdkResult<ExportSchemaOutputResponse, ExportSchemaOutputError>) -> Void)
 ```
 
-### getCodeBindingSource(input:​completion:​)
+### getCodeBindingSource(input:completion:)
 
 Get the code binding source URI.
 
@@ -118,7 +118,7 @@ Get the code binding source URI.
 func getCodeBindingSource(input: GetCodeBindingSourceInput, completion: @escaping (ClientRuntime.SdkResult<GetCodeBindingSourceOutputResponse, GetCodeBindingSourceOutputError>) -> Void)
 ```
 
-### getDiscoveredSchema(input:​completion:​)
+### getDiscoveredSchema(input:completion:)
 
 Get the discovered schema that was generated based on sampled events.
 
@@ -126,7 +126,7 @@ Get the discovered schema that was generated based on sampled events.
 func getDiscoveredSchema(input: GetDiscoveredSchemaInput, completion: @escaping (ClientRuntime.SdkResult<GetDiscoveredSchemaOutputResponse, GetDiscoveredSchemaOutputError>) -> Void)
 ```
 
-### getResourcePolicy(input:​completion:​)
+### getResourcePolicy(input:completion:)
 
 Retrieves the resource-based policy attached to a given registry.
 
@@ -134,7 +134,7 @@ Retrieves the resource-based policy attached to a given registry.
 func getResourcePolicy(input: GetResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>) -> Void)
 ```
 
-### listDiscoverers(input:​completion:​)
+### listDiscoverers(input:completion:)
 
 List the discoverers.
 
@@ -142,7 +142,7 @@ List the discoverers.
 func listDiscoverers(input: ListDiscoverersInput, completion: @escaping (ClientRuntime.SdkResult<ListDiscoverersOutputResponse, ListDiscoverersOutputError>) -> Void)
 ```
 
-### listRegistries(input:​completion:​)
+### listRegistries(input:completion:)
 
 List the registries.
 
@@ -150,7 +150,7 @@ List the registries.
 func listRegistries(input: ListRegistriesInput, completion: @escaping (ClientRuntime.SdkResult<ListRegistriesOutputResponse, ListRegistriesOutputError>) -> Void)
 ```
 
-### listSchemas(input:​completion:​)
+### listSchemas(input:completion:)
 
 List the schemas.
 
@@ -158,7 +158,7 @@ List the schemas.
 func listSchemas(input: ListSchemasInput, completion: @escaping (ClientRuntime.SdkResult<ListSchemasOutputResponse, ListSchemasOutputError>) -> Void)
 ```
 
-### listSchemaVersions(input:​completion:​)
+### listSchemaVersions(input:completion:)
 
 Provides a list of the schema versions and related information.
 
@@ -166,7 +166,7 @@ Provides a list of the schema versions and related information.
 func listSchemaVersions(input: ListSchemaVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListSchemaVersionsOutputResponse, ListSchemaVersionsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Get tags for resource.
 
@@ -174,7 +174,7 @@ Get tags for resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### putCodeBinding(input:​completion:​)
+### putCodeBinding(input:completion:)
 
 Put code binding URI
 
@@ -182,7 +182,7 @@ Put code binding URI
 func putCodeBinding(input: PutCodeBindingInput, completion: @escaping (ClientRuntime.SdkResult<PutCodeBindingOutputResponse, PutCodeBindingOutputError>) -> Void)
 ```
 
-### putResourcePolicy(input:​completion:​)
+### putResourcePolicy(input:completion:)
 
 The name of the policy.
 
@@ -190,7 +190,7 @@ The name of the policy.
 func putResourcePolicy(input: PutResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>) -> Void)
 ```
 
-### searchSchemas(input:​completion:​)
+### searchSchemas(input:completion:)
 
 Search the schemas
 
@@ -198,7 +198,7 @@ Search the schemas
 func searchSchemas(input: SearchSchemasInput, completion: @escaping (ClientRuntime.SdkResult<SearchSchemasOutputResponse, SearchSchemasOutputError>) -> Void)
 ```
 
-### startDiscoverer(input:​completion:​)
+### startDiscoverer(input:completion:)
 
 Starts the discoverer
 
@@ -206,7 +206,7 @@ Starts the discoverer
 func startDiscoverer(input: StartDiscovererInput, completion: @escaping (ClientRuntime.SdkResult<StartDiscovererOutputResponse, StartDiscovererOutputError>) -> Void)
 ```
 
-### stopDiscoverer(input:​completion:​)
+### stopDiscoverer(input:completion:)
 
 Stops the discoverer
 
@@ -214,7 +214,7 @@ Stops the discoverer
 func stopDiscoverer(input: StopDiscovererInput, completion: @escaping (ClientRuntime.SdkResult<StopDiscovererOutputResponse, StopDiscovererOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Add tags to a resource.
 
@@ -222,7 +222,7 @@ Add tags to a resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes tags from a resource.
 
@@ -230,7 +230,7 @@ Removes tags from a resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateDiscoverer(input:​completion:​)
+### updateDiscoverer(input:completion:)
 
 Updates the discoverer
 
@@ -238,7 +238,7 @@ Updates the discoverer
 func updateDiscoverer(input: UpdateDiscovererInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDiscovererOutputResponse, UpdateDiscovererOutputError>) -> Void)
 ```
 
-### updateRegistry(input:​completion:​)
+### updateRegistry(input:completion:)
 
 Updates a registry.
 
@@ -246,7 +246,7 @@ Updates a registry.
 func updateRegistry(input: UpdateRegistryInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRegistryOutputResponse, UpdateRegistryOutputError>) -> Void)
 ```
 
-### updateSchema(input:​completion:​)
+### updateSchema(input:completion:)
 
 Updates the schema definition Inactive schemas will be deleted after two years.
 

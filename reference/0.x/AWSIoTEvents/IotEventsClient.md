@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "IotEventsClient"
+```
+
 ## Methods
 
 ### `createAlarmModel(input:completion:)`
 
-Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get
-notified when the value is outside a specified range. For more information, see <a href="https:​//docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html">Create an
-alarm model in the AWS IoT Events Developer Guide.
+Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get notified when the value is outside a specified range. For more information, see [Create an alarm model](https://docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html) in the AWS IoT Events Developer Guide.
 
 ``` swift
 public func createAlarmModel(input: CreateAlarmModelInput, completion: @escaping (ClientRuntime.SdkResult<CreateAlarmModelOutputResponse, CreateAlarmModelOutputError>) -> Void)
@@ -52,8 +58,7 @@ public func createInput(input: CreateInputInput, completion: @escaping (ClientRu
 
 ### `deleteAlarmModel(input:completion:)`
 
-Deletes an alarm model. Any alarm instances that were created based on this alarm model
-are also deleted. This action can't be undone.
+Deletes an alarm model. Any alarm instances that were created based on this alarm model are also deleted. This action can't be undone.
 
 ``` swift
 public func deleteAlarmModel(input: DeleteAlarmModelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAlarmModelOutputResponse, DeleteAlarmModelOutputError>) -> Void)
@@ -61,8 +66,7 @@ public func deleteAlarmModel(input: DeleteAlarmModelInput, completion: @escaping
 
 ### `deleteDetectorModel(input:completion:)`
 
-Deletes a detector model. Any active instances of the detector model are also
-deleted.
+Deletes a detector model. Any active instances of the detector model are also deleted.
 
 ``` swift
 public func deleteDetectorModel(input: DeleteDetectorModelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDetectorModelOutputResponse, DeleteDetectorModelOutputError>) -> Void)
@@ -78,8 +82,7 @@ public func deleteInput(input: DeleteInputInput, completion: @escaping (ClientRu
 
 ### `describeAlarmModel(input:completion:)`
 
-Retrieves information about an alarm model. If you don't specify a value for the
-alarmModelVersion parameter, the latest version is returned.
+Retrieves information about an alarm model. If you don't specify a value for the alarmModelVersion parameter, the latest version is returned.
 
 ``` swift
 public func describeAlarmModel(input: DescribeAlarmModelInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAlarmModelOutputResponse, DescribeAlarmModelOutputError>) -> Void)
@@ -87,8 +90,7 @@ public func describeAlarmModel(input: DescribeAlarmModelInput, completion: @esca
 
 ### `describeDetectorModel(input:completion:)`
 
-Describes a detector model. If the version parameter is not specified,
-information about the latest version is returned.
+Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
 
 ``` swift
 public func describeDetectorModel(input: DescribeDetectorModelInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDetectorModelOutputResponse, DescribeDetectorModelOutputError>) -> Void)
@@ -96,14 +98,10 @@ public func describeDetectorModel(input: DescribeDetectorModelInput, completion:
 
 ### `describeDetectorModelAnalysis(input:completion:)`
 
-Retrieves runtime information about a detector model analysis.
+Retrieves runtime information about a detector model analysis. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
 
 ``` swift
 public func describeDetectorModelAnalysis(input: DescribeDetectorModelAnalysisInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDetectorModelAnalysisOutputResponse, DescribeDetectorModelAnalysisOutputError>) -> Void)
-```
-
-``` 
-        After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
 ```
 
 ### `describeInput(input:completion:)`
@@ -124,20 +122,15 @@ public func describeLoggingOptions(input: DescribeLoggingOptionsInput, completio
 
 ### `getDetectorModelAnalysisResults(input:completion:)`
 
-Retrieves one or more analysis results of the detector model.
+Retrieves one or more analysis results of the detector model. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
 
 ``` swift
 public func getDetectorModelAnalysisResults(input: GetDetectorModelAnalysisResultsInput, completion: @escaping (ClientRuntime.SdkResult<GetDetectorModelAnalysisResultsOutputResponse, GetDetectorModelAnalysisResultsOutputError>) -> Void)
 ```
 
-``` 
-        After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
-```
-
 ### `listAlarmModelVersions(input:completion:)`
 
-Lists all the versions of an alarm model. The operation returns only the metadata
-associated with each alarm model version.
+Lists all the versions of an alarm model. The operation returns only the metadata associated with each alarm model version.
 
 ``` swift
 public func listAlarmModelVersions(input: ListAlarmModelVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListAlarmModelVersionsOutputResponse, ListAlarmModelVersionsOutputError>) -> Void)
@@ -145,8 +138,7 @@ public func listAlarmModelVersions(input: ListAlarmModelVersionsInput, completio
 
 ### `listAlarmModels(input:completion:)`
 
-Lists the alarm models that you created. The operation returns only the metadata
-associated with each alarm model.
+Lists the alarm models that you created. The operation returns only the metadata associated with each alarm model.
 
 ``` swift
 public func listAlarmModels(input: ListAlarmModelsInput, completion: @escaping (ClientRuntime.SdkResult<ListAlarmModelsOutputResponse, ListAlarmModelsOutputError>) -> Void)
@@ -154,8 +146,7 @@ public func listAlarmModels(input: ListAlarmModelsInput, completion: @escaping (
 
 ### `listDetectorModelVersions(input:completion:)`
 
-Lists all the versions of a detector model. Only the metadata associated with each
-detector model version is returned.
+Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
 
 ``` swift
 public func listDetectorModelVersions(input: ListDetectorModelVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListDetectorModelVersionsOutputResponse, ListDetectorModelVersionsOutputError>) -> Void)
@@ -163,8 +154,7 @@ public func listDetectorModelVersions(input: ListDetectorModelVersionsInput, com
 
 ### `listDetectorModels(input:completion:)`
 
-Lists the detector models you have created. Only the metadata associated with each
-detector model is returned.
+Lists the detector models you have created. Only the metadata associated with each detector model is returned.
 
 ``` swift
 public func listDetectorModels(input: ListDetectorModelsInput, completion: @escaping (ClientRuntime.SdkResult<ListDetectorModelsOutputResponse, ListDetectorModelsOutputError>) -> Void)
@@ -196,11 +186,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `putLoggingOptions(input:completion:)`
 
-Sets or updates the AWS IoT Events logging options.
-If you update the value of any loggingOptions field, it takes up to one
-minute for the change to take effect. If you change the policy attached to the role you
-specified in the roleArn field (for example, to correct an invalid policy), it
-takes up to five minutes for that change to take effect.
+Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
 
 ``` swift
 public func putLoggingOptions(input: PutLoggingOptionsInput, completion: @escaping (ClientRuntime.SdkResult<PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>) -> Void)
@@ -208,9 +194,7 @@ public func putLoggingOptions(input: PutLoggingOptionsInput, completion: @escapi
 
 ### `startDetectorModelAnalysis(input:completion:)`
 
-Performs an analysis of your detector model. For more information,
-see <a href="https:​//docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html">Troubleshooting a detector model
-in the AWS IoT Events Developer Guide.
+Performs an analysis of your detector model. For more information, see [Troubleshooting a detector model](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html) in the AWS IoT Events Developer Guide.
 
 ``` swift
 public func startDetectorModelAnalysis(input: StartDetectorModelAnalysisInput, completion: @escaping (ClientRuntime.SdkResult<StartDetectorModelAnalysisOutputResponse, StartDetectorModelAnalysisOutputError>) -> Void)
@@ -218,8 +202,7 @@ public func startDetectorModelAnalysis(input: StartDetectorModelAnalysisInput, c
 
 ### `tagResource(input:completion:)`
 
-Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
-manage a resource.
+Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -235,8 +218,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateAlarmModel(input:completion:)`
 
-Updates an alarm model. Any alarms that were created based on the previous version are
-deleted and then created again as new data arrives.
+Updates an alarm model. Any alarms that were created based on the previous version are deleted and then created again as new data arrives.
 
 ``` swift
 public func updateAlarmModel(input: UpdateAlarmModelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAlarmModelOutputResponse, UpdateAlarmModelOutputError>) -> Void)
@@ -244,8 +226,7 @@ public func updateAlarmModel(input: UpdateAlarmModelInput, completion: @escaping
 
 ### `updateDetectorModel(input:completion:)`
 
-Updates a detector model. Detectors (instances) spawned by the previous version are
-deleted and then re-created as new inputs arrive.
+Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
 
 ``` swift
 public func updateDetectorModel(input: UpdateDetectorModelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDetectorModelOutputResponse, UpdateDetectorModelOutputError>) -> Void)

@@ -8,7 +8,7 @@ public protocol IotWirelessClientProtocol
 
 ## Requirements
 
-### associateAwsAccountWithPartnerAccount(input:​completion:​)
+### associateAwsAccountWithPartnerAccount(input:completion:)
 
 Associates a partner account with your AWS account.
 
@@ -16,7 +16,7 @@ Associates a partner account with your AWS account.
 func associateAwsAccountWithPartnerAccount(input: AssociateAwsAccountWithPartnerAccountInput, completion: @escaping (ClientRuntime.SdkResult<AssociateAwsAccountWithPartnerAccountOutputResponse, AssociateAwsAccountWithPartnerAccountOutputError>) -> Void)
 ```
 
-### associateWirelessDeviceWithThing(input:​completion:​)
+### associateWirelessDeviceWithThing(input:completion:)
 
 Associates a wireless device with a thing.
 
@@ -24,7 +24,7 @@ Associates a wireless device with a thing.
 func associateWirelessDeviceWithThing(input: AssociateWirelessDeviceWithThingInput, completion: @escaping (ClientRuntime.SdkResult<AssociateWirelessDeviceWithThingOutputResponse, AssociateWirelessDeviceWithThingOutputError>) -> Void)
 ```
 
-### associateWirelessGatewayWithCertificate(input:​completion:​)
+### associateWirelessGatewayWithCertificate(input:completion:)
 
 Associates a wireless gateway with a certificate.
 
@@ -32,7 +32,7 @@ Associates a wireless gateway with a certificate.
 func associateWirelessGatewayWithCertificate(input: AssociateWirelessGatewayWithCertificateInput, completion: @escaping (ClientRuntime.SdkResult<AssociateWirelessGatewayWithCertificateOutputResponse, AssociateWirelessGatewayWithCertificateOutputError>) -> Void)
 ```
 
-### associateWirelessGatewayWithThing(input:​completion:​)
+### associateWirelessGatewayWithThing(input:completion:)
 
 Associates a wireless gateway with a thing.
 
@@ -40,7 +40,7 @@ Associates a wireless gateway with a thing.
 func associateWirelessGatewayWithThing(input: AssociateWirelessGatewayWithThingInput, completion: @escaping (ClientRuntime.SdkResult<AssociateWirelessGatewayWithThingOutputResponse, AssociateWirelessGatewayWithThingOutputError>) -> Void)
 ```
 
-### createDestination(input:​completion:​)
+### createDestination(input:completion:)
 
 Creates a new destination that maps a device message to an AWS IoT rule.
 
@@ -48,7 +48,7 @@ Creates a new destination that maps a device message to an AWS IoT rule.
 func createDestination(input: CreateDestinationInput, completion: @escaping (ClientRuntime.SdkResult<CreateDestinationOutputResponse, CreateDestinationOutputError>) -> Void)
 ```
 
-### createDeviceProfile(input:​completion:​)
+### createDeviceProfile(input:completion:)
 
 Creates a new device profile.
 
@@ -56,7 +56,7 @@ Creates a new device profile.
 func createDeviceProfile(input: CreateDeviceProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeviceProfileOutputResponse, CreateDeviceProfileOutputError>) -> Void)
 ```
 
-### createServiceProfile(input:​completion:​)
+### createServiceProfile(input:completion:)
 
 Creates a new service profile.
 
@@ -64,7 +64,7 @@ Creates a new service profile.
 func createServiceProfile(input: CreateServiceProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateServiceProfileOutputResponse, CreateServiceProfileOutputError>) -> Void)
 ```
 
-### createWirelessDevice(input:​completion:​)
+### createWirelessDevice(input:completion:)
 
 Provisions a wireless device.
 
@@ -72,7 +72,7 @@ Provisions a wireless device.
 func createWirelessDevice(input: CreateWirelessDeviceInput, completion: @escaping (ClientRuntime.SdkResult<CreateWirelessDeviceOutputResponse, CreateWirelessDeviceOutputError>) -> Void)
 ```
 
-### createWirelessGateway(input:​completion:​)
+### createWirelessGateway(input:completion:)
 
 Provisions a wireless gateway.
 
@@ -80,7 +80,7 @@ Provisions a wireless gateway.
 func createWirelessGateway(input: CreateWirelessGatewayInput, completion: @escaping (ClientRuntime.SdkResult<CreateWirelessGatewayOutputResponse, CreateWirelessGatewayOutputError>) -> Void)
 ```
 
-### createWirelessGatewayTask(input:​completion:​)
+### createWirelessGatewayTask(input:completion:)
 
 Creates a task for a wireless gateway.
 
@@ -88,7 +88,7 @@ Creates a task for a wireless gateway.
 func createWirelessGatewayTask(input: CreateWirelessGatewayTaskInput, completion: @escaping (ClientRuntime.SdkResult<CreateWirelessGatewayTaskOutputResponse, CreateWirelessGatewayTaskOutputError>) -> Void)
 ```
 
-### createWirelessGatewayTaskDefinition(input:​completion:​)
+### createWirelessGatewayTaskDefinition(input:completion:)
 
 Creates a gateway task definition.
 
@@ -96,7 +96,7 @@ Creates a gateway task definition.
 func createWirelessGatewayTaskDefinition(input: CreateWirelessGatewayTaskDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<CreateWirelessGatewayTaskDefinitionOutputResponse, CreateWirelessGatewayTaskDefinitionOutputError>) -> Void)
 ```
 
-### deleteDestination(input:​completion:​)
+### deleteDestination(input:completion:)
 
 Deletes a destination.
 
@@ -104,7 +104,7 @@ Deletes a destination.
 func deleteDestination(input: DeleteDestinationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDestinationOutputResponse, DeleteDestinationOutputError>) -> Void)
 ```
 
-### deleteDeviceProfile(input:​completion:​)
+### deleteDeviceProfile(input:completion:)
 
 Deletes a device profile.
 
@@ -112,7 +112,7 @@ Deletes a device profile.
 func deleteDeviceProfile(input: DeleteDeviceProfileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDeviceProfileOutputResponse, DeleteDeviceProfileOutputError>) -> Void)
 ```
 
-### deleteServiceProfile(input:​completion:​)
+### deleteServiceProfile(input:completion:)
 
 Deletes a service profile.
 
@@ -120,7 +120,7 @@ Deletes a service profile.
 func deleteServiceProfile(input: DeleteServiceProfileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteServiceProfileOutputResponse, DeleteServiceProfileOutputError>) -> Void)
 ```
 
-### deleteWirelessDevice(input:​completion:​)
+### deleteWirelessDevice(input:completion:)
 
 Deletes a wireless device.
 
@@ -128,7 +128,7 @@ Deletes a wireless device.
 func deleteWirelessDevice(input: DeleteWirelessDeviceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWirelessDeviceOutputResponse, DeleteWirelessDeviceOutputError>) -> Void)
 ```
 
-### deleteWirelessGateway(input:​completion:​)
+### deleteWirelessGateway(input:completion:)
 
 Deletes a wireless gateway.
 
@@ -136,7 +136,7 @@ Deletes a wireless gateway.
 func deleteWirelessGateway(input: DeleteWirelessGatewayInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWirelessGatewayOutputResponse, DeleteWirelessGatewayOutputError>) -> Void)
 ```
 
-### deleteWirelessGatewayTask(input:​completion:​)
+### deleteWirelessGatewayTask(input:completion:)
 
 Deletes a wireless gateway task.
 
@@ -144,7 +144,7 @@ Deletes a wireless gateway task.
 func deleteWirelessGatewayTask(input: DeleteWirelessGatewayTaskInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWirelessGatewayTaskOutputResponse, DeleteWirelessGatewayTaskOutputError>) -> Void)
 ```
 
-### deleteWirelessGatewayTaskDefinition(input:​completion:​)
+### deleteWirelessGatewayTaskDefinition(input:completion:)
 
 Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
 
@@ -152,7 +152,7 @@ Deletes a wireless gateway task definition. Deleting this task definition does n
 func deleteWirelessGatewayTaskDefinition(input: DeleteWirelessGatewayTaskDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWirelessGatewayTaskDefinitionOutputResponse, DeleteWirelessGatewayTaskDefinitionOutputError>) -> Void)
 ```
 
-### disassociateAwsAccountFromPartnerAccount(input:​completion:​)
+### disassociateAwsAccountFromPartnerAccount(input:completion:)
 
 Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
 
@@ -160,7 +160,7 @@ Disassociates your AWS account from a partner account. If PartnerAccountId and P
 func disassociateAwsAccountFromPartnerAccount(input: DisassociateAwsAccountFromPartnerAccountInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateAwsAccountFromPartnerAccountOutputResponse, DisassociateAwsAccountFromPartnerAccountOutputError>) -> Void)
 ```
 
-### disassociateWirelessDeviceFromThing(input:​completion:​)
+### disassociateWirelessDeviceFromThing(input:completion:)
 
 Disassociates a wireless device from its currently associated thing.
 
@@ -168,7 +168,7 @@ Disassociates a wireless device from its currently associated thing.
 func disassociateWirelessDeviceFromThing(input: DisassociateWirelessDeviceFromThingInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateWirelessDeviceFromThingOutputResponse, DisassociateWirelessDeviceFromThingOutputError>) -> Void)
 ```
 
-### disassociateWirelessGatewayFromCertificate(input:​completion:​)
+### disassociateWirelessGatewayFromCertificate(input:completion:)
 
 Disassociates a wireless gateway from its currently associated certificate.
 
@@ -176,7 +176,7 @@ Disassociates a wireless gateway from its currently associated certificate.
 func disassociateWirelessGatewayFromCertificate(input: DisassociateWirelessGatewayFromCertificateInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateWirelessGatewayFromCertificateOutputResponse, DisassociateWirelessGatewayFromCertificateOutputError>) -> Void)
 ```
 
-### disassociateWirelessGatewayFromThing(input:​completion:​)
+### disassociateWirelessGatewayFromThing(input:completion:)
 
 Disassociates a wireless gateway from its currently associated thing.
 
@@ -184,7 +184,7 @@ Disassociates a wireless gateway from its currently associated thing.
 func disassociateWirelessGatewayFromThing(input: DisassociateWirelessGatewayFromThingInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateWirelessGatewayFromThingOutputResponse, DisassociateWirelessGatewayFromThingOutputError>) -> Void)
 ```
 
-### getDestination(input:​completion:​)
+### getDestination(input:completion:)
 
 Gets information about a destination.
 
@@ -192,7 +192,7 @@ Gets information about a destination.
 func getDestination(input: GetDestinationInput, completion: @escaping (ClientRuntime.SdkResult<GetDestinationOutputResponse, GetDestinationOutputError>) -> Void)
 ```
 
-### getDeviceProfile(input:​completion:​)
+### getDeviceProfile(input:completion:)
 
 Gets information about a device profile.
 
@@ -200,16 +200,15 @@ Gets information about a device profile.
 func getDeviceProfile(input: GetDeviceProfileInput, completion: @escaping (ClientRuntime.SdkResult<GetDeviceProfileOutputResponse, GetDeviceProfileOutputError>) -> Void)
 ```
 
-### getLogLevelsByResourceTypes(input:​completion:​)
+### getLogLevelsByResourceTypes(input:completion:)
 
-Returns current default log levels or log levels by resource types. Based on resource types, log levels can be
-for wireless device log options or wireless gateway log options.
+Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
 
 ``` swift
 func getLogLevelsByResourceTypes(input: GetLogLevelsByResourceTypesInput, completion: @escaping (ClientRuntime.SdkResult<GetLogLevelsByResourceTypesOutputResponse, GetLogLevelsByResourceTypesOutputError>) -> Void)
 ```
 
-### getPartnerAccount(input:​completion:​)
+### getPartnerAccount(input:completion:)
 
 Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
 
@@ -217,16 +216,15 @@ Gets information about a partner account. If PartnerAccountId and PartnerType ar
 func getPartnerAccount(input: GetPartnerAccountInput, completion: @escaping (ClientRuntime.SdkResult<GetPartnerAccountOutputResponse, GetPartnerAccountOutputError>) -> Void)
 ```
 
-### getResourceLogLevel(input:​completion:​)
+### getResourceLogLevel(input:completion:)
 
-Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for
-a wireless device or a wireless gateway.
+Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
 
 ``` swift
 func getResourceLogLevel(input: GetResourceLogLevelInput, completion: @escaping (ClientRuntime.SdkResult<GetResourceLogLevelOutputResponse, GetResourceLogLevelOutputError>) -> Void)
 ```
 
-### getServiceEndpoint(input:​completion:​)
+### getServiceEndpoint(input:completion:)
 
 Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
 
@@ -234,7 +232,7 @@ Gets the account-specific endpoint for Configuration and Update Server (CUPS) pr
 func getServiceEndpoint(input: GetServiceEndpointInput, completion: @escaping (ClientRuntime.SdkResult<GetServiceEndpointOutputResponse, GetServiceEndpointOutputError>) -> Void)
 ```
 
-### getServiceProfile(input:​completion:​)
+### getServiceProfile(input:completion:)
 
 Gets information about a service profile.
 
@@ -242,7 +240,7 @@ Gets information about a service profile.
 func getServiceProfile(input: GetServiceProfileInput, completion: @escaping (ClientRuntime.SdkResult<GetServiceProfileOutputResponse, GetServiceProfileOutputError>) -> Void)
 ```
 
-### getWirelessDevice(input:​completion:​)
+### getWirelessDevice(input:completion:)
 
 Gets information about a wireless device.
 
@@ -250,7 +248,7 @@ Gets information about a wireless device.
 func getWirelessDevice(input: GetWirelessDeviceInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessDeviceOutputResponse, GetWirelessDeviceOutputError>) -> Void)
 ```
 
-### getWirelessDeviceStatistics(input:​completion:​)
+### getWirelessDeviceStatistics(input:completion:)
 
 Gets operating information about a wireless device.
 
@@ -258,7 +256,7 @@ Gets operating information about a wireless device.
 func getWirelessDeviceStatistics(input: GetWirelessDeviceStatisticsInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessDeviceStatisticsOutputResponse, GetWirelessDeviceStatisticsOutputError>) -> Void)
 ```
 
-### getWirelessGateway(input:​completion:​)
+### getWirelessGateway(input:completion:)
 
 Gets information about a wireless gateway.
 
@@ -266,7 +264,7 @@ Gets information about a wireless gateway.
 func getWirelessGateway(input: GetWirelessGatewayInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessGatewayOutputResponse, GetWirelessGatewayOutputError>) -> Void)
 ```
 
-### getWirelessGatewayCertificate(input:​completion:​)
+### getWirelessGatewayCertificate(input:completion:)
 
 Gets the ID of the certificate that is currently associated with a wireless gateway.
 
@@ -274,7 +272,7 @@ Gets the ID of the certificate that is currently associated with a wireless gate
 func getWirelessGatewayCertificate(input: GetWirelessGatewayCertificateInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessGatewayCertificateOutputResponse, GetWirelessGatewayCertificateOutputError>) -> Void)
 ```
 
-### getWirelessGatewayFirmwareInformation(input:​completion:​)
+### getWirelessGatewayFirmwareInformation(input:completion:)
 
 Gets the firmware version and other information about a wireless gateway.
 
@@ -282,7 +280,7 @@ Gets the firmware version and other information about a wireless gateway.
 func getWirelessGatewayFirmwareInformation(input: GetWirelessGatewayFirmwareInformationInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessGatewayFirmwareInformationOutputResponse, GetWirelessGatewayFirmwareInformationOutputError>) -> Void)
 ```
 
-### getWirelessGatewayStatistics(input:​completion:​)
+### getWirelessGatewayStatistics(input:completion:)
 
 Gets operating information about a wireless gateway.
 
@@ -290,7 +288,7 @@ Gets operating information about a wireless gateway.
 func getWirelessGatewayStatistics(input: GetWirelessGatewayStatisticsInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessGatewayStatisticsOutputResponse, GetWirelessGatewayStatisticsOutputError>) -> Void)
 ```
 
-### getWirelessGatewayTask(input:​completion:​)
+### getWirelessGatewayTask(input:completion:)
 
 Gets information about a wireless gateway task.
 
@@ -298,7 +296,7 @@ Gets information about a wireless gateway task.
 func getWirelessGatewayTask(input: GetWirelessGatewayTaskInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessGatewayTaskOutputResponse, GetWirelessGatewayTaskOutputError>) -> Void)
 ```
 
-### getWirelessGatewayTaskDefinition(input:​completion:​)
+### getWirelessGatewayTaskDefinition(input:completion:)
 
 Gets information about a wireless gateway task definition.
 
@@ -306,7 +304,7 @@ Gets information about a wireless gateway task definition.
 func getWirelessGatewayTaskDefinition(input: GetWirelessGatewayTaskDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<GetWirelessGatewayTaskDefinitionOutputResponse, GetWirelessGatewayTaskDefinitionOutputError>) -> Void)
 ```
 
-### listDestinations(input:​completion:​)
+### listDestinations(input:completion:)
 
 Lists the destinations registered to your AWS account.
 
@@ -314,7 +312,7 @@ Lists the destinations registered to your AWS account.
 func listDestinations(input: ListDestinationsInput, completion: @escaping (ClientRuntime.SdkResult<ListDestinationsOutputResponse, ListDestinationsOutputError>) -> Void)
 ```
 
-### listDeviceProfiles(input:​completion:​)
+### listDeviceProfiles(input:completion:)
 
 Lists the device profiles registered to your AWS account.
 
@@ -322,7 +320,7 @@ Lists the device profiles registered to your AWS account.
 func listDeviceProfiles(input: ListDeviceProfilesInput, completion: @escaping (ClientRuntime.SdkResult<ListDeviceProfilesOutputResponse, ListDeviceProfilesOutputError>) -> Void)
 ```
 
-### listPartnerAccounts(input:​completion:​)
+### listPartnerAccounts(input:completion:)
 
 Lists the partner accounts associated with your AWS account.
 
@@ -330,7 +328,7 @@ Lists the partner accounts associated with your AWS account.
 func listPartnerAccounts(input: ListPartnerAccountsInput, completion: @escaping (ClientRuntime.SdkResult<ListPartnerAccountsOutputResponse, ListPartnerAccountsOutputError>) -> Void)
 ```
 
-### listServiceProfiles(input:​completion:​)
+### listServiceProfiles(input:completion:)
 
 Lists the service profiles registered to your AWS account.
 
@@ -338,7 +336,7 @@ Lists the service profiles registered to your AWS account.
 func listServiceProfiles(input: ListServiceProfilesInput, completion: @escaping (ClientRuntime.SdkResult<ListServiceProfilesOutputResponse, ListServiceProfilesOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists the tags (metadata) you have assigned to the resource.
 
@@ -346,7 +344,7 @@ Lists the tags (metadata) you have assigned to the resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listWirelessDevices(input:​completion:​)
+### listWirelessDevices(input:completion:)
 
 Lists the wireless devices registered to your AWS account.
 
@@ -354,7 +352,7 @@ Lists the wireless devices registered to your AWS account.
 func listWirelessDevices(input: ListWirelessDevicesInput, completion: @escaping (ClientRuntime.SdkResult<ListWirelessDevicesOutputResponse, ListWirelessDevicesOutputError>) -> Void)
 ```
 
-### listWirelessGateways(input:​completion:​)
+### listWirelessGateways(input:completion:)
 
 Lists the wireless gateways registered to your AWS account.
 
@@ -362,7 +360,7 @@ Lists the wireless gateways registered to your AWS account.
 func listWirelessGateways(input: ListWirelessGatewaysInput, completion: @escaping (ClientRuntime.SdkResult<ListWirelessGatewaysOutputResponse, ListWirelessGatewaysOutputError>) -> Void)
 ```
 
-### listWirelessGatewayTaskDefinitions(input:​completion:​)
+### listWirelessGatewayTaskDefinitions(input:completion:)
 
 List the wireless gateway tasks definitions registered to your AWS account.
 
@@ -370,16 +368,15 @@ List the wireless gateway tasks definitions registered to your AWS account.
 func listWirelessGatewayTaskDefinitions(input: ListWirelessGatewayTaskDefinitionsInput, completion: @escaping (ClientRuntime.SdkResult<ListWirelessGatewayTaskDefinitionsOutputResponse, ListWirelessGatewayTaskDefinitionsOutputError>) -> Void)
 ```
 
-### putResourceLogLevel(input:​completion:​)
+### putResourceLogLevel(input:completion:)
 
-Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway
-or a wireless device. A limit of 200 log level override can be set per account.
+Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
 
 ``` swift
 func putResourceLogLevel(input: PutResourceLogLevelInput, completion: @escaping (ClientRuntime.SdkResult<PutResourceLogLevelOutputResponse, PutResourceLogLevelOutputError>) -> Void)
 ```
 
-### resetAllResourceLogLevels(input:​completion:​)
+### resetAllResourceLogLevels(input:completion:)
 
 Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
 
@@ -387,16 +384,15 @@ Removes the log-level overrides for all resources; both wireless devices and wir
 func resetAllResourceLogLevels(input: ResetAllResourceLogLevelsInput, completion: @escaping (ClientRuntime.SdkResult<ResetAllResourceLogLevelsOutputResponse, ResetAllResourceLogLevelsOutputError>) -> Void)
 ```
 
-### resetResourceLogLevel(input:​completion:​)
+### resetResourceLogLevel(input:completion:)
 
-Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for
-a wireless device or a wireless gateway.
+Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
 
 ``` swift
 func resetResourceLogLevel(input: ResetResourceLogLevelInput, completion: @escaping (ClientRuntime.SdkResult<ResetResourceLogLevelOutputResponse, ResetResourceLogLevelOutputError>) -> Void)
 ```
 
-### sendDataToWirelessDevice(input:​completion:​)
+### sendDataToWirelessDevice(input:completion:)
 
 Sends a decrypted application data frame to a device.
 
@@ -404,7 +400,7 @@ Sends a decrypted application data frame to a device.
 func sendDataToWirelessDevice(input: SendDataToWirelessDeviceInput, completion: @escaping (ClientRuntime.SdkResult<SendDataToWirelessDeviceOutputResponse, SendDataToWirelessDeviceOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds a tag to a resource.
 
@@ -412,7 +408,7 @@ Adds a tag to a resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### testWirelessDevice(input:​completion:​)
+### testWirelessDevice(input:completion:)
 
 Simulates a provisioned device by sending an uplink data payload of Hello.
 
@@ -420,7 +416,7 @@ Simulates a provisioned device by sending an uplink data payload of Hello.
 func testWirelessDevice(input: TestWirelessDeviceInput, completion: @escaping (ClientRuntime.SdkResult<TestWirelessDeviceOutputResponse, TestWirelessDeviceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes one or more tags from a resource.
 
@@ -428,7 +424,7 @@ Removes one or more tags from a resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateDestination(input:​completion:​)
+### updateDestination(input:completion:)
 
 Updates properties of a destination.
 
@@ -436,16 +432,15 @@ Updates properties of a destination.
 func updateDestination(input: UpdateDestinationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDestinationOutputResponse, UpdateDestinationOutputError>) -> Void)
 ```
 
-### updateLogLevelsByResourceTypes(input:​completion:​)
+### updateLogLevelsByResourceTypes(input:completion:)
 
-Set default log level, or log levels by resource types. This can be for wireless device log options or
-wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
+Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
 
 ``` swift
 func updateLogLevelsByResourceTypes(input: UpdateLogLevelsByResourceTypesInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLogLevelsByResourceTypesOutputResponse, UpdateLogLevelsByResourceTypesOutputError>) -> Void)
 ```
 
-### updatePartnerAccount(input:​completion:​)
+### updatePartnerAccount(input:completion:)
 
 Updates properties of a partner account.
 
@@ -453,7 +448,7 @@ Updates properties of a partner account.
 func updatePartnerAccount(input: UpdatePartnerAccountInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePartnerAccountOutputResponse, UpdatePartnerAccountOutputError>) -> Void)
 ```
 
-### updateWirelessDevice(input:​completion:​)
+### updateWirelessDevice(input:completion:)
 
 Updates properties of a wireless device.
 
@@ -461,7 +456,7 @@ Updates properties of a wireless device.
 func updateWirelessDevice(input: UpdateWirelessDeviceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateWirelessDeviceOutputResponse, UpdateWirelessDeviceOutputError>) -> Void)
 ```
 
-### updateWirelessGateway(input:​completion:​)
+### updateWirelessGateway(input:completion:)
 
 Updates properties of a wireless gateway.
 

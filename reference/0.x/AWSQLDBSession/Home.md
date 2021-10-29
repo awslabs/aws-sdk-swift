@@ -8,4 +8,4 @@
 # Protocols
 
   - [QldbSessionClientProtocol](/aws-sdk-swift/reference/0.x/AWSQLDBSession/QldbSessionClientProtocol):
-    The transactional data APIs for Amazon QLDB
+    The transactional data APIs for Amazon QLDB Instead of interacting directly with this API, we recommend using the QLDB driver or the QLDB shell to execute data transactions on a ledger.

@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AppSyncClient"
+```
+
 ## Methods
 
 ### `createApiCache(input:completion:)`
@@ -34,8 +42,7 @@ public func createApiCache(input: CreateApiCacheInput, completion: @escaping (Cl
 
 ### `createApiKey(input:completion:)`
 
-Creates a unique key that you can distribute to clients who are executing your
-API.
+Creates a unique key that you can distribute to clients who are executing your API.
 
 ``` swift
 public func createApiKey(input: CreateApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<CreateApiKeyOutputResponse, CreateApiKeyOutputError>) -> Void)
@@ -51,9 +58,7 @@ public func createDataSource(input: CreateDataSourceInput, completion: @escaping
 
 ### `createFunction(input:completion:)`
 
-Creates a Function object.
-A function is a reusable entity. Multiple functions can be used to compose the resolver
-logic.
+Creates a Function object. A function is a reusable entity. Multiple functions can be used to compose the resolver logic.
 
 ``` swift
 public func createFunction(input: CreateFunctionInput, completion: @escaping (ClientRuntime.SdkResult<CreateFunctionOutputResponse, CreateFunctionOutputError>) -> Void)
@@ -69,9 +74,7 @@ public func createGraphqlApi(input: CreateGraphqlApiInput, completion: @escaping
 
 ### `createResolver(input:completion:)`
 
-Creates a Resolver object.
-A resolver converts incoming requests into a format that a data source can understand
-and converts the data source's responses into GraphQL.
+Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand and converts the data source's responses into GraphQL.
 
 ``` swift
 public func createResolver(input: CreateResolverInput, completion: @escaping (ClientRuntime.SdkResult<CreateResolverOutputResponse, CreateResolverOutputError>) -> Void)
@@ -215,17 +218,10 @@ public func getType(input: GetTypeInput, completion: @escaping (ClientRuntime.Sd
 
 ### `listApiKeys(input:completion:)`
 
-Lists the API keys for a given API.
+Lists the API keys for a given API. API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
 
 ``` swift
 public func listApiKeys(input: ListApiKeysInput, completion: @escaping (ClientRuntime.SdkResult<ListApiKeysOutputResponse, ListApiKeysOutputError>) -> Void)
-```
-
-``` 
-        API keys are deleted automatically 60 days after they expire. However, they may still
-        be included in the response until they have actually been deleted. You can safely call
-           DeleteApiKey to manually delete a key before it's automatically
-        deleted.
 ```
 
 ### `listDataSources(input:completion:)`
@@ -286,9 +282,7 @@ public func listTypes(input: ListTypesInput, completion: @escaping (ClientRuntim
 
 ### `startSchemaCreation(input:completion:)`
 
-Adds a new schema to your GraphQL API.
-This operation is asynchronous. Use  to
-determine when it has completed.
+Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
 
 ``` swift
 public func startSchemaCreation(input: StartSchemaCreationInput, completion: @escaping (ClientRuntime.SdkResult<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>) -> Void)

@@ -8,114 +8,77 @@ public protocol TimestreamWriteClientProtocol
 
 ## Requirements
 
-### createDatabase(input:​completion:​)
+### createDatabase(input:completion:)
 
-Creates a new Timestream database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account.
-Refer to <a href="https:​//docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS managed KMS keys for more info.
-Service quotas apply. For more information, see <a href="https:​//docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access Management in the Timestream Developer Guide.
+Creates a new Timestream database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. Refer to [AWS managed KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) for more info. Service quotas apply. For more information, see [Access Management](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
 
 ``` swift
 func createDatabase(input: CreateDatabaseInput, completion: @escaping (ClientRuntime.SdkResult<CreateDatabaseOutputResponse, CreateDatabaseOutputError>) -> Void)
 ```
 
-### createTable(input:​completion:​)
+### createTable(input:completion:)
 
-The CreateTable operation adds a new table to an existing database in your account. In an AWS account,
-table names must be at least unique within each Region if they are in the same database.
-You may have identical table names in the same Region if the tables are in seperate databases.
-While creating the table, you must specify the table name, database name,
-and the retention properties.
-Service quotas apply. For more information, see <a href="https:​//docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access Management
-in the Timestream Developer Guide.
+The CreateTable operation adds a new table to an existing database in your account. In an AWS account, table names must be at least unique within each Region if they are in the same database. You may have identical table names in the same Region if the tables are in seperate databases. While creating the table, you must specify the table name, database name, and the retention properties. Service quotas apply. For more information, see [Access Management](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
 
 ``` swift
 func createTable(input: CreateTableInput, completion: @escaping (ClientRuntime.SdkResult<CreateTableOutputResponse, CreateTableOutputError>) -> Void)
 ```
 
-### deleteDatabase(input:​completion:​)
+### deleteDatabase(input:completion:)
 
-Deletes a given Timestream database. This is an irreversible operation.
-After a database is deleted, the time series data from its tables cannot be recovered.
+Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time series data from its tables cannot be recovered. All tables in the database must be deleted first, or a ValidationException error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent.
 
 ``` swift
 func deleteDatabase(input: DeleteDatabaseInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDatabaseOutputResponse, DeleteDatabaseOutputError>) -> Void)
 ```
 
-``` 
-     All tables in the database must be deleted first, or a ValidationException error will be thrown.
+### deleteTable(input:completion:)
 
-
-     Due to the nature of distributed retries,
-     the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent.
-```
-
-### deleteTable(input:​completion:​)
-
-Deletes a given Timestream table. This is an irreversible operation.
-After a Timestream database table is deleted, the time series data stored in
-the table cannot be recovered.
+Deletes a given Timestream table. This is an irreversible operation. After a Timestream database table is deleted, the time series data stored in the table cannot be recovered. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent.
 
 ``` swift
 func deleteTable(input: DeleteTableInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTableOutputResponse, DeleteTableOutputError>) -> Void)
 ```
 
-``` 
-     Due to the nature of distributed retries,
-     the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent.
-```
+### describeDatabase(input:completion:)
 
-### describeDatabase(input:​completion:​)
-
-Returns information about the database, including the database name, time that the database was created,
-and the total number of tables found within the database.
-Service quotas apply. For more information, see <a href="https:​//docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access Management in the Timestream Developer Guide.
+Returns information about the database, including the database name, time that the database was created, and the total number of tables found within the database. Service quotas apply. For more information, see [Access Management](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
 
 ``` swift
 func describeDatabase(input: DescribeDatabaseInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDatabaseOutputResponse, DescribeDatabaseOutputError>) -> Void)
 ```
 
-### describeEndpoints(input:​completion:​)
+### describeEndpoints(input:completion:)
 
-DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query.
-Because Timestream’s SDKs are designed to transparently work with the service’s architecture,
-including the management and mapping of the service endpoints,
-it is not recommended that you use this API unless:​
+DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because Timestream’s SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:
 
 ``` swift
 func describeEndpoints(input: DescribeEndpointsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>) -> Void)
 ```
 
-``` 
-           Your application uses a programming language that does not yet have SDK support
+  - Your application uses a programming language that does not yet have SDK support
 
+  - You require better control over the client-side implementation
 
-           You require better control over the client-side implementation
+For detailed information on how to use DescribeEndpoints, see [The Endpoint Discovery Pattern and REST APIs](https://docs.aws.amazon.com/timestream/latest/developerguide/Using-API.endpoint-discovery.html).
 
+### describeTable(input:completion:)
 
-     For detailed information on how to use DescribeEndpoints,
-     see <a href="https://docs.aws.amazon.com/timestream/latest/developerguide/Using-API.endpoint-discovery.html">The Endpoint Discovery Pattern and REST APIs.
-```
-
-### describeTable(input:​completion:​)
-
-Returns information about the table, including the table name, database name,
-retention duration of the memory store and the magnetic store.
-Service quotas apply. For more information, see <a href="https:​//docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access Management in the Timestream Developer Guide.
+Returns information about the table, including the table name, database name, retention duration of the memory store and the magnetic store. Service quotas apply. For more information, see [Access Management](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
 
 ``` swift
 func describeTable(input: DescribeTableInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTableOutputResponse, DescribeTableOutputError>) -> Void)
 ```
 
-### listDatabases(input:​completion:​)
+### listDatabases(input:completion:)
 
-Returns a list of your Timestream databases.
-Service quotas apply. For more information, see <a href="https:​//docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access Management in the Timestream Developer Guide.
+Returns a list of your Timestream databases. Service quotas apply. For more information, see [Access Management](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
 
 ``` swift
 func listDatabases(input: ListDatabasesInput, completion: @escaping (ClientRuntime.SdkResult<ListDatabasesOutputResponse, ListDatabasesOutputError>) -> Void)
 ```
 
-### listTables(input:​completion:​)
+### listTables(input:completion:)
 
 A list of tables, along with the name, status and retention properties of each table.
 
@@ -123,7 +86,7 @@ A list of tables, along with the name, status and retention properties of each t
 func listTables(input: ListTablesInput, completion: @escaping (ClientRuntime.SdkResult<ListTablesOutputResponse, ListTablesOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 List all tags on a Timestream resource.
 
@@ -131,17 +94,15 @@ List all tags on a Timestream resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
-Associate a set of tags with a Timestream resource. You can then activate
-these user-defined tags so that they appear on the Billing and Cost
-Management console for cost allocation tracking.
+Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes the association of tags from a Timestream resource.
 
@@ -149,45 +110,25 @@ Removes the association of tags from a Timestream resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateDatabase(input:​completion:​)
+### updateDatabase(input:completion:)
 
-Modifies the KMS key for an existing database. While updating the database,
-you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId).
-If there are any concurrent UpdateDatabase requests, first writer wins.
+Modifies the KMS key for an existing database. While updating the database, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId). If there are any concurrent UpdateDatabase requests, first writer wins.
 
 ``` swift
 func updateDatabase(input: UpdateDatabaseInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDatabaseOutputResponse, UpdateDatabaseOutputError>) -> Void)
 ```
 
-### updateTable(input:​completion:​)
+### updateTable(input:completion:)
 
-Modifies the retention duration of the memory store and magnetic store for your Timestream table.
-Note that the change in retention duration takes effect immediately.
-For example, if the retention period of the memory store was initially set to 2 hours and then changed to 24 hours,
-the memory store will be capable of holding 24 hours of data, but will
-be populated with 24 hours of data 22 hours after this change was made.
-Timestream does not retrieve data from the magnetic store to populate the memory store.
-Service quotas apply. For more information, see <a href="https:​//docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access Management in the Timestream Developer Guide.
+Modifies the retention duration of the memory store and magnetic store for your Timestream table. Note that the change in retention duration takes effect immediately. For example, if the retention period of the memory store was initially set to 2 hours and then changed to 24 hours, the memory store will be capable of holding 24 hours of data, but will be populated with 24 hours of data 22 hours after this change was made. Timestream does not retrieve data from the magnetic store to populate the memory store. Service quotas apply. For more information, see [Access Management](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
 
 ``` swift
 func updateTable(input: UpdateTableInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTableOutputResponse, UpdateTableOutputError>) -> Void)
 ```
 
-### writeRecords(input:​completion:​)
+### writeRecords(input:completion:)
 
-The WriteRecords operation enables you to write your time series
-data into Timestream. You can specify a single data point or a batch
-of data points to be inserted into the system. Timestream offers you
-with a flexible schema that auto detects the column names and data types
-for your Timestream tables based on the dimension names and data types of
-the data points you specify when invoking writes into the database.
-Timestream support eventual consistency read semantics. This means that
-when you query data immediately after writing a batch of data into Timestream,
-the query results might not reflect the results of a recently completed write
-operation. The results may also include some stale data. If you repeat the
-query request after a short time, the results should return the latest data.
-Service quotas apply. For more information,
-see <a href="https:​//docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access Management in the Timestream Developer Guide.
+The WriteRecords operation enables you to write your time series data into Timestream. You can specify a single data point or a batch of data points to be inserted into the system. Timestream offers you with a flexible schema that auto detects the column names and data types for your Timestream tables based on the dimension names and data types of the data points you specify when invoking writes into the database. Timestream support eventual consistency read semantics. This means that when you query data immediately after writing a batch of data into Timestream, the query results might not reflect the results of a recently completed write operation. The results may also include some stale data. If you repeat the query request after a short time, the results should return the latest data. Service quotas apply. For more information, see [Access Management](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
 
 ``` swift
 func writeRecords(input: WriteRecordsInput, completion: @escaping (ClientRuntime.SdkResult<WriteRecordsOutputResponse, WriteRecordsOutputError>) -> Void)

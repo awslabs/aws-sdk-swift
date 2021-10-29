@@ -8,5 +8,4 @@
 # Protocols
 
   - [LicenseManagerClientProtocol](/aws-sdk-swift/reference/0.x/AWSLicenseManager/LicenseManagerClientProtocol):
-    License Manager makes it easier to manage licenses from software vendors across multiple
-    Amazon Web Services accounts and on-premises servers.
+    License Manager makes it easier to manage licenses from software vendors across multiple Amazon Web Services accounts and on-premises servers.

@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "OutpostsClient"
+```
+
 ## Methods
 
 ### `createOrder(input:completion:)`
@@ -34,8 +42,7 @@ public func createOrder(input: CreateOrderInput, completion: @escaping (ClientRu
 
 ### `createOutpost(input:completion:)`
 
-Creates an Outpost.
-You can specify AvailabilityZone or AvailabilityZoneId.
+Creates an Outpost. You can specify AvailabilityZone or AvailabilityZoneId.
 
 ``` swift
 public func createOutpost(input: CreateOutpostInput, completion: @escaping (ClientRuntime.SdkResult<CreateOutpostOutputResponse, CreateOutpostOutputError>) -> Void)
@@ -75,17 +82,10 @@ public func getOutpostInstanceTypes(input: GetOutpostInstanceTypesInput, complet
 
 ### `listOutposts(input:completion:)`
 
-Create a list of the Outposts for your AWS account. Add filters to your request to return
-a more specific list of results. Use filters to match an Outpost lifecycle status,
-Availibility Zone (us-east-1a), and AZ ID (use1-az1).
+Create a list of the Outposts for your AWS account. Add filters to your request to return a more specific list of results. Use filters to match an Outpost lifecycle status, Availibility Zone (us-east-1a), and AZ ID (use1-az1). If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
 
 ``` swift
 public func listOutposts(input: ListOutpostsInput, completion: @escaping (ClientRuntime.SdkResult<ListOutpostsOutputResponse, ListOutpostsOutputError>) -> Void)
-```
-
-``` 
-     If you specify multiple filters, the filters are joined with an AND, and the request returns only
-  results that match all of the specified filters.
 ```
 
 ### `listSites(input:completion:)`

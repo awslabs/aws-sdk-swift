@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "TimestreamQueryClient"
+```
+
 ## Methods
 
 ### `cancelQuery(input:completion:)`
 
-Cancels a query that has been issued. Cancellation is guaranteed only if the query has not
-completed execution before the cancellation request was issued. Because cancellation is an idempotent operation,
-subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled.
+Cancels a query that has been issued. Cancellation is guaranteed only if the query has not completed execution before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled.
 
 ``` swift
 public func cancelQuery(input: CancelQueryInput, completion: @escaping (ClientRuntime.SdkResult<CancelQueryOutputResponse, CancelQueryOutputError>) -> Void)
@@ -36,26 +42,17 @@ public func cancelQuery(input: CancelQueryInput, completion: @escaping (ClientRu
 
 ### `describeEndpoints(input:completion:)`
 
-DescribeEndpoints returns a list of available endpoints to make Timestream API calls against.
-This API is available through both Write and Query.
-Because Timestream’s SDKs are designed to transparently work with the service’s architecture,
-including the management and mapping of the service endpoints,
-it is not recommended that you use this API unless:​
+DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because Timestream’s SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:
 
 ``` swift
 public func describeEndpoints(input: DescribeEndpointsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>) -> Void)
 ```
 
-``` 
-           Your application uses a programming language that does not yet have SDK support
+  - Your application uses a programming language that does not yet have SDK support
 
+  - You require better control over the client-side implementation
 
-           You require better control over the client-side implementation
-
-
-    For detailed information on how to use DescribeEndpoints,
-        see <a href="https://docs.aws.amazon.com/timestream/latest/developerguide/Using-API.endpoint-discovery.html">The Endpoint Discovery Pattern and REST APIs.
-```
+For detailed information on how to use DescribeEndpoints, see [The Endpoint Discovery Pattern and REST APIs](https://docs.aws.amazon.com/timestream/latest/developerguide/Using-API.endpoint-discovery.html).
 
 ### `query(input:completion:)`
 

@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ApplicationInsightsClient"
+```
+
 ## Methods
 
 ### `createApplication(input:completion:)`
@@ -58,8 +66,7 @@ public func deleteApplication(input: DeleteApplicationInput, completion: @escapi
 
 ### `deleteComponent(input:completion:)`
 
-Ungroups a custom component. When you ungroup custom components, all applicable
-monitors that are set up for the component are removed and the instances revert to their standalone status.
+Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
 
 ``` swift
 public func deleteComponent(input: DeleteComponentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteComponentOutputResponse, DeleteComponentOutputError>) -> Void)
@@ -155,21 +162,17 @@ public func listComponents(input: ListComponentsInput, completion: @escaping (Cl
 
 ### `listConfigurationHistory(input:completion:)`
 
-Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:​
+Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:
 
 ``` swift
 public func listConfigurationHistory(input: ListConfigurationHistoryInput, completion: @escaping (ClientRuntime.SdkResult<ListConfigurationHistoryOutputResponse, ListConfigurationHistoryOutputError>) -> Void)
 ```
 
-``` 
-  INFO: creating a new alarm or updating an alarm threshold.
+  - INFO: creating a new alarm or updating an alarm threshold.
 
+  - WARN: alarm not created due to insufficient data points used to predict thresholds.
 
-  WARN: alarm not created due to insufficient data points used to predict thresholds.
-
-
-  ERROR: alarm not created due to permission errors or exceeding quotas.
-```
+  - ERROR: alarm not created due to permission errors or exceeding quotas.
 
 ### `listLogPatternSets(input:completion:)`
 
@@ -197,12 +200,7 @@ public func listProblems(input: ListProblemsInput, completion: @escaping (Client
 
 ### `listTagsForResource(input:completion:)`
 
-Retrieve a list of the tags (keys and values) that are associated with a specified
-application. A tag is a label that you optionally define and associate
-with an application. Each tag consists of a required tag key and an
-optional associated tag value. A tag key is a general label that
-acts as a category for more specific tag values. A tag value acts as a descriptor within
-a tag key.
+Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -210,14 +208,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Add one or more tags (keys and values) to a specified application. A
-tag is a label that you optionally define and associate with an
-application. Tags can help you categorize and manage application in different ways, such as
-by purpose, owner, environment, or other criteria.
-Each tag consists of a required tag key and an
-associated tag value, both of which you define. A tag key is a
-general label that acts as a category for more specific tag values. A tag value acts as
-a descriptor within a tag key.
+Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -241,8 +232,7 @@ public func updateApplication(input: UpdateApplicationInput, completion: @escapi
 
 ### `updateComponent(input:completion:)`
 
-Updates the custom component name and/or the list of resources that make up the
-component.
+Updates the custom component name and/or the list of resources that make up the component.
 
 ``` swift
 public func updateComponent(input: UpdateComponentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateComponentOutputResponse, UpdateComponentOutputError>) -> Void)
@@ -250,9 +240,7 @@ public func updateComponent(input: UpdateComponentInput, completion: @escaping (
 
 ### `updateComponentConfiguration(input:completion:)`
 
-Updates the monitoring configurations for the component. The configuration input parameter
-is an escaped JSON of the configuration and should match the schema of what is returned
-by DescribeComponentConfigurationRecommendation.
+Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation.
 
 ``` swift
 public func updateComponentConfiguration(input: UpdateComponentConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateComponentConfigurationOutputResponse, UpdateComponentConfigurationOutputError>) -> Void)

@@ -8,4 +8,4 @@
 # Protocols
 
   - [ResourceGroupsTaggingApiClientProtocol](/aws-sdk-swift/reference/0.x/AWSResourceGroupsTaggingAPI/ResourceGroupsTaggingApiClientProtocol):
-    <fullname>Resource Groups Tagging API</fullname>
+    Resource Groups Tagging API

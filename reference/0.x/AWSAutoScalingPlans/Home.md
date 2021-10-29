@@ -8,4 +8,4 @@
 # Protocols
 
   - [AutoScalingPlansClientProtocol](/aws-sdk-swift/reference/0.x/AWSAutoScalingPlans/AutoScalingPlansClientProtocol):
-    <fullname>AWS Auto Scaling</fullname>
+    AWS Auto Scaling Use AWS Auto Scaling to create scaling plans for your applications to automatically scale your scalable AWS resources. API Summary You can use the AWS Auto Scaling service API to accomplish the following tasks:

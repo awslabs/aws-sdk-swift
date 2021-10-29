@@ -8,7 +8,7 @@ public protocol AmpClientProtocol
 
 ## Requirements
 
-### createAlertManagerDefinition(input:​completion:​)
+### createAlertManagerDefinition(input:completion:)
 
 Create an alert manager definition.
 
@@ -16,7 +16,7 @@ Create an alert manager definition.
 func createAlertManagerDefinition(input: CreateAlertManagerDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<CreateAlertManagerDefinitionOutputResponse, CreateAlertManagerDefinitionOutputError>) -> Void)
 ```
 
-### createRuleGroupsNamespace(input:​completion:​)
+### createRuleGroupsNamespace(input:completion:)
 
 Create a rule group namespace.
 
@@ -24,7 +24,7 @@ Create a rule group namespace.
 func createRuleGroupsNamespace(input: CreateRuleGroupsNamespaceInput, completion: @escaping (ClientRuntime.SdkResult<CreateRuleGroupsNamespaceOutputResponse, CreateRuleGroupsNamespaceOutputError>) -> Void)
 ```
 
-### createWorkspace(input:​completion:​)
+### createWorkspace(input:completion:)
 
 Creates a new AMP workspace.
 
@@ -32,7 +32,7 @@ Creates a new AMP workspace.
 func createWorkspace(input: CreateWorkspaceInput, completion: @escaping (ClientRuntime.SdkResult<CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>) -> Void)
 ```
 
-### deleteAlertManagerDefinition(input:​completion:​)
+### deleteAlertManagerDefinition(input:completion:)
 
 Deletes an alert manager definition.
 
@@ -40,7 +40,7 @@ Deletes an alert manager definition.
 func deleteAlertManagerDefinition(input: DeleteAlertManagerDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAlertManagerDefinitionOutputResponse, DeleteAlertManagerDefinitionOutputError>) -> Void)
 ```
 
-### deleteRuleGroupsNamespace(input:​completion:​)
+### deleteRuleGroupsNamespace(input:completion:)
 
 Delete a rule groups namespace.
 
@@ -48,7 +48,7 @@ Delete a rule groups namespace.
 func deleteRuleGroupsNamespace(input: DeleteRuleGroupsNamespaceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRuleGroupsNamespaceOutputResponse, DeleteRuleGroupsNamespaceOutputError>) -> Void)
 ```
 
-### deleteWorkspace(input:​completion:​)
+### deleteWorkspace(input:completion:)
 
 Deletes an AMP workspace.
 
@@ -56,7 +56,7 @@ Deletes an AMP workspace.
 func deleteWorkspace(input: DeleteWorkspaceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>) -> Void)
 ```
 
-### describeAlertManagerDefinition(input:​completion:​)
+### describeAlertManagerDefinition(input:completion:)
 
 Describes an alert manager definition.
 
@@ -64,7 +64,7 @@ Describes an alert manager definition.
 func describeAlertManagerDefinition(input: DescribeAlertManagerDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAlertManagerDefinitionOutputResponse, DescribeAlertManagerDefinitionOutputError>) -> Void)
 ```
 
-### describeRuleGroupsNamespace(input:​completion:​)
+### describeRuleGroupsNamespace(input:completion:)
 
 Describe a rule groups namespace.
 
@@ -72,7 +72,7 @@ Describe a rule groups namespace.
 func describeRuleGroupsNamespace(input: DescribeRuleGroupsNamespaceInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRuleGroupsNamespaceOutputResponse, DescribeRuleGroupsNamespaceOutputError>) -> Void)
 ```
 
-### describeWorkspace(input:​completion:​)
+### describeWorkspace(input:completion:)
 
 Describes an existing AMP workspace.
 
@@ -80,7 +80,7 @@ Describes an existing AMP workspace.
 func describeWorkspace(input: DescribeWorkspaceInput, completion: @escaping (ClientRuntime.SdkResult<DescribeWorkspaceOutputResponse, DescribeWorkspaceOutputError>) -> Void)
 ```
 
-### listRuleGroupsNamespaces(input:​completion:​)
+### listRuleGroupsNamespaces(input:completion:)
 
 Lists rule groups namespaces.
 
@@ -88,7 +88,7 @@ Lists rule groups namespaces.
 func listRuleGroupsNamespaces(input: ListRuleGroupsNamespacesInput, completion: @escaping (ClientRuntime.SdkResult<ListRuleGroupsNamespacesOutputResponse, ListRuleGroupsNamespacesOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists the tags you have assigned to the resource.
 
@@ -96,7 +96,7 @@ Lists the tags you have assigned to the resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listWorkspaces(input:​completion:​)
+### listWorkspaces(input:completion:)
 
 Lists all AMP workspaces, including workspaces being created or deleted.
 
@@ -104,7 +104,7 @@ Lists all AMP workspaces, including workspaces being created or deleted.
 func listWorkspaces(input: ListWorkspacesInput, completion: @escaping (ClientRuntime.SdkResult<ListWorkspacesOutputResponse, ListWorkspacesOutputError>) -> Void)
 ```
 
-### putAlertManagerDefinition(input:​completion:​)
+### putAlertManagerDefinition(input:completion:)
 
 Update an alert manager definition.
 
@@ -112,7 +112,7 @@ Update an alert manager definition.
 func putAlertManagerDefinition(input: PutAlertManagerDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<PutAlertManagerDefinitionOutputResponse, PutAlertManagerDefinitionOutputError>) -> Void)
 ```
 
-### putRuleGroupsNamespace(input:​completion:​)
+### putRuleGroupsNamespace(input:completion:)
 
 Update a rule groups namespace.
 
@@ -120,7 +120,7 @@ Update a rule groups namespace.
 func putRuleGroupsNamespace(input: PutRuleGroupsNamespaceInput, completion: @escaping (ClientRuntime.SdkResult<PutRuleGroupsNamespaceOutputResponse, PutRuleGroupsNamespaceOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Creates tags for the specified resource.
 
@@ -128,7 +128,7 @@ Creates tags for the specified resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Deletes tags from the specified resource.
 
@@ -136,7 +136,7 @@ Deletes tags from the specified resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateWorkspaceAlias(input:​completion:​)
+### updateWorkspaceAlias(input:completion:)
 
 Updates an AMP workspace alias.
 

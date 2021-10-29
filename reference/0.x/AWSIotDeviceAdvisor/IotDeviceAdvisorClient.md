@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "IotDeviceAdvisorClient"
+```
+
 ## Methods
 
 ### `createSuiteDefinition(input:completion:)`
@@ -74,8 +82,7 @@ public func listSuiteDefinitions(input: ListSuiteDefinitionsInput, completion: @
 
 ### `listSuiteRuns(input:completion:)`
 
-Lists the runs of the specified Device Advisor test suite.
-You can list all runs of the test suite, or the runs of a specific version of the test suite.
+Lists the runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite.
 
 ``` swift
 public func listSuiteRuns(input: ListSuiteRunsInput, completion: @escaping (ClientRuntime.SdkResult<ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>) -> Void)

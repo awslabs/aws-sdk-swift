@@ -22,19 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AthenaClient"
+```
+
 ## Methods
 
 ### `batchGetNamedQuery(input:completion:)`
 
-Returns the details of a single named query or a list of up to 50 queries, which you
-provide as an array of query ID strings. Requires you to have access to the workgroup in
-which the queries were saved. Use ListNamedQueriesInput to get the
-list of named query IDs in the specified workgroup. If information could not be
-retrieved for a submitted query ID, information about the query ID submitted is listed
-under UnprocessedNamedQueryId. Named queries differ from executed
-queries. Use BatchGetQueryExecutionInput to get details about each
-unique query execution, and ListQueryExecutionsInput to get a list of
-query execution IDs.
+Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use \[ListNamedQueriesInput\] to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under \[UnprocessedNamedQueryId\]. Named queries differ from executed queries. Use \[BatchGetQueryExecutionInput\] to get details about each unique query execution, and \[ListQueryExecutionsInput\] to get a list of query execution IDs.
 
 ``` swift
 public func batchGetNamedQuery(input: BatchGetNamedQueryInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>) -> Void)
@@ -42,12 +42,7 @@ public func batchGetNamedQuery(input: BatchGetNamedQueryInput, completion: @esca
 
 ### `batchGetQueryExecution(input:completion:)`
 
-Returns the details of a single query execution or a list of up to 50 query
-executions, which you provide as an array of query execution ID strings. Requires you to
-have access to the workgroup in which the queries ran. To get a list of query execution
-IDs, use ListQueryExecutionsInput$WorkGroup. Query executions differ
-from named (saved) queries. Use BatchGetNamedQueryInput to get details
-about named queries.
+Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use \[ListQueryExecutionsInput$WorkGroup\]. Query executions differ from named (saved) queries. Use \[BatchGetNamedQueryInput\] to get details about named queries.
 
 ``` swift
 public func batchGetQueryExecution(input: BatchGetQueryExecutionInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>) -> Void)
@@ -55,8 +50,7 @@ public func batchGetQueryExecution(input: BatchGetQueryExecutionInput, completio
 
 ### `createDataCatalog(input:completion:)`
 
-Creates (registers) a data catalog with the specified name and properties. Catalogs
-created are visible to all users of the same Amazon Web Services account.
+Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account.
 
 ``` swift
 public func createDataCatalog(input: CreateDataCatalogInput, completion: @escaping (ClientRuntime.SdkResult<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>) -> Void)
@@ -64,11 +58,7 @@ public func createDataCatalog(input: CreateDataCatalogInput, completion: @escapi
 
 ### `createNamedQuery(input:completion:)`
 
-Creates a named query in the specified workgroup. Requires that you have access to the
-workgroup.
-For code samples using the Amazon Web Services SDK for Java, see <a href="http:​//docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples and
-Code Samples in the Amazon Athena User
-Guide.
+Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
 
 ``` swift
 public func createNamedQuery(input: CreateNamedQueryInput, completion: @escaping (ClientRuntime.SdkResult<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>) -> Void)
@@ -100,11 +90,7 @@ public func deleteDataCatalog(input: DeleteDataCatalogInput, completion: @escapi
 
 ### `deleteNamedQuery(input:completion:)`
 
-Deletes the named query if you have access to the workgroup in which the query was
-saved.
-For code samples using the Amazon Web Services SDK for Java, see <a href="http:​//docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples and
-Code Samples in the Amazon Athena User
-Guide.
+Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
 
 ``` swift
 public func deleteNamedQuery(input: DeleteNamedQueryInput, completion: @escaping (ClientRuntime.SdkResult<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>) -> Void)
@@ -112,8 +98,7 @@ public func deleteNamedQuery(input: DeleteNamedQueryInput, completion: @escaping
 
 ### `deletePreparedStatement(input:completion:)`
 
-Deletes the prepared statement with the specified name from the specified
-workgroup.
+Deletes the prepared statement with the specified name from the specified workgroup.
 
 ``` swift
 public func deletePreparedStatement(input: DeletePreparedStatementInput, completion: @escaping (ClientRuntime.SdkResult<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>) -> Void)
@@ -121,8 +106,7 @@ public func deletePreparedStatement(input: DeletePreparedStatementInput, complet
 
 ### `deleteWorkGroup(input:completion:)`
 
-Deletes the workgroup with the specified name. The primary workgroup cannot be
-deleted.
+Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
 
 ``` swift
 public func deleteWorkGroup(input: DeleteWorkGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>) -> Void)
@@ -146,8 +130,7 @@ public func getDatabase(input: GetDatabaseInput, completion: @escaping (ClientRu
 
 ### `getNamedQuery(input:completion:)`
 
-Returns information about a single query. Requires that you have access to the
-workgroup in which the query was saved.
+Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
 
 ``` swift
 public func getNamedQuery(input: GetNamedQueryInput, completion: @escaping (ClientRuntime.SdkResult<GetNamedQueryOutputResponse, GetNamedQueryOutputError>) -> Void)
@@ -155,8 +138,7 @@ public func getNamedQuery(input: GetNamedQueryInput, completion: @escaping (Clie
 
 ### `getPreparedStatement(input:completion:)`
 
-Retrieves the prepared statement with the specified name from the specified
-workgroup.
+Retrieves the prepared statement with the specified name from the specified workgroup.
 
 ``` swift
 public func getPreparedStatement(input: GetPreparedStatementInput, completion: @escaping (ClientRuntime.SdkResult<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>) -> Void)
@@ -164,9 +146,7 @@ public func getPreparedStatement(input: GetPreparedStatementInput, completion: @
 
 ### `getQueryExecution(input:completion:)`
 
-Returns information about a single execution of a query if you have access to the
-workgroup in which the query ran. Each time a query executes, information about the
-query execution is saved with a unique ID.
+Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
 
 ``` swift
 public func getQueryExecution(input: GetQueryExecutionInput, completion: @escaping (ClientRuntime.SdkResult<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>) -> Void)
@@ -174,25 +154,10 @@ public func getQueryExecution(input: GetQueryExecutionInput, completion: @escapi
 
 ### `getQueryResults(input:completion:)`
 
-Streams the results of a single query execution specified by
-QueryExecutionId from the Athena query results location in
-Amazon S3. For more information, see <a href="https:​//docs.aws.amazon.com/athena/latest/ug/querying.html">Query Results in the Amazon Athena User Guide. This request does not execute the query
-but returns results. Use StartQueryExecution to run a query.
-To stream query results successfully, the IAM principal with permission to call
-GetQueryResults also must have permissions to the Amazon S3
-GetObject action for the Athena query results location.
+Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see [Query Results](https://docs.aws.amazon.com/athena/latest/ug/querying.html) in the Amazon Athena User Guide. This request does not execute the query but returns results. Use \[StartQueryExecution\] to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location. IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
 
 ``` swift
 public func getQueryResults(input: GetQueryResultsInput, completion: @escaping (ClientRuntime.SdkResult<GetQueryResultsOutputResponse, GetQueryResultsOutputError>) -> Void)
-```
-
-``` 
-        IAM principals with permission to the Amazon S3
-            GetObject action for the query results location are able to retrieve
-            query results from Amazon S3 even if permission to the
-                GetQueryResults action is denied. To restrict user or role access,
-            ensure that Amazon S3 permissions to the Athena query location
-            are denied.
 ```
 
 ### `getTableMetadata(input:completion:)`
@@ -229,8 +194,7 @@ public func listDatabases(input: ListDatabasesInput, completion: @escaping (Clie
 
 ### `listEngineVersions(input:completion:)`
 
-Returns a list of engine versions that are available to choose from, including the
-Auto option.
+Returns a list of engine versions that are available to choose from, including the Auto option.
 
 ``` swift
 public func listEngineVersions(input: ListEngineVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>) -> Void)
@@ -238,12 +202,7 @@ public func listEngineVersions(input: ListEngineVersionsInput, completion: @esca
 
 ### `listNamedQueries(input:completion:)`
 
-Provides a list of available query IDs only for queries saved in the specified
-workgroup. Requires that you have access to the specified workgroup. If a workgroup is
-not specified, lists the saved queries for the primary workgroup.
-For code samples using the Amazon Web Services SDK for Java, see <a href="http:​//docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples and
-Code Samples in the Amazon Athena User
-Guide.
+Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
 
 ``` swift
 public func listNamedQueries(input: ListNamedQueriesInput, completion: @escaping (ClientRuntime.SdkResult<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>) -> Void)
@@ -259,13 +218,7 @@ public func listPreparedStatements(input: ListPreparedStatementsInput, completio
 
 ### `listQueryExecutions(input:completion:)`
 
-Provides a list of available query execution IDs for the queries in the specified
-workgroup. If a workgroup is not specified, returns a list of query execution IDs for
-the primary workgroup. Requires you to have access to the workgroup in which the queries
-ran.
-For code samples using the Amazon Web Services SDK for Java, see <a href="http:​//docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples and
-Code Samples in the Amazon Athena User
-Guide.
+Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
 
 ``` swift
 public func listQueryExecutions(input: ListQueryExecutionsInput, completion: @escaping (ClientRuntime.SdkResult<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>) -> Void)
@@ -281,8 +234,7 @@ public func listTableMetadata(input: ListTableMetadataInput, completion: @escapi
 
 ### `listTagsForResource(input:completion:)`
 
-Lists the tags associated with an Athena workgroup or data catalog
-resource.
+Lists the tags associated with an Athena workgroup or data catalog resource.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -298,12 +250,7 @@ public func listWorkGroups(input: ListWorkGroupsInput, completion: @escaping (Cl
 
 ### `startQueryExecution(input:completion:)`
 
-Runs the SQL query statements contained in the Query. Requires you to
-have access to the workgroup in which the query ran. Running queries against an external
-catalog requires GetDataCatalog permission to the catalog. For code
-samples using the Amazon Web Services SDK for Java, see <a href="http:​//docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples and
-Code Samples in the Amazon Athena User
-Guide.
+Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires \[GetDataCatalog\] permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
 
 ``` swift
 public func startQueryExecution(input: StartQueryExecutionInput, completion: @escaping (ClientRuntime.SdkResult<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>) -> Void)
@@ -311,11 +258,7 @@ public func startQueryExecution(input: StartQueryExecutionInput, completion: @es
 
 ### `stopQueryExecution(input:completion:)`
 
-Stops a query execution. Requires you to have access to the workgroup in which the
-query ran.
-For code samples using the Amazon Web Services SDK for Java, see <a href="http:​//docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples and
-Code Samples in the Amazon Athena User
-Guide.
+Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
 
 ``` swift
 public func stopQueryExecution(input: StopQueryExecutionInput, completion: @escaping (ClientRuntime.SdkResult<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>) -> Void)
@@ -323,17 +266,7 @@ public func stopQueryExecution(input: StopQueryExecutionInput, completion: @esca
 
 ### `tagResource(input:completion:)`
 
-Adds one or more tags to an Athena resource. A tag is a label that you
-assign to a resource. In Athena, a resource can be a workgroup or data
-catalog. Each tag consists of a key and an optional value, both of which you define. For
-example, you can use tags to categorize Athena workgroups or data catalogs
-by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to
-search and filter workgroups or data catalogs in your account. For best practices, see
-<a href="https:​//aws.amazon.com/answers/account-management/aws-tagging-strategies/">Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode
-characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use
-letters and numbers representable in UTF-8, and the following characters:​ + - = . \_ :​ /
-@. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you
-specify more than one tag, separate them by commas.
+Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see [Tagging Best Practices](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . \_ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -365,8 +298,7 @@ public func updatePreparedStatement(input: UpdatePreparedStatementInput, complet
 
 ### `updateWorkGroup(input:completion:)`
 
-Updates the workgroup with the specified name. The workgroup's name cannot be
-changed.
+Updates the workgroup with the specified name. The workgroup's name cannot be changed.
 
 ``` swift
 public func updateWorkGroup(input: UpdateWorkGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>) -> Void)

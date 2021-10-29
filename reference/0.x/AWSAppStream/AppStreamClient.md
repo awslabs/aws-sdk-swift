@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AppStreamClient"
+```
+
 ## Methods
 
 ### `associateFleet(input:completion:)`
@@ -74,8 +82,7 @@ public func createFleet(input: CreateFleetInput, completion: @escaping (ClientRu
 
 ### `createImageBuilder(input:completion:)`
 
-Creates an image builder. An image builder is a virtual machine that is used to create an image.
-The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
+Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
 
 ``` swift
 public func createImageBuilder(input: CreateImageBuilderInput, completion: @escaping (ClientRuntime.SdkResult<CreateImageBuilderOutputResponse, CreateImageBuilderOutputError>) -> Void)
@@ -107,15 +114,10 @@ public func createStreamingURL(input: CreateStreamingURLInput, completion: @esca
 
 ### `createUpdatedImage(input:completion:)`
 
-Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software.
+Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon AppStream 2.0 Administration Guide.
 
 ``` swift
 public func createUpdatedImage(input: CreateUpdatedImageInput, completion: @escaping (ClientRuntime.SdkResult<CreateUpdatedImageOutputResponse, CreateUpdatedImageOutputError>) -> Void)
-```
-
-``` 
-    For more information, see the "Update an Image by Using
-        Managed AppStream 2.0 Image Updates" section in <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html">Administer Your AppStream 2.0 Images, in the Amazon AppStream 2.0 Administration Guide.
 ```
 
 ### `createUsageReportSubscription(input:completion:)`
@@ -152,8 +154,7 @@ public func deleteFleet(input: DeleteFleetInput, completion: @escaping (ClientRu
 
 ### `deleteImage(input:completion:)`
 
-Deletes the specified image. You cannot delete an image when it is in use.
-After you delete an image, you cannot provision new capacity using the image.
+Deletes the specified image. You cannot delete an image when it is in use. After you delete an image, you cannot provision new capacity using the image.
 
 ``` swift
 public func deleteImage(input: DeleteImageInput, completion: @escaping (ClientRuntime.SdkResult<DeleteImageOutputResponse, DeleteImageOutputError>) -> Void)
@@ -201,14 +202,10 @@ public func deleteUser(input: DeleteUserInput, completion: @escaping (ClientRunt
 
 ### `describeDirectoryConfigs(input:completion:)`
 
-Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
 
 ``` swift
 public func describeDirectoryConfigs(input: DescribeDirectoryConfigsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDirectoryConfigsOutputResponse, DescribeDirectoryConfigsOutputError>) -> Void)
-```
-
-``` 
-    Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
 ```
 
 ### `describeFleets(input:completion:)`
@@ -245,9 +242,7 @@ public func describeImages(input: DescribeImagesInput, completion: @escaping (Cl
 
 ### `describeSessions(input:completion:)`
 
-Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet,
-only streaming sessions for that user are described. If an authentication type is not provided,
-the default is to authenticate users using a streaming URL.
+Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
 
 ``` swift
 public func describeSessions(input: DescribeSessionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSessionsOutputResponse, DescribeSessionsOutputError>) -> Void)
@@ -271,18 +266,15 @@ public func describeUsageReportSubscriptions(input: DescribeUsageReportSubscript
 
 ### `describeUserStackAssociations(input:completion:)`
 
-Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:​
+Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:
 
 ``` swift
 public func describeUserStackAssociations(input: DescribeUserStackAssociationsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeUserStackAssociationsOutputResponse, DescribeUserStackAssociationsOutputError>) -> Void)
 ```
 
-``` 
-           The stack name
+  - The stack name
 
-
-           The user name (email address of the user associated with the stack) and the authentication type for the user
-```
+  - The user name (email address of the user associated with the stack) and the authentication type for the user
 
 ### `describeUsers(input:completion:)`
 
@@ -342,8 +334,7 @@ public func listAssociatedStacks(input: ListAssociatedStacksInput, completion: @
 
 ### `listTagsForResource(input:completion:)`
 
-Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks.
-For more information about tags, see <a href="https:​//docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -383,25 +374,15 @@ public func stopImageBuilder(input: StopImageBuilderInput, completion: @escaping
 
 ### `tagResource(input:completion:)`
 
-Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks.
-Each tag consists of a key and an optional value. If a resource already has a tag with the same key,
-this operation updates its value.
+Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use \[ListTagsForResource\]. To disassociate tags from your resources, use \[UntagResource\]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-``` 
-        To list the current tags for your resources, use ListTagsForResource.
-            To disassociate tags from your resources, use UntagResource.
-    For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
-```
-
 ### `untagResource(input:completion:)`
 
-Disassociates one or more specified tags from the specified AppStream 2.0 resource.
-To list the current tags for your resources, use ListTagsForResource.
-For more information about tags, see <a href="https:​//docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use \[ListTagsForResource\]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
@@ -417,10 +398,7 @@ public func updateDirectoryConfig(input: UpdateDirectoryConfigInput, completion:
 
 ### `updateFleet(input:completion:)`
 
-Updates the specified fleet.
-If the fleet is in the STOPPED state, you can update any attribute except the fleet name.
-If the fleet is in the RUNNING state, you can update the DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and DisconnectTimeoutInSeconds attributes.
-If the fleet is in the STARTING or STOPPING state, you can't update it.
+Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and DisconnectTimeoutInSeconds attributes. If the fleet is in the STARTING or STOPPING state, you can't update it.
 
 ``` swift
 public func updateFleet(input: UpdateFleetInput, completion: @escaping (ClientRuntime.SdkResult<UpdateFleetOutputResponse, UpdateFleetOutputError>) -> Void)

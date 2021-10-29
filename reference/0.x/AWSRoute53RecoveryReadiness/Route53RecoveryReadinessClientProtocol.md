@@ -8,7 +8,7 @@ public protocol Route53RecoveryReadinessClientProtocol
 
 ## Requirements
 
-### createCell(input:​completion:​)
+### createCell(input:completion:)
 
 Creates a new Cell.
 
@@ -16,7 +16,7 @@ Creates a new Cell.
 func createCell(input: CreateCellInput, completion: @escaping (ClientRuntime.SdkResult<CreateCellOutputResponse, CreateCellOutputError>) -> Void)
 ```
 
-### createCrossAccountAuthorization(input:​completion:​)
+### createCrossAccountAuthorization(input:completion:)
 
 Create a new cross account readiness authorization.
 
@@ -24,7 +24,7 @@ Create a new cross account readiness authorization.
 func createCrossAccountAuthorization(input: CreateCrossAccountAuthorizationInput, completion: @escaping (ClientRuntime.SdkResult<CreateCrossAccountAuthorizationOutputResponse, CreateCrossAccountAuthorizationOutputError>) -> Void)
 ```
 
-### createReadinessCheck(input:​completion:​)
+### createReadinessCheck(input:completion:)
 
 Creates a new Readiness Check.
 
@@ -32,7 +32,7 @@ Creates a new Readiness Check.
 func createReadinessCheck(input: CreateReadinessCheckInput, completion: @escaping (ClientRuntime.SdkResult<CreateReadinessCheckOutputResponse, CreateReadinessCheckOutputError>) -> Void)
 ```
 
-### createRecoveryGroup(input:​completion:​)
+### createRecoveryGroup(input:completion:)
 
 Creates a new Recovery Group.
 
@@ -40,7 +40,7 @@ Creates a new Recovery Group.
 func createRecoveryGroup(input: CreateRecoveryGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateRecoveryGroupOutputResponse, CreateRecoveryGroupOutputError>) -> Void)
 ```
 
-### createResourceSet(input:​completion:​)
+### createResourceSet(input:completion:)
 
 Creates a new Resource Set.
 
@@ -48,7 +48,7 @@ Creates a new Resource Set.
 func createResourceSet(input: CreateResourceSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateResourceSetOutputResponse, CreateResourceSetOutputError>) -> Void)
 ```
 
-### deleteCell(input:​completion:​)
+### deleteCell(input:completion:)
 
 Deletes an existing Cell.
 
@@ -56,7 +56,7 @@ Deletes an existing Cell.
 func deleteCell(input: DeleteCellInput, completion: @escaping (ClientRuntime.SdkResult<DeleteCellOutputResponse, DeleteCellOutputError>) -> Void)
 ```
 
-### deleteCrossAccountAuthorization(input:​completion:​)
+### deleteCrossAccountAuthorization(input:completion:)
 
 Delete cross account readiness authorization
 
@@ -64,7 +64,7 @@ Delete cross account readiness authorization
 func deleteCrossAccountAuthorization(input: DeleteCrossAccountAuthorizationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteCrossAccountAuthorizationOutputResponse, DeleteCrossAccountAuthorizationOutputError>) -> Void)
 ```
 
-### deleteReadinessCheck(input:​completion:​)
+### deleteReadinessCheck(input:completion:)
 
 Deletes an existing Readiness Check.
 
@@ -72,7 +72,7 @@ Deletes an existing Readiness Check.
 func deleteReadinessCheck(input: DeleteReadinessCheckInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReadinessCheckOutputResponse, DeleteReadinessCheckOutputError>) -> Void)
 ```
 
-### deleteRecoveryGroup(input:​completion:​)
+### deleteRecoveryGroup(input:completion:)
 
 Deletes an existing Recovery Group.
 
@@ -80,7 +80,7 @@ Deletes an existing Recovery Group.
 func deleteRecoveryGroup(input: DeleteRecoveryGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRecoveryGroupOutputResponse, DeleteRecoveryGroupOutputError>) -> Void)
 ```
 
-### deleteResourceSet(input:​completion:​)
+### deleteResourceSet(input:completion:)
 
 Deletes an existing Resource Set.
 
@@ -88,7 +88,7 @@ Deletes an existing Resource Set.
 func deleteResourceSet(input: DeleteResourceSetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResourceSetOutputResponse, DeleteResourceSetOutputError>) -> Void)
 ```
 
-### getArchitectureRecommendations(input:​completion:​)
+### getArchitectureRecommendations(input:completion:)
 
 Returns a collection of recommendations to improve resilliance and readiness check quality for a Recovery Group.
 
@@ -96,7 +96,7 @@ Returns a collection of recommendations to improve resilliance and readiness che
 func getArchitectureRecommendations(input: GetArchitectureRecommendationsInput, completion: @escaping (ClientRuntime.SdkResult<GetArchitectureRecommendationsOutputResponse, GetArchitectureRecommendationsOutputError>) -> Void)
 ```
 
-### getCell(input:​completion:​)
+### getCell(input:completion:)
 
 Returns information about a Cell.
 
@@ -104,7 +104,7 @@ Returns information about a Cell.
 func getCell(input: GetCellInput, completion: @escaping (ClientRuntime.SdkResult<GetCellOutputResponse, GetCellOutputError>) -> Void)
 ```
 
-### getCellReadinessSummary(input:​completion:​)
+### getCellReadinessSummary(input:completion:)
 
 Returns information about readiness of a Cell.
 
@@ -112,7 +112,7 @@ Returns information about readiness of a Cell.
 func getCellReadinessSummary(input: GetCellReadinessSummaryInput, completion: @escaping (ClientRuntime.SdkResult<GetCellReadinessSummaryOutputResponse, GetCellReadinessSummaryOutputError>) -> Void)
 ```
 
-### getReadinessCheck(input:​completion:​)
+### getReadinessCheck(input:completion:)
 
 Returns information about a ReadinessCheck.
 
@@ -120,7 +120,7 @@ Returns information about a ReadinessCheck.
 func getReadinessCheck(input: GetReadinessCheckInput, completion: @escaping (ClientRuntime.SdkResult<GetReadinessCheckOutputResponse, GetReadinessCheckOutputError>) -> Void)
 ```
 
-### getReadinessCheckResourceStatus(input:​completion:​)
+### getReadinessCheckResourceStatus(input:completion:)
 
 Returns detailed information about the status of an individual resource within a Readiness Check's Resource Set.
 
@@ -128,7 +128,7 @@ Returns detailed information about the status of an individual resource within a
 func getReadinessCheckResourceStatus(input: GetReadinessCheckResourceStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetReadinessCheckResourceStatusOutputResponse, GetReadinessCheckResourceStatusOutputError>) -> Void)
 ```
 
-### getReadinessCheckStatus(input:​completion:​)
+### getReadinessCheckStatus(input:completion:)
 
 Returns information about the status of a Readiness Check.
 
@@ -136,7 +136,7 @@ Returns information about the status of a Readiness Check.
 func getReadinessCheckStatus(input: GetReadinessCheckStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetReadinessCheckStatusOutputResponse, GetReadinessCheckStatusOutputError>) -> Void)
 ```
 
-### getRecoveryGroup(input:​completion:​)
+### getRecoveryGroup(input:completion:)
 
 Returns information about a Recovery Group.
 
@@ -144,7 +144,7 @@ Returns information about a Recovery Group.
 func getRecoveryGroup(input: GetRecoveryGroupInput, completion: @escaping (ClientRuntime.SdkResult<GetRecoveryGroupOutputResponse, GetRecoveryGroupOutputError>) -> Void)
 ```
 
-### getRecoveryGroupReadinessSummary(input:​completion:​)
+### getRecoveryGroupReadinessSummary(input:completion:)
 
 Returns information about a Recovery Group.
 
@@ -152,7 +152,7 @@ Returns information about a Recovery Group.
 func getRecoveryGroupReadinessSummary(input: GetRecoveryGroupReadinessSummaryInput, completion: @escaping (ClientRuntime.SdkResult<GetRecoveryGroupReadinessSummaryOutputResponse, GetRecoveryGroupReadinessSummaryOutputError>) -> Void)
 ```
 
-### getResourceSet(input:​completion:​)
+### getResourceSet(input:completion:)
 
 Returns information about a Resource Set.
 
@@ -160,7 +160,7 @@ Returns information about a Resource Set.
 func getResourceSet(input: GetResourceSetInput, completion: @escaping (ClientRuntime.SdkResult<GetResourceSetOutputResponse, GetResourceSetOutputError>) -> Void)
 ```
 
-### listCells(input:​completion:​)
+### listCells(input:completion:)
 
 Returns a collection of Cells.
 
@@ -168,7 +168,7 @@ Returns a collection of Cells.
 func listCells(input: ListCellsInput, completion: @escaping (ClientRuntime.SdkResult<ListCellsOutputResponse, ListCellsOutputError>) -> Void)
 ```
 
-### listCrossAccountAuthorizations(input:​completion:​)
+### listCrossAccountAuthorizations(input:completion:)
 
 Returns a collection of cross account readiness authorizations.
 
@@ -176,7 +176,7 @@ Returns a collection of cross account readiness authorizations.
 func listCrossAccountAuthorizations(input: ListCrossAccountAuthorizationsInput, completion: @escaping (ClientRuntime.SdkResult<ListCrossAccountAuthorizationsOutputResponse, ListCrossAccountAuthorizationsOutputError>) -> Void)
 ```
 
-### listReadinessChecks(input:​completion:​)
+### listReadinessChecks(input:completion:)
 
 Returns a collection of Readiness Checks.
 
@@ -184,7 +184,7 @@ Returns a collection of Readiness Checks.
 func listReadinessChecks(input: ListReadinessChecksInput, completion: @escaping (ClientRuntime.SdkResult<ListReadinessChecksOutputResponse, ListReadinessChecksOutputError>) -> Void)
 ```
 
-### listRecoveryGroups(input:​completion:​)
+### listRecoveryGroups(input:completion:)
 
 Returns a collection of Recovery Groups.
 
@@ -192,7 +192,7 @@ Returns a collection of Recovery Groups.
 func listRecoveryGroups(input: ListRecoveryGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListRecoveryGroupsOutputResponse, ListRecoveryGroupsOutputError>) -> Void)
 ```
 
-### listResourceSets(input:​completion:​)
+### listResourceSets(input:completion:)
 
 Returns a collection of Resource Sets.
 
@@ -200,7 +200,7 @@ Returns a collection of Resource Sets.
 func listResourceSets(input: ListResourceSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListResourceSetsOutputResponse, ListResourceSetsOutputError>) -> Void)
 ```
 
-### listRules(input:​completion:​)
+### listRules(input:completion:)
 
 Returns a collection of rules that are applied as part of Readiness Checks.
 
@@ -208,7 +208,7 @@ Returns a collection of rules that are applied as part of Readiness Checks.
 func listRules(input: ListRulesInput, completion: @escaping (ClientRuntime.SdkResult<ListRulesOutputResponse, ListRulesOutputError>) -> Void)
 ```
 
-### listTagsForResources(input:​completion:​)
+### listTagsForResources(input:completion:)
 
 Returns a list of the tags assigned to the specified resource.
 
@@ -216,7 +216,7 @@ Returns a list of the tags assigned to the specified resource.
 func listTagsForResources(input: ListTagsForResourcesInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourcesOutputResponse, ListTagsForResourcesOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds tags to the specified resource. You can specify one or more tags to add.
 
@@ -224,7 +224,7 @@ Adds tags to the specified resource. You can specify one or more tags to add.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes tags from the specified resource. You can specify one or more tags to remove.
 
@@ -232,7 +232,7 @@ Removes tags from the specified resource. You can specify one or more tags to re
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateCell(input:​completion:​)
+### updateCell(input:completion:)
 
 Updates an existing Cell.
 
@@ -240,7 +240,7 @@ Updates an existing Cell.
 func updateCell(input: UpdateCellInput, completion: @escaping (ClientRuntime.SdkResult<UpdateCellOutputResponse, UpdateCellOutputError>) -> Void)
 ```
 
-### updateReadinessCheck(input:​completion:​)
+### updateReadinessCheck(input:completion:)
 
 Updates an exisiting Readiness Check.
 
@@ -248,7 +248,7 @@ Updates an exisiting Readiness Check.
 func updateReadinessCheck(input: UpdateReadinessCheckInput, completion: @escaping (ClientRuntime.SdkResult<UpdateReadinessCheckOutputResponse, UpdateReadinessCheckOutputError>) -> Void)
 ```
 
-### updateRecoveryGroup(input:​completion:​)
+### updateRecoveryGroup(input:completion:)
 
 Updates an existing Recovery Group.
 
@@ -256,7 +256,7 @@ Updates an existing Recovery Group.
 func updateRecoveryGroup(input: UpdateRecoveryGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRecoveryGroupOutputResponse, UpdateRecoveryGroupOutputError>) -> Void)
 ```
 
-### updateResourceSet(input:​completion:​)
+### updateResourceSet(input:completion:)
 
 Updates an existing Resource Set.
 

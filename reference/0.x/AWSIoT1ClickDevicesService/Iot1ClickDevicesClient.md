@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "Iot1ClickDevicesClient"
+```
+
 ## Methods
 
 ### `claimDevicesByClaimCode(input:completion:)`
 
-Adds device(s) to your account (i.e., claim one or more devices) if and only if you
-received a claim code with the device(s).
+Adds device(s) to your account (i.e., claim one or more devices) if and only if you received a claim code with the device(s).
 
 ``` swift
 public func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput, completion: @escaping (ClientRuntime.SdkResult<ClaimDevicesByClaimCodeOutputResponse, ClaimDevicesByClaimCodeOutputError>) -> Void)
@@ -35,8 +42,7 @@ public func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput, complet
 
 ### `describeDevice(input:completion:)`
 
-Given a device ID, returns a DescribeDeviceResponse object describing the
-details of the device.
+Given a device ID, returns a DescribeDeviceResponse object describing the details of the device.
 
 ``` swift
 public func describeDevice(input: DescribeDeviceInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDeviceOutputResponse, DescribeDeviceOutputError>) -> Void)
@@ -44,10 +50,7 @@ public func describeDevice(input: DescribeDeviceInput, completion: @escaping (Cl
 
 ### `finalizeDeviceClaim(input:completion:)`
 
-Given a device ID, finalizes the claim request for the associated device.
-Claiming a device consists of initiating a claim, then publishing a device event,
-and finalizing the claim. For a device of type button, a device event can
-be published by simply clicking the device.
+Given a device ID, finalizes the claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
 
 ``` swift
 public func finalizeDeviceClaim(input: FinalizeDeviceClaimInput, completion: @escaping (ClientRuntime.SdkResult<FinalizeDeviceClaimOutputResponse, FinalizeDeviceClaimOutputError>) -> Void)
@@ -63,10 +66,7 @@ public func getDeviceMethods(input: GetDeviceMethodsInput, completion: @escaping
 
 ### `initiateDeviceClaim(input:completion:)`
 
-Given a device ID, initiates a claim request for the associated device.
-Claiming a device consists of initiating a claim, then publishing a device event,
-and finalizing the claim. For a device of type button, a device event can
-be published by simply clicking the device.
+Given a device ID, initiates a claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
 
 ``` swift
 public func initiateDeviceClaim(input: InitiateDeviceClaimInput, completion: @escaping (ClientRuntime.SdkResult<InitiateDeviceClaimOutputResponse, InitiateDeviceClaimOutputError>) -> Void)
@@ -74,8 +74,7 @@ public func initiateDeviceClaim(input: InitiateDeviceClaimInput, completion: @es
 
 ### `invokeDeviceMethod(input:completion:)`
 
-Given a device ID, issues a request to invoke a named device method (with possible
-parameters). See the "Example POST" code snippet below.
+Given a device ID, issues a request to invoke a named device method (with possible parameters). See the "Example POST" code snippet below.
 
 ``` swift
 public func invokeDeviceMethod(input: InvokeDeviceMethodInput, completion: @escaping (ClientRuntime.SdkResult<InvokeDeviceMethodOutputResponse, InvokeDeviceMethodOutputError>) -> Void)
@@ -83,8 +82,7 @@ public func invokeDeviceMethod(input: InvokeDeviceMethodInput, completion: @esca
 
 ### `listDeviceEvents(input:completion:)`
 
-Using a device ID, returns a DeviceEventsResponse object containing an
-array of events for the device.
+Using a device ID, returns a DeviceEventsResponse object containing an array of events for the device.
 
 ``` swift
 public func listDeviceEvents(input: ListDeviceEventsInput, completion: @escaping (ClientRuntime.SdkResult<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>) -> Void)
@@ -108,8 +106,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Adds or updates the tags associated with the resource ARN. See <a href="https:​//docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits">AWS IoT 1-Click Service Limits for the maximum number of tags allowed per
-resource.
+Adds or updates the tags associated with the resource ARN. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits) for the maximum number of tags allowed per resource.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -125,8 +122,7 @@ public func unclaimDevice(input: UnclaimDeviceInput, completion: @escaping (Clie
 
 ### `untagResource(input:completion:)`
 
-Using tag keys, deletes the tags (key/value pairs) associated with the specified
-resource ARN.
+Using tag keys, deletes the tags (key/value pairs) associated with the specified resource ARN.
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
@@ -134,8 +130,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateDeviceState(input:completion:)`
 
-Using a Boolean value (true or false), this operation
-enables or disables the device given a device ID.
+Using a Boolean value (true or false), this operation enables or disables the device given a device ID.
 
 ``` swift
 public func updateDeviceState(input: UpdateDeviceStateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDeviceStateOutputResponse, UpdateDeviceStateOutputError>) -> Void)

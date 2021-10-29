@@ -8,6 +8,4 @@
 # Protocols
 
   - [AcmClientProtocol](/aws-sdk-swift/reference/0.x/AWSACM/AcmClientProtocol):
-    <fullname>Amazon Web Services Certificate Manager</fullname>
-    You can use Amazon Web Services Certificate Manager (ACM) to manage SSL/TLS certificates for your Amazon Web Services-based websites
-    and applications. For more information about using ACM, see the <a href="https://docs.aws.amazon.com/acm/latest/userguide/">Amazon Web Services Certificate Manager User Guide.
+    Amazon Web Services Certificate Manager You can use Amazon Web Services Certificate Manager (ACM) to manage SSL/TLS certificates for your Amazon Web Services-based websites and applications. For more information about using ACM, see the [Amazon Web Services Certificate Manager User Guide](https://docs.aws.amazon.com/acm/latest/userguide/).

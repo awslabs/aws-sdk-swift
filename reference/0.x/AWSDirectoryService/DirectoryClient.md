@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "DirectoryClient"
+```
+
 ## Methods
 
 ### `acceptSharedDirectory(input:completion:)`
@@ -34,14 +42,7 @@ public func acceptSharedDirectory(input: AcceptSharedDirectoryInput, completion:
 
 ### `addIpRoutes(input:completion:)`
 
-If the DNS server for your self-managed domain uses a publicly addressable IP address,
-you must add a CIDR address block to correctly route traffic to and from your Microsoft AD
-on Amazon Web Services. AddIpRoutes adds this address block. You can
-also use AddIpRoutes to facilitate routing traffic that uses public IP
-ranges from your Microsoft AD on Amazon Web Services to a peer VPC.
-Before you call AddIpRoutes, ensure that all of the required
-permissions have been explicitly granted through a policy. For details about what
-permissions are required to run the AddIpRoutes operation, see <a href="http:​//docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory Service API Permissions:​ Actions, Resources, and Conditions Reference.
+If the DNS server for your self-managed domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC. Before you call AddIpRoutes, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the AddIpRoutes operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 ``` swift
 public func addIpRoutes(input: AddIpRoutesInput, completion: @escaping (ClientRuntime.SdkResult<AddIpRoutesOutputResponse, AddIpRoutesOutputError>) -> Void)
@@ -57,9 +58,7 @@ public func addRegion(input: AddRegionInput, completion: @escaping (ClientRuntim
 
 ### `addTagsToResource(input:completion:)`
 
-Adds or overwrites one or more tags for the specified directory. Each directory can
-have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be
-unique to each resource.
+Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
 
 ``` swift
 public func addTagsToResource(input: AddTagsToResourceInput, completion: @escaping (ClientRuntime.SdkResult<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>) -> Void)
@@ -67,11 +66,7 @@ public func addTagsToResource(input: AddTagsToResourceInput, completion: @escapi
 
 ### `cancelSchemaExtension(input:completion:)`
 
-Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema
-extension has started replicating to all domain controllers, the task can no longer be
-canceled. A schema extension can be canceled during any of the following states;
-Initializing, CreatingSnapshot, and
-UpdatingSchema.
+Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing, CreatingSnapshot, and UpdatingSchema.
 
 ``` swift
 public func cancelSchemaExtension(input: CancelSchemaExtensionInput, completion: @escaping (ClientRuntime.SdkResult<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>) -> Void)
@@ -79,11 +74,7 @@ public func cancelSchemaExtension(input: CancelSchemaExtensionInput, completion:
 
 ### `connectDirectory(input:completion:)`
 
-Creates an AD Connector to connect to a self-managed directory.
-Before you call ConnectDirectory, ensure that all of the required permissions
-have been explicitly granted through a policy. For details about what permissions are required
-to run the ConnectDirectory operation, see <a href="http:​//docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory Service API Permissions:​ Actions, Resources, and Conditions
-Reference.
+Creates an AD Connector to connect to a self-managed directory. Before you call ConnectDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 ``` swift
 public func connectDirectory(input: ConnectDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>) -> Void)
@@ -91,16 +82,10 @@ public func connectDirectory(input: ConnectDirectoryInput, completion: @escaping
 
 ### `createAlias(input:completion:)`
 
-Creates an alias for a directory and assigns the alias to the directory. The alias is used
-to construct the access URL for the directory, such as
-http:​//<alias>.awsapps.com.
+Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://.awsapps.com. After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
 
 ``` swift
 public func createAlias(input: CreateAliasInput, completion: @escaping (ClientRuntime.SdkResult<CreateAliasOutputResponse, CreateAliasOutputError>) -> Void)
-```
-
-``` 
-        After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
 ```
 
 ### `createComputer(input:completion:)`
@@ -113,9 +98,7 @@ public func createComputer(input: CreateComputerInput, completion: @escaping (Cl
 
 ### `createConditionalForwarder(input:completion:)`
 
-Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional
-forwarders are required in order to set up a trust relationship with another domain. The
-conditional forwarder points to the trusted domain.
+Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain.
 
 ``` swift
 public func createConditionalForwarder(input: CreateConditionalForwarderInput, completion: @escaping (ClientRuntime.SdkResult<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>) -> Void)
@@ -123,12 +106,7 @@ public func createConditionalForwarder(input: CreateConditionalForwarderInput, c
 
 ### `createDirectory(input:completion:)`
 
-Creates a Simple AD directory. For more information, see <a href="https:​//docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html">Simple Active Directory in the Directory Service Admin
-Guide.
-Before you call CreateDirectory, ensure that all of the required permissions
-have been explicitly granted through a policy. For details about what permissions are required
-to run the CreateDirectory operation, see <a href="http:​//docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory Service API Permissions:​ Actions, Resources, and Conditions
-Reference.
+Creates a Simple AD directory. For more information, see [Simple Active Directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html) in the Directory Service Admin Guide. Before you call CreateDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 ``` swift
 public func createDirectory(input: CreateDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<CreateDirectoryOutputResponse, CreateDirectoryOutputError>) -> Void)
@@ -136,8 +114,7 @@ public func createDirectory(input: CreateDirectoryInput, completion: @escaping (
 
 ### `createLogSubscription(input:completion:)`
 
-Creates a subscription to forward real-time Directory Service domain controller security
-logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
+Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
 
 ``` swift
 public func createLogSubscription(input: CreateLogSubscriptionInput, completion: @escaping (ClientRuntime.SdkResult<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>) -> Void)
@@ -145,10 +122,7 @@ public func createLogSubscription(input: CreateLogSubscriptionInput, completion:
 
 ### `createMicrosoftAD(input:completion:)`
 
-Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see <a href="https:​//docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html">Managed Microsoft AD in the Directory Service Admin Guide.
-Before you call CreateMicrosoftAD, ensure that all of the required
-permissions have been explicitly granted through a policy. For details about what permissions
-are required to run the CreateMicrosoftAD operation, see <a href="http:​//docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory Service API Permissions:​ Actions, Resources, and Conditions Reference.
+Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see [Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html) in the Directory Service Admin Guide. Before you call CreateMicrosoftAD, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 ``` swift
 public func createMicrosoftAD(input: CreateMicrosoftADInput, completion: @escaping (ClientRuntime.SdkResult<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>) -> Void)
@@ -156,25 +130,15 @@ public func createMicrosoftAD(input: CreateMicrosoftADInput, completion: @escapi
 
 ### `createSnapshot(input:completion:)`
 
-Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud.
+Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud. You cannot take snapshots of AD Connector directories.
 
 ``` swift
 public func createSnapshot(input: CreateSnapshotInput, completion: @escaping (ClientRuntime.SdkResult<CreateSnapshotOutputResponse, CreateSnapshotOutputError>) -> Void)
 ```
 
-``` 
-        You cannot take snapshots of AD Connector directories.
-```
-
 ### `createTrust(input:completion:)`
 
-Directory Service for Microsoft Active Directory allows you to configure trust relationships. For
-example, you can establish a trust between your Managed Microsoft AD directory, and your existing
-self-managed Microsoft Active Directory. This would allow you to provide users and groups
-access to resources in either domain, with a single set of credentials.
-This action initiates the creation of the Amazon Web Services side of a trust relationship between an
-Managed Microsoft AD directory and an external domain. You can create either a forest trust or an
-external trust.
+Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain. You can create either a forest trust or an external trust.
 
 ``` swift
 public func createTrust(input: CreateTrustInput, completion: @escaping (ClientRuntime.SdkResult<CreateTrustOutputResponse, CreateTrustOutputError>) -> Void)
@@ -182,8 +146,7 @@ public func createTrust(input: CreateTrustInput, completion: @escaping (ClientRu
 
 ### `deleteConditionalForwarder(input:completion:)`
 
-Deletes a conditional forwarder that has been set up for your Amazon Web Services
-directory.
+Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
 
 ``` swift
 public func deleteConditionalForwarder(input: DeleteConditionalForwarderInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>) -> Void)
@@ -191,11 +154,7 @@ public func deleteConditionalForwarder(input: DeleteConditionalForwarderInput, c
 
 ### `deleteDirectory(input:completion:)`
 
-Deletes an Directory Service directory.
-Before you call DeleteDirectory, ensure that all of the required permissions
-have been explicitly granted through a policy. For details about what permissions are required
-to run the DeleteDirectory operation, see <a href="http:​//docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory Service API Permissions:​ Actions, Resources, and Conditions
-Reference.
+Deletes an Directory Service directory. Before you call DeleteDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 ``` swift
 public func deleteDirectory(input: DeleteDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>) -> Void)
@@ -219,8 +178,7 @@ public func deleteSnapshot(input: DeleteSnapshotInput, completion: @escaping (Cl
 
 ### `deleteTrust(input:completion:)`
 
-Deletes an existing trust relationship between your Managed Microsoft AD directory and an external
-domain.
+Deletes an existing trust relationship between your Managed Microsoft AD directory and an external domain.
 
 ``` swift
 public func deleteTrust(input: DeleteTrustInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTrustOutputResponse, DeleteTrustOutputError>) -> Void)
@@ -260,9 +218,7 @@ public func describeClientAuthenticationSettings(input: DescribeClientAuthentica
 
 ### `describeConditionalForwarders(input:completion:)`
 
-Obtains information about the conditional forwarders for this account.
-If no input parameters are provided for RemoteDomainNames, this request describes all
-conditional forwarders for the specified directory ID.
+Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
 
 ``` swift
 public func describeConditionalForwarders(input: DescribeConditionalForwardersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>) -> Void)
@@ -270,17 +226,7 @@ public func describeConditionalForwarders(input: DescribeConditionalForwardersIn
 
 ### `describeDirectories(input:completion:)`
 
-Obtains information about the directories that belong to this account.
-You can retrieve information about specific directories by passing the directory
-identifiers in the DirectoryIds parameter. Otherwise, all directories that belong
-to the current account are returned.
-This operation supports pagination with the use of the NextToken request and
-response parameters. If more results are available, the
-DescribeDirectoriesResult.NextToken member contains a token that you pass in
-the next call to DescribeDirectories to retrieve the next set of
-items.
-You can also specify a maximum number of return results with the Limit
-parameter.
+Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to \[DescribeDirectories\] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
 
 ``` swift
 public func describeDirectories(input: DescribeDirectoriesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>) -> Void)
@@ -296,10 +242,7 @@ public func describeDomainControllers(input: DescribeDomainControllersInput, com
 
 ### `describeEventTopics(input:completion:)`
 
-Obtains information about which Amazon SNS topics receive status messages from the specified
-directory.
-If no input parameters are provided, such as DirectoryId or TopicName, this request
-describes all of the associations in the account.
+Obtains information about which Amazon SNS topics receive status messages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account.
 
 ``` swift
 public func describeEventTopics(input: DescribeEventTopicsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>) -> Void)
@@ -315,8 +258,7 @@ public func describeLDAPSSettings(input: DescribeLDAPSSettingsInput, completion:
 
 ### `describeRegions(input:completion:)`
 
-Provides information about the Regions that are configured for multi-Region
-replication.
+Provides information about the Regions that are configured for multi-Region replication.
 
 ``` swift
 public func describeRegions(input: DescribeRegionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRegionsOutputResponse, DescribeRegionsOutputError>) -> Void)
@@ -332,13 +274,7 @@ public func describeSharedDirectories(input: DescribeSharedDirectoriesInput, com
 
 ### `describeSnapshots(input:completion:)`
 
-Obtains information about the directory snapshots that belong to this account.
-This operation supports pagination with the use of the NextToken request and
-response parameters. If more results are available, the DescribeSnapshots.NextToken
-member contains a token that you pass in the next call to DescribeSnapshots to
-retrieve the next set of items.
-You can also specify a maximum number of return results with the Limit
-parameter.
+Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to \[DescribeSnapshots\] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
 
 ``` swift
 public func describeSnapshots(input: DescribeSnapshotsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>) -> Void)
@@ -346,9 +282,7 @@ public func describeSnapshots(input: DescribeSnapshotsInput, completion: @escapi
 
 ### `describeTrusts(input:completion:)`
 
-Obtains information about the trust relationships for this account.
-If no input parameters are provided, such as DirectoryId or TrustIds, this request
-describes all the trust relationships belonging to the account.
+Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
 
 ``` swift
 public func describeTrusts(input: DescribeTrustsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTrustsOutputResponse, DescribeTrustsOutputError>) -> Void)
@@ -372,8 +306,7 @@ public func disableLDAPS(input: DisableLDAPSInput, completion: @escaping (Client
 
 ### `disableRadius(input:completion:)`
 
-Disables multi-factor authentication (MFA) with the Remote Authentication Dial In
-User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
+Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 
 ``` swift
 public func disableRadius(input: DisableRadiusInput, completion: @escaping (ClientRuntime.SdkResult<DisableRadiusOutputResponse, DisableRadiusOutputError>) -> Void)
@@ -405,8 +338,7 @@ public func enableLDAPS(input: EnableLDAPSInput, completion: @escaping (ClientRu
 
 ### `enableRadius(input:completion:)`
 
-Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User
-Service (RADIUS) server for an AD Connector or Microsoft AD directory.
+Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 
 ``` swift
 public func enableRadius(input: EnableRadiusInput, completion: @escaping (ClientRuntime.SdkResult<EnableRadiusOutputResponse, EnableRadiusOutputError>) -> Void)
@@ -414,9 +346,7 @@ public func enableRadius(input: EnableRadiusInput, completion: @escaping (Client
 
 ### `enableSso(input:completion:)`
 
-Enables single sign-on for a directory. Single sign-on allows users in your directory to
-access certain Amazon Web Services services from a computer joined to the directory without having to enter
-their credentials separately.
+Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain Amazon Web Services services from a computer joined to the directory without having to enter their credentials separately.
 
 ``` swift
 public func enableSso(input: EnableSsoInput, completion: @escaping (ClientRuntime.SdkResult<EnableSsoOutputResponse, EnableSsoOutputError>) -> Void)
@@ -488,11 +418,7 @@ public func registerCertificate(input: RegisterCertificateInput, completion: @es
 
 ### `registerEventTopic(input:completion:)`
 
-Associates a directory with an Amazon SNS topic. This establishes the directory as a
-publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when
-the status of your directory changes. You get notified if your directory goes from an Active
-status to an Impaired or Inoperable status. You also receive a notification when the directory
-returns to an Active status.
+Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
 
 ``` swift
 public func registerEventTopic(input: RegisterEventTopicInput, completion: @escaping (ClientRuntime.SdkResult<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>) -> Void)
@@ -516,9 +442,7 @@ public func removeIpRoutes(input: RemoveIpRoutesInput, completion: @escaping (Cl
 
 ### `removeRegion(input:completion:)`
 
-Stops all replication and removes the domain controllers from the specified Region. You
-cannot remove the primary Region with this operation. Instead, use the
-DeleteDirectory API.
+Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
 
 ``` swift
 public func removeRegion(input: RemoveRegionInput, completion: @escaping (ClientRuntime.SdkResult<RemoveRegionOutputResponse, RemoveRegionOutputError>) -> Void)
@@ -534,36 +458,19 @@ public func removeTagsFromResource(input: RemoveTagsFromResourceInput, completio
 
 ### `resetUserPassword(input:completion:)`
 
-Resets the password for any user in your Managed Microsoft AD or Simple AD
-directory.
-You can reset the password for any user in your directory with the following
-exceptions:​
+Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You can reset the password for any user in your directory with the following exceptions:
 
 ``` swift
 public func resetUserPassword(input: ResetUserPasswordInput, completion: @escaping (ClientRuntime.SdkResult<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>) -> Void)
 ```
 
-``` 
-           For Simple AD, you cannot reset the password for any user that is a member of either
-      the Domain Admins or Enterprise
-        Admins group except for the administrator user.
+  - For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.
 
-
-           For Managed Microsoft AD, you can only reset the password for a user that is in an
-      OU based off of the NetBIOS name that you typed when you created your directory. For
-      example, you cannot reset the password for a user in the Amazon Web Services
-        Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see <a href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_getting_started_what_gets_created.html">What Gets Created in the Directory Service Administration
-        Guide.
-```
+  - For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see [What Gets Created](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_getting_started_what_gets_created.html) in the Directory Service Administration Guide.
 
 ### `restoreFromSnapshot(input:completion:)`
 
-Restores a directory using an existing directory snapshot.
-When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten.
-This action returns as soon as the restore operation is initiated. You can monitor the
-progress of the restore operation by calling the DescribeDirectories operation with
-the directory identifier. When the DirectoryDescription.Stage value changes to
-Active, the restore operation is complete.
+Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the \[DescribeDirectories\] operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active, the restore operation is complete.
 
 ``` swift
 public func restoreFromSnapshot(input: RestoreFromSnapshotInput, completion: @escaping (ClientRuntime.SdkResult<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>) -> Void)
@@ -571,19 +478,7 @@ public func restoreFromSnapshot(input: RestoreFromSnapshotInput, completion: @es
 
 ### `shareDirectory(input:completion:)`
 
-Shares a specified directory (DirectoryId) in your Amazon Web Services account (directory
-owner) with another Amazon Web Services account (directory consumer). With this operation you can use your
-directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region.
-When you share your Managed Microsoft AD directory, Directory Service creates a
-shared directory in the directory consumer account. This shared directory contains the
-metadata to provide access to the directory within the directory owner account. The shared
-directory is visible in all VPCs in the directory consumer account.
-The ShareMethod parameter determines whether the specified directory can be
-shared between Amazon Web Services accounts inside the same Amazon Web Services organization (ORGANIZATIONS). It
-also determines whether you can share the directory with any other Amazon Web Services account either inside
-or outside of the organization (HANDSHAKE).
-The ShareNotes parameter is only used when HANDSHAKE is called,
-which sends a directory sharing request to the directory consumer.
+Shares a specified directory (DirectoryId) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access to the directory within the directory owner account. The shared directory is visible in all VPCs in the directory consumer account. The ShareMethod parameter determines whether the specified directory can be shared between Amazon Web Services accounts inside the same Amazon Web Services organization (ORGANIZATIONS). It also determines whether you can share the directory with any other Amazon Web Services account either inside or outside of the organization (HANDSHAKE). The ShareNotes parameter is only used when HANDSHAKE is called, which sends a directory sharing request to the directory consumer.
 
 ``` swift
 public func shareDirectory(input: ShareDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<ShareDirectoryOutputResponse, ShareDirectoryOutputError>) -> Void)
@@ -607,8 +502,7 @@ public func unshareDirectory(input: UnshareDirectoryInput, completion: @escaping
 
 ### `updateConditionalForwarder(input:completion:)`
 
-Updates a conditional forwarder that has been set up for your Amazon Web Services
-directory.
+Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
 
 ``` swift
 public func updateConditionalForwarder(input: UpdateConditionalForwarderInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>) -> Void)
@@ -616,11 +510,7 @@ public func updateConditionalForwarder(input: UpdateConditionalForwarderInput, c
 
 ### `updateNumberOfDomainControllers(input:completion:)`
 
-Adds or removes domain controllers to or from the directory. Based on the difference
-between current value and new value (provided through this API call), domain controllers will
-be added or removed. It may take up to 45 minutes for any new domain controllers to become
-fully active once the requested number of domain controllers is updated. During this time, you
-cannot make another update request.
+Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
 
 ``` swift
 public func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControllersInput, completion: @escaping (ClientRuntime.SdkResult<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>) -> Void)
@@ -628,8 +518,7 @@ public func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControlle
 
 ### `updateRadius(input:completion:)`
 
-Updates the Remote Authentication Dial In User Service (RADIUS) server information
-for an AD Connector or Microsoft AD directory.
+Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD Connector or Microsoft AD directory.
 
 ``` swift
 public func updateRadius(input: UpdateRadiusInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRadiusOutputResponse, UpdateRadiusOutputError>) -> Void)
@@ -637,8 +526,7 @@ public func updateRadius(input: UpdateRadiusInput, completion: @escaping (Client
 
 ### `updateTrust(input:completion:)`
 
-Updates the trust that has been set up between your Managed Microsoft AD directory and an
-self-managed Active Directory.
+Updates the trust that has been set up between your Managed Microsoft AD directory and an self-managed Active Directory.
 
 ``` swift
 public func updateTrust(input: UpdateTrustInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTrustOutputResponse, UpdateTrustOutputError>) -> Void)
@@ -646,10 +534,7 @@ public func updateTrust(input: UpdateTrustInput, completion: @escaping (ClientRu
 
 ### `verifyTrust(input:completion:)`
 
-Directory Service for Microsoft Active Directory allows you to configure and verify trust
-relationships.
-This action verifies a trust relationship between your Managed Microsoft AD directory and an
-external domain.
+Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships. This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain.
 
 ``` swift
 public func verifyTrust(input: VerifyTrustInput, completion: @escaping (ClientRuntime.SdkResult<VerifyTrustOutputResponse, VerifyTrustOutputError>) -> Void)

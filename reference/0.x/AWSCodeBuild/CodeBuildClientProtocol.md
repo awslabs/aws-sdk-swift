@@ -1,15 +1,6 @@
 # CodeBuildClientProtocol
 
-<fullname>CodeBuild</fullname>
-CodeBuild is a fully managed build service in the cloud. CodeBuild compiles your source code,
-runs unit tests, and produces artifacts that are ready to deploy. CodeBuild eliminates the
-need to provision, manage, and scale your own build servers. It provides prepackaged
-build environments for the most popular programming languages and build tools, such as
-Apache Maven, Gradle, and more. You can also fully customize build environments in CodeBuild
-to use your own build tools. CodeBuild scales automatically to meet peak build requests. You
-pay only for the build time you consume. For more information about CodeBuild, see the
-<a href="https:​//docs.aws.amazon.com/codebuild/latest/userguide/welcome.html">CodeBuild User
-Guide.
+CodeBuild CodeBuild is a fully managed build service in the cloud. CodeBuild compiles your source code, runs unit tests, and produces artifacts that are ready to deploy. CodeBuild eliminates the need to provision, manage, and scale your own build servers. It provides prepackaged build environments for the most popular programming languages and build tools, such as Apache Maven, Gradle, and more. You can also fully customize build environments in CodeBuild to use your own build tools. CodeBuild scales automatically to meet peak build requests. You pay only for the build time you consume. For more information about CodeBuild, see the [CodeBuild User Guide](https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html).
 
 ``` swift
 public protocol CodeBuildClientProtocol 
@@ -17,7 +8,7 @@ public protocol CodeBuildClientProtocol
 
 ## Requirements
 
-### batchDeleteBuilds(input:​completion:​)
+### batchDeleteBuilds(input:completion:)
 
 Deletes one or more builds.
 
@@ -25,7 +16,7 @@ Deletes one or more builds.
 func batchDeleteBuilds(input: BatchDeleteBuildsInput, completion: @escaping (ClientRuntime.SdkResult<BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>) -> Void)
 ```
 
-### batchGetBuildBatches(input:​completion:​)
+### batchGetBuildBatches(input:completion:)
 
 Retrieves information about one or more batch builds.
 
@@ -33,7 +24,7 @@ Retrieves information about one or more batch builds.
 func batchGetBuildBatches(input: BatchGetBuildBatchesInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>) -> Void)
 ```
 
-### batchGetBuilds(input:​completion:​)
+### batchGetBuilds(input:completion:)
 
 Gets information about one or more builds.
 
@@ -41,7 +32,7 @@ Gets information about one or more builds.
 func batchGetBuilds(input: BatchGetBuildsInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>) -> Void)
 ```
 
-### batchGetProjects(input:​completion:​)
+### batchGetProjects(input:completion:)
 
 Gets information about one or more build projects.
 
@@ -49,7 +40,7 @@ Gets information about one or more build projects.
 func batchGetProjects(input: BatchGetProjectsInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>) -> Void)
 ```
 
-### batchGetReportGroups(input:​completion:​)
+### batchGetReportGroups(input:completion:)
 
 Returns an array of report groups.
 
@@ -57,7 +48,7 @@ Returns an array of report groups.
 func batchGetReportGroups(input: BatchGetReportGroupsInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>) -> Void)
 ```
 
-### batchGetReports(input:​completion:​)
+### batchGetReports(input:completion:)
 
 Returns an array of reports.
 
@@ -65,7 +56,7 @@ Returns an array of reports.
 func batchGetReports(input: BatchGetReportsInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetReportsOutputResponse, BatchGetReportsOutputError>) -> Void)
 ```
 
-### createProject(input:​completion:​)
+### createProject(input:completion:)
 
 Creates a build project.
 
@@ -73,7 +64,7 @@ Creates a build project.
 func createProject(input: CreateProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateProjectOutputResponse, CreateProjectOutputError>) -> Void)
 ```
 
-### createReportGroup(input:​completion:​)
+### createReportGroup(input:completion:)
 
 Creates a report group. A report group contains a collection of reports.
 
@@ -81,26 +72,15 @@ Creates a report group. A report group contains a collection of reports.
 func createReportGroup(input: CreateReportGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateReportGroupOutputResponse, CreateReportGroupOutputError>) -> Void)
 ```
 
-### createWebhook(input:​completion:​)
+### createWebhook(input:completion:)
 
-For an existing CodeBuild build project that has its source code stored in a GitHub or
-Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a
-code change is pushed to the repository.
+For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a code change is pushed to the repository. If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build basis, you are billed for both builds. Therefore, if you are using CodePipeline, we recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the Webhook box. For more information, see step 5 in [Change a Build Project's Settings](https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console).
 
 ``` swift
 func createWebhook(input: CreateWebhookInput, completion: @escaping (ClientRuntime.SdkResult<CreateWebhookOutputResponse, CreateWebhookOutputError>) -> Void)
 ```
 
-``` 
-        If you enable webhooks for an CodeBuild project, and the project is used as a build
-    step in CodePipeline, then two identical builds are created for each commit. One build is
-    triggered through webhooks, and one through CodePipeline. Because billing is on a per-build
-    basis, you are billed for both builds. Therefore, if you are using CodePipeline, we
-    recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the
-    Webhook box. For more information, see step 5 in <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console">Change a Build Project's Settings.
-```
-
-### deleteBuildBatch(input:​completion:​)
+### deleteBuildBatch(input:completion:)
 
 Deletes a batch build.
 
@@ -108,7 +88,7 @@ Deletes a batch build.
 func deleteBuildBatch(input: DeleteBuildBatchInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>) -> Void)
 ```
 
-### deleteProject(input:​completion:​)
+### deleteProject(input:completion:)
 
 Deletes a build project. When you delete a project, its builds are not deleted.
 
@@ -116,7 +96,7 @@ Deletes a build project. When you delete a project, its builds are not deleted.
 func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
 ```
 
-### deleteReport(input:​completion:​)
+### deleteReport(input:completion:)
 
 Deletes a report.
 
@@ -124,7 +104,7 @@ Deletes a report.
 func deleteReport(input: DeleteReportInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReportOutputResponse, DeleteReportOutputError>) -> Void)
 ```
 
-### deleteReportGroup(input:​completion:​)
+### deleteReportGroup(input:completion:)
 
 Deletes a report group. Before you delete a report group, you must delete its reports.
 
@@ -132,7 +112,7 @@ Deletes a report group. Before you delete a report group, you must delete its re
 func deleteReportGroup(input: DeleteReportGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>) -> Void)
 ```
 
-### deleteResourcePolicy(input:​completion:​)
+### deleteResourcePolicy(input:completion:)
 
 Deletes a resource policy that is identified by its resource ARN.
 
@@ -140,7 +120,7 @@ Deletes a resource policy that is identified by its resource ARN.
 func deleteResourcePolicy(input: DeleteResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>) -> Void)
 ```
 
-### deleteSourceCredentials(input:​completion:​)
+### deleteSourceCredentials(input:completion:)
 
 Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
 
@@ -148,17 +128,15 @@ Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
 func deleteSourceCredentials(input: DeleteSourceCredentialsInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>) -> Void)
 ```
 
-### deleteWebhook(input:​completion:​)
+### deleteWebhook(input:completion:)
 
-For an existing CodeBuild build project that has its source code stored in a GitHub or
-Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
-change is pushed to the repository.
+For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
 
 ``` swift
 func deleteWebhook(input: DeleteWebhookInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWebhookOutputResponse, DeleteWebhookOutputError>) -> Void)
 ```
 
-### describeCodeCoverages(input:​completion:​)
+### describeCodeCoverages(input:completion:)
 
 Retrieves one or more code coverage reports.
 
@@ -166,7 +144,7 @@ Retrieves one or more code coverage reports.
 func describeCodeCoverages(input: DescribeCodeCoveragesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>) -> Void)
 ```
 
-### describeTestCases(input:​completion:​)
+### describeTestCases(input:completion:)
 
 Returns a list of details about test cases for a report.
 
@@ -174,7 +152,7 @@ Returns a list of details about test cases for a report.
 func describeTestCases(input: DescribeTestCasesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>) -> Void)
 ```
 
-### getReportGroupTrend(input:​completion:​)
+### getReportGroupTrend(input:completion:)
 
 Analyzes and accumulates test report values for the specified test reports.
 
@@ -182,7 +160,7 @@ Analyzes and accumulates test report values for the specified test reports.
 func getReportGroupTrend(input: GetReportGroupTrendInput, completion: @escaping (ClientRuntime.SdkResult<GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>) -> Void)
 ```
 
-### getResourcePolicy(input:​completion:​)
+### getResourcePolicy(input:completion:)
 
 Gets a resource policy that is identified by its resource ARN.
 
@@ -190,16 +168,15 @@ Gets a resource policy that is identified by its resource ARN.
 func getResourcePolicy(input: GetResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>) -> Void)
 ```
 
-### importSourceCredentials(input:​completion:​)
+### importSourceCredentials(input:completion:)
 
-Imports the source repository credentials for an CodeBuild project that has its
-source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
 
 ``` swift
 func importSourceCredentials(input: ImportSourceCredentialsInput, completion: @escaping (ClientRuntime.SdkResult<ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>) -> Void)
 ```
 
-### invalidateProjectCache(input:​completion:​)
+### invalidateProjectCache(input:completion:)
 
 Resets the cache for a project.
 
@@ -207,7 +184,7 @@ Resets the cache for a project.
 func invalidateProjectCache(input: InvalidateProjectCacheInput, completion: @escaping (ClientRuntime.SdkResult<InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>) -> Void)
 ```
 
-### listBuildBatches(input:​completion:​)
+### listBuildBatches(input:completion:)
 
 Retrieves the identifiers of your build batches in the current region.
 
@@ -215,7 +192,7 @@ Retrieves the identifiers of your build batches in the current region.
 func listBuildBatches(input: ListBuildBatchesInput, completion: @escaping (ClientRuntime.SdkResult<ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>) -> Void)
 ```
 
-### listBuildBatchesForProject(input:​completion:​)
+### listBuildBatchesForProject(input:completion:)
 
 Retrieves the identifiers of the build batches for a specific project.
 
@@ -223,7 +200,7 @@ Retrieves the identifiers of the build batches for a specific project.
 func listBuildBatchesForProject(input: ListBuildBatchesForProjectInput, completion: @escaping (ClientRuntime.SdkResult<ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>) -> Void)
 ```
 
-### listBuilds(input:​completion:​)
+### listBuilds(input:completion:)
 
 Gets a list of build IDs, with each build ID representing a single build.
 
@@ -231,16 +208,15 @@ Gets a list of build IDs, with each build ID representing a single build.
 func listBuilds(input: ListBuildsInput, completion: @escaping (ClientRuntime.SdkResult<ListBuildsOutputResponse, ListBuildsOutputError>) -> Void)
 ```
 
-### listBuildsForProject(input:​completion:​)
+### listBuildsForProject(input:completion:)
 
-Gets a list of build identifiers for the specified build project, with each build
-identifier representing a single build.
+Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
 
 ``` swift
 func listBuildsForProject(input: ListBuildsForProjectInput, completion: @escaping (ClientRuntime.SdkResult<ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>) -> Void)
 ```
 
-### listCuratedEnvironmentImages(input:​completion:​)
+### listCuratedEnvironmentImages(input:completion:)
 
 Gets information about Docker images that are managed by CodeBuild.
 
@@ -248,16 +224,15 @@ Gets information about Docker images that are managed by CodeBuild.
 func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput, completion: @escaping (ClientRuntime.SdkResult<ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>) -> Void)
 ```
 
-### listProjects(input:​completion:​)
+### listProjects(input:completion:)
 
-Gets a list of build project names, with each build project name representing a single
-build project.
+Gets a list of build project names, with each build project name representing a single build project.
 
 ``` swift
 func listProjects(input: ListProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListProjectsOutputResponse, ListProjectsOutputError>) -> Void)
 ```
 
-### listReportGroups(input:​completion:​)
+### listReportGroups(input:completion:)
 
 Gets a list ARNs for the report groups in the current Amazon Web Services account.
 
@@ -265,7 +240,7 @@ Gets a list ARNs for the report groups in the current Amazon Web Services accoun
 func listReportGroups(input: ListReportGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListReportGroupsOutputResponse, ListReportGroupsOutputError>) -> Void)
 ```
 
-### listReports(input:​completion:​)
+### listReports(input:completion:)
 
 Returns a list of ARNs for the reports in the current Amazon Web Services account.
 
@@ -273,7 +248,7 @@ Returns a list of ARNs for the reports in the current Amazon Web Services accoun
 func listReports(input: ListReportsInput, completion: @escaping (ClientRuntime.SdkResult<ListReportsOutputResponse, ListReportsOutputError>) -> Void)
 ```
 
-### listReportsForReportGroup(input:​completion:​)
+### listReportsForReportGroup(input:completion:)
 
 Returns a list of ARNs for the reports that belong to a ReportGroup.
 
@@ -281,7 +256,7 @@ Returns a list of ARNs for the reports that belong to a ReportGroup.
 func listReportsForReportGroup(input: ListReportsForReportGroupInput, completion: @escaping (ClientRuntime.SdkResult<ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>) -> Void)
 ```
 
-### listSharedProjects(input:​completion:​)
+### listSharedProjects(input:completion:)
 
 Gets a list of projects that are shared with other Amazon Web Services accounts or users.
 
@@ -289,7 +264,7 @@ Gets a list of projects that are shared with other Amazon Web Services accounts 
 func listSharedProjects(input: ListSharedProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>) -> Void)
 ```
 
-### listSharedReportGroups(input:​completion:​)
+### listSharedReportGroups(input:completion:)
 
 Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
 
@@ -297,7 +272,7 @@ Gets a list of report groups that are shared with other Amazon Web Services acco
 func listSharedReportGroups(input: ListSharedReportGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>) -> Void)
 ```
 
-### listSourceCredentials(input:​completion:​)
+### listSourceCredentials(input:completion:)
 
 Returns a list of SourceCredentialsInfo objects.
 
@@ -305,16 +280,15 @@ Returns a list of SourceCredentialsInfo objects.
 func listSourceCredentials(input: ListSourceCredentialsInput, completion: @escaping (ClientRuntime.SdkResult<ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>) -> Void)
 ```
 
-### putResourcePolicy(input:​completion:​)
+### putResourcePolicy(input:completion:)
 
-Stores a resource policy for the ARN of a Project or
-ReportGroup object.
+Stores a resource policy for the ARN of a Project or ReportGroup object.
 
 ``` swift
 func putResourcePolicy(input: PutResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>) -> Void)
 ```
 
-### retryBuild(input:​completion:​)
+### retryBuild(input:completion:)
 
 Restarts a build.
 
@@ -322,7 +296,7 @@ Restarts a build.
 func retryBuild(input: RetryBuildInput, completion: @escaping (ClientRuntime.SdkResult<RetryBuildOutputResponse, RetryBuildOutputError>) -> Void)
 ```
 
-### retryBuildBatch(input:​completion:​)
+### retryBuildBatch(input:completion:)
 
 Restarts a failed batch build. Only batch builds that have failed can be retried.
 
@@ -330,7 +304,7 @@ Restarts a failed batch build. Only batch builds that have failed can be retried
 func retryBuildBatch(input: RetryBuildBatchInput, completion: @escaping (ClientRuntime.SdkResult<RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>) -> Void)
 ```
 
-### startBuild(input:​completion:​)
+### startBuild(input:completion:)
 
 Starts running a build.
 
@@ -338,7 +312,7 @@ Starts running a build.
 func startBuild(input: StartBuildInput, completion: @escaping (ClientRuntime.SdkResult<StartBuildOutputResponse, StartBuildOutputError>) -> Void)
 ```
 
-### startBuildBatch(input:​completion:​)
+### startBuildBatch(input:completion:)
 
 Starts a batch build for a project.
 
@@ -346,7 +320,7 @@ Starts a batch build for a project.
 func startBuildBatch(input: StartBuildBatchInput, completion: @escaping (ClientRuntime.SdkResult<StartBuildBatchOutputResponse, StartBuildBatchOutputError>) -> Void)
 ```
 
-### stopBuild(input:​completion:​)
+### stopBuild(input:completion:)
 
 Attempts to stop running a build.
 
@@ -354,7 +328,7 @@ Attempts to stop running a build.
 func stopBuild(input: StopBuildInput, completion: @escaping (ClientRuntime.SdkResult<StopBuildOutputResponse, StopBuildOutputError>) -> Void)
 ```
 
-### stopBuildBatch(input:​completion:​)
+### stopBuildBatch(input:completion:)
 
 Stops a running batch build.
 
@@ -362,7 +336,7 @@ Stops a running batch build.
 func stopBuildBatch(input: StopBuildBatchInput, completion: @escaping (ClientRuntime.SdkResult<StopBuildBatchOutputResponse, StopBuildBatchOutputError>) -> Void)
 ```
 
-### updateProject(input:​completion:​)
+### updateProject(input:completion:)
 
 Changes the settings of a build project.
 
@@ -370,51 +344,25 @@ Changes the settings of a build project.
 func updateProject(input: UpdateProjectInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProjectOutputResponse, UpdateProjectOutputError>) -> Void)
 ```
 
-### updateProjectVisibility(input:​completion:​)
+### updateProjectVisibility(input:completion:)
 
-Changes the public visibility for a project. The project's build results, logs, and
-artifacts are available to the general public.  For more information, see <a href="https:​//docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html">Public build
-projects in the CodeBuild User Guide.
+Changes the public visibility for a project. The project's build results, logs, and artifacts are available to the general public. For more information, see [Public build projects](https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html) in the CodeBuild User Guide. The following should be kept in mind when making your projects public:
 
 ``` swift
 func updateProjectVisibility(input: UpdateProjectVisibilityInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>) -> Void)
 ```
 
-``` 
-        The following should be kept in mind when making your projects public:
+  - All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public.
 
+  - All build logs and artifacts are available to the public. Environment variables, source code, and other sensitive information may have been output to the build logs and artifacts. You must be careful about what information is output to the build logs. Some best practice are:
 
-              All of a project's build results, logs, and artifacts, including builds that were run
-        when the project was private, are available to the general public.
+  - Do not store sensitive values, especially Amazon Web Services access key IDs and secret access keys, in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager to store sensitive values.
 
+  - Follow [Best practices for using webhooks](https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices) in the CodeBuild User Guide to limit which entities can trigger a build, and do not store the buildspec in the project itself, to ensure that your webhooks are as secure as possible.
 
-              All build logs and artifacts are available to the public. Environment variables, source
-        code, and other sensitive information may have been output to the build logs and artifacts.
-        You must be careful about what information is output to the build logs. Some best practice
-        are:
+  - A malicious user can use public builds to distribute malicious artifacts. We recommend that you review all pull requests to verify that the pull request is a legitimate change. We also recommend that you validate any artifacts with their checksums to make sure that the correct artifacts are being downloaded.
 
-
-                    Do not store sensitive values, especially Amazon Web Services access key IDs and secret access
-            keys, in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store
-            or Secrets Manager to store sensitive values.
-
-
-                    Follow <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices">Best
-              practices for using webhooks in the CodeBuild User
-              Guide to limit which entities can trigger a build, and do
-              not store the buildspec in the project itself, to ensure that your webhooks are as
-              secure as possible.
-
-
-
-
-              A malicious user can use public builds to distribute malicious artifacts. We recommend
-        that you review all pull requests to verify that the pull request is a legitimate change. We
-        also recommend that you validate any artifacts with their checksums to make sure that the
-        correct artifacts are being downloaded.
-```
-
-### updateReportGroup(input:​completion:​)
+### updateReportGroup(input:completion:)
 
 Updates a report group.
 
@@ -422,14 +370,10 @@ Updates a report group.
 func updateReportGroup(input: UpdateReportGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>) -> Void)
 ```
 
-### updateWebhook(input:​completion:​)
+### updateWebhook(input:completion:)
 
-Updates the webhook associated with an CodeBuild build project.
+Updates the webhook associated with an CodeBuild build project. If you use Bitbucket for your repository, rotateSecret is ignored.
 
 ``` swift
 func updateWebhook(input: UpdateWebhookInput, completion: @escaping (ClientRuntime.SdkResult<UpdateWebhookOutputResponse, UpdateWebhookOutputError>) -> Void)
-```
-
-``` 
-        If you use Bitbucket for your repository, rotateSecret is ignored.
 ```

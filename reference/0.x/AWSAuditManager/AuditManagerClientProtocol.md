@@ -1,46 +1,24 @@
 # AuditManagerClientProtocol
 
-Welcome to the Audit Manager API reference. This guide is for developers who need detailed information about the Audit Manager API operations, data types, and errors.
-Audit Manager is a service that provides automated evidence collection so that you
-can continuously audit your Amazon Web Services usage, and assess the effectiveness of your controls to
-better manage risk and simplify compliance.
-Audit Manager provides pre-built frameworks that structure and automate assessments
-for a given compliance standard. Frameworks include a pre-built collection of controls with
-descriptions and testing procedures, which are grouped according to the requirements of the
-specified compliance standard or regulation. You can also customize frameworks and controls
-to support internal audits with unique requirements.
+Welcome to the Audit Manager API reference. This guide is for developers who need detailed information about the Audit Manager API operations, data types, and errors. Audit Manager is a service that provides automated evidence collection so that you can continuously audit your Amazon Web Services usage, and assess the effectiveness of your controls to better manage risk and simplify compliance. Audit Manager provides pre-built frameworks that structure and automate assessments for a given compliance standard. Frameworks include a pre-built collection of controls with descriptions and testing procedures, which are grouped according to the requirements of the specified compliance standard or regulation. You can also customize frameworks and controls to support internal audits with unique requirements. Use the following links to get started with the Audit Manager API:
 
 ``` swift
 public protocol AuditManagerClientProtocol 
 ```
 
-``` 
-     Use the following links to get started with the Audit Manager API:
+  - [Actions](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Operations.html): An alphabetical list of all Audit Manager API operations.
 
+  - [Data types](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Types.html): An alphabetical list of all Audit Manager data types.
 
+  - [Common parameters](https://docs.aws.amazon.com/audit-manager/latest/APIReference/CommonParameters.html): Parameters that all Query operations can use.
 
-              <a href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Operations.html">Actions: An alphabetical list of all Audit Manager API operations.
+  - [Common errors](https://docs.aws.amazon.com/audit-manager/latest/APIReference/CommonErrors.html): Client and server errors that all operations can return.
 
-
-
-              <a href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Types.html">Data types: An alphabetical list of all Audit Manager data types.
-
-
-
-              <a href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/CommonParameters.html">Common parameters: Parameters that all Query operations can use.
-
-
-
-              <a href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/CommonErrors.html">Common errors: Client and server errors that all operations can return.
-
-
-
-     If you're new to Audit Manager, we recommend that you review the <a href="https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html"> Audit Manager User Guide.
-```
+If you're new to Audit Manager, we recommend that you review the [ Audit Manager User Guide](https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html).
 
 ## Requirements
 
-### associateAssessmentReportEvidenceFolder(input:​completion:​)
+### associateAssessmentReportEvidenceFolder(input:completion:)
 
 Associates an evidence folder to the specified assessment report in Audit Manager.
 
@@ -48,7 +26,7 @@ Associates an evidence folder to the specified assessment report in Audit Manage
 func associateAssessmentReportEvidenceFolder(input: AssociateAssessmentReportEvidenceFolderInput, completion: @escaping (ClientRuntime.SdkResult<AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>) -> Void)
 ```
 
-### batchAssociateAssessmentReportEvidence(input:​completion:​)
+### batchAssociateAssessmentReportEvidence(input:completion:)
 
 Associates a list of evidence to an assessment report in an Audit Manager assessment.
 
@@ -56,7 +34,7 @@ Associates a list of evidence to an assessment report in an Audit Manager assess
 func batchAssociateAssessmentReportEvidence(input: BatchAssociateAssessmentReportEvidenceInput, completion: @escaping (ClientRuntime.SdkResult<BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>) -> Void)
 ```
 
-### batchCreateDelegationByAssessment(input:​completion:​)
+### batchCreateDelegationByAssessment(input:completion:)
 
 Create a batch of delegations for a specified assessment in Audit Manager.
 
@@ -64,7 +42,7 @@ Create a batch of delegations for a specified assessment in Audit Manager.
 func batchCreateDelegationByAssessment(input: BatchCreateDelegationByAssessmentInput, completion: @escaping (ClientRuntime.SdkResult<BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>) -> Void)
 ```
 
-### batchDeleteDelegationByAssessment(input:​completion:​)
+### batchDeleteDelegationByAssessment(input:completion:)
 
 Deletes the delegations in the specified Audit Manager assessment.
 
@@ -72,7 +50,7 @@ Deletes the delegations in the specified Audit Manager assessment.
 func batchDeleteDelegationByAssessment(input: BatchDeleteDelegationByAssessmentInput, completion: @escaping (ClientRuntime.SdkResult<BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>) -> Void)
 ```
 
-### batchDisassociateAssessmentReportEvidence(input:​completion:​)
+### batchDisassociateAssessmentReportEvidence(input:completion:)
 
 Disassociates a list of evidence from the specified assessment report in Audit Manager.
 
@@ -80,7 +58,7 @@ Disassociates a list of evidence from the specified assessment report in Audit M
 func batchDisassociateAssessmentReportEvidence(input: BatchDisassociateAssessmentReportEvidenceInput, completion: @escaping (ClientRuntime.SdkResult<BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>) -> Void)
 ```
 
-### batchImportEvidenceToAssessmentControl(input:​completion:​)
+### batchImportEvidenceToAssessmentControl(input:completion:)
 
 Uploads one or more pieces of evidence to the specified control in the assessment in Audit Manager.
 
@@ -88,7 +66,7 @@ Uploads one or more pieces of evidence to the specified control in the assessmen
 func batchImportEvidenceToAssessmentControl(input: BatchImportEvidenceToAssessmentControlInput, completion: @escaping (ClientRuntime.SdkResult<BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>) -> Void)
 ```
 
-### createAssessment(input:​completion:​)
+### createAssessment(input:completion:)
 
 Creates an assessment in Audit Manager.
 
@@ -96,7 +74,7 @@ Creates an assessment in Audit Manager.
 func createAssessment(input: CreateAssessmentInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssessmentOutputResponse, CreateAssessmentOutputError>) -> Void)
 ```
 
-### createAssessmentFramework(input:​completion:​)
+### createAssessmentFramework(input:completion:)
 
 Creates a custom framework in Audit Manager.
 
@@ -104,7 +82,7 @@ Creates a custom framework in Audit Manager.
 func createAssessmentFramework(input: CreateAssessmentFrameworkInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>) -> Void)
 ```
 
-### createAssessmentReport(input:​completion:​)
+### createAssessmentReport(input:completion:)
 
 Creates an assessment report for the specified assessment.
 
@@ -112,7 +90,7 @@ Creates an assessment report for the specified assessment.
 func createAssessmentReport(input: CreateAssessmentReportInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>) -> Void)
 ```
 
-### createControl(input:​completion:​)
+### createControl(input:completion:)
 
 Creates a new custom control in Audit Manager.
 
@@ -120,7 +98,7 @@ Creates a new custom control in Audit Manager.
 func createControl(input: CreateControlInput, completion: @escaping (ClientRuntime.SdkResult<CreateControlOutputResponse, CreateControlOutputError>) -> Void)
 ```
 
-### deleteAssessment(input:​completion:​)
+### deleteAssessment(input:completion:)
 
 Deletes an assessment in Audit Manager.
 
@@ -128,7 +106,7 @@ Deletes an assessment in Audit Manager.
 func deleteAssessment(input: DeleteAssessmentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>) -> Void)
 ```
 
-### deleteAssessmentFramework(input:​completion:​)
+### deleteAssessmentFramework(input:completion:)
 
 Deletes a custom framework in Audit Manager.
 
@@ -136,7 +114,7 @@ Deletes a custom framework in Audit Manager.
 func deleteAssessmentFramework(input: DeleteAssessmentFrameworkInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>) -> Void)
 ```
 
-### deleteAssessmentReport(input:​completion:​)
+### deleteAssessmentReport(input:completion:)
 
 Deletes an assessment report from an assessment in Audit Manager.
 
@@ -144,7 +122,7 @@ Deletes an assessment report from an assessment in Audit Manager.
 func deleteAssessmentReport(input: DeleteAssessmentReportInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>) -> Void)
 ```
 
-### deleteControl(input:​completion:​)
+### deleteControl(input:completion:)
 
 Deletes a custom control in Audit Manager.
 
@@ -152,7 +130,7 @@ Deletes a custom control in Audit Manager.
 func deleteControl(input: DeleteControlInput, completion: @escaping (ClientRuntime.SdkResult<DeleteControlOutputResponse, DeleteControlOutputError>) -> Void)
 ```
 
-### deregisterAccount(input:​completion:​)
+### deregisterAccount(input:completion:)
 
 Deregisters an account in Audit Manager.
 
@@ -160,23 +138,15 @@ Deregisters an account in Audit Manager.
 func deregisterAccount(input: DeregisterAccountInput, completion: @escaping (ClientRuntime.SdkResult<DeregisterAccountOutputResponse, DeregisterAccountOutputError>) -> Void)
 ```
 
-### deregisterOrganizationAdminAccount(input:​completion:​)
+### deregisterOrganizationAdminAccount(input:completion:)
 
-Removes the specified member account as a delegated administrator for Audit Manager.
+Removes the specified member account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, or when you deregister a delegated administrator from Organizations, you continue to have access to the evidence that you previously collected under that account. However, Audit Manager will stop collecting and attaching evidence to that delegated administrator account moving forward.
 
 ``` swift
 func deregisterOrganizationAdminAccount(input: DeregisterOrganizationAdminAccountInput, completion: @escaping (ClientRuntime.SdkResult<DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>) -> Void)
 ```
 
-``` 
-        When you remove a delegated administrator from your Audit Manager settings, or when you
-    deregister a delegated administrator from Organizations, you continue to have access
-  to the evidence that you previously collected under that account. However, Audit Manager
-        will stop collecting and attaching evidence to that delegated administrator account
-        moving forward.
-```
-
-### disassociateAssessmentReportEvidenceFolder(input:​completion:​)
+### disassociateAssessmentReportEvidenceFolder(input:completion:)
 
 Disassociates an evidence folder from the specified assessment report in Audit Manager.
 
@@ -184,7 +154,7 @@ Disassociates an evidence folder from the specified assessment report in Audit M
 func disassociateAssessmentReportEvidenceFolder(input: DisassociateAssessmentReportEvidenceFolderInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>) -> Void)
 ```
 
-### getAccountStatus(input:​completion:​)
+### getAccountStatus(input:completion:)
 
 Returns the registration status of an account in Audit Manager.
 
@@ -192,7 +162,7 @@ Returns the registration status of an account in Audit Manager.
 func getAccountStatus(input: GetAccountStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetAccountStatusOutputResponse, GetAccountStatusOutputError>) -> Void)
 ```
 
-### getAssessment(input:​completion:​)
+### getAssessment(input:completion:)
 
 Returns an assessment from Audit Manager.
 
@@ -200,7 +170,7 @@ Returns an assessment from Audit Manager.
 func getAssessment(input: GetAssessmentInput, completion: @escaping (ClientRuntime.SdkResult<GetAssessmentOutputResponse, GetAssessmentOutputError>) -> Void)
 ```
 
-### getAssessmentFramework(input:​completion:​)
+### getAssessmentFramework(input:completion:)
 
 Returns a framework from Audit Manager.
 
@@ -208,7 +178,7 @@ Returns a framework from Audit Manager.
 func getAssessmentFramework(input: GetAssessmentFrameworkInput, completion: @escaping (ClientRuntime.SdkResult<GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>) -> Void)
 ```
 
-### getAssessmentReportUrl(input:​completion:​)
+### getAssessmentReportUrl(input:completion:)
 
 Returns the URL of a specified assessment report in Audit Manager.
 
@@ -216,7 +186,7 @@ Returns the URL of a specified assessment report in Audit Manager.
 func getAssessmentReportUrl(input: GetAssessmentReportUrlInput, completion: @escaping (ClientRuntime.SdkResult<GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>) -> Void)
 ```
 
-### getChangeLogs(input:​completion:​)
+### getChangeLogs(input:completion:)
 
 Returns a list of changelogs from Audit Manager.
 
@@ -224,7 +194,7 @@ Returns a list of changelogs from Audit Manager.
 func getChangeLogs(input: GetChangeLogsInput, completion: @escaping (ClientRuntime.SdkResult<GetChangeLogsOutputResponse, GetChangeLogsOutputError>) -> Void)
 ```
 
-### getControl(input:​completion:​)
+### getControl(input:completion:)
 
 Returns a control from Audit Manager.
 
@@ -232,7 +202,7 @@ Returns a control from Audit Manager.
 func getControl(input: GetControlInput, completion: @escaping (ClientRuntime.SdkResult<GetControlOutputResponse, GetControlOutputError>) -> Void)
 ```
 
-### getDelegations(input:​completion:​)
+### getDelegations(input:completion:)
 
 Returns a list of delegations from an audit owner to a delegate.
 
@@ -240,7 +210,7 @@ Returns a list of delegations from an audit owner to a delegate.
 func getDelegations(input: GetDelegationsInput, completion: @escaping (ClientRuntime.SdkResult<GetDelegationsOutputResponse, GetDelegationsOutputError>) -> Void)
 ```
 
-### getEvidence(input:​completion:​)
+### getEvidence(input:completion:)
 
 Returns evidence from Audit Manager.
 
@@ -248,7 +218,7 @@ Returns evidence from Audit Manager.
 func getEvidence(input: GetEvidenceInput, completion: @escaping (ClientRuntime.SdkResult<GetEvidenceOutputResponse, GetEvidenceOutputError>) -> Void)
 ```
 
-### getEvidenceByEvidenceFolder(input:​completion:​)
+### getEvidenceByEvidenceFolder(input:completion:)
 
 Returns all evidence from a specified evidence folder in Audit Manager.
 
@@ -256,7 +226,7 @@ Returns all evidence from a specified evidence folder in Audit Manager.
 func getEvidenceByEvidenceFolder(input: GetEvidenceByEvidenceFolderInput, completion: @escaping (ClientRuntime.SdkResult<GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>) -> Void)
 ```
 
-### getEvidenceFolder(input:​completion:​)
+### getEvidenceFolder(input:completion:)
 
 Returns an evidence folder from the specified assessment in Audit Manager.
 
@@ -264,7 +234,7 @@ Returns an evidence folder from the specified assessment in Audit Manager.
 func getEvidenceFolder(input: GetEvidenceFolderInput, completion: @escaping (ClientRuntime.SdkResult<GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>) -> Void)
 ```
 
-### getEvidenceFoldersByAssessment(input:​completion:​)
+### getEvidenceFoldersByAssessment(input:completion:)
 
 Returns the evidence folders from a specified assessment in Audit Manager.
 
@@ -272,7 +242,7 @@ Returns the evidence folders from a specified assessment in Audit Manager.
 func getEvidenceFoldersByAssessment(input: GetEvidenceFoldersByAssessmentInput, completion: @escaping (ClientRuntime.SdkResult<GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>) -> Void)
 ```
 
-### getEvidenceFoldersByAssessmentControl(input:​completion:​)
+### getEvidenceFoldersByAssessmentControl(input:completion:)
 
 Returns a list of evidence folders associated with a specified control of an assessment in Audit Manager.
 
@@ -280,7 +250,7 @@ Returns a list of evidence folders associated with a specified control of an ass
 func getEvidenceFoldersByAssessmentControl(input: GetEvidenceFoldersByAssessmentControlInput, completion: @escaping (ClientRuntime.SdkResult<GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>) -> Void)
 ```
 
-### getOrganizationAdminAccount(input:​completion:​)
+### getOrganizationAdminAccount(input:completion:)
 
 Returns the name of the delegated Amazon Web Services administrator account for the organization.
 
@@ -288,7 +258,7 @@ Returns the name of the delegated Amazon Web Services administrator account for 
 func getOrganizationAdminAccount(input: GetOrganizationAdminAccountInput, completion: @escaping (ClientRuntime.SdkResult<GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>) -> Void)
 ```
 
-### getServicesInScope(input:​completion:​)
+### getServicesInScope(input:completion:)
 
 Returns a list of the in-scope Amazon Web Services services for the specified assessment.
 
@@ -296,7 +266,7 @@ Returns a list of the in-scope Amazon Web Services services for the specified as
 func getServicesInScope(input: GetServicesInScopeInput, completion: @escaping (ClientRuntime.SdkResult<GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>) -> Void)
 ```
 
-### getSettings(input:​completion:​)
+### getSettings(input:completion:)
 
 Returns the settings for the specified account.
 
@@ -304,7 +274,7 @@ Returns the settings for the specified account.
 func getSettings(input: GetSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetSettingsOutputResponse, GetSettingsOutputError>) -> Void)
 ```
 
-### listAssessmentFrameworks(input:​completion:​)
+### listAssessmentFrameworks(input:completion:)
 
 Returns a list of the frameworks available in the Audit Manager framework library.
 
@@ -312,7 +282,7 @@ Returns a list of the frameworks available in the Audit Manager framework librar
 func listAssessmentFrameworks(input: ListAssessmentFrameworksInput, completion: @escaping (ClientRuntime.SdkResult<ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>) -> Void)
 ```
 
-### listAssessmentReports(input:​completion:​)
+### listAssessmentReports(input:completion:)
 
 Returns a list of assessment reports created in Audit Manager.
 
@@ -320,7 +290,7 @@ Returns a list of assessment reports created in Audit Manager.
 func listAssessmentReports(input: ListAssessmentReportsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>) -> Void)
 ```
 
-### listAssessments(input:​completion:​)
+### listAssessments(input:completion:)
 
 Returns a list of current and past assessments from Audit Manager.
 
@@ -328,7 +298,7 @@ Returns a list of current and past assessments from Audit Manager.
 func listAssessments(input: ListAssessmentsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssessmentsOutputResponse, ListAssessmentsOutputError>) -> Void)
 ```
 
-### listControls(input:​completion:​)
+### listControls(input:completion:)
 
 Returns a list of controls from Audit Manager.
 
@@ -336,7 +306,7 @@ Returns a list of controls from Audit Manager.
 func listControls(input: ListControlsInput, completion: @escaping (ClientRuntime.SdkResult<ListControlsOutputResponse, ListControlsOutputError>) -> Void)
 ```
 
-### listKeywordsForDataSource(input:​completion:​)
+### listKeywordsForDataSource(input:completion:)
 
 Returns a list of keywords that pre-mapped to the specified control data source.
 
@@ -344,7 +314,7 @@ Returns a list of keywords that pre-mapped to the specified control data source.
 func listKeywordsForDataSource(input: ListKeywordsForDataSourceInput, completion: @escaping (ClientRuntime.SdkResult<ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>) -> Void)
 ```
 
-### listNotifications(input:​completion:​)
+### listNotifications(input:completion:)
 
 Returns a list of all Audit Manager notifications.
 
@@ -352,7 +322,7 @@ Returns a list of all Audit Manager notifications.
 func listNotifications(input: ListNotificationsInput, completion: @escaping (ClientRuntime.SdkResult<ListNotificationsOutputResponse, ListNotificationsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Returns a list of tags for the specified resource in Audit Manager.
 
@@ -360,7 +330,7 @@ Returns a list of tags for the specified resource in Audit Manager.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### registerAccount(input:​completion:​)
+### registerAccount(input:completion:)
 
 Enables Audit Manager for the specified account.
 
@@ -368,7 +338,7 @@ Enables Audit Manager for the specified account.
 func registerAccount(input: RegisterAccountInput, completion: @escaping (ClientRuntime.SdkResult<RegisterAccountOutputResponse, RegisterAccountOutputError>) -> Void)
 ```
 
-### registerOrganizationAdminAccount(input:​completion:​)
+### registerOrganizationAdminAccount(input:completion:)
 
 Enables an account within the organization as the delegated administrator for Audit Manager.
 
@@ -376,7 +346,7 @@ Enables an account within the organization as the delegated administrator for Au
 func registerOrganizationAdminAccount(input: RegisterOrganizationAdminAccountInput, completion: @escaping (ClientRuntime.SdkResult<RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Tags the specified resource in Audit Manager.
 
@@ -384,7 +354,7 @@ Tags the specified resource in Audit Manager.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes a tag from a resource in Audit Manager.
 
@@ -392,7 +362,7 @@ Removes a tag from a resource in Audit Manager.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateAssessment(input:​completion:​)
+### updateAssessment(input:completion:)
 
 Edits an Audit Manager assessment.
 
@@ -400,7 +370,7 @@ Edits an Audit Manager assessment.
 func updateAssessment(input: UpdateAssessmentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>) -> Void)
 ```
 
-### updateAssessmentControl(input:​completion:​)
+### updateAssessmentControl(input:completion:)
 
 Updates a control within an assessment in Audit Manager.
 
@@ -408,7 +378,7 @@ Updates a control within an assessment in Audit Manager.
 func updateAssessmentControl(input: UpdateAssessmentControlInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>) -> Void)
 ```
 
-### updateAssessmentControlSetStatus(input:​completion:​)
+### updateAssessmentControlSetStatus(input:completion:)
 
 Updates the status of a control set in an Audit Manager assessment.
 
@@ -416,7 +386,7 @@ Updates the status of a control set in an Audit Manager assessment.
 func updateAssessmentControlSetStatus(input: UpdateAssessmentControlSetStatusInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>) -> Void)
 ```
 
-### updateAssessmentFramework(input:​completion:​)
+### updateAssessmentFramework(input:completion:)
 
 Updates a custom framework in Audit Manager.
 
@@ -424,7 +394,7 @@ Updates a custom framework in Audit Manager.
 func updateAssessmentFramework(input: UpdateAssessmentFrameworkInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>) -> Void)
 ```
 
-### updateAssessmentStatus(input:​completion:​)
+### updateAssessmentStatus(input:completion:)
 
 Updates the status of an assessment in Audit Manager.
 
@@ -432,7 +402,7 @@ Updates the status of an assessment in Audit Manager.
 func updateAssessmentStatus(input: UpdateAssessmentStatusInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>) -> Void)
 ```
 
-### updateControl(input:​completion:​)
+### updateControl(input:completion:)
 
 Updates a custom control in Audit Manager.
 
@@ -440,7 +410,7 @@ Updates a custom control in Audit Manager.
 func updateControl(input: UpdateControlInput, completion: @escaping (ClientRuntime.SdkResult<UpdateControlOutputResponse, UpdateControlOutputError>) -> Void)
 ```
 
-### updateSettings(input:​completion:​)
+### updateSettings(input:completion:)
 
 Updates Audit Manager settings for the current user account.
 
@@ -448,7 +418,7 @@ Updates Audit Manager settings for the current user account.
 func updateSettings(input: UpdateSettingsInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSettingsOutputResponse, UpdateSettingsOutputError>) -> Void)
 ```
 
-### validateAssessmentReportIntegrity(input:​completion:​)
+### validateAssessmentReportIntegrity(input:completion:)
 
 Validates the integrity of an assessment report in Audit Manager.
 

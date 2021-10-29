@@ -22,14 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ChimeSdkIdentityClient"
+```
+
 ## Methods
 
 ### `createAppInstance(input:completion:)`
 
-Creates an Amazon Chime SDK messaging AppInstance under an AWS account.
-Only SDK messaging customers use this API. CreateAppInstance supports
-idempotency behavior as described in the AWS API Standard.
-identity
+Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
 
 ``` swift
 public func createAppInstance(input: CreateAppInstanceInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppInstanceOutputResponse, CreateAppInstanceOutputError>) -> Void)
@@ -37,31 +42,21 @@ public func createAppInstance(input: CreateAppInstanceInput, completion: @escapi
 
 ### `createAppInstanceAdmin(input:completion:)`
 
-Promotes an AppInstanceUser to an AppInstanceAdmin. The
-promoted user can perform the following actions.
+Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions.
 
 ``` swift
 public func createAppInstanceAdmin(input: CreateAppInstanceAdminInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppInstanceAdminOutputResponse, CreateAppInstanceAdminOutputError>) -> Void)
 ```
 
-``` 
-              ChannelModerator actions across all channels in the
-              AppInstance.
+  - ChannelModerator actions across all channels in the AppInstance.
 
+  - DeleteChannelMessage actions.
 
-
-              DeleteChannelMessage actions.
-
-
-
-     Only an AppInstanceUser can be promoted to an AppInstanceAdmin
-     role.
-```
+Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
 
 ### `createAppInstanceUser(input:completion:)`
 
-Creates a user under an Amazon Chime AppInstance. The request consists of a
-unique appInstanceUserId and Name for that user.
+Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
 
 ``` swift
 public func createAppInstanceUser(input: CreateAppInstanceUserInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppInstanceUserOutputResponse, CreateAppInstanceUserOutputError>) -> Void)
@@ -77,8 +72,7 @@ public func deleteAppInstance(input: DeleteAppInstanceInput, completion: @escapi
 
 ### `deleteAppInstanceAdmin(input:completion:)`
 
-Demotes an AppInstanceAdmin to an AppInstanceUser. This action
-does not delete the user.
+Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.
 
 ``` swift
 public func deleteAppInstanceAdmin(input: DeleteAppInstanceAdminInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAppInstanceAdminOutputResponse, DeleteAppInstanceAdminOutputError>) -> Void)
@@ -134,8 +128,7 @@ public func listAppInstanceAdmins(input: ListAppInstanceAdminsInput, completion:
 
 ### `listAppInstanceUsers(input:completion:)`
 
-List all AppInstanceUsers created under a single
-AppInstance.
+List all AppInstanceUsers created under a single AppInstance.
 
 ``` swift
 public func listAppInstanceUsers(input: ListAppInstanceUsersInput, completion: @escaping (ClientRuntime.SdkResult<ListAppInstanceUsersOutputResponse, ListAppInstanceUsersOutputError>) -> Void)
@@ -143,8 +136,7 @@ public func listAppInstanceUsers(input: ListAppInstanceUsersInput, completion: @
 
 ### `listAppInstances(input:completion:)`
 
-Lists all Amazon Chime AppInstances created under a single AWS
-account.
+Lists all Amazon Chime AppInstances created under a single AWS account.
 
 ``` swift
 public func listAppInstances(input: ListAppInstancesInput, completion: @escaping (ClientRuntime.SdkResult<ListAppInstancesOutputResponse, ListAppInstancesOutputError>) -> Void)
@@ -152,8 +144,7 @@ public func listAppInstances(input: ListAppInstancesInput, completion: @escaping
 
 ### `putAppInstanceRetentionSettings(input:completion:)`
 
-Sets the amount of time in days that a given AppInstance retains
-data.
+Sets the amount of time in days that a given AppInstance retains data.
 
 ``` swift
 public func putAppInstanceRetentionSettings(input: PutAppInstanceRetentionSettingsInput, completion: @escaping (ClientRuntime.SdkResult<PutAppInstanceRetentionSettingsOutputResponse, PutAppInstanceRetentionSettingsOutputError>) -> Void)
@@ -169,8 +160,7 @@ public func updateAppInstance(input: UpdateAppInstanceInput, completion: @escapi
 
 ### `updateAppInstanceUser(input:completion:)`
 
-Updates the details of an AppInstanceUser. You can update names and
-metadata.
+Updates the details of an AppInstanceUser. You can update names and metadata.
 
 ``` swift
 public func updateAppInstanceUser(input: UpdateAppInstanceUserInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAppInstanceUserOutputResponse, UpdateAppInstanceUserOutputError>) -> Void)

@@ -6,7 +6,7 @@ public protocol NimbleClientProtocol
 
 ## Requirements
 
-### acceptEulas(input:​completion:​)
+### acceptEulas(input:completion:)
 
 Accept EULAs.
 
@@ -14,7 +14,7 @@ Accept EULAs.
 func acceptEulas(input: AcceptEulasInput, completion: @escaping (ClientRuntime.SdkResult<AcceptEulasOutputResponse, AcceptEulasOutputError>) -> Void)
 ```
 
-### createLaunchProfile(input:​completion:​)
+### createLaunchProfile(input:completion:)
 
 Create a launch profile.
 
@@ -22,7 +22,7 @@ Create a launch profile.
 func createLaunchProfile(input: CreateLaunchProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateLaunchProfileOutputResponse, CreateLaunchProfileOutputError>) -> Void)
 ```
 
-### createStreamingImage(input:​completion:​)
+### createStreamingImage(input:completion:)
 
 Creates a streaming image resource in a studio.
 
@@ -30,7 +30,7 @@ Creates a streaming image resource in a studio.
 func createStreamingImage(input: CreateStreamingImageInput, completion: @escaping (ClientRuntime.SdkResult<CreateStreamingImageOutputResponse, CreateStreamingImageOutputError>) -> Void)
 ```
 
-### createStreamingSession(input:​completion:​)
+### createStreamingSession(input:completion:)
 
 Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in state READY.
 
@@ -38,7 +38,7 @@ Creates a streaming session in a studio. After invoking this operation, you must
 func createStreamingSession(input: CreateStreamingSessionInput, completion: @escaping (ClientRuntime.SdkResult<CreateStreamingSessionOutputResponse, CreateStreamingSessionOutputError>) -> Void)
 ```
 
-### createStreamingSessionStream(input:​completion:​)
+### createStreamingSessionStream(input:completion:)
 
 Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in state READY.
 
@@ -46,15 +46,15 @@ Creates a streaming session stream for a streaming session. After invoking this 
 func createStreamingSessionStream(input: CreateStreamingSessionStreamInput, completion: @escaping (ClientRuntime.SdkResult<CreateStreamingSessionStreamOutputResponse, CreateStreamingSessionStreamOutputError>) -> Void)
 ```
 
-### createStudio(input:​completion:​)
+### createStudio(input:completion:)
 
-Create a new Studio. When creating a Studio, two IAM roles must be provided:​ the admin role and the user Role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The Admin Role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
+Create a new Studio. When creating a Studio, two IAM roles must be provided: the admin role and the user Role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The Admin Role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
 
 ``` swift
 func createStudio(input: CreateStudioInput, completion: @escaping (ClientRuntime.SdkResult<CreateStudioOutputResponse, CreateStudioOutputError>) -> Void)
 ```
 
-### createStudioComponent(input:​completion:​)
+### createStudioComponent(input:completion:)
 
 Creates a studio component resource.
 
@@ -62,7 +62,7 @@ Creates a studio component resource.
 func createStudioComponent(input: CreateStudioComponentInput, completion: @escaping (ClientRuntime.SdkResult<CreateStudioComponentOutputResponse, CreateStudioComponentOutputError>) -> Void)
 ```
 
-### deleteLaunchProfile(input:​completion:​)
+### deleteLaunchProfile(input:completion:)
 
 Permanently delete a launch profile.
 
@@ -70,7 +70,7 @@ Permanently delete a launch profile.
 func deleteLaunchProfile(input: DeleteLaunchProfileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLaunchProfileOutputResponse, DeleteLaunchProfileOutputError>) -> Void)
 ```
 
-### deleteLaunchProfileMember(input:​completion:​)
+### deleteLaunchProfileMember(input:completion:)
 
 Delete a user from launch profile membership.
 
@@ -78,7 +78,7 @@ Delete a user from launch profile membership.
 func deleteLaunchProfileMember(input: DeleteLaunchProfileMemberInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLaunchProfileMemberOutputResponse, DeleteLaunchProfileMemberOutputError>) -> Void)
 ```
 
-### deleteStreamingImage(input:​completion:​)
+### deleteStreamingImage(input:completion:)
 
 Delete streaming image.
 
@@ -86,7 +86,7 @@ Delete streaming image.
 func deleteStreamingImage(input: DeleteStreamingImageInput, completion: @escaping (ClientRuntime.SdkResult<DeleteStreamingImageOutputResponse, DeleteStreamingImageOutputError>) -> Void)
 ```
 
-### deleteStreamingSession(input:​completion:​)
+### deleteStreamingSession(input:completion:)
 
 Deletes streaming session resource. After invoking this operation, use GetStreamingSession to poll the resource until it transitions to a DELETED state. A streaming session will count against your streaming session quota until it is marked DELETED.
 
@@ -94,7 +94,7 @@ Deletes streaming session resource. After invoking this operation, use GetStream
 func deleteStreamingSession(input: DeleteStreamingSessionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteStreamingSessionOutputResponse, DeleteStreamingSessionOutputError>) -> Void)
 ```
 
-### deleteStudio(input:​completion:​)
+### deleteStudio(input:completion:)
 
 Delete a studio resource.
 
@@ -102,7 +102,7 @@ Delete a studio resource.
 func deleteStudio(input: DeleteStudioInput, completion: @escaping (ClientRuntime.SdkResult<DeleteStudioOutputResponse, DeleteStudioOutputError>) -> Void)
 ```
 
-### deleteStudioComponent(input:​completion:​)
+### deleteStudioComponent(input:completion:)
 
 Deletes a studio component resource.
 
@@ -110,7 +110,7 @@ Deletes a studio component resource.
 func deleteStudioComponent(input: DeleteStudioComponentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteStudioComponentOutputResponse, DeleteStudioComponentOutputError>) -> Void)
 ```
 
-### deleteStudioMember(input:​completion:​)
+### deleteStudioMember(input:completion:)
 
 Delete a user from studio membership.
 
@@ -118,7 +118,7 @@ Delete a user from studio membership.
 func deleteStudioMember(input: DeleteStudioMemberInput, completion: @escaping (ClientRuntime.SdkResult<DeleteStudioMemberOutputResponse, DeleteStudioMemberOutputError>) -> Void)
 ```
 
-### getEula(input:​completion:​)
+### getEula(input:completion:)
 
 Get Eula.
 
@@ -126,7 +126,7 @@ Get Eula.
 func getEula(input: GetEulaInput, completion: @escaping (ClientRuntime.SdkResult<GetEulaOutputResponse, GetEulaOutputError>) -> Void)
 ```
 
-### getLaunchProfile(input:​completion:​)
+### getLaunchProfile(input:completion:)
 
 Get a launch profile.
 
@@ -134,7 +134,7 @@ Get a launch profile.
 func getLaunchProfile(input: GetLaunchProfileInput, completion: @escaping (ClientRuntime.SdkResult<GetLaunchProfileOutputResponse, GetLaunchProfileOutputError>) -> Void)
 ```
 
-### getLaunchProfileDetails(input:​completion:​)
+### getLaunchProfileDetails(input:completion:)
 
 Launch profile details include the launch profile resource and summary information of resources that are used by, or available to, the launch profile. This includes the name and description of all studio components used by the launch profiles, and the name and description of streaming images that can be used with this launch profile.
 
@@ -142,7 +142,7 @@ Launch profile details include the launch profile resource and summary informati
 func getLaunchProfileDetails(input: GetLaunchProfileDetailsInput, completion: @escaping (ClientRuntime.SdkResult<GetLaunchProfileDetailsOutputResponse, GetLaunchProfileDetailsOutputError>) -> Void)
 ```
 
-### getLaunchProfileInitialization(input:​completion:​)
+### getLaunchProfileInitialization(input:completion:)
 
 Get a launch profile initialization.
 
@@ -150,7 +150,7 @@ Get a launch profile initialization.
 func getLaunchProfileInitialization(input: GetLaunchProfileInitializationInput, completion: @escaping (ClientRuntime.SdkResult<GetLaunchProfileInitializationOutputResponse, GetLaunchProfileInitializationOutputError>) -> Void)
 ```
 
-### getLaunchProfileMember(input:​completion:​)
+### getLaunchProfileMember(input:completion:)
 
 Get a user persona in launch profile membership.
 
@@ -158,7 +158,7 @@ Get a user persona in launch profile membership.
 func getLaunchProfileMember(input: GetLaunchProfileMemberInput, completion: @escaping (ClientRuntime.SdkResult<GetLaunchProfileMemberOutputResponse, GetLaunchProfileMemberOutputError>) -> Void)
 ```
 
-### getStreamingImage(input:​completion:​)
+### getStreamingImage(input:completion:)
 
 Get streaming image.
 
@@ -166,7 +166,7 @@ Get streaming image.
 func getStreamingImage(input: GetStreamingImageInput, completion: @escaping (ClientRuntime.SdkResult<GetStreamingImageOutputResponse, GetStreamingImageOutputError>) -> Void)
 ```
 
-### getStreamingSession(input:​completion:​)
+### getStreamingSession(input:completion:)
 
 Gets StreamingSession resource. Invoke this operation to poll for a streaming session state while creating or deleting a session.
 
@@ -174,7 +174,7 @@ Gets StreamingSession resource. Invoke this operation to poll for a streaming se
 func getStreamingSession(input: GetStreamingSessionInput, completion: @escaping (ClientRuntime.SdkResult<GetStreamingSessionOutputResponse, GetStreamingSessionOutputError>) -> Void)
 ```
 
-### getStreamingSessionStream(input:​completion:​)
+### getStreamingSessionStream(input:completion:)
 
 Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the state READY, the url property will contain a stream to be used with the DCV streaming client.
 
@@ -182,7 +182,7 @@ Gets a StreamingSessionStream for a streaming session. Invoke this operation to 
 func getStreamingSessionStream(input: GetStreamingSessionStreamInput, completion: @escaping (ClientRuntime.SdkResult<GetStreamingSessionStreamOutputResponse, GetStreamingSessionStreamOutputError>) -> Void)
 ```
 
-### getStudio(input:​completion:​)
+### getStudio(input:completion:)
 
 Get a Studio resource.
 
@@ -190,7 +190,7 @@ Get a Studio resource.
 func getStudio(input: GetStudioInput, completion: @escaping (ClientRuntime.SdkResult<GetStudioOutputResponse, GetStudioOutputError>) -> Void)
 ```
 
-### getStudioComponent(input:​completion:​)
+### getStudioComponent(input:completion:)
 
 Gets a studio component resource.
 
@@ -198,7 +198,7 @@ Gets a studio component resource.
 func getStudioComponent(input: GetStudioComponentInput, completion: @escaping (ClientRuntime.SdkResult<GetStudioComponentOutputResponse, GetStudioComponentOutputError>) -> Void)
 ```
 
-### getStudioMember(input:​completion:​)
+### getStudioMember(input:completion:)
 
 Get a user's membership in a studio.
 
@@ -206,7 +206,7 @@ Get a user's membership in a studio.
 func getStudioMember(input: GetStudioMemberInput, completion: @escaping (ClientRuntime.SdkResult<GetStudioMemberOutputResponse, GetStudioMemberOutputError>) -> Void)
 ```
 
-### listEulaAcceptances(input:​completion:​)
+### listEulaAcceptances(input:completion:)
 
 List Eula Acceptances.
 
@@ -214,7 +214,7 @@ List Eula Acceptances.
 func listEulaAcceptances(input: ListEulaAcceptancesInput, completion: @escaping (ClientRuntime.SdkResult<ListEulaAcceptancesOutputResponse, ListEulaAcceptancesOutputError>) -> Void)
 ```
 
-### listEulas(input:​completion:​)
+### listEulas(input:completion:)
 
 List Eulas.
 
@@ -222,7 +222,7 @@ List Eulas.
 func listEulas(input: ListEulasInput, completion: @escaping (ClientRuntime.SdkResult<ListEulasOutputResponse, ListEulasOutputError>) -> Void)
 ```
 
-### listLaunchProfileMembers(input:​completion:​)
+### listLaunchProfileMembers(input:completion:)
 
 Get all users in a given launch profile membership.
 
@@ -230,7 +230,7 @@ Get all users in a given launch profile membership.
 func listLaunchProfileMembers(input: ListLaunchProfileMembersInput, completion: @escaping (ClientRuntime.SdkResult<ListLaunchProfileMembersOutputResponse, ListLaunchProfileMembersOutputError>) -> Void)
 ```
 
-### listLaunchProfiles(input:​completion:​)
+### listLaunchProfiles(input:completion:)
 
 List all the launch profiles a studio.
 
@@ -238,7 +238,7 @@ List all the launch profiles a studio.
 func listLaunchProfiles(input: ListLaunchProfilesInput, completion: @escaping (ClientRuntime.SdkResult<ListLaunchProfilesOutputResponse, ListLaunchProfilesOutputError>) -> Void)
 ```
 
-### listStreamingImages(input:​completion:​)
+### listStreamingImages(input:completion:)
 
 List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
 
@@ -246,7 +246,7 @@ List the streaming image resources available to this studio. This list will cont
 func listStreamingImages(input: ListStreamingImagesInput, completion: @escaping (ClientRuntime.SdkResult<ListStreamingImagesOutputResponse, ListStreamingImagesOutputError>) -> Void)
 ```
 
-### listStreamingSessions(input:​completion:​)
+### listStreamingSessions(input:completion:)
 
 Lists the streaming image resources in a studio.
 
@@ -254,7 +254,7 @@ Lists the streaming image resources in a studio.
 func listStreamingSessions(input: ListStreamingSessionsInput, completion: @escaping (ClientRuntime.SdkResult<ListStreamingSessionsOutputResponse, ListStreamingSessionsOutputError>) -> Void)
 ```
 
-### listStudioComponents(input:​completion:​)
+### listStudioComponents(input:completion:)
 
 Lists the StudioComponents in a studio.
 
@@ -262,7 +262,7 @@ Lists the StudioComponents in a studio.
 func listStudioComponents(input: ListStudioComponentsInput, completion: @escaping (ClientRuntime.SdkResult<ListStudioComponentsOutputResponse, ListStudioComponentsOutputError>) -> Void)
 ```
 
-### listStudioMembers(input:​completion:​)
+### listStudioMembers(input:completion:)
 
 Get all users in a given studio membership.
 
@@ -270,7 +270,7 @@ Get all users in a given studio membership.
 func listStudioMembers(input: ListStudioMembersInput, completion: @escaping (ClientRuntime.SdkResult<ListStudioMembersOutputResponse, ListStudioMembersOutputError>) -> Void)
 ```
 
-### listStudios(input:​completion:​)
+### listStudios(input:completion:)
 
 List studios in your Amazon Web Services account in the requested Amazon Web Services Region.
 
@@ -278,7 +278,7 @@ List studios in your Amazon Web Services account in the requested Amazon Web Ser
 func listStudios(input: ListStudiosInput, completion: @escaping (ClientRuntime.SdkResult<ListStudiosOutputResponse, ListStudiosOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Gets the tags for a resource, given its Amazon Resource Names (ARN). This operation supports ARNs for all resource types in Nimble Studio that support tags, including studio, studio component, launch profile, streaming image, and streaming session. All resources that can be tagged will contain an ARN property, so you do not have to create this ARN yourself.
 
@@ -286,7 +286,7 @@ Gets the tags for a resource, given its Amazon Resource Names (ARN). This operat
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### putLaunchProfileMembers(input:​completion:​)
+### putLaunchProfileMembers(input:completion:)
 
 Add/update users with given persona to launch profile membership.
 
@@ -294,7 +294,7 @@ Add/update users with given persona to launch profile membership.
 func putLaunchProfileMembers(input: PutLaunchProfileMembersInput, completion: @escaping (ClientRuntime.SdkResult<PutLaunchProfileMembersOutputResponse, PutLaunchProfileMembersOutputError>) -> Void)
 ```
 
-### putStudioMembers(input:​completion:​)
+### putStudioMembers(input:completion:)
 
 Add/update users with given persona to studio membership.
 
@@ -302,7 +302,7 @@ Add/update users with given persona to studio membership.
 func putStudioMembers(input: PutStudioMembersInput, completion: @escaping (ClientRuntime.SdkResult<PutStudioMembersOutputResponse, PutStudioMembersOutputError>) -> Void)
 ```
 
-### startStudioSSOConfigurationRepair(input:​completion:​)
+### startStudioSSOConfigurationRepair(input:completion:)
 
 Repairs the SSO configuration for a given studio. If the studio has a valid Amazon Web Services SSO configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid Amazon Web Services SSO configuration currently associated with it, then a new Amazon Web Services SSO application is created for the studio and the studio is changed to the READY state. After the Amazon Web Services SSO application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
 
@@ -310,7 +310,7 @@ Repairs the SSO configuration for a given studio. If the studio has a valid Amaz
 func startStudioSSOConfigurationRepair(input: StartStudioSSOConfigurationRepairInput, completion: @escaping (ClientRuntime.SdkResult<StartStudioSSOConfigurationRepairOutputResponse, StartStudioSSOConfigurationRepairOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Creates tags for a resource, given its ARN.
 
@@ -318,7 +318,7 @@ Creates tags for a resource, given its ARN.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Deletes the tags for a resource.
 
@@ -326,7 +326,7 @@ Deletes the tags for a resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateLaunchProfile(input:​completion:​)
+### updateLaunchProfile(input:completion:)
 
 Update a launch profile.
 
@@ -334,7 +334,7 @@ Update a launch profile.
 func updateLaunchProfile(input: UpdateLaunchProfileInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLaunchProfileOutputResponse, UpdateLaunchProfileOutputError>) -> Void)
 ```
 
-### updateLaunchProfileMember(input:​completion:​)
+### updateLaunchProfileMember(input:completion:)
 
 Update a user persona in launch profile membership.
 
@@ -342,7 +342,7 @@ Update a user persona in launch profile membership.
 func updateLaunchProfileMember(input: UpdateLaunchProfileMemberInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLaunchProfileMemberOutputResponse, UpdateLaunchProfileMemberOutputError>) -> Void)
 ```
 
-### updateStreamingImage(input:​completion:​)
+### updateStreamingImage(input:completion:)
 
 Update streaming image.
 
@@ -350,7 +350,7 @@ Update streaming image.
 func updateStreamingImage(input: UpdateStreamingImageInput, completion: @escaping (ClientRuntime.SdkResult<UpdateStreamingImageOutputResponse, UpdateStreamingImageOutputError>) -> Void)
 ```
 
-### updateStudio(input:​completion:​)
+### updateStudio(input:completion:)
 
 Update a Studio resource. Currently, this operation only supports updating the displayName of your studio.
 
@@ -358,7 +358,7 @@ Update a Studio resource. Currently, this operation only supports updating the d
 func updateStudio(input: UpdateStudioInput, completion: @escaping (ClientRuntime.SdkResult<UpdateStudioOutputResponse, UpdateStudioOutputError>) -> Void)
 ```
 
-### updateStudioComponent(input:​completion:​)
+### updateStudioComponent(input:completion:)
 
 Updates a studio component resource.
 

@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "Cloud9Client"
+```
+
 ## Methods
 
 ### `createEnvironmentEC2(input:completion:)`
 
-Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and
-then connects from the instance to the environment.
+Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
 
 ``` swift
 public func createEnvironmentEC2(input: CreateEnvironmentEC2Input, completion: @escaping (ClientRuntime.SdkResult<CreateEnvironmentEC2OutputResponse, CreateEnvironmentEC2OutputError>) -> Void)
@@ -43,8 +50,7 @@ public func createEnvironmentMembership(input: CreateEnvironmentMembershipInput,
 
 ### `deleteEnvironment(input:completion:)`
 
-Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the
-environment, also terminates the instance.
+Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
 
 ``` swift
 public func deleteEnvironment(input: DeleteEnvironmentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>) -> Void)
@@ -100,15 +106,10 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Adds tags to an Cloud9 development environment.
+Adds tags to an Cloud9 development environment. Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
-```
-
-``` 
-        Tags that you add to an Cloud9 environment by using this method will NOT be
-    automatically propagated to underlying resources.
 ```
 
 ### `untagResource(input:completion:)`
@@ -129,8 +130,7 @@ public func updateEnvironment(input: UpdateEnvironmentInput, completion: @escapi
 
 ### `updateEnvironmentMembership(input:completion:)`
 
-Changes the settings of an existing environment member for an Cloud9 development
-environment.
+Changes the settings of an existing environment member for an Cloud9 development environment.
 
 ``` swift
 public func updateEnvironmentMembership(input: UpdateEnvironmentMembershipInput, completion: @escaping (ClientRuntime.SdkResult<UpdateEnvironmentMembershipOutputResponse, UpdateEnvironmentMembershipOutputError>) -> Void)

@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "DirectConnectClient"
+```
+
 ## Methods
 
 ### `acceptDirectConnectGatewayAssociationProposal(input:completion:)`
@@ -34,38 +42,24 @@ public func acceptDirectConnectGatewayAssociationProposal(input: AcceptDirectCon
 
 ### `allocateConnectionOnInterconnect(input:completion:)`
 
-Deprecated. Use AllocateHostedConnection instead.
-Creates a hosted connection on an interconnect.
-Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the specified interconnect.
+Deprecated. Use \[AllocateHostedConnection\] instead. Creates a hosted connection on an interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the specified interconnect. Intended for use by Direct Connect Partners only.
 
 ``` swift
 @available(*, deprecated)
     public func allocateConnectionOnInterconnect(input: AllocateConnectionOnInterconnectInput, completion: @escaping (ClientRuntime.SdkResult<AllocateConnectionOnInterconnectOutputResponse, AllocateConnectionOnInterconnectOutputError>) -> Void)
 ```
 
-``` 
-        Intended for use by Direct Connect Partners only.
-```
-
 ### `allocateHostedConnection(input:completion:)`
 
-Creates a hosted connection on the specified interconnect or a link aggregation group (LAG) of interconnects.
-Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects.
-Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity.
+Creates a hosted connection on the specified interconnect or a link aggregation group (LAG) of interconnects. Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects. Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity. Intended for use by Direct Connect Partners only.
 
 ``` swift
 public func allocateHostedConnection(input: AllocateHostedConnectionInput, completion: @escaping (ClientRuntime.SdkResult<AllocateHostedConnectionOutputResponse, AllocateHostedConnectionOutputError>) -> Void)
 ```
 
-``` 
-        Intended for use by Direct Connect Partners only.
-```
-
 ### `allocatePrivateVirtualInterface(input:completion:)`
 
-Provisions a private virtual interface to be owned by the specified account.
-Virtual interfaces created using this action must be confirmed by the owner using ConfirmPrivateVirtualInterface.
-Until then, the virtual interface is in the Confirming state and is not available to handle traffic.
+Provisions a private virtual interface to be owned by the specified account. Virtual interfaces created using this action must be confirmed by the owner using \[ConfirmPrivateVirtualInterface\]. Until then, the virtual interface is in the Confirming state and is not available to handle traffic.
 
 ``` swift
 public func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<AllocatePrivateVirtualInterfaceOutputResponse, AllocatePrivateVirtualInterfaceOutputError>) -> Void)
@@ -73,12 +67,7 @@ public func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfa
 
 ### `allocatePublicVirtualInterface(input:completion:)`
 
-Provisions a public virtual interface to be owned by the specified account.
-The owner of a connection calls this function to provision a public virtual interface to be owned by the specified account.
-Virtual interfaces created using this function must be confirmed by the owner using ConfirmPublicVirtualInterface.
-Until this step has been completed, the virtual interface is in the confirming state and is not available to handle traffic.
-When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
-the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
+Provisions a public virtual interface to be owned by the specified account. The owner of a connection calls this function to provision a public virtual interface to be owned by the specified account. Virtual interfaces created using this function must be confirmed by the owner using \[ConfirmPublicVirtualInterface\]. Until this step has been completed, the virtual interface is in the confirming state and is not available to handle traffic. When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
 
 ``` swift
 public func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<AllocatePublicVirtualInterfaceOutputResponse, AllocatePublicVirtualInterfaceOutputError>) -> Void)
@@ -86,9 +75,7 @@ public func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterface
 
 ### `allocateTransitVirtualInterface(input:completion:)`
 
-Provisions a transit virtual interface to be owned by the specified account. Use this type of interface to connect a transit gateway to your Direct Connect gateway.
-The owner of a connection provisions a transit virtual interface to be owned by the specified account.
-After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the requested state and is not available to handle traffic.
+Provisions a transit virtual interface to be owned by the specified account. Use this type of interface to connect a transit gateway to your Direct Connect gateway. The owner of a connection provisions a transit virtual interface to be owned by the specified account. After you create a transit virtual interface, it must be confirmed by the owner using \[ConfirmTransitVirtualInterface\]. Until this step has been completed, the transit virtual interface is in the requested state and is not available to handle traffic.
 
 ``` swift
 public func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<AllocateTransitVirtualInterfaceOutputResponse, AllocateTransitVirtualInterfaceOutputError>) -> Void)
@@ -96,20 +83,7 @@ public func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfa
 
 ### `associateConnectionWithLag(input:completion:)`
 
-Associates an existing connection with a link aggregation group (LAG). The connection
-is interrupted and re-established as a member of the LAG (connectivity to Amazon Web Services is
-interrupted). The connection must be hosted on the same Direct Connect endpoint as the LAG, and its
-bandwidth must match the bandwidth for the LAG. You can re-associate a connection that's
-currently associated with a different LAG; however, if removing the connection would cause
-the original LAG to fall below its setting for minimum number of operational connections,
-the request fails.
-Any virtual interfaces that are directly associated with the connection are
-automatically re-associated with the LAG. If the connection was originally associated
-with a different LAG, the virtual interfaces remain associated with the original
-LAG.
-For interconnects, any hosted connections are automatically re-associated with the
-LAG. If the interconnect was originally associated with a different LAG, the hosted
-connections remain associated with the original LAG.
+Associates an existing connection with a link aggregation group (LAG). The connection is interrupted and re-established as a member of the LAG (connectivity to Amazon Web Services is interrupted). The connection must be hosted on the same Direct Connect endpoint as the LAG, and its bandwidth must match the bandwidth for the LAG. You can re-associate a connection that's currently associated with a different LAG; however, if removing the connection would cause the original LAG to fall below its setting for minimum number of operational connections, the request fails. Any virtual interfaces that are directly associated with the connection are automatically re-associated with the LAG. If the connection was originally associated with a different LAG, the virtual interfaces remain associated with the original LAG. For interconnects, any hosted connections are automatically re-associated with the LAG. If the interconnect was originally associated with a different LAG, the hosted connections remain associated with the original LAG.
 
 ``` swift
 public func associateConnectionWithLag(input: AssociateConnectionWithLagInput, completion: @escaping (ClientRuntime.SdkResult<AssociateConnectionWithLagOutputResponse, AssociateConnectionWithLagOutputError>) -> Void)
@@ -117,25 +91,15 @@ public func associateConnectionWithLag(input: AssociateConnectionWithLagInput, c
 
 ### `associateHostedConnection(input:completion:)`
 
-Associates a hosted connection and its virtual interfaces with a link aggregation
-group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted
-connection with a conflicting VLAN number or IP address, the operation fails. This
-action temporarily interrupts the hosted connection's connectivity to Amazon Web Services
-as it is being migrated.
+Associates a hosted connection and its virtual interfaces with a link aggregation group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted connection with a conflicting VLAN number or IP address, the operation fails. This action temporarily interrupts the hosted connection's connectivity to Amazon Web Services as it is being migrated. Intended for use by Direct Connect Partners only.
 
 ``` swift
 public func associateHostedConnection(input: AssociateHostedConnectionInput, completion: @escaping (ClientRuntime.SdkResult<AssociateHostedConnectionOutputResponse, AssociateHostedConnectionOutputError>) -> Void)
 ```
 
-``` 
-        Intended for use by Direct Connect Partners only.
-```
-
 ### `associateMacSecKey(input:completion:)`
 
-Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with an Direct Connect dedicated connection.
-You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request.
-For information about MAC Security (MACsec) key considerations, see  <a href="https:​//docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration">MACsec pre-shared CKN/CAK key considerations  in the Direct Connect User Guide.
+Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with an Direct Connect dedicated connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations ](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration) in the Direct Connect User Guide.
 
 ``` swift
 public func associateMacSecKey(input: AssociateMacSecKeyInput, completion: @escaping (ClientRuntime.SdkResult<AssociateMacSecKeyOutputResponse, AssociateMacSecKeyOutputError>) -> Void)
@@ -143,16 +107,7 @@ public func associateMacSecKey(input: AssociateMacSecKeyInput, completion: @esca
 
 ### `associateVirtualInterface(input:completion:)`
 
-Associates a virtual interface with a specified link aggregation group (LAG) or
-connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is
-being migrated. If the target connection or LAG has an associated virtual interface with
-a conflicting VLAN number or a conflicting IP address, the operation fails.
-Virtual interfaces associated with a hosted connection cannot be associated with a
-LAG; hosted connections must be migrated along with their virtual interfaces using AssociateHostedConnection.
-To reassociate a virtual interface to a new connection or LAG, the requester
-must own either the virtual interface itself or the connection to which the virtual
-interface is currently associated. Additionally, the requester must own the connection
-or LAG for the association.
+Associates a virtual interface with a specified link aggregation group (LAG) or connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is being migrated. If the target connection or LAG has an associated virtual interface with a conflicting VLAN number or a conflicting IP address, the operation fails. Virtual interfaces associated with a hosted connection cannot be associated with a LAG; hosted connections must be migrated along with their virtual interfaces using \[AssociateHostedConnection\]. To reassociate a virtual interface to a new connection or LAG, the requester must own either the virtual interface itself or the connection to which the virtual interface is currently associated. Additionally, the requester must own the connection or LAG for the association.
 
 ``` swift
 public func associateVirtualInterface(input: AssociateVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<AssociateVirtualInterfaceOutputResponse, AssociateVirtualInterfaceOutputError>) -> Void)
@@ -160,9 +115,7 @@ public func associateVirtualInterface(input: AssociateVirtualInterfaceInput, com
 
 ### `confirmConnection(input:completion:)`
 
-Confirms the creation of the specified hosted connection on an interconnect.
-Upon creation, the hosted connection is initially in the Ordering state, and
-remains in this state until the owner confirms creation of the hosted connection.
+Confirms the creation of the specified hosted connection on an interconnect. Upon creation, the hosted connection is initially in the Ordering state, and remains in this state until the owner confirms creation of the hosted connection.
 
 ``` swift
 public func confirmConnection(input: ConfirmConnectionInput, completion: @escaping (ClientRuntime.SdkResult<ConfirmConnectionOutputResponse, ConfirmConnectionOutputError>) -> Void)
@@ -170,10 +123,7 @@ public func confirmConnection(input: ConfirmConnectionInput, completion: @escapi
 
 ### `confirmPrivateVirtualInterface(input:completion:)`
 
-Accepts ownership of a private virtual interface created by another account.
-After the virtual interface owner makes this call, the virtual interface is
-created and attached to the specified virtual private gateway or Direct Connect gateway, and is
-made available to handle traffic.
+Accepts ownership of a private virtual interface created by another account. After the virtual interface owner makes this call, the virtual interface is created and attached to the specified virtual private gateway or Direct Connect gateway, and is made available to handle traffic.
 
 ``` swift
 public func confirmPrivateVirtualInterface(input: ConfirmPrivateVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<ConfirmPrivateVirtualInterfaceOutputResponse, ConfirmPrivateVirtualInterfaceOutputError>) -> Void)
@@ -181,9 +131,7 @@ public func confirmPrivateVirtualInterface(input: ConfirmPrivateVirtualInterface
 
 ### `confirmPublicVirtualInterface(input:completion:)`
 
-Accepts ownership of a public virtual interface created by another account.
-After the virtual interface owner makes this call, the specified virtual interface is
-created and made available to handle traffic.
+Accepts ownership of a public virtual interface created by another account. After the virtual interface owner makes this call, the specified virtual interface is created and made available to handle traffic.
 
 ``` swift
 public func confirmPublicVirtualInterface(input: ConfirmPublicVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<ConfirmPublicVirtualInterfaceOutputResponse, ConfirmPublicVirtualInterfaceOutputError>) -> Void)
@@ -191,25 +139,15 @@ public func confirmPublicVirtualInterface(input: ConfirmPublicVirtualInterfaceIn
 
 ### `confirmTransitVirtualInterface(input:completion:)`
 
-Accepts ownership of a transit virtual interface created by another account.
+Accepts ownership of a transit virtual interface created by another account. After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
 
 ``` swift
 public func confirmTransitVirtualInterface(input: ConfirmTransitVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<ConfirmTransitVirtualInterfaceOutputResponse, ConfirmTransitVirtualInterfaceOutputError>) -> Void)
 ```
 
-``` 
-      After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
-```
-
 ### `createBGPPeer(input:completion:)`
 
-Creates a BGP peer on the specified virtual interface.
-You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to access Amazon Web Services resources that also use that address family.
-If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer cannot
-be in the same address family as an existing BGP peer on the virtual interface.
-When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
-the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
-For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
+Creates a BGP peer on the specified virtual interface. You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to access Amazon Web Services resources that also use that address family. If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer cannot be in the same address family as an existing BGP peer on the virtual interface. When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses. For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
 
 ``` swift
 public func createBGPPeer(input: CreateBGPPeerInput, completion: @escaping (ClientRuntime.SdkResult<CreateBGPPeerOutputResponse, CreateBGPPeerOutputError>) -> Void)
@@ -217,30 +155,15 @@ public func createBGPPeer(input: CreateBGPPeerInput, completion: @escaping (Clie
 
 ### `createConnection(input:completion:)`
 
-Creates a connection between a customer network and a specific Direct Connect location.
+Creates a connection between a customer network and a specific Direct Connect location. A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an Direct Connect router. To find the locations for your Region, use \[DescribeLocations\]. You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new connection is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no connection is created.
 
 ``` swift
 public func createConnection(input: CreateConnectionInput, completion: @escaping (ClientRuntime.SdkResult<CreateConnectionOutputResponse, CreateConnectionOutputError>) -> Void)
 ```
 
-``` 
-     A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic
-  cable. One end of the cable is connected to your router, the other to an Direct Connect router.
-     To find the locations for your Region, use DescribeLocations.
-     You can automatically add the new connection to a link aggregation group (LAG) by
-  specifying a LAG ID in the request. This ensures that the new connection is allocated on the
-  same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint,
-  the request fails and no connection is created.
-```
-
 ### `createDirectConnectGateway(input:completion:)`
 
-Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set
-of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any
-Region after it is created. The virtual interfaces and virtual private gateways that
-are connected through a Direct Connect gateway can be in different Regions. This enables you to
-connect to a VPC in any Region, regardless of the Region in which the virtual interfaces
-are located, and pass traffic between them.
+Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any Region after it is created. The virtual interfaces and virtual private gateways that are connected through a Direct Connect gateway can be in different Regions. This enables you to connect to a VPC in any Region, regardless of the Region in which the virtual interfaces are located, and pass traffic between them.
 
 ``` swift
 public func createDirectConnectGateway(input: CreateDirectConnectGatewayInput, completion: @escaping (ClientRuntime.SdkResult<CreateDirectConnectGatewayOutputResponse, CreateDirectConnectGatewayOutputError>) -> Void)
@@ -248,8 +171,7 @@ public func createDirectConnectGateway(input: CreateDirectConnectGatewayInput, c
 
 ### `createDirectConnectGatewayAssociation(input:completion:)`
 
-Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual
-private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
+Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
 
 ``` swift
 public func createDirectConnectGatewayAssociation(input: CreateDirectConnectGatewayAssociationInput, completion: @escaping (ClientRuntime.SdkResult<CreateDirectConnectGatewayAssociationOutputResponse, CreateDirectConnectGatewayAssociationOutputError>) -> Void)
@@ -257,8 +179,7 @@ public func createDirectConnectGatewayAssociation(input: CreateDirectConnectGate
 
 ### `createDirectConnectGatewayAssociationProposal(input:completion:)`
 
-Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway.
-You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any account.
+Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any account.
 
 ``` swift
 public func createDirectConnectGatewayAssociationProposal(input: CreateDirectConnectGatewayAssociationProposalInput, completion: @escaping (ClientRuntime.SdkResult<CreateDirectConnectGatewayAssociationProposalOutputResponse, CreateDirectConnectGatewayAssociationProposalOutputError>) -> Void)
@@ -266,48 +187,15 @@ public func createDirectConnectGatewayAssociationProposal(input: CreateDirectCon
 
 ### `createInterconnect(input:completion:)`
 
-Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location.
-An interconnect is a connection that is capable of hosting other connections. The
-Direct Connect Partner can use an interconnect to provide Direct Connect hosted
-connections to customers through their own network services. Like a standard connection, an
-interconnect links the partner's network to an Direct Connect location over a standard Ethernet
-fiber-optic cable. One end is connected to the partner's router, the other to an Direct Connect
-router.
-You can automatically add the new interconnect to a link aggregation group (LAG) by
-specifying a LAG ID in the request. This ensures that the new interconnect is allocated on
-the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the
-endpoint, the request fails and no interconnect is created.
-For each end customer, the Direct Connect Partner provisions a connection on their interconnect by calling AllocateHostedConnection.
-The end customer can then connect to Amazon Web Services resources by creating a virtual interface on their connection, using the VLAN assigned to them by the Direct Connect Partner.
+Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location. An interconnect is a connection that is capable of hosting other connections. The Direct Connect Partner can use an interconnect to provide Direct Connect hosted connections to customers through their own network services. Like a standard connection, an interconnect links the partner's network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end is connected to the partner's router, the other to an Direct Connect router. You can automatically add the new interconnect to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new interconnect is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no interconnect is created. For each end customer, the Direct Connect Partner provisions a connection on their interconnect by calling \[AllocateHostedConnection\]. The end customer can then connect to Amazon Web Services resources by creating a virtual interface on their connection, using the VLAN assigned to them by the Direct Connect Partner. Intended for use by Direct Connect Partners only.
 
 ``` swift
 public func createInterconnect(input: CreateInterconnectInput, completion: @escaping (ClientRuntime.SdkResult<CreateInterconnectOutputResponse, CreateInterconnectOutputError>) -> Void)
 ```
 
-``` 
-        Intended for use by Direct Connect Partners only.
-```
-
 ### `createLag(input:completion:)`
 
-Creates a link aggregation group (LAG) with the specified number of bundled
-physical dedicated connections between the customer network and a specific Direct Connect location.
-A LAG is a logical interface that uses the Link Aggregation Control Protocol
-(LACP) to aggregate multiple interfaces, enabling you to treat them as a single
-interface.
-All connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must terminate at the same Direct Connect endpoint.
-You can have up to 10 dedicated connections per LAG. Regardless of this limit, if you
-request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is
-created.
-You can specify an existing physical dedicated connection or interconnect to include in
-the LAG (which counts towards the total number of connections). Doing so interrupts the
-current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG
-will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any
-virtual interfaces associated with the dedicated connection are automatically disassociated
-and re-associated with the LAG. The connection ID does not change.
-If the account used to create a LAG is a registered Direct Connect Partner, the LAG is
-automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual
-interfaces cannot be directly configured.
+Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per LAG. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the account used to create a LAG is a registered Direct Connect Partner, the LAG is automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual interfaces cannot be directly configured.
 
 ``` swift
 public func createLag(input: CreateLagInput, completion: @escaping (ClientRuntime.SdkResult<CreateLagOutputResponse, CreateLagOutputError>) -> Void)
@@ -315,17 +203,7 @@ public func createLag(input: CreateLagInput, completion: @escaping (ClientRuntim
 
 ### `createPrivateVirtualInterface(input:completion:)`
 
-Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic.
-A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW).
-Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple
-VPCs, including VPCs in different Regions. Connecting the private virtual interface
-to a VGW only provides access to a single VPC within the same Region.
-Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to
-the underlying physical connection if it wasn't updated to support jumbo frames. Updating
-the connection disrupts network connectivity for all virtual interfaces associated with
-the connection for up to 30 seconds. To check whether your connection supports jumbo
-frames, call DescribeConnections. To check whether your virtual
-interface supports jumbo frames, call DescribeVirtualInterfaces.
+Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call \[DescribeConnections\]. To check whether your virtual interface supports jumbo frames, call \[DescribeVirtualInterfaces\].
 
 ``` swift
 public func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<CreatePrivateVirtualInterfaceOutputResponse, CreatePrivateVirtualInterfaceOutputError>) -> Void)
@@ -333,10 +211,7 @@ public func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceIn
 
 ### `createPublicVirtualInterface(input:completion:)`
 
-Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic.
-A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3.
-When creating an IPv6 public virtual interface (addressFamily is ipv6), leave the customer
-and amazon address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
+Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3. When creating an IPv6 public virtual interface (addressFamily is ipv6), leave the customer and amazon address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
 
 ``` swift
 public func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<CreatePublicVirtualInterfaceOutputResponse, CreatePublicVirtualInterfaceOutputError>) -> Void)
@@ -344,27 +219,15 @@ public func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInpu
 
 ### `createTransitVirtualInterface(input:completion:)`
 
-Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.
+Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway. If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call \[DescribeConnections\]. To check whether your virtual interface supports jumbo frames, call \[DescribeVirtualInterfaces\].
 
 ``` swift
 public func createTransitVirtualInterface(input: CreateTransitVirtualInterfaceInput, completion: @escaping (ClientRuntime.SdkResult<CreateTransitVirtualInterfaceOutputResponse, CreateTransitVirtualInterfaceOutputError>) -> Void)
 ```
 
-``` 
-        If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails.
-
-     Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to
-  the underlying physical connection if it wasn't updated to support jumbo frames. Updating
-  the connection disrupts network connectivity for all virtual interfaces associated with
-  the connection for up to 30 seconds. To check whether your connection supports jumbo
-  frames, call DescribeConnections. To check whether your virtual
-  interface supports jumbo frames, call DescribeVirtualInterfaces.
-```
-
 ### `deleteBGPPeer(input:completion:)`
 
-Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN.
-You cannot delete the last BGP peer from a virtual interface.
+Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
 
 ``` swift
 public func deleteBGPPeer(input: DeleteBGPPeerInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBGPPeerOutputResponse, DeleteBGPPeerOutputError>) -> Void)
@@ -372,10 +235,7 @@ public func deleteBGPPeer(input: DeleteBGPPeerInput, completion: @escaping (Clie
 
 ### `deleteConnection(input:completion:)`
 
-Deletes the specified connection.
-Deleting a connection only stops the Direct Connect port hour and data transfer charges.
-If you are partnering with any third parties to connect with the Direct Connect location,
-you must cancel your service with them separately.
+Deletes the specified connection. Deleting a connection only stops the Direct Connect port hour and data transfer charges. If you are partnering with any third parties to connect with the Direct Connect location, you must cancel your service with them separately.
 
 ``` swift
 public func deleteConnection(input: DeleteConnectionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConnectionOutputResponse, DeleteConnectionOutputError>) -> Void)
@@ -383,9 +243,7 @@ public func deleteConnection(input: DeleteConnectionInput, completion: @escaping
 
 ### `deleteDirectConnectGateway(input:completion:)`
 
-Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces that are
-attached to the Direct Connect gateway and disassociate all virtual private gateways associated
-with the Direct Connect gateway.
+Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces that are attached to the Direct Connect gateway and disassociate all virtual private gateways associated with the Direct Connect gateway.
 
 ``` swift
 public func deleteDirectConnectGateway(input: DeleteDirectConnectGatewayInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDirectConnectGatewayOutputResponse, DeleteDirectConnectGatewayOutputError>) -> Void)
@@ -393,8 +251,7 @@ public func deleteDirectConnectGateway(input: DeleteDirectConnectGatewayInput, c
 
 ### `deleteDirectConnectGatewayAssociation(input:completion:)`
 
-Deletes the association between the specified Direct Connect gateway and virtual private gateway.
-We recommend that you specify the associationID to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and directConnectGatewayId to delete an association.
+Deletes the association between the specified Direct Connect gateway and virtual private gateway. We recommend that you specify the associationID to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and directConnectGatewayId to delete an association.
 
 ``` swift
 public func deleteDirectConnectGatewayAssociation(input: DeleteDirectConnectGatewayAssociationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDirectConnectGatewayAssociationOutputResponse, DeleteDirectConnectGatewayAssociationOutputError>) -> Void)
@@ -410,21 +267,15 @@ public func deleteDirectConnectGatewayAssociationProposal(input: DeleteDirectCon
 
 ### `deleteInterconnect(input:completion:)`
 
-Deletes the specified interconnect.
+Deletes the specified interconnect. Intended for use by Direct Connect Partners only.
 
 ``` swift
 public func deleteInterconnect(input: DeleteInterconnectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInterconnectOutputResponse, DeleteInterconnectOutputError>) -> Void)
 ```
 
-``` 
-        Intended for use
-    by Direct Connect Partners only.
-```
-
 ### `deleteLag(input:completion:)`
 
-Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active
-virtual interfaces or hosted connections.
+Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active virtual interfaces or hosted connections.
 
 ``` swift
 public func deleteLag(input: DeleteLagInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLagOutputResponse, DeleteLagOutputError>) -> Void)
@@ -440,12 +291,7 @@ public func deleteVirtualInterface(input: DeleteVirtualInterfaceInput, completio
 
 ### `describeConnectionLoa(input:completion:)`
 
-Deprecated. Use DescribeLoa instead.
-Gets the LOA-CFA for a connection.
-The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or
-service provider uses when establishing your cross connect to Amazon Web Services at the colocation facility. For more information,
-see <a href="https:​//docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting Cross Connects
-at Direct Connect Locations in the Direct Connect User Guide.
+Deprecated. Use \[DescribeLoa\] instead. Gets the LOA-CFA for a connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
 
 ``` swift
 @available(*, deprecated)
@@ -462,16 +308,11 @@ public func describeConnections(input: DescribeConnectionsInput, completion: @es
 
 ### `describeConnectionsOnInterconnect(input:completion:)`
 
-Deprecated. Use DescribeHostedConnections instead.
-Lists the connections that have been provisioned on the specified interconnect.
+Deprecated. Use \[DescribeHostedConnections\] instead. Lists the connections that have been provisioned on the specified interconnect. Intended for use by Direct Connect Partners only.
 
 ``` swift
 @available(*, deprecated)
     public func describeConnectionsOnInterconnect(input: DescribeConnectionsOnInterconnectInput, completion: @escaping (ClientRuntime.SdkResult<DescribeConnectionsOnInterconnectOutputResponse, DescribeConnectionsOnInterconnectOutputError>) -> Void)
-```
-
-``` 
-        Intended for use by Direct Connect Partners only.
 ```
 
 ### `describeDirectConnectGatewayAssociationProposals(input:completion:)`
@@ -484,40 +325,25 @@ public func describeDirectConnectGatewayAssociationProposals(input: DescribeDire
 
 ### `describeDirectConnectGatewayAssociations(input:completion:)`
 
-Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:​
+Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:
 
 ``` swift
 public func describeDirectConnectGatewayAssociations(input: DescribeDirectConnectGatewayAssociationsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDirectConnectGatewayAssociationsOutputResponse, DescribeDirectConnectGatewayAssociationsOutputError>) -> Void)
 ```
 
-``` 
-           A Direct Connect gateway
-           The response contains all virtual private gateways and transit gateways associated with the Direct Connect gateway.
+  - A Direct Connect gateway The response contains all virtual private gateways and transit gateways associated with the Direct Connect gateway.
 
+  - A virtual private gateway The response contains the Direct Connect gateway.
 
-           A virtual private gateway
-           The response contains the Direct Connect gateway.
+  - A transit gateway The response contains the Direct Connect gateway.
 
+  - A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.
 
-           A transit gateway
-           The response contains the Direct Connect gateway.
-
-
-           A Direct Connect gateway and a virtual private gateway
-           The response contains the association between the Direct Connect gateway and virtual private gateway.
-
-
-           A Direct Connect gateway and a transit gateway
-           The response contains the association between the Direct Connect gateway and transit gateway.
-```
+  - A Direct Connect gateway and a transit gateway The response contains the association between the Direct Connect gateway and transit gateway.
 
 ### `describeDirectConnectGatewayAttachments(input:completion:)`
 
-Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify
-a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains
-all virtual interfaces attached to the Direct Connect gateway. If you specify a virtual interface, the
-response contains all Direct Connect gateways attached to the virtual interface. If you specify both,
-the response contains the attachment between the Direct Connect gateway and the virtual interface.
+Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains all virtual interfaces attached to the Direct Connect gateway. If you specify a virtual interface, the response contains all Direct Connect gateways attached to the virtual interface. If you specify both, the response contains the attachment between the Direct Connect gateway and the virtual interface.
 
 ``` swift
 public func describeDirectConnectGatewayAttachments(input: DescribeDirectConnectGatewayAttachmentsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDirectConnectGatewayAttachmentsOutputResponse, DescribeDirectConnectGatewayAttachmentsOutputError>) -> Void)
@@ -533,24 +359,15 @@ public func describeDirectConnectGateways(input: DescribeDirectConnectGatewaysIn
 
 ### `describeHostedConnections(input:completion:)`
 
-Lists the hosted connections that have been provisioned on the specified
-interconnect or link aggregation group (LAG).
+Lists the hosted connections that have been provisioned on the specified interconnect or link aggregation group (LAG). Intended for use by Direct Connect Partners only.
 
 ``` swift
 public func describeHostedConnections(input: DescribeHostedConnectionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeHostedConnectionsOutputResponse, DescribeHostedConnectionsOutputError>) -> Void)
 ```
 
-``` 
-        Intended for use by Direct Connect Partners only.
-```
-
 ### `describeInterconnectLoa(input:completion:)`
 
-Deprecated. Use DescribeLoa instead.
-Gets the LOA-CFA for the specified interconnect.
-The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility.
-For more information, see <a href="https:​//docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting Cross Connects at Direct Connect Locations
-in the Direct Connect User Guide.
+Deprecated. Use \[DescribeLoa\] instead. Gets the LOA-CFA for the specified interconnect. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
 
 ``` swift
 @available(*, deprecated)
@@ -575,10 +392,7 @@ public func describeLags(input: DescribeLagsInput, completion: @escaping (Client
 
 ### `describeLoa(input:completion:)`
 
-Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG).
-The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing
-your cross connect to Amazon Web Services at the colocation facility. For more information, see <a href="https:​//docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting Cross Connects at Direct Connect Locations
-in the Direct Connect User Guide.
+Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG). The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
 
 ``` swift
 public func describeLoa(input: DescribeLoaInput, completion: @escaping (ClientRuntime.SdkResult<DescribeLoaOutputResponse, DescribeLoaOutputError>) -> Void)
@@ -586,8 +400,7 @@ public func describeLoa(input: DescribeLoaInput, completion: @escaping (ClientRu
 
 ### `describeLocations(input:completion:)`
 
-Lists the Direct Connect locations in the current Region. These are the locations that can be selected when calling
-CreateConnection or CreateInterconnect.
+Lists the Direct Connect locations in the current Region. These are the locations that can be selected when calling \[CreateConnection\] or \[CreateInterconnect\].
 
 ``` swift
 public func describeLocations(input: DescribeLocationsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeLocationsOutputResponse, DescribeLocationsOutputError>) -> Void)
@@ -603,8 +416,7 @@ public func describeTags(input: DescribeTagsInput, completion: @escaping (Client
 
 ### `describeVirtualGateways(input:completion:)`
 
-Lists the virtual private gateways owned by the account.
-You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
+Lists the virtual private gateways owned by the account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
 
 ``` swift
 public func describeVirtualGateways(input: DescribeVirtualGatewaysInput, completion: @escaping (ClientRuntime.SdkResult<DescribeVirtualGatewaysOutputResponse, DescribeVirtualGatewaysOutputError>) -> Void)
@@ -612,11 +424,7 @@ public func describeVirtualGateways(input: DescribeVirtualGatewaysInput, complet
 
 ### `describeVirtualInterfaces(input:completion:)`
 
-Displays all virtual interfaces for an account. Virtual interfaces deleted fewer
-than 15 minutes before you make the request are also returned. If you specify a
-connection ID, only the virtual interfaces associated with the connection are returned.
-If you specify a virtual interface ID, then only a single virtual interface is returned.
-A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
+Displays all virtual interfaces for an account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
 
 ``` swift
 public func describeVirtualInterfaces(input: DescribeVirtualInterfacesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeVirtualInterfacesOutputResponse, DescribeVirtualInterfacesOutputError>) -> Void)
@@ -624,16 +432,7 @@ public func describeVirtualInterfaces(input: DescribeVirtualInterfacesInput, com
 
 ### `disassociateConnectionFromLag(input:completion:)`
 
-Disassociates a connection from a link aggregation group (LAG). The connection is
-interrupted and re-established as a standalone connection (the connection is not
-deleted; to delete the connection, use the DeleteConnection request).
-If the LAG has associated virtual interfaces or hosted connections, they remain
-associated with the LAG. A disassociated connection owned by an Direct Connect Partner is
-automatically converted to an interconnect.
-If disassociating the connection would cause the LAG to fall below its setting for
-minimum number of operational connections, the request fails, except when it's the last
-member of the LAG. If all connections are disassociated, the LAG continues to exist as
-an empty LAG with no physical connections.
+Disassociates a connection from a link aggregation group (LAG). The connection is interrupted and re-established as a standalone connection (the connection is not deleted; to delete the connection, use the \[DeleteConnection\] request). If the LAG has associated virtual interfaces or hosted connections, they remain associated with the LAG. A disassociated connection owned by an Direct Connect Partner is automatically converted to an interconnect. If disassociating the connection would cause the LAG to fall below its setting for minimum number of operational connections, the request fails, except when it's the last member of the LAG. If all connections are disassociated, the LAG continues to exist as an empty LAG with no physical connections.
 
 ``` swift
 public func disassociateConnectionFromLag(input: DisassociateConnectionFromLagInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateConnectionFromLagOutputResponse, DisassociateConnectionFromLagOutputError>) -> Void)
@@ -657,10 +456,7 @@ public func listVirtualInterfaceTestHistory(input: ListVirtualInterfaceTestHisto
 
 ### `startBgpFailoverTest(input:completion:)`
 
-Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages.
-You can run the test on public, private, transit, and hosted virtual interfaces.
-You can use <a href="https:​//docs.aws.amazon.com/directconnect/latest/APIReference/API_ListVirtualInterfaceTestHistory.html">ListVirtualInterfaceTestHistory to view the virtual interface test history.
-If you need to stop the test before the test interval completes, use <a href="https:​//docs.aws.amazon.com/directconnect/latest/APIReference/API_StopBgpFailoverTest.html">StopBgpFailoverTest.
+Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages. You can run the test on public, private, transit, and hosted virtual interfaces. You can use [ListVirtualInterfaceTestHistory](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_ListVirtualInterfaceTestHistory.html) to view the virtual interface test history. If you need to stop the test before the test interval completes, use [StopBgpFailoverTest](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_StopBgpFailoverTest.html).
 
 ``` swift
 public func startBgpFailoverTest(input: StartBgpFailoverTestInput, completion: @escaping (ClientRuntime.SdkResult<StartBgpFailoverTestOutputResponse, StartBgpFailoverTestOutputError>) -> Void)
@@ -676,8 +472,7 @@ public func stopBgpFailoverTest(input: StopBgpFailoverTestInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Adds the specified tags to the specified Direct Connect resource. Each resource can have a maximum of 50 tags.
-Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
+Adds the specified tags to the specified Direct Connect resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -693,24 +488,19 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateConnection(input:completion:)`
 
-Updates the Direct Connect dedicated connection configuration.
-You can update the following parameters for a connection:​
+Updates the Direct Connect dedicated connection configuration. You can update the following parameters for a connection:
 
 ``` swift
 public func updateConnection(input: UpdateConnectionInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConnectionOutputResponse, UpdateConnectionOutputError>) -> Void)
 ```
 
-``` 
-           The connection name
+  - The connection name
 
-
-           The connection's MAC Security (MACsec) encryption mode.
-```
+  - The connection's MAC Security (MACsec) encryption mode.
 
 ### `updateDirectConnectGatewayAssociation(input:completion:)`
 
-Updates the specified attributes of the Direct Connect gateway association.
-Add or remove prefixes from the association.
+Updates the specified attributes of the Direct Connect gateway association. Add or remove prefixes from the association.
 
 ``` swift
 public func updateDirectConnectGatewayAssociation(input: UpdateDirectConnectGatewayAssociationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDirectConnectGatewayAssociationOutputResponse, UpdateDirectConnectGatewayAssociationOutputError>) -> Void)
@@ -718,43 +508,25 @@ public func updateDirectConnectGatewayAssociation(input: UpdateDirectConnectGate
 
 ### `updateLag(input:completion:)`
 
-Updates the attributes of the specified link aggregation group (LAG).
-You can update the following LAG attributes:​
+Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes:
 
 ``` swift
 public func updateLag(input: UpdateLagInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLagOutputResponse, UpdateLagOutputError>) -> Void)
 ```
 
-``` 
-           The name of the LAG.
+  - The name of the LAG.
 
+  - The value for the minimum number of connections that must be operational for the LAG itself to be operational.
 
-           The value for the minimum number of connections that must be operational
-      for the LAG itself to be operational.
+  - The LAG's MACsec encryption mode. Amazon Web Services assigns this value to each connection which is part of the LAG.
 
+  - The tags
 
-           The LAG's MACsec encryption mode.
-           Amazon Web Services assigns this value to each connection which is part of the LAG.
-
-
-           The tags
-
-
-
-        If you adjust the threshold value for the minimum number of operational connections, ensure
-  that the new value does not cause the LAG to fall below the threshold and become
-  non-operational.
-```
+If you adjust the threshold value for the minimum number of operational connections, ensure that the new value does not cause the LAG to fall below the threshold and become non-operational.
 
 ### `updateVirtualInterfaceAttributes(input:completion:)`
 
-Updates the specified attributes of the specified virtual private interface.
-Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to
-the underlying physical connection if it wasn't updated to support jumbo frames. Updating
-the connection disrupts network connectivity for all virtual interfaces associated with
-the connection for up to 30 seconds. To check whether your connection supports jumbo
-frames, call DescribeConnections. To check whether your virtual q
-interface supports jumbo frames, call DescribeVirtualInterfaces.
+Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call \[DescribeConnections\]. To check whether your virtual q interface supports jumbo frames, call \[DescribeVirtualInterfaces\].
 
 ``` swift
 public func updateVirtualInterfaceAttributes(input: UpdateVirtualInterfaceAttributesInput, completion: @escaping (ClientRuntime.SdkResult<UpdateVirtualInterfaceAttributesOutputResponse, UpdateVirtualInterfaceAttributesOutputError>) -> Void)

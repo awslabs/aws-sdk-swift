@@ -8,6 +8,4 @@
 # Protocols
 
   - [HoneycodeClientProtocol](/aws-sdk-swift/reference/0.x/AWSHoneycode/HoneycodeClientProtocol):
-    Amazon Honeycode is a fully managed service that allows you to quickly build mobile and web apps for teams—without
-    programming. Build Honeycode apps for managing almost anything, like projects, customers, operations, approvals,
-    resources, and even your team.
+    Amazon Honeycode is a fully managed service that allows you to quickly build mobile and web apps for teams—without programming. Build Honeycode apps for managing almost anything, like projects, customers, operations, approvals, resources, and even your team.

@@ -22,14 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "TranslateClient"
+```
+
 ## Methods
 
 ### `createParallelData(input:completion:)`
 
-Creates a parallel data resource in Amazon Translate by importing an input file from
-Amazon S3. Parallel data files contain examples of source phrases and their translations from
-your translation memory. By adding parallel data, you can influence the style, tone, and word
-choice in your translation output.
+Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples of source phrases and their translations from your translation memory. By adding parallel data, you can influence the style, tone, and word choice in your translation output.
 
 ``` swift
 public func createParallelData(input: CreateParallelDataInput, completion: @escaping (ClientRuntime.SdkResult<CreateParallelDataOutputResponse, CreateParallelDataOutputError>) -> Void)
@@ -53,8 +58,7 @@ public func deleteTerminology(input: DeleteTerminologyInput, completion: @escapi
 
 ### `describeTextTranslationJob(input:completion:)`
 
-Gets the properties associated with an asycnhronous batch translation job including name,
-ID, status, source and target languages, input/output S3 buckets, and so on.
+Gets the properties associated with an asycnhronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on.
 
 ``` swift
 public func describeTextTranslationJob(input: DescribeTextTranslationJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>) -> Void)
@@ -78,14 +82,7 @@ public func getTerminology(input: GetTerminologyInput, completion: @escaping (Cl
 
 ### `importTerminology(input:completion:)`
 
-Creates or updates a custom terminology, depending on whether or not one already exists
-for the given terminology name. Importing a terminology with the same name as an existing one
-will merge the terminologies based on the chosen merge strategy. Currently, the only supported
-merge strategy is OVERWRITE, and so the imported terminology will overwrite an existing
-terminology of the same name.
-If you import a terminology that overwrites an existing one, the new terminology take up
-to 10 minutes to fully propagate and be available for use in a translation due to cache
-policies with the DataPlane service that performs the translations.
+Creates or updates a custom terminology, depending on whether or not one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. Currently, the only supported merge strategy is OVERWRITE, and so the imported terminology will overwrite an existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology take up to 10 minutes to fully propagate and be available for use in a translation due to cache policies with the DataPlane service that performs the translations.
 
 ``` swift
 public func importTerminology(input: ImportTerminologyInput, completion: @escaping (ClientRuntime.SdkResult<ImportTerminologyOutputResponse, ImportTerminologyOutputError>) -> Void)
@@ -117,29 +114,15 @@ public func listTextTranslationJobs(input: ListTextTranslationJobsInput, complet
 
 ### `startTextTranslationJob(input:completion:)`
 
-Starts an asynchronous batch translation job. Batch translation jobs can be used to
-translate large volumes of text across multiple documents at once. For more information, see
-async.
+Starts an asynchronous batch translation job. Batch translation jobs can be used to translate large volumes of text across multiple documents at once. For more information, see \[async\]. Batch translation jobs can be described with the \[DescribeTextTranslationJob\] operation, listed with the \[ListTextTranslationJobs\] operation, and stopped with the \[StopTextTranslationJob\] operation. Amazon Translate does not support batch translation of multiple source languages at once.
 
 ``` swift
 public func startTextTranslationJob(input: StartTextTranslationJobInput, completion: @escaping (ClientRuntime.SdkResult<StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>) -> Void)
 ```
 
-``` 
-     Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.
-
-        Amazon Translate does not support batch translation of multiple source languages at once.
-```
-
 ### `stopTextTranslationJob(input:completion:)`
 
-Stops an asynchronous batch translation job that is in progress.
-If the job's state is IN\_PROGRESS, the job will be marked for termination and
-put into the STOP\_REQUESTED state. If the job completes before it can be stopped,
-it is put into the COMPLETED state. Otherwise, the job is put into the
-STOPPED state.
-Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs
-operations to get a batch translation job's JobId.
+Stops an asynchronous batch translation job that is in progress. If the job's state is IN\_PROGRESS, the job will be marked for termination and put into the STOP\_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the \[StartTextTranslationJob\] operation. You can use the \[DescribeTextTranslationJob\] or \[ListTextTranslationJobs\] operations to get a batch translation job's JobId.
 
 ``` swift
 public func stopTextTranslationJob(input: StopTextTranslationJobInput, completion: @escaping (ClientRuntime.SdkResult<StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>) -> Void)
@@ -147,8 +130,7 @@ public func stopTextTranslationJob(input: StopTextTranslationJobInput, completio
 
 ### `translateText(input:completion:)`
 
-Translates input text from the source language to the target language. For a list of
-available languages and language codes, see what-is-languages.
+Translates input text from the source language to the target language. For a list of available languages and language codes, see \[what-is-languages\].
 
 ``` swift
 public func translateText(input: TranslateTextInput, completion: @escaping (ClientRuntime.SdkResult<TranslateTextOutputResponse, TranslateTextOutputError>) -> Void)
@@ -156,8 +138,7 @@ public func translateText(input: TranslateTextInput, completion: @escaping (Clie
 
 ### `updateParallelData(input:completion:)`
 
-Updates a previously created parallel data resource by importing a new input file from
-Amazon S3.
+Updates a previously created parallel data resource by importing a new input file from Amazon S3.
 
 ``` swift
 public func updateParallelData(input: UpdateParallelDataInput, completion: @escaping (ClientRuntime.SdkResult<UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>) -> Void)

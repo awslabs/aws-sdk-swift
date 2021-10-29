@@ -22,47 +22,39 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CognitoIdentityClient"
+```
+
 ## Methods
 
 ### `createIdentityPool(input:completion:)`
 
-Creates a new identity pool. The identity pool is a store of user identity
-information that is specific to your AWS account. The keys for SupportedLoginProviders are as follows:​
+Creates a new identity pool. The identity pool is a store of user identity information that is specific to your AWS account. The keys for SupportedLoginProviders are as follows:
 
 ``` swift
 public func createIdentityPool(input: CreateIdentityPoolInput, completion: @escaping (ClientRuntime.SdkResult<CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>) -> Void)
 ```
 
-``` 
-           Facebook: graph.facebook.com
+  - Facebook: graph.facebook.com
 
+  - Google: accounts.google.com
 
+  - Amazon: www.amazon.com
 
-           Google: accounts.google.com
+  - Twitter: api.twitter.com
 
+  - Digits: www.digits.com
 
-
-           Amazon: www.amazon.com
-
-
-
-           Twitter: api.twitter.com
-
-
-
-           Digits: www.digits.com
-
-
-
-
-     You must use AWS Developer credentials to call this API.
-```
+You must use AWS Developer credentials to call this API.
 
 ### `deleteIdentities(input:completion:)`
 
-Deletes identities from an identity pool. You can specify a list of 1-60 identities
-that you want to delete.
-You must use AWS Developer credentials to call this API.
+Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func deleteIdentities(input: DeleteIdentitiesInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>) -> Void)
@@ -70,9 +62,7 @@ public func deleteIdentities(input: DeleteIdentitiesInput, completion: @escaping
 
 ### `deleteIdentityPool(input:completion:)`
 
-Deletes an identity pool. Once a pool is deleted, users will not be able to
-authenticate with the pool.
-You must use AWS Developer credentials to call this API.
+Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func deleteIdentityPool(input: DeleteIdentityPoolInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>) -> Void)
@@ -80,9 +70,7 @@ public func deleteIdentityPool(input: DeleteIdentityPoolInput, completion: @esca
 
 ### `describeIdentity(input:completion:)`
 
-Returns metadata related to the given identity, including when the identity was
-created and any associated linked logins.
-You must use AWS Developer credentials to call this API.
+Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func describeIdentity(input: DescribeIdentityInput, completion: @escaping (ClientRuntime.SdkResult<DescribeIdentityOutputResponse, DescribeIdentityOutputError>) -> Void)
@@ -90,9 +78,7 @@ public func describeIdentity(input: DescribeIdentityInput, completion: @escaping
 
 ### `describeIdentityPool(input:completion:)`
 
-Gets details about a particular identity pool, including the pool name, ID
-description, creation date, and current number of users.
-You must use AWS Developer credentials to call this API.
+Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func describeIdentityPool(input: DescribeIdentityPoolInput, completion: @escaping (ClientRuntime.SdkResult<DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>) -> Void)
@@ -100,11 +86,7 @@ public func describeIdentityPool(input: DescribeIdentityPoolInput, completion: @
 
 ### `getCredentialsForIdentity(input:completion:)`
 
-Returns credentials for the provided identity ID. Any provided logins will be
-validated against supported login providers. If the token is for
-cognito-identity.amazonaws.com, it will be passed through to AWS Security Token Service
-with the appropriate role for the token.
-This is a public API. You do not need any credentials to call this API.
+Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to AWS Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
 
 ``` swift
 public func getCredentialsForIdentity(input: GetCredentialsForIdentityInput, completion: @escaping (ClientRuntime.SdkResult<GetCredentialsForIdentityOutputResponse, GetCredentialsForIdentityOutputError>) -> Void)
@@ -112,9 +94,7 @@ public func getCredentialsForIdentity(input: GetCredentialsForIdentityInput, com
 
 ### `getId(input:completion:)`
 
-Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an
-implicit linked account.
-This is a public API. You do not need any credentials to call this API.
+Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
 
 ``` swift
 public func getId(input: GetIdInput, completion: @escaping (ClientRuntime.SdkResult<GetIdOutputResponse, GetIdOutputError>) -> Void)
@@ -122,8 +102,7 @@ public func getId(input: GetIdInput, completion: @escaping (ClientRuntime.SdkRes
 
 ### `getIdentityPoolRoles(input:completion:)`
 
-Gets the roles for an identity pool.
-You must use AWS Developer credentials to call this API.
+Gets the roles for an identity pool. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func getIdentityPoolRoles(input: GetIdentityPoolRolesInput, completion: @escaping (ClientRuntime.SdkResult<GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>) -> Void)
@@ -131,11 +110,7 @@ public func getIdentityPoolRoles(input: GetIdentityPoolRolesInput, completion: @
 
 ### `getOpenIdToken(input:completion:)`
 
-Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
-GetId. You can optionally add additional logins for the identity.
-Supplying multiple logins creates an implicit link.
-The OpenID token is valid for 10 minutes.
-This is a public API. You do not need any credentials to call this API.
+Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by \[GetId\]. You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenID token is valid for 10 minutes. This is a public API. You do not need any credentials to call this API.
 
 ``` swift
 public func getOpenIdToken(input: GetOpenIdTokenInput, completion: @escaping (ClientRuntime.SdkResult<GetOpenIdTokenOutputResponse, GetOpenIdTokenOutputError>) -> Void)
@@ -143,19 +118,7 @@ public func getOpenIdToken(input: GetOpenIdTokenInput, completion: @escaping (Cl
 
 ### `getOpenIdTokenForDeveloperIdentity(input:completion:)`
 
-Registers (or retrieves) a Cognito IdentityId and an OpenID Connect
-token for a user authenticated by your backend authentication process. Supplying multiple
-logins will create an implicit linked account. You can only specify one developer provider
-as part of the Logins map, which is linked to the identity pool. The developer
-provider is the "domain" by which Cognito will refer to your users.
-You can use GetOpenIdTokenForDeveloperIdentity to create a new identity
-and to link new logins (that is, user credentials issued by a public provider or developer
-provider) to an existing identity. When you want to create a new identity, the
-IdentityId should be null. When you want to associate a new login with an
-existing authenticated/unauthenticated identity, you can do so by providing the existing
-IdentityId. This API will create the identity in the specified
-IdentityPoolId.
-You must use AWS Developer credentials to call this API.
+Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users. You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId. This API will create the identity in the specified IdentityPoolId. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func getOpenIdTokenForDeveloperIdentity(input: GetOpenIdTokenForDeveloperIdentityInput, completion: @escaping (ClientRuntime.SdkResult<GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>) -> Void)
@@ -171,8 +134,7 @@ public func getPrincipalTagAttributeMap(input: GetPrincipalTagAttributeMapInput,
 
 ### `listIdentities(input:completion:)`
 
-Lists the identities in an identity pool.
-You must use AWS Developer credentials to call this API.
+Lists the identities in an identity pool. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func listIdentities(input: ListIdentitiesInput, completion: @escaping (ClientRuntime.SdkResult<ListIdentitiesOutputResponse, ListIdentitiesOutputError>) -> Void)
@@ -180,8 +142,7 @@ public func listIdentities(input: ListIdentitiesInput, completion: @escaping (Cl
 
 ### `listIdentityPools(input:completion:)`
 
-Lists all of the Cognito identity pools registered for your account.
-You must use AWS Developer credentials to call this API.
+Lists all of the Cognito identity pools registered for your account. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func listIdentityPools(input: ListIdentityPoolsInput, completion: @escaping (ClientRuntime.SdkResult<ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>) -> Void)
@@ -189,10 +150,7 @@ public func listIdentityPools(input: ListIdentityPoolsInput, completion: @escapi
 
 ### `listTagsForResource(input:completion:)`
 
-Lists the tags that are assigned to an Amazon Cognito identity pool.
-A tag is a label that you can apply to identity pools to categorize and manage them in
-different ways, such as by purpose, owner, environment, or other criteria.
-You can use this action up to 10 times per second, per account.
+Lists the tags that are assigned to an Amazon Cognito identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -200,45 +158,15 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `lookupDeveloperIdentity(input:completion:)`
 
-Retrieves the IdentityID associated with a
-DeveloperUserIdentifier or the list of DeveloperUserIdentifier
-values associated with an IdentityId for an existing identity. Either
-IdentityID or DeveloperUserIdentifier must not be null. If you
-supply only one of these values, the other value will be searched in the database and
-returned as a part of the response. If you supply both,
-DeveloperUserIdentifier will be matched against IdentityID. If
-the values are verified against the database, the response returns both values and is the
-same as the request. Otherwise a ResourceConflictException is
-thrown.
+Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise a ResourceConflictException is thrown. LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. \[GetOpenIdTokenForDeveloperIdentity\] is a better option for higher-volume operations for user authentication. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func lookupDeveloperIdentity(input: LookupDeveloperIdentityInput, completion: @escaping (ClientRuntime.SdkResult<LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>) -> Void)
 ```
 
-``` 
-        LookupDeveloperIdentity is intended for low-throughput control plane
-     operations: for example, to enable customer service to locate an identity ID by username.
-     If you are using it for higher-volume operations such as user authentication, your requests
-     are likely to be throttled. GetOpenIdTokenForDeveloperIdentity is a
-     better option for higher-volume operations for user authentication.
-     You must use AWS Developer credentials to call this API.
-```
-
 ### `mergeDeveloperIdentities(input:completion:)`
 
-Merges two users having different IdentityIds, existing in the same
-identity pool, and identified by the same developer provider. You can use this action to
-request that discrete users be merged and identified as a single user in the Cognito
-environment. Cognito associates the given source user (SourceUserIdentifier)
-with the IdentityId of the DestinationUserIdentifier. Only
-developer-authenticated users can be merged. If the users to be merged are associated with
-the same public provider, but as two different users, an exception will be
-thrown.
-The number of linked logins is limited to 20. So, the number of linked logins for the
-source user, SourceUserIdentifier, and the destination user,
-DestinationUserIdentifier, together should not be larger than 20.
-Otherwise, an exception will be thrown.
-You must use AWS Developer credentials to call this API.
+Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func mergeDeveloperIdentities(input: MergeDeveloperIdentitiesInput, completion: @escaping (ClientRuntime.SdkResult<MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>) -> Void)
@@ -246,8 +174,7 @@ public func mergeDeveloperIdentities(input: MergeDeveloperIdentitiesInput, compl
 
 ### `setIdentityPoolRoles(input:completion:)`
 
-Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
-You must use AWS Developer credentials to call this API.
+Sets the roles for an identity pool. These roles are used when making calls to \[GetCredentialsForIdentity\] action. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func setIdentityPoolRoles(input: SetIdentityPoolRolesInput, completion: @escaping (ClientRuntime.SdkResult<SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>) -> Void)
@@ -263,21 +190,7 @@ public func setPrincipalTagAttributeMap(input: SetPrincipalTagAttributeMapInput,
 
 ### `tagResource(input:completion:)`
 
-Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label
-that you can use to categorize and manage identity pools in different ways, such as by
-purpose, owner, environment, or other criteria.
-Each tag consists of a key and value, both of which you define. A key is a general
-category for more specific values. For example, if you have two versions of an identity
-pool, one for testing and another for production, you might assign an
-Environment tag key to both identity pools. The value of this key might be
-Test for one identity pool and Production for the
-other.
-Tags are useful for cost tracking and access control. You can activate your tags so that
-they appear on the Billing and Cost Management console, where you can track the costs
-associated with your identity pools. In an IAM policy, you can constrain permissions for
-identity pools based on specific tags or tag values.
-You can use this action up to 5 times per second, per account. An identity pool can have
-as many as 50 tags.
+Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label that you can use to categorize and manage identity pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of an identity pool, one for testing and another for production, you might assign an Environment tag key to both identity pools. The value of this key might be Test for one identity pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your identity pools. In an IAM policy, you can constrain permissions for identity pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. An identity pool can have as many as 50 tags.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -285,11 +198,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `unlinkDeveloperIdentity(input:completion:)`
 
-Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked
-developer users will be considered new identities next time they are seen. If, for a given
-Cognito identity, you remove all federated identities as well as the developer user
-identifier, the Cognito identity becomes inaccessible.
-You must use AWS Developer credentials to call this API.
+Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func unlinkDeveloperIdentity(input: UnlinkDeveloperIdentityInput, completion: @escaping (ClientRuntime.SdkResult<UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>) -> Void)
@@ -297,10 +206,7 @@ public func unlinkDeveloperIdentity(input: UnlinkDeveloperIdentityInput, complet
 
 ### `unlinkIdentity(input:completion:)`
 
-Unlinks a federated identity from an existing account. Unlinked logins will be
-considered new identities next time they are seen. Removing the last linked login will make
-this identity inaccessible.
-This is a public API. You do not need any credentials to call this API.
+Unlinks a federated identity from an existing account. Unlinked logins will be considered new identities next time they are seen. Removing the last linked login will make this identity inaccessible. This is a public API. You do not need any credentials to call this API.
 
 ``` swift
 public func unlinkIdentity(input: UnlinkIdentityInput, completion: @escaping (ClientRuntime.SdkResult<UnlinkIdentityOutputResponse, UnlinkIdentityOutputError>) -> Void)
@@ -308,8 +214,7 @@ public func unlinkIdentity(input: UnlinkIdentityInput, completion: @escaping (Cl
 
 ### `untagResource(input:completion:)`
 
-Removes the specified tags from the specified Amazon Cognito identity pool. You can use
-this action up to 5 times per second, per account
+Removes the specified tags from the specified Amazon Cognito identity pool. You can use this action up to 5 times per second, per account
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
@@ -317,8 +222,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateIdentityPool(input:completion:)`
 
-Updates an identity pool.
-You must use AWS Developer credentials to call this API.
+Updates an identity pool. You must use AWS Developer credentials to call this API.
 
 ``` swift
 public func updateIdentityPool(input: UpdateIdentityPoolInput, completion: @escaping (ClientRuntime.SdkResult<UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>) -> Void)

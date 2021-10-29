@@ -1,26 +1,14 @@
 # OpenSearchClientProtocol
 
-<fullname>Amazon OpenSearch Configuration Service</fullname>
-Use the Amazon OpenSearch configuration API to create, configure, and manage Amazon OpenSearch Service domains.
-For sample code that uses the configuration API, see the <a href="https:​//docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-configuration-samples.html">
-Amazon OpenSearch Service Developer Guide.
-The guide also contains <a href="https:​//docs.aws.amazon.com/opensearch-service/latest/developerguide/request-signing.html">
-sample
-code for sending signed HTTP requests to the OpenSearch APIs.
+Amazon OpenSearch Configuration Service Use the Amazon OpenSearch configuration API to create, configure, and manage Amazon OpenSearch Service domains. For sample code that uses the configuration API, see the [ Amazon OpenSearch Service Developer Guide](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-configuration-samples.html). The guide also contains [ sample code for sending signed HTTP requests to the OpenSearch APIs](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/request-signing.html). The endpoint for configuration service requests is region-specific: es.region.amazonaws.com. For example, es.us-east-1.amazonaws.com. For a current list of supported regions and endpoints, see [Regions and Endpoints](http://docs.aws.amazon.com/general/latest/gr/rande.html#service-regions).
 
 ``` swift
 public protocol OpenSearchClientProtocol 
 ```
 
-``` 
-The endpoint for configuration service requests is region-specific: es.region.amazonaws.com.
-  For example, es.us-east-1.amazonaws.com. For a current list of supported regions and endpoints,
-  see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#service-regions" target="_blank">Regions and Endpoints.
-```
-
 ## Requirements
 
-### acceptInboundConnection(input:​completion:​)
+### acceptInboundConnection(input:completion:)
 
 Allows the remote domain owner to accept an inbound cross-cluster connection request.
 
@@ -28,18 +16,15 @@ Allows the remote domain owner to accept an inbound cross-cluster connection req
 func acceptInboundConnection(input: AcceptInboundConnectionInput, completion: @escaping (ClientRuntime.SdkResult<AcceptInboundConnectionOutputResponse, AcceptInboundConnectionOutputError>) -> Void)
 ```
 
-### addTags(input:​completion:​)
+### addTags(input:completion:)
 
-Attaches tags to an existing domain. Tags are a set of case-sensitive key value pairs. An
-domain can have up to 10 tags. See
-<a href="http:​//docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging" target="_blank">
-Tagging Amazon OpenSearch Service domains for more information.
+Attaches tags to an existing domain. Tags are a set of case-sensitive key value pairs. An domain can have up to 10 tags. See [ Tagging Amazon OpenSearch Service domains](http://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging) for more information.
 
 ``` swift
 func addTags(input: AddTagsInput, completion: @escaping (ClientRuntime.SdkResult<AddTagsOutputResponse, AddTagsOutputError>) -> Void)
 ```
 
-### associatePackage(input:​completion:​)
+### associatePackage(input:completion:)
 
 Associates a package with an Amazon OpenSearch Service domain.
 
@@ -47,26 +32,23 @@ Associates a package with an Amazon OpenSearch Service domain.
 func associatePackage(input: AssociatePackageInput, completion: @escaping (ClientRuntime.SdkResult<AssociatePackageOutputResponse, AssociatePackageOutputError>) -> Void)
 ```
 
-### cancelServiceSoftwareUpdate(input:​completion:​)
+### cancelServiceSoftwareUpdate(input:completion:)
 
-Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before
-the AutomatedUpdateDate and when the UpdateStatus is in the PENDING\_UPDATE state.
+Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING\_UPDATE state.
 
 ``` swift
 func cancelServiceSoftwareUpdate(input: CancelServiceSoftwareUpdateInput, completion: @escaping (ClientRuntime.SdkResult<CancelServiceSoftwareUpdateOutputResponse, CancelServiceSoftwareUpdateOutputError>) -> Void)
 ```
 
-### createDomain(input:​completion:​)
+### createDomain(input:completion:)
 
-Creates a new Amazon OpenSearch Service domain. For more information,
-see <a href="http:​//docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html" target="_blank">Creating and managing Amazon OpenSearch Service domains
-in the Amazon OpenSearch Service Developer Guide.
+Creates a new Amazon OpenSearch Service domain. For more information, see [Creating and managing Amazon OpenSearch Service domains ](http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html) in the Amazon OpenSearch Service Developer Guide.
 
 ``` swift
 func createDomain(input: CreateDomainInput, completion: @escaping (ClientRuntime.SdkResult<CreateDomainOutputResponse, CreateDomainOutputError>) -> Void)
 ```
 
-### createOutboundConnection(input:​completion:​)
+### createOutboundConnection(input:completion:)
 
 Creates a new cross-cluster connection from a local OpenSearch domain to a remote OpenSearch domain.
 
@@ -74,7 +56,7 @@ Creates a new cross-cluster connection from a local OpenSearch domain to a remot
 func createOutboundConnection(input: CreateOutboundConnectionInput, completion: @escaping (ClientRuntime.SdkResult<CreateOutboundConnectionOutputResponse, CreateOutboundConnectionOutputError>) -> Void)
 ```
 
-### createPackage(input:​completion:​)
+### createPackage(input:completion:)
 
 Create a package for use with Amazon OpenSearch Service domains.
 
@@ -82,16 +64,15 @@ Create a package for use with Amazon OpenSearch Service domains.
 func createPackage(input: CreatePackageInput, completion: @escaping (ClientRuntime.SdkResult<CreatePackageOutputResponse, CreatePackageOutputError>) -> Void)
 ```
 
-### deleteDomain(input:​completion:​)
+### deleteDomain(input:completion:)
 
-Permanently deletes the specified domain and all of its data. Once a domain is deleted, it cannot
-be recovered.
+Permanently deletes the specified domain and all of its data. Once a domain is deleted, it cannot be recovered.
 
 ``` swift
 func deleteDomain(input: DeleteDomainInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDomainOutputResponse, DeleteDomainOutputError>) -> Void)
 ```
 
-### deleteInboundConnection(input:​completion:​)
+### deleteInboundConnection(input:completion:)
 
 Allows the remote domain owner to delete an existing inbound cross-cluster connection.
 
@@ -99,7 +80,7 @@ Allows the remote domain owner to delete an existing inbound cross-cluster conne
 func deleteInboundConnection(input: DeleteInboundConnectionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInboundConnectionOutputResponse, DeleteInboundConnectionOutputError>) -> Void)
 ```
 
-### deleteOutboundConnection(input:​completion:​)
+### deleteOutboundConnection(input:completion:)
 
 Allows the local domain owner to delete an existing outbound cross-cluster connection.
 
@@ -107,7 +88,7 @@ Allows the local domain owner to delete an existing outbound cross-cluster conne
 func deleteOutboundConnection(input: DeleteOutboundConnectionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteOutboundConnectionOutputResponse, DeleteOutboundConnectionOutputError>) -> Void)
 ```
 
-### deletePackage(input:​completion:​)
+### deletePackage(input:completion:)
 
 Deletes the package.
 
@@ -115,43 +96,39 @@ Deletes the package.
 func deletePackage(input: DeletePackageInput, completion: @escaping (ClientRuntime.SdkResult<DeletePackageOutputResponse, DeletePackageOutputError>) -> Void)
 ```
 
-### describeDomain(input:​completion:​)
+### describeDomain(input:completion:)
 
-Returns domain configuration information about the specified domain, including the domain ID,
-domain endpoint, and domain ARN.
+Returns domain configuration information about the specified domain, including the domain ID, domain endpoint, and domain ARN.
 
 ``` swift
 func describeDomain(input: DescribeDomainInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDomainOutputResponse, DescribeDomainOutputError>) -> Void)
 ```
 
-### describeDomainAutoTunes(input:​completion:​)
+### describeDomainAutoTunes(input:completion:)
 
-Provides scheduled Auto-Tune action details for the domain, such as Auto-Tune action type,
-description, severity, and scheduled date.
+Provides scheduled Auto-Tune action details for the domain, such as Auto-Tune action type, description, severity, and scheduled date.
 
 ``` swift
 func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDomainAutoTunesOutputResponse, DescribeDomainAutoTunesOutputError>) -> Void)
 ```
 
-### describeDomainConfig(input:​completion:​)
+### describeDomainConfig(input:completion:)
 
-Provides cluster configuration information about the specified domain, such as the state, creation
-date, update version, and update date for cluster options.
+Provides cluster configuration information about the specified domain, such as the state, creation date, update version, and update date for cluster options.
 
 ``` swift
 func describeDomainConfig(input: DescribeDomainConfigInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDomainConfigOutputResponse, DescribeDomainConfigOutputError>) -> Void)
 ```
 
-### describeDomains(input:​completion:​)
+### describeDomains(input:completion:)
 
-Returns domain configuration information about the specified domains, including the domain ID,
-domain endpoint, and domain ARN.
+Returns domain configuration information about the specified domains, including the domain ID, domain endpoint, and domain ARN.
 
 ``` swift
 func describeDomains(input: DescribeDomainsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDomainsOutputResponse, DescribeDomainsOutputError>) -> Void)
 ```
 
-### describeInboundConnections(input:​completion:​)
+### describeInboundConnections(input:completion:)
 
 Lists all the inbound cross-cluster connections for a remote domain.
 
@@ -159,20 +136,15 @@ Lists all the inbound cross-cluster connections for a remote domain.
 func describeInboundConnections(input: DescribeInboundConnectionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeInboundConnectionsOutputResponse, DescribeInboundConnectionsOutputError>) -> Void)
 ```
 
-### describeInstanceTypeLimits(input:​completion:​)
+### describeInstanceTypeLimits(input:completion:)
 
-Describe the limits for a given instance type and OpenSearch or Elasticsearch version.
-When modifying an existing domain, specify the
+Describe the limits for a given instance type and OpenSearch or Elasticsearch version. When modifying an existing domain, specify the \[DomainName\] to see which limits you can modify.
 
 ``` swift
 func describeInstanceTypeLimits(input: DescribeInstanceTypeLimitsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeInstanceTypeLimitsOutputResponse, DescribeInstanceTypeLimitsOutputError>) -> Void)
 ```
 
-DomainName
-
-to see which limits you can modify.
-
-### describeOutboundConnections(input:​completion:​)
+### describeOutboundConnections(input:completion:)
 
 Lists all the outbound cross-cluster connections for a local domain.
 
@@ -180,16 +152,15 @@ Lists all the outbound cross-cluster connections for a local domain.
 func describeOutboundConnections(input: DescribeOutboundConnectionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeOutboundConnectionsOutputResponse, DescribeOutboundConnectionsOutputError>) -> Void)
 ```
 
-### describePackages(input:​completion:​)
+### describePackages(input:completion:)
 
-Describes all packages available to Amazon OpenSearch Service domains. Includes options for filtering, limiting the number of results,
-and pagination.
+Describes all packages available to Amazon OpenSearch Service domains. Includes options for filtering, limiting the number of results, and pagination.
 
 ``` swift
 func describePackages(input: DescribePackagesInput, completion: @escaping (ClientRuntime.SdkResult<DescribePackagesOutputResponse, DescribePackagesOutputError>) -> Void)
 ```
 
-### describeReservedInstanceOfferings(input:​completion:​)
+### describeReservedInstanceOfferings(input:completion:)
 
 Lists available reserved OpenSearch instance offerings.
 
@@ -197,7 +168,7 @@ Lists available reserved OpenSearch instance offerings.
 func describeReservedInstanceOfferings(input: DescribeReservedInstanceOfferingsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeReservedInstanceOfferingsOutputResponse, DescribeReservedInstanceOfferingsOutputError>) -> Void)
 ```
 
-### describeReservedInstances(input:​completion:​)
+### describeReservedInstances(input:completion:)
 
 Returns information about reserved OpenSearch instances for this account.
 
@@ -205,7 +176,7 @@ Returns information about reserved OpenSearch instances for this account.
 func describeReservedInstances(input: DescribeReservedInstancesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeReservedInstancesOutputResponse, DescribeReservedInstancesOutputError>) -> Void)
 ```
 
-### dissociatePackage(input:​completion:​)
+### dissociatePackage(input:completion:)
 
 Dissociates a package from the Amazon OpenSearch Service domain.
 
@@ -213,20 +184,15 @@ Dissociates a package from the Amazon OpenSearch Service domain.
 func dissociatePackage(input: DissociatePackageInput, completion: @escaping (ClientRuntime.SdkResult<DissociatePackageOutputResponse, DissociatePackageOutputError>) -> Void)
 ```
 
-### getCompatibleVersions(input:​completion:​)
+### getCompatibleVersions(input:completion:)
 
-Returns a list of upgrade-compatible versions of OpenSearch/Elasticsearch.
-You can optionally pass a
+Returns a list of upgrade-compatible versions of OpenSearch/Elasticsearch. You can optionally pass a \[DomainName\] to get all upgrade-compatible versions of OpenSearch/Elasticsearch for that specific domain.
 
 ``` swift
 func getCompatibleVersions(input: GetCompatibleVersionsInput, completion: @escaping (ClientRuntime.SdkResult<GetCompatibleVersionsOutputResponse, GetCompatibleVersionsOutputError>) -> Void)
 ```
 
-DomainName
-
-to get all upgrade-compatible versions of OpenSearch/Elasticsearch for that specific domain.
-
-### getPackageVersionHistory(input:​completion:​)
+### getPackageVersionHistory(input:completion:)
 
 Returns a list of package versions, along with their creation time and commit message.
 
@@ -234,7 +200,7 @@ Returns a list of package versions, along with their creation time and commit me
 func getPackageVersionHistory(input: GetPackageVersionHistoryInput, completion: @escaping (ClientRuntime.SdkResult<GetPackageVersionHistoryOutputResponse, GetPackageVersionHistoryOutputError>) -> Void)
 ```
 
-### getUpgradeHistory(input:​completion:​)
+### getUpgradeHistory(input:completion:)
 
 Retrieves the complete history of the last 10 upgrades performed on the domain.
 
@@ -242,7 +208,7 @@ Retrieves the complete history of the last 10 upgrades performed on the domain.
 func getUpgradeHistory(input: GetUpgradeHistoryInput, completion: @escaping (ClientRuntime.SdkResult<GetUpgradeHistoryOutputResponse, GetUpgradeHistoryOutputError>) -> Void)
 ```
 
-### getUpgradeStatus(input:​completion:​)
+### getUpgradeStatus(input:completion:)
 
 Retrieves the latest status of the last upgrade or upgrade eligibility check performed on the domain.
 
@@ -250,7 +216,7 @@ Retrieves the latest status of the last upgrade or upgrade eligibility check per
 func getUpgradeStatus(input: GetUpgradeStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetUpgradeStatusOutputResponse, GetUpgradeStatusOutputError>) -> Void)
 ```
 
-### listDomainNames(input:​completion:​)
+### listDomainNames(input:completion:)
 
 Returns the names of all domains owned by the current user's account.
 
@@ -258,7 +224,7 @@ Returns the names of all domains owned by the current user's account.
 func listDomainNames(input: ListDomainNamesInput, completion: @escaping (ClientRuntime.SdkResult<ListDomainNamesOutputResponse, ListDomainNamesOutputError>) -> Void)
 ```
 
-### listDomainsForPackage(input:​completion:​)
+### listDomainsForPackage(input:completion:)
 
 Lists all Amazon OpenSearch Service domains associated with the package.
 
@@ -266,13 +232,13 @@ Lists all Amazon OpenSearch Service domains associated with the package.
 func listDomainsForPackage(input: ListDomainsForPackageInput, completion: @escaping (ClientRuntime.SdkResult<ListDomainsForPackageOutputResponse, ListDomainsForPackageOutputError>) -> Void)
 ```
 
-### listInstanceTypeDetails(input:​completion:​)
+### listInstanceTypeDetails(input:completion:)
 
 ``` swift
 func listInstanceTypeDetails(input: ListInstanceTypeDetailsInput, completion: @escaping (ClientRuntime.SdkResult<ListInstanceTypeDetailsOutputResponse, ListInstanceTypeDetailsOutputError>) -> Void)
 ```
 
-### listPackagesForDomain(input:​completion:​)
+### listPackagesForDomain(input:completion:)
 
 Lists all packages associated with the Amazon OpenSearch Service domain.
 
@@ -280,7 +246,7 @@ Lists all packages associated with the Amazon OpenSearch Service domain.
 func listPackagesForDomain(input: ListPackagesForDomainInput, completion: @escaping (ClientRuntime.SdkResult<ListPackagesForDomainOutputResponse, ListPackagesForDomainOutputError>) -> Void)
 ```
 
-### listTags(input:​completion:​)
+### listTags(input:completion:)
 
 Returns all tags for the given domain.
 
@@ -288,7 +254,7 @@ Returns all tags for the given domain.
 func listTags(input: ListTagsInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsOutputResponse, ListTagsOutputError>) -> Void)
 ```
 
-### listVersions(input:​completion:​)
+### listVersions(input:completion:)
 
 List all supported versions of OpenSearch and Elasticsearch.
 
@@ -296,7 +262,7 @@ List all supported versions of OpenSearch and Elasticsearch.
 func listVersions(input: ListVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListVersionsOutputResponse, ListVersionsOutputError>) -> Void)
 ```
 
-### purchaseReservedInstanceOffering(input:​completion:​)
+### purchaseReservedInstanceOffering(input:completion:)
 
 Allows you to purchase reserved OpenSearch instances.
 
@@ -304,7 +270,7 @@ Allows you to purchase reserved OpenSearch instances.
 func purchaseReservedInstanceOffering(input: PurchaseReservedInstanceOfferingInput, completion: @escaping (ClientRuntime.SdkResult<PurchaseReservedInstanceOfferingOutputResponse, PurchaseReservedInstanceOfferingOutputError>) -> Void)
 ```
 
-### rejectInboundConnection(input:​completion:​)
+### rejectInboundConnection(input:completion:)
 
 Allows the remote domain owner to reject an inbound cross-cluster connection request.
 
@@ -312,7 +278,7 @@ Allows the remote domain owner to reject an inbound cross-cluster connection req
 func rejectInboundConnection(input: RejectInboundConnectionInput, completion: @escaping (ClientRuntime.SdkResult<RejectInboundConnectionOutputResponse, RejectInboundConnectionOutputError>) -> Void)
 ```
 
-### removeTags(input:​completion:​)
+### removeTags(input:completion:)
 
 Removes the specified set of tags from the given domain.
 
@@ -320,7 +286,7 @@ Removes the specified set of tags from the given domain.
 func removeTags(input: RemoveTagsInput, completion: @escaping (ClientRuntime.SdkResult<RemoveTagsOutputResponse, RemoveTagsOutputError>) -> Void)
 ```
 
-### startServiceSoftwareUpdate(input:​completion:​)
+### startServiceSoftwareUpdate(input:completion:)
 
 Schedules a service software update for an Amazon OpenSearch Service domain.
 
@@ -328,16 +294,15 @@ Schedules a service software update for an Amazon OpenSearch Service domain.
 func startServiceSoftwareUpdate(input: StartServiceSoftwareUpdateInput, completion: @escaping (ClientRuntime.SdkResult<StartServiceSoftwareUpdateOutputResponse, StartServiceSoftwareUpdateOutputError>) -> Void)
 ```
 
-### updateDomainConfig(input:​completion:​)
+### updateDomainConfig(input:completion:)
 
-Modifies the cluster configuration of the specified domain, such as setting the instance type
-and the number of instances.
+Modifies the cluster configuration of the specified domain, such as setting the instance type and the number of instances.
 
 ``` swift
 func updateDomainConfig(input: UpdateDomainConfigInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainConfigOutputResponse, UpdateDomainConfigOutputError>) -> Void)
 ```
 
-### updatePackage(input:​completion:​)
+### updatePackage(input:completion:)
 
 Updates a package for use with Amazon OpenSearch Service domains.
 
@@ -345,7 +310,7 @@ Updates a package for use with Amazon OpenSearch Service domains.
 func updatePackage(input: UpdatePackageInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePackageOutputResponse, UpdatePackageOutputError>) -> Void)
 ```
 
-### upgradeDomain(input:​completion:​)
+### upgradeDomain(input:completion:)
 
 Allows you to either upgrade your domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
 

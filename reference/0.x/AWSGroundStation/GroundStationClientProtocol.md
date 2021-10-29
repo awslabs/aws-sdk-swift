@@ -1,9 +1,6 @@
 # GroundStationClientProtocol
 
-Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that
-enables you to control satellite communications, downlink and process satellite data, and
-scale your satellite operations efficiently and cost-effectively without having
-to build or manage your own ground station infrastructure.
+Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.
 
 ``` swift
 public protocol GroundStationClientProtocol 
@@ -11,7 +8,7 @@ public protocol GroundStationClientProtocol
 
 ## Requirements
 
-### cancelContact(input:​completion:​)
+### cancelContact(input:completion:)
 
 Cancels a contact with a specified contact ID.
 
@@ -19,41 +16,31 @@ Cancels a contact with a specified contact ID.
 func cancelContact(input: CancelContactInput, completion: @escaping (ClientRuntime.SdkResult<CancelContactOutputResponse, CancelContactOutputError>) -> Void)
 ```
 
-### createConfig(input:​completion:​)
+### createConfig(input:completion:)
 
-Creates a Config with the specified configData parameters.
-Only one type of configData can be specified.
+Creates a Config with the specified configData parameters. Only one type of configData can be specified.
 
 ``` swift
 func createConfig(input: CreateConfigInput, completion: @escaping (ClientRuntime.SdkResult<CreateConfigOutputResponse, CreateConfigOutputError>) -> Void)
 ```
 
-### createDataflowEndpointGroup(input:​completion:​)
+### createDataflowEndpointGroup(input:completion:)
 
-Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects.
-The name field in each endpoint is used in your mission profile DataflowEndpointConfig
-to specify which endpoints to use during a contact.
-When a contact uses multiple DataflowEndpointConfig objects, each Config
-must match a DataflowEndpoint in the same group.
+Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
 
 ``` swift
 func createDataflowEndpointGroup(input: CreateDataflowEndpointGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateDataflowEndpointGroupOutputResponse, CreateDataflowEndpointGroupOutputError>) -> Void)
 ```
 
-### createMissionProfile(input:​completion:​)
+### createMissionProfile(input:completion:)
 
-Creates a mission profile.
+Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
 
 ``` swift
 func createMissionProfile(input: CreateMissionProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateMissionProfileOutputResponse, CreateMissionProfileOutputError>) -> Void)
 ```
 
-``` 
-        dataflowEdges is a list of lists of strings. Each lower level list of strings
-     has two elements: a from ARN and a to ARN.
-```
-
-### deleteConfig(input:​completion:​)
+### deleteConfig(input:completion:)
 
 Deletes a Config.
 
@@ -61,7 +48,7 @@ Deletes a Config.
 func deleteConfig(input: DeleteConfigInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConfigOutputResponse, DeleteConfigOutputError>) -> Void)
 ```
 
-### deleteDataflowEndpointGroup(input:​completion:​)
+### deleteDataflowEndpointGroup(input:completion:)
 
 Deletes a dataflow endpoint group.
 
@@ -69,7 +56,7 @@ Deletes a dataflow endpoint group.
 func deleteDataflowEndpointGroup(input: DeleteDataflowEndpointGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDataflowEndpointGroupOutputResponse, DeleteDataflowEndpointGroupOutputError>) -> Void)
 ```
 
-### deleteMissionProfile(input:​completion:​)
+### deleteMissionProfile(input:completion:)
 
 Deletes a mission profile.
 
@@ -77,7 +64,7 @@ Deletes a mission profile.
 func deleteMissionProfile(input: DeleteMissionProfileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMissionProfileOutputResponse, DeleteMissionProfileOutputError>) -> Void)
 ```
 
-### describeContact(input:​completion:​)
+### describeContact(input:completion:)
 
 Describes an existing contact.
 
@@ -85,16 +72,15 @@ Describes an existing contact.
 func describeContact(input: DescribeContactInput, completion: @escaping (ClientRuntime.SdkResult<DescribeContactOutputResponse, DescribeContactOutputError>) -> Void)
 ```
 
-### getConfig(input:​completion:​)
+### getConfig(input:completion:)
 
-Returns Config information.
-Only one Config response can be returned.
+Returns Config information. Only one Config response can be returned.
 
 ``` swift
 func getConfig(input: GetConfigInput, completion: @escaping (ClientRuntime.SdkResult<GetConfigOutputResponse, GetConfigOutputError>) -> Void)
 ```
 
-### getDataflowEndpointGroup(input:​completion:​)
+### getDataflowEndpointGroup(input:completion:)
 
 Returns the dataflow endpoint group.
 
@@ -102,7 +88,7 @@ Returns the dataflow endpoint group.
 func getDataflowEndpointGroup(input: GetDataflowEndpointGroupInput, completion: @escaping (ClientRuntime.SdkResult<GetDataflowEndpointGroupOutputResponse, GetDataflowEndpointGroupOutputError>) -> Void)
 ```
 
-### getMinuteUsage(input:​completion:​)
+### getMinuteUsage(input:completion:)
 
 Returns the number of minutes used by account.
 
@@ -110,7 +96,7 @@ Returns the number of minutes used by account.
 func getMinuteUsage(input: GetMinuteUsageInput, completion: @escaping (ClientRuntime.SdkResult<GetMinuteUsageOutputResponse, GetMinuteUsageOutputError>) -> Void)
 ```
 
-### getMissionProfile(input:​completion:​)
+### getMissionProfile(input:completion:)
 
 Returns a mission profile.
 
@@ -118,7 +104,7 @@ Returns a mission profile.
 func getMissionProfile(input: GetMissionProfileInput, completion: @escaping (ClientRuntime.SdkResult<GetMissionProfileOutputResponse, GetMissionProfileOutputError>) -> Void)
 ```
 
-### getSatellite(input:​completion:​)
+### getSatellite(input:completion:)
 
 Returns a satellite.
 
@@ -126,7 +112,7 @@ Returns a satellite.
 func getSatellite(input: GetSatelliteInput, completion: @escaping (ClientRuntime.SdkResult<GetSatelliteOutputResponse, GetSatelliteOutputError>) -> Void)
 ```
 
-### listConfigs(input:​completion:​)
+### listConfigs(input:completion:)
 
 Returns a list of Config objects.
 
@@ -134,17 +120,15 @@ Returns a list of Config objects.
 func listConfigs(input: ListConfigsInput, completion: @escaping (ClientRuntime.SdkResult<ListConfigsOutputResponse, ListConfigsOutputError>) -> Void)
 ```
 
-### listContacts(input:​completion:​)
+### listContacts(input:completion:)
 
-Returns a list of contacts.
-If statusList contains AVAILABLE, the request must include
-groundStation, missionprofileArn, and satelliteArn.
+Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
 
 ``` swift
 func listContacts(input: ListContactsInput, completion: @escaping (ClientRuntime.SdkResult<ListContactsOutputResponse, ListContactsOutputError>) -> Void)
 ```
 
-### listDataflowEndpointGroups(input:​completion:​)
+### listDataflowEndpointGroups(input:completion:)
 
 Returns a list of DataflowEndpoint groups.
 
@@ -152,7 +136,7 @@ Returns a list of DataflowEndpoint groups.
 func listDataflowEndpointGroups(input: ListDataflowEndpointGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListDataflowEndpointGroupsOutputResponse, ListDataflowEndpointGroupsOutputError>) -> Void)
 ```
 
-### listGroundStations(input:​completion:​)
+### listGroundStations(input:completion:)
 
 Returns a list of ground stations.
 
@@ -160,7 +144,7 @@ Returns a list of ground stations.
 func listGroundStations(input: ListGroundStationsInput, completion: @escaping (ClientRuntime.SdkResult<ListGroundStationsOutputResponse, ListGroundStationsOutputError>) -> Void)
 ```
 
-### listMissionProfiles(input:​completion:​)
+### listMissionProfiles(input:completion:)
 
 Returns a list of mission profiles.
 
@@ -168,7 +152,7 @@ Returns a list of mission profiles.
 func listMissionProfiles(input: ListMissionProfilesInput, completion: @escaping (ClientRuntime.SdkResult<ListMissionProfilesOutputResponse, ListMissionProfilesOutputError>) -> Void)
 ```
 
-### listSatellites(input:​completion:​)
+### listSatellites(input:completion:)
 
 Returns a list of satellites.
 
@@ -176,7 +160,7 @@ Returns a list of satellites.
 func listSatellites(input: ListSatellitesInput, completion: @escaping (ClientRuntime.SdkResult<ListSatellitesOutputResponse, ListSatellitesOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Returns a list of tags for a specified resource.
 
@@ -184,7 +168,7 @@ Returns a list of tags for a specified resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### reserveContact(input:​completion:​)
+### reserveContact(input:completion:)
 
 Reserves a contact using specified parameters.
 
@@ -192,7 +176,7 @@ Reserves a contact using specified parameters.
 func reserveContact(input: ReserveContactInput, completion: @escaping (ClientRuntime.SdkResult<ReserveContactOutputResponse, ReserveContactOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Assigns a tag to a resource.
 
@@ -200,7 +184,7 @@ Assigns a tag to a resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Deassigns a resource tag.
 
@@ -208,21 +192,17 @@ Deassigns a resource tag.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateConfig(input:​completion:​)
+### updateConfig(input:completion:)
 
-Updates the Config used when scheduling contacts.
-Updating a Config will not update the execution parameters
-for existing future contacts scheduled with this Config.
+Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
 
 ``` swift
 func updateConfig(input: UpdateConfigInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConfigOutputResponse, UpdateConfigOutputError>) -> Void)
 ```
 
-### updateMissionProfile(input:​completion:​)
+### updateMissionProfile(input:completion:)
 
-Updates a mission profile.
-Updating a mission profile will not update the execution parameters
-for existing future contacts.
+Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
 
 ``` swift
 func updateMissionProfile(input: UpdateMissionProfileInput, completion: @escaping (ClientRuntime.SdkResult<UpdateMissionProfileOutputResponse, UpdateMissionProfileOutputError>) -> Void)

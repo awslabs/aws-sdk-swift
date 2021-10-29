@@ -1,11 +1,6 @@
 # DaxClientProtocol
 
-DAX is a managed caching service engineered for Amazon DynamoDB. DAX
-dramatically speeds up database reads by caching frequently-accessed data from DynamoDB, so
-applications can access that data with sub-millisecond latency. You can create a DAX
-cluster easily, using the AWS Management Console. With a few simple modifications to
-your code, your application can begin taking advantage of the DAX cluster and realize
-significant improvements in read performance.
+DAX is a managed caching service engineered for Amazon DynamoDB. DAX dramatically speeds up database reads by caching frequently-accessed data from DynamoDB, so applications can access that data with sub-millisecond latency. You can create a DAX cluster easily, using the AWS Management Console. With a few simple modifications to your code, your application can begin taking advantage of the DAX cluster and realize significant improvements in read performance.
 
 ``` swift
 public protocol DaxClientProtocol 
@@ -13,7 +8,7 @@ public protocol DaxClientProtocol
 
 ## Requirements
 
-### createCluster(input:​completion:​)
+### createCluster(input:completion:)
 
 Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
 
@@ -21,16 +16,15 @@ Creates a DAX cluster. All nodes in the cluster run the same DAX caching softwar
 func createCluster(input: CreateClusterInput, completion: @escaping (ClientRuntime.SdkResult<CreateClusterOutputResponse, CreateClusterOutputError>) -> Void)
 ```
 
-### createParameterGroup(input:​completion:​)
+### createParameterGroup(input:completion:)
 
-Creates a new parameter group. A parameter group is a collection of parameters that
-you apply to all of the nodes in a DAX cluster.
+Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster.
 
 ``` swift
 func createParameterGroup(input: CreateParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>) -> Void)
 ```
 
-### createSubnetGroup(input:​completion:​)
+### createSubnetGroup(input:completion:)
 
 Creates a new subnet group.
 
@@ -38,103 +32,71 @@ Creates a new subnet group.
 func createSubnetGroup(input: CreateSubnetGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>) -> Void)
 ```
 
-### decreaseReplicationFactor(input:​completion:​)
+### decreaseReplicationFactor(input:completion:)
 
-Removes one or more nodes from a DAX cluster.
+Removes one or more nodes from a DAX cluster. You cannot use DecreaseReplicationFactor to remove the last node in a DAX cluster. If you need to do this, use DeleteCluster instead.
 
 ``` swift
 func decreaseReplicationFactor(input: DecreaseReplicationFactorInput, completion: @escaping (ClientRuntime.SdkResult<DecreaseReplicationFactorOutputResponse, DecreaseReplicationFactorOutputError>) -> Void)
 ```
 
-``` 
-        You cannot use DecreaseReplicationFactor to remove the last node in a DAX cluster. If you need to do this, use DeleteCluster instead.
-```
+### deleteCluster(input:completion:)
 
-### deleteCluster(input:​completion:​)
-
-Deletes a previously provisioned DAX cluster.
-DeleteCluster deletes all associated nodes, node endpoints
-and the DAX cluster itself. When you receive a successful response from this action,
-DAX immediately begins deleting the cluster; you cannot cancel or revert this
-action.
+Deletes a previously provisioned DAX cluster. DeleteCluster deletes all associated nodes, node endpoints and the DAX cluster itself. When you receive a successful response from this action, DAX immediately begins deleting the cluster; you cannot cancel or revert this action.
 
 ``` swift
 func deleteCluster(input: DeleteClusterInput, completion: @escaping (ClientRuntime.SdkResult<DeleteClusterOutputResponse, DeleteClusterOutputError>) -> Void)
 ```
 
-### deleteParameterGroup(input:​completion:​)
+### deleteParameterGroup(input:completion:)
 
-Deletes the specified parameter group. You cannot delete a parameter group if it is
-associated with any DAX clusters.
+Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any DAX clusters.
 
 ``` swift
 func deleteParameterGroup(input: DeleteParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>) -> Void)
 ```
 
-### deleteSubnetGroup(input:​completion:​)
+### deleteSubnetGroup(input:completion:)
 
-Deletes a subnet group.
+Deletes a subnet group. You cannot delete a subnet group if it is associated with any DAX clusters.
 
 ``` swift
 func deleteSubnetGroup(input: DeleteSubnetGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>) -> Void)
 ```
 
-``` 
-        You cannot delete a subnet group if it is associated with any DAX
-            clusters.
-```
+### describeClusters(input:completion:)
 
-### describeClusters(input:​completion:​)
-
-Returns information about all provisioned DAX clusters if no cluster identifier
-is specified, or about a specific DAX cluster if a cluster identifier is
-supplied.
-If the cluster is in the CREATING state, only cluster level information will be
-displayed until all of the nodes are successfully provisioned.
-If the cluster is in the DELETING state, only cluster level information will be
-displayed.
-If nodes are currently being added to the DAX cluster, node endpoint information
-and creation time for the additional nodes will not be displayed until they are
-completely provisioned. When the DAX cluster state is available,
-the cluster is ready for use.
-If nodes are currently being removed from the DAX cluster, no endpoint
-information for the removed nodes is displayed.
+Returns information about all provisioned DAX clusters if no cluster identifier is specified, or about a specific DAX cluster if a cluster identifier is supplied. If the cluster is in the CREATING state, only cluster level information will be displayed until all of the nodes are successfully provisioned. If the cluster is in the DELETING state, only cluster level information will be displayed. If nodes are currently being added to the DAX cluster, node endpoint information and creation time for the additional nodes will not be displayed until they are completely provisioned. When the DAX cluster state is available, the cluster is ready for use. If nodes are currently being removed from the DAX cluster, no endpoint information for the removed nodes is displayed.
 
 ``` swift
 func describeClusters(input: DescribeClustersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeClustersOutputResponse, DescribeClustersOutputError>) -> Void)
 ```
 
-### describeDefaultParameters(input:​completion:​)
+### describeDefaultParameters(input:completion:)
 
-Returns the default system parameter information for the DAX caching
-software.
+Returns the default system parameter information for the DAX caching software.
 
 ``` swift
 func describeDefaultParameters(input: DescribeDefaultParametersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDefaultParametersOutputResponse, DescribeDefaultParametersOutputError>) -> Void)
 ```
 
-### describeEvents(input:​completion:​)
+### describeEvents(input:completion:)
 
-Returns events related to DAX clusters and parameter groups. You can obtain
-events specific to a particular DAX cluster or parameter group by providing the name
-as a parameter.
-By default, only the events occurring within the last 24 hours are returned; however,
-you can retrieve up to 14 days' worth of events if necessary.
+Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last 24 hours are returned; however, you can retrieve up to 14 days' worth of events if necessary.
 
 ``` swift
 func describeEvents(input: DescribeEventsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEventsOutputResponse, DescribeEventsOutputError>) -> Void)
 ```
 
-### describeParameterGroups(input:​completion:​)
+### describeParameterGroups(input:completion:)
 
-Returns a list of parameter group descriptions. If a parameter group name is
-specified, the list will contain only the descriptions for that group.
+Returns a list of parameter group descriptions. If a parameter group name is specified, the list will contain only the descriptions for that group.
 
 ``` swift
 func describeParameterGroups(input: DescribeParameterGroupsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>) -> Void)
 ```
 
-### describeParameters(input:​completion:​)
+### describeParameters(input:completion:)
 
 Returns the detailed parameter list for a particular parameter group.
 
@@ -142,16 +104,15 @@ Returns the detailed parameter list for a particular parameter group.
 func describeParameters(input: DescribeParametersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeParametersOutputResponse, DescribeParametersOutputError>) -> Void)
 ```
 
-### describeSubnetGroups(input:​completion:​)
+### describeSubnetGroups(input:completion:)
 
-Returns a list of subnet group descriptions. If a subnet group name is specified,
-the list will contain only the description of that group.
+Returns a list of subnet group descriptions. If a subnet group name is specified, the list will contain only the description of that group.
 
 ``` swift
 func describeSubnetGroups(input: DescribeSubnetGroupsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>) -> Void)
 ```
 
-### increaseReplicationFactor(input:​completion:​)
+### increaseReplicationFactor(input:completion:)
 
 Adds one or more nodes to a DAX cluster.
 
@@ -159,68 +120,55 @@ Adds one or more nodes to a DAX cluster.
 func increaseReplicationFactor(input: IncreaseReplicationFactorInput, completion: @escaping (ClientRuntime.SdkResult<IncreaseReplicationFactorOutputResponse, IncreaseReplicationFactorOutputError>) -> Void)
 ```
 
-### listTags(input:​completion:​)
+### listTags(input:completion:)
 
-List all of the tags for a DAX cluster. You can call ListTags up to
-10 times per second, per account.
+List all of the tags for a DAX cluster. You can call ListTags up to 10 times per second, per account.
 
 ``` swift
 func listTags(input: ListTagsInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsOutputResponse, ListTagsOutputError>) -> Void)
 ```
 
-### rebootNode(input:​completion:​)
+### rebootNode(input:completion:)
 
-Reboots a single node of a DAX cluster. The reboot action takes place
-as soon as possible. During the
-reboot, the node status is set to REBOOTING.
+Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING. RebootNode restarts the DAX engine process and does not remove the contents of the cache.
 
 ``` swift
 func rebootNode(input: RebootNodeInput, completion: @escaping (ClientRuntime.SdkResult<RebootNodeOutputResponse, RebootNodeOutputError>) -> Void)
 ```
 
-``` 
-           RebootNode restarts the DAX engine process and does not remove the contents of the cache.
-```
+### tagResource(input:completion:)
 
-### tagResource(input:​completion:​)
-
-Associates a set of tags with a DAX resource.  You can call TagResource up to 5 times per second, per
-account.
+Associates a set of tags with a DAX resource. You can call TagResource up to 5 times per second, per account.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
-Removes the association of tags from a DAX resource. You can call
-UntagResource up to 5 times per second, per account.
+Removes the association of tags from a DAX resource. You can call UntagResource up to 5 times per second, per account.
 
 ``` swift
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateCluster(input:​completion:​)
+### updateCluster(input:completion:)
 
-Modifies the settings for a DAX cluster. You can use this action to change one or
-more cluster configuration parameters by specifying the parameters and the new
-values.
+Modifies the settings for a DAX cluster. You can use this action to change one or more cluster configuration parameters by specifying the parameters and the new values.
 
 ``` swift
 func updateCluster(input: UpdateClusterInput, completion: @escaping (ClientRuntime.SdkResult<UpdateClusterOutputResponse, UpdateClusterOutputError>) -> Void)
 ```
 
-### updateParameterGroup(input:​completion:​)
+### updateParameterGroup(input:completion:)
 
-Modifies the parameters of a parameter group. You can modify up to 20
-parameters in a single request by submitting a list parameter name and value
-pairs.
+Modifies the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
 
 ``` swift
 func updateParameterGroup(input: UpdateParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>) -> Void)
 ```
 
-### updateSubnetGroup(input:​completion:​)
+### updateSubnetGroup(input:completion:)
 
 Modifies an existing subnet group.
 

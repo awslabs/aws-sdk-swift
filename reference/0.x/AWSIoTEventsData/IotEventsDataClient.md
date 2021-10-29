@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "IotEventsDataClient"
+```
+
 ## Methods
 
 ### `batchAcknowledgeAlarm(input:completion:)`
 
-Acknowledges one or more alarms. The alarms change to the ACKNOWLEDGED state
-after you acknowledge them.
+Acknowledges one or more alarms. The alarms change to the ACKNOWLEDGED state after you acknowledge them.
 
 ``` swift
 public func batchAcknowledgeAlarm(input: BatchAcknowledgeAlarmInput, completion: @escaping (ClientRuntime.SdkResult<BatchAcknowledgeAlarmOutputResponse, BatchAcknowledgeAlarmOutputError>) -> Void)
@@ -35,8 +42,7 @@ public func batchAcknowledgeAlarm(input: BatchAcknowledgeAlarmInput, completion:
 
 ### `batchDisableAlarm(input:completion:)`
 
-Disables one or more alarms. The alarms change to the DISABLED state after
-you disable them.
+Disables one or more alarms. The alarms change to the DISABLED state after you disable them.
 
 ``` swift
 public func batchDisableAlarm(input: BatchDisableAlarmInput, completion: @escaping (ClientRuntime.SdkResult<BatchDisableAlarmOutputResponse, BatchDisableAlarmOutputError>) -> Void)
@@ -44,8 +50,7 @@ public func batchDisableAlarm(input: BatchDisableAlarmInput, completion: @escapi
 
 ### `batchEnableAlarm(input:completion:)`
 
-Enables one or more alarms. The alarms change to the NORMAL state after you
-enable them.
+Enables one or more alarms. The alarms change to the NORMAL state after you enable them.
 
 ``` swift
 public func batchEnableAlarm(input: BatchEnableAlarmInput, completion: @escaping (ClientRuntime.SdkResult<BatchEnableAlarmOutputResponse, BatchEnableAlarmOutputError>) -> Void)
@@ -53,11 +58,7 @@ public func batchEnableAlarm(input: BatchEnableAlarmInput, completion: @escaping
 
 ### `batchPutMessage(input:completion:)`
 
-Sends a set of messages to the AWS IoT Events system. Each message payload is transformed into
-the input you specify ("inputName") and ingested into any detectors that monitor
-that input. If multiple messages are sent, the order in which the messages are processed isn't
-guaranteed. To guarantee ordering, you must send messages one at a time and wait for a
-successful response.
+Sends a set of messages to the AWS IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
 
 ``` swift
 public func batchPutMessage(input: BatchPutMessageInput, completion: @escaping (ClientRuntime.SdkResult<BatchPutMessageOutputResponse, BatchPutMessageOutputError>) -> Void)
@@ -65,8 +66,7 @@ public func batchPutMessage(input: BatchPutMessageInput, completion: @escaping (
 
 ### `batchResetAlarm(input:completion:)`
 
-Resets one or more alarms. The alarms return to the NORMAL state after you
-reset them.
+Resets one or more alarms. The alarms return to the NORMAL state after you reset them.
 
 ``` swift
 public func batchResetAlarm(input: BatchResetAlarmInput, completion: @escaping (ClientRuntime.SdkResult<BatchResetAlarmOutputResponse, BatchResetAlarmOutputError>) -> Void)
@@ -74,8 +74,7 @@ public func batchResetAlarm(input: BatchResetAlarmInput, completion: @escaping (
 
 ### `batchSnoozeAlarm(input:completion:)`
 
-Changes one or more alarms to the snooze mode. The alarms change to the
-SNOOZE\_DISABLED state after you set them to the snooze mode.
+Changes one or more alarms to the snooze mode. The alarms change to the SNOOZE\_DISABLED state after you set them to the snooze mode.
 
 ``` swift
 public func batchSnoozeAlarm(input: BatchSnoozeAlarmInput, completion: @escaping (ClientRuntime.SdkResult<BatchSnoozeAlarmOutputResponse, BatchSnoozeAlarmOutputError>) -> Void)
@@ -83,8 +82,7 @@ public func batchSnoozeAlarm(input: BatchSnoozeAlarmInput, completion: @escaping
 
 ### `batchUpdateDetector(input:completion:)`
 
-Updates the state, variable values, and timer settings of one or more detectors
-(instances) of a specified detector model.
+Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
 
 ``` swift
 public func batchUpdateDetector(input: BatchUpdateDetectorInput, completion: @escaping (ClientRuntime.SdkResult<BatchUpdateDetectorOutputResponse, BatchUpdateDetectorOutputError>) -> Void)
@@ -108,8 +106,7 @@ public func describeDetector(input: DescribeDetectorInput, completion: @escaping
 
 ### `listAlarms(input:completion:)`
 
-Lists one or more alarms. The operation returns only the metadata associated with each
-alarm.
+Lists one or more alarms. The operation returns only the metadata associated with each alarm.
 
 ``` swift
 public func listAlarms(input: ListAlarmsInput, completion: @escaping (ClientRuntime.SdkResult<ListAlarmsOutputResponse, ListAlarmsOutputError>) -> Void)

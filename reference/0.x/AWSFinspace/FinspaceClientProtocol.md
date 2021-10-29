@@ -1,7 +1,6 @@
 # FinspaceClientProtocol
 
-The FinSpace management service provides the APIs for managing the FinSpace
-environments.
+The FinSpace management service provides the APIs for managing the FinSpace environments.
 
 ``` swift
 public protocol FinspaceClientProtocol 
@@ -9,7 +8,7 @@ public protocol FinspaceClientProtocol
 
 ## Requirements
 
-### createEnvironment(input:​completion:​)
+### createEnvironment(input:completion:)
 
 Create a new FinSpace environment.
 
@@ -17,7 +16,7 @@ Create a new FinSpace environment.
 func createEnvironment(input: CreateEnvironmentInput, completion: @escaping (ClientRuntime.SdkResult<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>) -> Void)
 ```
 
-### deleteEnvironment(input:​completion:​)
+### deleteEnvironment(input:completion:)
 
 Delete an FinSpace environment.
 
@@ -25,7 +24,7 @@ Delete an FinSpace environment.
 func deleteEnvironment(input: DeleteEnvironmentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>) -> Void)
 ```
 
-### getEnvironment(input:​completion:​)
+### getEnvironment(input:completion:)
 
 Returns the FinSpace environment object.
 
@@ -33,7 +32,7 @@ Returns the FinSpace environment object.
 func getEnvironment(input: GetEnvironmentInput, completion: @escaping (ClientRuntime.SdkResult<GetEnvironmentOutputResponse, GetEnvironmentOutputError>) -> Void)
 ```
 
-### listEnvironments(input:​completion:​)
+### listEnvironments(input:completion:)
 
 A list of all of your FinSpace environments.
 
@@ -41,7 +40,7 @@ A list of all of your FinSpace environments.
 func listEnvironments(input: ListEnvironmentsInput, completion: @escaping (ClientRuntime.SdkResult<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 A list of all tags for a resource.
 
@@ -49,7 +48,7 @@ A list of all tags for a resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds metadata tags to a FinSpace resource.
 
@@ -57,7 +56,7 @@ Adds metadata tags to a FinSpace resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes metadata tags from a FinSpace resource.
 
@@ -65,7 +64,7 @@ Removes metadata tags from a FinSpace resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateEnvironment(input:​completion:​)
+### updateEnvironment(input:completion:)
 
 Update your FinSpace environment.
 

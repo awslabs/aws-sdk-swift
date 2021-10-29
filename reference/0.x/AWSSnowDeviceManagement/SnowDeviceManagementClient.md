@@ -22,20 +22,22 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SnowDeviceManagementClient"
+```
+
 ## Methods
 
 ### `cancelTask(input:completion:)`
 
-Sends a cancel request for a specified task. You can cancel a task only if it's still in a
-QUEUED state. Tasks that are already running can't be cancelled.
+Sends a cancel request for a specified task. You can cancel a task only if it's still in a QUEUED state. Tasks that are already running can't be cancelled. A task might still run if it's processed from the queue before the CancelTask operation changes the task's state.
 
 ``` swift
 public func cancelTask(input: CancelTaskInput, completion: @escaping (ClientRuntime.SdkResult<CancelTaskOutputResponse, CancelTaskOutputError>) -> Void)
-```
-
-``` 
-        A task might still run if it's processed from the queue before the
-      CancelTask operation changes the task's state.
 ```
 
 ### `createTask(input:completion:)`
@@ -48,8 +50,7 @@ public func createTask(input: CreateTaskInput, completion: @escaping (ClientRunt
 
 ### `describeDevice(input:completion:)`
 
-Checks device-specific information, such as the device type, software version, IP
-addresses, and lock status.
+Checks device-specific information, such as the device type, software version, IP addresses, and lock status.
 
 ``` swift
 public func describeDevice(input: DescribeDeviceInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDeviceOutputResponse, DescribeDeviceOutputError>) -> Void)
@@ -57,9 +58,7 @@ public func describeDevice(input: DescribeDeviceInput, completion: @escaping (Cl
 
 ### `describeDeviceEc2Instances(input:completion:)`
 
-Checks the current state of the Amazon EC2 instances. The output is similar to
-describeDevice, but the results are sourced from the device cache in the
-Amazon Web Services Cloud and include a subset of the available fields.
+Checks the current state of the Amazon EC2 instances. The output is similar to describeDevice, but the results are sourced from the device cache in the Amazon Web Services Cloud and include a subset of the available fields.
 
 ``` swift
 public func describeDeviceEc2Instances(input: DescribeDeviceEc2InstancesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDeviceEc2InstancesOutputResponse, DescribeDeviceEc2InstancesOutputError>) -> Void)
@@ -91,8 +90,7 @@ public func listDeviceResources(input: ListDeviceResourcesInput, completion: @es
 
 ### `listDevices(input:completion:)`
 
-Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management
-enabled in the Amazon Web Services Region where the command is run.
+Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management enabled in the Amazon Web Services Region where the command is run.
 
 ``` swift
 public func listDevices(input: ListDevicesInput, completion: @escaping (ClientRuntime.SdkResult<ListDevicesOutputResponse, ListDevicesOutputError>) -> Void)

@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AuditManagerClient"
+```
+
 ## Methods
 
 ### `associateAssessmentReportEvidenceFolder(input:completion:)`
@@ -146,18 +154,10 @@ public func deregisterAccount(input: DeregisterAccountInput, completion: @escapi
 
 ### `deregisterOrganizationAdminAccount(input:completion:)`
 
-Removes the specified member account as a delegated administrator for Audit Manager.
+Removes the specified member account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, or when you deregister a delegated administrator from Organizations, you continue to have access to the evidence that you previously collected under that account. However, Audit Manager will stop collecting and attaching evidence to that delegated administrator account moving forward.
 
 ``` swift
 public func deregisterOrganizationAdminAccount(input: DeregisterOrganizationAdminAccountInput, completion: @escaping (ClientRuntime.SdkResult<DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>) -> Void)
-```
-
-``` 
-        When you remove a delegated administrator from your Audit Manager settings, or when you
-    deregister a delegated administrator from Organizations, you continue to have access
-  to the evidence that you previously collected under that account. However, Audit Manager
-        will stop collecting and attaching evidence to that delegated administrator account
-        moving forward.
 ```
 
 ### `disassociateAssessmentReportEvidenceFolder(input:completion:)`

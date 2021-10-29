@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "MigrationHubConfigClient"
+```
+
 ## Methods
 
 ### `createHomeRegionControl(input:completion:)`
@@ -34,8 +42,7 @@ public func createHomeRegionControl(input: CreateHomeRegionControlInput, complet
 
 ### `describeHomeRegionControls(input:completion:)`
 
-This API permits filtering on the ControlId and HomeRegion
-fields.
+This API permits filtering on the ControlId and HomeRegion fields.
 
 ``` swift
 public func describeHomeRegionControls(input: DescribeHomeRegionControlsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeHomeRegionControlsOutputResponse, DescribeHomeRegionControlsOutputError>) -> Void)
@@ -43,11 +50,7 @@ public func describeHomeRegionControls(input: DescribeHomeRegionControlsInput, c
 
 ### `getHomeRegion(input:completion:)`
 
-Returns the calling account’s home region, if configured. This API is used by other AWS
-services to determine the regional endpoint for calling AWS Application Discovery Service and
-Migration Hub. You must call GetHomeRegion at least once before you call any
-other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's
-Migration Hub home region.
+Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
 
 ``` swift
 public func getHomeRegion(input: GetHomeRegionInput, completion: @escaping (ClientRuntime.SdkResult<GetHomeRegionOutputResponse, GetHomeRegionOutputError>) -> Void)

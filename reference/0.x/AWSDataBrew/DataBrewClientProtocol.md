@@ -1,9 +1,6 @@
 # DataBrewClientProtocol
 
-Glue DataBrew is a visual, cloud-scale data-preparation service. DataBrew
-simplifies data preparation tasks, targeting data issues that are hard to spot and
-time-consuming to fix. DataBrew empowers users of all technical levels to visualize the
-data and perform one-click data transformations, with no coding required.
+Glue DataBrew is a visual, cloud-scale data-preparation service. DataBrew simplifies data preparation tasks, targeting data issues that are hard to spot and time-consuming to fix. DataBrew empowers users of all technical levels to visualize the data and perform one-click data transformations, with no coding required.
 
 ``` swift
 public protocol DataBrewClientProtocol 
@@ -11,57 +8,37 @@ public protocol DataBrewClientProtocol
 
 ## Requirements
 
-### batchDeleteRecipeVersion(input:​completion:​)
+### batchDeleteRecipeVersion(input:completion:)
 
-Deletes one or more versions of a recipe at a time.
+Deletes one or more versions of a recipe at a time. The entire request will be rejected if:
 
 ``` swift
 func batchDeleteRecipeVersion(input: BatchDeleteRecipeVersionInput, completion: @escaping (ClientRuntime.SdkResult<BatchDeleteRecipeVersionOutputResponse, BatchDeleteRecipeVersionOutputError>) -> Void)
 ```
 
-``` 
-    The entire request will be rejected if:
+  - The recipe does not exist.
 
+  - There is an invalid version identifier in the list of versions.
 
-            The recipe does not exist.
+  - The version list is empty.
 
+  - The version list size exceeds 50.
 
-            There is an invalid version identifier in the list of versions.
+  - The version list contains duplicate entries.
 
+The request will complete successfully, but with partial failures, if:
 
-            The version list is empty.
+  - A version does not exist.
 
+  - A version is being used by a job.
 
-            The version list size exceeds 50.
+  - You specify LATEST\_WORKING, but it's being used by a project.
 
+  - The version fails to be deleted.
 
-            The version list contains duplicate entries.
+The LATEST\_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST\_WORKING while other versions exist (or if they can't be deleted), then LATEST\_WORKING will be listed as partial failure in the response.
 
-
-
-    The request will complete successfully, but with partial failures, if:
-
-
-            A version does not exist.
-
-
-            A version is being used by a job.
-
-
-            You specify LATEST_WORKING, but it's being used by a
-                project.
-
-
-            The version fails to be deleted.
-
-
-    The LATEST_WORKING version will only be deleted if the recipe has no
-        other versions. If you try to delete LATEST_WORKING while other versions
-        exist (or if they can't be deleted), then LATEST_WORKING will be listed as
-        partial failure in the response.
-```
-
-### createDataset(input:​completion:​)
+### createDataset(input:completion:)
 
 Creates a new DataBrew dataset.
 
@@ -69,7 +46,7 @@ Creates a new DataBrew dataset.
 func createDataset(input: CreateDatasetInput, completion: @escaping (ClientRuntime.SdkResult<CreateDatasetOutputResponse, CreateDatasetOutputError>) -> Void)
 ```
 
-### createProfileJob(input:​completion:​)
+### createProfileJob(input:completion:)
 
 Creates a new job to analyze a dataset and create its data profile.
 
@@ -77,7 +54,7 @@ Creates a new job to analyze a dataset and create its data profile.
 func createProfileJob(input: CreateProfileJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateProfileJobOutputResponse, CreateProfileJobOutputError>) -> Void)
 ```
 
-### createProject(input:​completion:​)
+### createProject(input:completion:)
 
 Creates a new DataBrew project.
 
@@ -85,7 +62,7 @@ Creates a new DataBrew project.
 func createProject(input: CreateProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateProjectOutputResponse, CreateProjectOutputError>) -> Void)
 ```
 
-### createRecipe(input:​completion:​)
+### createRecipe(input:completion:)
 
 Creates a new DataBrew recipe.
 
@@ -93,7 +70,7 @@ Creates a new DataBrew recipe.
 func createRecipe(input: CreateRecipeInput, completion: @escaping (ClientRuntime.SdkResult<CreateRecipeOutputResponse, CreateRecipeOutputError>) -> Void)
 ```
 
-### createRecipeJob(input:​completion:​)
+### createRecipeJob(input:completion:)
 
 Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
 
@@ -101,16 +78,15 @@ Creates a new job to transform input data, using steps defined in an existing Gl
 func createRecipeJob(input: CreateRecipeJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateRecipeJobOutputResponse, CreateRecipeJobOutputError>) -> Void)
 ```
 
-### createSchedule(input:​completion:​)
+### createSchedule(input:completion:)
 
-Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific
-date and time, or at regular intervals.
+Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
 
 ``` swift
 func createSchedule(input: CreateScheduleInput, completion: @escaping (ClientRuntime.SdkResult<CreateScheduleOutputResponse, CreateScheduleOutputError>) -> Void)
 ```
 
-### deleteDataset(input:​completion:​)
+### deleteDataset(input:completion:)
 
 Deletes a dataset from DataBrew.
 
@@ -118,7 +94,7 @@ Deletes a dataset from DataBrew.
 func deleteDataset(input: DeleteDatasetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDatasetOutputResponse, DeleteDatasetOutputError>) -> Void)
 ```
 
-### deleteJob(input:​completion:​)
+### deleteJob(input:completion:)
 
 Deletes the specified DataBrew job.
 
@@ -126,7 +102,7 @@ Deletes the specified DataBrew job.
 func deleteJob(input: DeleteJobInput, completion: @escaping (ClientRuntime.SdkResult<DeleteJobOutputResponse, DeleteJobOutputError>) -> Void)
 ```
 
-### deleteProject(input:​completion:​)
+### deleteProject(input:completion:)
 
 Deletes an existing DataBrew project.
 
@@ -134,7 +110,7 @@ Deletes an existing DataBrew project.
 func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
 ```
 
-### deleteRecipeVersion(input:​completion:​)
+### deleteRecipeVersion(input:completion:)
 
 Deletes a single version of a DataBrew recipe.
 
@@ -142,7 +118,7 @@ Deletes a single version of a DataBrew recipe.
 func deleteRecipeVersion(input: DeleteRecipeVersionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRecipeVersionOutputResponse, DeleteRecipeVersionOutputError>) -> Void)
 ```
 
-### deleteSchedule(input:​completion:​)
+### deleteSchedule(input:completion:)
 
 Deletes the specified DataBrew schedule.
 
@@ -150,7 +126,7 @@ Deletes the specified DataBrew schedule.
 func deleteSchedule(input: DeleteScheduleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteScheduleOutputResponse, DeleteScheduleOutputError>) -> Void)
 ```
 
-### describeDataset(input:​completion:​)
+### describeDataset(input:completion:)
 
 Returns the definition of a specific DataBrew dataset.
 
@@ -158,7 +134,7 @@ Returns the definition of a specific DataBrew dataset.
 func describeDataset(input: DescribeDatasetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDatasetOutputResponse, DescribeDatasetOutputError>) -> Void)
 ```
 
-### describeJob(input:​completion:​)
+### describeJob(input:completion:)
 
 Returns the definition of a specific DataBrew job.
 
@@ -166,7 +142,7 @@ Returns the definition of a specific DataBrew job.
 func describeJob(input: DescribeJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeJobOutputResponse, DescribeJobOutputError>) -> Void)
 ```
 
-### describeJobRun(input:​completion:​)
+### describeJobRun(input:completion:)
 
 Represents one run of a DataBrew job.
 
@@ -174,7 +150,7 @@ Represents one run of a DataBrew job.
 func describeJobRun(input: DescribeJobRunInput, completion: @escaping (ClientRuntime.SdkResult<DescribeJobRunOutputResponse, DescribeJobRunOutputError>) -> Void)
 ```
 
-### describeProject(input:​completion:​)
+### describeProject(input:completion:)
 
 Returns the definition of a specific DataBrew project.
 
@@ -182,16 +158,15 @@ Returns the definition of a specific DataBrew project.
 func describeProject(input: DescribeProjectInput, completion: @escaping (ClientRuntime.SdkResult<DescribeProjectOutputResponse, DescribeProjectOutputError>) -> Void)
 ```
 
-### describeRecipe(input:​completion:​)
+### describeRecipe(input:completion:)
 
-Returns the definition of a specific DataBrew recipe corresponding to a particular
-version.
+Returns the definition of a specific DataBrew recipe corresponding to a particular version.
 
 ``` swift
 func describeRecipe(input: DescribeRecipeInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRecipeOutputResponse, DescribeRecipeOutputError>) -> Void)
 ```
 
-### describeSchedule(input:​completion:​)
+### describeSchedule(input:completion:)
 
 Returns the definition of a specific DataBrew schedule.
 
@@ -199,7 +174,7 @@ Returns the definition of a specific DataBrew schedule.
 func describeSchedule(input: DescribeScheduleInput, completion: @escaping (ClientRuntime.SdkResult<DescribeScheduleOutputResponse, DescribeScheduleOutputError>) -> Void)
 ```
 
-### listDatasets(input:​completion:​)
+### listDatasets(input:completion:)
 
 Lists all of the DataBrew datasets.
 
@@ -207,7 +182,7 @@ Lists all of the DataBrew datasets.
 func listDatasets(input: ListDatasetsInput, completion: @escaping (ClientRuntime.SdkResult<ListDatasetsOutputResponse, ListDatasetsOutputError>) -> Void)
 ```
 
-### listJobRuns(input:​completion:​)
+### listJobRuns(input:completion:)
 
 Lists all of the previous runs of a particular DataBrew job.
 
@@ -215,7 +190,7 @@ Lists all of the previous runs of a particular DataBrew job.
 func listJobRuns(input: ListJobRunsInput, completion: @escaping (ClientRuntime.SdkResult<ListJobRunsOutputResponse, ListJobRunsOutputError>) -> Void)
 ```
 
-### listJobs(input:​completion:​)
+### listJobs(input:completion:)
 
 Lists all of the DataBrew jobs that are defined.
 
@@ -223,7 +198,7 @@ Lists all of the DataBrew jobs that are defined.
 func listJobs(input: ListJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListJobsOutputResponse, ListJobsOutputError>) -> Void)
 ```
 
-### listProjects(input:​completion:​)
+### listProjects(input:completion:)
 
 Lists all of the DataBrew projects that are defined.
 
@@ -231,7 +206,7 @@ Lists all of the DataBrew projects that are defined.
 func listProjects(input: ListProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListProjectsOutputResponse, ListProjectsOutputError>) -> Void)
 ```
 
-### listRecipes(input:​completion:​)
+### listRecipes(input:completion:)
 
 Lists all of the DataBrew recipes that are defined.
 
@@ -239,16 +214,15 @@ Lists all of the DataBrew recipes that are defined.
 func listRecipes(input: ListRecipesInput, completion: @escaping (ClientRuntime.SdkResult<ListRecipesOutputResponse, ListRecipesOutputError>) -> Void)
 ```
 
-### listRecipeVersions(input:​completion:​)
+### listRecipeVersions(input:completion:)
 
-Lists the versions of a particular DataBrew recipe, except for
-LATEST\_WORKING.
+Lists the versions of a particular DataBrew recipe, except for LATEST\_WORKING.
 
 ``` swift
 func listRecipeVersions(input: ListRecipeVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListRecipeVersionsOutputResponse, ListRecipeVersionsOutputError>) -> Void)
 ```
 
-### listSchedules(input:​completion:​)
+### listSchedules(input:completion:)
 
 Lists the DataBrew schedules that are defined.
 
@@ -256,7 +230,7 @@ Lists the DataBrew schedules that are defined.
 func listSchedules(input: ListSchedulesInput, completion: @escaping (ClientRuntime.SdkResult<ListSchedulesOutputResponse, ListSchedulesOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists all the tags for a DataBrew resource.
 
@@ -264,7 +238,7 @@ Lists all the tags for a DataBrew resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### publishRecipe(input:​completion:​)
+### publishRecipe(input:completion:)
 
 Publishes a new version of a DataBrew recipe.
 
@@ -272,16 +246,15 @@ Publishes a new version of a DataBrew recipe.
 func publishRecipe(input: PublishRecipeInput, completion: @escaping (ClientRuntime.SdkResult<PublishRecipeOutputResponse, PublishRecipeOutputError>) -> Void)
 ```
 
-### sendProjectSessionAction(input:​completion:​)
+### sendProjectSessionAction(input:completion:)
 
-Performs a recipe step within an interactive DataBrew session that's currently
-open.
+Performs a recipe step within an interactive DataBrew session that's currently open.
 
 ``` swift
 func sendProjectSessionAction(input: SendProjectSessionActionInput, completion: @escaping (ClientRuntime.SdkResult<SendProjectSessionActionOutputResponse, SendProjectSessionActionOutputError>) -> Void)
 ```
 
-### startJobRun(input:​completion:​)
+### startJobRun(input:completion:)
 
 Runs a DataBrew job.
 
@@ -289,16 +262,15 @@ Runs a DataBrew job.
 func startJobRun(input: StartJobRunInput, completion: @escaping (ClientRuntime.SdkResult<StartJobRunOutputResponse, StartJobRunOutputError>) -> Void)
 ```
 
-### startProjectSession(input:​completion:​)
+### startProjectSession(input:completion:)
 
-Creates an interactive session, enabling you to manipulate data in a DataBrew
-project.
+Creates an interactive session, enabling you to manipulate data in a DataBrew project.
 
 ``` swift
 func startProjectSession(input: StartProjectSessionInput, completion: @escaping (ClientRuntime.SdkResult<StartProjectSessionOutputResponse, StartProjectSessionOutputError>) -> Void)
 ```
 
-### stopJobRun(input:​completion:​)
+### stopJobRun(input:completion:)
 
 Stops a particular run of a job.
 
@@ -306,16 +278,15 @@ Stops a particular run of a job.
 func stopJobRun(input: StopJobRunInput, completion: @escaping (ClientRuntime.SdkResult<StopJobRunOutputResponse, StopJobRunOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
-Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or
-schedule.
+Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes metadata tags from a DataBrew resource.
 
@@ -323,7 +294,7 @@ Removes metadata tags from a DataBrew resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateDataset(input:​completion:​)
+### updateDataset(input:completion:)
 
 Modifies the definition of an existing DataBrew dataset.
 
@@ -331,7 +302,7 @@ Modifies the definition of an existing DataBrew dataset.
 func updateDataset(input: UpdateDatasetInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDatasetOutputResponse, UpdateDatasetOutputError>) -> Void)
 ```
 
-### updateProfileJob(input:​completion:​)
+### updateProfileJob(input:completion:)
 
 Modifies the definition of an existing profile job.
 
@@ -339,7 +310,7 @@ Modifies the definition of an existing profile job.
 func updateProfileJob(input: UpdateProfileJobInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProfileJobOutputResponse, UpdateProfileJobOutputError>) -> Void)
 ```
 
-### updateProject(input:​completion:​)
+### updateProject(input:completion:)
 
 Modifies the definition of an existing DataBrew project.
 
@@ -347,16 +318,15 @@ Modifies the definition of an existing DataBrew project.
 func updateProject(input: UpdateProjectInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProjectOutputResponse, UpdateProjectOutputError>) -> Void)
 ```
 
-### updateRecipe(input:​completion:​)
+### updateRecipe(input:completion:)
 
-Modifies the definition of the LATEST\_WORKING version of a DataBrew
-recipe.
+Modifies the definition of the LATEST\_WORKING version of a DataBrew recipe.
 
 ``` swift
 func updateRecipe(input: UpdateRecipeInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRecipeOutputResponse, UpdateRecipeOutputError>) -> Void)
 ```
 
-### updateRecipeJob(input:​completion:​)
+### updateRecipeJob(input:completion:)
 
 Modifies the definition of an existing DataBrew recipe job.
 
@@ -364,7 +334,7 @@ Modifies the definition of an existing DataBrew recipe job.
 func updateRecipeJob(input: UpdateRecipeJobInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRecipeJobOutputResponse, UpdateRecipeJobOutputError>) -> Void)
 ```
 
-### updateSchedule(input:​completion:​)
+### updateSchedule(input:completion:)
 
 Modifies the definition of an existing DataBrew schedule.
 

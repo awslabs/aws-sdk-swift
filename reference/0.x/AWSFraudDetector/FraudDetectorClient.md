@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "FraudDetectorClient"
+```
+
 ## Methods
 
 ### `batchCreateVariable(input:completion:)`
@@ -106,8 +114,7 @@ public func deleteBatchPredictionJob(input: DeleteBatchPredictionJobInput, compl
 
 ### `deleteDetector(input:completion:)`
 
-Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector.
-When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
+Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteDetector(input: DeleteDetectorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDetectorOutputResponse, DeleteDetectorOutputError>) -> Void)
@@ -115,8 +122,7 @@ public func deleteDetector(input: DeleteDetectorInput, completion: @escaping (Cl
 
 ### `deleteDetectorVersion(input:completion:)`
 
-Deletes the detector version. You cannot delete detector versions that are in ACTIVE status.
-When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
+Deletes the detector version. You cannot delete detector versions that are in ACTIVE status. When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteDetectorVersion(input: DeleteDetectorVersionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDetectorVersionOutputResponse, DeleteDetectorVersionOutputError>) -> Void)
@@ -124,9 +130,7 @@ public func deleteDetectorVersion(input: DeleteDetectorVersionInput, completion:
 
 ### `deleteEntityType(input:completion:)`
 
-Deletes an entity type.
-You cannot delete an entity type that is included in an event type.
-When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
+Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteEntityType(input: DeleteEntityTypeInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEntityTypeOutputResponse, DeleteEntityTypeOutputError>) -> Void)
@@ -134,8 +138,7 @@ public func deleteEntityType(input: DeleteEntityTypeInput, completion: @escaping
 
 ### `deleteEvent(input:completion:)`
 
-Deletes the specified event.
-When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
+Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteEvent(input: DeleteEventInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEventOutputResponse, DeleteEventOutputError>) -> Void)
@@ -143,9 +146,7 @@ public func deleteEvent(input: DeleteEventInput, completion: @escaping (ClientRu
 
 ### `deleteEventType(input:completion:)`
 
-Deletes an event type.
-You cannot delete an event type that is used in a detector or a model.
-When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
+Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteEventType(input: DeleteEventTypeInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEventTypeOutputResponse, DeleteEventTypeOutputError>) -> Void)
@@ -153,8 +154,7 @@ public func deleteEventType(input: DeleteEventTypeInput, completion: @escaping (
 
 ### `deleteExternalModel(input:completion:)`
 
-Removes a SageMaker model from Amazon Fraud Detector.
-You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
+Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
 
 ``` swift
 public func deleteExternalModel(input: DeleteExternalModelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteExternalModelOutputResponse, DeleteExternalModelOutputError>) -> Void)
@@ -162,23 +162,15 @@ public func deleteExternalModel(input: DeleteExternalModelInput, completion: @es
 
 ### `deleteLabel(input:completion:)`
 
-Deletes a label.
-You cannot delete labels that are included in an event type in Amazon Fraud Detector.
-You cannot delete a label assigned to an event ID. You must first delete the relevant event ID.
+Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteLabel(input: DeleteLabelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLabelOutputResponse, DeleteLabelOutputError>) -> Void)
 ```
 
-``` 
-     When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
-```
-
 ### `deleteModel(input:completion:)`
 
-Deletes a model.
-You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.
-When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
+Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteModel(input: DeleteModelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteModelOutputResponse, DeleteModelOutputError>) -> Void)
@@ -186,9 +178,7 @@ public func deleteModel(input: DeleteModelInput, completion: @escaping (ClientRu
 
 ### `deleteModelVersion(input:completion:)`
 
-Deletes a model version.
-You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.
-When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
+Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteModelVersion(input: DeleteModelVersionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteModelVersionOutputResponse, DeleteModelVersionOutputError>) -> Void)
@@ -196,9 +186,7 @@ public func deleteModelVersion(input: DeleteModelVersionInput, completion: @esca
 
 ### `deleteOutcome(input:completion:)`
 
-Deletes an outcome.
-You cannot delete an outcome that is used in a rule version.
-When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
+Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteOutcome(input: DeleteOutcomeInput, completion: @escaping (ClientRuntime.SdkResult<DeleteOutcomeOutputResponse, DeleteOutcomeOutputError>) -> Void)
@@ -206,8 +194,7 @@ public func deleteOutcome(input: DeleteOutcomeInput, completion: @escaping (Clie
 
 ### `deleteRule(input:completion:)`
 
-Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version.
-When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
+Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteRule(input: DeleteRuleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRuleOutputResponse, DeleteRuleOutputError>) -> Void)
@@ -215,10 +202,7 @@ public func deleteRule(input: DeleteRuleInput, completion: @escaping (ClientRunt
 
 ### `deleteVariable(input:completion:)`
 
-Deletes a variable.
-You can't delete variables that are included in an event type in Amazon Fraud Detector.
-Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually.
-When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
+Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
 
 ``` swift
 public func deleteVariable(input: DeleteVariableInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVariableOutputResponse, DeleteVariableOutputError>) -> Void)
@@ -258,12 +242,7 @@ public func getDetectorVersion(input: GetDetectorVersionInput, completion: @esca
 
 ### `getDetectors(input:completion:)`
 
-Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you
-provide a null maxResults, this action retrieves a maximum of 10 records
-per page. If you provide a maxResults, the value must be between 5 and 10.
-To get the next page results, provide the pagination token from the
-GetDetectorsResponse as part of your request. A null pagination token
-fetches the records from the beginning.
+Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getDetectors(input: GetDetectorsInput, completion: @escaping (ClientRuntime.SdkResult<GetDetectorsOutputResponse, GetDetectorsOutputError>) -> Void)
@@ -271,12 +250,7 @@ public func getDetectors(input: GetDetectorsInput, completion: @escaping (Client
 
 ### `getEntityTypes(input:completion:)`
 
-Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you
-provide a null maxResults, this action retrieves a maximum of 10 records
-per page. If you provide a maxResults, the value must be between 5 and 10.
-To get the next page results, provide the pagination token from the
-GetEntityTypesResponse as part of your request. A null pagination token
-fetches the records from the beginning.
+Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getEntityTypes(input: GetEntityTypesInput, completion: @escaping (ClientRuntime.SdkResult<GetEntityTypesOutputResponse, GetEntityTypesOutputError>) -> Void)
@@ -292,12 +266,7 @@ public func getEventPrediction(input: GetEventPredictionInput, completion: @esca
 
 ### `getEventTypes(input:completion:)`
 
-Gets all event types or a specific event type if name is provided. This is a paginated API. If you
-provide a null maxResults, this action retrieves a maximum of 10 records
-per page. If you provide a maxResults, the value must be between 5 and 10.
-To get the next page results, provide the pagination token from the
-GetEventTypesResponse as part of your request. A null pagination token
-fetches the records from the beginning.
+Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getEventTypes(input: GetEventTypesInput, completion: @escaping (ClientRuntime.SdkResult<GetEventTypesOutputResponse, GetEventTypesOutputError>) -> Void)
@@ -305,12 +274,7 @@ public func getEventTypes(input: GetEventTypesInput, completion: @escaping (Clie
 
 ### `getExternalModels(input:completion:)`
 
-Gets the details for one or more Amazon SageMaker models that have been imported into the
-service. This is a paginated API. If you provide a null maxResults, this
-actions retrieves a maximum of 10 records per page. If you provide a
-maxResults, the value must be between 5 and 10. To get the next page
-results, provide the pagination token from the GetExternalModelsResult as part
-of your request. A null pagination token fetches the records from the beginning.
+Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getExternalModels(input: GetExternalModelsInput, completion: @escaping (ClientRuntime.SdkResult<GetExternalModelsOutputResponse, GetExternalModelsOutputError>) -> Void)
@@ -326,12 +290,7 @@ public func getKMSEncryptionKey(input: GetKMSEncryptionKeyInput, completion: @es
 
 ### `getLabels(input:completion:)`
 
-Gets all labels or a specific label if name is provided. This is a paginated API. If you
-provide a null maxResults, this action retrieves a maximum of 50 records
-per page. If you provide a maxResults, the value must be between 10 and 50.
-To get the next page results, provide the pagination token from the
-GetGetLabelsResponse as part of your request. A null pagination token
-fetches the records from the beginning.
+Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getLabels(input: GetLabelsInput, completion: @escaping (ClientRuntime.SdkResult<GetLabelsOutputResponse, GetLabelsOutputError>) -> Void)
@@ -347,13 +306,7 @@ public func getModelVersion(input: GetModelVersionInput, completion: @escaping (
 
 ### `getModels(input:completion:)`
 
-Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified.
-This is a paginated API. If you
-provide a null maxResults, this action retrieves a maximum of 10 records
-per page. If you provide a maxResults, the value must be between 1 and 10.
-To get the next page results, provide the pagination token from the
-response as part of your request. A null pagination token
-fetches the records from the beginning.
+Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getModels(input: GetModelsInput, completion: @escaping (ClientRuntime.SdkResult<GetModelsOutputResponse, GetModelsOutputError>) -> Void)
@@ -361,12 +314,7 @@ public func getModels(input: GetModelsInput, completion: @escaping (ClientRuntim
 
 ### `getOutcomes(input:completion:)`
 
-Gets one or more outcomes. This is a paginated
-API. If you provide a null maxResults, this actions retrieves a maximum of
-100 records per page. If you provide a maxResults, the value must be
-between 50 and 100. To get the next page results, provide the pagination token from the
-GetOutcomesResult as part of your request. A null pagination token
-fetches the records from the beginning.
+Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getOutcomes(input: GetOutcomesInput, completion: @escaping (ClientRuntime.SdkResult<GetOutcomesOutputResponse, GetOutcomesOutputError>) -> Void)
@@ -374,8 +322,7 @@ public func getOutcomes(input: GetOutcomesInput, completion: @escaping (ClientRu
 
 ### `getRules(input:completion:)`
 
-Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified.
-This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
+Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getRules(input: GetRulesInput, completion: @escaping (ClientRuntime.SdkResult<GetRulesOutputResponse, GetRulesOutputError>) -> Void)
@@ -383,12 +330,7 @@ public func getRules(input: GetRulesInput, completion: @escaping (ClientRuntime.
 
 ### `getVariables(input:completion:)`
 
-Gets all of the variables or the specific variable. This is a
-paginated API. Providing null maxSizePerPage results in retrieving maximum of
-100 records per page. If you provide maxSizePerPage the value must be between
-50 and 100. To get the next page result, a provide a pagination token from
-GetVariablesResult as part of your request. Null pagination token
-fetches the records from the beginning.
+Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning.
 
 ``` swift
 public func getVariables(input: GetVariablesInput, completion: @escaping (ClientRuntime.SdkResult<GetVariablesOutputResponse, GetVariablesOutputError>) -> Void)
@@ -396,9 +338,7 @@ public func getVariables(input: GetVariablesInput, completion: @escaping (Client
 
 ### `listTagsForResource(input:completion:)`
 
-Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the
-response as part of your request. A null pagination token
-fetches the records from the beginning.
+Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -486,8 +426,7 @@ public func updateDetectorVersion(input: UpdateDetectorVersionInput, completion:
 
 ### `updateDetectorVersionMetadata(input:completion:)`
 
-Updates the detector version's description. You can update the metadata for any detector version (DRAFT, ACTIVE, or
-INACTIVE).
+Updates the detector version's description. You can update the metadata for any detector version (DRAFT, ACTIVE, or INACTIVE).
 
 ``` swift
 public func updateDetectorVersionMetadata(input: UpdateDetectorVersionMetadataInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDetectorVersionMetadataOutputResponse, UpdateDetectorVersionMetadataOutputError>) -> Void)
@@ -495,8 +434,7 @@ public func updateDetectorVersionMetadata(input: UpdateDetectorVersionMetadataIn
 
 ### `updateDetectorVersionStatus(input:completion:)`
 
-Updates the detector version’s status. You can perform the following promotions or
-demotions using UpdateDetectorVersionStatus:​ DRAFT to ACTIVE, ACTIVE to INACTIVE, and INACTIVE to ACTIVE.
+Updates the detector version’s status. You can perform the following promotions or demotions using UpdateDetectorVersionStatus: DRAFT to ACTIVE, ACTIVE to INACTIVE, and INACTIVE to ACTIVE.
 
 ``` swift
 public func updateDetectorVersionStatus(input: UpdateDetectorVersionStatusInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDetectorVersionStatusOutputResponse, UpdateDetectorVersionStatusOutputError>) -> Void)
@@ -520,23 +458,15 @@ public func updateModelVersion(input: UpdateModelVersionInput, completion: @esca
 
 ### `updateModelVersionStatus(input:completion:)`
 
-Updates the status of a model version.
-You can perform the following status updates:​
-
-<ol>
+Updates the status of a model version. You can perform the following status updates:
 
 ``` swift
 public func updateModelVersionStatus(input: UpdateModelVersionStatusInput, completion: @escaping (ClientRuntime.SdkResult<UpdateModelVersionStatusOutputResponse, UpdateModelVersionStatusOutputError>) -> Void)
 ```
 
-``` 
-           Change the TRAINING_COMPLETE status to ACTIVE.
+  - Change the TRAINING\_COMPLETE status to ACTIVE.
 
-
-           Change ACTIVEto INACTIVE.
-
-     </ol>
-```
+  - Change ACTIVEto INACTIVE.
 
 ### `updateRuleMetadata(input:completion:)`
 

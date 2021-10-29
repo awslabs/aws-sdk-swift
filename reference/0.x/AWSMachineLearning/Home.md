@@ -8,5 +8,4 @@
 # Protocols
 
   - [MachineLearningClientProtocol](/aws-sdk-swift/reference/0.x/AWSMachineLearning/MachineLearningClientProtocol):
-    Definition of the public APIs
-    exposed by Amazon Machine Learning
+    Definition of the public APIs exposed by Amazon Machine Learning

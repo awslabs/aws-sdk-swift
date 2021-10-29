@@ -8,6 +8,4 @@
 # Protocols
 
   - [Iot1ClickDevicesClientProtocol](/aws-sdk-swift/reference/0.x/AWSIoT1ClickDevicesService/Iot1ClickDevicesClientProtocol):
-    Describes all of the AWS IoT 1-Click device-related API operations for the service.
-    Also provides sample requests, responses, and errors for the supported web services
-    protocols.
+    Describes all of the AWS IoT 1-Click device-related API operations for the service. Also provides sample requests, responses, and errors for the supported web services protocols.

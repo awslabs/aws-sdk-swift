@@ -8,8 +8,4 @@
 # Protocols
 
   - [CodeStarClientProtocol](/aws-sdk-swift/reference/0.x/AWSCodeStar/CodeStarClientProtocol):
-    <fullname>AWS CodeStar</fullname>
-    This is the API reference for AWS CodeStar. This reference provides descriptions of the
-    operations and data types for the AWS CodeStar API along with usage examples.
-    You can use the AWS CodeStar API to work with:
-    Projects and their resources, by calling the following:
+    AWS CodeStar This is the API reference for AWS CodeStar. This reference provides descriptions of the operations and data types for the AWS CodeStar API along with usage examples. You can use the AWS CodeStar API to work with: Projects and their resources, by calling the following:

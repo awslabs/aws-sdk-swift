@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "DocDbClient"
+```
+
 ## Methods
 
 ### `addSourceIdentifierToSubscription(input:completion:)`
 
-Adds a source identifier to an existing event notification
-subscription.
+Adds a source identifier to an existing event notification subscription.
 
 ``` swift
 public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput, completion: @escaping (ClientRuntime.SdkResult<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>) -> Void)
@@ -35,10 +42,7 @@ public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscr
 
 ### `addTagsToResource(input:completion:)`
 
-Adds metadata tags to an Amazon DocumentDB resource. You can use these tags
-with cost allocation reporting to track costs that are associated
-with Amazon DocumentDB resources or in a Condition statement in
-an Identity and Access Management (IAM) policy for Amazon DocumentDB.
+Adds metadata tags to an Amazon DocumentDB resource. You can use these tags with cost allocation reporting to track costs that are associated with Amazon DocumentDB resources or in a Condition statement in an Identity and Access Management (IAM) policy for Amazon DocumentDB.
 
 ``` swift
 public func addTagsToResource(input: AddTagsToResourceInput, completion: @escaping (ClientRuntime.SdkResult<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>) -> Void)
@@ -46,8 +50,7 @@ public func addTagsToResource(input: AddTagsToResourceInput, completion: @escapi
 
 ### `applyPendingMaintenanceAction(input:completion:)`
 
-Applies a pending maintenance action to a resource (for example,
-to an Amazon DocumentDB instance).
+Applies a pending maintenance action to a resource (for example, to an Amazon DocumentDB instance).
 
 ``` swift
 public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput, completion: @escaping (ClientRuntime.SdkResult<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>) -> Void)
@@ -63,23 +66,10 @@ public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput,
 
 ### `copyDBClusterSnapshot(input:completion:)`
 
-Copies a snapshot of a cluster.
+Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared cluster snapshot. You can only copy a shared DB cluster snapshot, whether encrypted or not, in the same Region. To cancel the copy operation after it is in progress, delete the target cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that cluster snapshot is in the copying status.
 
 ``` swift
 public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput, completion: @escaping (ClientRuntime.SdkResult<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>) -> Void)
-```
-
-``` 
-    To copy a cluster snapshot from a shared manual cluster snapshot,
-        SourceDBClusterSnapshotIdentifier must be the Amazon
-        Resource Name (ARN) of the shared cluster snapshot. You can only
-        copy a shared DB cluster snapshot, whether encrypted or not, in the
-        same Region.
-
-    To cancel the copy operation after it is in progress, delete the
-        target cluster snapshot identified by
-        TargetDBClusterSnapshotIdentifier while that cluster
-        snapshot is in the copying status.
 ```
 
 ### `createDBCluster(input:completion:)`
@@ -92,24 +82,7 @@ public func createDBCluster(input: CreateDBClusterInput, completion: @escaping (
 
 ### `createDBClusterParameterGroup(input:completion:)`
 
-Creates a new cluster parameter group.
-Parameters in a cluster parameter group apply to all of the
-instances in a cluster.
-A cluster parameter group is initially created with the default
-parameters for the database engine used by instances in the cluster.
-In Amazon DocumentDB, you cannot make modifications directly to the
-default.docdb3.6 cluster parameter group. If your
-Amazon DocumentDB cluster is using the default cluster parameter group and you
-want to modify a value in it, you must first <a href="https:​//docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html">
-create a new parameter group
-or <a href="https:​//docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-copy.html">
-copy an existing parameter group,
-modify it, and then apply the modified parameter group to your
-cluster. For the new cluster parameter group and associated settings
-to take effect, you must then reboot the instances in the cluster
-without failover. For more information,
-see <a href="https:​//docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-modify.html">
-Modifying Amazon DocumentDB Cluster Parameter Groups.
+Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the default.docdb3.6 cluster parameter group. If your Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first [ create a new parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html) or [ copy an existing parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-copy.html), modify it, and then apply the modified parameter group to your cluster. For the new cluster parameter group and associated settings to take effect, you must then reboot the instances in the cluster without failover. For more information, see [ Modifying Amazon DocumentDB Cluster Parameter Groups](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-modify.html).
 
 ``` swift
 public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>) -> Void)
@@ -133,8 +106,7 @@ public func createDBInstance(input: CreateDBInstanceInput, completion: @escaping
 
 ### `createDBSubnetGroup(input:completion:)`
 
-Creates a new subnet group. subnet groups must contain at least one subnet in at
-least two Availability Zones in the Region.
+Creates a new subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Region.
 
 ``` swift
 public func createDBSubnetGroup(input: CreateDBSubnetGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>) -> Void)
@@ -142,9 +114,7 @@ public func createDBSubnetGroup(input: CreateDBSubnetGroupInput, completion: @es
 
 ### `createEventSubscription(input:completion:)`
 
-Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console.
-You can specify the type of source (SourceType) that you want to be notified of. You can also provide a list of Amazon DocumentDB sources (SourceIds) that trigger the events, and you can provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup.
-If you specify both the SourceType and SourceIds (such as SourceType = db-instance and SourceIdentifier = myDBInstance1), you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the SourceType or the SourceIdentifier, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
+Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console. You can specify the type of source (SourceType) that you want to be notified of. You can also provide a list of Amazon DocumentDB sources (SourceIds) that trigger the events, and you can provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds (such as SourceType = db-instance and SourceIdentifier = myDBInstance1), you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the SourceType or the SourceIdentifier, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
 
 ``` swift
 public func createEventSubscription(input: CreateEventSubscriptionInput, completion: @escaping (ClientRuntime.SdkResult<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>) -> Void)
@@ -152,16 +122,10 @@ public func createEventSubscription(input: CreateEventSubscriptionInput, complet
 
 ### `createGlobalCluster(input:completion:)`
 
-Creates an Amazon DocumentDB global cluster that can span multiple multiple Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance.
+Creates an Amazon DocumentDB global cluster that can span multiple multiple Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance. You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster. This action only applies to Amazon DocumentDB clusters.
 
 ``` swift
 public func createGlobalCluster(input: CreateGlobalClusterInput, completion: @escaping (ClientRuntime.SdkResult<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>) -> Void)
-```
-
-``` 
-    You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster.
-
-        This action only applies to Amazon DocumentDB clusters.
 ```
 
 ### `deleteDBCluster(input:completion:)`
@@ -182,14 +146,10 @@ public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupIn
 
 ### `deleteDBClusterSnapshot(input:completion:)`
 
-Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated.
+Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The cluster snapshot must be in the available state to be deleted.
 
 ``` swift
 public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>) -> Void)
-```
-
-``` 
-        The cluster snapshot must be in the available state to be deleted.
 ```
 
 ### `deleteDBInstance(input:completion:)`
@@ -202,15 +162,10 @@ public func deleteDBInstance(input: DeleteDBInstanceInput, completion: @escaping
 
 ### `deleteDBSubnetGroup(input:completion:)`
 
-Deletes a subnet group.
+Deletes a subnet group. The specified database subnet group must not be associated with any DB instances.
 
 ``` swift
 public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>) -> Void)
-```
-
-``` 
-        The specified database subnet group must not be associated with any DB
-            instances.
 ```
 
 ### `deleteEventSubscription(input:completion:)`
@@ -223,14 +178,10 @@ public func deleteEventSubscription(input: DeleteEventSubscriptionInput, complet
 
 ### `deleteGlobalCluster(input:completion:)`
 
-Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster.
+Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster. This action only applies to Amazon DocumentDB clusters.
 
 ``` swift
 public func deleteGlobalCluster(input: DeleteGlobalClusterInput, completion: @escaping (ClientRuntime.SdkResult<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>) -> Void)
-```
-
-``` 
-        This action only applies to Amazon DocumentDB clusters.
 ```
 
 ### `describeCertificates(input:completion:)`
@@ -251,8 +202,7 @@ public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGr
 
 ### `describeDBClusterParameters(input:completion:)`
 
-Returns the detailed parameter list for a particular cluster parameter
-group.
+Returns the detailed parameter list for a particular cluster parameter group.
 
 ``` swift
 public func describeDBClusterParameters(input: DescribeDBClusterParametersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>) -> Void)
@@ -260,10 +210,7 @@ public func describeDBClusterParameters(input: DescribeDBClusterParametersInput,
 
 ### `describeDBClusterSnapshotAttributes(input:completion:)`
 
-Returns a list of cluster snapshot attribute names and values for a manual DB
-cluster snapshot.
-When you share snapshots with other accounts,
-DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the accounts that are authorized to copy or restore the manual cluster snapshot. If all is included in the list of values for the restore attribute, then the manual cluster snapshot is public and can be copied or restored by all accounts.
+Returns a list of cluster snapshot attribute names and values for a manual DB cluster snapshot. When you share snapshots with other accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the accounts that are authorized to copy or restore the manual cluster snapshot. If all is included in the list of values for the restore attribute, then the manual cluster snapshot is public and can be copied or restored by all accounts.
 
 ``` swift
 public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>) -> Void)
@@ -279,12 +226,7 @@ public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput, c
 
 ### `describeDBClusters(input:completion:)`
 
-Returns information about provisioned Amazon DocumentDB clusters. This API
-operation supports pagination. For certain management features
-such as cluster and instance lifecycle management, Amazon DocumentDB leverages
-operational technology that is shared with Amazon RDS and Amazon
-Neptune. Use the filterName=engine,Values=docdb filter
-parameter to return only Amazon DocumentDB clusters.
+Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
 
 ``` swift
 public func describeDBClusters(input: DescribeDBClustersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>) -> Void)
@@ -308,8 +250,7 @@ public func describeDBInstances(input: DescribeDBInstancesInput, completion: @es
 
 ### `describeDBSubnetGroups(input:completion:)`
 
-Returns a list of DBSubnetGroup descriptions. If a
-DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
+Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
 
 ``` swift
 public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>) -> Void)
@@ -317,8 +258,7 @@ public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput, completio
 
 ### `describeEngineDefaultClusterParameters(input:completion:)`
 
-Returns the default engine and system parameter information for the cluster database
-engine.
+Returns the default engine and system parameter information for the cluster database engine.
 
 ``` swift
 public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>) -> Void)
@@ -326,8 +266,7 @@ public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultC
 
 ### `describeEventCategories(input:completion:)`
 
-Displays a list of categories for all event source types, or, if specified, for a
-specified source type.
+Displays a list of categories for all event source types, or, if specified, for a specified source type.
 
 ``` swift
 public func describeEventCategories(input: DescribeEventCategoriesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>) -> Void)
@@ -335,8 +274,7 @@ public func describeEventCategories(input: DescribeEventCategoriesInput, complet
 
 ### `describeEventSubscriptions(input:completion:)`
 
-Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.
-If you specify a SubscriptionName, lists the description for that subscription.
+Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
 
 ``` swift
 public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>) -> Void)
@@ -352,14 +290,10 @@ public func describeEvents(input: DescribeEventsInput, completion: @escaping (Cl
 
 ### `describeGlobalClusters(input:completion:)`
 
-Returns information about Amazon DocumentDB global  clusters. This API supports pagination.
+Returns information about Amazon DocumentDB global clusters. This API supports pagination. This action only applies to Amazon DocumentDB clusters.
 
 ``` swift
 public func describeGlobalClusters(input: DescribeGlobalClustersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>) -> Void)
-```
-
-``` 
-        This action only applies to Amazon DocumentDB clusters.
 ```
 
 ### `describeOrderableDBInstanceOptions(input:completion:)`
@@ -372,8 +306,7 @@ public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanc
 
 ### `describePendingMaintenanceActions(input:completion:)`
 
-Returns a list of resources (for example, instances) that have at least one pending
-maintenance action.
+Returns a list of resources (for example, instances) that have at least one pending maintenance action.
 
 ``` swift
 public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>) -> Void)
@@ -381,9 +314,7 @@ public func describePendingMaintenanceActions(input: DescribePendingMaintenanceA
 
 ### `failoverDBCluster(input:completion:)`
 
-Forces a failover for a cluster.
-A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer).
-If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
+Forces a failover for a cluster. A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer). If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
 
 ``` swift
 public func failoverDBCluster(input: FailoverDBClusterInput, completion: @escaping (ClientRuntime.SdkResult<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>) -> Void)
@@ -399,9 +330,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `modifyDBCluster(input:completion:)`
 
-Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database
-configuration parameters by specifying these parameters and the new values in the
-request.
+Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
 
 ``` swift
 public func modifyDBCluster(input: ModifyDBClusterInput, completion: @escaping (ClientRuntime.SdkResult<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>) -> Void)
@@ -409,35 +338,15 @@ public func modifyDBCluster(input: ModifyDBClusterInput, completion: @escaping (
 
 ### `modifyDBClusterParameterGroup(input:completion:)`
 
-Modifies the parameters of a cluster parameter group. To modify more than one
-parameter, submit a list of the following:​ ParameterName,
-ParameterValue, and ApplyMethod. A maximum of 20
-parameters can be modified in a single request.
+Modifies the parameters of a cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot or maintenance window before the change can take effect. After you create a cluster parameter group, you should wait at least 5 minutes before creating your first cluster that uses that cluster parameter group as the default parameter group. This allows Amazon DocumentDB to fully complete the create action before the parameter group is used as the default for a new cluster. This step is especially important for parameters that are critical when creating the default database for a cluster, such as the character set for the default database defined by the character\_set\_database parameter.
 
 ``` swift
 public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>) -> Void)
 ```
 
-``` 
-       Changes to dynamic parameters are applied immediately. Changes to static
-           parameters require a reboot or maintenance window
-
-           before the change can take effect.
-
-
-       After you create a cluster parameter group, you should wait at least 5 minutes
-           before creating your first cluster that uses that cluster parameter group as
-           the default parameter group. This allows Amazon DocumentDB to fully complete the create action
-           before the parameter group is used as the default for a new cluster. This step is
-           especially important for parameters that are critical when creating the default
-           database for a cluster, such as the character set for the default database
-           defined by the character_set_database parameter.
-```
-
 ### `modifyDBClusterSnapshotAttribute(input:completion:)`
 
-Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot.
-To share a manual cluster snapshot with other accounts, specify restore as the AttributeName, and use the ValuesToAdd parameter to add a list of IDs of the accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all accounts. Do not add the all value for any manual cluster snapshots that contain private information that you don't want available to all accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
+Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other accounts, specify restore as the AttributeName, and use the ValuesToAdd parameter to add a list of IDs of the accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all accounts. Do not add the all value for any manual cluster snapshots that contain private information that you don't want available to all accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
 
 ``` swift
 public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput, completion: @escaping (ClientRuntime.SdkResult<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>) -> Void)
@@ -469,25 +378,15 @@ public func modifyEventSubscription(input: ModifyEventSubscriptionInput, complet
 
 ### `modifyGlobalCluster(input:completion:)`
 
-Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example:​ deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request.
+Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request. This action only applies to Amazon DocumentDB clusters.
 
 ``` swift
 public func modifyGlobalCluster(input: ModifyGlobalClusterInput, completion: @escaping (ClientRuntime.SdkResult<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>) -> Void)
 ```
 
-``` 
-        This action only applies to Amazon DocumentDB clusters.
-```
-
 ### `rebootDBInstance(input:completion:)`
 
-You might need to reboot your instance, usually for maintenance reasons. For
-example, if you make certain changes, or if you change the cluster parameter group
-that is associated with the instance, you must reboot the instance for the changes to
-take effect.
-Rebooting an instance restarts the database engine service. Rebooting an instance
-results in a momentary outage, during which the instance status is set to
-rebooting.
+You might need to reboot your instance, usually for maintenance reasons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting.
 
 ``` swift
 public func rebootDBInstance(input: RebootDBInstanceInput, completion: @escaping (ClientRuntime.SdkResult<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>) -> Void)
@@ -495,20 +394,15 @@ public func rebootDBInstance(input: RebootDBInstanceInput, completion: @escaping
 
 ### `removeFromGlobalCluster(input:completion:)`
 
-Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region.
+Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region. This action only applies to Amazon DocumentDB clusters.
 
 ``` swift
 public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput, completion: @escaping (ClientRuntime.SdkResult<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>) -> Void)
 ```
 
-``` 
-        This action only applies to Amazon DocumentDB clusters.
-```
-
 ### `removeSourceIdentifierFromSubscription(input:completion:)`
 
-Removes a source identifier from an existing Amazon DocumentDB event notification
-subscription.
+Removes a source identifier from an existing Amazon DocumentDB event notification subscription.
 
 ``` swift
 public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput, completion: @escaping (ClientRuntime.SdkResult<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>) -> Void)
@@ -524,14 +418,7 @@ public func removeTagsFromResource(input: RemoveTagsFromResourceInput, completio
 
 ### `resetDBClusterParameterGroup(input:completion:)`
 
-Modifies the parameters of a cluster parameter group to the default value. To
-reset specific parameters, submit a list of the following:​ ParameterName
-and ApplyMethod. To reset the entire cluster parameter group, specify
-the DBClusterParameterGroupName and ResetAllParameters
-parameters.
-When you reset the entire group, dynamic parameters are updated immediately and
-static parameters are set to pending-reboot to take effect on the next DB
-instance reboot.
+Modifies the parameters of a cluster parameter group to the default value. To reset specific parameters, submit a list of the following: ParameterName and ApplyMethod. To reset the entire cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When you reset the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance reboot.
 
 ``` swift
 public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>) -> Void)
@@ -539,9 +426,7 @@ public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInpu
 
 ### `restoreDBClusterFromSnapshot(input:completion:)`
 
-Creates a new cluster from a snapshot or cluster snapshot.
-If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group.
-If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
+Creates a new cluster from a snapshot or cluster snapshot. If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group. If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
 
 ``` swift
 public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput, completion: @escaping (ClientRuntime.SdkResult<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>) -> Void)
@@ -549,11 +434,7 @@ public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInpu
 
 ### `restoreDBClusterToPointInTime(input:completion:)`
 
-Restores a cluster to an arbitrary point in time. Users can restore to any point in
-time before LatestRestorableTime for up to
-BackupRetentionPeriod days. The target cluster is created from the
-source cluster with the same configuration as the original cluster, except that
-the new cluster is created with the default security group.
+Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group.
 
 ``` swift
 public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput, completion: @escaping (ClientRuntime.SdkResult<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>) -> Void)
@@ -561,9 +442,7 @@ public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeIn
 
 ### `startDBCluster(input:completion:)`
 
-Restarts the stopped cluster that is specified by DBClusterIdentifier.
-For more information, see <a href="https:​//docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html">Stopping and
-Starting an Amazon DocumentDB Cluster.
+Restarts the stopped cluster that is specified by DBClusterIdentifier. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
 
 ``` swift
 public func startDBCluster(input: StartDBClusterInput, completion: @escaping (ClientRuntime.SdkResult<StartDBClusterOutputResponse, StartDBClusterOutputError>) -> Void)
@@ -571,10 +450,7 @@ public func startDBCluster(input: StartDBClusterInput, completion: @escaping (Cl
 
 ### `stopDBCluster(input:completion:)`
 
-Stops the running cluster that is specified by DBClusterIdentifier. The
-cluster must be in the available state. For more information, see
-<a href="https:​//docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html">Stopping and
-Starting an Amazon DocumentDB Cluster.
+Stops the running cluster that is specified by DBClusterIdentifier. The cluster must be in the available state. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
 
 ``` swift
 public func stopDBCluster(input: StopDBClusterInput, completion: @escaping (ClientRuntime.SdkResult<StopDBClusterOutputResponse, StopDBClusterOutputError>) -> Void)

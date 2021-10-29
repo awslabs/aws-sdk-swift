@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "IotWirelessClient"
+```
+
 ## Methods
 
 ### `associateAwsAccountWithPartnerAccount(input:completion:)`
@@ -218,8 +226,7 @@ public func getDeviceProfile(input: GetDeviceProfileInput, completion: @escaping
 
 ### `getLogLevelsByResourceTypes(input:completion:)`
 
-Returns current default log levels or log levels by resource types. Based on resource types, log levels can be
-for wireless device log options or wireless gateway log options.
+Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
 
 ``` swift
 public func getLogLevelsByResourceTypes(input: GetLogLevelsByResourceTypesInput, completion: @escaping (ClientRuntime.SdkResult<GetLogLevelsByResourceTypesOutputResponse, GetLogLevelsByResourceTypesOutputError>) -> Void)
@@ -235,8 +242,7 @@ public func getPartnerAccount(input: GetPartnerAccountInput, completion: @escapi
 
 ### `getResourceLogLevel(input:completion:)`
 
-Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for
-a wireless device or a wireless gateway.
+Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
 
 ``` swift
 public func getResourceLogLevel(input: GetResourceLogLevelInput, completion: @escaping (ClientRuntime.SdkResult<GetResourceLogLevelOutputResponse, GetResourceLogLevelOutputError>) -> Void)
@@ -388,8 +394,7 @@ public func listWirelessGateways(input: ListWirelessGatewaysInput, completion: @
 
 ### `putResourceLogLevel(input:completion:)`
 
-Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway
-or a wireless device. A limit of 200 log level override can be set per account.
+Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
 
 ``` swift
 public func putResourceLogLevel(input: PutResourceLogLevelInput, completion: @escaping (ClientRuntime.SdkResult<PutResourceLogLevelOutputResponse, PutResourceLogLevelOutputError>) -> Void)
@@ -405,8 +410,7 @@ public func resetAllResourceLogLevels(input: ResetAllResourceLogLevelsInput, com
 
 ### `resetResourceLogLevel(input:completion:)`
 
-Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for
-a wireless device or a wireless gateway.
+Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
 
 ``` swift
 public func resetResourceLogLevel(input: ResetResourceLogLevelInput, completion: @escaping (ClientRuntime.SdkResult<ResetResourceLogLevelOutputResponse, ResetResourceLogLevelOutputError>) -> Void)
@@ -454,8 +458,7 @@ public func updateDestination(input: UpdateDestinationInput, completion: @escapi
 
 ### `updateLogLevelsByResourceTypes(input:completion:)`
 
-Set default log level, or log levels by resource types. This can be for wireless device log options or
-wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
+Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
 
 ``` swift
 public func updateLogLevelsByResourceTypes(input: UpdateLogLevelsByResourceTypesInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLogLevelsByResourceTypesOutputResponse, UpdateLogLevelsByResourceTypesOutputError>) -> Void)

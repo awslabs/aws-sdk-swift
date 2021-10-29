@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SsoClient"
+```
+
 ## Methods
 
 ### `getRoleCredentials(input:completion:)`
 
-Returns the STS short-term credentials for a given role name that is assigned to the
-user.
+Returns the STS short-term credentials for a given role name that is assigned to the user.
 
 ``` swift
 public func getRoleCredentials(input: GetRoleCredentialsInput, completion: @escaping (ClientRuntime.SdkResult<GetRoleCredentialsOutputResponse, GetRoleCredentialsOutputError>) -> Void)
@@ -43,9 +50,7 @@ public func listAccountRoles(input: ListAccountRolesInput, completion: @escaping
 
 ### `listAccounts(input:completion:)`
 
-Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
-administrator of the account. For more information, see <a href="https:​//docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers">Assign User Access in the AWS SSO User Guide. This operation
-returns a paginated response.
+Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see [Assign User Access](https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers) in the AWS SSO User Guide. This operation returns a paginated response.
 
 ``` swift
 public func listAccounts(input: ListAccountsInput, completion: @escaping (ClientRuntime.SdkResult<ListAccountsOutputResponse, ListAccountsOutputError>) -> Void)

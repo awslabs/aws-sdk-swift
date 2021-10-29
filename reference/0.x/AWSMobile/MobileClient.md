@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "MobileClient"
+```
+
 ## Methods
 
 ### `createProject(input:completion:)`
@@ -58,8 +66,7 @@ public func describeProject(input: DescribeProjectInput, completion: @escaping (
 
 ### `exportBundle(input:completion:)`
 
-Generates customized software development kit (SDK) and or tool packages
-used to integrate mobile web or mobile app clients with backend AWS resources.
+Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources.
 
 ``` swift
 public func exportBundle(input: ExportBundleInput, completion: @escaping (ClientRuntime.SdkResult<ExportBundleOutputResponse, ExportBundleOutputError>) -> Void)
@@ -67,9 +74,7 @@ public func exportBundle(input: ExportBundleInput, completion: @escaping (Client
 
 ### `exportProject(input:completion:)`
 
-Exports project configuration to a snapshot which can be downloaded and shared.
-Note that mobile app push credentials are encrypted in exported projects, so they
-can only be shared successfully within the same AWS account.
+Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account.
 
 ``` swift
 public func exportProject(input: ExportProjectInput, completion: @escaping (ClientRuntime.SdkResult<ExportProjectOutputResponse, ExportProjectOutputError>) -> Void)

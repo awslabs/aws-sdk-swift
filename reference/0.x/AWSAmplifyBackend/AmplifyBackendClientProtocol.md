@@ -8,7 +8,7 @@ public protocol AmplifyBackendClientProtocol
 
 ## Requirements
 
-### cloneBackend(input:​completion:​)
+### cloneBackend(input:completion:)
 
 This operation clones an existing backend.
 
@@ -16,7 +16,7 @@ This operation clones an existing backend.
 func cloneBackend(input: CloneBackendInput, completion: @escaping (ClientRuntime.SdkResult<CloneBackendOutputResponse, CloneBackendOutputError>) -> Void)
 ```
 
-### createBackend(input:​completion:​)
+### createBackend(input:completion:)
 
 This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
 
@@ -24,7 +24,7 @@ This operation creates a backend for an Amplify app. Backends are automatically 
 func createBackend(input: CreateBackendInput, completion: @escaping (ClientRuntime.SdkResult<CreateBackendOutputResponse, CreateBackendOutputError>) -> Void)
 ```
 
-### createBackendAPI(input:​completion:​)
+### createBackendAPI(input:completion:)
 
 Creates a new backend API resource.
 
@@ -32,7 +32,7 @@ Creates a new backend API resource.
 func createBackendAPI(input: CreateBackendAPIInput, completion: @escaping (ClientRuntime.SdkResult<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>) -> Void)
 ```
 
-### createBackendAuth(input:​completion:​)
+### createBackendAuth(input:completion:)
 
 Creates a new backend authentication resource.
 
@@ -40,7 +40,7 @@ Creates a new backend authentication resource.
 func createBackendAuth(input: CreateBackendAuthInput, completion: @escaping (ClientRuntime.SdkResult<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>) -> Void)
 ```
 
-### createBackendConfig(input:​completion:​)
+### createBackendConfig(input:completion:)
 
 Creates a config object for a backend.
 
@@ -48,7 +48,7 @@ Creates a config object for a backend.
 func createBackendConfig(input: CreateBackendConfigInput, completion: @escaping (ClientRuntime.SdkResult<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>) -> Void)
 ```
 
-### createToken(input:​completion:​)
+### createToken(input:completion:)
 
 Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
 
@@ -56,7 +56,7 @@ Generates a one-time challenge code to authenticate a user into your Amplify Adm
 func createToken(input: CreateTokenInput, completion: @escaping (ClientRuntime.SdkResult<CreateTokenOutputResponse, CreateTokenOutputError>) -> Void)
 ```
 
-### deleteBackend(input:​completion:​)
+### deleteBackend(input:completion:)
 
 Removes an existing environment from your Amplify project.
 
@@ -64,7 +64,7 @@ Removes an existing environment from your Amplify project.
 func deleteBackend(input: DeleteBackendInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBackendOutputResponse, DeleteBackendOutputError>) -> Void)
 ```
 
-### deleteBackendAPI(input:​completion:​)
+### deleteBackendAPI(input:completion:)
 
 Deletes an existing backend API resource.
 
@@ -72,7 +72,7 @@ Deletes an existing backend API resource.
 func deleteBackendAPI(input: DeleteBackendAPIInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>) -> Void)
 ```
 
-### deleteBackendAuth(input:​completion:​)
+### deleteBackendAuth(input:completion:)
 
 Deletes an existing backend authentication resource.
 
@@ -80,7 +80,7 @@ Deletes an existing backend authentication resource.
 func deleteBackendAuth(input: DeleteBackendAuthInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>) -> Void)
 ```
 
-### deleteToken(input:​completion:​)
+### deleteToken(input:completion:)
 
 Deletes the challenge token based on the given appId and sessionId.
 
@@ -88,7 +88,7 @@ Deletes the challenge token based on the given appId and sessionId.
 func deleteToken(input: DeleteTokenInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTokenOutputResponse, DeleteTokenOutputError>) -> Void)
 ```
 
-### generateBackendAPIModels(input:​completion:​)
+### generateBackendAPIModels(input:completion:)
 
 Generates a model schema for an existing backend API resource.
 
@@ -96,7 +96,7 @@ Generates a model schema for an existing backend API resource.
 func generateBackendAPIModels(input: GenerateBackendAPIModelsInput, completion: @escaping (ClientRuntime.SdkResult<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>) -> Void)
 ```
 
-### getBackend(input:​completion:​)
+### getBackend(input:completion:)
 
 Provides project-level details for your Amplify UI project.
 
@@ -104,7 +104,7 @@ Provides project-level details for your Amplify UI project.
 func getBackend(input: GetBackendInput, completion: @escaping (ClientRuntime.SdkResult<GetBackendOutputResponse, GetBackendOutputError>) -> Void)
 ```
 
-### getBackendAPI(input:​completion:​)
+### getBackendAPI(input:completion:)
 
 Gets the details for a backend API.
 
@@ -112,7 +112,7 @@ Gets the details for a backend API.
 func getBackendAPI(input: GetBackendAPIInput, completion: @escaping (ClientRuntime.SdkResult<GetBackendAPIOutputResponse, GetBackendAPIOutputError>) -> Void)
 ```
 
-### getBackendAPIModels(input:​completion:​)
+### getBackendAPIModels(input:completion:)
 
 Generates a model schema for existing backend API resource.
 
@@ -120,7 +120,7 @@ Generates a model schema for existing backend API resource.
 func getBackendAPIModels(input: GetBackendAPIModelsInput, completion: @escaping (ClientRuntime.SdkResult<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>) -> Void)
 ```
 
-### getBackendAuth(input:​completion:​)
+### getBackendAuth(input:completion:)
 
 Gets a backend auth details.
 
@@ -128,7 +128,7 @@ Gets a backend auth details.
 func getBackendAuth(input: GetBackendAuthInput, completion: @escaping (ClientRuntime.SdkResult<GetBackendAuthOutputResponse, GetBackendAuthOutputError>) -> Void)
 ```
 
-### getBackendJob(input:​completion:​)
+### getBackendJob(input:completion:)
 
 Returns information about a specific job.
 
@@ -136,7 +136,7 @@ Returns information about a specific job.
 func getBackendJob(input: GetBackendJobInput, completion: @escaping (ClientRuntime.SdkResult<GetBackendJobOutputResponse, GetBackendJobOutputError>) -> Void)
 ```
 
-### getToken(input:​completion:​)
+### getToken(input:completion:)
 
 Gets the challenge token based on the given appId and sessionId.
 
@@ -144,7 +144,7 @@ Gets the challenge token based on the given appId and sessionId.
 func getToken(input: GetTokenInput, completion: @escaping (ClientRuntime.SdkResult<GetTokenOutputResponse, GetTokenOutputError>) -> Void)
 ```
 
-### importBackendAuth(input:​completion:​)
+### importBackendAuth(input:completion:)
 
 Imports an existing backend authentication resource.
 
@@ -152,7 +152,7 @@ Imports an existing backend authentication resource.
 func importBackendAuth(input: ImportBackendAuthInput, completion: @escaping (ClientRuntime.SdkResult<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>) -> Void)
 ```
 
-### listBackendJobs(input:​completion:​)
+### listBackendJobs(input:completion:)
 
 Lists the jobs for the backend of an Amplify app.
 
@@ -160,7 +160,7 @@ Lists the jobs for the backend of an Amplify app.
 func listBackendJobs(input: ListBackendJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListBackendJobsOutputResponse, ListBackendJobsOutputError>) -> Void)
 ```
 
-### removeAllBackends(input:​completion:​)
+### removeAllBackends(input:completion:)
 
 Removes all backend environments from your Amplify project.
 
@@ -168,7 +168,7 @@ Removes all backend environments from your Amplify project.
 func removeAllBackends(input: RemoveAllBackendsInput, completion: @escaping (ClientRuntime.SdkResult<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>) -> Void)
 ```
 
-### removeBackendConfig(input:​completion:​)
+### removeBackendConfig(input:completion:)
 
 Removes the AWS resources required to access the Amplify Admin UI.
 
@@ -176,7 +176,7 @@ Removes the AWS resources required to access the Amplify Admin UI.
 func removeBackendConfig(input: RemoveBackendConfigInput, completion: @escaping (ClientRuntime.SdkResult<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>) -> Void)
 ```
 
-### updateBackendAPI(input:​completion:​)
+### updateBackendAPI(input:completion:)
 
 Updates an existing backend API resource.
 
@@ -184,7 +184,7 @@ Updates an existing backend API resource.
 func updateBackendAPI(input: UpdateBackendAPIInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>) -> Void)
 ```
 
-### updateBackendAuth(input:​completion:​)
+### updateBackendAuth(input:completion:)
 
 Updates an existing backend authentication resource.
 
@@ -192,7 +192,7 @@ Updates an existing backend authentication resource.
 func updateBackendAuth(input: UpdateBackendAuthInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>) -> Void)
 ```
 
-### updateBackendConfig(input:​completion:​)
+### updateBackendConfig(input:completion:)
 
 Updates the AWS resources required to access the Amplify Admin UI.
 
@@ -200,7 +200,7 @@ Updates the AWS resources required to access the Amplify Admin UI.
 func updateBackendConfig(input: UpdateBackendConfigInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>) -> Void)
 ```
 
-### updateBackendJob(input:​completion:​)
+### updateBackendJob(input:completion:)
 
 Updates a specific job.
 

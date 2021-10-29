@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "LicenseManagerClient"
+```
+
 ## Methods
 
 ### `acceptGrant(input:completion:)`
@@ -82,12 +90,7 @@ public func createLicense(input: CreateLicenseInput, completion: @escaping (Clie
 
 ### `createLicenseConfiguration(input:completion:)`
 
-Creates a license configuration.
-A license configuration is an abstraction of a customer license agreement that can be
-consumed and enforced by License Manager. Components include specifications for the license
-type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,
-Dedicated Instance, Dedicated Host, or all of these), license affinity  to host (how long a
-license must be associated with a host), and the number of licenses purchased and used.
+Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
 
 ``` swift
 public func createLicenseConfiguration(input: CreateLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateLicenseConfigurationOutputResponse, CreateLicenseConfigurationOutputError>) -> Void)
@@ -119,10 +122,7 @@ public func createLicenseVersion(input: CreateLicenseVersionInput, completion: @
 
 ### `createToken(input:completion:)`
 
-Creates a long-lived token.
-A refresh token is a JWT token used to get an access token. With an access token,
-you can call AssumeRoleWithWebIdentity to get role credentials that you can use to
-call License Manager to manage the specified license.
+Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
 
 ``` swift
 public func createToken(input: CreateTokenInput, completion: @escaping (ClientRuntime.SdkResult<CreateTokenOutputResponse, CreateTokenOutputError>) -> Void)
@@ -146,8 +146,7 @@ public func deleteLicense(input: DeleteLicenseInput, completion: @escaping (Clie
 
 ### `deleteLicenseConfiguration(input:completion:)`
 
-Deletes the specified license configuration.
-You cannot delete a license configuration that is in use.
+Deletes the specified license configuration. You cannot delete a license configuration that is in use.
 
 ``` swift
 public func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLicenseConfigurationOutputResponse, DeleteLicenseConfigurationOutputError>) -> Void)
@@ -155,9 +154,7 @@ public func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput, c
 
 ### `deleteLicenseManagerReportGenerator(input:completion:)`
 
-Deletes the specified report generator.
-This action deletes the report generator, which stops it from generating future reports.
-The action cannot be reversed. It has no effect on the previous reports from this generator.
+Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
 
 ``` swift
 public func deleteLicenseManagerReportGenerator(input: DeleteLicenseManagerReportGeneratorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLicenseManagerReportGeneratorOutputResponse, DeleteLicenseManagerReportGeneratorOutputError>) -> Void)
@@ -181,8 +178,7 @@ public func extendLicenseConsumption(input: ExtendLicenseConsumptionInput, compl
 
 ### `getAccessToken(input:completion:)`
 
-Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens
-are valid for one hour.
+Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
 
 ``` swift
 public func getAccessToken(input: GetAccessTokenInput, completion: @escaping (ClientRuntime.SdkResult<GetAccessTokenOutputResponse, GetAccessTokenOutputError>) -> Void)
@@ -246,10 +242,7 @@ public func getServiceSettings(input: GetServiceSettingsInput, completion: @esca
 
 ### `listAssociationsForLicenseConfiguration(input:completion:)`
 
-Lists the resource associations for the specified license configuration.
-Resource associations need not consume licenses from a license configuration.
-For example, an AMI or a stopped instance might not consume a license (depending on
-the license rules).
+Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
 
 ``` swift
 public func listAssociationsForLicenseConfiguration(input: ListAssociationsForLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<ListAssociationsForLicenseConfigurationOutputResponse, ListAssociationsForLicenseConfigurationOutputError>) -> Void)
@@ -361,9 +354,7 @@ public func listTokens(input: ListTokensInput, completion: @escaping (ClientRunt
 
 ### `listUsageForLicenseConfiguration(input:completion:)`
 
-Lists all license usage records for a license configuration, displaying license
-consumption details by resource at a selected point in time. Use this action to audit the
-current license consumption for any license inventory and configuration.
+Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
 
 ``` swift
 public func listUsageForLicenseConfiguration(input: ListUsageForLicenseConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<ListUsageForLicenseConfigurationOutputResponse, ListUsageForLicenseConfigurationOutputError>) -> Void)
@@ -403,8 +394,7 @@ public func updateLicenseConfiguration(input: UpdateLicenseConfigurationInput, c
 
 ### `updateLicenseManagerReportGenerator(input:completion:)`
 
-Updates a report generator.
-After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
+Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
 
 ``` swift
 public func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerReportGeneratorInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLicenseManagerReportGeneratorOutputResponse, UpdateLicenseManagerReportGeneratorOutputError>) -> Void)
@@ -412,10 +402,7 @@ public func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerRepor
 
 ### `updateLicenseSpecificationsForResource(input:completion:)`
 
-Adds or removes the specified license configurations for the specified Amazon Web Services resource.
-You can update the license specifications of AMIs, instances, and hosts.
-You cannot update the license specifications for launch templates and CloudFormation templates,
-as they send license configurations to the operation that creates the resource.
+Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
 
 ``` swift
 public func updateLicenseSpecificationsForResource(input: UpdateLicenseSpecificationsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLicenseSpecificationsForResourceOutputResponse, UpdateLicenseSpecificationsForResourceOutputError>) -> Void)

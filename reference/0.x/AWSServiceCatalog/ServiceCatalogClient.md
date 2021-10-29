@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ServiceCatalogClient"
+```
+
 ## Methods
 
 ### `acceptPortfolioShare(input:completion:)`
@@ -50,8 +58,7 @@ public func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfol
 
 ### `associateProductWithPortfolio(input:completion:)`
 
-Associates the specified product with the specified portfolio.
-A delegated admin is authorized to invoke this command.
+Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func associateProductWithPortfolio(input: AssociateProductWithPortfolioInput, completion: @escaping (ClientRuntime.SdkResult<AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>) -> Void)
@@ -91,11 +98,7 @@ public func batchDisassociateServiceActionFromProvisioningArtifact(input: BatchD
 
 ### `copyProduct(input:completion:)`
 
-Copies the specified source product to the specified target product or a new product.
-You can copy a product to the same account or another account.
-You can copy a product to the same region or another region.
-This operation is performed asynchronously. To track the progress of the
-operation, use DescribeCopyProductStatus.
+Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same region or another region. This operation is performed asynchronously. To track the progress of the operation, use \[DescribeCopyProductStatus\].
 
 ``` swift
 public func copyProduct(input: CopyProductInput, completion: @escaping (ClientRuntime.SdkResult<CopyProductOutputResponse, CopyProductOutputError>) -> Void)
@@ -103,8 +106,7 @@ public func copyProduct(input: CopyProductInput, completion: @escaping (ClientRu
 
 ### `createConstraint(input:completion:)`
 
-Creates a constraint.
-A delegated admin is authorized to invoke this command.
+Creates a constraint. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func createConstraint(input: CreateConstraintInput, completion: @escaping (ClientRuntime.SdkResult<CreateConstraintOutputResponse, CreateConstraintOutputError>) -> Void)
@@ -112,8 +114,7 @@ public func createConstraint(input: CreateConstraintInput, completion: @escaping
 
 ### `createPortfolio(input:completion:)`
 
-Creates a portfolio.
-A delegated admin is authorized to invoke this command.
+Creates a portfolio. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func createPortfolio(input: CreatePortfolioInput, completion: @escaping (ClientRuntime.SdkResult<CreatePortfolioOutputResponse, CreatePortfolioOutputError>) -> Void)
@@ -121,47 +122,23 @@ public func createPortfolio(input: CreatePortfolioInput, completion: @escaping (
 
 ### `createPortfolioShare(input:completion:)`
 
-Shares the specified portfolio with the specified account or organization node.
-Shares to an organization node can only be created by the management account of an
-organization or by a delegated administrator. You can share portfolios to an organization,
-an organizational unit, or a specific account.
-Note that if a delegated admin is de-registered, they can no longer create portfolio shares.
+Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead.
 
 ``` swift
 public func createPortfolioShare(input: CreatePortfolioShareInput, completion: @escaping (ClientRuntime.SdkResult<CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>) -> Void)
 ```
 
-``` 
-        AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
-     You can't share a shared resource, including portfolios that contain a shared product.
-     If the portfolio share with the specified account or organization node already exists, this action will have no effect and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead.
-```
-
 ### `createProduct(input:completion:)`
 
-Creates a product.
-A delegated admin is authorized to invoke this command.
+Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
 
 ``` swift
 public func createProduct(input: CreateProductInput, completion: @escaping (ClientRuntime.SdkResult<CreateProductOutputResponse, CreateProductOutputError>) -> Void)
 ```
 
-``` 
-     The user or role that performs this operation must have the
-        cloudformation:GetTemplate IAM policy permission. This policy permission is
-     required when using the ImportFromPhysicalId template source in the
-     information data section.
-```
-
 ### `createProvisionedProductPlan(input:completion:)`
 
-Creates a plan. A plan includes the list of resources to be
-created (when provisioning a new product) or modified (when updating a provisioned product)
-when the plan is executed.
-You can create one plan per provisioned product. To create a plan for an existing
-provisioned product, the product status must be AVAILBLE or TAINTED.
-To view the resource changes in the change set, use DescribeProvisionedProductPlan.
-To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
+Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan per provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILBLE or TAINTED. To view the resource changes in the change set, use \[DescribeProvisionedProductPlan\]. To create or modify the provisioned product, use \[ExecuteProvisionedProductPlan\].
 
 ``` swift
 public func createProvisionedProductPlan(input: CreateProvisionedProductPlanInput, completion: @escaping (ClientRuntime.SdkResult<CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>) -> Void)
@@ -169,17 +146,10 @@ public func createProvisionedProductPlan(input: CreateProvisionedProductPlanInpu
 
 ### `createProvisioningArtifact(input:completion:)`
 
-Creates a provisioning artifact (also known as a version) for the specified product.
-You cannot create a provisioning artifact for a product that was shared with you.
+Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
 
 ``` swift
 public func createProvisioningArtifact(input: CreateProvisioningArtifactInput, completion: @escaping (ClientRuntime.SdkResult<CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>) -> Void)
-```
-
-``` 
-     The user or role that performs this operation must have the cloudformation:GetTemplate
-     IAM policy permission. This policy permission is required when using the
-     ImportFromPhysicalId template source in the information data section.
 ```
 
 ### `createServiceAction(input:completion:)`
@@ -200,8 +170,7 @@ public func createTagOption(input: CreateTagOptionInput, completion: @escaping (
 
 ### `deleteConstraint(input:completion:)`
 
-Deletes the specified constraint.
-A delegated admin is authorized to invoke this command.
+Deletes the specified constraint. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func deleteConstraint(input: DeleteConstraintInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConstraintOutputResponse, DeleteConstraintOutputError>) -> Void)
@@ -209,10 +178,7 @@ public func deleteConstraint(input: DeleteConstraintInput, completion: @escaping
 
 ### `deletePortfolio(input:completion:)`
 
-Deletes the specified portfolio.
-You cannot delete a portfolio if it was shared with you or if it has associated
-products, users, constraints, or shared accounts.
-A delegated admin is authorized to invoke this command.
+Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func deletePortfolio(input: DeletePortfolioInput, completion: @escaping (ClientRuntime.SdkResult<DeletePortfolioOutputResponse, DeletePortfolioOutputError>) -> Void)
@@ -220,10 +186,7 @@ public func deletePortfolio(input: DeletePortfolioInput, completion: @escaping (
 
 ### `deletePortfolioShare(input:completion:)`
 
-Stops sharing the specified portfolio with the specified account or organization
-node. Shares to an organization node can only be deleted by the management account of an
-organization or by a delegated administrator.
-Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
+Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
 
 ``` swift
 public func deletePortfolioShare(input: DeletePortfolioShareInput, completion: @escaping (ClientRuntime.SdkResult<DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>) -> Void)
@@ -231,9 +194,7 @@ public func deletePortfolioShare(input: DeletePortfolioShareInput, completion: @
 
 ### `deleteProduct(input:completion:)`
 
-Deletes the specified product.
-You cannot delete a product if it was shared with you or is associated with a portfolio.
-A delegated admin is authorized to invoke this command.
+Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func deleteProduct(input: DeleteProductInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProductOutputResponse, DeleteProductOutputError>) -> Void)
@@ -249,10 +210,7 @@ public func deleteProvisionedProductPlan(input: DeleteProvisionedProductPlanInpu
 
 ### `deleteProvisioningArtifact(input:completion:)`
 
-Deletes the specified provisioning artifact (also known as a version) for the specified product.
-You cannot delete a provisioning artifact associated with a product that was shared with you.
-You cannot delete the last provisioning artifact for a product, because a product must have at
-least one provisioning artifact.
+Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning artifact for a product, because a product must have at least one provisioning artifact.
 
 ``` swift
 public func deleteProvisioningArtifact(input: DeleteProvisioningArtifactInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>) -> Void)
@@ -268,8 +226,7 @@ public func deleteServiceAction(input: DeleteServiceActionInput, completion: @es
 
 ### `deleteTagOption(input:completion:)`
 
-Deletes the specified TagOption.
-You cannot delete a TagOption if it is associated with a product or portfolio.
+Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio.
 
 ``` swift
 public func deleteTagOption(input: DeleteTagOptionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>) -> Void)
@@ -293,8 +250,7 @@ public func describeCopyProductStatus(input: DescribeCopyProductStatusInput, com
 
 ### `describePortfolio(input:completion:)`
 
-Gets information about the specified portfolio.
-A delegated admin is authorized to invoke this command.
+Gets information about the specified portfolio. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func describePortfolio(input: DescribePortfolioInput, completion: @escaping (ClientRuntime.SdkResult<DescribePortfolioOutputResponse, DescribePortfolioOutputError>) -> Void)
@@ -302,8 +258,7 @@ public func describePortfolio(input: DescribePortfolioInput, completion: @escapi
 
 ### `describePortfolioShareStatus(input:completion:)`
 
-Gets the status of the specified portfolio share operation. This API can only be called
-by the management account in the organization or by a delegated admin.
+Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin.
 
 ``` swift
 public func describePortfolioShareStatus(input: DescribePortfolioShareStatusInput, completion: @escaping (ClientRuntime.SdkResult<DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>) -> Void)
@@ -311,11 +266,7 @@ public func describePortfolioShareStatus(input: DescribePortfolioShareStatusInpu
 
 ### `describePortfolioShares(input:completion:)`
 
-Returns a summary of each of the portfolio shares that were created for the specified portfolio.
-You can use this API to determine which accounts or organizational nodes this
-portfolio have been shared, whether the recipient entity has imported the share, and
-whether TagOptions are included with the share.
-The PortfolioId and Type parameters are both required.
+Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
 
 ``` swift
 public func describePortfolioShares(input: DescribePortfolioSharesInput, completion: @escaping (ClientRuntime.SdkResult<DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>) -> Void)
@@ -371,14 +322,7 @@ public func describeProvisioningArtifact(input: DescribeProvisioningArtifactInpu
 
 ### `describeProvisioningParameters(input:completion:)`
 
-Gets information about the configuration required to provision the specified product using
-the specified provisioning artifact.
-If the output contains a TagOption key with an empty list of values, there is a
-TagOption conflict for that key. The end user cannot take action to fix the conflict, and
-launch is not blocked. In subsequent calls to ProvisionProduct,
-do not include conflicted TagOption keys as tags, or this causes the error
-"Parameter validation failed:​ Missing required parameter in Tags\[N\]:​Value".
-Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
+Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to \[ProvisionProduct\], do not include conflicted TagOption keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags\[N\]:Value". Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
 
 ``` swift
 public func describeProvisioningParameters(input: DescribeProvisioningParametersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>) -> Void)
@@ -386,18 +330,10 @@ public func describeProvisioningParameters(input: DescribeProvisioningParameters
 
 ### `describeRecord(input:completion:)`
 
-Gets information about the specified request operation.
-Use this operation after calling a request operation (for example, ProvisionProduct,
-TerminateProvisionedProduct, or UpdateProvisionedProduct).
+Gets information about the specified request operation. Use this operation after calling a request operation (for example, \[ProvisionProduct\], \[TerminateProvisionedProduct\], or \[UpdateProvisionedProduct\]). If a provisioned product was transferred to a new owner using \[UpdateProvisionedProductProperties\], the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use \[ListRecordHistory\] to see the product's history from when he was the owner.
 
 ``` swift
 public func describeRecord(input: DescribeRecordInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRecordOutputResponse, DescribeRecordOutputError>) -> Void)
-```
-
-``` 
-        If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner
-  will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to
-  use ListRecordHistory to see the product's history from when he was the owner.
 ```
 
 ### `describeServiceAction(input:completion:)`
@@ -426,13 +362,7 @@ public func describeTagOption(input: DescribeTagOptionInput, completion: @escapi
 
 ### `disableAWSOrganizationsAccess(input:completion:)`
 
-Disable portfolio sharing through AWS Organizations feature. This feature will not
-delete your current shares but it will prevent you from creating new shares throughout your
-organization. Current shares will not be in sync with your organization structure if it
-changes after calling this API. This API can only be called by the management  account in
-the organization.
-This API can't be invoked if there are active delegated administrators in the organization.
-Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
+Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the management account in the organization. This API can't be invoked if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
 
 ``` swift
 public func disableAWSOrganizationsAccess(input: DisableAWSOrganizationsAccessInput, completion: @escaping (ClientRuntime.SdkResult<DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>) -> Void)
@@ -448,8 +378,7 @@ public func disassociateBudgetFromResource(input: DisassociateBudgetFromResource
 
 ### `disassociatePrincipalFromPortfolio(input:completion:)`
 
-Disassociates a previously associated principal ARN from a specified
-portfolio.
+Disassociates a previously associated principal ARN from a specified portfolio.
 
 ``` swift
 public func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput, completion: @escaping (ClientRuntime.SdkResult<DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>) -> Void)
@@ -457,8 +386,7 @@ public func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromP
 
 ### `disassociateProductFromPortfolio(input:completion:)`
 
-Disassociates the specified product from the specified portfolio.
-A delegated admin is authorized to invoke this command.
+Disassociates the specified product from the specified portfolio. A delegated admin is authorized to invoke this command.
 
 ``` swift
 public func disassociateProductFromPortfolio(input: DisassociateProductFromPortfolioInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>) -> Void)
@@ -482,12 +410,7 @@ public func disassociateTagOptionFromResource(input: DisassociateTagOptionFromRe
 
 ### `enableAWSOrganizationsAccess(input:completion:)`
 
-Enable portfolio sharing feature through AWS Organizations. This API will allow Service
-Catalog to receive updates on your organization in order to sync your shares with the
-current structure. This API can only be called by the management  account in the
-organization.
-By calling this API Service Catalog will make a call to organizations:​EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure.
-Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
+Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
 
 ``` swift
 public func enableAWSOrganizationsAccess(input: EnableAWSOrganizationsAccessInput, completion: @escaping (ClientRuntime.SdkResult<EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>) -> Void)
@@ -511,8 +434,7 @@ public func executeProvisionedProductServiceAction(input: ExecuteProvisionedProd
 
 ### `getAWSOrganizationsAccessStatus(input:completion:)`
 
-Get the Access Status for AWS Organization portfolio share feature. This API can only be
-called by the management account in the organization or by a delegated admin.
+Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
 
 ``` swift
 public func getAWSOrganizationsAccessStatus(input: GetAWSOrganizationsAccessStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>) -> Void)
@@ -528,25 +450,10 @@ public func getProvisionedProductOutputs(input: GetProvisionedProductOutputsInpu
 
 ### `importAsProvisionedProduct(input:completion:)`
 
-Requests the import of a resource as a Service Catalog provisioned product that is
-associated to a Service Catalog product and provisioning artifact. Once imported, all
-supported Service Catalog governance actions are supported on the provisioned
-product.
-Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and
-non-root nested stacks are not supported.
-The CloudFormation stack must have one of the following statuses to be imported:​
-CREATE\_COMPLETE, UPDATE\_COMPLETE, UPDATE\_ROLLBACK\_COMPLETE, IMPORT\_COMPLETE,
-IMPORT\_ROLLBACK\_COMPLETE.
-Import of the resource requires that the CloudFormation stack template matches the
-associated Service Catalog product provisioning artifact.
+Requests the import of a resource as a Service Catalog provisioned product that is associated to a Service Catalog product and provisioning artifact. Once imported, all supported Service Catalog governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE\_COMPLETE, UPDATE\_COMPLETE, UPDATE\_ROLLBACK\_COMPLETE, IMPORT\_COMPLETE, IMPORT\_ROLLBACK\_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact. The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
 
 ``` swift
 public func importAsProvisionedProduct(input: ImportAsProvisionedProductInput, completion: @escaping (ClientRuntime.SdkResult<ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>) -> Void)
-```
-
-``` 
-     The user or role that performs this operation must have the cloudformation:GetTemplate
-     and cloudformation:DescribeStacks IAM policy permissions.
 ```
 
 ### `listAcceptedPortfolioShares(input:completion:)`
@@ -575,9 +482,7 @@ public func listConstraintsForPortfolio(input: ListConstraintsForPortfolioInput,
 
 ### `listLaunchPaths(input:completion:)`
 
-Lists the paths to the specified product. A path is how the user
-has access to a specified product, and is necessary when provisioning a product. A path
-also determines the constraints put on the product.
+Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
 
 ``` swift
 public func listLaunchPaths(input: ListLaunchPathsInput, completion: @escaping (ClientRuntime.SdkResult<ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>) -> Void)
@@ -585,10 +490,7 @@ public func listLaunchPaths(input: ListLaunchPathsInput, completion: @escaping (
 
 ### `listOrganizationPortfolioAccess(input:completion:)`
 
-Lists the organization nodes that have access to the specified portfolio. This API can
-only be called by the management account in the organization or by a delegated
-admin.
-If a delegated admin is de-registered, they can no longer perform this operation.
+Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
 
 ``` swift
 public func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAccessInput, completion: @escaping (ClientRuntime.SdkResult<ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>) -> Void)
@@ -596,8 +498,7 @@ public func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAcce
 
 ### `listPortfolioAccess(input:completion:)`
 
-Lists the account IDs that have access to the specified portfolio.
-A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
+Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
 
 ``` swift
 public func listPortfolioAccess(input: ListPortfolioAccessInput, completion: @escaping (ClientRuntime.SdkResult<ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>) -> Void)
@@ -701,15 +602,7 @@ public func listTagOptions(input: ListTagOptionsInput, completion: @escaping (Cl
 
 ### `provisionProduct(input:completion:)`
 
-Provisions the specified product.
-A provisioned product is a resourced instance of a product.
-For example, provisioning a product based on a CloudFormation template launches a
-CloudFormation stack and its underlying resources.
-You can check the status of this request using DescribeRecord.
-If the request contains a tag key with an empty list of values, there is a
-tag conflict for that key. Do not include conflicted keys as tags, or this causes
-the error "Parameter validation failed:​ Missing required parameter in
-Tags\[N\]:​Value".
+Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product based on a CloudFormation template launches a CloudFormation stack and its underlying resources. You can check the status of this request using \[DescribeRecord\]. If the request contains a tag key with an empty list of values, there is a tag conflict for that key. Do not include conflicted keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags\[N\]:Value".
 
 ``` swift
 public func provisionProduct(input: ProvisionProductInput, completion: @escaping (ClientRuntime.SdkResult<ProvisionProductOutputResponse, ProvisionProductOutputError>) -> Void)
@@ -725,8 +618,7 @@ public func rejectPortfolioShare(input: RejectPortfolioShareInput, completion: @
 
 ### `scanProvisionedProducts(input:completion:)`
 
-Lists the provisioned products that are available (not terminated).
-To use additional filtering, see SearchProvisionedProducts.
+Lists the provisioned products that are available (not terminated). To use additional filtering, see \[SearchProvisionedProducts\].
 
 ``` swift
 public func scanProvisionedProducts(input: ScanProvisionedProductsInput, completion: @escaping (ClientRuntime.SdkResult<ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>) -> Void)
@@ -758,9 +650,7 @@ public func searchProvisionedProducts(input: SearchProvisionedProductsInput, com
 
 ### `terminateProvisionedProduct(input:completion:)`
 
-Terminates the specified provisioned product.
-This operation does not delete any records associated with the provisioned product.
-You can check the status of this request using DescribeRecord.
+Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using \[DescribeRecord\].
 
 ``` swift
 public func terminateProvisionedProduct(input: TerminateProvisionedProductInput, completion: @escaping (ClientRuntime.SdkResult<TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>) -> Void)
@@ -776,8 +666,7 @@ public func updateConstraint(input: UpdateConstraintInput, completion: @escaping
 
 ### `updatePortfolio(input:completion:)`
 
-Updates the specified portfolio.
-You cannot update a product that was shared with you.
+Updates the specified portfolio. You cannot update a product that was shared with you.
 
 ``` swift
 public func updatePortfolio(input: UpdatePortfolioInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>) -> Void)
@@ -785,20 +674,10 @@ public func updatePortfolio(input: UpdatePortfolioInput, completion: @escaping (
 
 ### `updatePortfolioShare(input:completion:)`
 
-Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing for an existing portfolio share.
+Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing for an existing portfolio share. The portfolio share cannot be updated if the  CreatePortfolioShare operation is IN\_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type. This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action.
 
 ``` swift
 public func updatePortfolioShare(input: UpdatePortfolioShareInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>) -> Void)
-```
-
-``` 
-     The portfolio share cannot be updated if the  CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED.
-
-     You must provide the accountId or organization node in the input, but not both.
-
-     If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type.
-
-     This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action.
 ```
 
 ### `updateProduct(input:completion:)`
@@ -811,11 +690,7 @@ public func updateProduct(input: UpdateProductInput, completion: @escaping (Clie
 
 ### `updateProvisionedProduct(input:completion:)`
 
-Requests updates to the configuration of the specified provisioned product.
-If there are tags associated with the object, they cannot be updated or added.
-Depending on the specific updates requested, this operation can update with no
-interruption, with some interruption, or replace the provisioned product entirely.
-You can check the status of this request using DescribeRecord.
+Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using \[DescribeRecord\].
 
 ``` swift
 public func updateProvisionedProduct(input: UpdateProvisionedProductInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>) -> Void)
@@ -831,8 +706,7 @@ public func updateProvisionedProductProperties(input: UpdateProvisionedProductPr
 
 ### `updateProvisioningArtifact(input:completion:)`
 
-Updates the specified provisioning artifact (also known as a version) for the specified product.
-You cannot update a provisioning artifact for a product that was shared with you.
+Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
 
 ``` swift
 public func updateProvisioningArtifact(input: UpdateProvisioningArtifactInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>) -> Void)

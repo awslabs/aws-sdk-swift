@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "GuardDutyClient"
+```
+
 ## Methods
 
 ### `acceptInvitation(input:completion:)`
@@ -34,23 +42,15 @@ public func acceptInvitation(input: AcceptInvitationInput, completion: @escaping
 
 ### `archiveFindings(input:completion:)`
 
-Archives GuardDuty findings that are specified by the list of finding IDs.
+Archives GuardDuty findings that are specified by the list of finding IDs. Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
 
 ``` swift
 public func archiveFindings(input: ArchiveFindingsInput, completion: @escaping (ClientRuntime.SdkResult<ArchiveFindingsOutputResponse, ArchiveFindingsOutputError>) -> Void)
 ```
 
-``` 
-        Only the administrator account can archive findings. Member accounts don't have permission to
-    archive findings from their accounts.
-```
-
 ### `createDetector(input:completion:)`
 
-Creates a single Amazon GuardDuty detector. A detector is a resource that represents the
-GuardDuty service. To start using GuardDuty, you must create a detector in each Region where
-you enable the service. You can have only one detector per account per Region. All data
-sources are enabled in a new detector by default.
+Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
 
 ``` swift
 public func createDetector(input: CreateDetectorInput, completion: @escaping (ClientRuntime.SdkResult<CreateDetectorOutputResponse, CreateDetectorOutputError>) -> Void)
@@ -66,10 +66,7 @@ public func createFilter(input: CreateFilterInput, completion: @escaping (Client
 
 ### `createIPSet(input:completion:)`
 
-Creates a new IPSet, which is called a trusted IP list in the console user interface. An
-IPSet is a list of IP addresses that are trusted for secure communication with AWS
-infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are
-included in IPSets. Only users from the administrator account can use this operation.
+Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with AWS infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
 
 ``` swift
 public func createIPSet(input: CreateIPSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateIPSetOutputResponse, CreateIPSetOutputError>) -> Void)
@@ -77,18 +74,7 @@ public func createIPSet(input: CreateIPSetInput, completion: @escaping (ClientRu
 
 ### `createMembers(input:completion:)`
 
-Creates member accounts of the current AWS account by specifying a list of AWS account
-IDs. This step is a prerequisite for managing the associated member accounts either by
-invitation or through an organization.
-When using Create Members as an organizations delegated administrator this
-action will enable GuardDuty in the added member accounts, with the exception of the
-organization delegated administrator account, which must enable GuardDuty prior to being added as a
-member.
-If you are adding accounts by invitation use this action after GuardDuty has been enabled
-in potential member accounts and before using <a href="https:​//docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">
-Invite
-Members
-.
+Creates member accounts of the current AWS account by specifying a list of AWS account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using [Invite Members](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html).
 
 ``` swift
 public func createMembers(input: CreateMembersInput, completion: @escaping (ClientRuntime.SdkResult<CreateMembersOutputResponse, CreateMembersOutputError>) -> Void)
@@ -96,8 +82,7 @@ public func createMembers(input: CreateMembersInput, completion: @escaping (Clie
 
 ### `createPublishingDestination(input:completion:)`
 
-Creates a publishing destination to export findings to. The resource to export findings to
-must exist before you use this operation.
+Creates a publishing destination to export findings to. The resource to export findings to must exist before you use this operation.
 
 ``` swift
 public func createPublishingDestination(input: CreatePublishingDestinationInput, completion: @escaping (ClientRuntime.SdkResult<CreatePublishingDestinationOutputResponse, CreatePublishingDestinationOutputError>) -> Void)
@@ -105,9 +90,7 @@ public func createPublishingDestination(input: CreatePublishingDestinationInput,
 
 ### `createSampleFindings(input:completion:)`
 
-Generates example findings of types specified by the list of finding types. If 'NULL' is
-specified for findingTypes, the API generates example findings of all supported
-finding types.
+Generates example findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates example findings of all supported finding types.
 
 ``` swift
 public func createSampleFindings(input: CreateSampleFindingsInput, completion: @escaping (ClientRuntime.SdkResult<CreateSampleFindingsOutputResponse, CreateSampleFindingsOutputError>) -> Void)
@@ -115,9 +98,7 @@ public func createSampleFindings(input: CreateSampleFindingsInput, completion: @
 
 ### `createThreatIntelSet(input:completion:)`
 
-Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses.
-GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can
-use this operation.
+Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
 
 ``` swift
 public func createThreatIntelSet(input: CreateThreatIntelSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateThreatIntelSetOutputResponse, CreateThreatIntelSetOutputError>) -> Void)
@@ -125,8 +106,7 @@ public func createThreatIntelSet(input: CreateThreatIntelSetInput, completion: @
 
 ### `declineInvitations(input:completion:)`
 
-Declines invitations sent to the current member account by AWS accounts specified by their
-account IDs.
+Declines invitations sent to the current member account by AWS accounts specified by their account IDs.
 
 ``` swift
 public func declineInvitations(input: DeclineInvitationsInput, completion: @escaping (ClientRuntime.SdkResult<DeclineInvitationsOutputResponse, DeclineInvitationsOutputError>) -> Void)
@@ -150,8 +130,7 @@ public func deleteFilter(input: DeleteFilterInput, completion: @escaping (Client
 
 ### `deleteIPSet(input:completion:)`
 
-Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP
-lists in the console user interface.
+Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
 
 ``` swift
 public func deleteIPSet(input: DeleteIPSetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIPSetOutputResponse, DeleteIPSetOutputError>) -> Void)
@@ -159,8 +138,7 @@ public func deleteIPSet(input: DeleteIPSetInput, completion: @escaping (ClientRu
 
 ### `deleteInvitations(input:completion:)`
 
-Deletes invitations sent to the current member account by AWS accounts specified by their
-account IDs.
+Deletes invitations sent to the current member account by AWS accounts specified by their account IDs.
 
 ``` swift
 public func deleteInvitations(input: DeleteInvitationsInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInvitationsOutputResponse, DeleteInvitationsOutputError>) -> Void)
@@ -168,8 +146,7 @@ public func deleteInvitations(input: DeleteInvitationsInput, completion: @escapi
 
 ### `deleteMembers(input:completion:)`
 
-Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by
-the account IDs.
+Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
 
 ``` swift
 public func deleteMembers(input: DeleteMembersInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMembersOutputResponse, DeleteMembersOutputError>) -> Void)
@@ -193,8 +170,7 @@ public func deleteThreatIntelSet(input: DeleteThreatIntelSetInput, completion: @
 
 ### `describeOrganizationConfiguration(input:completion:)`
 
-Returns information about the account selected as the delegated administrator for
-GuardDuty.
+Returns information about the account selected as the delegated administrator for GuardDuty.
 
 ``` swift
 public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeOrganizationConfigurationOutputResponse, DescribeOrganizationConfigurationOutputError>) -> Void)
@@ -202,8 +178,7 @@ public func describeOrganizationConfiguration(input: DescribeOrganizationConfigu
 
 ### `describePublishingDestination(input:completion:)`
 
-Returns information about the publishing destination specified by the provided
-destinationId.
+Returns information about the publishing destination specified by the provided destinationId.
 
 ``` swift
 public func describePublishingDestination(input: DescribePublishingDestinationInput, completion: @escaping (ClientRuntime.SdkResult<DescribePublishingDestinationOutputResponse, DescribePublishingDestinationOutputError>) -> Void)
@@ -211,8 +186,7 @@ public func describePublishingDestination(input: DescribePublishingDestinationIn
 
 ### `disableOrganizationAdminAccount(input:completion:)`
 
-Disables an AWS account within the Organization as the GuardDuty delegated
-administrator.
+Disables an AWS account within the Organization as the GuardDuty delegated administrator.
 
 ``` swift
 public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput, completion: @escaping (ClientRuntime.SdkResult<DisableOrganizationAdminAccountOutputResponse, DisableOrganizationAdminAccountOutputError>) -> Void)
@@ -228,8 +202,7 @@ public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountIn
 
 ### `disassociateMembers(input:completion:)`
 
-Disassociates GuardDuty member accounts (to the current GuardDuty administrator account)
-specified by the account IDs.
+Disassociates GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
 
 ``` swift
 public func disassociateMembers(input: DisassociateMembersInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateMembersOutputResponse, DisassociateMembersOutputError>) -> Void)
@@ -237,8 +210,7 @@ public func disassociateMembers(input: DisassociateMembersInput, completion: @es
 
 ### `enableOrganizationAdminAccount(input:completion:)`
 
-Enables an AWS account within the organization as the GuardDuty delegated
-administrator.
+Enables an AWS account within the organization as the GuardDuty delegated administrator.
 
 ``` swift
 public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput, completion: @escaping (ClientRuntime.SdkResult<EnableOrganizationAdminAccountOutputResponse, EnableOrganizationAdminAccountOutputError>) -> Void)
@@ -286,8 +258,7 @@ public func getIPSet(input: GetIPSetInput, completion: @escaping (ClientRuntime.
 
 ### `getInvitationsCount(input:completion:)`
 
-Returns the count of all GuardDuty membership invitations that were sent to the current
-member account except the currently accepted invitation.
+Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
 
 ``` swift
 public func getInvitationsCount(input: GetInvitationsCountInput, completion: @escaping (ClientRuntime.SdkResult<GetInvitationsCountOutputResponse, GetInvitationsCountOutputError>) -> Void)
@@ -295,8 +266,7 @@ public func getInvitationsCount(input: GetInvitationsCountInput, completion: @es
 
 ### `getMasterAccount(input:completion:)`
 
-Provides the details for the GuardDuty administrator account associated with the current
-GuardDuty member account.
+Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
 
 ``` swift
 public func getMasterAccount(input: GetMasterAccountInput, completion: @escaping (ClientRuntime.SdkResult<GetMasterAccountOutputResponse, GetMasterAccountOutputError>) -> Void)
@@ -312,8 +282,7 @@ public func getMemberDetectors(input: GetMemberDetectorsInput, completion: @esca
 
 ### `getMembers(input:completion:)`
 
-Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by
-the account IDs.
+Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
 
 ``` swift
 public func getMembers(input: GetMembersInput, completion: @escaping (ClientRuntime.SdkResult<GetMembersOutputResponse, GetMembersOutputError>) -> Void)
@@ -329,10 +298,7 @@ public func getThreatIntelSet(input: GetThreatIntelSetInput, completion: @escapi
 
 ### `getUsageStatistics(input:completion:)`
 
-Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector
-ID. For newly enabled detectors or data sources the cost returned will include only the usage
-so far under 30 days, this may differ from the cost metrics in the console, which projects
-usage over 30 days to provide a monthly cost estimate. For more information see <a href="https:​//docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations">Understanding How Usage Costs are Calculated.
+Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see [Understanding How Usage Costs are Calculated](https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations).
 
 ``` swift
 public func getUsageStatistics(input: GetUsageStatisticsInput, completion: @escaping (ClientRuntime.SdkResult<GetUsageStatisticsOutputResponse, GetUsageStatisticsOutputError>) -> Void)
@@ -340,9 +306,7 @@ public func getUsageStatistics(input: GetUsageStatisticsInput, completion: @esca
 
 ### `inviteMembers(input:completion:)`
 
-Invites other AWS accounts (created as members of the current AWS account by
-CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these
-accounts' findings on their behalf as the GuardDuty administrator account.
+Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these accounts' findings on their behalf as the GuardDuty administrator account.
 
 ``` swift
 public func inviteMembers(input: InviteMembersInput, completion: @escaping (ClientRuntime.SdkResult<InviteMembersOutputResponse, InviteMembersOutputError>) -> Void)
@@ -374,9 +338,7 @@ public func listFindings(input: ListFindingsInput, completion: @escaping (Client
 
 ### `listIPSets(input:completion:)`
 
-Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this
-operation from a member account, the IPSets returned are the IPSets from the associated administrator
-account.
+Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
 
 ``` swift
 public func listIPSets(input: ListIPSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListIPSetsOutputResponse, ListIPSetsOutputError>) -> Void)
@@ -384,8 +346,7 @@ public func listIPSets(input: ListIPSetsInput, completion: @escaping (ClientRunt
 
 ### `listInvitations(input:completion:)`
 
-Lists all GuardDuty membership invitations that were sent to the current AWS
-account.
+Lists all GuardDuty membership invitations that were sent to the current AWS account.
 
 ``` swift
 public func listInvitations(input: ListInvitationsInput, completion: @escaping (ClientRuntime.SdkResult<ListInvitationsOutputResponse, ListInvitationsOutputError>) -> Void)
@@ -409,8 +370,7 @@ public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsIn
 
 ### `listPublishingDestinations(input:completion:)`
 
-Returns a list of publishing destinations associated with the specified
-dectectorId.
+Returns a list of publishing destinations associated with the specified dectectorId.
 
 ``` swift
 public func listPublishingDestinations(input: ListPublishingDestinationsInput, completion: @escaping (ClientRuntime.SdkResult<ListPublishingDestinationsOutputResponse, ListPublishingDestinationsOutputError>) -> Void)
@@ -418,9 +378,7 @@ public func listPublishingDestinations(input: ListPublishingDestinationsInput, c
 
 ### `listTagsForResource(input:completion:)`
 
-Lists tags for a resource. Tagging is currently supported for detectors, finding filters,
-IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this
-operation returns all assigned tags for a given resource.
+Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -428,9 +386,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `listThreatIntelSets(input:completion:)`
 
-Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you
-use this operation from a member account, the ThreatIntelSets associated with the administrator
-account are returned.
+Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
 
 ``` swift
 public func listThreatIntelSets(input: ListThreatIntelSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListThreatIntelSetsOutputResponse, ListThreatIntelSetsOutputError>) -> Void)
@@ -438,9 +394,7 @@ public func listThreatIntelSets(input: ListThreatIntelSetsInput, completion: @es
 
 ### `startMonitoringMembers(input:completion:)`
 
-Turns on GuardDuty monitoring of the specified member accounts. Use this operation to
-restart monitoring of accounts that you stopped monitoring with the
-StopMonitoringMembers operation.
+Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
 
 ``` swift
 public func startMonitoringMembers(input: StartMonitoringMembersInput, completion: @escaping (ClientRuntime.SdkResult<StartMonitoringMembersOutputResponse, StartMonitoringMembersOutputError>) -> Void)
@@ -448,9 +402,7 @@ public func startMonitoringMembers(input: StartMonitoringMembersInput, completio
 
 ### `stopMonitoringMembers(input:completion:)`
 
-Stops GuardDuty monitoring for the specified member accounts. Use the
-StartMonitoringMembers operation to restart monitoring for those
-accounts.
+Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts.
 
 ``` swift
 public func stopMonitoringMembers(input: StopMonitoringMembersInput, completion: @escaping (ClientRuntime.SdkResult<StopMonitoringMembersOutputResponse, StopMonitoringMembersOutputError>) -> Void)
@@ -530,8 +482,7 @@ public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurati
 
 ### `updatePublishingDestination(input:completion:)`
 
-Updates information about the publishing destination specified by the
-destinationId.
+Updates information about the publishing destination specified by the destinationId.
 
 ``` swift
 public func updatePublishingDestination(input: UpdatePublishingDestinationInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePublishingDestinationOutputResponse, UpdatePublishingDestinationOutputError>) -> Void)

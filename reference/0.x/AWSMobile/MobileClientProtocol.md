@@ -1,8 +1,6 @@
 # MobileClientProtocol
 
-AWS Mobile Service provides mobile app and website developers with capabilities
-required to configure AWS resources and bootstrap their developer desktop projects
-with the necessary SDKs, constants, tools and samples to make use of those resources.
+AWS Mobile Service provides mobile app and website developers with capabilities required to configure AWS resources and bootstrap their developer desktop projects with the necessary SDKs, constants, tools and samples to make use of those resources.
 
 ``` swift
 public protocol MobileClientProtocol 
@@ -10,7 +8,7 @@ public protocol MobileClientProtocol
 
 ## Requirements
 
-### createProject(input:​completion:​)
+### createProject(input:completion:)
 
 Creates an AWS Mobile Hub project.
 
@@ -18,7 +16,7 @@ Creates an AWS Mobile Hub project.
 func createProject(input: CreateProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateProjectOutputResponse, CreateProjectOutputError>) -> Void)
 ```
 
-### deleteProject(input:​completion:​)
+### deleteProject(input:completion:)
 
 Delets a project in AWS Mobile Hub.
 
@@ -26,7 +24,7 @@ Delets a project in AWS Mobile Hub.
 func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
 ```
 
-### describeBundle(input:​completion:​)
+### describeBundle(input:completion:)
 
 Get the bundle details for the requested bundle id.
 
@@ -34,7 +32,7 @@ Get the bundle details for the requested bundle id.
 func describeBundle(input: DescribeBundleInput, completion: @escaping (ClientRuntime.SdkResult<DescribeBundleOutputResponse, DescribeBundleOutputError>) -> Void)
 ```
 
-### describeProject(input:​completion:​)
+### describeProject(input:completion:)
 
 Gets details about a project in AWS Mobile Hub.
 
@@ -42,26 +40,23 @@ Gets details about a project in AWS Mobile Hub.
 func describeProject(input: DescribeProjectInput, completion: @escaping (ClientRuntime.SdkResult<DescribeProjectOutputResponse, DescribeProjectOutputError>) -> Void)
 ```
 
-### exportBundle(input:​completion:​)
+### exportBundle(input:completion:)
 
-Generates customized software development kit (SDK) and or tool packages
-used to integrate mobile web or mobile app clients with backend AWS resources.
+Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources.
 
 ``` swift
 func exportBundle(input: ExportBundleInput, completion: @escaping (ClientRuntime.SdkResult<ExportBundleOutputResponse, ExportBundleOutputError>) -> Void)
 ```
 
-### exportProject(input:​completion:​)
+### exportProject(input:completion:)
 
-Exports project configuration to a snapshot which can be downloaded and shared.
-Note that mobile app push credentials are encrypted in exported projects, so they
-can only be shared successfully within the same AWS account.
+Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account.
 
 ``` swift
 func exportProject(input: ExportProjectInput, completion: @escaping (ClientRuntime.SdkResult<ExportProjectOutputResponse, ExportProjectOutputError>) -> Void)
 ```
 
-### listBundles(input:​completion:​)
+### listBundles(input:completion:)
 
 List all available bundles.
 
@@ -69,7 +64,7 @@ List all available bundles.
 func listBundles(input: ListBundlesInput, completion: @escaping (ClientRuntime.SdkResult<ListBundlesOutputResponse, ListBundlesOutputError>) -> Void)
 ```
 
-### listProjects(input:​completion:​)
+### listProjects(input:completion:)
 
 Lists projects in AWS Mobile Hub.
 
@@ -77,7 +72,7 @@ Lists projects in AWS Mobile Hub.
 func listProjects(input: ListProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListProjectsOutputResponse, ListProjectsOutputError>) -> Void)
 ```
 
-### updateProject(input:​completion:​)
+### updateProject(input:completion:)
 
 Update an existing project.
 

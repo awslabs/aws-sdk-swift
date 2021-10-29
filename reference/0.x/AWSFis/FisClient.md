@@ -22,36 +22,31 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "FisClient"
+```
+
 ## Methods
 
 ### `createExperimentTemplate(input:completion:)`
 
-Creates an experiment template.
-To create a template, specify the following information:​
+Creates an experiment template. To create a template, specify the following information:
 
 ``` swift
 public func createExperimentTemplate(input: CreateExperimentTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateExperimentTemplateOutputResponse, CreateExperimentTemplateOutputError>) -> Void)
 ```
 
-``` 
-              Targets: A target can be a specific resource
-           in your AWS environment, or one or more resources that match criteria that you
-           specify, for example, resources that have specific tags.
+  - Targets: A target can be a specific resource in your AWS environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags.
 
+  - Actions: The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment.
 
+  - Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.
 
-              Actions: The actions to carry out on the
-           target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment.
-
-
-
-              Stop conditions: If a stop condition is
-           triggered while an experiment is running, the experiment is automatically
-           stopped. You can define a stop condition as a CloudWatch alarm.
-
-
-     For more information, see the <a href="https://docs.aws.amazon.com/fis/latest/userguide/">AWS Fault Injection Simulator User Guide.
-```
+For more information, see the [AWS Fault Injection Simulator User Guide](https://docs.aws.amazon.com/fis/latest/userguide/).
 
 ### `deleteExperimentTemplate(input:completion:)`
 

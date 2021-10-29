@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "RamClient"
+```
+
 ## Methods
 
 ### `acceptResourceShareInvitation(input:completion:)`
@@ -50,18 +58,10 @@ public func associateResourceSharePermission(input: AssociateResourceSharePermis
 
 ### `createResourceShare(input:completion:)`
 
-Creates a resource share. You must provide a list of the Amazon Resource Names (ARNs) for the
-resources you want to share. You must also specify who you want to share the resources
-with, and the permissions that you grant them.
+Creates a resource share. You must provide a list of the Amazon Resource Names (ARNs) for the resources you want to share. You must also specify who you want to share the resources with, and the permissions that you grant them. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
 
 ``` swift
 public func createResourceShare(input: CreateResourceShareInput, completion: @escaping (ClientRuntime.SdkResult<CreateResourceShareOutputResponse, CreateResourceShareOutputError>) -> Void)
-```
-
-``` 
-        Sharing a resource makes it available for use by principals outside of the
-            Amazon Web Services account that created the resource. Sharing doesn't change any permissions or
-            quotas that apply to the resource in the account that created it.
 ```
 
 ### `deleteResourceShare(input:completion:)`
@@ -90,8 +90,7 @@ public func disassociateResourceSharePermission(input: DisassociateResourceShare
 
 ### `enableSharingWithAwsOrganization(input:completion:)`
 
-Enables resource sharing within your organization in Organizations.
-The caller must be the master account for the organization.
+Enables resource sharing within your organization in Organizations. The caller must be the master account for the organization.
 
 ``` swift
 public func enableSharingWithAwsOrganization(input: EnableSharingWithAwsOrganizationInput, completion: @escaping (ClientRuntime.SdkResult<EnableSharingWithAwsOrganizationOutputResponse, EnableSharingWithAwsOrganizationOutputError>) -> Void)
@@ -139,8 +138,7 @@ public func getResourceShares(input: GetResourceSharesInput, completion: @escapi
 
 ### `listPendingInvitationResources(input:completion:)`
 
-Lists the resources in a resource share that is shared with you but that the invitation is still
-pending for.
+Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
 
 ``` swift
 public func listPendingInvitationResources(input: ListPendingInvitationResourcesInput, completion: @escaping (ClientRuntime.SdkResult<ListPendingInvitationResourcesOutputResponse, ListPendingInvitationResourcesOutputError>) -> Void)
@@ -156,8 +154,7 @@ public func listPermissions(input: ListPermissionsInput, completion: @escaping (
 
 ### `listPrincipals(input:completion:)`
 
-Lists the principals that you have shared resources with or that have shared resources
-with you.
+Lists the principals that you have shared resources with or that have shared resources with you.
 
 ``` swift
 public func listPrincipals(input: ListPrincipalsInput, completion: @escaping (ClientRuntime.SdkResult<ListPrincipalsOutputResponse, ListPrincipalsOutputError>) -> Void)
@@ -181,8 +178,7 @@ public func listResourceTypes(input: ListResourceTypesInput, completion: @escapi
 
 ### `listResources(input:completion:)`
 
-Lists the resources that you added to a resource shares or the resources that are shared with
-you.
+Lists the resources that you added to a resource shares or the resources that are shared with you.
 
 ``` swift
 public func listResources(input: ListResourcesInput, completion: @escaping (ClientRuntime.SdkResult<ListResourcesOutputResponse, ListResourcesOutputError>) -> Void)
@@ -190,23 +186,15 @@ public func listResources(input: ListResourcesInput, completion: @escaping (Clie
 
 ### `promoteResourceShareCreatedFromPolicy(input:completion:)`
 
-Resource shares that were created by attaching a policy to a resource are visible only
-to the resource share owner, and the resource share cannot be modified in RAM.
+Resource shares that were created by attaching a policy to a resource are visible only to the resource share owner, and the resource share cannot be modified in RAM. Use this API action to promote the resource share. When you promote the resource share, it becomes:
 
 ``` swift
 public func promoteResourceShareCreatedFromPolicy(input: PromoteResourceShareCreatedFromPolicyInput, completion: @escaping (ClientRuntime.SdkResult<PromoteResourceShareCreatedFromPolicyOutputResponse, PromoteResourceShareCreatedFromPolicyOutputError>) -> Void)
 ```
 
-``` 
-    Use this API action to promote the resource share. When you promote the resource
-        share, it becomes:
+  - Visible to all principals that it is shared with.
 
-
-            Visible to all principals that it is shared with.
-
-
-            Modifiable in RAM.
-```
+  - Modifiable in RAM.
 
 ### `rejectResourceShareInvitation(input:completion:)`
 

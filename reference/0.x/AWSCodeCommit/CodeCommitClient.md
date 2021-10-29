@@ -22,17 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CodeCommitClient"
+```
+
 ## Methods
 
 ### `associateApprovalRuleTemplateWithRepository(input:completion:)`
 
-Creates an association between an approval rule template and a specified repository.
-Then, the next time a pull request is created in the repository where the destination
-reference (if specified) matches the destination reference (branch) for the pull
-request, an approval rule that matches the template conditions is automatically created
-for that pull request. If no destination references are specified in the template, an
-approval rule that matches the template contents is created for all pull requests in
-that repository.
+Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull requests in that repository.
 
 ``` swift
 public func associateApprovalRuleTemplateWithRepository(input: AssociateApprovalRuleTemplateWithRepositoryInput, completion: @escaping (ClientRuntime.SdkResult<AssociateApprovalRuleTemplateWithRepositoryOutputResponse, AssociateApprovalRuleTemplateWithRepositoryOutputError>) -> Void)
@@ -72,27 +74,15 @@ public func batchGetCommits(input: BatchGetCommitsInput, completion: @escaping (
 
 ### `batchGetRepositories(input:completion:)`
 
-Returns information about one or more repositories.
+Returns information about one or more repositories. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
 
 ``` swift
 public func batchGetRepositories(input: BatchGetRepositoriesInput, completion: @escaping (ClientRuntime.SdkResult<BatchGetRepositoriesOutputResponse, BatchGetRepositoriesOutputError>) -> Void)
 ```
 
-``` 
-        The description field for a repository accepts all HTML characters and all valid
-            Unicode characters. Applications that do not HTML-encode the description and display
-            it in a webpage can expose users to potentially malicious code. Make sure that you
-            HTML-encode the description field in any application that uses this API to display
-            the repository description on a webpage.
-```
-
 ### `createApprovalRuleTemplate(input:completion:)`
 
-Creates a template for approval rules that can then be associated with one or more
-repositories in your AWS account. When you associate a template with a repository, AWS
-CodeCommit creates an approval rule that matches the conditions of the template for all
-pull requests that meet the conditions of the template. For more information, see
-AssociateApprovalRuleTemplateWithRepository.
+Creates a template for approval rules that can then be associated with one or more repositories in your AWS account. When you associate a template with a repository, AWS CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see \[AssociateApprovalRuleTemplateWithRepository\].
 
 ``` swift
 public func createApprovalRuleTemplate(input: CreateApprovalRuleTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateApprovalRuleTemplateOutputResponse, CreateApprovalRuleTemplateOutputError>) -> Void)
@@ -100,14 +90,10 @@ public func createApprovalRuleTemplate(input: CreateApprovalRuleTemplateInput, c
 
 ### `createBranch(input:completion:)`
 
-Creates a branch in a repository and points the branch to a commit.
+Creates a branch in a repository and points the branch to a commit. Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
 
 ``` swift
 public func createBranch(input: CreateBranchInput, completion: @escaping (ClientRuntime.SdkResult<CreateBranchOutputResponse, CreateBranchOutputError>) -> Void)
-```
-
-``` 
-        Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
 ```
 
 ### `createCommit(input:completion:)`
@@ -144,18 +130,10 @@ public func createRepository(input: CreateRepositoryInput, completion: @escaping
 
 ### `createUnreferencedMergeCommit(input:completion:)`
 
-Creates an unreferenced commit that represents the result of merging two branches
-using a specified merge strategy. This can help you determine the outcome of a potential
-merge. This API cannot be used with the fast-forward merge strategy because that
-strategy does not create a merge commit.
+Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
 
 ``` swift
 public func createUnreferencedMergeCommit(input: CreateUnreferencedMergeCommitInput, completion: @escaping (ClientRuntime.SdkResult<CreateUnreferencedMergeCommitOutputResponse, CreateUnreferencedMergeCommitOutputError>) -> Void)
-```
-
-``` 
-        This unreferenced merge commit
-    can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
 ```
 
 ### `deleteApprovalRuleTemplate(input:completion:)`
@@ -184,9 +162,7 @@ public func deleteCommentContent(input: DeleteCommentContentInput, completion: @
 
 ### `deleteFile(input:completion:)`
 
-Deletes a specified file from a specified branch. A commit is created on the branch
-that contains the revision. The file still exists in the commits earlier to the commit
-that contains the deletion.
+Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion.
 
 ``` swift
 public func deleteFile(input: DeleteFileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteFileOutputResponse, DeleteFileOutputError>) -> Void)
@@ -194,9 +170,7 @@ public func deleteFile(input: DeleteFileInput, completion: @escaping (ClientRunt
 
 ### `deletePullRequestApprovalRule(input:completion:)`
 
-Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the
-approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the
-pull request was created. You cannot delete an approval rule from a merged or closed pull request.
+Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request.
 
 ``` swift
 public func deletePullRequestApprovalRule(input: DeletePullRequestApprovalRuleInput, completion: @escaping (ClientRuntime.SdkResult<DeletePullRequestApprovalRuleOutputResponse, DeletePullRequestApprovalRuleOutputError>) -> Void)
@@ -204,23 +178,15 @@ public func deletePullRequestApprovalRule(input: DeletePullRequestApprovalRuleIn
 
 ### `deleteRepository(input:completion:)`
 
-Deletes a repository. If a specified repository was already deleted, a null repository
-ID is returned.
+Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail.
 
 ``` swift
 public func deleteRepository(input: DeleteRepositoryInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>) -> Void)
 ```
 
-``` 
-        Deleting a repository also deletes all associated objects and metadata. After a repository is
-            deleted, all future push calls to the deleted repository fail.
-```
-
 ### `describeMergeConflicts(input:completion:)`
 
-Returns information about one or more merge conflicts in the attempted merge of two
-commit specifiers using the squash or three-way merge strategy. If the merge option for
-the attempted merge is specified as FAST\_FORWARD\_MERGE, an exception is thrown.
+Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST\_FORWARD\_MERGE, an exception is thrown.
 
 ``` swift
 public func describeMergeConflicts(input: DescribeMergeConflictsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeMergeConflictsOutputResponse, DescribeMergeConflictsOutputError>) -> Void)
@@ -236,10 +202,7 @@ public func describePullRequestEvents(input: DescribePullRequestEventsInput, com
 
 ### `disassociateApprovalRuleTemplateFromRepository(input:completion:)`
 
-Removes the association between a template and a repository so that approval rules
-based on the template are not automatically created when pull requests are created in
-the specified repository. This does not delete any approval rules previously created for
-pull requests through the template association.
+Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association.
 
 ``` swift
 public func disassociateApprovalRuleTemplateFromRepository(input: DisassociateApprovalRuleTemplateFromRepositoryInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateApprovalRuleTemplateFromRepositoryOutputResponse, DisassociateApprovalRuleTemplateFromRepositoryOutputError>) -> Void)
@@ -279,15 +242,10 @@ public func getBranch(input: GetBranchInput, completion: @escaping (ClientRuntim
 
 ### `getComment(input:completion:)`
 
-Returns the content of a comment made on a change, file, or commit in a repository.
+Returns the content of a comment made on a change, file, or commit in a repository. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
 
 ``` swift
 public func getComment(input: GetCommentInput, completion: @escaping (ClientRuntime.SdkResult<GetCommentOutputResponse, GetCommentOutputError>) -> Void)
-```
-
-``` 
-        Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
-    reactions from active identities, use GetCommentReactions.
 ```
 
 ### `getCommentReactions(input:completion:)`
@@ -300,28 +258,18 @@ public func getCommentReactions(input: GetCommentReactionsInput, completion: @es
 
 ### `getCommentsForComparedCommit(input:completion:)`
 
-Returns information about comments made on the comparison between two commits.
+Returns information about comments made on the comparison between two commits. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
 
 ``` swift
 public func getCommentsForComparedCommit(input: GetCommentsForComparedCommitInput, completion: @escaping (ClientRuntime.SdkResult<GetCommentsForComparedCommitOutputResponse, GetCommentsForComparedCommitOutputError>) -> Void)
 ```
 
-``` 
-        Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
-        reactions from active identities, use GetCommentReactions.
-```
-
 ### `getCommentsForPullRequest(input:completion:)`
 
-Returns comments made on a pull request.
+Returns comments made on a pull request. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
 
 ``` swift
 public func getCommentsForPullRequest(input: GetCommentsForPullRequestInput, completion: @escaping (ClientRuntime.SdkResult<GetCommentsForPullRequestOutputResponse, GetCommentsForPullRequestOutputError>) -> Void)
-```
-
-``` 
-        Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
-        reactions from active identities, use GetCommentReactions.
 ```
 
 ### `getCommit(input:completion:)`
@@ -334,9 +282,7 @@ public func getCommit(input: GetCommitInput, completion: @escaping (ClientRuntim
 
 ### `getDifferences(input:completion:)`
 
-Returns information about the differences in a valid commit specifier (such as a
-branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be
-limited to a specified path.
+Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
 
 ``` swift
 public func getDifferences(input: GetDifferencesInput, completion: @escaping (ClientRuntime.SdkResult<GetDifferencesOutputResponse, GetDifferencesOutputError>) -> Void)
@@ -376,9 +322,7 @@ public func getMergeConflicts(input: GetMergeConflictsInput, completion: @escapi
 
 ### `getMergeOptions(input:completion:)`
 
-Returns information about the merge options available for merging two specified
-branches. For details about why a merge option is not available, use GetMergeConflicts
-or DescribeMergeConflicts.
+Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
 
 ``` swift
 public func getMergeOptions(input: GetMergeOptionsInput, completion: @escaping (ClientRuntime.SdkResult<GetMergeOptionsOutputResponse, GetMergeOptionsOutputError>) -> Void)
@@ -394,8 +338,7 @@ public func getPullRequest(input: GetPullRequestInput, completion: @escaping (Cl
 
 ### `getPullRequestApprovalStates(input:completion:)`
 
-Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more
-approval rules applied to them.
+Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them.
 
 ``` swift
 public func getPullRequestApprovalStates(input: GetPullRequestApprovalStatesInput, completion: @escaping (ClientRuntime.SdkResult<GetPullRequestApprovalStatesOutputResponse, GetPullRequestApprovalStatesOutputError>) -> Void)
@@ -403,8 +346,7 @@ public func getPullRequestApprovalStates(input: GetPullRequestApprovalStatesInpu
 
 ### `getPullRequestOverrideState(input:completion:)`
 
-Returns information about whether approval rules have been set aside (overridden) for a
-pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
+Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
 
 ``` swift
 public func getPullRequestOverrideState(input: GetPullRequestOverrideStateInput, completion: @escaping (ClientRuntime.SdkResult<GetPullRequestOverrideStateOutputResponse, GetPullRequestOverrideStateOutputError>) -> Void)
@@ -412,18 +354,10 @@ public func getPullRequestOverrideState(input: GetPullRequestOverrideStateInput,
 
 ### `getRepository(input:completion:)`
 
-Returns information about a repository.
+Returns information about a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
 
 ``` swift
 public func getRepository(input: GetRepositoryInput, completion: @escaping (ClientRuntime.SdkResult<GetRepositoryOutputResponse, GetRepositoryOutputError>) -> Void)
-```
-
-``` 
-        The description field for a repository accepts all HTML characters and all valid
-            Unicode characters. Applications that do not HTML-encode the description and display
-            it in a webpage can expose users to potentially malicious code. Make sure that you
-            HTML-encode the description field in any application that uses this API to display
-            the repository description on a webpage.
 ```
 
 ### `getRepositoryTriggers(input:completion:)`
@@ -436,8 +370,7 @@ public func getRepositoryTriggers(input: GetRepositoryTriggersInput, completion:
 
 ### `listApprovalRuleTemplates(input:completion:)`
 
-Lists all approval rule templates in the specified AWS Region in your AWS account. If
-an AWS Region is not specified, the AWS Region where you are signed in is used.
+Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
 
 ``` swift
 public func listApprovalRuleTemplates(input: ListApprovalRuleTemplatesInput, completion: @escaping (ClientRuntime.SdkResult<ListApprovalRuleTemplatesOutputResponse, ListApprovalRuleTemplatesOutputError>) -> Void)
@@ -461,8 +394,7 @@ public func listBranches(input: ListBranchesInput, completion: @escaping (Client
 
 ### `listPullRequests(input:completion:)`
 
-Returns a list of pull requests for a specified repository. The return list can be refined by pull request
-status or pull request author ARN.
+Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
 
 ``` swift
 public func listPullRequests(input: ListPullRequestsInput, completion: @escaping (ClientRuntime.SdkResult<ListPullRequestsOutputResponse, ListPullRequestsOutputError>) -> Void)
@@ -486,9 +418,7 @@ public func listRepositoriesForApprovalRuleTemplate(input: ListRepositoriesForAp
 
 ### `listTagsForResource(input:completion:)`
 
-Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS
-CodeCommit. For a list of valid resources in AWS CodeCommit, see <a href="https:​//docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats">CodeCommit Resources and Operations in the AWS CodeCommit User
-Guide.
+Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -520,8 +450,7 @@ public func mergeBranchesByThreeWay(input: MergeBranchesByThreeWayInput, complet
 
 ### `mergePullRequestByFastForward(input:completion:)`
 
-Attempts to merge the source commit of a pull request into the specified destination
-branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
+Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
 
 ``` swift
 public func mergePullRequestByFastForward(input: MergePullRequestByFastForwardInput, completion: @escaping (ClientRuntime.SdkResult<MergePullRequestByFastForwardOutputResponse, MergePullRequestByFastForwardOutputError>) -> Void)
@@ -529,8 +458,7 @@ public func mergePullRequestByFastForward(input: MergePullRequestByFastForwardIn
 
 ### `mergePullRequestBySquash(input:completion:)`
 
-Attempts to merge the source commit of a pull request into the specified destination
-branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
+Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
 
 ``` swift
 public func mergePullRequestBySquash(input: MergePullRequestBySquashInput, completion: @escaping (ClientRuntime.SdkResult<MergePullRequestBySquashOutputResponse, MergePullRequestBySquashOutputError>) -> Void)
@@ -538,8 +466,7 @@ public func mergePullRequestBySquash(input: MergePullRequestBySquashInput, compl
 
 ### `mergePullRequestByThreeWay(input:completion:)`
 
-Attempts to merge the source commit of a pull request into the specified destination
-branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
+Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
 
 ``` swift
 public func mergePullRequestByThreeWay(input: MergePullRequestByThreeWayInput, completion: @escaping (ClientRuntime.SdkResult<MergePullRequestByThreeWayOutputResponse, MergePullRequestByThreeWayOutputError>) -> Void)
@@ -579,8 +506,7 @@ public func postCommentReply(input: PostCommentReplyInput, completion: @escaping
 
 ### `putCommentReaction(input:completion:)`
 
-Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or
-update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
+Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
 
 ``` swift
 public func putCommentReaction(input: PutCommentReactionInput, completion: @escaping (ClientRuntime.SdkResult<PutCommentReactionOutputResponse, PutCommentReactionOutputError>) -> Void)
@@ -604,9 +530,7 @@ public func putRepositoryTriggers(input: PutRepositoryTriggersInput, completion:
 
 ### `tagResource(input:completion:)`
 
-Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources
-in AWS CodeCommit, see <a href="https:​//docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats">CodeCommit Resources and Operations in the AWS CodeCommit User
-Guide.
+Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -614,9 +538,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `testRepositoryTriggers(input:completion:)`
 
-Tests the functionality of repository triggers by sending information to the trigger
-target. If real data is available in the repository, the test sends data from the last
-commit. If no data is available, sample data is generated.
+Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
 
 ``` swift
 public func testRepositoryTriggers(input: TestRepositoryTriggersInput, completion: @escaping (ClientRuntime.SdkResult<TestRepositoryTriggersOutputResponse, TestRepositoryTriggersOutputError>) -> Void)
@@ -624,9 +546,7 @@ public func testRepositoryTriggers(input: TestRepositoryTriggersInput, completio
 
 ### `untagResource(input:completion:)`
 
-Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS
-CodeCommit, see <a href="https:​//docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats">CodeCommit Resources and Operations in the AWS CodeCommit User
-Guide.
+Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
@@ -634,9 +554,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateApprovalRuleTemplateContent(input:completion:)`
 
-Updates the content of an approval rule template. You can change the number of
-required approvals, the membership of the approval rule, and whether an approval pool is
-defined.
+Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
 
 ``` swift
 public func updateApprovalRuleTemplateContent(input: UpdateApprovalRuleTemplateContentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApprovalRuleTemplateContentOutputResponse, UpdateApprovalRuleTemplateContentOutputError>) -> Void)
@@ -668,20 +586,15 @@ public func updateComment(input: UpdateCommentInput, completion: @escaping (Clie
 
 ### `updateDefaultBranch(input:completion:)`
 
-Sets or changes the default branch name for the specified repository.
+Sets or changes the default branch name for the specified repository. If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
 
 ``` swift
 public func updateDefaultBranch(input: UpdateDefaultBranchInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDefaultBranchOutputResponse, UpdateDefaultBranchOutputError>) -> Void)
 ```
 
-``` 
-        If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
-```
-
 ### `updatePullRequestApprovalRuleContent(input:completion:)`
 
-Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and
-the approval pool for approvers.
+Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and the approval pool for approvers.
 
 ``` swift
 public func updatePullRequestApprovalRuleContent(input: UpdatePullRequestApprovalRuleContentInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePullRequestApprovalRuleContentOutputResponse, UpdatePullRequestApprovalRuleContentOutputError>) -> Void)
@@ -721,27 +634,15 @@ public func updatePullRequestTitle(input: UpdatePullRequestTitleInput, completio
 
 ### `updateRepositoryDescription(input:completion:)`
 
-Sets or changes the comment or description for a repository.
+Sets or changes the comment or description for a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
 
 ``` swift
 public func updateRepositoryDescription(input: UpdateRepositoryDescriptionInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRepositoryDescriptionOutputResponse, UpdateRepositoryDescriptionOutputError>) -> Void)
 ```
 
-``` 
-        The description field for a repository accepts all HTML characters and all valid
-            Unicode characters. Applications that do not HTML-encode the description and display
-            it in a webpage can expose users to potentially malicious code. Make sure that you
-            HTML-encode the description field in any application that uses this API to display
-            the repository description on a webpage.
-```
-
 ### `updateRepositoryName(input:completion:)`
 
-Renames a repository. The repository name must be unique across the calling AWS
-account. Repository names are limited to 100 alphanumeric, dash, and underscore
-characters, and cannot include certain characters. The suffix .git is prohibited. For
-more information about the limits on repository names, see <a href="https:​//docs.aws.amazon.com/codecommit/latest/userguide/limits.html">Limits in the AWS CodeCommit
-User Guide.
+Renames a repository. The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Limits](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the AWS CodeCommit User Guide.
 
 ``` swift
 public func updateRepositoryName(input: UpdateRepositoryNameInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRepositoryNameOutputResponse, UpdateRepositoryNameOutputError>) -> Void)

@@ -1,8 +1,6 @@
 # PersonalizeEventsClientProtocol
 
-Amazon Personalize can consume real-time user event data, such as stream or click data, and use
-it for model training either alone or combined with historical data. For more information see
-<a href="https:​//docs.aws.amazon.com/personalize/latest/dg/recording-events.html">Recording Events.
+Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see [Recording Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
 
 ``` swift
 public protocol PersonalizeEventsClientProtocol 
@@ -10,28 +8,25 @@ public protocol PersonalizeEventsClientProtocol
 
 ## Requirements
 
-### putEvents(input:​completion:​)
+### putEvents(input:completion:)
 
-Records user interaction event data. For more information see
-<a href="https:​//docs.aws.amazon.com/personalize/latest/dg/recording-events.html">Recording Events.
+Records user interaction event data. For more information see [Recording Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
 
 ``` swift
 func putEvents(input: PutEventsInput, completion: @escaping (ClientRuntime.SdkResult<PutEventsOutputResponse, PutEventsOutputError>) -> Void)
 ```
 
-### putItems(input:​completion:​)
+### putItems(input:completion:)
 
-Adds one or more items to an Items dataset. For more information see
-<a href="https:​//docs.aws.amazon.com/personalize/latest/dg/importing-items.html">Importing Items Incrementally.
+Adds one or more items to an Items dataset. For more information see [Importing Items Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
 
 ``` swift
 func putItems(input: PutItemsInput, completion: @escaping (ClientRuntime.SdkResult<PutItemsOutputResponse, PutItemsOutputError>) -> Void)
 ```
 
-### putUsers(input:​completion:​)
+### putUsers(input:completion:)
 
-Adds one or more users to a Users dataset. For more information see
-<a href="https:​//docs.aws.amazon.com/personalize/latest/dg/importing-users.html">Importing Users Incrementally.
+Adds one or more users to a Users dataset. For more information see [Importing Users Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
 
 ``` swift
 func putUsers(input: PutUsersInput, completion: @escaping (ClientRuntime.SdkResult<PutUsersOutputResponse, PutUsersOutputError>) -> Void)

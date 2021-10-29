@@ -8,5 +8,4 @@
 # Protocols
 
   - [GlueClientProtocol](/aws-sdk-swift/reference/0.x/AWSGlue/GlueClientProtocol):
-    <fullname>Glue</fullname>
-    Defines the public endpoint for the Glue service.
+    Glue Defines the public endpoint for the Glue service.

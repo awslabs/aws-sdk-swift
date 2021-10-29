@@ -8,5 +8,4 @@
 # Protocols
 
   - [PersonalizeClientProtocol](/aws-sdk-swift/reference/0.x/AWSPersonalize/PersonalizeClientProtocol):
-    Amazon Personalize is a machine learning service that makes it easy to add individualized
-    recommendations to customers.
+    Amazon Personalize is a machine learning service that makes it easy to add individualized recommendations to customers.

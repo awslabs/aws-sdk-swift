@@ -8,5 +8,4 @@
 # Protocols
 
   - [MediaStoreClientProtocol](/aws-sdk-swift/reference/0.x/AWSMediaStore/MediaStoreClientProtocol):
-    An AWS Elemental MediaStore container is a namespace that holds folders and objects.
-    You use a container endpoint to create, read, and delete objects.
+    An AWS Elemental MediaStore container is a namespace that holds folders and objects. You use a container endpoint to create, read, and delete objects.

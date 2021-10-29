@@ -8,7 +8,7 @@ public protocol IotDeviceAdvisorClientProtocol
 
 ## Requirements
 
-### createSuiteDefinition(input:​completion:​)
+### createSuiteDefinition(input:completion:)
 
 Creates a Device Advisor test suite.
 
@@ -16,7 +16,7 @@ Creates a Device Advisor test suite.
 func createSuiteDefinition(input: CreateSuiteDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>) -> Void)
 ```
 
-### deleteSuiteDefinition(input:​completion:​)
+### deleteSuiteDefinition(input:completion:)
 
 Deletes a Device Advisor test suite.
 
@@ -24,7 +24,7 @@ Deletes a Device Advisor test suite.
 func deleteSuiteDefinition(input: DeleteSuiteDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>) -> Void)
 ```
 
-### getSuiteDefinition(input:​completion:​)
+### getSuiteDefinition(input:completion:)
 
 Gets information about a Device Advisor test suite.
 
@@ -32,7 +32,7 @@ Gets information about a Device Advisor test suite.
 func getSuiteDefinition(input: GetSuiteDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>) -> Void)
 ```
 
-### getSuiteRun(input:​completion:​)
+### getSuiteRun(input:completion:)
 
 Gets information about a Device Advisor test suite run.
 
@@ -40,7 +40,7 @@ Gets information about a Device Advisor test suite run.
 func getSuiteRun(input: GetSuiteRunInput, completion: @escaping (ClientRuntime.SdkResult<GetSuiteRunOutputResponse, GetSuiteRunOutputError>) -> Void)
 ```
 
-### getSuiteRunReport(input:​completion:​)
+### getSuiteRunReport(input:completion:)
 
 Gets a report download link for a successful Device Advisor qualifying test suite run.
 
@@ -48,7 +48,7 @@ Gets a report download link for a successful Device Advisor qualifying test suit
 func getSuiteRunReport(input: GetSuiteRunReportInput, completion: @escaping (ClientRuntime.SdkResult<GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>) -> Void)
 ```
 
-### listSuiteDefinitions(input:​completion:​)
+### listSuiteDefinitions(input:completion:)
 
 Lists the Device Advisor test suites you have created.
 
@@ -56,16 +56,15 @@ Lists the Device Advisor test suites you have created.
 func listSuiteDefinitions(input: ListSuiteDefinitionsInput, completion: @escaping (ClientRuntime.SdkResult<ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>) -> Void)
 ```
 
-### listSuiteRuns(input:​completion:​)
+### listSuiteRuns(input:completion:)
 
-Lists the runs of the specified Device Advisor test suite.
-You can list all runs of the test suite, or the runs of a specific version of the test suite.
+Lists the runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite.
 
 ``` swift
 func listSuiteRuns(input: ListSuiteRunsInput, completion: @escaping (ClientRuntime.SdkResult<ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists the tags attached to an IoT Device Advisor resource.
 
@@ -73,7 +72,7 @@ Lists the tags attached to an IoT Device Advisor resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### startSuiteRun(input:​completion:​)
+### startSuiteRun(input:completion:)
 
 Starts a Device Advisor test suite run.
 
@@ -81,7 +80,7 @@ Starts a Device Advisor test suite run.
 func startSuiteRun(input: StartSuiteRunInput, completion: @escaping (ClientRuntime.SdkResult<StartSuiteRunOutputResponse, StartSuiteRunOutputError>) -> Void)
 ```
 
-### stopSuiteRun(input:​completion:​)
+### stopSuiteRun(input:completion:)
 
 Stops a Device Advisor test suite run that is currently running.
 
@@ -89,7 +88,7 @@ Stops a Device Advisor test suite run that is currently running.
 func stopSuiteRun(input: StopSuiteRunInput, completion: @escaping (ClientRuntime.SdkResult<StopSuiteRunOutputResponse, StopSuiteRunOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds to and modifies existing tags of an IoT Device Advisor resource.
 
@@ -97,7 +96,7 @@ Adds to and modifies existing tags of an IoT Device Advisor resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes tags from an IoT Device Advisor resource.
 
@@ -105,7 +104,7 @@ Removes tags from an IoT Device Advisor resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateSuiteDefinition(input:​completion:​)
+### updateSuiteDefinition(input:completion:)
 
 Updates a Device Advisor test suite.
 

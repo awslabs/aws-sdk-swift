@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AmplifyClient"
+```
+
 ## Methods
 
 ### `createApp(input:completion:)`
@@ -50,8 +58,7 @@ public func createBranch(input: CreateBranchInput, completion: @escaping (Client
 
 ### `createDeployment(input:completion:)`
 
-Creates a deployment for a manually deployed Amplify app. Manually deployed apps are
-not connected to a repository.
+Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository.
 
 ``` swift
 public func createDeployment(input: CreateDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeploymentOutputResponse, CreateDeploymentOutputError>) -> Void)
@@ -59,8 +66,7 @@ public func createDeployment(input: CreateDeploymentInput, completion: @escaping
 
 ### `createDomainAssociation(input:completion:)`
 
-Creates a new domain association for an Amplify app. This action associates a custom
-domain with the Amplify app
+Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
 
 ``` swift
 public func createDomainAssociation(input: CreateDomainAssociationInput, completion: @escaping (ClientRuntime.SdkResult<CreateDomainAssociationOutputResponse, CreateDomainAssociationOutputError>) -> Void)
@@ -252,8 +258,7 @@ public func listWebhooks(input: ListWebhooksInput, completion: @escaping (Client
 
 ### `startDeployment(input:completion:)`
 
-Starts a deployment for a manually deployed app. Manually deployed apps are not
-connected to a repository.
+Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository.
 
 ``` swift
 public func startDeployment(input: StartDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<StartDeploymentOutputResponse, StartDeploymentOutputError>) -> Void)

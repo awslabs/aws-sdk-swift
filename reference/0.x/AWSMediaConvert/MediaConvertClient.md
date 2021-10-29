@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "MediaConvertClient"
+```
+
 ## Methods
 
 ### `associateCertificate(input:completion:)`
@@ -42,7 +50,7 @@ public func cancelJob(input: CancelJobInput, completion: @escaping (ClientRuntim
 
 ### `createJob(input:completion:)`
 
-Create a new transcoding job. For information about jobs and job settings, see the User Guide at http:​//docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 ``` swift
 public func createJob(input: CreateJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateJobOutputResponse, CreateJobOutputError>) -> Void)
@@ -50,7 +58,7 @@ public func createJob(input: CreateJobInput, completion: @escaping (ClientRuntim
 
 ### `createJobTemplate(input:completion:)`
 
-Create a new job template. For information about job templates see the User Guide at http:​//docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 ``` swift
 public func createJobTemplate(input: CreateJobTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateJobTemplateOutputResponse, CreateJobTemplateOutputError>) -> Void)
@@ -58,7 +66,7 @@ public func createJobTemplate(input: CreateJobTemplateInput, completion: @escapi
 
 ### `createPreset(input:completion:)`
 
-Create a new preset. For information about job templates see the User Guide at http:​//docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 ``` swift
 public func createPreset(input: CreatePresetInput, completion: @escaping (ClientRuntime.SdkResult<CreatePresetOutputResponse, CreatePresetOutputError>) -> Void)
@@ -66,7 +74,7 @@ public func createPreset(input: CreatePresetInput, completion: @escaping (Client
 
 ### `createQueue(input:completion:)`
 
-Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https:​//docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
+Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
 
 ``` swift
 public func createQueue(input: CreateQueueInput, completion: @escaping (ClientRuntime.SdkResult<CreateQueueOutputResponse, CreateQueueOutputError>) -> Void)
@@ -186,7 +194,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https:​//docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -194,7 +202,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `untagResource(input:completion:)`
 
-Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https:​//docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)

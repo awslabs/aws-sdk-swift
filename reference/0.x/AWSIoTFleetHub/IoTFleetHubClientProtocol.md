@@ -1,109 +1,73 @@
 # IoTFleetHubClientProtocol
 
-With Fleet Hub for AWS IoT Device Management you can build stand-alone web applications for monitoring the health of your device fleets.
+With Fleet Hub for AWS IoT Device Management you can build stand-alone web applications for monitoring the health of your device fleets. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 public protocol IoTFleetHubClientProtocol 
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
-
 ## Requirements
 
-### createApplication(input:​completion:​)
+### createApplication(input:completion:)
 
-Creates a Fleet Hub for AWS IoT Device Management web application.
+Creates a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func createApplication(input: CreateApplicationInput, completion: @escaping (ClientRuntime.SdkResult<CreateApplicationOutputResponse, CreateApplicationOutputError>) -> Void)
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
+### deleteApplication(input:completion:)
 
-### deleteApplication(input:​completion:​)
-
-Deletes a Fleet Hub for AWS IoT Device Management web application.
+Deletes a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func deleteApplication(input: DeleteApplicationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApplicationOutputResponse, DeleteApplicationOutputError>) -> Void)
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
+### describeApplication(input:completion:)
 
-### describeApplication(input:​completion:​)
-
-Gets information about a Fleet Hub for AWS IoT Device Management web application.
+Gets information about a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func describeApplication(input: DescribeApplicationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeApplicationOutputResponse, DescribeApplicationOutputError>) -> Void)
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
+### listApplications(input:completion:)
 
-### listApplications(input:​completion:​)
-
-Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account.
+Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func listApplications(input: ListApplicationsInput, completion: @escaping (ClientRuntime.SdkResult<ListApplicationsOutputResponse, ListApplicationsOutputError>) -> Void)
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
+### listTagsForResource(input:completion:)
 
-### listTagsForResource(input:​completion:​)
-
-Lists the tags for the specified resource.
+Lists the tags for the specified resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
+### tagResource(input:completion:)
 
-### tagResource(input:​completion:​)
-
-Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource.
+Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
+### untagResource(input:completion:)
 
-### untagResource(input:​completion:​)
-
-Removes the specified tags (metadata) from the resource.
+Removes the specified tags (metadata) from the resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
-```
+### updateApplication(input:completion:)
 
-### updateApplication(input:​completion:​)
-
-Updates information about a Fleet Hub for a AWS IoT Device Management web application.
+Updates information about a Fleet Hub for a AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 ``` swift
 func updateApplication(input: UpdateApplicationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApplicationOutputResponse, UpdateApplicationOutputError>) -> Void)
-```
-
-``` 
-        Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 ```

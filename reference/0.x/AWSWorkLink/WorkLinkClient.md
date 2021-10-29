@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "WorkLinkClient"
+```
+
 ## Methods
 
 ### `associateDomain(input:completion:)`
@@ -42,8 +50,7 @@ public func associateWebsiteAuthorizationProvider(input: AssociateWebsiteAuthori
 
 ### `associateWebsiteCertificateAuthority(input:completion:)`
 
-Imports the root certificate of a certificate authority (CA) used to obtain TLS
-certificates used by associated websites within the company network.
+Imports the root certificate of a certificate authority (CA) used to obtain TLS certificates used by associated websites within the company network.
 
 ``` swift
 public func associateWebsiteCertificateAuthority(input: AssociateWebsiteCertificateAuthorityInput, completion: @escaping (ClientRuntime.SdkResult<AssociateWebsiteCertificateAuthorityOutputResponse, AssociateWebsiteCertificateAuthorityOutputError>) -> Void)
@@ -51,8 +58,7 @@ public func associateWebsiteCertificateAuthority(input: AssociateWebsiteCertific
 
 ### `createFleet(input:completion:)`
 
-Creates a fleet. A fleet consists of resources and the configuration that delivers
-associated websites to authorized users who download and set up the Amazon WorkLink app.
+Creates a fleet. A fleet consists of resources and the configuration that delivers associated websites to authorized users who download and set up the Amazon WorkLink app.
 
 ``` swift
 public func createFleet(input: CreateFleetInput, completion: @escaping (ClientRuntime.SdkResult<CreateFleetOutputResponse, CreateFleetOutputError>) -> Void)
@@ -76,8 +82,7 @@ public func describeAuditStreamConfiguration(input: DescribeAuditStreamConfigura
 
 ### `describeCompanyNetworkConfiguration(input:completion:)`
 
-Describes the networking configuration to access the internal websites associated with
-the specified fleet.
+Describes the networking configuration to access the internal websites associated with the specified fleet.
 
 ``` swift
 public func describeCompanyNetworkConfiguration(input: DescribeCompanyNetworkConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCompanyNetworkConfigurationOutputResponse, DescribeCompanyNetworkConfigurationOutputError>) -> Void)
@@ -109,8 +114,7 @@ public func describeDomain(input: DescribeDomainInput, completion: @escaping (Cl
 
 ### `describeFleetMetadata(input:completion:)`
 
-Provides basic information for the specified fleet, excluding identity provider,
-networking, and device configuration details.
+Provides basic information for the specified fleet, excluding identity provider, networking, and device configuration details.
 
 ``` swift
 public func describeFleetMetadata(input: DescribeFleetMetadataInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFleetMetadataOutputResponse, DescribeFleetMetadataOutputError>) -> Void)
@@ -142,9 +146,7 @@ public func disassociateDomain(input: DisassociateDomainInput, completion: @esca
 
 ### `disassociateWebsiteAuthorizationProvider(input:completion:)`
 
-Disassociates a website authorization provider from a specified fleet. After the
-disassociation, users can't load any associated websites that require this authorization
-provider.
+Disassociates a website authorization provider from a specified fleet. After the disassociation, users can't load any associated websites that require this authorization provider.
 
 ``` swift
 public func disassociateWebsiteAuthorizationProvider(input: DisassociateWebsiteAuthorizationProviderInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateWebsiteAuthorizationProviderOutputResponse, DisassociateWebsiteAuthorizationProviderOutputError>) -> Void)
@@ -200,8 +202,7 @@ public func listWebsiteAuthorizationProviders(input: ListWebsiteAuthorizationPro
 
 ### `listWebsiteCertificateAuthorities(input:completion:)`
 
-Retrieves a list of certificate authorities added for the current account and
-Region.
+Retrieves a list of certificate authorities added for the current account and Region.
 
 ``` swift
 public func listWebsiteCertificateAuthorities(input: ListWebsiteCertificateAuthoritiesInput, completion: @escaping (ClientRuntime.SdkResult<ListWebsiteCertificateAuthoritiesOutputResponse, ListWebsiteCertificateAuthoritiesOutputError>) -> Void)
@@ -225,8 +226,7 @@ public func revokeDomainAccess(input: RevokeDomainAccessInput, completion: @esca
 
 ### `signOutUser(input:completion:)`
 
-Signs the user out from all of their devices. The user can sign in again if they have
-valid credentials.
+Signs the user out from all of their devices. The user can sign in again if they have valid credentials.
 
 ``` swift
 public func signOutUser(input: SignOutUserInput, completion: @escaping (ClientRuntime.SdkResult<SignOutUserOutputResponse, SignOutUserOutputError>) -> Void)

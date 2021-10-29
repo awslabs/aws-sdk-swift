@@ -8,5 +8,4 @@
 # Protocols
 
   - [MwaaClientProtocol](/aws-sdk-swift/reference/0.x/AWSMWAA/MwaaClientProtocol):
-    <fullname>Amazon Managed Workflows for Apache Airflow</fullname>
-    This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see <a href="https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html">What Is Amazon MWAA?.
+    Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see [What Is Amazon MWAA?](https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html).

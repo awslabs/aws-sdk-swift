@@ -1,10 +1,6 @@
 # AmplifyClientProtocol
 
-Amplify enables developers to develop and deploy cloud-powered mobile and web apps.
-The Amplify Console provides a continuous delivery and hosting service for web
-applications. For more information, see the <a href="https:​//docs.aws.amazon.com/amplify/latest/userguide/welcome.html">Amplify Console User Guide. The
-Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation
-for client app development. For more information, see the <a href="https:​//docs.amplify.aws/">Amplify Framework.
+Amplify enables developers to develop and deploy cloud-powered mobile and web apps. The Amplify Console provides a continuous delivery and hosting service for web applications. For more information, see the [Amplify Console User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html). The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the [Amplify Framework.](https://docs.amplify.aws/)
 
 ``` swift
 public protocol AmplifyClientProtocol 
@@ -12,7 +8,7 @@ public protocol AmplifyClientProtocol
 
 ## Requirements
 
-### createApp(input:​completion:​)
+### createApp(input:completion:)
 
 Creates a new Amplify app.
 
@@ -20,7 +16,7 @@ Creates a new Amplify app.
 func createApp(input: CreateAppInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppOutputResponse, CreateAppOutputError>) -> Void)
 ```
 
-### createBackendEnvironment(input:​completion:​)
+### createBackendEnvironment(input:completion:)
 
 Creates a new backend environment for an Amplify app.
 
@@ -28,7 +24,7 @@ Creates a new backend environment for an Amplify app.
 func createBackendEnvironment(input: CreateBackendEnvironmentInput, completion: @escaping (ClientRuntime.SdkResult<CreateBackendEnvironmentOutputResponse, CreateBackendEnvironmentOutputError>) -> Void)
 ```
 
-### createBranch(input:​completion:​)
+### createBranch(input:completion:)
 
 Creates a new branch for an Amplify app.
 
@@ -36,25 +32,23 @@ Creates a new branch for an Amplify app.
 func createBranch(input: CreateBranchInput, completion: @escaping (ClientRuntime.SdkResult<CreateBranchOutputResponse, CreateBranchOutputError>) -> Void)
 ```
 
-### createDeployment(input:​completion:​)
+### createDeployment(input:completion:)
 
-Creates a deployment for a manually deployed Amplify app. Manually deployed apps are
-not connected to a repository.
+Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository.
 
 ``` swift
 func createDeployment(input: CreateDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeploymentOutputResponse, CreateDeploymentOutputError>) -> Void)
 ```
 
-### createDomainAssociation(input:​completion:​)
+### createDomainAssociation(input:completion:)
 
-Creates a new domain association for an Amplify app. This action associates a custom
-domain with the Amplify app
+Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
 
 ``` swift
 func createDomainAssociation(input: CreateDomainAssociationInput, completion: @escaping (ClientRuntime.SdkResult<CreateDomainAssociationOutputResponse, CreateDomainAssociationOutputError>) -> Void)
 ```
 
-### createWebhook(input:​completion:​)
+### createWebhook(input:completion:)
 
 Creates a new webhook on an Amplify app.
 
@@ -62,7 +56,7 @@ Creates a new webhook on an Amplify app.
 func createWebhook(input: CreateWebhookInput, completion: @escaping (ClientRuntime.SdkResult<CreateWebhookOutputResponse, CreateWebhookOutputError>) -> Void)
 ```
 
-### deleteApp(input:​completion:​)
+### deleteApp(input:completion:)
 
 Deletes an existing Amplify app specified by an app ID.
 
@@ -70,7 +64,7 @@ Deletes an existing Amplify app specified by an app ID.
 func deleteApp(input: DeleteAppInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAppOutputResponse, DeleteAppOutputError>) -> Void)
 ```
 
-### deleteBackendEnvironment(input:​completion:​)
+### deleteBackendEnvironment(input:completion:)
 
 Deletes a backend environment for an Amplify app.
 
@@ -78,7 +72,7 @@ Deletes a backend environment for an Amplify app.
 func deleteBackendEnvironment(input: DeleteBackendEnvironmentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBackendEnvironmentOutputResponse, DeleteBackendEnvironmentOutputError>) -> Void)
 ```
 
-### deleteBranch(input:​completion:​)
+### deleteBranch(input:completion:)
 
 Deletes a branch for an Amplify app.
 
@@ -86,7 +80,7 @@ Deletes a branch for an Amplify app.
 func deleteBranch(input: DeleteBranchInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBranchOutputResponse, DeleteBranchOutputError>) -> Void)
 ```
 
-### deleteDomainAssociation(input:​completion:​)
+### deleteDomainAssociation(input:completion:)
 
 Deletes a domain association for an Amplify app.
 
@@ -94,7 +88,7 @@ Deletes a domain association for an Amplify app.
 func deleteDomainAssociation(input: DeleteDomainAssociationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDomainAssociationOutputResponse, DeleteDomainAssociationOutputError>) -> Void)
 ```
 
-### deleteJob(input:​completion:​)
+### deleteJob(input:completion:)
 
 Deletes a job for a branch of an Amplify app.
 
@@ -102,7 +96,7 @@ Deletes a job for a branch of an Amplify app.
 func deleteJob(input: DeleteJobInput, completion: @escaping (ClientRuntime.SdkResult<DeleteJobOutputResponse, DeleteJobOutputError>) -> Void)
 ```
 
-### deleteWebhook(input:​completion:​)
+### deleteWebhook(input:completion:)
 
 Deletes a webhook.
 
@@ -110,7 +104,7 @@ Deletes a webhook.
 func deleteWebhook(input: DeleteWebhookInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWebhookOutputResponse, DeleteWebhookOutputError>) -> Void)
 ```
 
-### generateAccessLogs(input:​completion:​)
+### generateAccessLogs(input:completion:)
 
 Returns the website access logs for a specific time range using a presigned URL.
 
@@ -118,7 +112,7 @@ Returns the website access logs for a specific time range using a presigned URL.
 func generateAccessLogs(input: GenerateAccessLogsInput, completion: @escaping (ClientRuntime.SdkResult<GenerateAccessLogsOutputResponse, GenerateAccessLogsOutputError>) -> Void)
 ```
 
-### getApp(input:​completion:​)
+### getApp(input:completion:)
 
 Returns an existing Amplify app by appID.
 
@@ -126,7 +120,7 @@ Returns an existing Amplify app by appID.
 func getApp(input: GetAppInput, completion: @escaping (ClientRuntime.SdkResult<GetAppOutputResponse, GetAppOutputError>) -> Void)
 ```
 
-### getArtifactUrl(input:​completion:​)
+### getArtifactUrl(input:completion:)
 
 Returns the artifact info that corresponds to an artifact id.
 
@@ -134,7 +128,7 @@ Returns the artifact info that corresponds to an artifact id.
 func getArtifactUrl(input: GetArtifactUrlInput, completion: @escaping (ClientRuntime.SdkResult<GetArtifactUrlOutputResponse, GetArtifactUrlOutputError>) -> Void)
 ```
 
-### getBackendEnvironment(input:​completion:​)
+### getBackendEnvironment(input:completion:)
 
 Returns a backend environment for an Amplify app.
 
@@ -142,7 +136,7 @@ Returns a backend environment for an Amplify app.
 func getBackendEnvironment(input: GetBackendEnvironmentInput, completion: @escaping (ClientRuntime.SdkResult<GetBackendEnvironmentOutputResponse, GetBackendEnvironmentOutputError>) -> Void)
 ```
 
-### getBranch(input:​completion:​)
+### getBranch(input:completion:)
 
 Returns a branch for an Amplify app.
 
@@ -150,7 +144,7 @@ Returns a branch for an Amplify app.
 func getBranch(input: GetBranchInput, completion: @escaping (ClientRuntime.SdkResult<GetBranchOutputResponse, GetBranchOutputError>) -> Void)
 ```
 
-### getDomainAssociation(input:​completion:​)
+### getDomainAssociation(input:completion:)
 
 Returns the domain information for an Amplify app.
 
@@ -158,7 +152,7 @@ Returns the domain information for an Amplify app.
 func getDomainAssociation(input: GetDomainAssociationInput, completion: @escaping (ClientRuntime.SdkResult<GetDomainAssociationOutputResponse, GetDomainAssociationOutputError>) -> Void)
 ```
 
-### getJob(input:​completion:​)
+### getJob(input:completion:)
 
 Returns a job for a branch of an Amplify app.
 
@@ -166,7 +160,7 @@ Returns a job for a branch of an Amplify app.
 func getJob(input: GetJobInput, completion: @escaping (ClientRuntime.SdkResult<GetJobOutputResponse, GetJobOutputError>) -> Void)
 ```
 
-### getWebhook(input:​completion:​)
+### getWebhook(input:completion:)
 
 Returns the webhook information that corresponds to a specified webhook ID.
 
@@ -174,7 +168,7 @@ Returns the webhook information that corresponds to a specified webhook ID.
 func getWebhook(input: GetWebhookInput, completion: @escaping (ClientRuntime.SdkResult<GetWebhookOutputResponse, GetWebhookOutputError>) -> Void)
 ```
 
-### listApps(input:​completion:​)
+### listApps(input:completion:)
 
 Returns a list of the existing Amplify apps.
 
@@ -182,7 +176,7 @@ Returns a list of the existing Amplify apps.
 func listApps(input: ListAppsInput, completion: @escaping (ClientRuntime.SdkResult<ListAppsOutputResponse, ListAppsOutputError>) -> Void)
 ```
 
-### listArtifacts(input:​completion:​)
+### listArtifacts(input:completion:)
 
 Returns a list of artifacts for a specified app, branch, and job.
 
@@ -190,7 +184,7 @@ Returns a list of artifacts for a specified app, branch, and job.
 func listArtifacts(input: ListArtifactsInput, completion: @escaping (ClientRuntime.SdkResult<ListArtifactsOutputResponse, ListArtifactsOutputError>) -> Void)
 ```
 
-### listBackendEnvironments(input:​completion:​)
+### listBackendEnvironments(input:completion:)
 
 Lists the backend environments for an Amplify app.
 
@@ -198,7 +192,7 @@ Lists the backend environments for an Amplify app.
 func listBackendEnvironments(input: ListBackendEnvironmentsInput, completion: @escaping (ClientRuntime.SdkResult<ListBackendEnvironmentsOutputResponse, ListBackendEnvironmentsOutputError>) -> Void)
 ```
 
-### listBranches(input:​completion:​)
+### listBranches(input:completion:)
 
 Lists the branches of an Amplify app.
 
@@ -206,7 +200,7 @@ Lists the branches of an Amplify app.
 func listBranches(input: ListBranchesInput, completion: @escaping (ClientRuntime.SdkResult<ListBranchesOutputResponse, ListBranchesOutputError>) -> Void)
 ```
 
-### listDomainAssociations(input:​completion:​)
+### listDomainAssociations(input:completion:)
 
 Returns the domain associations for an Amplify app.
 
@@ -214,7 +208,7 @@ Returns the domain associations for an Amplify app.
 func listDomainAssociations(input: ListDomainAssociationsInput, completion: @escaping (ClientRuntime.SdkResult<ListDomainAssociationsOutputResponse, ListDomainAssociationsOutputError>) -> Void)
 ```
 
-### listJobs(input:​completion:​)
+### listJobs(input:completion:)
 
 Lists the jobs for a branch of an Amplify app.
 
@@ -222,7 +216,7 @@ Lists the jobs for a branch of an Amplify app.
 func listJobs(input: ListJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListJobsOutputResponse, ListJobsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Returns a list of tags for a specified Amazon Resource Name (ARN).
 
@@ -230,7 +224,7 @@ Returns a list of tags for a specified Amazon Resource Name (ARN).
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listWebhooks(input:​completion:​)
+### listWebhooks(input:completion:)
 
 Returns a list of webhooks for an Amplify app.
 
@@ -238,16 +232,15 @@ Returns a list of webhooks for an Amplify app.
 func listWebhooks(input: ListWebhooksInput, completion: @escaping (ClientRuntime.SdkResult<ListWebhooksOutputResponse, ListWebhooksOutputError>) -> Void)
 ```
 
-### startDeployment(input:​completion:​)
+### startDeployment(input:completion:)
 
-Starts a deployment for a manually deployed app. Manually deployed apps are not
-connected to a repository.
+Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository.
 
 ``` swift
 func startDeployment(input: StartDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<StartDeploymentOutputResponse, StartDeploymentOutputError>) -> Void)
 ```
 
-### startJob(input:​completion:​)
+### startJob(input:completion:)
 
 Starts a new job for a branch of an Amplify app.
 
@@ -255,7 +248,7 @@ Starts a new job for a branch of an Amplify app.
 func startJob(input: StartJobInput, completion: @escaping (ClientRuntime.SdkResult<StartJobOutputResponse, StartJobOutputError>) -> Void)
 ```
 
-### stopJob(input:​completion:​)
+### stopJob(input:completion:)
 
 Stops a job that is in progress for a branch of an Amplify app.
 
@@ -263,7 +256,7 @@ Stops a job that is in progress for a branch of an Amplify app.
 func stopJob(input: StopJobInput, completion: @escaping (ClientRuntime.SdkResult<StopJobOutputResponse, StopJobOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Tags the resource with a tag key and value.
 
@@ -271,7 +264,7 @@ Tags the resource with a tag key and value.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Untags a resource with a specified Amazon Resource Name (ARN).
 
@@ -279,7 +272,7 @@ Untags a resource with a specified Amazon Resource Name (ARN).
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateApp(input:​completion:​)
+### updateApp(input:completion:)
 
 Updates an existing Amplify app.
 
@@ -287,7 +280,7 @@ Updates an existing Amplify app.
 func updateApp(input: UpdateAppInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAppOutputResponse, UpdateAppOutputError>) -> Void)
 ```
 
-### updateBranch(input:​completion:​)
+### updateBranch(input:completion:)
 
 Updates a branch for an Amplify app.
 
@@ -295,7 +288,7 @@ Updates a branch for an Amplify app.
 func updateBranch(input: UpdateBranchInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBranchOutputResponse, UpdateBranchOutputError>) -> Void)
 ```
 
-### updateDomainAssociation(input:​completion:​)
+### updateDomainAssociation(input:completion:)
 
 Creates a new domain association for an Amplify app.
 
@@ -303,7 +296,7 @@ Creates a new domain association for an Amplify app.
 func updateDomainAssociation(input: UpdateDomainAssociationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainAssociationOutputResponse, UpdateDomainAssociationOutputError>) -> Void)
 ```
 
-### updateWebhook(input:​completion:​)
+### updateWebhook(input:completion:)
 
 Updates a webhook.
 

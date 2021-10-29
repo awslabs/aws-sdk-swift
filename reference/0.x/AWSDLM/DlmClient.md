@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "DlmClient"
+```
+
 ## Methods
 
 ### `createLifecyclePolicy(input:completion:)`
 
-Creates a policy to manage the lifecycle of the specified Amazon Web Services resources. You can
-create up to 100 lifecycle policies.
+Creates a policy to manage the lifecycle of the specified Amazon Web Services resources. You can create up to 100 lifecycle policies.
 
 ``` swift
 public func createLifecyclePolicy(input: CreateLifecyclePolicyInput, completion: @escaping (ClientRuntime.SdkResult<CreateLifecyclePolicyOutputResponse, CreateLifecyclePolicyOutputError>) -> Void)
@@ -35,8 +42,7 @@ public func createLifecyclePolicy(input: CreateLifecyclePolicyInput, completion:
 
 ### `deleteLifecyclePolicy(input:completion:)`
 
-Deletes the specified lifecycle policy and halts the automated operations that the
-policy specified.
+Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
 
 ``` swift
 public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>) -> Void)
@@ -44,8 +50,7 @@ public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput, completion:
 
 ### `getLifecyclePolicies(input:completion:)`
 
-Gets summary information about all or the specified data lifecycle policies.
-To get complete information about a policy, use GetLifecyclePolicy.
+Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use \[GetLifecyclePolicy\].
 
 ``` swift
 public func getLifecyclePolicies(input: GetLifecyclePoliciesInput, completion: @escaping (ClientRuntime.SdkResult<GetLifecyclePoliciesOutputResponse, GetLifecyclePoliciesOutputError>) -> Void)

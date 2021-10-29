@@ -8,8 +8,4 @@
 # Protocols
 
   - [AppIntegrationsClientProtocol](/aws-sdk-swift/reference/0.x/AWSAppIntegrations/AppIntegrationsClientProtocol):
-    The Amazon AppIntegrations service enables you to configure and reuse connections to external
-    applications.
-    For information about how you can use external applications with Amazon Connect, see <a href="https://docs.aws.amazon.com/connect/latest/adminguide/crm.html">Set up pre-built
-    integrations and <a href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-wisdom.html">Deliver information to agents using Amazon Connect Wisdom
-    in the Amazon Connect Administrator Guide.
+    The Amazon AppIntegrations service enables you to configure and reuse connections to external applications. For information about how you can use external applications with Amazon Connect, see [Set up pre-built integrations](https://docs.aws.amazon.com/connect/latest/adminguide/crm.html) and [Deliver information to agents using Amazon Connect Wisdom](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-wisdom.html) in the Amazon Connect Administrator Guide.

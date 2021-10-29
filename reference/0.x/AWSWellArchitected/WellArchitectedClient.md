@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "WellArchitectedClient"
+```
+
 ## Methods
 
 ### `associateLenses(input:completion:)`
@@ -42,11 +50,7 @@ public func createMilestone(input: CreateMilestoneInput, completion: @escaping (
 
 ### `createWorkload(input:completion:)`
 
-Create a new workload.
-The owner of a workload can share the workload with other AWS accounts and IAM users
-in the same AWS Region. Only the owner of a workload can delete it.
-For more information, see <a href="https:​//docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html">Defining a Workload in the
-AWS Well-Architected Tool User Guide.
+Create a new workload. The owner of a workload can share the workload with other AWS accounts and IAM users in the same AWS Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the AWS Well-Architected Tool User Guide.
 
 ``` swift
 public func createWorkload(input: CreateWorkloadInput, completion: @escaping (ClientRuntime.SdkResult<CreateWorkloadOutputResponse, CreateWorkloadOutputError>) -> Void)
@@ -54,12 +58,7 @@ public func createWorkload(input: CreateWorkloadInput, completion: @escaping (Cl
 
 ### `createWorkloadShare(input:completion:)`
 
-Create a workload share.
-The owner of a workload can share it with other AWS accounts and IAM users in the same
-AWS Region. Shared access to a workload is not removed until the workload invitation is
-deleted.
-For more information, see <a href="https:​//docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html">Sharing a Workload in the
-AWS Well-Architected Tool User Guide.
+Create a workload share. The owner of a workload can share it with other AWS accounts and IAM users in the same AWS Region. Shared access to a workload is not removed until the workload invitation is deleted. For more information, see [Sharing a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the AWS Well-Architected Tool User Guide.
 
 ``` swift
 public func createWorkloadShare(input: CreateWorkloadShareInput, completion: @escaping (ClientRuntime.SdkResult<CreateWorkloadShareOutputResponse, CreateWorkloadShareOutputError>) -> Void)
@@ -83,15 +82,10 @@ public func deleteWorkloadShare(input: DeleteWorkloadShareInput, completion: @es
 
 ### `disassociateLenses(input:completion:)`
 
-Disassociate a lens from a workload.
+Disassociate a lens from a workload. The AWS Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
 
 ``` swift
 public func disassociateLenses(input: DisassociateLensesInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateLensesOutputResponse, DisassociateLensesOutputError>) -> Void)
-```
-
-``` 
-        The AWS Well-Architected Framework lens (wellarchitected) cannot be
-            removed from a workload.
 ```
 
 ### `getAnswer(input:completion:)`
@@ -192,7 +186,7 @@ public func listNotifications(input: ListNotificationsInput, completion: @escapi
 
 ### `listShareInvitations(input:completion:)`
 
-List  the workload invitations.
+List the workload invitations.
 
 ``` swift
 public func listShareInvitations(input: ListShareInvitationsInput, completion: @escaping (ClientRuntime.SdkResult<ListShareInvitationsOutputResponse, ListShareInvitationsOutputError>) -> Void)
@@ -232,15 +226,10 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `untagResource(input:completion:)`
 
-Deletes specified tags from a resource.
-To specify multiple tags, use separate tagKeys parameters, for example:​
+Deletes specified tags from a resource. To specify multiple tags, use separate tagKeys parameters, for example: DELETE /tags/WorkloadArn?tagKeys=key1\&tagKeys=key2
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
-```
-
-``` 
-        DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
 ```
 
 ### `updateAnswer(input:completion:)`

@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "VoiceIdClient"
+```
+
 ## Methods
 
 ### `createDomain(input:completion:)`
 
-Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer
-audio, and voiceprints.
+Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints.
 
 ``` swift
 public func createDomain(input: CreateDomainInput, completion: @escaping (ClientRuntime.SdkResult<CreateDomainOutputResponse, CreateDomainOutputError>) -> Void)
@@ -99,8 +106,7 @@ public func describeSpeakerEnrollmentJob(input: DescribeSpeakerEnrollmentJobInpu
 
 ### `evaluateSession(input:completion:)`
 
-Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice
-ID call.
+Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice ID call.
 
 ``` swift
 public func evaluateSession(input: EvaluateSessionInput, completion: @escaping (ClientRuntime.SdkResult<EvaluateSessionOutputResponse, EvaluateSessionOutputError>) -> Void)
@@ -116,9 +122,7 @@ public func listDomains(input: ListDomainsInput, completion: @escaping (ClientRu
 
 ### `listFraudsterRegistrationJobs(input:completion:)`
 
-Lists all the fraudster registration jobs in the domain with the given JobStatus.
-If JobStatus is not provided, this lists all fraudster registration jobs in the given
-domain.
+Lists all the fraudster registration jobs in the domain with the given JobStatus. If JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
 
 ``` swift
 public func listFraudsterRegistrationJobs(input: ListFraudsterRegistrationJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>) -> Void)
@@ -126,9 +130,7 @@ public func listFraudsterRegistrationJobs(input: ListFraudsterRegistrationJobsIn
 
 ### `listSpeakerEnrollmentJobs(input:completion:)`
 
-Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If
-JobStatus is not provided, this lists all jobs with all possible speaker enrollment job
-statuses.
+Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
 
 ``` swift
 public func listSpeakerEnrollmentJobs(input: ListSpeakerEnrollmentJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>) -> Void)
@@ -152,11 +154,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `optOutSpeaker(input:completion:)`
 
-Opts out a speaker from Voice ID system. A speaker can be opted out regardless of whether or not they
-already exist in the system. If they don't yet exist, a new speaker is created in an opted out state.
-If they already exist, their existing status is overridden and they are opted out. Enrollment and
-evaluation authentication requests are rejected for opted out speakers, and opted out speakers have
-no voice embeddings stored in the system.
+Opts out a speaker from Voice ID system. A speaker can be opted out regardless of whether or not they already exist in the system. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in the system.
 
 ``` swift
 public func optOutSpeaker(input: OptOutSpeakerInput, completion: @escaping (ClientRuntime.SdkResult<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>) -> Void)
@@ -196,8 +194,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateDomain(input:completion:)`
 
-Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes.
-If an optional field, such as 'Description' is not provided, it is removed from the domain.
+Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain.
 
 ``` swift
 public func updateDomain(input: UpdateDomainInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainOutputResponse, UpdateDomainOutputError>) -> Void)

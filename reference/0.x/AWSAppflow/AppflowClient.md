@@ -22,14 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AppflowClient"
+```
+
 ## Methods
 
 ### `createConnectorProfile(input:completion:)`
 
-Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota
-of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota
-allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support
-channel.
+Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel.
 
 ``` swift
 public func createConnectorProfile(input: CreateConnectorProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateConnectorProfileOutputResponse, CreateConnectorProfileOutputError>) -> Void)
@@ -37,10 +42,7 @@ public func createConnectorProfile(input: CreateConnectorProfileInput, completio
 
 ### `createFlow(input:completion:)`
 
-Enables your application to create a new flow using Amazon AppFlow. You must create a
-connector profile before calling this API. Please note that the Request Syntax below shows
-syntax for multiple destinations, however, you can only transfer data to one item in this list
-at a time. Amazon AppFlow does not currently support flows to multiple destinations at once.
+Enables your application to create a new flow using Amazon AppFlow. You must create a connector profile before calling this API. Please note that the Request Syntax below shows syntax for multiple destinations, however, you can only transfer data to one item in this list at a time. Amazon AppFlow does not currently support flows to multiple destinations at once.
 
 ``` swift
 public func createFlow(input: CreateFlowInput, completion: @escaping (ClientRuntime.SdkResult<CreateFlowOutputResponse, CreateFlowOutputError>) -> Void)
@@ -56,9 +58,7 @@ public func deleteConnectorProfile(input: DeleteConnectorProfileInput, completio
 
 ### `deleteFlow(input:completion:)`
 
-Enables your application to delete an existing flow. Before deleting the flow, Amazon
-AppFlow validates the request by checking the flow configuration and status. You can delete
-flows one at a time.
+Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can delete flows one at a time.
 
 ``` swift
 public func deleteFlow(input: DeleteFlowInput, completion: @escaping (ClientRuntime.SdkResult<DeleteFlowOutputResponse, DeleteFlowOutputError>) -> Void)
@@ -66,8 +66,7 @@ public func deleteFlow(input: DeleteFlowInput, completion: @escaping (ClientRunt
 
 ### `describeConnectorEntity(input:completion:)`
 
-Provides details regarding the entity used with the connector, with a description of the
-data model for each entity.
+Provides details regarding the entity used with the connector, with a description of the data model for each entity.
 
 ``` swift
 public func describeConnectorEntity(input: DescribeConnectorEntityInput, completion: @escaping (ClientRuntime.SdkResult<DescribeConnectorEntityOutputResponse, DescribeConnectorEntityOutputError>) -> Void)
@@ -75,11 +74,7 @@ public func describeConnectorEntity(input: DescribeConnectorEntityInput, complet
 
 ### `describeConnectorProfiles(input:completion:)`
 
-Returns a list of connector-profile details matching the provided
-connector-profile names and connector-types. Both input lists are
-optional, and you can use them to filter the result.
-If no names or connector-types are provided, returns all connector profiles
-in a paginated form. If there is no match, this operation returns an empty list.
+Returns a list of connector-profile details matching the provided connector-profile names and connector-types. Both input lists are optional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector profiles in a paginated form. If there is no match, this operation returns an empty list.
 
 ``` swift
 public func describeConnectorProfiles(input: DescribeConnectorProfilesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeConnectorProfilesOutputResponse, DescribeConnectorProfilesOutputError>) -> Void)
@@ -87,11 +82,7 @@ public func describeConnectorProfiles(input: DescribeConnectorProfilesInput, com
 
 ### `describeConnectors(input:completion:)`
 
-Describes the connectors vended by Amazon AppFlow for specified connector types. If you
-don't specify a connector type, this operation describes all connectors vended by Amazon
-AppFlow. If there are more connectors than can be returned in one page, the response contains
-a nextToken object, which can be be passed in to the next call to the
-DescribeConnectors API operation to retrieve the next page.
+Describes the connectors vended by Amazon AppFlow for specified connector types. If you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response contains a nextToken object, which can be be passed in to the next call to the DescribeConnectors API operation to retrieve the next page.
 
 ``` swift
 public func describeConnectors(input: DescribeConnectorsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeConnectorsOutputResponse, DescribeConnectorsOutputError>) -> Void)
@@ -115,10 +106,7 @@ public func describeFlowExecutionRecords(input: DescribeFlowExecutionRecordsInpu
 
 ### `listConnectorEntities(input:completion:)`
 
-Returns the list of available connector entities supported by Amazon AppFlow. For
-example, you can query Salesforce for Account and
-Opportunity entities, or query ServiceNow for the
-Incident entity.
+Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportunity entities, or query ServiceNow for the Incident entity.
 
 ``` swift
 public func listConnectorEntities(input: ListConnectorEntitiesInput, completion: @escaping (ClientRuntime.SdkResult<ListConnectorEntitiesOutputResponse, ListConnectorEntitiesOutputError>) -> Void)
@@ -142,8 +130,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `startFlow(input:completion:)`
 
-Activates an existing flow. For on-demand flows, this operation runs the flow
-immediately. For schedule and event-triggered flows, this operation activates the flow.
+Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
 
 ``` swift
 public func startFlow(input: StartFlowInput, completion: @escaping (ClientRuntime.SdkResult<StartFlowOutputResponse, StartFlowOutputError>) -> Void)
@@ -151,9 +138,7 @@ public func startFlow(input: StartFlowInput, completion: @escaping (ClientRuntim
 
 ### `stopFlow(input:completion:)`
 
-Deactivates the existing flow. For on-demand flows, this operation returns an
-unsupportedOperationException error message. For schedule and event-triggered
-flows, this operation deactivates the flow.
+Deactivates the existing flow. For on-demand flows, this operation returns an unsupportedOperationException error message. For schedule and event-triggered flows, this operation deactivates the flow.
 
 ``` swift
 public func stopFlow(input: StopFlowInput, completion: @escaping (ClientRuntime.SdkResult<StopFlowOutputResponse, StopFlowOutputError>) -> Void)

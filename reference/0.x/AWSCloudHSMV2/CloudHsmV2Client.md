@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CloudHsmV2Client"
+```
+
 ## Methods
 
 ### `copyBackupToRegion(input:completion:)`
@@ -42,8 +50,7 @@ public func createCluster(input: CreateClusterInput, completion: @escaping (Clie
 
 ### `createHsm(input:completion:)`
 
-Creates a new hardware security module (HSM) in the specified AWS CloudHSM
-cluster.
+Creates a new hardware security module (HSM) in the specified AWS CloudHSM cluster.
 
 ``` swift
 public func createHsm(input: CreateHsmInput, completion: @escaping (ClientRuntime.SdkResult<CreateHsmOutputResponse, CreateHsmOutputError>) -> Void)
@@ -51,9 +58,7 @@ public func createHsm(input: CreateHsmInput, completion: @escaping (ClientRuntim
 
 ### `deleteBackup(input:completion:)`
 
-Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days
-after the DeleteBackup request is made. For more information on restoring a backup, see
-RestoreBackup.
+Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see \[RestoreBackup\].
 
 ``` swift
 public func deleteBackup(input: DeleteBackupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBackupOutputResponse, DeleteBackupOutputError>) -> Void)
@@ -61,8 +66,7 @@ public func deleteBackup(input: DeleteBackupInput, completion: @escaping (Client
 
 ### `deleteCluster(input:completion:)`
 
-Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must
-delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters. To delete an HSM, use DeleteHsm.
+Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use \[DescribeClusters\]. To delete an HSM, use \[DeleteHsm\].
 
 ``` swift
 public func deleteCluster(input: DeleteClusterInput, completion: @escaping (ClientRuntime.SdkResult<DeleteClusterOutputResponse, DeleteClusterOutputError>) -> Void)
@@ -70,9 +74,7 @@ public func deleteCluster(input: DeleteClusterInput, completion: @escaping (Clie
 
 ### `deleteHsm(input:completion:)`
 
-Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP
-address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to
-specify only one of these values. To find these values, use DescribeClusters.
+Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use \[DescribeClusters\].
 
 ``` swift
 public func deleteHsm(input: DeleteHsmInput, completion: @escaping (ClientRuntime.SdkResult<DeleteHsmOutputResponse, DeleteHsmOutputError>) -> Void)
@@ -80,12 +82,7 @@ public func deleteHsm(input: DeleteHsmInput, completion: @escaping (ClientRuntim
 
 ### `describeBackups(input:completion:)`
 
-Gets information about backups of AWS CloudHSM clusters.
-This is a paginated operation, which means that each response might contain only a
-subset of all the backups. When the response contains only a subset of backups, it includes a
-NextToken value. Use this value in a subsequent DescribeBackups
-request to get more backups. When you receive a response with no NextToken (or an
-empty or null value), that means there are no more backups to get.
+Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
 
 ``` swift
 public func describeBackups(input: DescribeBackupsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeBackupsOutputResponse, DescribeBackupsOutputError>) -> Void)
@@ -93,12 +90,7 @@ public func describeBackups(input: DescribeBackupsInput, completion: @escaping (
 
 ### `describeClusters(input:completion:)`
 
-Gets information about AWS CloudHSM clusters.
-This is a paginated operation, which means that each response might contain only a
-subset of all the clusters. When the response contains only a subset of clusters, it includes
-a NextToken value. Use this value in a subsequent DescribeClusters
-request to get more clusters. When you receive a response with no NextToken (or
-an empty or null value), that means there are no more clusters to get.
+Gets information about AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.
 
 ``` swift
 public func describeClusters(input: DescribeClustersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeClustersOutputResponse, DescribeClustersOutputError>) -> Void)
@@ -106,10 +98,7 @@ public func describeClusters(input: DescribeClustersInput, completion: @escaping
 
 ### `initializeCluster(input:completion:)`
 
-Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by your
-issuing certificate authority (CA) and the CA's root certificate. Before you can claim a
-cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA.
-To get the cluster's CSR, use DescribeClusters.
+Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use \[DescribeClusters\].
 
 ``` swift
 public func initializeCluster(input: InitializeClusterInput, completion: @escaping (ClientRuntime.SdkResult<InitializeClusterOutputResponse, InitializeClusterOutputError>) -> Void)
@@ -117,12 +106,7 @@ public func initializeCluster(input: InitializeClusterInput, completion: @escapi
 
 ### `listTags(input:completion:)`
 
-Gets a list of tags for the specified AWS CloudHSM cluster.
-This is a paginated operation, which means that each response might contain only a
-subset of all the tags. When the response contains only a subset of tags, it includes a
-NextToken value. Use this value in a subsequent ListTags request to
-get more tags. When you receive a response with no NextToken (or an empty or null
-value), that means there are no more tags to get.
+Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.
 
 ``` swift
 public func listTags(input: ListTagsInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsOutputResponse, ListTagsOutputError>) -> Void)
@@ -146,9 +130,7 @@ public func modifyCluster(input: ModifyClusterInput, completion: @escaping (Clie
 
 ### `restoreBackup(input:completion:)`
 
-Restores a specified AWS CloudHSM backup that is in the
-PENDING\_DELETION state. For mor information on deleting a backup, see
-DeleteBackup.
+Restores a specified AWS CloudHSM backup that is in the PENDING\_DELETION state. For mor information on deleting a backup, see \[DeleteBackup\].
 
 ``` swift
 public func restoreBackup(input: RestoreBackupInput, completion: @escaping (ClientRuntime.SdkResult<RestoreBackupOutputResponse, RestoreBackupOutputError>) -> Void)

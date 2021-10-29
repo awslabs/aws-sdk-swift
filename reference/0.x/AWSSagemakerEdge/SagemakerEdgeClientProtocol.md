@@ -8,7 +8,7 @@ public protocol SagemakerEdgeClientProtocol
 
 ## Requirements
 
-### getDeviceRegistration(input:​completion:​)
+### getDeviceRegistration(input:completion:)
 
 Use to check if a device is registered with SageMaker Edge Manager.
 
@@ -16,7 +16,7 @@ Use to check if a device is registered with SageMaker Edge Manager.
 func getDeviceRegistration(input: GetDeviceRegistrationInput, completion: @escaping (ClientRuntime.SdkResult<GetDeviceRegistrationOutputResponse, GetDeviceRegistrationOutputError>) -> Void)
 ```
 
-### sendHeartbeat(input:​completion:​)
+### sendHeartbeat(input:completion:)
 
 Use to get the current status of devices registered on SageMaker Edge Manager.
 

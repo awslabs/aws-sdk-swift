@@ -22,11 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "Route53ResolverClient"
+```
+
 ## Methods
 
 ### `associateFirewallRuleGroup(input:completion:)`
 
-Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
+Associates a \[FirewallRuleGroup\] with a VPC, to provide DNS filtering for the VPC.
 
 ``` swift
 public func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput, completion: @escaping (ClientRuntime.SdkResult<AssociateFirewallRuleGroupOutputResponse, AssociateFirewallRuleGroupOutputError>) -> Void)
@@ -34,10 +42,7 @@ public func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput, c
 
 ### `associateResolverEndpointIpAddress(input:completion:)`
 
-Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address,
-submit one AssociateResolverEndpointIpAddress request for each IP address.
-To remove an IP address from an endpoint, see
-<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverEndpointIpAddress.html">DisassociateResolverEndpointIpAddress.
+Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see [DisassociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverEndpointIpAddress.html).
 
 ``` swift
 public func associateResolverEndpointIpAddress(input: AssociateResolverEndpointIpAddressInput, completion: @escaping (ClientRuntime.SdkResult<AssociateResolverEndpointIpAddressOutputResponse, AssociateResolverEndpointIpAddressOutputError>) -> Void)
@@ -45,28 +50,15 @@ public func associateResolverEndpointIpAddress(input: AssociateResolverEndpointI
 
 ### `associateResolverQueryLogConfig(input:completion:)`
 
-Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs
-that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig
-request for each VPC.
+Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig request for each VPC. The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuration, see [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html).
 
 ``` swift
 public func associateResolverQueryLogConfig(input: AssociateResolverQueryLogConfigInput, completion: @escaping (ClientRuntime.SdkResult<AssociateResolverQueryLogConfigOutputResponse, AssociateResolverQueryLogConfigOutputError>) -> Void)
 ```
 
-``` 
-        The VPCs that you associate with a query logging configuration must be in the same Region as the configuration.
-
-	
-	       To remove a VPC from a query logging configuration, see
-		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html">DisassociateResolverQueryLogConfig.
-```
-
 ### `associateResolverRule(input:completion:)`
 
-Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries
-for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the
-IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see
-<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html">CreateResolverRule.
+Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see [CreateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html).
 
 ``` swift
 public func associateResolverRule(input: AssociateResolverRuleInput, completion: @escaping (ClientRuntime.SdkResult<AssociateResolverRuleOutputResponse, AssociateResolverRuleOutputError>) -> Void)
@@ -74,7 +66,7 @@ public func associateResolverRule(input: AssociateResolverRuleInput, completion:
 
 ### `createFirewallDomainList(input:completion:)`
 
-Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
+Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using \[ImportFirewallDomains\], or with domain strings, using \[UpdateFirewallDomains\].
 
 ``` swift
 public func createFirewallDomainList(input: CreateFirewallDomainListInput, completion: @escaping (ClientRuntime.SdkResult<CreateFirewallDomainListOutputResponse, CreateFirewallDomainListOutputError>) -> Void)
@@ -90,8 +82,7 @@ public func createFirewallRule(input: CreateFirewallRuleInput, completion: @esca
 
 ### `createFirewallRuleGroup(input:completion:)`
 
-Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group
-by calling CreateFirewallRule.
+Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group by calling \[CreateFirewallRule\].
 
 ``` swift
 public func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateFirewallRuleGroupOutputResponse, CreateFirewallRuleGroupOutputError>) -> Void)
@@ -99,43 +90,27 @@ public func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput, complet
 
 ### `createResolverEndpoint(input:completion:)`
 
-Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:​
+Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:
 
 ``` swift
 public func createResolverEndpoint(input: CreateResolverEndpointInput, completion: @escaping (ClientRuntime.SdkResult<CreateResolverEndpointOutputResponse, CreateResolverEndpointOutputError>) -> Void)
 ```
 
-``` 
-           An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
-			from your network.
+  - An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network.
 
-
-           An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC
-			to your network.
-```
+  - An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC to your network.
 
 ### `createResolverQueryLogConfig(input:completion:)`
 
-Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs.
-Resolver can log queries only for VPCs that are in the same Region as the query logging configuration.
+Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see [AssociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html). You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Amazon Web Services accounts. The other accounts can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all VPCs that are associated with the configuration.
 
 ``` swift
 public func createResolverQueryLogConfig(input: CreateResolverQueryLogConfigInput, completion: @escaping (ClientRuntime.SdkResult<CreateResolverQueryLogConfigOutputResponse, CreateResolverQueryLogConfigOutputError>) -> Void)
 ```
 
-``` 
-	       To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see
-		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html">AssociateResolverQueryLogConfig.
-	
-	       You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Amazon Web Services accounts. The other accounts
-		can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all
-		VPCs that are associated with the configuration.
-```
-
 ### `createResolverRule(input:completion:)`
 
-For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through,
-one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
+For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
 
 ``` swift
 public func createResolverRule(input: CreateResolverRuleInput, completion: @escaping (ClientRuntime.SdkResult<CreateResolverRuleOutputResponse, CreateResolverRuleOutputError>) -> Void)
@@ -167,47 +142,27 @@ public func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput, complet
 
 ### `deleteResolverEndpoint(input:completion:)`
 
-Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound
-Resolver endpoint:​
+Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint:
 
 ``` swift
 public func deleteResolverEndpoint(input: DeleteResolverEndpointInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResolverEndpointOutputResponse, DeleteResolverEndpointOutputError>) -> Void)
 ```
 
-``` 
-              Inbound: DNS queries from your network are no longer routed
-			to the DNS service for the specified VPC.
+  - Inbound: DNS queries from your network are no longer routed to the DNS service for the specified VPC.
 
-
-
-              Outbound: DNS queries from a VPC are no longer routed to your network.
-```
+  - Outbound: DNS queries from a VPC are no longer routed to your network.
 
 ### `deleteResolverQueryLogConfig(input:completion:)`
 
-Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are
-associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and
-the other accounts have associated VPCs with the shared configuration.
+Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html). If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically disassociated from the configuration.
 
 ``` swift
 public func deleteResolverQueryLogConfig(input: DeleteResolverQueryLogConfigInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResolverQueryLogConfigOutputResponse, DeleteResolverQueryLogConfigOutputError>) -> Void)
 ```
 
-``` 
-	       Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See
-		<a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html">DisassociateResolverQueryLogConfig.
-		
-	       If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing
-		the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs
-		that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically
-		disassociated from the configuration.
-```
-
 ### `deleteResolverRule(input:completion:)`
 
-Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you
-associated the Resolver rule with. For more information, see
-<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverRule.html">DisassociateResolverRule.
+Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you associated the Resolver rule with. For more information, see [DisassociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverRule.html).
 
 ``` swift
 public func deleteResolverRule(input: DeleteResolverRuleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResolverRuleOutputResponse, DeleteResolverRuleOutputError>) -> Void)
@@ -215,7 +170,7 @@ public func deleteResolverRule(input: DeleteResolverRuleInput, completion: @esca
 
 ### `disassociateFirewallRuleGroup(input:completion:)`
 
-Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
+Disassociates a \[FirewallRuleGroup\] from a VPC, to remove DNS filtering from the VPC.
 
 ``` swift
 public func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateFirewallRuleGroupOutputResponse, DisassociateFirewallRuleGroupOutputError>) -> Void)
@@ -223,10 +178,7 @@ public func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupIn
 
 ### `disassociateResolverEndpointIpAddress(input:completion:)`
 
-Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address,
-submit one DisassociateResolverEndpointIpAddress request for each IP address.
-To add an IP address to an endpoint, see
-<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverEndpointIpAddress.html">AssociateResolverEndpointIpAddress.
+Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see [AssociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverEndpointIpAddress.html).
 
 ``` swift
 public func disassociateResolverEndpointIpAddress(input: DisassociateResolverEndpointIpAddressInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateResolverEndpointIpAddressOutputResponse, DisassociateResolverEndpointIpAddressOutputError>) -> Void)
@@ -234,42 +186,27 @@ public func disassociateResolverEndpointIpAddress(input: DisassociateResolverEnd
 
 ### `disassociateResolverQueryLogConfig(input:completion:)`
 
-Disassociates a VPC from a query logging configuration.
+Disassociates a VPC from a query logging configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways:
 
 ``` swift
 public func disassociateResolverQueryLogConfig(input: DisassociateResolverQueryLogConfigInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateResolverQueryLogConfigOutputResponse, DisassociateResolverQueryLogConfigOutputError>) -> Void)
 ```
 
-``` 
-		         Before you can delete a query logging configuration, you must first disassociate all VPCs
-			from the configuration. If you used Resource Access Manager (RAM) to share a
-			query logging configuration with other accounts, VPCs can be disassociated from the
-			configuration in the following ways:
-		
+  - The accounts that you shared the configuration with can disassociate VPCs from the configuration.
 
-              The accounts that you shared the configuration with can disassociate VPCs from the configuration.
-
-
-              You can stop sharing the configuration.
-```
+  - You can stop sharing the configuration.
 
 ### `disassociateResolverRule(input:completion:)`
 
-Removes the association between a specified Resolver rule and a specified VPC.
+Removes the association between a specified Resolver rule and a specified VPC. If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the Resolver rule.
 
 ``` swift
 public func disassociateResolverRule(input: DisassociateResolverRuleInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateResolverRuleOutputResponse, DisassociateResolverRuleOutputError>) -> Void)
 ```
 
-``` 
-		         If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
-			domain name that you specified in the Resolver rule.
-```
-
 ### `getFirewallConfig(input:completion:)`
 
-Retrieves the configuration of the firewall behavior provided by DNS Firewall for a
-single VPC from Amazon Virtual Private Cloud (Amazon VPC).
+Retrieves the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 ``` swift
 public func getFirewallConfig(input: GetFirewallConfigInput, completion: @escaping (ClientRuntime.SdkResult<GetFirewallConfigOutputResponse, GetFirewallConfigOutputError>) -> Void)
@@ -301,8 +238,7 @@ public func getFirewallRuleGroupAssociation(input: GetFirewallRuleGroupAssociati
 
 ### `getFirewallRuleGroupPolicy(input:completion:)`
 
-Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the
-specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
+Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
 
 ``` swift
 public func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput, completion: @escaping (ClientRuntime.SdkResult<GetFirewallRuleGroupPolicyOutputResponse, GetFirewallRuleGroupPolicyOutputError>) -> Void)
@@ -318,8 +254,7 @@ public func getResolverDnssecConfig(input: GetResolverDnssecConfigInput, complet
 
 ### `getResolverEndpoint(input:completion:)`
 
-Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the
-current status of the endpoint.
+Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint.
 
 ``` swift
 public func getResolverEndpoint(input: GetResolverEndpointInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverEndpointOutputResponse, GetResolverEndpointOutputError>) -> Void)
@@ -327,8 +262,7 @@ public func getResolverEndpoint(input: GetResolverEndpointInput, completion: @es
 
 ### `getResolverQueryLogConfig(input:completion:)`
 
-Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration
-is logging queries for and the location that logs are sent to.
+Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to.
 
 ``` swift
 public func getResolverQueryLogConfig(input: GetResolverQueryLogConfigInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverQueryLogConfigOutputResponse, GetResolverQueryLogConfigOutputError>) -> Void)
@@ -336,8 +270,7 @@ public func getResolverQueryLogConfig(input: GetResolverQueryLogConfigInput, com
 
 ### `getResolverQueryLogConfigAssociation(input:completion:)`
 
-Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC
-with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
+Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
 
 ``` swift
 public func getResolverQueryLogConfigAssociation(input: GetResolverQueryLogConfigAssociationInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverQueryLogConfigAssociationOutputResponse, GetResolverQueryLogConfigAssociationOutputError>) -> Void)
@@ -345,8 +278,7 @@ public func getResolverQueryLogConfigAssociation(input: GetResolverQueryLogConfi
 
 ### `getResolverQueryLogConfigPolicy(input:completion:)`
 
-Gets information about a query logging policy. A query logging policy specifies the Resolver query logging
-operations and resources that you want to allow another Amazon Web Services account to be able to use.
+Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another Amazon Web Services account to be able to use.
 
 ``` swift
 public func getResolverQueryLogConfigPolicy(input: GetResolverQueryLogConfigPolicyInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverQueryLogConfigPolicyOutputResponse, GetResolverQueryLogConfigPolicyOutputError>) -> Void)
@@ -354,8 +286,7 @@ public func getResolverQueryLogConfigPolicy(input: GetResolverQueryLogConfigPoli
 
 ### `getResolverRule(input:completion:)`
 
-Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the
-outbound Resolver endpoint that the rule is associated with.
+Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is associated with.
 
 ``` swift
 public func getResolverRule(input: GetResolverRuleInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverRuleOutputResponse, GetResolverRuleOutputError>) -> Void)
@@ -363,8 +294,7 @@ public func getResolverRule(input: GetResolverRuleInput, completion: @escaping (
 
 ### `getResolverRuleAssociation(input:completion:)`
 
-Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using
-<a href="https:​//docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html">AssociateResolverRule.
+Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using [AssociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html).
 
 ``` swift
 public func getResolverRuleAssociation(input: GetResolverRuleAssociationInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverRuleAssociationOutputResponse, GetResolverRuleAssociationOutputError>) -> Void)
@@ -372,8 +302,7 @@ public func getResolverRuleAssociation(input: GetResolverRuleAssociationInput, c
 
 ### `getResolverRulePolicy(input:completion:)`
 
-Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share
-with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
+Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
 
 ``` swift
 public func getResolverRulePolicy(input: GetResolverRulePolicyInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverRulePolicyOutputResponse, GetResolverRulePolicyOutputError>) -> Void)
@@ -381,30 +310,21 @@ public func getResolverRulePolicy(input: GetResolverRulePolicyInput, completion:
 
 ### `importFirewallDomains(input:completion:)`
 
-Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
-Each domain specification in your domain list must satisfy the following
-requirements:​
+Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the following requirements:
 
 ``` swift
 public func importFirewallDomains(input: ImportFirewallDomainsInput, completion: @escaping (ClientRuntime.SdkResult<ImportFirewallDomainsOutputResponse, ImportFirewallDomainsOutputError>) -> Void)
 ```
 
-``` 
-  	        It can optionally start with * (asterisk).
-  	
+  - It can optionally start with \* (asterisk).
 
-  	        With the exception of the optional starting asterisk, it must only contain
-  	   the following characters: A-Z, a-z,
-  	   0-9, - (hyphen).
-  	
+  - With the exception of the optional starting asterisk, it must only contain the following characters: A-Z, a-z, 0-9, - (hyphen).
 
-  	        It must be from 1-255 characters in length.
-```
+  - It must be from 1-255 characters in length.
 
 ### `listFirewallConfigs(input:completion:)`
 
-Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs.
-A single call might return only a partial list of the configurations. For information, see MaxResults.
+Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs. A single call might return only a partial list of the configurations. For information, see MaxResults.
 
 ``` swift
 public func listFirewallConfigs(input: ListFirewallConfigsInput, completion: @escaping (ClientRuntime.SdkResult<ListFirewallConfigsOutputResponse, ListFirewallConfigsOutputError>) -> Void)
@@ -412,8 +332,7 @@ public func listFirewallConfigs(input: ListFirewallConfigsInput, completion: @es
 
 ### `listFirewallDomainLists(input:completion:)`
 
-Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains.
-A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults.
+Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling \[ListFirewallDomains\]. A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults.
 
 ``` swift
 public func listFirewallDomainLists(input: ListFirewallDomainListsInput, completion: @escaping (ClientRuntime.SdkResult<ListFirewallDomainListsOutputResponse, ListFirewallDomainListsOutputError>) -> Void)
@@ -421,8 +340,7 @@ public func listFirewallDomainLists(input: ListFirewallDomainListsInput, complet
 
 ### `listFirewallDomains(input:completion:)`
 
-Retrieves the domains that you have defined for the specified firewall domain list.
-A single call might return only a partial list of the domains. For information, see MaxResults.
+Retrieves the domains that you have defined for the specified firewall domain list. A single call might return only a partial list of the domains. For information, see MaxResults.
 
 ``` swift
 public func listFirewallDomains(input: ListFirewallDomainsInput, completion: @escaping (ClientRuntime.SdkResult<ListFirewallDomainsOutputResponse, ListFirewallDomainsOutputError>) -> Void)
@@ -430,8 +348,7 @@ public func listFirewallDomains(input: ListFirewallDomainsInput, completion: @es
 
 ### `listFirewallRuleGroupAssociations(input:completion:)`
 
-Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group.
-A single call might return only a partial list of the associations. For information, see MaxResults.
+Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group. A single call might return only a partial list of the associations. For information, see MaxResults.
 
 ``` swift
 public func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssociationsInput, completion: @escaping (ClientRuntime.SdkResult<ListFirewallRuleGroupAssociationsOutputResponse, ListFirewallRuleGroupAssociationsOutputError>) -> Void)
@@ -439,8 +356,7 @@ public func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssoci
 
 ### `listFirewallRuleGroups(input:completion:)`
 
-Retrieves the minimal high-level information for the rule groups that you have defined.
-A single call might return only a partial list of the rule groups. For information, see MaxResults.
+Retrieves the minimal high-level information for the rule groups that you have defined. A single call might return only a partial list of the rule groups. For information, see MaxResults.
 
 ``` swift
 public func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListFirewallRuleGroupsOutputResponse, ListFirewallRuleGroupsOutputError>) -> Void)
@@ -448,8 +364,7 @@ public func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput, completio
 
 ### `listFirewallRules(input:completion:)`
 
-Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.
-A single call might return only a partial list of the rules. For information, see MaxResults.
+Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults.
 
 ``` swift
 public func listFirewallRules(input: ListFirewallRulesInput, completion: @escaping (ClientRuntime.SdkResult<ListFirewallRulesOutputResponse, ListFirewallRulesOutputError>) -> Void)
@@ -489,8 +404,7 @@ public func listResolverQueryLogConfigAssociations(input: ListResolverQueryLogCo
 
 ### `listResolverQueryLogConfigs(input:completion:)`
 
-Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
-DNS query logs and specifies the VPCs that you want to log queries for.
+Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for.
 
 ``` swift
 public func listResolverQueryLogConfigs(input: ListResolverQueryLogConfigsInput, completion: @escaping (ClientRuntime.SdkResult<ListResolverQueryLogConfigsOutputResponse, ListResolverQueryLogConfigsOutputError>) -> Void)
@@ -522,9 +436,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `putFirewallRuleGroupPolicy(input:completion:)`
 
-Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule
-group. You can use the policy to share the rule group using Resource Access Manager
-(RAM).
+Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
 
 ``` swift
 public func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutFirewallRuleGroupPolicyOutputResponse, PutFirewallRuleGroupPolicyOutputError>) -> Void)
@@ -532,8 +444,7 @@ public func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput, c
 
 ### `putResolverQueryLogConfigPolicy(input:completion:)`
 
-Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share,
-and the operations that you want the account to be able to perform on the configuration.
+Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration.
 
 ``` swift
 public func putResolverQueryLogConfigPolicy(input: PutResolverQueryLogConfigPolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutResolverQueryLogConfigPolicyOutputResponse, PutResolverQueryLogConfigPolicyOutputError>) -> Void)
@@ -541,8 +452,7 @@ public func putResolverQueryLogConfigPolicy(input: PutResolverQueryLogConfigPoli
 
 ### `putResolverRulePolicy(input:completion:)`
 
-Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with,
-and the operations that you want the account to be able to perform on the rule.
+Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule.
 
 ``` swift
 public func putResolverRulePolicy(input: PutResolverRulePolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutResolverRulePolicyOutputResponse, PutResolverRulePolicyOutputError>) -> Void)
@@ -566,8 +476,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateFirewallConfig(input:completion:)`
 
-Updates the configuration of the firewall behavior provided by DNS Firewall for a single
-VPC from Amazon Virtual Private Cloud (Amazon VPC).
+Updates the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 ``` swift
 public func updateFirewallConfig(input: UpdateFirewallConfigInput, completion: @escaping (ClientRuntime.SdkResult<UpdateFirewallConfigOutputResponse, UpdateFirewallConfigOutputError>) -> Void)
@@ -591,7 +500,7 @@ public func updateFirewallRule(input: UpdateFirewallRuleInput, completion: @esca
 
 ### `updateFirewallRuleGroupAssociation(input:completion:)`
 
-Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
+Changes the association of a \[FirewallRuleGroup\] with a VPC. The association enables DNS filtering for the VPC.
 
 ``` swift
 public func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateFirewallRuleGroupAssociationOutputResponse, UpdateFirewallRuleGroupAssociationOutputError>) -> Void)
@@ -615,8 +524,7 @@ public func updateResolverEndpoint(input: UpdateResolverEndpointInput, completio
 
 ### `updateResolverRule(input:completion:)`
 
-Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other parameters are optional.
-If you don't specify a parameter, it retains its current value.
+Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other parameters are optional. If you don't specify a parameter, it retains its current value.
 
 ``` swift
 public func updateResolverRule(input: UpdateResolverRuleInput, completion: @escaping (ClientRuntime.SdkResult<UpdateResolverRuleOutputResponse, UpdateResolverRuleOutputError>) -> Void)

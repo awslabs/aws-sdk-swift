@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CodeBuildClient"
+```
+
 ## Methods
 
 ### `batchDeleteBuilds(input:completion:)`
@@ -90,21 +98,10 @@ public func createReportGroup(input: CreateReportGroupInput, completion: @escapi
 
 ### `createWebhook(input:completion:)`
 
-For an existing CodeBuild build project that has its source code stored in a GitHub or
-Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a
-code change is pushed to the repository.
+For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a code change is pushed to the repository. If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build basis, you are billed for both builds. Therefore, if you are using CodePipeline, we recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the Webhook box. For more information, see step 5 in [Change a Build Project's Settings](https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console).
 
 ``` swift
 public func createWebhook(input: CreateWebhookInput, completion: @escaping (ClientRuntime.SdkResult<CreateWebhookOutputResponse, CreateWebhookOutputError>) -> Void)
-```
-
-``` 
-        If you enable webhooks for an CodeBuild project, and the project is used as a build
-    step in CodePipeline, then two identical builds are created for each commit. One build is
-    triggered through webhooks, and one through CodePipeline. Because billing is on a per-build
-    basis, you are billed for both builds. Therefore, if you are using CodePipeline, we
-    recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the
-    Webhook box. For more information, see step 5 in <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console">Change a Build Project's Settings.
 ```
 
 ### `deleteBuildBatch(input:completion:)`
@@ -157,9 +154,7 @@ public func deleteSourceCredentials(input: DeleteSourceCredentialsInput, complet
 
 ### `deleteWebhook(input:completion:)`
 
-For an existing CodeBuild build project that has its source code stored in a GitHub or
-Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
-change is pushed to the repository.
+For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
 
 ``` swift
 public func deleteWebhook(input: DeleteWebhookInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWebhookOutputResponse, DeleteWebhookOutputError>) -> Void)
@@ -199,8 +194,7 @@ public func getResourcePolicy(input: GetResourcePolicyInput, completion: @escapi
 
 ### `importSourceCredentials(input:completion:)`
 
-Imports the source repository credentials for an CodeBuild project that has its
-source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
 
 ``` swift
 public func importSourceCredentials(input: ImportSourceCredentialsInput, completion: @escaping (ClientRuntime.SdkResult<ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>) -> Void)
@@ -240,8 +234,7 @@ public func listBuilds(input: ListBuildsInput, completion: @escaping (ClientRunt
 
 ### `listBuildsForProject(input:completion:)`
 
-Gets a list of build identifiers for the specified build project, with each build
-identifier representing a single build.
+Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
 
 ``` swift
 public func listBuildsForProject(input: ListBuildsForProjectInput, completion: @escaping (ClientRuntime.SdkResult<ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>) -> Void)
@@ -257,8 +250,7 @@ public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInpu
 
 ### `listProjects(input:completion:)`
 
-Gets a list of build project names, with each build project name representing a single
-build project.
+Gets a list of build project names, with each build project name representing a single build project.
 
 ``` swift
 public func listProjects(input: ListProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListProjectsOutputResponse, ListProjectsOutputError>) -> Void)
@@ -314,8 +306,7 @@ public func listSourceCredentials(input: ListSourceCredentialsInput, completion:
 
 ### `putResourcePolicy(input:completion:)`
 
-Stores a resource policy for the ARN of a Project or
-ReportGroup object.
+Stores a resource policy for the ARN of a Project or ReportGroup object.
 
 ``` swift
 public func putResourcePolicy(input: PutResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>) -> Void)
@@ -379,47 +370,21 @@ public func updateProject(input: UpdateProjectInput, completion: @escaping (Clie
 
 ### `updateProjectVisibility(input:completion:)`
 
-Changes the public visibility for a project. The project's build results, logs, and
-artifacts are available to the general public.  For more information, see <a href="https:​//docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html">Public build
-projects in the CodeBuild User Guide.
+Changes the public visibility for a project. The project's build results, logs, and artifacts are available to the general public. For more information, see [Public build projects](https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html) in the CodeBuild User Guide. The following should be kept in mind when making your projects public:
 
 ``` swift
 public func updateProjectVisibility(input: UpdateProjectVisibilityInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>) -> Void)
 ```
 
-``` 
-        The following should be kept in mind when making your projects public:
+  - All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public.
 
+  - All build logs and artifacts are available to the public. Environment variables, source code, and other sensitive information may have been output to the build logs and artifacts. You must be careful about what information is output to the build logs. Some best practice are:
 
-              All of a project's build results, logs, and artifacts, including builds that were run
-        when the project was private, are available to the general public.
+  - Do not store sensitive values, especially Amazon Web Services access key IDs and secret access keys, in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager to store sensitive values.
 
+  - Follow [Best practices for using webhooks](https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices) in the CodeBuild User Guide to limit which entities can trigger a build, and do not store the buildspec in the project itself, to ensure that your webhooks are as secure as possible.
 
-              All build logs and artifacts are available to the public. Environment variables, source
-        code, and other sensitive information may have been output to the build logs and artifacts.
-        You must be careful about what information is output to the build logs. Some best practice
-        are:
-
-
-                    Do not store sensitive values, especially Amazon Web Services access key IDs and secret access
-            keys, in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store
-            or Secrets Manager to store sensitive values.
-
-
-                    Follow <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices">Best
-              practices for using webhooks in the CodeBuild User
-              Guide to limit which entities can trigger a build, and do
-              not store the buildspec in the project itself, to ensure that your webhooks are as
-              secure as possible.
-
-
-
-
-              A malicious user can use public builds to distribute malicious artifacts. We recommend
-        that you review all pull requests to verify that the pull request is a legitimate change. We
-        also recommend that you validate any artifacts with their checksums to make sure that the
-        correct artifacts are being downloaded.
-```
+  - A malicious user can use public builds to distribute malicious artifacts. We recommend that you review all pull requests to verify that the pull request is a legitimate change. We also recommend that you validate any artifacts with their checksums to make sure that the correct artifacts are being downloaded.
 
 ### `updateReportGroup(input:completion:)`
 
@@ -431,12 +396,8 @@ public func updateReportGroup(input: UpdateReportGroupInput, completion: @escapi
 
 ### `updateWebhook(input:completion:)`
 
-Updates the webhook associated with an CodeBuild build project.
+Updates the webhook associated with an CodeBuild build project. If you use Bitbucket for your repository, rotateSecret is ignored.
 
 ``` swift
 public func updateWebhook(input: UpdateWebhookInput, completion: @escaping (ClientRuntime.SdkResult<UpdateWebhookOutputResponse, UpdateWebhookOutputError>) -> Void)
-```
-
-``` 
-        If you use Bitbucket for your repository, rotateSecret is ignored.
 ```

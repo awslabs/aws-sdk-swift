@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CodeStarClient"
+```
+
 ## Methods
 
 ### `associateTeamMember(input:completion:)`
@@ -34,9 +42,7 @@ public func associateTeamMember(input: AssociateTeamMemberInput, completion: @es
 
 ### `createProject(input:completion:)`
 
-Creates a project, including project resources. This action creates a project based on
-a submitted project request. A set of source code files and a toolchain template file
-can be included with the project request. If these are not provided, an empty project is created.
+Creates a project, including project resources. This action creates a project based on a submitted project request. A set of source code files and a toolchain template file can be included with the project request. If these are not provided, an empty project is created.
 
 ``` swift
 public func createProject(input: CreateProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateProjectOutputResponse, CreateProjectOutputError>) -> Void)
@@ -44,10 +50,7 @@ public func createProject(input: CreateProjectInput, completion: @escaping (Clie
 
 ### `createUserProfile(input:completion:)`
 
-Creates a profile for a user that includes user preferences, such as the display name
-and email address assocciated with the user, in AWS CodeStar. The user profile is not
-project-specific. Information in the user profile is displayed wherever the user's information
-appears to other users in AWS CodeStar.
+Creates a profile for a user that includes user preferences, such as the display name and email address assocciated with the user, in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar.
 
 ``` swift
 public func createUserProfile(input: CreateUserProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateUserProfileOutputResponse, CreateUserProfileOutputError>) -> Void)
@@ -55,8 +58,7 @@ public func createUserProfile(input: CreateUserProfileInput, completion: @escapi
 
 ### `deleteProject(input:completion:)`
 
-Deletes a project, including project resources. Does not delete users associated with
-the project, but does delete the IAM roles that allowed access to the project.
+Deletes a project, including project resources. Does not delete users associated with the project, but does delete the IAM roles that allowed access to the project.
 
 ``` swift
 public func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
@@ -64,9 +66,7 @@ public func deleteProject(input: DeleteProjectInput, completion: @escaping (Clie
 
 ### `deleteUserProfile(input:completion:)`
 
-Deletes a user profile in AWS CodeStar, including all personal preference data associated with
-that profile, such as display name and email address. It does not delete the history of that
-user, for example the history of commits made by that user.
+Deletes a user profile in AWS CodeStar, including all personal preference data associated with that profile, such as display name and email address. It does not delete the history of that user, for example the history of commits made by that user.
 
 ``` swift
 public func deleteUserProfile(input: DeleteUserProfileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteUserProfileOutputResponse, DeleteUserProfileOutputError>) -> Void)
@@ -90,10 +90,7 @@ public func describeUserProfile(input: DescribeUserProfileInput, completion: @es
 
 ### `disassociateTeamMember(input:completion:)`
 
-Removes a user from a project. Removing a user from a project also removes the IAM
-policies from that user that allowed access to the project and its resources. Disassociating a
-team member does not remove that user's profile from AWS CodeStar. It does not remove the user from
-IAM.
+Removes a user from a project. Removing a user from a project also removes the IAM policies from that user that allowed access to the project and its resources. Disassociating a team member does not remove that user's profile from AWS CodeStar. It does not remove the user from IAM.
 
 ``` swift
 public func disassociateTeamMember(input: DisassociateTeamMemberInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateTeamMemberOutputResponse, DisassociateTeamMemberOutputError>) -> Void)
@@ -165,9 +162,7 @@ public func updateProject(input: UpdateProjectInput, completion: @escaping (Clie
 
 ### `updateTeamMember(input:completion:)`
 
-Updates a team member's attributes in an AWS CodeStar project. For example, you can change a
-team member's role in the project, or change whether they have remote access to project
-resources.
+Updates a team member's attributes in an AWS CodeStar project. For example, you can change a team member's role in the project, or change whether they have remote access to project resources.
 
 ``` swift
 public func updateTeamMember(input: UpdateTeamMemberInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTeamMemberOutputResponse, UpdateTeamMemberOutputError>) -> Void)
@@ -175,9 +170,7 @@ public func updateTeamMember(input: UpdateTeamMemberInput, completion: @escaping
 
 ### `updateUserProfile(input:completion:)`
 
-Updates a user's profile in AWS CodeStar. The user profile is not project-specific.
-Information in the user profile is displayed wherever the user's information appears to other
-users in AWS CodeStar.
+Updates a user's profile in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar.
 
 ``` swift
 public func updateUserProfile(input: UpdateUserProfileInput, completion: @escaping (ClientRuntime.SdkResult<UpdateUserProfileOutputResponse, UpdateUserProfileOutputError>) -> Void)

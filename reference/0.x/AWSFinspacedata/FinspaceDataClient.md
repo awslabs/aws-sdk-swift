@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "FinspaceDataClient"
+```
+
 ## Methods
 
 ### `createChangeset(input:completion:)`
@@ -42,8 +50,7 @@ public func getProgrammaticAccessCredentials(input: GetProgrammaticAccessCredent
 
 ### `getWorkingLocation(input:completion:)`
 
-A temporary Amazon S3 location to copy your files from a source location to stage or use
-as a scratch space in Habanero notebook.
+A temporary Amazon S3 location to copy your files from a source location to stage or use as a scratch space in Habanero notebook.
 
 ``` swift
 public func getWorkingLocation(input: GetWorkingLocationInput, completion: @escaping (ClientRuntime.SdkResult<GetWorkingLocationOutputResponse, GetWorkingLocationOutputError>) -> Void)

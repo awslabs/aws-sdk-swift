@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "IdentitystoreClient"
+```
+
 ## Methods
 
 ### `describeGroup(input:completion:)`
@@ -42,9 +50,7 @@ public func describeUser(input: DescribeUserInput, completion: @escaping (Client
 
 ### `listGroups(input:completion:)`
 
-Lists the attribute name and value of the group that you specified in the search. We only support DisplayName as a valid filter
-attribute path currently, and filter is required. This API returns minimum attributes, including GroupId and group
-DisplayName in the response.
+Lists the attribute name and value of the group that you specified in the search. We only support DisplayName as a valid filter attribute path currently, and filter is required. This API returns minimum attributes, including GroupId and group DisplayName in the response.
 
 ``` swift
 public func listGroups(input: ListGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListGroupsOutputResponse, ListGroupsOutputError>) -> Void)
@@ -52,9 +58,7 @@ public func listGroups(input: ListGroupsInput, completion: @escaping (ClientRunt
 
 ### `listUsers(input:completion:)`
 
-Lists the attribute name and value of the user that you specified in the search. We only support UserName as a valid filter attribute
-path currently, and filter is required. This API returns minimum attributes, including UserId and UserName in the
-response.
+Lists the attribute name and value of the user that you specified in the search. We only support UserName as a valid filter attribute path currently, and filter is required. This API returns minimum attributes, including UserId and UserName in the response.
 
 ``` swift
 public func listUsers(input: ListUsersInput, completion: @escaping (ClientRuntime.SdkResult<ListUsersOutputResponse, ListUsersOutputError>) -> Void)

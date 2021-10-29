@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AccountClient"
+```
+
 ## Methods
 
 ### `deleteAlternateContact(input:completion:)`
 
-Deletes the specified alternate contact from an Amazon Web Services account.
-For complete details about how to use the alternate contact operations, see <a href="https:​//docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Access or
-updating the alternate contacts.
+Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
 
 ``` swift
 public func deleteAlternateContact(input: DeleteAlternateContactInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAlternateContactOutputResponse, DeleteAlternateContactOutputError>) -> Void)
@@ -36,9 +42,7 @@ public func deleteAlternateContact(input: DeleteAlternateContactInput, completio
 
 ### `getAlternateContact(input:completion:)`
 
-Retrieves the specified alternate contact attached to an Amazon Web Services account.
-For complete details about how to use the alternate contact operations, see <a href="https:​//docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Access or
-updating the alternate contacts.
+Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
 
 ``` swift
 public func getAlternateContact(input: GetAlternateContactInput, completion: @escaping (ClientRuntime.SdkResult<GetAlternateContactOutputResponse, GetAlternateContactOutputError>) -> Void)
@@ -46,9 +50,7 @@ public func getAlternateContact(input: GetAlternateContactInput, completion: @es
 
 ### `putAlternateContact(input:completion:)`
 
-Modifies the specified alternate contact attached to an Amazon Web Services account.
-For complete details about how to use the alternate contact operations, see <a href="https:​//docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Access or
-updating the alternate contacts.
+Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
 
 ``` swift
 public func putAlternateContact(input: PutAlternateContactInput, completion: @escaping (ClientRuntime.SdkResult<PutAlternateContactOutputResponse, PutAlternateContactOutputError>) -> Void)

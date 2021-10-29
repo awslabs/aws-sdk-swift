@@ -22,19 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "NetworkManagerClient"
+```
+
 ## Methods
 
 ### `associateCustomerGateway(input:completion:)`
 
-Associates a customer gateway with a device and optionally, with a link. If you
-specify a link, it must be associated with the specified device.
-You can only associate customer gateways that are connected to a VPN attachment on a
-transit gateway. The transit gateway must be registered in your global network. When
-you register a transit gateway, customer gateways that are connected to the transit
-gateway are automatically included in the global network. To list customer gateways
-that are connected to a transit gateway, use the <a href="https:​//docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html">DescribeVpnConnections EC2 API and filter by
-transit-gateway-id.
-You cannot associate a customer gateway with more than one device and link.
+Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway. The transit gateway must be registered in your global network. When you register a transit gateway, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the [DescribeVpnConnections](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html) EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
 
 ``` swift
 public func associateCustomerGateway(input: AssociateCustomerGatewayInput, completion: @escaping (ClientRuntime.SdkResult<AssociateCustomerGatewayOutputResponse, AssociateCustomerGatewayOutputError>) -> Void)
@@ -50,11 +50,7 @@ public func associateLink(input: AssociateLinkInput, completion: @escaping (Clie
 
 ### `associateTransitGatewayConnectPeer(input:completion:)`
 
-Associates a transit gateway Connect peer with a device, and optionally, with a link. If you
-specify a link, it must be associated with the specified device.
-You can only associate transit gateway Connect peers that have been created on a
-transit gateway that's registered in your global network.
-You cannot associate a transit gateway Connect peer with more than one device and link.
+Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link.
 
 ``` swift
 public func associateTransitGatewayConnectPeer(input: AssociateTransitGatewayConnectPeerInput, completion: @escaping (ClientRuntime.SdkResult<AssociateTransitGatewayConnectPeerOutputResponse, AssociateTransitGatewayConnectPeerOutputError>) -> Void)
@@ -70,8 +66,7 @@ public func createConnection(input: CreateConnectionInput, completion: @escaping
 
 ### `createDevice(input:completion:)`
 
-Creates a new device in a global network. If you specify both a site ID and a
-location, the location of the site is used for visualization in the Network Manager console.
+Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
 
 ``` swift
 public func createDevice(input: CreateDeviceInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeviceOutputResponse, CreateDeviceOutputError>) -> Void)
@@ -111,8 +106,7 @@ public func deleteConnection(input: DeleteConnectionInput, completion: @escaping
 
 ### `deleteDevice(input:completion:)`
 
-Deletes an existing device. You must first disassociate the device from any links and
-customer gateways.
+Deletes an existing device. You must first disassociate the device from any links and customer gateways.
 
 ``` swift
 public func deleteDevice(input: DeleteDeviceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDeviceOutputResponse, DeleteDeviceOutputError>) -> Void)
@@ -120,8 +114,7 @@ public func deleteDevice(input: DeleteDeviceInput, completion: @escaping (Client
 
 ### `deleteGlobalNetwork(input:completion:)`
 
-Deletes an existing global network. You must first delete all global network objects
-(devices, links, and sites) and deregister all transit gateways.
+Deletes an existing global network. You must first delete all global network objects (devices, links, and sites) and deregister all transit gateways.
 
 ``` swift
 public func deleteGlobalNetwork(input: DeleteGlobalNetworkInput, completion: @escaping (ClientRuntime.SdkResult<DeleteGlobalNetworkOutputResponse, DeleteGlobalNetworkOutputError>) -> Void)
@@ -129,8 +122,7 @@ public func deleteGlobalNetwork(input: DeleteGlobalNetworkInput, completion: @es
 
 ### `deleteLink(input:completion:)`
 
-Deletes an existing link. You must first disassociate the link from any devices and
-customer gateways.
+Deletes an existing link. You must first disassociate the link from any devices and customer gateways.
 
 ``` swift
 public func deleteLink(input: DeleteLinkInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLinkOutputResponse, DeleteLinkOutputError>) -> Void)
@@ -146,8 +138,7 @@ public func deleteSite(input: DeleteSiteInput, completion: @escaping (ClientRunt
 
 ### `deregisterTransitGateway(input:completion:)`
 
-Deregisters a transit gateway from your global network. This action does not delete
-your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
+Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
 
 ``` swift
 public func deregisterTransitGateway(input: DeregisterTransitGatewayInput, completion: @escaping (ClientRuntime.SdkResult<DeregisterTransitGatewayOutputResponse, DeregisterTransitGatewayOutputError>) -> Void)
@@ -155,10 +146,7 @@ public func deregisterTransitGateway(input: DeregisterTransitGatewayInput, compl
 
 ### `describeGlobalNetworks(input:completion:)`
 
-Describes one or more global networks. By default, all global networks are
-described. To describe the objects in your global network, you must use the appropriate
-Get\* action. For example, to list the transit gateways in your global
-network, use GetTransitGatewayRegistrations.
+Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get\* action. For example, to list the transit gateways in your global network, use \[GetTransitGatewayRegistrations\].
 
 ``` swift
 public func describeGlobalNetworks(input: DescribeGlobalNetworksInput, completion: @escaping (ClientRuntime.SdkResult<DescribeGlobalNetworksOutputResponse, DescribeGlobalNetworksOutputError>) -> Void)
@@ -174,8 +162,7 @@ public func disassociateCustomerGateway(input: DisassociateCustomerGatewayInput,
 
 ### `disassociateLink(input:completion:)`
 
-Disassociates an existing device from a link. You must first disassociate any customer
-gateways that are associated with the link.
+Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link.
 
 ``` swift
 public func disassociateLink(input: DisassociateLinkInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateLinkOutputResponse, DisassociateLinkOutputError>) -> Void)
@@ -199,8 +186,7 @@ public func getConnections(input: GetConnectionsInput, completion: @escaping (Cl
 
 ### `getCustomerGatewayAssociations(input:completion:)`
 
-Gets the association information for customer gateways that are associated with
-devices and links in your global network.
+Gets the association information for customer gateways that are associated with devices and links in your global network.
 
 ``` swift
 public func getCustomerGatewayAssociations(input: GetCustomerGatewayAssociationsInput, completion: @escaping (ClientRuntime.SdkResult<GetCustomerGatewayAssociationsOutputResponse, GetCustomerGatewayAssociationsOutputError>) -> Void)
@@ -216,8 +202,7 @@ public func getDevices(input: GetDevicesInput, completion: @escaping (ClientRunt
 
 ### `getLinkAssociations(input:completion:)`
 
-Gets the link associations for a device or a link. Either the device ID or the link ID
-must be specified.
+Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
 
 ``` swift
 public func getLinkAssociations(input: GetLinkAssociationsInput, completion: @escaping (ClientRuntime.SdkResult<GetLinkAssociationsOutputResponse, GetLinkAssociationsOutputError>) -> Void)
@@ -225,8 +210,7 @@ public func getLinkAssociations(input: GetLinkAssociationsInput, completion: @es
 
 ### `getLinks(input:completion:)`
 
-Gets information about one or more links in a specified global network.
-If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
+Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
 
 ``` swift
 public func getLinks(input: GetLinksInput, completion: @escaping (ClientRuntime.SdkResult<GetLinksOutputResponse, GetLinksOutputError>) -> Void)
@@ -250,8 +234,7 @@ public func getTransitGatewayConnectPeerAssociations(input: GetTransitGatewayCon
 
 ### `getTransitGatewayRegistrations(input:completion:)`
 
-Gets information about the transit gateway registrations in a specified
-global network.
+Gets information about the transit gateway registrations in a specified global network.
 
 ``` swift
 public func getTransitGatewayRegistrations(input: GetTransitGatewayRegistrationsInput, completion: @escaping (ClientRuntime.SdkResult<GetTransitGatewayRegistrationsOutputResponse, GetTransitGatewayRegistrationsOutputError>) -> Void)
@@ -267,9 +250,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `registerTransitGateway(input:completion:)`
 
-Registers a transit gateway in your global network. The transit gateway can be in any
-AWS Region, but it must be owned by the same AWS account that owns the global network.
-You cannot register a transit gateway in more than one global network.
+Registers a transit gateway in your global network. The transit gateway can be in any AWS Region, but it must be owned by the same AWS account that owns the global network. You cannot register a transit gateway in more than one global network.
 
 ``` swift
 public func registerTransitGateway(input: RegisterTransitGatewayInput, completion: @escaping (ClientRuntime.SdkResult<RegisterTransitGatewayOutputResponse, RegisterTransitGatewayOutputError>) -> Void)
@@ -293,8 +274,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateConnection(input:completion:)`
 
-Updates the information for an existing connection. To remove information for any of the parameters,
-specify an empty string.
+Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
 
 ``` swift
 public func updateConnection(input: UpdateConnectionInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConnectionOutputResponse, UpdateConnectionOutputError>) -> Void)
@@ -302,8 +282,7 @@ public func updateConnection(input: UpdateConnectionInput, completion: @escaping
 
 ### `updateDevice(input:completion:)`
 
-Updates the details for an existing device. To remove information for any of the
-parameters, specify an empty string.
+Updates the details for an existing device. To remove information for any of the parameters, specify an empty string.
 
 ``` swift
 public func updateDevice(input: UpdateDeviceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDeviceOutputResponse, UpdateDeviceOutputError>) -> Void)
@@ -311,8 +290,7 @@ public func updateDevice(input: UpdateDeviceInput, completion: @escaping (Client
 
 ### `updateGlobalNetwork(input:completion:)`
 
-Updates an existing global network. To remove information for any of the parameters,
-specify an empty string.
+Updates an existing global network. To remove information for any of the parameters, specify an empty string.
 
 ``` swift
 public func updateGlobalNetwork(input: UpdateGlobalNetworkInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGlobalNetworkOutputResponse, UpdateGlobalNetworkOutputError>) -> Void)
@@ -320,8 +298,7 @@ public func updateGlobalNetwork(input: UpdateGlobalNetworkInput, completion: @es
 
 ### `updateLink(input:completion:)`
 
-Updates the details for an existing link. To remove information for any of the
-parameters, specify an empty string.
+Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
 
 ``` swift
 public func updateLink(input: UpdateLinkInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLinkOutputResponse, UpdateLinkOutputError>) -> Void)
@@ -329,8 +306,7 @@ public func updateLink(input: UpdateLinkInput, completion: @escaping (ClientRunt
 
 ### `updateSite(input:completion:)`
 
-Updates the information for an existing site. To remove information for any of the
-parameters, specify an empty string.
+Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.
 
 ``` swift
 public func updateSite(input: UpdateSiteInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSiteOutputResponse, UpdateSiteOutputError>) -> Void)

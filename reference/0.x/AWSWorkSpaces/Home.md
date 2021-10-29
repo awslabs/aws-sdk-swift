@@ -8,6 +8,4 @@
 # Protocols
 
   - [WorkSpacesClientProtocol](/aws-sdk-swift/reference/0.x/AWSWorkSpaces/WorkSpacesClientProtocol):
-    <fullname>Amazon WorkSpaces Service</fullname>
-    Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft Windows and
-    Amazon Linux desktops for your users.
+    Amazon WorkSpaces Service Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft Windows and Amazon Linux desktops for your users.

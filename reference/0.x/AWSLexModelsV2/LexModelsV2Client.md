@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "LexModelsV2Client"
+```
+
 ## Methods
 
 ### `buildBotLocale(input:completion:)`
 
-Builds a bot, its intents, and its slot types into a specific
-locale. A bot can be built into multiple locales. At runtime the locale
-is used to choose a specific build of the bot.
+Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
 
 ``` swift
 public func buildBotLocale(input: BuildBotLocaleInput, completion: @escaping (ClientRuntime.SdkResult<BuildBotLocaleOutputResponse, BuildBotLocaleOutputError>) -> Void)
@@ -44,11 +50,7 @@ public func createBot(input: CreateBotInput, completion: @escaping (ClientRuntim
 
 ### `createBotAlias(input:completion:)`
 
-Creates an alias for the specified version of a bot. Use an alias to
-enable you to change the version of a bot without updating applications
-that use the bot.
-For example, you can create an alias called "PROD" that your
-applications use to call the Amazon Lex bot.
+Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot.
 
 ``` swift
 public func createBotAlias(input: CreateBotAliasInput, completion: @escaping (ClientRuntime.SdkResult<CreateBotAliasOutputResponse, CreateBotAliasOutputError>) -> Void)
@@ -56,10 +58,7 @@ public func createBotAlias(input: CreateBotAliasInput, completion: @escaping (Cl
 
 ### `createBotLocale(input:completion:)`
 
-Creates a locale in the bot. The locale contains the intents and
-slot types that the bot uses in conversations with users in the
-specified language and locale. You must add a locale to a bot before
-you can add intents and slot types to the bot.
+Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot.
 
 ``` swift
 public func createBotLocale(input: CreateBotLocaleInput, completion: @escaping (ClientRuntime.SdkResult<CreateBotLocaleOutputResponse, CreateBotLocaleOutputError>) -> Void)
@@ -67,12 +66,7 @@ public func createBotLocale(input: CreateBotLocaleInput, completion: @escaping (
 
 ### `createBotVersion(input:completion:)`
 
-Creates a new version of the bot based on the DRAFT
-version. If the DRAFT version of this resource hasn't
-changed since you created the last version, Amazon Lex doesn't create a new
-version, it returns the last created version.
-When you create the first version of a bot, Amazon Lex sets the version
-to 1. Subsequent versions increment by 1.
+Creates a new version of the bot based on the DRAFT version. If the DRAFT version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version, it returns the last created version. When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1.
 
 ``` swift
 public func createBotVersion(input: CreateBotVersionInput, completion: @escaping (ClientRuntime.SdkResult<CreateBotVersionOutputResponse, CreateBotVersionOutputError>) -> Void)
@@ -80,15 +74,7 @@ public func createBotVersion(input: CreateBotVersionInput, completion: @escaping
 
 ### `createExport(input:completion:)`
 
-Creates a zip archive containing the contents of a bot or a bot
-locale. The archive contains a directory structure that contains JSON
-files that define the bot.
-You can create an archive that contains the complete definition of a
-bot, or you can specify that the archive contain only the definition of
-a single bot locale.
-For more information about exporting bots, and about the structure
-of the export archive, see <a href="https:​//docs.aws.amazon.com/lexv2/latest/dg/importing-exporting.html"> Importing and
-exporting bots
+Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see [ Importing and exporting bots ](https://docs.aws.amazon.com/lexv2/latest/dg/importing-exporting.html)
 
 ``` swift
 public func createExport(input: CreateExportInput, completion: @escaping (ClientRuntime.SdkResult<CreateExportOutputResponse, CreateExportOutputError>) -> Void)
@@ -96,52 +82,27 @@ public func createExport(input: CreateExportInput, completion: @escaping (Client
 
 ### `createIntent(input:completion:)`
 
-Creates an intent.
-To define the interaction between the user and your bot, you define
-one or more intents. For example, for a pizza ordering bot you would
-create an OrderPizza intent.
-When you create an intent, you must provide a name. You can
-optionally provide the following:​
+Creates an intent. To define the interaction between the user and your bot, you define one or more intents. For example, for a pizza ordering bot you would create an OrderPizza intent. When you create an intent, you must provide a name. You can optionally provide the following:
 
 ``` swift
 public func createIntent(input: CreateIntentInput, completion: @escaping (ClientRuntime.SdkResult<CreateIntentOutputResponse, CreateIntentOutputError>) -> Void)
 ```
 
-``` 
-           Sample utterances. For example, "I want to order a pizza" and
-           "Can I order a pizza." You can't provide utterances for built-in
-           intents.
+  - Sample utterances. For example, "I want to order a pizza" and "Can I order a pizza." You can't provide utterances for built-in intents.
 
+  - Information to be gathered. You specify slots for the information that you bot requests from the user. You can specify standard slot types, such as date and time, or custom slot types for your application.
 
-           Information to be gathered. You specify slots for the
-           information that you bot requests from the user. You can specify
-           standard slot types, such as date and time, or custom slot types
-           for your application.
+  - How the intent is fulfilled. You can provide a Lambda function or configure the intent to return the intent information to your client application. If you use a Lambda function, Amazon Lex invokes the function when all of the intent information is available.
 
+  - A confirmation prompt to send to the user to confirm an intent. For example, "Shall I order your pizza?"
 
-           How the intent is fulfilled. You can provide a Lambda function
-           or configure the intent to return the intent information to your
-           client application. If you use a Lambda function, Amazon Lex invokes
-           the function when all of the intent information is
-           available.
+  - A conclusion statement to send to the user after the intent is fulfilled. For example, "I ordered your pizza."
 
-
-           A confirmation prompt to send to the user to confirm an
-           intent. For example, "Shall I order your pizza?"
-
-
-           A conclusion statement to send to the user after the intent is
-           fulfilled. For example, "I ordered your pizza."
-
-
-           A follow-up prompt that asks the user for additional activity.
-           For example, "Do you want a drink with your pizza?"
-```
+  - A follow-up prompt that asks the user for additional activity. For example, "Do you want a drink with your pizza?"
 
 ### `createResourcePolicy(input:completion:)`
 
-Creates a new resource policy with the specified policy
-statements.
+Creates a new resource policy with the specified policy statements.
 
 ``` swift
 public func createResourcePolicy(input: CreateResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<CreateResourcePolicyOutputResponse, CreateResourcePolicyOutputError>) -> Void)
@@ -149,11 +110,7 @@ public func createResourcePolicy(input: CreateResourcePolicyInput, completion: @
 
 ### `createResourcePolicyStatement(input:completion:)`
 
-Adds a new resource policy statement to a bot or bot alias. If a
-resource policy exists, the statement is added to the current resource
-policy. If a policy doesn't exist, a new policy is created.
-You can't create a resource policy statement that allows
-cross-account access.
+Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access.
 
 ``` swift
 public func createResourcePolicyStatement(input: CreateResourcePolicyStatementInput, completion: @escaping (ClientRuntime.SdkResult<CreateResourcePolicyStatementOutputResponse, CreateResourcePolicyStatementOutputError>) -> Void)
@@ -161,11 +118,7 @@ public func createResourcePolicyStatement(input: CreateResourcePolicyStatementIn
 
 ### `createSlot(input:completion:)`
 
-Creates a slot in an intent. A slot is a variable needed to fulfill
-an intent. For example, an OrderPizza intent might need
-slots for size, crust, and number of pizzas. For each slot, you define
-one or more utterances that Amazon Lex uses to elicit a response from the
-user.
+Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more utterances that Amazon Lex uses to elicit a response from the user.
 
 ``` swift
 public func createSlot(input: CreateSlotInput, completion: @escaping (ClientRuntime.SdkResult<CreateSlotOutputResponse, CreateSlotOutputError>) -> Void)
@@ -173,10 +126,7 @@ public func createSlot(input: CreateSlotInput, completion: @escaping (ClientRunt
 
 ### `createSlotType(input:completion:)`
 
-Creates a custom slot type
-To create a custom slot type, specify a name for the slot type and
-a set of enumeration values, the values that a slot of this type can
-assume.
+Creates a custom slot type To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can assume.
 
 ``` swift
 public func createSlotType(input: CreateSlotTypeInput, completion: @escaping (ClientRuntime.SdkResult<CreateSlotTypeOutputResponse, CreateSlotTypeOutputError>) -> Void)
@@ -184,8 +134,7 @@ public func createSlotType(input: CreateSlotTypeInput, completion: @escaping (Cl
 
 ### `createUploadUrl(input:completion:)`
 
-Gets a pre-signed S3 write URL that you use to upload the zip
-archive when importing a bot or a bot locale.
+Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
 
 ``` swift
 public func createUploadUrl(input: CreateUploadUrlInput, completion: @escaping (ClientRuntime.SdkResult<CreateUploadUrlOutputResponse, CreateUploadUrlOutputError>) -> Void)
@@ -193,16 +142,7 @@ public func createUploadUrl(input: CreateUploadUrlInput, completion: @escaping (
 
 ### `deleteBot(input:completion:)`
 
-Deletes all versions of a bot, including the Draft
-version. To delete a specific version, use the
-DeleteBotVersion operation.
-When you delete a bot, all of the resources contained in the bot are
-also deleted. Deleting a bot removes all locales, intents, slot, and
-slot types defined for the bot.
-If a bot has an alias, the DeleteBot operation returns
-a ResourceInUseException exception. If you want to delete
-the bot and the alias, set the skipResourceInUseCheck
-parameter to true.
+Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true.
 
 ``` swift
 public func deleteBot(input: DeleteBotInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBotOutputResponse, DeleteBotOutputError>) -> Void)
@@ -218,9 +158,7 @@ public func deleteBotAlias(input: DeleteBotAliasInput, completion: @escaping (Cl
 
 ### `deleteBotLocale(input:completion:)`
 
-Removes a locale from a bot.
-When you delete a locale, all intents, slots, and slot types defined
-for the locale are also deleted.
+Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
 
 ``` swift
 public func deleteBotLocale(input: DeleteBotLocaleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBotLocaleOutputResponse, DeleteBotLocaleOutputError>) -> Void)
@@ -228,8 +166,7 @@ public func deleteBotLocale(input: DeleteBotLocaleInput, completion: @escaping (
 
 ### `deleteBotVersion(input:completion:)`
 
-Deletes a specific version of a bot. To delete all version of a bot,
-use the DeleteBot operation.
+Deletes a specific version of a bot. To delete all version of a bot, use the \[DeleteBot\] operation.
 
 ``` swift
 public func deleteBotVersion(input: DeleteBotVersionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBotVersionOutputResponse, DeleteBotVersionOutputError>) -> Void)
@@ -237,8 +174,7 @@ public func deleteBotVersion(input: DeleteBotVersionInput, completion: @escaping
 
 ### `deleteExport(input:completion:)`
 
-Removes a previous export and the associated files stored in an S3
-bucket.
+Removes a previous export and the associated files stored in an S3 bucket.
 
 ``` swift
 public func deleteExport(input: DeleteExportInput, completion: @escaping (ClientRuntime.SdkResult<DeleteExportOutputResponse, DeleteExportOutputError>) -> Void)
@@ -246,8 +182,7 @@ public func deleteExport(input: DeleteExportInput, completion: @escaping (Client
 
 ### `deleteImport(input:completion:)`
 
-Removes a previous import and the associated file stored in an S3
-bucket.
+Removes a previous import and the associated file stored in an S3 bucket.
 
 ``` swift
 public func deleteImport(input: DeleteImportInput, completion: @escaping (ClientRuntime.SdkResult<DeleteImportOutputResponse, DeleteImportOutputError>) -> Void)
@@ -255,9 +190,7 @@ public func deleteImport(input: DeleteImportInput, completion: @escaping (Client
 
 ### `deleteIntent(input:completion:)`
 
-Removes the specified intent.
-Deleting an intent also deletes the slots associated with the
-intent.
+Removes the specified intent. Deleting an intent also deletes the slots associated with the intent.
 
 ``` swift
 public func deleteIntent(input: DeleteIntentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIntentOutputResponse, DeleteIntentOutputError>) -> Void)
@@ -265,8 +198,7 @@ public func deleteIntent(input: DeleteIntentInput, completion: @escaping (Client
 
 ### `deleteResourcePolicy(input:completion:)`
 
-Removes an existing policy from a bot or bot alias. If the resource
-doesn't have a policy attached, Amazon Lex returns an exception.
+Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy attached, Amazon Lex returns an exception.
 
 ``` swift
 public func deleteResourcePolicy(input: DeleteResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>) -> Void)
@@ -274,11 +206,7 @@ public func deleteResourcePolicy(input: DeleteResourcePolicyInput, completion: @
 
 ### `deleteResourcePolicyStatement(input:completion:)`
 
-Deletes a policy statement from a resource policy. If you delete the
-last statement from a policy, the policy is deleted. If you specify a
-statement ID that doesn't exist in the policy, or if the bot or bot
-alias doesn't have a policy attached, Amazon Lex returns an
-exception.
+Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception.
 
 ``` swift
 public func deleteResourcePolicyStatement(input: DeleteResourcePolicyStatementInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResourcePolicyStatementOutputResponse, DeleteResourcePolicyStatementOutputError>) -> Void)
@@ -294,11 +222,7 @@ public func deleteSlot(input: DeleteSlotInput, completion: @escaping (ClientRunt
 
 ### `deleteSlotType(input:completion:)`
 
-Deletes a slot type from a bot locale.
-If a slot is using the slot type, Amazon Lex throws a
-ResourceInUseException exception. To avoid the
-exception, set the skipResourceInUseCheck parameter to
-true.
+Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true.
 
 ``` swift
 public func deleteSlotType(input: DeleteSlotTypeInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSlotTypeOutputResponse, DeleteSlotTypeOutputError>) -> Void)
@@ -306,18 +230,7 @@ public func deleteSlotType(input: DeleteSlotTypeInput, completion: @escaping (Cl
 
 ### `deleteUtterances(input:completion:)`
 
-Deletes stored utterances.
-Amazon Lex stores the utterances that users send to your bot. Utterances
-are stored for 15 days for use with the  operation, and then stored
-indefinitely for use in improving the ability of your bot to respond to
-user input..
-Use the DeleteUtterances operation to manually delete
-utterances for a specific session. When you use the
-DeleteUtterances operation, utterances stored for
-improving your bot's ability to respond to user input are deleted
-immediately. Utterances stored for use with the
-ListAggregatedUtterances operation are deleted after 15
-days.
+Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
 
 ``` swift
 public func deleteUtterances(input: DeleteUtterancesInput, completion: @escaping (ClientRuntime.SdkResult<DeleteUtterancesOutputResponse, DeleteUtterancesOutputError>) -> Void)
@@ -381,8 +294,7 @@ public func describeIntent(input: DescribeIntentInput, completion: @escaping (Cl
 
 ### `describeResourcePolicy(input:completion:)`
 
-Gets the resource policy and policy revision for a bot or bot
-alias.
+Gets the resource policy and policy revision for a bot or bot alias.
 
 ``` swift
 public func describeResourcePolicy(input: DescribeResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>) -> Void)
@@ -406,34 +318,17 @@ public func describeSlotType(input: DescribeSlotTypeInput, completion: @escaping
 
 ### `listAggregatedUtterances(input:completion:)`
 
-Provides a list of utterances that users have sent to the
-bot.
-Utterances are aggregated by the text of the utterance. For example,
-all instances where customers used the phrase "I want to order pizza"
-are aggregated into the same line in the response.
-You can see both detected utterances and missed utterances. A
-detected utterance is where the bot properly recognized the utterance
-and activated the associated intent. A missed utterance was not
-recognized by the bot and didn't activate an intent.
-Utterances can be aggregated for a bot alias or for a bot version,
-but not both at the same time.
-Utterances statistics are not generated under the following
-conditions:​
+Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:
 
 ``` swift
 public func listAggregatedUtterances(input: ListAggregatedUtterancesInput, completion: @escaping (ClientRuntime.SdkResult<ListAggregatedUtterancesOutputResponse, ListAggregatedUtterancesOutputError>) -> Void)
 ```
 
-``` 
-           The childDirected field was set to true when the
-           bot was created.
+  - The childDirected field was set to true when the bot was created.
 
+  - You are using slot obfuscation with one or more slots.
 
-           You are using slot obfuscation with one or more slots.
-
-
-           You opted out of participating in improving Amazon Lex.
-```
+  - You opted out of participating in improving Amazon Lex.
 
 ### `listBotAliases(input:completion:)`
 
@@ -453,14 +348,7 @@ public func listBotLocales(input: ListBotLocalesInput, completion: @escaping (Cl
 
 ### `listBotVersions(input:completion:)`
 
-Gets information about all of the versions of a bot.
-The ListBotVersions operation returns a summary of each
-version of a bot. For example, if a bot has three numbered versions,
-the ListBotVersions operation returns for summaries, one
-for each numbered version and one for the DRAFT
-version.
-The ListBotVersions operation always returns at least
-one version, the DRAFT version.
+Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
 
 ``` swift
 public func listBotVersions(input: ListBotVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListBotVersionsOutputResponse, ListBotVersionsOutputError>) -> Void)
@@ -476,12 +364,7 @@ public func listBots(input: ListBotsInput, completion: @escaping (ClientRuntime.
 
 ### `listBuiltInIntents(input:completion:)`
 
-Gets a list of built-in intents provided by Amazon Lex that you can use
-in your bot.
-To use a built-in intent as a the base for your own intent, include
-the built-in intent signature in the parentIntentSignature
-parameter when you call the CreateIntent operation. For
-more information, see CreateIntent.
+Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see \[CreateIntent\].
 
 ``` swift
 public func listBuiltInIntents(input: ListBuiltInIntentsInput, completion: @escaping (ClientRuntime.SdkResult<ListBuiltInIntentsOutputResponse, ListBuiltInIntentsOutputError>) -> Void)
@@ -489,8 +372,7 @@ public func listBuiltInIntents(input: ListBuiltInIntentsInput, completion: @esca
 
 ### `listBuiltInSlotTypes(input:completion:)`
 
-Gets a list of built-in slot types that meet the specified
-criteria.
+Gets a list of built-in slot types that meet the specified criteria.
 
 ``` swift
 public func listBuiltInSlotTypes(input: ListBuiltInSlotTypesInput, completion: @escaping (ClientRuntime.SdkResult<ListBuiltInSlotTypesOutputResponse, ListBuiltInSlotTypesOutputError>) -> Void)
@@ -498,8 +380,7 @@ public func listBuiltInSlotTypes(input: ListBuiltInSlotTypesInput, completion: @
 
 ### `listExports(input:completion:)`
 
-Lists the exports for a bot or bot locale. Exports are kept in the
-list for 7 days.
+Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
 
 ``` swift
 public func listExports(input: ListExportsInput, completion: @escaping (ClientRuntime.SdkResult<ListExportsOutputResponse, ListExportsOutputError>) -> Void)
@@ -507,8 +388,7 @@ public func listExports(input: ListExportsInput, completion: @escaping (ClientRu
 
 ### `listImports(input:completion:)`
 
-Lists the imports for a bot or bot locale. Imports are kept in the
-list for 7 days.
+Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
 
 ``` swift
 public func listImports(input: ListImportsInput, completion: @escaping (ClientRuntime.SdkResult<ListImportsOutputResponse, ListImportsOutputError>) -> Void)
@@ -540,8 +420,7 @@ public func listSlots(input: ListSlotsInput, completion: @escaping (ClientRuntim
 
 ### `listTagsForResource(input:completion:)`
 
-Gets a list of tags associated with a resource. Only bots, bot
-aliases, and bot channels can have tags associated with them.
+Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can have tags associated with them.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -549,8 +428,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `startImport(input:completion:)`
 
-Starts importing a bot or bot locale from a zip archive that you
-uploaded to an S3 bucket.
+Starts importing a bot or bot locale from a zip archive that you uploaded to an S3 bucket.
 
 ``` swift
 public func startImport(input: StartImportInput, completion: @escaping (ClientRuntime.SdkResult<StartImportOutputResponse, StartImportOutputError>) -> Void)
@@ -558,9 +436,7 @@ public func startImport(input: StartImportInput, completion: @escaping (ClientRu
 
 ### `tagResource(input:completion:)`
 
-Adds the specified tags to the specified resource. If a tag key
-already exists, the existing value is replaced with the new
-value.
+Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -600,11 +476,7 @@ public func updateBotLocale(input: UpdateBotLocaleInput, completion: @escaping (
 
 ### `updateExport(input:completion:)`
 
-Updates the password used to protect an export zip archive.
-The password is not required. If you don't supply a password, Amazon Lex
-generates a zip file that is not protected by a password. This is the
-archive that is available at the pre-signed S3 URL provided by the
-operation.
+Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the operation.
 
 ``` swift
 public func updateExport(input: UpdateExportInput, completion: @escaping (ClientRuntime.SdkResult<UpdateExportOutputResponse, UpdateExportOutputError>) -> Void)
@@ -620,9 +492,7 @@ public func updateIntent(input: UpdateIntentInput, completion: @escaping (Client
 
 ### `updateResourcePolicy(input:completion:)`
 
-Replaces the existing resource policy for a bot or bot alias with a
-new one. If the policy doesn't exist, Amazon Lex returns an
-exception.
+Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception.
 
 ``` swift
 public func updateResourcePolicy(input: UpdateResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateResourcePolicyOutputResponse, UpdateResourcePolicyOutputError>) -> Void)

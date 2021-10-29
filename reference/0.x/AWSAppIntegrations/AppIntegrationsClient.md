@@ -22,28 +22,27 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AppIntegrationsClient"
+```
+
 ## Methods
 
 ### `createDataIntegration(input:completion:)`
 
-Creates and persists a DataIntegration resource.
+Creates and persists a DataIntegration resource. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
 
 ``` swift
 public func createDataIntegration(input: CreateDataIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<CreateDataIntegrationOutputResponse, CreateDataIntegrationOutputError>) -> Void)
 ```
 
-``` 
-        You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
-  Use a different DataIntegration, or recreate the DataIntegration using the
-  CreateDataIntegration API.
-```
-
 ### `createEventIntegration(input:completion:)`
 
-Creates an EventIntegration, given a specified name, description, and a reference to an
-Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No
-objects are created in the your account, only metadata that is persisted on the
-EventIntegration control plane.
+Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane.
 
 ``` swift
 public func createEventIntegration(input: CreateEventIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<CreateEventIntegrationOutputResponse, CreateEventIntegrationOutputError>) -> Void)
@@ -51,25 +50,15 @@ public func createEventIntegration(input: CreateEventIntegrationInput, completio
 
 ### `deleteDataIntegration(input:completion:)`
 
-Deletes the DataIntegration. Only DataIntegrations that don't have any
-DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
-underlying Amazon AppFlow flow and service linked role.
+Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
 
 ``` swift
 public func deleteDataIntegration(input: DeleteDataIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDataIntegrationOutputResponse, DeleteDataIntegrationOutputError>) -> Void)
 ```
 
-``` 
-        You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
-```
-
-Use a different DataIntegration, or recreate the DataIntegration using the
-<a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html">CreateDataIntegration API.
-
 ### `deleteEventIntegration(input:completion:)`
 
-Deletes the specified existing event integration. If the event integration is associated
-with clients, the request is rejected.
+Deletes the specified existing event integration. If the event integration is associated with clients, the request is rejected.
 
 ``` swift
 public func deleteEventIntegration(input: DeleteEventIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEventIntegrationOutputResponse, DeleteEventIntegrationOutputError>) -> Void)
@@ -77,18 +66,11 @@ public func deleteEventIntegration(input: DeleteEventIntegrationInput, completio
 
 ### `getDataIntegration(input:completion:)`
 
-Returns information about the DataIntegration.
+Returns information about the DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
 
 ``` swift
 public func getDataIntegration(input: GetDataIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<GetDataIntegrationOutputResponse, GetDataIntegrationOutputError>) -> Void)
 ```
-
-``` 
-        You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
-```
-
-Use a different DataIntegration, or recreate the DataIntegration using the
-<a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html">CreateDataIntegration API.
 
 ### `getEventIntegration(input:completion:)`
 
@@ -100,33 +82,19 @@ public func getEventIntegration(input: GetEventIntegrationInput, completion: @es
 
 ### `listDataIntegrationAssociations(input:completion:)`
 
-Returns a paginated list of DataIntegration associations in the account.
+Returns a paginated list of DataIntegration associations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
 
 ``` swift
 public func listDataIntegrationAssociations(input: ListDataIntegrationAssociationsInput, completion: @escaping (ClientRuntime.SdkResult<ListDataIntegrationAssociationsOutputResponse, ListDataIntegrationAssociationsOutputError>) -> Void)
 ```
 
-``` 
-        You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
-```
-
-Use a different DataIntegration, or recreate the DataIntegration using the
-<a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html">CreateDataIntegration API.
-
 ### `listDataIntegrations(input:completion:)`
 
-Returns a paginated list of DataIntegrations in the account.
+Returns a paginated list of DataIntegrations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
 
 ``` swift
 public func listDataIntegrations(input: ListDataIntegrationsInput, completion: @escaping (ClientRuntime.SdkResult<ListDataIntegrationsOutputResponse, ListDataIntegrationsOutputError>) -> Void)
 ```
-
-``` 
-        You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
-```
-
-Use a different DataIntegration, or recreate the DataIntegration using the
-<a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html">CreateDataIntegration API.
 
 ### `listEventIntegrationAssociations(input:completion:)`
 
@@ -170,18 +138,11 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateDataIntegration(input:completion:)`
 
-Updates the description of a DataIntegration.
+Updates the description of a DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
 
 ``` swift
 public func updateDataIntegration(input: UpdateDataIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDataIntegrationOutputResponse, UpdateDataIntegrationOutputError>) -> Void)
 ```
-
-``` 
-        You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
-```
-
-Use a different DataIntegration, or recreate the DataIntegration using the
-<a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html">CreateDataIntegration API.
 
 ### `updateEventIntegration(input:completion:)`
 

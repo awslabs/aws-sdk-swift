@@ -8,5 +8,4 @@
 # Protocols
 
   - [SageMakerClientProtocol](/aws-sdk-swift/reference/0.x/AWSSageMaker/SageMakerClientProtocol):
-    Provides APIs for creating and managing Amazon SageMaker resources.
-    Other Resources:
+    Provides APIs for creating and managing Amazon SageMaker resources. Other Resources:

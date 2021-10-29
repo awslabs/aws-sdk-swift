@@ -8,7 +8,7 @@ public protocol BraketClientProtocol
 
 ## Requirements
 
-### cancelQuantumTask(input:​completion:​)
+### cancelQuantumTask(input:completion:)
 
 Cancels the specified task.
 
@@ -16,7 +16,7 @@ Cancels the specified task.
 func cancelQuantumTask(input: CancelQuantumTaskInput, completion: @escaping (ClientRuntime.SdkResult<CancelQuantumTaskOutputResponse, CancelQuantumTaskOutputError>) -> Void)
 ```
 
-### createQuantumTask(input:​completion:​)
+### createQuantumTask(input:completion:)
 
 Creates a quantum task.
 
@@ -24,7 +24,7 @@ Creates a quantum task.
 func createQuantumTask(input: CreateQuantumTaskInput, completion: @escaping (ClientRuntime.SdkResult<CreateQuantumTaskOutputResponse, CreateQuantumTaskOutputError>) -> Void)
 ```
 
-### getDevice(input:​completion:​)
+### getDevice(input:completion:)
 
 Retrieves the devices available in Amazon Braket.
 
@@ -32,7 +32,7 @@ Retrieves the devices available in Amazon Braket.
 func getDevice(input: GetDeviceInput, completion: @escaping (ClientRuntime.SdkResult<GetDeviceOutputResponse, GetDeviceOutputError>) -> Void)
 ```
 
-### getQuantumTask(input:​completion:​)
+### getQuantumTask(input:completion:)
 
 Retrieves the specified quantum task.
 
@@ -40,7 +40,7 @@ Retrieves the specified quantum task.
 func getQuantumTask(input: GetQuantumTaskInput, completion: @escaping (ClientRuntime.SdkResult<GetQuantumTaskOutputResponse, GetQuantumTaskOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Shows the tags associated with this resource.
 
@@ -48,7 +48,7 @@ Shows the tags associated with this resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### searchDevices(input:​completion:​)
+### searchDevices(input:completion:)
 
 Searches for devices using the specified filters.
 
@@ -56,7 +56,7 @@ Searches for devices using the specified filters.
 func searchDevices(input: SearchDevicesInput, completion: @escaping (ClientRuntime.SdkResult<SearchDevicesOutputResponse, SearchDevicesOutputError>) -> Void)
 ```
 
-### searchQuantumTasks(input:​completion:​)
+### searchQuantumTasks(input:completion:)
 
 Searches for tasks that match the specified filter values.
 
@@ -64,7 +64,7 @@ Searches for tasks that match the specified filter values.
 func searchQuantumTasks(input: SearchQuantumTasksInput, completion: @escaping (ClientRuntime.SdkResult<SearchQuantumTasksOutputResponse, SearchQuantumTasksOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Add a tag to the specified resource.
 
@@ -72,7 +72,7 @@ Add a tag to the specified resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Remove tags from a resource.
 

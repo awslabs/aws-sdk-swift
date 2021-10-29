@@ -1,9 +1,6 @@
 # SavingsplansClientProtocol
 
-Savings Plans are a pricing model that offer significant savings on AWS usage (for
-example, on Amazon EC2 instances). You commit to a consistent amount of usage, in USD
-per hour, for a term of 1 or 3 years, and receive a lower price for that usage. For
-more information, see the <a href="https:​//docs.aws.amazon.com/savingsplans/latest/userguide/">AWS Savings Plans User Guide.
+Savings Plans are a pricing model that offer significant savings on AWS usage (for example, on Amazon EC2 instances). You commit to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years, and receive a lower price for that usage. For more information, see the [AWS Savings Plans User Guide](https://docs.aws.amazon.com/savingsplans/latest/userguide/).
 
 ``` swift
 public protocol SavingsplansClientProtocol 
@@ -11,7 +8,7 @@ public protocol SavingsplansClientProtocol
 
 ## Requirements
 
-### createSavingsPlan(input:​completion:​)
+### createSavingsPlan(input:completion:)
 
 Creates a Savings Plan.
 
@@ -19,7 +16,7 @@ Creates a Savings Plan.
 func createSavingsPlan(input: CreateSavingsPlanInput, completion: @escaping (ClientRuntime.SdkResult<CreateSavingsPlanOutputResponse, CreateSavingsPlanOutputError>) -> Void)
 ```
 
-### deleteQueuedSavingsPlan(input:​completion:​)
+### deleteQueuedSavingsPlan(input:completion:)
 
 Deletes the queued purchase for the specified Savings Plan.
 
@@ -27,7 +24,7 @@ Deletes the queued purchase for the specified Savings Plan.
 func deleteQueuedSavingsPlan(input: DeleteQueuedSavingsPlanInput, completion: @escaping (ClientRuntime.SdkResult<DeleteQueuedSavingsPlanOutputResponse, DeleteQueuedSavingsPlanOutputError>) -> Void)
 ```
 
-### describeSavingsPlanRates(input:​completion:​)
+### describeSavingsPlanRates(input:completion:)
 
 Describes the specified Savings Plans rates.
 
@@ -35,7 +32,7 @@ Describes the specified Savings Plans rates.
 func describeSavingsPlanRates(input: DescribeSavingsPlanRatesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSavingsPlanRatesOutputResponse, DescribeSavingsPlanRatesOutputError>) -> Void)
 ```
 
-### describeSavingsPlans(input:​completion:​)
+### describeSavingsPlans(input:completion:)
 
 Describes the specified Savings Plans.
 
@@ -43,7 +40,7 @@ Describes the specified Savings Plans.
 func describeSavingsPlans(input: DescribeSavingsPlansInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSavingsPlansOutputResponse, DescribeSavingsPlansOutputError>) -> Void)
 ```
 
-### describeSavingsPlansOfferingRates(input:​completion:​)
+### describeSavingsPlansOfferingRates(input:completion:)
 
 Describes the specified Savings Plans offering rates.
 
@@ -51,7 +48,7 @@ Describes the specified Savings Plans offering rates.
 func describeSavingsPlansOfferingRates(input: DescribeSavingsPlansOfferingRatesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSavingsPlansOfferingRatesOutputResponse, DescribeSavingsPlansOfferingRatesOutputError>) -> Void)
 ```
 
-### describeSavingsPlansOfferings(input:​completion:​)
+### describeSavingsPlansOfferings(input:completion:)
 
 Describes the specified Savings Plans offerings.
 
@@ -59,7 +56,7 @@ Describes the specified Savings Plans offerings.
 func describeSavingsPlansOfferings(input: DescribeSavingsPlansOfferingsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSavingsPlansOfferingsOutputResponse, DescribeSavingsPlansOfferingsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists the tags for the specified resource.
 
@@ -67,7 +64,7 @@ Lists the tags for the specified resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds the specified tags to the specified resource.
 
@@ -75,7 +72,7 @@ Adds the specified tags to the specified resource.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes the specified tags from the specified resource.
 

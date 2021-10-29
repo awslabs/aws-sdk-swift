@@ -8,7 +8,7 @@ public protocol RoboMakerClientProtocol
 
 ## Requirements
 
-### batchDeleteWorlds(input:​completion:​)
+### batchDeleteWorlds(input:completion:)
 
 Deletes one or more worlds in a batch operation.
 
@@ -16,7 +16,7 @@ Deletes one or more worlds in a batch operation.
 func batchDeleteWorlds(input: BatchDeleteWorldsInput, completion: @escaping (ClientRuntime.SdkResult<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>) -> Void)
 ```
 
-### batchDescribeSimulationJob(input:​completion:​)
+### batchDescribeSimulationJob(input:completion:)
 
 Describes one or more simulation jobs.
 
@@ -24,7 +24,7 @@ Describes one or more simulation jobs.
 func batchDescribeSimulationJob(input: BatchDescribeSimulationJobInput, completion: @escaping (ClientRuntime.SdkResult<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>) -> Void)
 ```
 
-### cancelDeploymentJob(input:​completion:​)
+### cancelDeploymentJob(input:completion:)
 
 Cancels the specified deployment job.
 
@@ -32,7 +32,7 @@ Cancels the specified deployment job.
 func cancelDeploymentJob(input: CancelDeploymentJobInput, completion: @escaping (ClientRuntime.SdkResult<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>) -> Void)
 ```
 
-### cancelSimulationJob(input:​completion:​)
+### cancelSimulationJob(input:completion:)
 
 Cancels the specified simulation job.
 
@@ -40,16 +40,15 @@ Cancels the specified simulation job.
 func cancelSimulationJob(input: CancelSimulationJobInput, completion: @escaping (ClientRuntime.SdkResult<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>) -> Void)
 ```
 
-### cancelSimulationJobBatch(input:​completion:​)
+### cancelSimulationJobBatch(input:completion:)
 
-Cancels a simulation job batch. When you cancel a simulation job batch, you are also
-cancelling all of the active simulation jobs created as part of the batch.
+Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
 
 ``` swift
 func cancelSimulationJobBatch(input: CancelSimulationJobBatchInput, completion: @escaping (ClientRuntime.SdkResult<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>) -> Void)
 ```
 
-### cancelWorldExportJob(input:​completion:​)
+### cancelWorldExportJob(input:completion:)
 
 Cancels the specified export job.
 
@@ -57,7 +56,7 @@ Cancels the specified export job.
 func cancelWorldExportJob(input: CancelWorldExportJobInput, completion: @escaping (ClientRuntime.SdkResult<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>) -> Void)
 ```
 
-### cancelWorldGenerationJob(input:​completion:​)
+### cancelWorldGenerationJob(input:completion:)
 
 Cancels the specified world generator job.
 
@@ -65,23 +64,15 @@ Cancels the specified world generator job.
 func cancelWorldGenerationJob(input: CancelWorldGenerationJobInput, completion: @escaping (ClientRuntime.SdkResult<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>) -> Void)
 ```
 
-### createDeploymentJob(input:​completion:​)
+### createDeploymentJob(input:completion:)
 
-Deploys a specific version of a robot application to robots in a fleet.
-The robot application must have a numbered applicationVersion for
-consistency reasons. To create a new version, use
-CreateRobotApplicationVersion or see <a href="https:​//docs.aws.amazon.com/robomaker/latest/dg/create-robot-application-version.html">Creating a Robot Application Version.
+Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see [Creating a Robot Application Version](https://docs.aws.amazon.com/robomaker/latest/dg/create-robot-application-version.html). After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
 
 ``` swift
 func createDeploymentJob(input: CreateDeploymentJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>) -> Void)
 ```
 
-``` 
-        After 90 days, deployment jobs expire and will be deleted. They will no longer be
-        accessible.
-```
-
-### createFleet(input:​completion:​)
+### createFleet(input:completion:)
 
 Creates a fleet, a logical group of robots running the same robot application.
 
@@ -89,7 +80,7 @@ Creates a fleet, a logical group of robots running the same robot application.
 func createFleet(input: CreateFleetInput, completion: @escaping (ClientRuntime.SdkResult<CreateFleetOutputResponse, CreateFleetOutputError>) -> Void)
 ```
 
-### createRobot(input:​completion:​)
+### createRobot(input:completion:)
 
 Creates a robot.
 
@@ -97,7 +88,7 @@ Creates a robot.
 func createRobot(input: CreateRobotInput, completion: @escaping (ClientRuntime.SdkResult<CreateRobotOutputResponse, CreateRobotOutputError>) -> Void)
 ```
 
-### createRobotApplication(input:​completion:​)
+### createRobotApplication(input:completion:)
 
 Creates a robot application.
 
@@ -105,7 +96,7 @@ Creates a robot application.
 func createRobotApplication(input: CreateRobotApplicationInput, completion: @escaping (ClientRuntime.SdkResult<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>) -> Void)
 ```
 
-### createRobotApplicationVersion(input:​completion:​)
+### createRobotApplicationVersion(input:completion:)
 
 Creates a version of a robot application.
 
@@ -113,7 +104,7 @@ Creates a version of a robot application.
 func createRobotApplicationVersion(input: CreateRobotApplicationVersionInput, completion: @escaping (ClientRuntime.SdkResult<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>) -> Void)
 ```
 
-### createSimulationApplication(input:​completion:​)
+### createSimulationApplication(input:completion:)
 
 Creates a simulation application.
 
@@ -121,7 +112,7 @@ Creates a simulation application.
 func createSimulationApplication(input: CreateSimulationApplicationInput, completion: @escaping (ClientRuntime.SdkResult<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>) -> Void)
 ```
 
-### createSimulationApplicationVersion(input:​completion:​)
+### createSimulationApplicationVersion(input:completion:)
 
 Creates a simulation application with a specific revision id.
 
@@ -129,20 +120,15 @@ Creates a simulation application with a specific revision id.
 func createSimulationApplicationVersion(input: CreateSimulationApplicationVersionInput, completion: @escaping (ClientRuntime.SdkResult<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>) -> Void)
 ```
 
-### createSimulationJob(input:​completion:​)
+### createSimulationJob(input:completion:)
 
-Creates a simulation job.
+Creates a simulation job. After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
 
 ``` swift
 func createSimulationJob(input: CreateSimulationJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>) -> Void)
 ```
 
-``` 
-        After 90 days, simulation jobs expire and will be deleted. They will no longer be
-        accessible.
-```
-
-### createWorldExportJob(input:​completion:​)
+### createWorldExportJob(input:completion:)
 
 Creates a world export job.
 
@@ -150,7 +136,7 @@ Creates a world export job.
 func createWorldExportJob(input: CreateWorldExportJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>) -> Void)
 ```
 
-### createWorldGenerationJob(input:​completion:​)
+### createWorldGenerationJob(input:completion:)
 
 Creates worlds using the specified template.
 
@@ -158,7 +144,7 @@ Creates worlds using the specified template.
 func createWorldGenerationJob(input: CreateWorldGenerationJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>) -> Void)
 ```
 
-### createWorldTemplate(input:​completion:​)
+### createWorldTemplate(input:completion:)
 
 Creates a world template.
 
@@ -166,7 +152,7 @@ Creates a world template.
 func createWorldTemplate(input: CreateWorldTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>) -> Void)
 ```
 
-### deleteFleet(input:​completion:​)
+### deleteFleet(input:completion:)
 
 Deletes a fleet.
 
@@ -174,7 +160,7 @@ Deletes a fleet.
 func deleteFleet(input: DeleteFleetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteFleetOutputResponse, DeleteFleetOutputError>) -> Void)
 ```
 
-### deleteRobot(input:​completion:​)
+### deleteRobot(input:completion:)
 
 Deletes a robot.
 
@@ -182,7 +168,7 @@ Deletes a robot.
 func deleteRobot(input: DeleteRobotInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRobotOutputResponse, DeleteRobotOutputError>) -> Void)
 ```
 
-### deleteRobotApplication(input:​completion:​)
+### deleteRobotApplication(input:completion:)
 
 Deletes a robot application.
 
@@ -190,7 +176,7 @@ Deletes a robot application.
 func deleteRobotApplication(input: DeleteRobotApplicationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>) -> Void)
 ```
 
-### deleteSimulationApplication(input:​completion:​)
+### deleteSimulationApplication(input:completion:)
 
 Deletes a simulation application.
 
@@ -198,7 +184,7 @@ Deletes a simulation application.
 func deleteSimulationApplication(input: DeleteSimulationApplicationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>) -> Void)
 ```
 
-### deleteWorldTemplate(input:​completion:​)
+### deleteWorldTemplate(input:completion:)
 
 Deletes a world template.
 
@@ -206,7 +192,7 @@ Deletes a world template.
 func deleteWorldTemplate(input: DeleteWorldTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>) -> Void)
 ```
 
-### deregisterRobot(input:​completion:​)
+### deregisterRobot(input:completion:)
 
 Deregisters a robot.
 
@@ -214,7 +200,7 @@ Deregisters a robot.
 func deregisterRobot(input: DeregisterRobotInput, completion: @escaping (ClientRuntime.SdkResult<DeregisterRobotOutputResponse, DeregisterRobotOutputError>) -> Void)
 ```
 
-### describeDeploymentJob(input:​completion:​)
+### describeDeploymentJob(input:completion:)
 
 Describes a deployment job.
 
@@ -222,7 +208,7 @@ Describes a deployment job.
 func describeDeploymentJob(input: DescribeDeploymentJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>) -> Void)
 ```
 
-### describeFleet(input:​completion:​)
+### describeFleet(input:completion:)
 
 Describes a fleet.
 
@@ -230,7 +216,7 @@ Describes a fleet.
 func describeFleet(input: DescribeFleetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFleetOutputResponse, DescribeFleetOutputError>) -> Void)
 ```
 
-### describeRobot(input:​completion:​)
+### describeRobot(input:completion:)
 
 Describes a robot.
 
@@ -238,7 +224,7 @@ Describes a robot.
 func describeRobot(input: DescribeRobotInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRobotOutputResponse, DescribeRobotOutputError>) -> Void)
 ```
 
-### describeRobotApplication(input:​completion:​)
+### describeRobotApplication(input:completion:)
 
 Describes a robot application.
 
@@ -246,7 +232,7 @@ Describes a robot application.
 func describeRobotApplication(input: DescribeRobotApplicationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>) -> Void)
 ```
 
-### describeSimulationApplication(input:​completion:​)
+### describeSimulationApplication(input:completion:)
 
 Describes a simulation application.
 
@@ -254,7 +240,7 @@ Describes a simulation application.
 func describeSimulationApplication(input: DescribeSimulationApplicationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>) -> Void)
 ```
 
-### describeSimulationJob(input:​completion:​)
+### describeSimulationJob(input:completion:)
 
 Describes a simulation job.
 
@@ -262,7 +248,7 @@ Describes a simulation job.
 func describeSimulationJob(input: DescribeSimulationJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>) -> Void)
 ```
 
-### describeSimulationJobBatch(input:​completion:​)
+### describeSimulationJobBatch(input:completion:)
 
 Describes a simulation job batch.
 
@@ -270,7 +256,7 @@ Describes a simulation job batch.
 func describeSimulationJobBatch(input: DescribeSimulationJobBatchInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>) -> Void)
 ```
 
-### describeWorld(input:​completion:​)
+### describeWorld(input:completion:)
 
 Describes a world.
 
@@ -278,7 +264,7 @@ Describes a world.
 func describeWorld(input: DescribeWorldInput, completion: @escaping (ClientRuntime.SdkResult<DescribeWorldOutputResponse, DescribeWorldOutputError>) -> Void)
 ```
 
-### describeWorldExportJob(input:​completion:​)
+### describeWorldExportJob(input:completion:)
 
 Describes a world export job.
 
@@ -286,7 +272,7 @@ Describes a world export job.
 func describeWorldExportJob(input: DescribeWorldExportJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>) -> Void)
 ```
 
-### describeWorldGenerationJob(input:​completion:​)
+### describeWorldGenerationJob(input:completion:)
 
 Describes a world generation job.
 
@@ -294,7 +280,7 @@ Describes a world generation job.
 func describeWorldGenerationJob(input: DescribeWorldGenerationJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>) -> Void)
 ```
 
-### describeWorldTemplate(input:​completion:​)
+### describeWorldTemplate(input:completion:)
 
 Describes a world template.
 
@@ -302,7 +288,7 @@ Describes a world template.
 func describeWorldTemplate(input: DescribeWorldTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>) -> Void)
 ```
 
-### getWorldTemplateBody(input:​completion:​)
+### getWorldTemplateBody(input:completion:)
 
 Gets the world template body.
 
@@ -310,70 +296,63 @@ Gets the world template body.
 func getWorldTemplateBody(input: GetWorldTemplateBodyInput, completion: @escaping (ClientRuntime.SdkResult<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>) -> Void)
 ```
 
-### listDeploymentJobs(input:​completion:​)
+### listDeploymentJobs(input:completion:)
 
-Returns a list of deployment jobs for a fleet. You can optionally provide filters to
-retrieve specific deployment jobs.
+Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
 
 ``` swift
 func listDeploymentJobs(input: ListDeploymentJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>) -> Void)
 ```
 
-### listFleets(input:​completion:​)
+### listFleets(input:completion:)
 
-Returns a list of fleets. You can optionally provide filters to retrieve specific
-fleets.
+Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
 
 ``` swift
 func listFleets(input: ListFleetsInput, completion: @escaping (ClientRuntime.SdkResult<ListFleetsOutputResponse, ListFleetsOutputError>) -> Void)
 ```
 
-### listRobotApplications(input:​completion:​)
+### listRobotApplications(input:completion:)
 
-Returns a list of robot application. You can optionally provide filters to retrieve
-specific robot applications.
+Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
 
 ``` swift
 func listRobotApplications(input: ListRobotApplicationsInput, completion: @escaping (ClientRuntime.SdkResult<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>) -> Void)
 ```
 
-### listRobots(input:​completion:​)
+### listRobots(input:completion:)
 
-Returns a list of robots. You can optionally provide filters to retrieve specific
-robots.
+Returns a list of robots. You can optionally provide filters to retrieve specific robots.
 
 ``` swift
 func listRobots(input: ListRobotsInput, completion: @escaping (ClientRuntime.SdkResult<ListRobotsOutputResponse, ListRobotsOutputError>) -> Void)
 ```
 
-### listSimulationApplications(input:​completion:​)
+### listSimulationApplications(input:completion:)
 
-Returns a list of simulation applications. You can optionally provide filters to
-retrieve specific simulation applications.
+Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
 
 ``` swift
 func listSimulationApplications(input: ListSimulationApplicationsInput, completion: @escaping (ClientRuntime.SdkResult<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>) -> Void)
 ```
 
-### listSimulationJobBatches(input:​completion:​)
+### listSimulationJobBatches(input:completion:)
 
-Returns a list simulation job batches. You can optionally provide filters to retrieve
-specific simulation batch jobs.
+Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
 
 ``` swift
 func listSimulationJobBatches(input: ListSimulationJobBatchesInput, completion: @escaping (ClientRuntime.SdkResult<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>) -> Void)
 ```
 
-### listSimulationJobs(input:​completion:​)
+### listSimulationJobs(input:completion:)
 
-Returns a list of simulation jobs. You can optionally provide filters to retrieve
-specific simulation jobs.
+Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
 
 ``` swift
 func listSimulationJobs(input: ListSimulationJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists all tags on a AWS RoboMaker resource.
 
@@ -381,7 +360,7 @@ Lists all tags on a AWS RoboMaker resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listWorldExportJobs(input:​completion:​)
+### listWorldExportJobs(input:completion:)
 
 Lists world export jobs.
 
@@ -389,7 +368,7 @@ Lists world export jobs.
 func listWorldExportJobs(input: ListWorldExportJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>) -> Void)
 ```
 
-### listWorldGenerationJobs(input:​completion:​)
+### listWorldGenerationJobs(input:completion:)
 
 Lists world generator jobs.
 
@@ -397,7 +376,7 @@ Lists world generator jobs.
 func listWorldGenerationJobs(input: ListWorldGenerationJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>) -> Void)
 ```
 
-### listWorlds(input:​completion:​)
+### listWorlds(input:completion:)
 
 Lists worlds.
 
@@ -405,7 +384,7 @@ Lists worlds.
 func listWorlds(input: ListWorldsInput, completion: @escaping (ClientRuntime.SdkResult<ListWorldsOutputResponse, ListWorldsOutputError>) -> Void)
 ```
 
-### listWorldTemplates(input:​completion:​)
+### listWorldTemplates(input:completion:)
 
 Lists world templates.
 
@@ -413,7 +392,7 @@ Lists world templates.
 func listWorldTemplates(input: ListWorldTemplatesInput, completion: @escaping (ClientRuntime.SdkResult<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>) -> Void)
 ```
 
-### registerRobot(input:​completion:​)
+### registerRobot(input:completion:)
 
 Registers a robot with a fleet.
 
@@ -421,7 +400,7 @@ Registers a robot with a fleet.
 func registerRobot(input: RegisterRobotInput, completion: @escaping (ClientRuntime.SdkResult<RegisterRobotOutputResponse, RegisterRobotOutputError>) -> Void)
 ```
 
-### restartSimulationJob(input:​completion:​)
+### restartSimulationJob(input:completion:)
 
 Restarts a running simulation job.
 
@@ -429,49 +408,39 @@ Restarts a running simulation job.
 func restartSimulationJob(input: RestartSimulationJobInput, completion: @escaping (ClientRuntime.SdkResult<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>) -> Void)
 ```
 
-### startSimulationJobBatch(input:​completion:​)
+### startSimulationJobBatch(input:completion:)
 
-Starts a new simulation job batch. The batch is defined using one or more
-SimulationJobRequest objects.
+Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
 
 ``` swift
 func startSimulationJobBatch(input: StartSimulationJobBatchInput, completion: @escaping (ClientRuntime.SdkResult<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>) -> Void)
 ```
 
-### syncDeploymentJob(input:​completion:​)
+### syncDeploymentJob(input:completion:)
 
-Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were
-added after a deployment.
+Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
 
 ``` swift
 func syncDeploymentJob(input: SyncDeploymentJobInput, completion: @escaping (ClientRuntime.SdkResult<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
-Adds or edits tags for a AWS RoboMaker resource.
-Each tag consists of a tag key and a tag value. Tag keys and tag values are both
-required, but tag values can be empty strings.
-For information about the rules that apply to tag keys and tag values, see <a href="https:​//docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined Tag Restrictions in the AWS Billing and Cost Management
-User Guide.
+Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings. For information about the rules that apply to tag keys and tag values, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the AWS Billing and Cost Management User Guide.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
-Removes the specified tags from the specified AWS RoboMaker resource.
-To remove a tag, specify the tag key. To change the tag value of an existing tag key,
-use <a href="https:​//docs.aws.amazon.com/robomaker/latest/dg/API_TagResource.html">
-TagResource
-.
+Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use [TagResource](https://docs.aws.amazon.com/robomaker/latest/dg/API_TagResource.html).
 
 ``` swift
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateRobotApplication(input:​completion:​)
+### updateRobotApplication(input:completion:)
 
 Updates a robot application.
 
@@ -479,7 +448,7 @@ Updates a robot application.
 func updateRobotApplication(input: UpdateRobotApplicationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>) -> Void)
 ```
 
-### updateSimulationApplication(input:​completion:​)
+### updateSimulationApplication(input:completion:)
 
 Updates a simulation application.
 
@@ -487,7 +456,7 @@ Updates a simulation application.
 func updateSimulationApplication(input: UpdateSimulationApplicationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>) -> Void)
 ```
 
-### updateWorldTemplate(input:​completion:​)
+### updateWorldTemplate(input:completion:)
 
 Updates a world template.
 

@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "GreengrassClient"
+```
+
 ## Methods
 
 ### `associateRoleToGroup(input:completion:)`
@@ -114,7 +122,7 @@ public func createFunctionDefinitionVersion(input: CreateFunctionDefinitionVersi
 
 ### `createGroup(input:completion:)`
 
-Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip:​ You can use the ''gg\_group\_setup'' package (https:​//github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
+Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg\_group\_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
 
 ``` swift
 public func createGroup(input: CreateGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateGroupOutputResponse, CreateGroupOutputError>) -> Void)

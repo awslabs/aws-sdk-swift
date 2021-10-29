@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ImagebuilderClient"
+```
+
 ## Methods
 
 ### `cancelImageCreation(input:completion:)`
 
-CancelImageCreation cancels the creation of Image. This operation can only be used on
-images in a non-terminal state.
+CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
 
 ``` swift
 public func cancelImageCreation(input: CancelImageCreationInput, completion: @escaping (ClientRuntime.SdkResult<CancelImageCreationOutputResponse, CancelImageCreationOutputError>) -> Void)
@@ -35,8 +42,7 @@ public func cancelImageCreation(input: CancelImageCreationInput, completion: @es
 
 ### `createComponent(input:completion:)`
 
-Creates a new component that can be used to build, validate, test, and assess your
-image.
+Creates a new component that can be used to build, validate, test, and assess your image.
 
 ``` swift
 public func createComponent(input: CreateComponentInput, completion: @escaping (ClientRuntime.SdkResult<CreateComponentOutputResponse, CreateComponentOutputError>) -> Void)
@@ -52,8 +58,7 @@ public func createContainerRecipe(input: CreateContainerRecipeInput, completion:
 
 ### `createDistributionConfiguration(input:completion:)`
 
-Creates a new distribution configuration. Distribution configurations define and configure
-the outputs of your pipeline.
+Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
 
 ``` swift
 public func createDistributionConfiguration(input: CreateDistributionConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateDistributionConfigurationOutputResponse, CreateDistributionConfigurationOutputError>) -> Void)
@@ -61,9 +66,7 @@ public func createDistributionConfiguration(input: CreateDistributionConfigurati
 
 ### `createImage(input:completion:)`
 
-Creates a new image. This request will create a new image along with all of the
-configured output resources defined in the distribution configuration. You must specify
-exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
+Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
 
 ``` swift
 public func createImage(input: CreateImageInput, completion: @escaping (ClientRuntime.SdkResult<CreateImageOutputResponse, CreateImageOutputError>) -> Void)
@@ -71,8 +74,7 @@ public func createImage(input: CreateImageInput, completion: @escaping (ClientRu
 
 ### `createImagePipeline(input:completion:)`
 
-Creates a new image pipeline. Image pipelines enable you to automate the creation and
-distribution of images.
+Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
 
 ``` swift
 public func createImagePipeline(input: CreateImagePipelineInput, completion: @escaping (ClientRuntime.SdkResult<CreateImagePipelineOutputResponse, CreateImagePipelineOutputError>) -> Void)
@@ -80,8 +82,7 @@ public func createImagePipeline(input: CreateImagePipelineInput, completion: @es
 
 ### `createImageRecipe(input:completion:)`
 
-Creates a new image recipe. Image recipes define how images are configured, tested, and
-assessed.
+Creates a new image recipe. Image recipes define how images are configured, tested, and assessed.
 
 ``` swift
 public func createImageRecipe(input: CreateImageRecipeInput, completion: @escaping (ClientRuntime.SdkResult<CreateImageRecipeOutputResponse, CreateImageRecipeOutputError>) -> Void)
@@ -89,8 +90,7 @@ public func createImageRecipe(input: CreateImageRecipeInput, completion: @escapi
 
 ### `createInfrastructureConfiguration(input:completion:)`
 
-Creates a new infrastructure configuration. An infrastructure configuration defines the
-environment in which your image will be built and tested.
+Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
 
 ``` swift
 public func createInfrastructureConfiguration(input: CreateInfrastructureConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateInfrastructureConfigurationOutputResponse, CreateInfrastructureConfigurationOutputError>) -> Void)
@@ -122,30 +122,17 @@ public func deleteDistributionConfiguration(input: DeleteDistributionConfigurati
 
 ### `deleteImage(input:completion:)`
 
-Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images
-that are created during the image build process. You must clean those up separately,
-using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.
+Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.
 
 ``` swift
 public func deleteImage(input: DeleteImageInput, completion: @escaping (ClientRuntime.SdkResult<DeleteImageOutputResponse, DeleteImageOutputError>) -> Void)
 ```
 
-``` 
-			           To deregister an EC2 Linux AMI, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/deregister-ami.html">Deregister
-					your Linux AMI in the
-                 Amazon EC2 User Guide
-              .
-		
+  - To deregister an EC2 Linux AMI, see [Deregister your Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/deregister-ami.html) in the Amazon EC2 User Guide .
 
-			           To deregister an EC2 Windows AMI, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/deregister-ami.html">Deregister
-					your Windows AMI in the
-                 Amazon EC2 Windows Guide
-              .
-		
+  - To deregister an EC2 Windows AMI, see [Deregister your Windows AMI](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/deregister-ami.html) in the Amazon EC2 Windows Guide .
 
-			           To delete a container image from Amazon ECR, see <a href="https://docs.aws.amazon.com/https:/docs.aws.amazon.comAmazonECR/latest/userguide/delete_image.html">Deleting
-					an image in the Amazon ECR User Guide.
-```
+  - To delete a container image from Amazon ECR, see [Deleting an image](https://docs.aws.amazon.com/https:/docs.aws.amazon.comAmazonECR/latest/userguide/delete_image.html) in the Amazon ECR User Guide.
 
 ### `deleteImagePipeline(input:completion:)`
 
@@ -269,42 +256,18 @@ public func importComponent(input: ImportComponentInput, completion: @escaping (
 
 ### `listComponentBuildVersions(input:completion:)`
 
-Returns the list of component build versions for the specified semantic version.
+Returns the list of component build versions for the specified semantic version. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
 
 ``` swift
 public func listComponentBuildVersions(input: ListComponentBuildVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListComponentBuildVersionsOutputResponse, ListComponentBuildVersionsOutputError>) -> Void)
 ```
 
-``` 
-	         The semantic version has four nodes: <major>.<minor>.<patch>/<build>.
-```
-
-You can assign values for the first three, and can filter on all of them.
-
-``` 
-          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-```
-
-to specify the most recent versions or nodes when selecting the base image or components for your
-recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-wildcards.
-
 ### `listComponents(input:completion:)`
 
-Returns the list of component build versions for the specified semantic version.
+Returns the list of component build versions for the specified semantic version. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
 
 ``` swift
 public func listComponents(input: ListComponentsInput, completion: @escaping (ClientRuntime.SdkResult<ListComponentsOutputResponse, ListComponentsOutputError>) -> Void)
-```
-
-``` 
-		         The semantic version has four nodes: <major>.<minor>.<patch>/<build>.
-You can assign values for the first three, and can filter on all of them.
-		
-           Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-to specify the most recent versions or nodes when selecting the base image or components for your
-recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-wildcards.
 ```
 
 ### `listContainerRecipes(input:completion:)`
@@ -389,9 +352,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `putComponentPolicy(input:completion:)`
 
-Applies a policy to a component. We recommend that you call the RAM API <a href="https:​//docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html">CreateResourceShare to share resources. If you call the Image Builder API
-PutComponentPolicy, you must also call the RAM API <a href="https:​//docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html">PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to
-all principals with whom the resource is shared.
+Applies a policy to a component. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
 
 ``` swift
 public func putComponentPolicy(input: PutComponentPolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutComponentPolicyOutputResponse, PutComponentPolicyOutputError>) -> Void)
@@ -399,7 +360,7 @@ public func putComponentPolicy(input: PutComponentPolicyInput, completion: @esca
 
 ### `putContainerRecipePolicy(input:completion:)`
 
-Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https:​//docs.aws.amazon.com/ram/latest/APIReference/API\_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https:​//docs.aws.amazon.com/ram/latest/APIReference/API\_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com/ram/latest/APIReference/API\_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com/ram/latest/APIReference/API\_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
 
 ``` swift
 public func putContainerRecipePolicy(input: PutContainerRecipePolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutContainerRecipePolicyOutputResponse, PutContainerRecipePolicyOutputError>) -> Void)
@@ -407,9 +368,7 @@ public func putContainerRecipePolicy(input: PutContainerRecipePolicyInput, compl
 
 ### `putImagePolicy(input:completion:)`
 
-Applies a policy to an image. We recommend that you call the RAM API <a href="https:​//docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html">CreateResourceShare to share resources. If you call the Image Builder API
-PutImagePolicy, you must also call the RAM API <a href="https:​//docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html">PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to
-all principals with whom the resource is shared.
+Applies a policy to an image. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
 
 ``` swift
 public func putImagePolicy(input: PutImagePolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutImagePolicyOutputResponse, PutImagePolicyOutputError>) -> Void)
@@ -417,9 +376,7 @@ public func putImagePolicy(input: PutImagePolicyInput, completion: @escaping (Cl
 
 ### `putImageRecipePolicy(input:completion:)`
 
-Applies a policy to an image recipe. We recommend that you call the RAM API <a href="https:​//docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html">CreateResourceShare to share resources. If you call the Image Builder API
-PutImageRecipePolicy, you must also call the RAM API <a href="https:​//docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html">PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to
-all principals with whom the resource is shared.
+Applies a policy to an image recipe. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
 
 ``` swift
 public func putImageRecipePolicy(input: PutImageRecipePolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutImageRecipePolicyOutputResponse, PutImageRecipePolicyOutputError>) -> Void)
@@ -451,8 +408,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateDistributionConfiguration(input:completion:)`
 
-Updates a new distribution configuration. Distribution configurations define and
-configure the outputs of your pipeline.
+Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
 
 ``` swift
 public func updateDistributionConfiguration(input: UpdateDistributionConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDistributionConfigurationOutputResponse, UpdateDistributionConfigurationOutputError>) -> Void)
@@ -460,23 +416,15 @@ public func updateDistributionConfiguration(input: UpdateDistributionConfigurati
 
 ### `updateImagePipeline(input:completion:)`
 
-Updates an image pipeline. Image pipelines enable you to automate the creation and
-distribution of images.
+Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
 
 ``` swift
 public func updateImagePipeline(input: UpdateImagePipelineInput, completion: @escaping (ClientRuntime.SdkResult<UpdateImagePipelineOutputResponse, UpdateImagePipelineOutputError>) -> Void)
 ```
 
-``` 
-       UpdateImagePipeline does not support selective updates for the pipeline.
-	You must specify all of the required properties in the update request, not just
-	the properties that have changed.
-```
-
 ### `updateInfrastructureConfiguration(input:completion:)`
 
-Updates a new infrastructure configuration. An infrastructure configuration defines the
-environment in which your image will be built and tested.
+Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
 
 ``` swift
 public func updateInfrastructureConfiguration(input: UpdateInfrastructureConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateInfrastructureConfigurationOutputResponse, UpdateInfrastructureConfigurationOutputError>) -> Void)

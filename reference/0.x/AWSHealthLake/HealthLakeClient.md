@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "HealthLakeClient"
+```
+
 ## Methods
 
 ### `createFHIRDatastore(input:completion:)`
@@ -42,9 +50,7 @@ public func deleteFHIRDatastore(input: DeleteFHIRDatastoreInput, completion: @es
 
 ### `describeFHIRDatastore(input:completion:)`
 
-Gets the properties associated with the FHIR Data Store, including the Data Store ID,
-Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and
-Data Store endpoint.
+Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and Data Store endpoint.
 
 ``` swift
 public func describeFHIRDatastore(input: DescribeFHIRDatastoreInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFHIRDatastoreOutputResponse, DescribeFHIRDatastoreOutputError>) -> Void)
@@ -68,8 +74,7 @@ public func describeFHIRImportJob(input: DescribeFHIRImportJobInput, completion:
 
 ### `listFHIRDatastores(input:completion:)`
 
-Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store
-status.
+Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
 
 ``` swift
 public func listFHIRDatastores(input: ListFHIRDatastoresInput, completion: @escaping (ClientRuntime.SdkResult<ListFHIRDatastoresOutputResponse, ListFHIRDatastoresOutputError>) -> Void)

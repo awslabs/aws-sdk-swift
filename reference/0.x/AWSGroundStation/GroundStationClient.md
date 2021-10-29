@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "GroundStationClient"
+```
+
 ## Methods
 
 ### `cancelContact(input:completion:)`
@@ -34,8 +42,7 @@ public func cancelContact(input: CancelContactInput, completion: @escaping (Clie
 
 ### `createConfig(input:completion:)`
 
-Creates a Config with the specified configData parameters.
-Only one type of configData can be specified.
+Creates a Config with the specified configData parameters. Only one type of configData can be specified.
 
 ``` swift
 public func createConfig(input: CreateConfigInput, completion: @escaping (ClientRuntime.SdkResult<CreateConfigOutputResponse, CreateConfigOutputError>) -> Void)
@@ -43,11 +50,7 @@ public func createConfig(input: CreateConfigInput, completion: @escaping (Client
 
 ### `createDataflowEndpointGroup(input:completion:)`
 
-Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects.
-The name field in each endpoint is used in your mission profile DataflowEndpointConfig
-to specify which endpoints to use during a contact.
-When a contact uses multiple DataflowEndpointConfig objects, each Config
-must match a DataflowEndpoint in the same group.
+Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
 
 ``` swift
 public func createDataflowEndpointGroup(input: CreateDataflowEndpointGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateDataflowEndpointGroupOutputResponse, CreateDataflowEndpointGroupOutputError>) -> Void)
@@ -55,15 +58,10 @@ public func createDataflowEndpointGroup(input: CreateDataflowEndpointGroupInput,
 
 ### `createMissionProfile(input:completion:)`
 
-Creates a mission profile.
+Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
 
 ``` swift
 public func createMissionProfile(input: CreateMissionProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateMissionProfileOutputResponse, CreateMissionProfileOutputError>) -> Void)
-```
-
-``` 
-        dataflowEdges is a list of lists of strings. Each lower level list of strings
-     has two elements: a from ARN and a to ARN.
 ```
 
 ### `deleteConfig(input:completion:)`
@@ -100,8 +98,7 @@ public func describeContact(input: DescribeContactInput, completion: @escaping (
 
 ### `getConfig(input:completion:)`
 
-Returns Config information.
-Only one Config response can be returned.
+Returns Config information. Only one Config response can be returned.
 
 ``` swift
 public func getConfig(input: GetConfigInput, completion: @escaping (ClientRuntime.SdkResult<GetConfigOutputResponse, GetConfigOutputError>) -> Void)
@@ -149,9 +146,7 @@ public func listConfigs(input: ListConfigsInput, completion: @escaping (ClientRu
 
 ### `listContacts(input:completion:)`
 
-Returns a list of contacts.
-If statusList contains AVAILABLE, the request must include
-groundStation, missionprofileArn, and satelliteArn.
+Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
 
 ``` swift
 public func listContacts(input: ListContactsInput, completion: @escaping (ClientRuntime.SdkResult<ListContactsOutputResponse, ListContactsOutputError>) -> Void)
@@ -223,9 +218,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateConfig(input:completion:)`
 
-Updates the Config used when scheduling contacts.
-Updating a Config will not update the execution parameters
-for existing future contacts scheduled with this Config.
+Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
 
 ``` swift
 public func updateConfig(input: UpdateConfigInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConfigOutputResponse, UpdateConfigOutputError>) -> Void)
@@ -233,9 +226,7 @@ public func updateConfig(input: UpdateConfigInput, completion: @escaping (Client
 
 ### `updateMissionProfile(input:completion:)`
 
-Updates a mission profile.
-Updating a mission profile will not update the execution parameters
-for existing future contacts.
+Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
 
 ``` swift
 public func updateMissionProfile(input: UpdateMissionProfileInput, completion: @escaping (ClientRuntime.SdkResult<UpdateMissionProfileOutputResponse, UpdateMissionProfileOutputError>) -> Void)

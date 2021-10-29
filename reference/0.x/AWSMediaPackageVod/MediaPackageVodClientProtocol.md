@@ -8,7 +8,7 @@ public protocol MediaPackageVodClientProtocol
 
 ## Requirements
 
-### configureLogs(input:​completion:​)
+### configureLogs(input:completion:)
 
 Changes the packaging group's properities to configure log subscription
 
@@ -16,7 +16,7 @@ Changes the packaging group's properities to configure log subscription
 func configureLogs(input: ConfigureLogsInput, completion: @escaping (ClientRuntime.SdkResult<ConfigureLogsOutputResponse, ConfigureLogsOutputError>) -> Void)
 ```
 
-### createAsset(input:​completion:​)
+### createAsset(input:completion:)
 
 Creates a new MediaPackage VOD Asset resource.
 
@@ -24,7 +24,7 @@ Creates a new MediaPackage VOD Asset resource.
 func createAsset(input: CreateAssetInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssetOutputResponse, CreateAssetOutputError>) -> Void)
 ```
 
-### createPackagingConfiguration(input:​completion:​)
+### createPackagingConfiguration(input:completion:)
 
 Creates a new MediaPackage VOD PackagingConfiguration resource.
 
@@ -32,7 +32,7 @@ Creates a new MediaPackage VOD PackagingConfiguration resource.
 func createPackagingConfiguration(input: CreatePackagingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreatePackagingConfigurationOutputResponse, CreatePackagingConfigurationOutputError>) -> Void)
 ```
 
-### createPackagingGroup(input:​completion:​)
+### createPackagingGroup(input:completion:)
 
 Creates a new MediaPackage VOD PackagingGroup resource.
 
@@ -40,7 +40,7 @@ Creates a new MediaPackage VOD PackagingGroup resource.
 func createPackagingGroup(input: CreatePackagingGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreatePackagingGroupOutputResponse, CreatePackagingGroupOutputError>) -> Void)
 ```
 
-### deleteAsset(input:​completion:​)
+### deleteAsset(input:completion:)
 
 Deletes an existing MediaPackage VOD Asset resource.
 
@@ -48,7 +48,7 @@ Deletes an existing MediaPackage VOD Asset resource.
 func deleteAsset(input: DeleteAssetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssetOutputResponse, DeleteAssetOutputError>) -> Void)
 ```
 
-### deletePackagingConfiguration(input:​completion:​)
+### deletePackagingConfiguration(input:completion:)
 
 Deletes a MediaPackage VOD PackagingConfiguration resource.
 
@@ -56,7 +56,7 @@ Deletes a MediaPackage VOD PackagingConfiguration resource.
 func deletePackagingConfiguration(input: DeletePackagingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeletePackagingConfigurationOutputResponse, DeletePackagingConfigurationOutputError>) -> Void)
 ```
 
-### deletePackagingGroup(input:​completion:​)
+### deletePackagingGroup(input:completion:)
 
 Deletes a MediaPackage VOD PackagingGroup resource.
 
@@ -64,7 +64,7 @@ Deletes a MediaPackage VOD PackagingGroup resource.
 func deletePackagingGroup(input: DeletePackagingGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeletePackagingGroupOutputResponse, DeletePackagingGroupOutputError>) -> Void)
 ```
 
-### describeAsset(input:​completion:​)
+### describeAsset(input:completion:)
 
 Returns a description of a MediaPackage VOD Asset resource.
 
@@ -72,7 +72,7 @@ Returns a description of a MediaPackage VOD Asset resource.
 func describeAsset(input: DescribeAssetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAssetOutputResponse, DescribeAssetOutputError>) -> Void)
 ```
 
-### describePackagingConfiguration(input:​completion:​)
+### describePackagingConfiguration(input:completion:)
 
 Returns a description of a MediaPackage VOD PackagingConfiguration resource.
 
@@ -80,7 +80,7 @@ Returns a description of a MediaPackage VOD PackagingConfiguration resource.
 func describePackagingConfiguration(input: DescribePackagingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribePackagingConfigurationOutputResponse, DescribePackagingConfigurationOutputError>) -> Void)
 ```
 
-### describePackagingGroup(input:​completion:​)
+### describePackagingGroup(input:completion:)
 
 Returns a description of a MediaPackage VOD PackagingGroup resource.
 
@@ -88,7 +88,7 @@ Returns a description of a MediaPackage VOD PackagingGroup resource.
 func describePackagingGroup(input: DescribePackagingGroupInput, completion: @escaping (ClientRuntime.SdkResult<DescribePackagingGroupOutputResponse, DescribePackagingGroupOutputError>) -> Void)
 ```
 
-### listAssets(input:​completion:​)
+### listAssets(input:completion:)
 
 Returns a collection of MediaPackage VOD Asset resources.
 
@@ -96,7 +96,7 @@ Returns a collection of MediaPackage VOD Asset resources.
 func listAssets(input: ListAssetsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssetsOutputResponse, ListAssetsOutputError>) -> Void)
 ```
 
-### listPackagingConfigurations(input:​completion:​)
+### listPackagingConfigurations(input:completion:)
 
 Returns a collection of MediaPackage VOD PackagingConfiguration resources.
 
@@ -104,7 +104,7 @@ Returns a collection of MediaPackage VOD PackagingConfiguration resources.
 func listPackagingConfigurations(input: ListPackagingConfigurationsInput, completion: @escaping (ClientRuntime.SdkResult<ListPackagingConfigurationsOutputResponse, ListPackagingConfigurationsOutputError>) -> Void)
 ```
 
-### listPackagingGroups(input:​completion:​)
+### listPackagingGroups(input:completion:)
 
 Returns a collection of MediaPackage VOD PackagingGroup resources.
 
@@ -112,7 +112,7 @@ Returns a collection of MediaPackage VOD PackagingGroup resources.
 func listPackagingGroups(input: ListPackagingGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListPackagingGroupsOutputResponse, ListPackagingGroupsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Returns a list of the tags assigned to the specified resource.
 
@@ -120,7 +120,7 @@ Returns a list of the tags assigned to the specified resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds tags to the specified resource. You can specify one or more tags to add.
 
@@ -128,7 +128,7 @@ Adds tags to the specified resource. You can specify one or more tags to add.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes tags from the specified resource. You can specify one or more tags to remove.
 
@@ -136,7 +136,7 @@ Removes tags from the specified resource. You can specify one or more tags to re
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updatePackagingGroup(input:​completion:​)
+### updatePackagingGroup(input:completion:)
 
 Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
 

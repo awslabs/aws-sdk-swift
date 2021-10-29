@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ApiGatewayClient"
+```
+
 ## Methods
 
 ### `createApiKey(input:completion:)`
 
-Create an ApiKey resource.
-
-<div class="seeAlso"><a href="https:​//docs.aws.amazon.com/cli/latest/reference/apigateway/create-api-key.html">AWS CLI</div>
+Create an \[ApiKey\] resource. [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-api-key.html)
 
 ``` swift
 public func createApiKey(input: CreateApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<CreateApiKeyOutputResponse, CreateApiKeyOutputError>) -> Void)
@@ -36,9 +42,7 @@ public func createApiKey(input: CreateApiKeyInput, completion: @escaping (Client
 
 ### `createAuthorizer(input:completion:)`
 
-Adds a new Authorizer resource to an existing RestApi resource.
-
-<div class="seeAlso"><a href="https:​//docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS CLI</div>
+Adds a new \[Authorizer\] resource to an existing \[RestApi\] resource. [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html)
 
 ``` swift
 public func createAuthorizer(input: CreateAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<CreateAuthorizerOutputResponse, CreateAuthorizerOutputError>) -> Void)
@@ -46,7 +50,7 @@ public func createAuthorizer(input: CreateAuthorizerInput, completion: @escaping
 
 ### `createBasePathMapping(input:completion:)`
 
-Creates a new BasePathMapping resource.
+Creates a new \[BasePathMapping\] resource.
 
 ``` swift
 public func createBasePathMapping(input: CreateBasePathMappingInput, completion: @escaping (ClientRuntime.SdkResult<CreateBasePathMappingOutputResponse, CreateBasePathMappingOutputError>) -> Void)
@@ -54,7 +58,7 @@ public func createBasePathMapping(input: CreateBasePathMappingInput, completion:
 
 ### `createDeployment(input:completion:)`
 
-Creates a Deployment resource, which makes a specified RestApi callable over the internet.
+Creates a \[Deployment\] resource, which makes a specified \[RestApi\] callable over the internet.
 
 ``` swift
 public func createDeployment(input: CreateDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeploymentOutputResponse, CreateDeploymentOutputError>) -> Void)
@@ -82,7 +86,7 @@ public func createDomainName(input: CreateDomainNameInput, completion: @escaping
 
 ### `createModel(input:completion:)`
 
-Adds a new Model resource to an existing RestApi resource.
+Adds a new \[Model\] resource to an existing \[RestApi\] resource.
 
 ``` swift
 public func createModel(input: CreateModelInput, completion: @escaping (ClientRuntime.SdkResult<CreateModelOutputResponse, CreateModelOutputError>) -> Void)
@@ -90,7 +94,7 @@ public func createModel(input: CreateModelInput, completion: @escaping (ClientRu
 
 ### `createRequestValidator(input:completion:)`
 
-Creates a ReqeustValidator of a given RestApi.
+Creates a \[ReqeustValidator\] of a given \[RestApi\].
 
 ``` swift
 public func createRequestValidator(input: CreateRequestValidatorInput, completion: @escaping (ClientRuntime.SdkResult<CreateRequestValidatorOutputResponse, CreateRequestValidatorOutputError>) -> Void)
@@ -98,7 +102,7 @@ public func createRequestValidator(input: CreateRequestValidatorInput, completio
 
 ### `createResource(input:completion:)`
 
-Creates a Resource resource.
+Creates a \[Resource\] resource.
 
 ``` swift
 public func createResource(input: CreateResourceInput, completion: @escaping (ClientRuntime.SdkResult<CreateResourceOutputResponse, CreateResourceOutputError>) -> Void)
@@ -106,7 +110,7 @@ public func createResource(input: CreateResourceInput, completion: @escaping (Cl
 
 ### `createRestApi(input:completion:)`
 
-Creates a new RestApi resource.
+Creates a new \[RestApi\] resource.
 
 ``` swift
 public func createRestApi(input: CreateRestApiInput, completion: @escaping (ClientRuntime.SdkResult<CreateRestApiOutputResponse, CreateRestApiOutputError>) -> Void)
@@ -114,9 +118,7 @@ public func createRestApi(input: CreateRestApiInput, completion: @escaping (Clie
 
 ### `createStage(input:completion:)`
 
-Creates a new Stage resource that references a pre-existing Deployment for the API.
-
-<!--   Creates a Stage resource.  -->
+Creates a new \[Stage\] resource that references a pre-existing \[Deployment\] for the API.
 
 ``` swift
 public func createStage(input: CreateStageInput, completion: @escaping (ClientRuntime.SdkResult<CreateStageOutputResponse, CreateStageOutputError>) -> Void)
@@ -148,7 +150,7 @@ public func createVpcLink(input: CreateVpcLinkInput, completion: @escaping (Clie
 
 ### `deleteApiKey(input:completion:)`
 
-Deletes the ApiKey resource.
+Deletes the \[ApiKey\] resource.
 
 ``` swift
 public func deleteApiKey(input: DeleteApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>) -> Void)
@@ -156,9 +158,7 @@ public func deleteApiKey(input: DeleteApiKeyInput, completion: @escaping (Client
 
 ### `deleteAuthorizer(input:completion:)`
 
-Deletes an existing Authorizer resource.
-
-<div class="seeAlso"><a href="https:​//docs.aws.amazon.com/cli/latest/reference/apigateway/delete-authorizer.html">AWS CLI</div>
+Deletes an existing \[Authorizer\] resource. [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/apigateway/delete-authorizer.html)
 
 ``` swift
 public func deleteAuthorizer(input: DeleteAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAuthorizerOutputResponse, DeleteAuthorizerOutputError>) -> Void)
@@ -166,7 +166,7 @@ public func deleteAuthorizer(input: DeleteAuthorizerInput, completion: @escaping
 
 ### `deleteBasePathMapping(input:completion:)`
 
-Deletes the BasePathMapping resource.
+Deletes the \[BasePathMapping\] resource.
 
 ``` swift
 public func deleteBasePathMapping(input: DeleteBasePathMappingInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBasePathMappingOutputResponse, DeleteBasePathMappingOutputError>) -> Void)
@@ -174,7 +174,7 @@ public func deleteBasePathMapping(input: DeleteBasePathMappingInput, completion:
 
 ### `deleteClientCertificate(input:completion:)`
 
-Deletes the ClientCertificate resource.
+Deletes the \[ClientCertificate\] resource.
 
 ``` swift
 public func deleteClientCertificate(input: DeleteClientCertificateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteClientCertificateOutputResponse, DeleteClientCertificateOutputError>) -> Void)
@@ -182,7 +182,7 @@ public func deleteClientCertificate(input: DeleteClientCertificateInput, complet
 
 ### `deleteDeployment(input:completion:)`
 
-Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
+Deletes a \[Deployment\] resource. Deleting a deployment will only succeed if there are no \[Stage\] resources associated with it.
 
 ``` swift
 public func deleteDeployment(input: DeleteDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDeploymentOutputResponse, DeleteDeploymentOutputError>) -> Void)
@@ -202,7 +202,7 @@ public func deleteDocumentationVersion(input: DeleteDocumentationVersionInput, c
 
 ### `deleteDomainName(input:completion:)`
 
-Deletes the DomainName resource.
+Deletes the \[DomainName\] resource.
 
 ``` swift
 public func deleteDomainName(input: DeleteDomainNameInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>) -> Void)
@@ -210,7 +210,7 @@ public func deleteDomainName(input: DeleteDomainNameInput, completion: @escaping
 
 ### `deleteGatewayResponse(input:completion:)`
 
-Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+Clears any customization of a \[GatewayResponse\] of a specified response type on the given \[RestApi\] and resets it with the default settings.
 
 ``` swift
 public func deleteGatewayResponse(input: DeleteGatewayResponseInput, completion: @escaping (ClientRuntime.SdkResult<DeleteGatewayResponseOutputResponse, DeleteGatewayResponseOutputError>) -> Void)
@@ -234,7 +234,7 @@ public func deleteIntegrationResponse(input: DeleteIntegrationResponseInput, com
 
 ### `deleteMethod(input:completion:)`
 
-Deletes an existing Method resource.
+Deletes an existing \[Method\] resource.
 
 ``` swift
 public func deleteMethod(input: DeleteMethodInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMethodOutputResponse, DeleteMethodOutputError>) -> Void)
@@ -242,7 +242,7 @@ public func deleteMethod(input: DeleteMethodInput, completion: @escaping (Client
 
 ### `deleteMethodResponse(input:completion:)`
 
-Deletes an existing MethodResponse resource.
+Deletes an existing \[MethodResponse\] resource.
 
 ``` swift
 public func deleteMethodResponse(input: DeleteMethodResponseInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMethodResponseOutputResponse, DeleteMethodResponseOutputError>) -> Void)
@@ -258,7 +258,7 @@ public func deleteModel(input: DeleteModelInput, completion: @escaping (ClientRu
 
 ### `deleteRequestValidator(input:completion:)`
 
-Deletes a RequestValidator of a given RestApi.
+Deletes a \[RequestValidator\] of a given \[RestApi\].
 
 ``` swift
 public func deleteRequestValidator(input: DeleteRequestValidatorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRequestValidatorOutputResponse, DeleteRequestValidatorOutputError>) -> Void)
@@ -266,7 +266,7 @@ public func deleteRequestValidator(input: DeleteRequestValidatorInput, completio
 
 ### `deleteResource(input:completion:)`
 
-Deletes a Resource resource.
+Deletes a \[Resource\] resource.
 
 ``` swift
 public func deleteResource(input: DeleteResourceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResourceOutputResponse, DeleteResourceOutputError>) -> Void)
@@ -282,7 +282,7 @@ public func deleteRestApi(input: DeleteRestApiInput, completion: @escaping (Clie
 
 ### `deleteStage(input:completion:)`
 
-Deletes a Stage resource.
+Deletes a \[Stage\] resource.
 
 ``` swift
 public func deleteStage(input: DeleteStageInput, completion: @escaping (ClientRuntime.SdkResult<DeleteStageOutputResponse, DeleteStageOutputError>) -> Void)
@@ -298,7 +298,7 @@ public func deleteUsagePlan(input: DeleteUsagePlanInput, completion: @escaping (
 
 ### `deleteUsagePlanKey(input:completion:)`
 
-Deletes a usage plan key  and remove the underlying API key from the associated usage plan.
+Deletes a usage plan key and remove the underlying API key from the associated usage plan.
 
 ``` swift
 public func deleteUsagePlanKey(input: DeleteUsagePlanKeyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteUsagePlanKeyOutputResponse, DeleteUsagePlanKeyOutputError>) -> Void)
@@ -306,7 +306,7 @@ public func deleteUsagePlanKey(input: DeleteUsagePlanKeyInput, completion: @esca
 
 ### `deleteVpcLink(input:completion:)`
 
-Deletes an existing VpcLink of a specified identifier.
+Deletes an existing \[VpcLink\] of a specified identifier.
 
 ``` swift
 public func deleteVpcLink(input: DeleteVpcLinkInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVpcLinkOutputResponse, DeleteVpcLinkOutputError>) -> Void)
@@ -330,7 +330,7 @@ public func flushStageCache(input: FlushStageCacheInput, completion: @escaping (
 
 ### `generateClientCertificate(input:completion:)`
 
-Generates a ClientCertificate resource.
+Generates a \[ClientCertificate\] resource.
 
 ``` swift
 public func generateClientCertificate(input: GenerateClientCertificateInput, completion: @escaping (ClientRuntime.SdkResult<GenerateClientCertificateOutputResponse, GenerateClientCertificateOutputError>) -> Void)
@@ -338,7 +338,7 @@ public func generateClientCertificate(input: GenerateClientCertificateInput, com
 
 ### `getAccount(input:completion:)`
 
-Gets information about the current Account resource.
+Gets information about the current \[Account\] resource.
 
 ``` swift
 public func getAccount(input: GetAccountInput, completion: @escaping (ClientRuntime.SdkResult<GetAccountOutputResponse, GetAccountOutputError>) -> Void)
@@ -346,7 +346,7 @@ public func getAccount(input: GetAccountInput, completion: @escaping (ClientRunt
 
 ### `getApiKey(input:completion:)`
 
-Gets information about the current ApiKey resource.
+Gets information about the current \[ApiKey\] resource.
 
 ``` swift
 public func getApiKey(input: GetApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<GetApiKeyOutputResponse, GetApiKeyOutputError>) -> Void)
@@ -354,7 +354,7 @@ public func getApiKey(input: GetApiKeyInput, completion: @escaping (ClientRuntim
 
 ### `getApiKeys(input:completion:)`
 
-Gets information about the current ApiKeys resource.
+Gets information about the current \[ApiKeys\] resource.
 
 ``` swift
 public func getApiKeys(input: GetApiKeysInput, completion: @escaping (ClientRuntime.SdkResult<GetApiKeysOutputResponse, GetApiKeysOutputError>) -> Void)
@@ -362,9 +362,7 @@ public func getApiKeys(input: GetApiKeysInput, completion: @escaping (ClientRunt
 
 ### `getAuthorizer(input:completion:)`
 
-Describe an existing Authorizer resource.
-
-<div class="seeAlso"><a href="https:​//docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizer.html">AWS CLI</div>
+Describe an existing \[Authorizer\] resource. [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizer.html)
 
 ``` swift
 public func getAuthorizer(input: GetAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<GetAuthorizerOutputResponse, GetAuthorizerOutputError>) -> Void)
@@ -372,9 +370,7 @@ public func getAuthorizer(input: GetAuthorizerInput, completion: @escaping (Clie
 
 ### `getAuthorizers(input:completion:)`
 
-Describe an existing Authorizers resource.
-
-<div class="seeAlso"><a href="https:​//docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizers.html">AWS CLI</div>
+Describe an existing \[Authorizers\] resource. [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizers.html)
 
 ``` swift
 public func getAuthorizers(input: GetAuthorizersInput, completion: @escaping (ClientRuntime.SdkResult<GetAuthorizersOutputResponse, GetAuthorizersOutputError>) -> Void)
@@ -382,7 +378,7 @@ public func getAuthorizers(input: GetAuthorizersInput, completion: @escaping (Cl
 
 ### `getBasePathMapping(input:completion:)`
 
-Describe a BasePathMapping resource.
+Describe a \[BasePathMapping\] resource.
 
 ``` swift
 public func getBasePathMapping(input: GetBasePathMappingInput, completion: @escaping (ClientRuntime.SdkResult<GetBasePathMappingOutputResponse, GetBasePathMappingOutputError>) -> Void)
@@ -390,7 +386,7 @@ public func getBasePathMapping(input: GetBasePathMappingInput, completion: @esca
 
 ### `getBasePathMappings(input:completion:)`
 
-Represents a collection of BasePathMapping resources.
+Represents a collection of \[BasePathMapping\] resources.
 
 ``` swift
 public func getBasePathMappings(input: GetBasePathMappingsInput, completion: @escaping (ClientRuntime.SdkResult<GetBasePathMappingsOutputResponse, GetBasePathMappingsOutputError>) -> Void)
@@ -398,7 +394,7 @@ public func getBasePathMappings(input: GetBasePathMappingsInput, completion: @es
 
 ### `getClientCertificate(input:completion:)`
 
-Gets information about the current ClientCertificate resource.
+Gets information about the current \[ClientCertificate\] resource.
 
 ``` swift
 public func getClientCertificate(input: GetClientCertificateInput, completion: @escaping (ClientRuntime.SdkResult<GetClientCertificateOutputResponse, GetClientCertificateOutputError>) -> Void)
@@ -406,7 +402,7 @@ public func getClientCertificate(input: GetClientCertificateInput, completion: @
 
 ### `getClientCertificates(input:completion:)`
 
-Gets a collection of ClientCertificate resources.
+Gets a collection of \[ClientCertificate\] resources.
 
 ``` swift
 public func getClientCertificates(input: GetClientCertificatesInput, completion: @escaping (ClientRuntime.SdkResult<GetClientCertificatesOutputResponse, GetClientCertificatesOutputError>) -> Void)
@@ -414,7 +410,7 @@ public func getClientCertificates(input: GetClientCertificatesInput, completion:
 
 ### `getDeployment(input:completion:)`
 
-Gets information about a Deployment resource.
+Gets information about a \[Deployment\] resource.
 
 ``` swift
 public func getDeployment(input: GetDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<GetDeploymentOutputResponse, GetDeploymentOutputError>) -> Void)
@@ -422,7 +418,7 @@ public func getDeployment(input: GetDeploymentInput, completion: @escaping (Clie
 
 ### `getDeployments(input:completion:)`
 
-Gets information about a Deployments collection.
+Gets information about a \[Deployments\] collection.
 
 ``` swift
 public func getDeployments(input: GetDeploymentsInput, completion: @escaping (ClientRuntime.SdkResult<GetDeploymentsOutputResponse, GetDeploymentsOutputError>) -> Void)
@@ -462,7 +458,7 @@ public func getDomainName(input: GetDomainNameInput, completion: @escaping (Clie
 
 ### `getDomainNames(input:completion:)`
 
-Represents a collection of DomainName resources.
+Represents a collection of \[DomainName\] resources.
 
 ``` swift
 public func getDomainNames(input: GetDomainNamesInput, completion: @escaping (ClientRuntime.SdkResult<GetDomainNamesOutputResponse, GetDomainNamesOutputError>) -> Void)
@@ -470,7 +466,7 @@ public func getDomainNames(input: GetDomainNamesInput, completion: @escaping (Cl
 
 ### `getExport(input:completion:)`
 
-Exports a deployed version of a RestApi in a specified format.
+Exports a deployed version of a \[RestApi\] in a specified format.
 
 ``` swift
 public func getExport(input: GetExportInput, completion: @escaping (ClientRuntime.SdkResult<GetExportOutputResponse, GetExportOutputError>) -> Void)
@@ -478,7 +474,7 @@ public func getExport(input: GetExportInput, completion: @escaping (ClientRuntim
 
 ### `getGatewayResponse(input:completion:)`
 
-Gets a GatewayResponse of a specified response type on the given RestApi.
+Gets a \[GatewayResponse\] of a specified response type on the given \[RestApi\].
 
 ``` swift
 public func getGatewayResponse(input: GetGatewayResponseInput, completion: @escaping (ClientRuntime.SdkResult<GetGatewayResponseOutputResponse, GetGatewayResponseOutputError>) -> Void)
@@ -486,7 +482,7 @@ public func getGatewayResponse(input: GetGatewayResponseInput, completion: @esca
 
 ### `getGatewayResponses(input:completion:)`
 
-Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
+Gets the \[GatewayResponses\] collection on the given \[RestApi\]. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default \[GatewayResponses\] collection for the supported response types.
 
 ``` swift
 public func getGatewayResponses(input: GetGatewayResponsesInput, completion: @escaping (ClientRuntime.SdkResult<GetGatewayResponsesOutputResponse, GetGatewayResponsesOutputError>) -> Void)
@@ -510,7 +506,7 @@ public func getIntegrationResponse(input: GetIntegrationResponseInput, completio
 
 ### `getMethod(input:completion:)`
 
-Describe an existing Method resource.
+Describe an existing \[Method\] resource.
 
 ``` swift
 public func getMethod(input: GetMethodInput, completion: @escaping (ClientRuntime.SdkResult<GetMethodOutputResponse, GetMethodOutputError>) -> Void)
@@ -518,7 +514,7 @@ public func getMethod(input: GetMethodInput, completion: @escaping (ClientRuntim
 
 ### `getMethodResponse(input:completion:)`
 
-Describes a MethodResponse resource.
+Describes a \[MethodResponse\] resource.
 
 ``` swift
 public func getMethodResponse(input: GetMethodResponseInput, completion: @escaping (ClientRuntime.SdkResult<GetMethodResponseOutputResponse, GetMethodResponseOutputError>) -> Void)
@@ -526,7 +522,7 @@ public func getMethodResponse(input: GetMethodResponseInput, completion: @escapi
 
 ### `getModel(input:completion:)`
 
-Describes an existing model defined for a RestApi resource.
+Describes an existing model defined for a \[RestApi\] resource.
 
 ``` swift
 public func getModel(input: GetModelInput, completion: @escaping (ClientRuntime.SdkResult<GetModelOutputResponse, GetModelOutputError>) -> Void)
@@ -542,7 +538,7 @@ public func getModelTemplate(input: GetModelTemplateInput, completion: @escaping
 
 ### `getModels(input:completion:)`
 
-Describes existing Models defined for a RestApi resource.
+Describes existing \[Models\] defined for a \[RestApi\] resource.
 
 ``` swift
 public func getModels(input: GetModelsInput, completion: @escaping (ClientRuntime.SdkResult<GetModelsOutputResponse, GetModelsOutputError>) -> Void)
@@ -550,7 +546,7 @@ public func getModels(input: GetModelsInput, completion: @escaping (ClientRuntim
 
 ### `getRequestValidator(input:completion:)`
 
-Gets a RequestValidator of a given RestApi.
+Gets a \[RequestValidator\] of a given \[RestApi\].
 
 ``` swift
 public func getRequestValidator(input: GetRequestValidatorInput, completion: @escaping (ClientRuntime.SdkResult<GetRequestValidatorOutputResponse, GetRequestValidatorOutputError>) -> Void)
@@ -558,7 +554,7 @@ public func getRequestValidator(input: GetRequestValidatorInput, completion: @es
 
 ### `getRequestValidators(input:completion:)`
 
-Gets the RequestValidators collection of a given RestApi.
+Gets the \[RequestValidators\] collection of a given \[RestApi\].
 
 ``` swift
 public func getRequestValidators(input: GetRequestValidatorsInput, completion: @escaping (ClientRuntime.SdkResult<GetRequestValidatorsOutputResponse, GetRequestValidatorsOutputError>) -> Void)
@@ -574,7 +570,7 @@ public func getResource(input: GetResourceInput, completion: @escaping (ClientRu
 
 ### `getResources(input:completion:)`
 
-Lists information about a collection of Resource resources.
+Lists information about a collection of \[Resource\] resources.
 
 ``` swift
 public func getResources(input: GetResourcesInput, completion: @escaping (ClientRuntime.SdkResult<GetResourcesOutputResponse, GetResourcesOutputError>) -> Void)
@@ -582,7 +578,7 @@ public func getResources(input: GetResourcesInput, completion: @escaping (Client
 
 ### `getRestApi(input:completion:)`
 
-Lists the RestApi resource in the collection.
+Lists the \[RestApi\] resource in the collection.
 
 ``` swift
 public func getRestApi(input: GetRestApiInput, completion: @escaping (ClientRuntime.SdkResult<GetRestApiOutputResponse, GetRestApiOutputError>) -> Void)
@@ -590,7 +586,7 @@ public func getRestApi(input: GetRestApiInput, completion: @escaping (ClientRunt
 
 ### `getRestApis(input:completion:)`
 
-Lists the RestApis resources for your collection.
+Lists the \[RestApis\] resources for your collection.
 
 ``` swift
 public func getRestApis(input: GetRestApisInput, completion: @escaping (ClientRuntime.SdkResult<GetRestApisOutputResponse, GetRestApisOutputError>) -> Void)
@@ -598,7 +594,7 @@ public func getRestApis(input: GetRestApisInput, completion: @escaping (ClientRu
 
 ### `getSdk(input:completion:)`
 
-Generates a client SDK for a RestApi and Stage.
+Generates a client SDK for a \[RestApi\] and \[Stage\].
 
 ``` swift
 public func getSdk(input: GetSdkInput, completion: @escaping (ClientRuntime.SdkResult<GetSdkOutputResponse, GetSdkOutputError>) -> Void)
@@ -618,7 +614,7 @@ public func getSdkTypes(input: GetSdkTypesInput, completion: @escaping (ClientRu
 
 ### `getStage(input:completion:)`
 
-Gets information about a Stage resource.
+Gets information about a \[Stage\] resource.
 
 ``` swift
 public func getStage(input: GetStageInput, completion: @escaping (ClientRuntime.SdkResult<GetStageOutputResponse, GetStageOutputError>) -> Void)
@@ -626,7 +622,7 @@ public func getStage(input: GetStageInput, completion: @escaping (ClientRuntime.
 
 ### `getStages(input:completion:)`
 
-Gets information about one or more Stage resources.
+Gets information about one or more \[Stage\] resources.
 
 ``` swift
 public func getStages(input: GetStagesInput, completion: @escaping (ClientRuntime.SdkResult<GetStagesOutputResponse, GetStagesOutputError>) -> Void)
@@ -634,7 +630,7 @@ public func getStages(input: GetStagesInput, completion: @escaping (ClientRuntim
 
 ### `getTags(input:completion:)`
 
-Gets the Tags collection for a given resource.
+Gets the \[Tags\] collection for a given resource.
 
 ``` swift
 public func getTags(input: GetTagsInput, completion: @escaping (ClientRuntime.SdkResult<GetTagsOutputResponse, GetTagsOutputError>) -> Void)
@@ -690,7 +686,7 @@ public func getVpcLink(input: GetVpcLinkInput, completion: @escaping (ClientRunt
 
 ### `getVpcLinks(input:completion:)`
 
-Gets the VpcLinks collection under the caller's account in a selected region.
+Gets the \[VpcLinks\] collection under the caller's account in a selected region.
 
 ``` swift
 public func getVpcLinks(input: GetVpcLinksInput, completion: @escaping (ClientRuntime.SdkResult<GetVpcLinksOutputResponse, GetVpcLinksOutputError>) -> Void)
@@ -720,7 +716,7 @@ public func importRestApi(input: ImportRestApiInput, completion: @escaping (Clie
 
 ### `putGatewayResponse(input:completion:)`
 
-Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+Creates a customization of a \[GatewayResponse\] of a specified response type and status code on the given \[RestApi\].
 
 ``` swift
 public func putGatewayResponse(input: PutGatewayResponseInput, completion: @escaping (ClientRuntime.SdkResult<PutGatewayResponseOutputResponse, PutGatewayResponseOutputError>) -> Void)
@@ -744,7 +740,7 @@ public func putIntegrationResponse(input: PutIntegrationResponseInput, completio
 
 ### `putMethod(input:completion:)`
 
-Add a method to an existing Resource resource.
+Add a method to an existing \[Resource\] resource.
 
 ``` swift
 public func putMethod(input: PutMethodInput, completion: @escaping (ClientRuntime.SdkResult<PutMethodOutputResponse, PutMethodOutputError>) -> Void)
@@ -752,7 +748,7 @@ public func putMethod(input: PutMethodInput, completion: @escaping (ClientRuntim
 
 ### `putMethodResponse(input:completion:)`
 
-Adds a MethodResponse to an existing Method resource.
+Adds a \[MethodResponse\] to an existing \[Method\] resource.
 
 ``` swift
 public func putMethodResponse(input: PutMethodResponseInput, completion: @escaping (ClientRuntime.SdkResult<PutMethodResponseOutputResponse, PutMethodResponseOutputError>) -> Void)
@@ -760,8 +756,7 @@ public func putMethodResponse(input: PutMethodResponseInput, completion: @escapi
 
 ### `putRestApi(input:completion:)`
 
-A feature of the API Gateway control service for updating an existing API with an input of external API definitions.
-The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
+A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
 
 ``` swift
 public func putRestApi(input: PutRestApiInput, completion: @escaping (ClientRuntime.SdkResult<PutRestApiOutputResponse, PutRestApiOutputError>) -> Void)
@@ -777,12 +772,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `testInvokeAuthorizer(input:completion:)`
 
-Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
-
-<div class="seeAlso">
-<a href="https:​//docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use Lambda Function as Authorizer
-<a href="https:​//docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use Cognito User Pool as Authorizer
-</div>
+Simulate the execution of an \[Authorizer\] in your \[RestApi\] with headers, parameters, and an incoming request body. [Use Lambda Function as Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)[Use Cognito User Pool as Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
 
 ``` swift
 public func testInvokeAuthorizer(input: TestInvokeAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<TestInvokeAuthorizerOutputResponse, TestInvokeAuthorizerOutputError>) -> Void)
@@ -790,7 +780,7 @@ public func testInvokeAuthorizer(input: TestInvokeAuthorizerInput, completion: @
 
 ### `testInvokeMethod(input:completion:)`
 
-Simulate the execution of a Method in your RestApi with headers, parameters, and an incoming request body.
+Simulate the execution of a \[Method\] in your \[RestApi\] with headers, parameters, and an incoming request body.
 
 ``` swift
 public func testInvokeMethod(input: TestInvokeMethodInput, completion: @escaping (ClientRuntime.SdkResult<TestInvokeMethodOutputResponse, TestInvokeMethodOutputError>) -> Void)
@@ -806,7 +796,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateAccount(input:completion:)`
 
-Changes information about the current Account resource.
+Changes information about the current \[Account\] resource.
 
 ``` swift
 public func updateAccount(input: UpdateAccountInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAccountOutputResponse, UpdateAccountOutputError>) -> Void)
@@ -814,7 +804,7 @@ public func updateAccount(input: UpdateAccountInput, completion: @escaping (Clie
 
 ### `updateApiKey(input:completion:)`
 
-Changes information about an ApiKey resource.
+Changes information about an \[ApiKey\] resource.
 
 ``` swift
 public func updateApiKey(input: UpdateApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>) -> Void)
@@ -822,9 +812,7 @@ public func updateApiKey(input: UpdateApiKeyInput, completion: @escaping (Client
 
 ### `updateAuthorizer(input:completion:)`
 
-Updates an existing Authorizer resource.
-
-<div class="seeAlso"><a href="https:​//docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS CLI</div>
+Updates an existing \[Authorizer\] resource. [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html)
 
 ``` swift
 public func updateAuthorizer(input: UpdateAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAuthorizerOutputResponse, UpdateAuthorizerOutputError>) -> Void)
@@ -832,7 +820,7 @@ public func updateAuthorizer(input: UpdateAuthorizerInput, completion: @escaping
 
 ### `updateBasePathMapping(input:completion:)`
 
-Changes information about the BasePathMapping resource.
+Changes information about the \[BasePathMapping\] resource.
 
 ``` swift
 public func updateBasePathMapping(input: UpdateBasePathMappingInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBasePathMappingOutputResponse, UpdateBasePathMappingOutputError>) -> Void)
@@ -840,7 +828,7 @@ public func updateBasePathMapping(input: UpdateBasePathMappingInput, completion:
 
 ### `updateClientCertificate(input:completion:)`
 
-Changes information about an ClientCertificate resource.
+Changes information about an \[ClientCertificate\] resource.
 
 ``` swift
 public func updateClientCertificate(input: UpdateClientCertificateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateClientCertificateOutputResponse, UpdateClientCertificateOutputError>) -> Void)
@@ -848,7 +836,7 @@ public func updateClientCertificate(input: UpdateClientCertificateInput, complet
 
 ### `updateDeployment(input:completion:)`
 
-Changes information about a Deployment resource.
+Changes information about a \[Deployment\] resource.
 
 ``` swift
 public func updateDeployment(input: UpdateDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDeploymentOutputResponse, UpdateDeploymentOutputError>) -> Void)
@@ -868,7 +856,7 @@ public func updateDocumentationVersion(input: UpdateDocumentationVersionInput, c
 
 ### `updateDomainName(input:completion:)`
 
-Changes information about the DomainName resource.
+Changes information about the \[DomainName\] resource.
 
 ``` swift
 public func updateDomainName(input: UpdateDomainNameInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>) -> Void)
@@ -876,7 +864,7 @@ public func updateDomainName(input: UpdateDomainNameInput, completion: @escaping
 
 ### `updateGatewayResponse(input:completion:)`
 
-Updates a GatewayResponse of a specified response type on the given RestApi.
+Updates a \[GatewayResponse\] of a specified response type on the given \[RestApi\].
 
 ``` swift
 public func updateGatewayResponse(input: UpdateGatewayResponseInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGatewayResponseOutputResponse, UpdateGatewayResponseOutputError>) -> Void)
@@ -900,7 +888,7 @@ public func updateIntegrationResponse(input: UpdateIntegrationResponseInput, com
 
 ### `updateMethod(input:completion:)`
 
-Updates an existing Method resource.
+Updates an existing \[Method\] resource.
 
 ``` swift
 public func updateMethod(input: UpdateMethodInput, completion: @escaping (ClientRuntime.SdkResult<UpdateMethodOutputResponse, UpdateMethodOutputError>) -> Void)
@@ -908,7 +896,7 @@ public func updateMethod(input: UpdateMethodInput, completion: @escaping (Client
 
 ### `updateMethodResponse(input:completion:)`
 
-Updates an existing MethodResponse resource.
+Updates an existing \[MethodResponse\] resource.
 
 ``` swift
 public func updateMethodResponse(input: UpdateMethodResponseInput, completion: @escaping (ClientRuntime.SdkResult<UpdateMethodResponseOutputResponse, UpdateMethodResponseOutputError>) -> Void)
@@ -924,7 +912,7 @@ public func updateModel(input: UpdateModelInput, completion: @escaping (ClientRu
 
 ### `updateRequestValidator(input:completion:)`
 
-Updates a RequestValidator of a given RestApi.
+Updates a \[RequestValidator\] of a given \[RestApi\].
 
 ``` swift
 public func updateRequestValidator(input: UpdateRequestValidatorInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRequestValidatorOutputResponse, UpdateRequestValidatorOutputError>) -> Void)
@@ -932,7 +920,7 @@ public func updateRequestValidator(input: UpdateRequestValidatorInput, completio
 
 ### `updateResource(input:completion:)`
 
-Changes information about a Resource resource.
+Changes information about a \[Resource\] resource.
 
 ``` swift
 public func updateResource(input: UpdateResourceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateResourceOutputResponse, UpdateResourceOutputError>) -> Void)
@@ -948,7 +936,7 @@ public func updateRestApi(input: UpdateRestApiInput, completion: @escaping (Clie
 
 ### `updateStage(input:completion:)`
 
-Changes information about a Stage resource.
+Changes information about a \[Stage\] resource.
 
 ``` swift
 public func updateStage(input: UpdateStageInput, completion: @escaping (ClientRuntime.SdkResult<UpdateStageOutputResponse, UpdateStageOutputError>) -> Void)
@@ -972,7 +960,7 @@ public func updateUsagePlan(input: UpdateUsagePlanInput, completion: @escaping (
 
 ### `updateVpcLink(input:completion:)`
 
-Updates an existing VpcLink of a specified identifier.
+Updates an existing \[VpcLink\] of a specified identifier.
 
 ``` swift
 public func updateVpcLink(input: UpdateVpcLinkInput, completion: @escaping (ClientRuntime.SdkResult<UpdateVpcLinkOutputResponse, UpdateVpcLinkOutputError>) -> Void)

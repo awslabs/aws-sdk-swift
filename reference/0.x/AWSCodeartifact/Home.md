@@ -8,9 +8,4 @@
 # Protocols
 
   - [CodeartifactClientProtocol](/aws-sdk-swift/reference/0.x/AWSCodeartifact/CodeartifactClientProtocol):
-    AWS CodeArtifact is a fully managed artifact repository compatible with language-native
-    package managers and build tools such as npm, Apache Maven, and pip. You can use CodeArtifact to
-    share packages with development teams and pull packages. Packages can be pulled from both
-    public and CodeArtifact repositories. You can also create an upstream relationship between a CodeArtifact
-    repository and another repository, which effectively merges their contents from the point of
-    view of a package manager client.
+    AWS CodeArtifact is a fully managed artifact repository compatible with language-native package managers and build tools such as npm, Apache Maven, and pip. You can use CodeArtifact to share packages with development teams and pull packages. Packages can be pulled from both public and CodeArtifact repositories. You can also create an upstream relationship between a CodeArtifact repository and another repository, which effectively merges their contents from the point of view of a package manager client. AWS CodeArtifact Components Use the information in this guide to help you work with the following CodeArtifact components:

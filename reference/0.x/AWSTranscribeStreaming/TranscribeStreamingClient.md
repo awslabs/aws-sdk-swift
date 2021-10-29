@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "TranscribeStreamingClient"
+```
+
 ## Methods
 
 ### `startMedicalStreamTranscription(input:completion:)`
 
-Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe Medical and the
-transcription results are streamed to your application.
+Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe Medical and the transcription results are streamed to your application.
 
 ``` swift
 public func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput, completion: @escaping (ClientRuntime.SdkResult<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>) -> Void)
@@ -35,26 +42,18 @@ public func startMedicalStreamTranscription(input: StartMedicalStreamTranscripti
 
 ### `startStreamTranscription(input:completion:)`
 
-Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe and the transcription
-results are streamed to your application.
-The following are encoded as HTTP/2 headers:​
+Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following are encoded as HTTP/2 headers:
 
 ``` swift
 public func startStreamTranscription(input: StartStreamTranscriptionInput, completion: @escaping (ClientRuntime.SdkResult<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>) -> Void)
 ```
 
-``` 
-           x-amzn-transcribe-language-code
+  - x-amzn-transcribe-language-code
 
+  - x-amzn-transcribe-media-encoding
 
-           x-amzn-transcribe-media-encoding
+  - x-amzn-transcribe-sample-rate
 
+  - x-amzn-transcribe-session-id
 
-           x-amzn-transcribe-sample-rate
-
-
-           x-amzn-transcribe-session-id
-
-
-     See the <a href="https://docs.aws.amazon.com/sdk-for-go/api/service/transcribestreamingservice/#TranscribeStreamingService.StartStreamTranscription"> SDK for Go API Reference for more detail.
-```
+See the [ SDK for Go API Reference](https://docs.aws.amazon.com/sdk-for-go/api/service/transcribestreamingservice/#TranscribeStreamingService.StartStreamTranscription) for more detail.

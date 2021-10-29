@@ -8,5 +8,4 @@
 # Protocols
 
   - [XRayClientProtocol](/aws-sdk-swift/reference/0.x/AWSXRay/XRayClientProtocol):
-    Amazon Web Services X-Ray provides APIs for managing debug traces and retrieving service maps
-    and other data created by processing those traces.
+    Amazon Web Services X-Ray provides APIs for managing debug traces and retrieving service maps and other data created by processing those traces.

@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "PersonalizeEventsClient"
+```
+
 ## Methods
 
 ### `putEvents(input:completion:)`
 
-Records user interaction event data. For more information see
-<a href="https:​//docs.aws.amazon.com/personalize/latest/dg/recording-events.html">Recording Events.
+Records user interaction event data. For more information see [Recording Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
 
 ``` swift
 public func putEvents(input: PutEventsInput, completion: @escaping (ClientRuntime.SdkResult<PutEventsOutputResponse, PutEventsOutputError>) -> Void)
@@ -35,8 +42,7 @@ public func putEvents(input: PutEventsInput, completion: @escaping (ClientRuntim
 
 ### `putItems(input:completion:)`
 
-Adds one or more items to an Items dataset. For more information see
-<a href="https:​//docs.aws.amazon.com/personalize/latest/dg/importing-items.html">Importing Items Incrementally.
+Adds one or more items to an Items dataset. For more information see [Importing Items Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
 
 ``` swift
 public func putItems(input: PutItemsInput, completion: @escaping (ClientRuntime.SdkResult<PutItemsOutputResponse, PutItemsOutputError>) -> Void)
@@ -44,8 +50,7 @@ public func putItems(input: PutItemsInput, completion: @escaping (ClientRuntime.
 
 ### `putUsers(input:completion:)`
 
-Adds one or more users to a Users dataset. For more information see
-<a href="https:​//docs.aws.amazon.com/personalize/latest/dg/importing-users.html">Importing Users Incrementally.
+Adds one or more users to a Users dataset. For more information see [Importing Users Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
 
 ``` swift
 public func putUsers(input: PutUsersInput, completion: @escaping (ClientRuntime.SdkResult<PutUsersOutputResponse, PutUsersOutputError>) -> Void)

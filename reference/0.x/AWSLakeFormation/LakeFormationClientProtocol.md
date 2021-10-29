@@ -1,7 +1,6 @@
 # LakeFormationClientProtocol
 
-<fullname>AWS Lake Formation</fullname>
-Defines the public endpoint for the AWS Lake Formation service.
+AWS Lake Formation Defines the public endpoint for the AWS Lake Formation service.
 
 ``` swift
 public protocol LakeFormationClientProtocol 
@@ -9,7 +8,7 @@ public protocol LakeFormationClientProtocol
 
 ## Requirements
 
-### addLFTagsToResource(input:​completion:​)
+### addLFTagsToResource(input:completion:)
 
 Attaches one or more tags to an existing resource.
 
@@ -17,7 +16,7 @@ Attaches one or more tags to an existing resource.
 func addLFTagsToResource(input: AddLFTagsToResourceInput, completion: @escaping (ClientRuntime.SdkResult<AddLFTagsToResourceOutputResponse, AddLFTagsToResourceOutputError>) -> Void)
 ```
 
-### batchGrantPermissions(input:​completion:​)
+### batchGrantPermissions(input:completion:)
 
 Batch operation to grant permissions to the principal.
 
@@ -25,7 +24,7 @@ Batch operation to grant permissions to the principal.
 func batchGrantPermissions(input: BatchGrantPermissionsInput, completion: @escaping (ClientRuntime.SdkResult<BatchGrantPermissionsOutputResponse, BatchGrantPermissionsOutputError>) -> Void)
 ```
 
-### batchRevokePermissions(input:​completion:​)
+### batchRevokePermissions(input:completion:)
 
 Batch operation to revoke permissions from the principal.
 
@@ -33,7 +32,7 @@ Batch operation to revoke permissions from the principal.
 func batchRevokePermissions(input: BatchRevokePermissionsInput, completion: @escaping (ClientRuntime.SdkResult<BatchRevokePermissionsOutputResponse, BatchRevokePermissionsOutputError>) -> Void)
 ```
 
-### createLFTag(input:​completion:​)
+### createLFTag(input:completion:)
 
 Creates a tag with the specified name and values.
 
@@ -41,7 +40,7 @@ Creates a tag with the specified name and values.
 func createLFTag(input: CreateLFTagInput, completion: @escaping (ClientRuntime.SdkResult<CreateLFTagOutputResponse, CreateLFTagOutputError>) -> Void)
 ```
 
-### deleteLFTag(input:​completion:​)
+### deleteLFTag(input:completion:)
 
 Deletes the specified tag key name. If the attribute key does not exist or the tag does not exist, then the operation will not do anything. If the attribute key exists, then the operation checks if any resources are tagged with this attribute key, if yes, the API throws a 400 Exception with the message "Delete not allowed" as the tag key is still attached with resources. You can consider untagging resources with this tag key.
 
@@ -49,19 +48,15 @@ Deletes the specified tag key name. If the attribute key does not exist or the t
 func deleteLFTag(input: DeleteLFTagInput, completion: @escaping (ClientRuntime.SdkResult<DeleteLFTagOutputResponse, DeleteLFTagOutputError>) -> Void)
 ```
 
-### deregisterResource(input:​completion:​)
+### deregisterResource(input:completion:)
 
-Deregisters the resource as managed by the Data Catalog.
+Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
 
 ``` swift
 func deregisterResource(input: DeregisterResourceInput, completion: @escaping (ClientRuntime.SdkResult<DeregisterResourceOutputResponse, DeregisterResourceOutputError>) -> Void)
 ```
 
-``` 
-     When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
-```
-
-### describeResource(input:​completion:​)
+### describeResource(input:completion:)
 
 Retrieves the current data access role for the given resource registered in AWS Lake Formation.
 
@@ -69,7 +64,7 @@ Retrieves the current data access role for the given resource registered in AWS 
 func describeResource(input: DescribeResourceInput, completion: @escaping (ClientRuntime.SdkResult<DescribeResourceOutputResponse, DescribeResourceOutputError>) -> Void)
 ```
 
-### getDataLakeSettings(input:​completion:​)
+### getDataLakeSettings(input:completion:)
 
 Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
 
@@ -77,16 +72,15 @@ Retrieves the list of the data lake administrators of a Lake Formation-managed d
 func getDataLakeSettings(input: GetDataLakeSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetDataLakeSettingsOutputResponse, GetDataLakeSettingsOutputError>) -> Void)
 ```
 
-### getEffectivePermissionsForPath(input:​completion:​)
+### getEffectivePermissionsForPath(input:completion:)
 
-Returns the Lake Formation permissions for a specified table or database resource located
-at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
+Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
 
 ``` swift
 func getEffectivePermissionsForPath(input: GetEffectivePermissionsForPathInput, completion: @escaping (ClientRuntime.SdkResult<GetEffectivePermissionsForPathOutputResponse, GetEffectivePermissionsForPathOutputError>) -> Void)
 ```
 
-### getLFTag(input:​completion:​)
+### getLFTag(input:completion:)
 
 Returns a tag definition.
 
@@ -94,7 +88,7 @@ Returns a tag definition.
 func getLFTag(input: GetLFTagInput, completion: @escaping (ClientRuntime.SdkResult<GetLFTagOutputResponse, GetLFTagOutputError>) -> Void)
 ```
 
-### getResourceLFTags(input:​completion:​)
+### getResourceLFTags(input:completion:)
 
 Returns the tags applied to a resource.
 
@@ -102,16 +96,15 @@ Returns the tags applied to a resource.
 func getResourceLFTags(input: GetResourceLFTagsInput, completion: @escaping (ClientRuntime.SdkResult<GetResourceLFTagsOutputResponse, GetResourceLFTagsOutputError>) -> Void)
 ```
 
-### grantPermissions(input:​completion:​)
+### grantPermissions(input:completion:)
 
-Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
-For information about permissions, see <a href="https:​//docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html">Security and Access Control to Metadata and Data.
+Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 
 ``` swift
 func grantPermissions(input: GrantPermissionsInput, completion: @escaping (ClientRuntime.SdkResult<GrantPermissionsOutputResponse, GrantPermissionsOutputError>) -> Void)
 ```
 
-### listLFTags(input:​completion:​)
+### listLFTags(input:completion:)
 
 Lists tags that the requester has permission to view.
 
@@ -119,17 +112,15 @@ Lists tags that the requester has permission to view.
 func listLFTags(input: ListLFTagsInput, completion: @escaping (ClientRuntime.SdkResult<ListLFTagsOutputResponse, ListLFTagsOutputError>) -> Void)
 ```
 
-### listPermissions(input:​completion:​)
+### listPermissions(input:completion:)
 
-Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
-This operation returns only those permissions that have been explicitly granted.
-For information about permissions, see <a href="https:​//docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html">Security and Access Control to Metadata and Data.
+Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 
 ``` swift
 func listPermissions(input: ListPermissionsInput, completion: @escaping (ClientRuntime.SdkResult<ListPermissionsOutputResponse, ListPermissionsOutputError>) -> Void)
 ```
 
-### listResources(input:​completion:​)
+### listResources(input:completion:)
 
 Lists the resources registered to be managed by the Data Catalog.
 
@@ -137,45 +128,23 @@ Lists the resources registered to be managed by the Data Catalog.
 func listResources(input: ListResourcesInput, completion: @escaping (ClientRuntime.SdkResult<ListResourcesOutputResponse, ListResourcesOutputError>) -> Void)
 ```
 
-### putDataLakeSettings(input:​completion:​)
+### putDataLakeSettings(input:completion:)
 
-Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see <a href="https:​//docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html">Granting Lake Formation Permissions.
+Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html). This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
 
 ``` swift
 func putDataLakeSettings(input: PutDataLakeSettingsInput, completion: @escaping (ClientRuntime.SdkResult<PutDataLakeSettingsOutputResponse, PutDataLakeSettingsOutputError>) -> Void)
 ```
 
-``` 
-        This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
-```
+### registerResource(input:completion:)
 
-### registerResource(input:​completion:​)
-
-Registers the resource as managed by the Data Catalog.
+Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives AWS Lake Formation permission to use the service-linked role to access that location. ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn: arn:aws:iam::12345:role/my-data-access-role
 
 ``` swift
 func registerResource(input: RegisterResourceInput, completion: @escaping (ClientRuntime.SdkResult<RegisterResourceOutputResponse, RegisterResourceOutputError>) -> Void)
 ```
 
-``` 
-        To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy.
-
-     The following request registers a new location and gives AWS Lake Formation permission to use the service-linked role to access that location.
-
-
-        ResourceArn = arn:aws:s3:::my-bucket
-```
-
-UseServiceLinkedRole = true
-
-``` 
-        If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:
-
-
-        arn:aws:iam::12345:role/my-data-access-role
-```
-
-### removeLFTagsFromResource(input:​completion:​)
+### removeLFTagsFromResource(input:completion:)
 
 Removes a tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input.
 
@@ -183,7 +152,7 @@ Removes a tag from the resource. Only database, table, or tableWithColumns resou
 func removeLFTagsFromResource(input: RemoveLFTagsFromResourceInput, completion: @escaping (ClientRuntime.SdkResult<RemoveLFTagsFromResourceOutputResponse, RemoveLFTagsFromResourceOutputError>) -> Void)
 ```
 
-### revokePermissions(input:​completion:​)
+### revokePermissions(input:completion:)
 
 Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
 
@@ -191,7 +160,7 @@ Revokes permissions to the principal to access metadata in the Data Catalog and 
 func revokePermissions(input: RevokePermissionsInput, completion: @escaping (ClientRuntime.SdkResult<RevokePermissionsOutputResponse, RevokePermissionsOutputError>) -> Void)
 ```
 
-### searchDatabasesByLFTags(input:​completion:​)
+### searchDatabasesByLFTags(input:completion:)
 
 This operation allows a search on DATABASE resources by TagCondition. This operation is used by admins who want to grant user permissions on certain TagConditions. Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared.
 
@@ -199,7 +168,7 @@ This operation allows a search on DATABASE resources by TagCondition. This opera
 func searchDatabasesByLFTags(input: SearchDatabasesByLFTagsInput, completion: @escaping (ClientRuntime.SdkResult<SearchDatabasesByLFTagsOutputResponse, SearchDatabasesByLFTagsOutputError>) -> Void)
 ```
 
-### searchTablesByLFTags(input:​completion:​)
+### searchTablesByLFTags(input:completion:)
 
 This operation allows a search on TABLE resources by LFTags. This will be used by admins who want to grant user permissions on certain LFTags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify whether the returned resources can be shared.
 
@@ -207,7 +176,7 @@ This operation allows a search on TABLE resources by LFTags. This will be used b
 func searchTablesByLFTags(input: SearchTablesByLFTagsInput, completion: @escaping (ClientRuntime.SdkResult<SearchTablesByLFTagsOutputResponse, SearchTablesByLFTagsOutputError>) -> Void)
 ```
 
-### updateLFTag(input:​completion:​)
+### updateLFTag(input:completion:)
 
 Updates the list of possible values for the specified tag key. If the tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the tag key's value.
 
@@ -215,7 +184,7 @@ Updates the list of possible values for the specified tag key. If the tag does n
 func updateLFTag(input: UpdateLFTagInput, completion: @escaping (ClientRuntime.SdkResult<UpdateLFTagOutputResponse, UpdateLFTagOutputError>) -> Void)
 ```
 
-### updateResource(input:​completion:​)
+### updateResource(input:completion:)
 
 Updates the data access role used for vending access to the given (registered) resource in AWS Lake Formation.
 

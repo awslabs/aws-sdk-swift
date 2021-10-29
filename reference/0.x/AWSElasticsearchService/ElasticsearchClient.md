@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ElasticsearchClient"
+```
+
 ## Methods
 
 ### `acceptInboundCrossClusterSearchConnection(input:completion:)`
@@ -34,8 +42,7 @@ public func acceptInboundCrossClusterSearchConnection(input: AcceptInboundCrossC
 
 ### `addTags(input:completion:)`
 
-Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags.  See <a href="http:​//docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-awsresorcetagging" target="_blank">
-Tagging Amazon Elasticsearch Service Domains for more information.
+Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See [ Tagging Amazon Elasticsearch Service Domains for more information.](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-awsresorcetagging)
 
 ``` swift
 public func addTags(input: AddTagsInput, completion: @escaping (ClientRuntime.SdkResult<AddTagsOutputResponse, AddTagsOutputError>) -> Void)
@@ -59,8 +66,7 @@ public func cancelElasticsearchServiceSoftwareUpdate(input: CancelElasticsearchS
 
 ### `createElasticsearchDomain(input:completion:)`
 
-Creates a new Elasticsearch domain. For more information,
-see <a href="http:​//docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains" target="_blank">Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
+Creates a new Elasticsearch domain. For more information, see [Creating Elasticsearch Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains) in the Amazon Elasticsearch Service Developer Guide.
 
 ``` swift
 public func createElasticsearchDomain(input: CreateElasticsearchDomainInput, completion: @escaping (ClientRuntime.SdkResult<CreateElasticsearchDomainOutputResponse, CreateElasticsearchDomainOutputError>) -> Void)
@@ -92,7 +98,7 @@ public func deleteElasticsearchDomain(input: DeleteElasticsearchDomainInput, com
 
 ### `deleteElasticsearchServiceRole(input:completion:)`
 
-Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See <a href="http:​//docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr" target="_blank">Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
+Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See [Deleting Elasticsearch Service Role](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr) in VPC Endpoints for Amazon Elasticsearch Service Domains.
 
 ``` swift
 public func deleteElasticsearchServiceRole(input: DeleteElasticsearchServiceRoleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteElasticsearchServiceRoleOutputResponse, DeleteElasticsearchServiceRoleOutputError>) -> Void)
@@ -156,16 +162,11 @@ public func describeElasticsearchDomains(input: DescribeElasticsearchDomainsInpu
 
 ### `describeElasticsearchInstanceTypeLimits(input:completion:)`
 
-Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion.
-When modifying existing Domain, specify the
+Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the \[DomainName\] to know what Limits are supported for modifying.
 
 ``` swift
 public func describeElasticsearchInstanceTypeLimits(input: DescribeElasticsearchInstanceTypeLimitsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeElasticsearchInstanceTypeLimitsOutputResponse, DescribeElasticsearchInstanceTypeLimitsOutputError>) -> Void)
 ```
-
-DomainName
-
-to know what Limits are supported for modifying.
 
 ### `describeInboundCrossClusterSearchConnections(input:completion:)`
 
@@ -217,16 +218,11 @@ public func dissociatePackage(input: DissociatePackageInput, completion: @escapi
 
 ### `getCompatibleElasticsearchVersions(input:completion:)`
 
-Returns a list of upgrade compatible Elastisearch versions.
-You can optionally pass a
+Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a \[DomainName\] to get all upgrade compatible Elasticsearch versions for that specific domain.
 
 ``` swift
 public func getCompatibleElasticsearchVersions(input: GetCompatibleElasticsearchVersionsInput, completion: @escaping (ClientRuntime.SdkResult<GetCompatibleElasticsearchVersionsOutputResponse, GetCompatibleElasticsearchVersionsOutputError>) -> Void)
 ```
-
-DomainName
-
-to get all upgrade compatible Elasticsearch versions for that specific domain.
 
 ### `getPackageVersionHistory(input:completion:)`
 

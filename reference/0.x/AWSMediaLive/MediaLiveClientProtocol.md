@@ -8,7 +8,7 @@ public protocol MediaLiveClientProtocol
 
 ## Requirements
 
-### acceptInputDeviceTransfer(input:​completion:​)
+### acceptInputDeviceTransfer(input:completion:)
 
 Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
 
@@ -16,7 +16,7 @@ Accept an incoming input device transfer. The ownership of the device will trans
 func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput, completion: @escaping (ClientRuntime.SdkResult<AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>) -> Void)
 ```
 
-### batchDelete(input:​completion:​)
+### batchDelete(input:completion:)
 
 Starts delete of resources.
 
@@ -24,7 +24,7 @@ Starts delete of resources.
 func batchDelete(input: BatchDeleteInput, completion: @escaping (ClientRuntime.SdkResult<BatchDeleteOutputResponse, BatchDeleteOutputError>) -> Void)
 ```
 
-### batchStart(input:​completion:​)
+### batchStart(input:completion:)
 
 Starts existing resources
 
@@ -32,7 +32,7 @@ Starts existing resources
 func batchStart(input: BatchStartInput, completion: @escaping (ClientRuntime.SdkResult<BatchStartOutputResponse, BatchStartOutputError>) -> Void)
 ```
 
-### batchStop(input:​completion:​)
+### batchStop(input:completion:)
 
 Stops running resources
 
@@ -40,7 +40,7 @@ Stops running resources
 func batchStop(input: BatchStopInput, completion: @escaping (ClientRuntime.SdkResult<BatchStopOutputResponse, BatchStopOutputError>) -> Void)
 ```
 
-### batchUpdateSchedule(input:​completion:​)
+### batchUpdateSchedule(input:completion:)
 
 Update a channel schedule
 
@@ -48,7 +48,7 @@ Update a channel schedule
 func batchUpdateSchedule(input: BatchUpdateScheduleInput, completion: @escaping (ClientRuntime.SdkResult<BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>) -> Void)
 ```
 
-### cancelInputDeviceTransfer(input:​completion:​)
+### cancelInputDeviceTransfer(input:completion:)
 
 Cancel an input device transfer that you have requested.
 
@@ -56,7 +56,7 @@ Cancel an input device transfer that you have requested.
 func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput, completion: @escaping (ClientRuntime.SdkResult<CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>) -> Void)
 ```
 
-### createChannel(input:​completion:​)
+### createChannel(input:completion:)
 
 Creates a new channel
 
@@ -64,7 +64,7 @@ Creates a new channel
 func createChannel(input: CreateChannelInput, completion: @escaping (ClientRuntime.SdkResult<CreateChannelOutputResponse, CreateChannelOutputError>) -> Void)
 ```
 
-### createInput(input:​completion:​)
+### createInput(input:completion:)
 
 Create an input
 
@@ -72,7 +72,7 @@ Create an input
 func createInput(input: CreateInputInput, completion: @escaping (ClientRuntime.SdkResult<CreateInputOutputResponse, CreateInputOutputError>) -> Void)
 ```
 
-### createInputSecurityGroup(input:​completion:​)
+### createInputSecurityGroup(input:completion:)
 
 Creates a Input Security Group
 
@@ -80,7 +80,7 @@ Creates a Input Security Group
 func createInputSecurityGroup(input: CreateInputSecurityGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>) -> Void)
 ```
 
-### createMultiplex(input:​completion:​)
+### createMultiplex(input:completion:)
 
 Create a new multiplex.
 
@@ -88,7 +88,7 @@ Create a new multiplex.
 func createMultiplex(input: CreateMultiplexInput, completion: @escaping (ClientRuntime.SdkResult<CreateMultiplexOutputResponse, CreateMultiplexOutputError>) -> Void)
 ```
 
-### createMultiplexProgram(input:​completion:​)
+### createMultiplexProgram(input:completion:)
 
 Create a new program in the multiplex.
 
@@ -96,7 +96,7 @@ Create a new program in the multiplex.
 func createMultiplexProgram(input: CreateMultiplexProgramInput, completion: @escaping (ClientRuntime.SdkResult<CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>) -> Void)
 ```
 
-### createPartnerInput(input:​completion:​)
+### createPartnerInput(input:completion:)
 
 Create a partner input
 
@@ -104,7 +104,7 @@ Create a partner input
 func createPartnerInput(input: CreatePartnerInputInput, completion: @escaping (ClientRuntime.SdkResult<CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>) -> Void)
 ```
 
-### createTags(input:​completion:​)
+### createTags(input:completion:)
 
 Create tags for a resource
 
@@ -112,7 +112,7 @@ Create tags for a resource
 func createTags(input: CreateTagsInput, completion: @escaping (ClientRuntime.SdkResult<CreateTagsOutputResponse, CreateTagsOutputError>) -> Void)
 ```
 
-### deleteChannel(input:​completion:​)
+### deleteChannel(input:completion:)
 
 Starts deletion of channel. The associated outputs are also deleted.
 
@@ -120,7 +120,7 @@ Starts deletion of channel. The associated outputs are also deleted.
 func deleteChannel(input: DeleteChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteChannelOutputResponse, DeleteChannelOutputError>) -> Void)
 ```
 
-### deleteInput(input:​completion:​)
+### deleteInput(input:completion:)
 
 Deletes the input end point
 
@@ -128,7 +128,7 @@ Deletes the input end point
 func deleteInput(input: DeleteInputInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInputOutputResponse, DeleteInputOutputError>) -> Void)
 ```
 
-### deleteInputSecurityGroup(input:​completion:​)
+### deleteInputSecurityGroup(input:completion:)
 
 Deletes an Input Security Group
 
@@ -136,7 +136,7 @@ Deletes an Input Security Group
 func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>) -> Void)
 ```
 
-### deleteMultiplex(input:​completion:​)
+### deleteMultiplex(input:completion:)
 
 Delete a multiplex. The multiplex must be idle.
 
@@ -144,7 +144,7 @@ Delete a multiplex. The multiplex must be idle.
 func deleteMultiplex(input: DeleteMultiplexInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>) -> Void)
 ```
 
-### deleteMultiplexProgram(input:​completion:​)
+### deleteMultiplexProgram(input:completion:)
 
 Delete a program from a multiplex.
 
@@ -152,7 +152,7 @@ Delete a program from a multiplex.
 func deleteMultiplexProgram(input: DeleteMultiplexProgramInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>) -> Void)
 ```
 
-### deleteReservation(input:​completion:​)
+### deleteReservation(input:completion:)
 
 Delete an expired reservation.
 
@@ -160,7 +160,7 @@ Delete an expired reservation.
 func deleteReservation(input: DeleteReservationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReservationOutputResponse, DeleteReservationOutputError>) -> Void)
 ```
 
-### deleteSchedule(input:​completion:​)
+### deleteSchedule(input:completion:)
 
 Delete all schedule actions on a channel.
 
@@ -168,7 +168,7 @@ Delete all schedule actions on a channel.
 func deleteSchedule(input: DeleteScheduleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteScheduleOutputResponse, DeleteScheduleOutputError>) -> Void)
 ```
 
-### deleteTags(input:​completion:​)
+### deleteTags(input:completion:)
 
 Removes tags for a resource
 
@@ -176,7 +176,7 @@ Removes tags for a resource
 func deleteTags(input: DeleteTagsInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTagsOutputResponse, DeleteTagsOutputError>) -> Void)
 ```
 
-### describeChannel(input:​completion:​)
+### describeChannel(input:completion:)
 
 Gets details about a channel
 
@@ -184,7 +184,7 @@ Gets details about a channel
 func describeChannel(input: DescribeChannelInput, completion: @escaping (ClientRuntime.SdkResult<DescribeChannelOutputResponse, DescribeChannelOutputError>) -> Void)
 ```
 
-### describeInput(input:​completion:​)
+### describeInput(input:completion:)
 
 Produces details about an input
 
@@ -192,7 +192,7 @@ Produces details about an input
 func describeInput(input: DescribeInputInput, completion: @escaping (ClientRuntime.SdkResult<DescribeInputOutputResponse, DescribeInputOutputError>) -> Void)
 ```
 
-### describeInputDevice(input:​completion:​)
+### describeInputDevice(input:completion:)
 
 Gets the details for the input device
 
@@ -200,7 +200,7 @@ Gets the details for the input device
 func describeInputDevice(input: DescribeInputDeviceInput, completion: @escaping (ClientRuntime.SdkResult<DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>) -> Void)
 ```
 
-### describeInputDeviceThumbnail(input:​completion:​)
+### describeInputDeviceThumbnail(input:completion:)
 
 Get the latest thumbnail data for the input device.
 
@@ -208,7 +208,7 @@ Get the latest thumbnail data for the input device.
 func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput, completion: @escaping (ClientRuntime.SdkResult<DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>) -> Void)
 ```
 
-### describeInputSecurityGroup(input:​completion:​)
+### describeInputSecurityGroup(input:completion:)
 
 Produces a summary of an Input Security Group
 
@@ -216,7 +216,7 @@ Produces a summary of an Input Security Group
 func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput, completion: @escaping (ClientRuntime.SdkResult<DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>) -> Void)
 ```
 
-### describeMultiplex(input:​completion:​)
+### describeMultiplex(input:completion:)
 
 Gets details about a multiplex.
 
@@ -224,7 +224,7 @@ Gets details about a multiplex.
 func describeMultiplex(input: DescribeMultiplexInput, completion: @escaping (ClientRuntime.SdkResult<DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>) -> Void)
 ```
 
-### describeMultiplexProgram(input:​completion:​)
+### describeMultiplexProgram(input:completion:)
 
 Get the details for a program in a multiplex.
 
@@ -232,7 +232,7 @@ Get the details for a program in a multiplex.
 func describeMultiplexProgram(input: DescribeMultiplexProgramInput, completion: @escaping (ClientRuntime.SdkResult<DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>) -> Void)
 ```
 
-### describeOffering(input:​completion:​)
+### describeOffering(input:completion:)
 
 Get details for an offering.
 
@@ -240,7 +240,7 @@ Get details for an offering.
 func describeOffering(input: DescribeOfferingInput, completion: @escaping (ClientRuntime.SdkResult<DescribeOfferingOutputResponse, DescribeOfferingOutputError>) -> Void)
 ```
 
-### describeReservation(input:​completion:​)
+### describeReservation(input:completion:)
 
 Get details for a reservation.
 
@@ -248,7 +248,7 @@ Get details for a reservation.
 func describeReservation(input: DescribeReservationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeReservationOutputResponse, DescribeReservationOutputError>) -> Void)
 ```
 
-### describeSchedule(input:​completion:​)
+### describeSchedule(input:completion:)
 
 Get a channel schedule
 
@@ -256,7 +256,7 @@ Get a channel schedule
 func describeSchedule(input: DescribeScheduleInput, completion: @escaping (ClientRuntime.SdkResult<DescribeScheduleOutputResponse, DescribeScheduleOutputError>) -> Void)
 ```
 
-### listChannels(input:​completion:​)
+### listChannels(input:completion:)
 
 Produces list of channels that have been created
 
@@ -264,7 +264,7 @@ Produces list of channels that have been created
 func listChannels(input: ListChannelsInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelsOutputResponse, ListChannelsOutputError>) -> Void)
 ```
 
-### listInputDevices(input:​completion:​)
+### listInputDevices(input:completion:)
 
 List input devices
 
@@ -272,7 +272,7 @@ List input devices
 func listInputDevices(input: ListInputDevicesInput, completion: @escaping (ClientRuntime.SdkResult<ListInputDevicesOutputResponse, ListInputDevicesOutputError>) -> Void)
 ```
 
-### listInputDeviceTransfers(input:​completion:​)
+### listInputDeviceTransfers(input:completion:)
 
 List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
 
@@ -280,7 +280,7 @@ List input devices that are currently being transferred. List input devices that
 func listInputDeviceTransfers(input: ListInputDeviceTransfersInput, completion: @escaping (ClientRuntime.SdkResult<ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>) -> Void)
 ```
 
-### listInputs(input:​completion:​)
+### listInputs(input:completion:)
 
 Produces list of inputs that have been created
 
@@ -288,7 +288,7 @@ Produces list of inputs that have been created
 func listInputs(input: ListInputsInput, completion: @escaping (ClientRuntime.SdkResult<ListInputsOutputResponse, ListInputsOutputError>) -> Void)
 ```
 
-### listInputSecurityGroups(input:​completion:​)
+### listInputSecurityGroups(input:completion:)
 
 Produces a list of Input Security Groups for an account
 
@@ -296,7 +296,7 @@ Produces a list of Input Security Groups for an account
 func listInputSecurityGroups(input: ListInputSecurityGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>) -> Void)
 ```
 
-### listMultiplexes(input:​completion:​)
+### listMultiplexes(input:completion:)
 
 Retrieve a list of the existing multiplexes.
 
@@ -304,7 +304,7 @@ Retrieve a list of the existing multiplexes.
 func listMultiplexes(input: ListMultiplexesInput, completion: @escaping (ClientRuntime.SdkResult<ListMultiplexesOutputResponse, ListMultiplexesOutputError>) -> Void)
 ```
 
-### listMultiplexPrograms(input:​completion:​)
+### listMultiplexPrograms(input:completion:)
 
 List the programs that currently exist for a specific multiplex.
 
@@ -312,7 +312,7 @@ List the programs that currently exist for a specific multiplex.
 func listMultiplexPrograms(input: ListMultiplexProgramsInput, completion: @escaping (ClientRuntime.SdkResult<ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>) -> Void)
 ```
 
-### listOfferings(input:​completion:​)
+### listOfferings(input:completion:)
 
 List offerings available for purchase.
 
@@ -320,7 +320,7 @@ List offerings available for purchase.
 func listOfferings(input: ListOfferingsInput, completion: @escaping (ClientRuntime.SdkResult<ListOfferingsOutputResponse, ListOfferingsOutputError>) -> Void)
 ```
 
-### listReservations(input:​completion:​)
+### listReservations(input:completion:)
 
 List purchased reservations.
 
@@ -328,7 +328,7 @@ List purchased reservations.
 func listReservations(input: ListReservationsInput, completion: @escaping (ClientRuntime.SdkResult<ListReservationsOutputResponse, ListReservationsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Produces list of tags that have been created for a resource
 
@@ -336,7 +336,7 @@ Produces list of tags that have been created for a resource
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### purchaseOffering(input:​completion:​)
+### purchaseOffering(input:completion:)
 
 Purchase an offering and create a reservation.
 
@@ -344,7 +344,7 @@ Purchase an offering and create a reservation.
 func purchaseOffering(input: PurchaseOfferingInput, completion: @escaping (ClientRuntime.SdkResult<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>) -> Void)
 ```
 
-### rejectInputDeviceTransfer(input:​completion:​)
+### rejectInputDeviceTransfer(input:completion:)
 
 Reject the transfer of the specified input device to your AWS account.
 
@@ -352,7 +352,7 @@ Reject the transfer of the specified input device to your AWS account.
 func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput, completion: @escaping (ClientRuntime.SdkResult<RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>) -> Void)
 ```
 
-### startChannel(input:​completion:​)
+### startChannel(input:completion:)
 
 Starts an existing channel
 
@@ -360,7 +360,7 @@ Starts an existing channel
 func startChannel(input: StartChannelInput, completion: @escaping (ClientRuntime.SdkResult<StartChannelOutputResponse, StartChannelOutputError>) -> Void)
 ```
 
-### startMultiplex(input:​completion:​)
+### startMultiplex(input:completion:)
 
 Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
 
@@ -368,7 +368,7 @@ Start (run) the multiplex. Starting the multiplex does not start the channels. Y
 func startMultiplex(input: StartMultiplexInput, completion: @escaping (ClientRuntime.SdkResult<StartMultiplexOutputResponse, StartMultiplexOutputError>) -> Void)
 ```
 
-### stopChannel(input:​completion:​)
+### stopChannel(input:completion:)
 
 Stops a running channel
 
@@ -376,7 +376,7 @@ Stops a running channel
 func stopChannel(input: StopChannelInput, completion: @escaping (ClientRuntime.SdkResult<StopChannelOutputResponse, StopChannelOutputError>) -> Void)
 ```
 
-### stopMultiplex(input:​completion:​)
+### stopMultiplex(input:completion:)
 
 Stops a running multiplex. If the multiplex isn't running, this action has no effect.
 
@@ -384,7 +384,7 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 func stopMultiplex(input: StopMultiplexInput, completion: @escaping (ClientRuntime.SdkResult<StopMultiplexOutputResponse, StopMultiplexOutputError>) -> Void)
 ```
 
-### transferInputDevice(input:​completion:​)
+### transferInputDevice(input:completion:)
 
 Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
 
@@ -392,7 +392,7 @@ Start an input device transfer to another AWS account. After you make the reques
 func transferInputDevice(input: TransferInputDeviceInput, completion: @escaping (ClientRuntime.SdkResult<TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>) -> Void)
 ```
 
-### updateChannel(input:​completion:​)
+### updateChannel(input:completion:)
 
 Updates a channel.
 
@@ -400,7 +400,7 @@ Updates a channel.
 func updateChannel(input: UpdateChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateChannelOutputResponse, UpdateChannelOutputError>) -> Void)
 ```
 
-### updateChannelClass(input:​completion:​)
+### updateChannelClass(input:completion:)
 
 Changes the class of the channel.
 
@@ -408,7 +408,7 @@ Changes the class of the channel.
 func updateChannelClass(input: UpdateChannelClassInput, completion: @escaping (ClientRuntime.SdkResult<UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>) -> Void)
 ```
 
-### updateInput(input:​completion:​)
+### updateInput(input:completion:)
 
 Updates an input.
 
@@ -416,7 +416,7 @@ Updates an input.
 func updateInput(input: UpdateInputInput, completion: @escaping (ClientRuntime.SdkResult<UpdateInputOutputResponse, UpdateInputOutputError>) -> Void)
 ```
 
-### updateInputDevice(input:​completion:​)
+### updateInputDevice(input:completion:)
 
 Updates the parameters for the input device.
 
@@ -424,7 +424,7 @@ Updates the parameters for the input device.
 func updateInputDevice(input: UpdateInputDeviceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>) -> Void)
 ```
 
-### updateInputSecurityGroup(input:​completion:​)
+### updateInputSecurityGroup(input:completion:)
 
 Update an Input Security Group's Whilelists.
 
@@ -432,7 +432,7 @@ Update an Input Security Group's Whilelists.
 func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>) -> Void)
 ```
 
-### updateMultiplex(input:​completion:​)
+### updateMultiplex(input:completion:)
 
 Updates a multiplex.
 
@@ -440,7 +440,7 @@ Updates a multiplex.
 func updateMultiplex(input: UpdateMultiplexInput, completion: @escaping (ClientRuntime.SdkResult<UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>) -> Void)
 ```
 
-### updateMultiplexProgram(input:​completion:​)
+### updateMultiplexProgram(input:completion:)
 
 Update a program in a multiplex.
 
@@ -448,7 +448,7 @@ Update a program in a multiplex.
 func updateMultiplexProgram(input: UpdateMultiplexProgramInput, completion: @escaping (ClientRuntime.SdkResult<UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>) -> Void)
 ```
 
-### updateReservation(input:​completion:​)
+### updateReservation(input:completion:)
 
 Update reservation.
 

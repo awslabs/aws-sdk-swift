@@ -1,27 +1,18 @@
 # DeviceFarmClientProtocol
 
-Welcome to the AWS Device Farm API documentation, which contains APIs for:​
+Welcome to the AWS Device Farm API documentation, which contains APIs for:
 
 ``` swift
 public protocol DeviceFarmClientProtocol 
 ```
 
-``` 
-            Testing on desktop browsers
-             Device Farm makes it possible for you to test your web applications on desktop browsers using
-                Selenium. The APIs for desktop browser testing contain TestGrid in their names. For
-                more information, see <a href="https://docs.aws.amazon.com/devicefarm/latest/testgrid/">Testing Web
-                    Applications on Selenium with Device Farm.
+  - Testing on desktop browsers Device Farm makes it possible for you to test your web applications on desktop browsers using Selenium. The APIs for desktop browser testing contain TestGrid in their names. For more information, see [Testing Web Applications on Selenium with Device Farm](https://docs.aws.amazon.com/devicefarm/latest/testgrid/).
 
-
-            Testing on real mobile devices
-            Device Farm makes it possible for you to test apps on physical phones, tablets, and other
-                devices in the cloud. For more information, see the <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/">Device Farm Developer Guide.
-```
+  - Testing on real mobile devices Device Farm makes it possible for you to test apps on physical phones, tablets, and other devices in the cloud. For more information, see the [Device Farm Developer Guide](https://docs.aws.amazon.com/devicefarm/latest/developerguide/).
 
 ## Requirements
 
-### createDevicePool(input:​completion:​)
+### createDevicePool(input:completion:)
 
 Creates a device pool.
 
@@ -29,16 +20,15 @@ Creates a device pool.
 func createDevicePool(input: CreateDevicePoolInput, completion: @escaping (ClientRuntime.SdkResult<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>) -> Void)
 ```
 
-### createInstanceProfile(input:​completion:​)
+### createInstanceProfile(input:completion:)
 
-Creates a profile that can be applied to one or more private fleet device
-instances.
+Creates a profile that can be applied to one or more private fleet device instances.
 
 ``` swift
 func createInstanceProfile(input: CreateInstanceProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>) -> Void)
 ```
 
-### createNetworkProfile(input:​completion:​)
+### createNetworkProfile(input:completion:)
 
 Creates a network profile.
 
@@ -46,7 +36,7 @@ Creates a network profile.
 func createNetworkProfile(input: CreateNetworkProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>) -> Void)
 ```
 
-### createProject(input:​completion:​)
+### createProject(input:completion:)
 
 Creates a project.
 
@@ -54,7 +44,7 @@ Creates a project.
 func createProject(input: CreateProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateProjectOutputResponse, CreateProjectOutputError>) -> Void)
 ```
 
-### createRemoteAccessSession(input:​completion:​)
+### createRemoteAccessSession(input:completion:)
 
 Specifies and starts a remote access session.
 
@@ -62,25 +52,23 @@ Specifies and starts a remote access session.
 func createRemoteAccessSession(input: CreateRemoteAccessSessionInput, completion: @escaping (ClientRuntime.SdkResult<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>) -> Void)
 ```
 
-### createTestGridProject(input:​completion:​)
+### createTestGridProject(input:completion:)
 
-Creates a Selenium testing project. Projects are used to track TestGridSession
-instances.
+Creates a Selenium testing project. Projects are used to track \[TestGridSession\] instances.
 
 ``` swift
 func createTestGridProject(input: CreateTestGridProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>) -> Void)
 ```
 
-### createTestGridUrl(input:​completion:​)
+### createTestGridUrl(input:completion:)
 
-Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver
-constructor.
+Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
 
 ``` swift
 func createTestGridUrl(input: CreateTestGridUrlInput, completion: @escaping (ClientRuntime.SdkResult<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>) -> Void)
 ```
 
-### createUpload(input:​completion:​)
+### createUpload(input:completion:)
 
 Uploads an app or test scripts.
 
@@ -88,25 +76,23 @@ Uploads an app or test scripts.
 func createUpload(input: CreateUploadInput, completion: @escaping (ClientRuntime.SdkResult<CreateUploadOutputResponse, CreateUploadOutputError>) -> Void)
 ```
 
-### createVPCEConfiguration(input:​completion:​)
+### createVPCEConfiguration(input:completion:)
 
-Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud
-(VPC) endpoint.
+Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
 
 ``` swift
 func createVPCEConfiguration(input: CreateVPCEConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>) -> Void)
 ```
 
-### deleteDevicePool(input:​completion:​)
+### deleteDevicePool(input:completion:)
 
-Deletes a device pool given the pool ARN. Does not allow deletion of curated pools
-owned by the system.
+Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
 
 ``` swift
 func deleteDevicePool(input: DeleteDevicePoolInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>) -> Void)
 ```
 
-### deleteInstanceProfile(input:​completion:​)
+### deleteInstanceProfile(input:completion:)
 
 Deletes a profile that can be applied to one or more private device instances.
 
@@ -114,7 +100,7 @@ Deletes a profile that can be applied to one or more private device instances.
 func deleteInstanceProfile(input: DeleteInstanceProfileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>) -> Void)
 ```
 
-### deleteNetworkProfile(input:​completion:​)
+### deleteNetworkProfile(input:completion:)
 
 Deletes a network profile.
 
@@ -122,16 +108,15 @@ Deletes a network profile.
 func deleteNetworkProfile(input: DeleteNetworkProfileInput, completion: @escaping (ClientRuntime.SdkResult<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>) -> Void)
 ```
 
-### deleteProject(input:​completion:​)
+### deleteProject(input:completion:)
 
-Deletes an AWS Device Farm project, given the project ARN.
-Deleting this resource does not stop an in-progress run.
+Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
 
 ``` swift
 func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
 ```
 
-### deleteRemoteAccessSession(input:​completion:​)
+### deleteRemoteAccessSession(input:completion:)
 
 Deletes a completed remote access session and its results.
 
@@ -139,31 +124,23 @@ Deletes a completed remote access session and its results.
 func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>) -> Void)
 ```
 
-### deleteRun(input:​completion:​)
+### deleteRun(input:completion:)
 
-Deletes the run, given the run ARN.
-Deleting this resource does not stop an in-progress run.
+Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
 
 ``` swift
 func deleteRun(input: DeleteRunInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRunOutputResponse, DeleteRunOutputError>) -> Void)
 ```
 
-### deleteTestGridProject(input:​completion:​)
+### deleteTestGridProject(input:completion:)
 
-Deletes a Selenium testing project and all content generated under it.
+Deletes a Selenium testing project and all content generated under it. You cannot undo this operation. You cannot delete a project if it has active sessions.
 
 ``` swift
 func deleteTestGridProject(input: DeleteTestGridProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>) -> Void)
 ```
 
-``` 
-       You cannot undo this operation.
-
-
-       You cannot delete a project if it has active sessions.
-```
-
-### deleteUpload(input:​completion:​)
+### deleteUpload(input:completion:)
 
 Deletes an upload given the upload ARN.
 
@@ -171,7 +148,7 @@ Deletes an upload given the upload ARN.
 func deleteUpload(input: DeleteUploadInput, completion: @escaping (ClientRuntime.SdkResult<DeleteUploadOutputResponse, DeleteUploadOutputError>) -> Void)
 ```
 
-### deleteVPCEConfiguration(input:​completion:​)
+### deleteVPCEConfiguration(input:completion:)
 
 Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
 
@@ -179,16 +156,15 @@ Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
 func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>) -> Void)
 ```
 
-### getAccountSettings(input:​completion:​)
+### getAccountSettings(input:completion:)
 
-Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the
-account.
+Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
 
 ``` swift
 func getAccountSettings(input: GetAccountSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>) -> Void)
 ```
 
-### getDevice(input:​completion:​)
+### getDevice(input:completion:)
 
 Gets information about a unique device type.
 
@@ -196,7 +172,7 @@ Gets information about a unique device type.
 func getDevice(input: GetDeviceInput, completion: @escaping (ClientRuntime.SdkResult<GetDeviceOutputResponse, GetDeviceOutputError>) -> Void)
 ```
 
-### getDeviceInstance(input:​completion:​)
+### getDeviceInstance(input:completion:)
 
 Returns information about a device instance that belongs to a private device fleet.
 
@@ -204,7 +180,7 @@ Returns information about a device instance that belongs to a private device fle
 func getDeviceInstance(input: GetDeviceInstanceInput, completion: @escaping (ClientRuntime.SdkResult<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>) -> Void)
 ```
 
-### getDevicePool(input:​completion:​)
+### getDevicePool(input:completion:)
 
 Gets information about a device pool.
 
@@ -212,7 +188,7 @@ Gets information about a device pool.
 func getDevicePool(input: GetDevicePoolInput, completion: @escaping (ClientRuntime.SdkResult<GetDevicePoolOutputResponse, GetDevicePoolOutputError>) -> Void)
 ```
 
-### getDevicePoolCompatibility(input:​completion:​)
+### getDevicePoolCompatibility(input:completion:)
 
 Gets information about compatibility with a device pool.
 
@@ -220,7 +196,7 @@ Gets information about compatibility with a device pool.
 func getDevicePoolCompatibility(input: GetDevicePoolCompatibilityInput, completion: @escaping (ClientRuntime.SdkResult<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>) -> Void)
 ```
 
-### getInstanceProfile(input:​completion:​)
+### getInstanceProfile(input:completion:)
 
 Returns information about the specified instance profile.
 
@@ -228,7 +204,7 @@ Returns information about the specified instance profile.
 func getInstanceProfile(input: GetInstanceProfileInput, completion: @escaping (ClientRuntime.SdkResult<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>) -> Void)
 ```
 
-### getJob(input:​completion:​)
+### getJob(input:completion:)
 
 Gets information about a job.
 
@@ -236,7 +212,7 @@ Gets information about a job.
 func getJob(input: GetJobInput, completion: @escaping (ClientRuntime.SdkResult<GetJobOutputResponse, GetJobOutputError>) -> Void)
 ```
 
-### getNetworkProfile(input:​completion:​)
+### getNetworkProfile(input:completion:)
 
 Returns information about a network profile.
 
@@ -244,18 +220,15 @@ Returns information about a network profile.
 func getNetworkProfile(input: GetNetworkProfileInput, completion: @escaping (ClientRuntime.SdkResult<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>) -> Void)
 ```
 
-### getOfferingStatus(input:​completion:​)
+### getOfferingStatus(input:completion:)
 
-Gets the current status and future status of all offerings purchased by an AWS account. The response
-indicates how many offerings are currently available and the offerings that will be available in the next
-period. The API returns a NotEligible error if the user is not permitted to invoke the
-operation. If you must be able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 func getOfferingStatus(input: GetOfferingStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>) -> Void)
 ```
 
-### getProject(input:​completion:​)
+### getProject(input:completion:)
 
 Gets information about a project.
 
@@ -263,7 +236,7 @@ Gets information about a project.
 func getProject(input: GetProjectInput, completion: @escaping (ClientRuntime.SdkResult<GetProjectOutputResponse, GetProjectOutputError>) -> Void)
 ```
 
-### getRemoteAccessSession(input:​completion:​)
+### getRemoteAccessSession(input:completion:)
 
 Returns a link to a currently running remote access session.
 
@@ -271,7 +244,7 @@ Returns a link to a currently running remote access session.
 func getRemoteAccessSession(input: GetRemoteAccessSessionInput, completion: @escaping (ClientRuntime.SdkResult<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>) -> Void)
 ```
 
-### getRun(input:​completion:​)
+### getRun(input:completion:)
 
 Gets information about a run.
 
@@ -279,7 +252,7 @@ Gets information about a run.
 func getRun(input: GetRunInput, completion: @escaping (ClientRuntime.SdkResult<GetRunOutputResponse, GetRunOutputError>) -> Void)
 ```
 
-### getSuite(input:​completion:​)
+### getSuite(input:completion:)
 
 Gets information about a suite.
 
@@ -287,7 +260,7 @@ Gets information about a suite.
 func getSuite(input: GetSuiteInput, completion: @escaping (ClientRuntime.SdkResult<GetSuiteOutputResponse, GetSuiteOutputError>) -> Void)
 ```
 
-### getTest(input:​completion:​)
+### getTest(input:completion:)
 
 Gets information about a test.
 
@@ -295,7 +268,7 @@ Gets information about a test.
 func getTest(input: GetTestInput, completion: @escaping (ClientRuntime.SdkResult<GetTestOutputResponse, GetTestOutputError>) -> Void)
 ```
 
-### getTestGridProject(input:​completion:​)
+### getTestGridProject(input:completion:)
 
 Retrieves information about a Selenium testing project.
 
@@ -303,22 +276,19 @@ Retrieves information about a Selenium testing project.
 func getTestGridProject(input: GetTestGridProjectInput, completion: @escaping (ClientRuntime.SdkResult<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>) -> Void)
 ```
 
-### getTestGridSession(input:​completion:​)
+### getTestGridSession(input:completion:)
 
-A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:​
+A session is an instance of a browser created through a RemoteWebDriver with the URL from \[CreateTestGridUrlResult$url\]. You can use the following to look up sessions:
 
 ``` swift
 func getTestGridSession(input: GetTestGridSessionInput, completion: @escaping (ClientRuntime.SdkResult<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>) -> Void)
 ```
 
-``` 
-           The session ARN (GetTestGridSessionRequest$sessionArn).
+  - The session ARN (\[GetTestGridSessionRequest$sessionArn\]).
 
+  - The project ARN and a session ID (\[GetTestGridSessionRequest$projectArn\] and \[GetTestGridSessionRequest$sessionId\]).
 
-           The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).
-```
-
-### getUpload(input:​completion:​)
+### getUpload(input:completion:)
 
 Gets information about an upload.
 
@@ -326,26 +296,23 @@ Gets information about an upload.
 func getUpload(input: GetUploadInput, completion: @escaping (ClientRuntime.SdkResult<GetUploadOutputResponse, GetUploadOutputError>) -> Void)
 ```
 
-### getVPCEConfiguration(input:​completion:​)
+### getVPCEConfiguration(input:completion:)
 
-Returns information about the configuration settings for your Amazon Virtual Private
-Cloud (VPC) endpoint.
+Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
 
 ``` swift
 func getVPCEConfiguration(input: GetVPCEConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>) -> Void)
 ```
 
-### installToRemoteAccessSession(input:​completion:​)
+### installToRemoteAccessSession(input:completion:)
 
-Installs an application to the device in a remote access session. For Android
-applications, the file must be in .apk format. For iOS applications, the file must be in
-.ipa format.
+Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
 
 ``` swift
 func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput, completion: @escaping (ClientRuntime.SdkResult<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>) -> Void)
 ```
 
-### listArtifacts(input:​completion:​)
+### listArtifacts(input:completion:)
 
 Gets information about artifacts.
 
@@ -353,16 +320,15 @@ Gets information about artifacts.
 func listArtifacts(input: ListArtifactsInput, completion: @escaping (ClientRuntime.SdkResult<ListArtifactsOutputResponse, ListArtifactsOutputError>) -> Void)
 ```
 
-### listDeviceInstances(input:​completion:​)
+### listDeviceInstances(input:completion:)
 
-Returns information about the private device instances associated with one or more AWS
-accounts.
+Returns information about the private device instances associated with one or more AWS accounts.
 
 ``` swift
 func listDeviceInstances(input: ListDeviceInstancesInput, completion: @escaping (ClientRuntime.SdkResult<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>) -> Void)
 ```
 
-### listDevicePools(input:​completion:​)
+### listDevicePools(input:completion:)
 
 Gets information about device pools.
 
@@ -370,7 +336,7 @@ Gets information about device pools.
 func listDevicePools(input: ListDevicePoolsInput, completion: @escaping (ClientRuntime.SdkResult<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>) -> Void)
 ```
 
-### listDevices(input:​completion:​)
+### listDevices(input:completion:)
 
 Gets information about unique device types.
 
@@ -378,7 +344,7 @@ Gets information about unique device types.
 func listDevices(input: ListDevicesInput, completion: @escaping (ClientRuntime.SdkResult<ListDevicesOutputResponse, ListDevicesOutputError>) -> Void)
 ```
 
-### listInstanceProfiles(input:​completion:​)
+### listInstanceProfiles(input:completion:)
 
 Returns information about all the instance profiles in an AWS account.
 
@@ -386,7 +352,7 @@ Returns information about all the instance profiles in an AWS account.
 func listInstanceProfiles(input: ListInstanceProfilesInput, completion: @escaping (ClientRuntime.SdkResult<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>) -> Void)
 ```
 
-### listJobs(input:​completion:​)
+### listJobs(input:completion:)
 
 Gets information about jobs for a given test run.
 
@@ -394,7 +360,7 @@ Gets information about jobs for a given test run.
 func listJobs(input: ListJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListJobsOutputResponse, ListJobsOutputError>) -> Void)
 ```
 
-### listNetworkProfiles(input:​completion:​)
+### listNetworkProfiles(input:completion:)
 
 Returns the list of available network profiles.
 
@@ -402,39 +368,31 @@ Returns the list of available network profiles.
 func listNetworkProfiles(input: ListNetworkProfilesInput, completion: @escaping (ClientRuntime.SdkResult<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>) -> Void)
 ```
 
-### listOfferingPromotions(input:​completion:​)
+### listOfferingPromotions(input:completion:)
 
-Returns a list of offering promotions. Each offering promotion record contains the ID and description
-of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke
-the operation. Contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
+Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact <aws-devicefarm-support@amazon.com> if you must be able to invoke this operation.
 
 ``` swift
 func listOfferingPromotions(input: ListOfferingPromotionsInput, completion: @escaping (ClientRuntime.SdkResult<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>) -> Void)
 ```
 
-### listOfferings(input:​completion:​)
+### listOfferings(input:completion:)
 
-Returns a list of products or offerings that the user can manage through the API. Each offering record
-indicates the recurring price per unit and the frequency for that offering. The API returns a
-NotEligible error if the user is not permitted to invoke the operation.  If you must be
-able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 func listOfferings(input: ListOfferingsInput, completion: @escaping (ClientRuntime.SdkResult<ListOfferingsOutputResponse, ListOfferingsOutputError>) -> Void)
 ```
 
-### listOfferingTransactions(input:​completion:​)
+### listOfferingTransactions(input:completion:)
 
-Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS
-account. The list is paginated and ordered by a descending timestamp (most recent transactions are first).
-The API returns a NotEligible error if the user is not permitted to invoke the operation. If
-you must be able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 func listOfferingTransactions(input: ListOfferingTransactionsInput, completion: @escaping (ClientRuntime.SdkResult<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>) -> Void)
 ```
 
-### listProjects(input:​completion:​)
+### listProjects(input:completion:)
 
 Gets information about projects.
 
@@ -442,7 +400,7 @@ Gets information about projects.
 func listProjects(input: ListProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListProjectsOutputResponse, ListProjectsOutputError>) -> Void)
 ```
 
-### listRemoteAccessSessions(input:​completion:​)
+### listRemoteAccessSessions(input:completion:)
 
 Returns a list of all currently running remote access sessions.
 
@@ -450,7 +408,7 @@ Returns a list of all currently running remote access sessions.
 func listRemoteAccessSessions(input: ListRemoteAccessSessionsInput, completion: @escaping (ClientRuntime.SdkResult<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>) -> Void)
 ```
 
-### listRuns(input:​completion:​)
+### listRuns(input:completion:)
 
 Gets information about runs, given an AWS Device Farm project ARN.
 
@@ -458,7 +416,7 @@ Gets information about runs, given an AWS Device Farm project ARN.
 func listRuns(input: ListRunsInput, completion: @escaping (ClientRuntime.SdkResult<ListRunsOutputResponse, ListRunsOutputError>) -> Void)
 ```
 
-### listSamples(input:​completion:​)
+### listSamples(input:completion:)
 
 Gets information about samples, given an AWS Device Farm job ARN.
 
@@ -466,7 +424,7 @@ Gets information about samples, given an AWS Device Farm job ARN.
 func listSamples(input: ListSamplesInput, completion: @escaping (ClientRuntime.SdkResult<ListSamplesOutputResponse, ListSamplesOutputError>) -> Void)
 ```
 
-### listSuites(input:​completion:​)
+### listSuites(input:completion:)
 
 Gets information about test suites for a given job.
 
@@ -474,7 +432,7 @@ Gets information about test suites for a given job.
 func listSuites(input: ListSuitesInput, completion: @escaping (ClientRuntime.SdkResult<ListSuitesOutputResponse, ListSuitesOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 List the tags for an AWS Device Farm resource.
 
@@ -482,7 +440,7 @@ List the tags for an AWS Device Farm resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listTestGridProjects(input:​completion:​)
+### listTestGridProjects(input:completion:)
 
 Gets a list of all Selenium testing projects in your account.
 
@@ -490,15 +448,15 @@ Gets a list of all Selenium testing projects in your account.
 func listTestGridProjects(input: ListTestGridProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>) -> Void)
 ```
 
-### listTestGridSessionActions(input:​completion:​)
+### listTestGridSessionActions(input:completion:)
 
-Returns a list of the actions taken in a TestGridSession.
+Returns a list of the actions taken in a \[TestGridSession\].
 
 ``` swift
 func listTestGridSessionActions(input: ListTestGridSessionActionsInput, completion: @escaping (ClientRuntime.SdkResult<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>) -> Void)
 ```
 
-### listTestGridSessionArtifacts(input:​completion:​)
+### listTestGridSessionArtifacts(input:completion:)
 
 Retrieves a list of artifacts created during the session.
 
@@ -506,15 +464,15 @@ Retrieves a list of artifacts created during the session.
 func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInput, completion: @escaping (ClientRuntime.SdkResult<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>) -> Void)
 ```
 
-### listTestGridSessions(input:​completion:​)
+### listTestGridSessions(input:completion:)
 
-Retrieves a list of sessions for a TestGridProject.
+Retrieves a list of sessions for a \[TestGridProject\].
 
 ``` swift
 func listTestGridSessions(input: ListTestGridSessionsInput, completion: @escaping (ClientRuntime.SdkResult<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>) -> Void)
 ```
 
-### listTests(input:​completion:​)
+### listTests(input:completion:)
 
 Gets information about tests in a given test suite.
 
@@ -522,19 +480,15 @@ Gets information about tests in a given test suite.
 func listTests(input: ListTestsInput, completion: @escaping (ClientRuntime.SdkResult<ListTestsOutputResponse, ListTestsOutputError>) -> Void)
 ```
 
-### listUniqueProblems(input:​completion:​)
+### listUniqueProblems(input:completion:)
 
-Gets information about unique problems, such as exceptions or crashes.
-Unique problems are defined as a single instance of an error across a run, job, or suite. For example,
-if a call in your application consistently raises an exception (OutOfBoundsException in
-MyActivity.java:​386), ListUniqueProblems returns a single entry instead of many
-individual entries for that exception.
+Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
 
 ``` swift
 func listUniqueProblems(input: ListUniqueProblemsInput, completion: @escaping (ClientRuntime.SdkResult<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>) -> Void)
 ```
 
-### listUploads(input:​completion:​)
+### listUploads(input:completion:)
 
 Gets information about uploads, given an AWS Device Farm project ARN.
 
@@ -542,37 +496,31 @@ Gets information about uploads, given an AWS Device Farm project ARN.
 func listUploads(input: ListUploadsInput, completion: @escaping (ClientRuntime.SdkResult<ListUploadsOutputResponse, ListUploadsOutputError>) -> Void)
 ```
 
-### listVPCEConfigurations(input:​completion:​)
+### listVPCEConfigurations(input:completion:)
 
-Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
-configurations in the AWS account.
+Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
 
 ``` swift
 func listVPCEConfigurations(input: ListVPCEConfigurationsInput, completion: @escaping (ClientRuntime.SdkResult<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>) -> Void)
 ```
 
-### purchaseOffering(input:​completion:​)
+### purchaseOffering(input:completion:)
 
-Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased
-quantity for an offering, unless the renewal was overridden. The API returns a NotEligible
-error if the user is not permitted to invoke the operation. If you must be able to invoke this operation,
-contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 func purchaseOffering(input: PurchaseOfferingInput, completion: @escaping (ClientRuntime.SdkResult<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>) -> Void)
 ```
 
-### renewOffering(input:​completion:​)
+### renewOffering(input:completion:)
 
-Explicitly sets the quantity of devices to renew for an offering, starting from the
-effectiveDate of the next period. The API returns a NotEligible error if the
-user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 func renewOffering(input: RenewOfferingInput, completion: @escaping (ClientRuntime.SdkResult<RenewOfferingOutputResponse, RenewOfferingOutputError>) -> Void)
 ```
 
-### scheduleRun(input:​completion:​)
+### scheduleRun(input:completion:)
 
 Schedules a run.
 
@@ -580,18 +528,15 @@ Schedules a run.
 func scheduleRun(input: ScheduleRunInput, completion: @escaping (ClientRuntime.SdkResult<ScheduleRunOutputResponse, ScheduleRunOutputError>) -> Void)
 ```
 
-### stopJob(input:​completion:​)
+### stopJob(input:completion:)
 
-Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device
-where tests have not started. You are not billed for this device. On the device where tests have started,
-setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown,
-and any tests that were in progress or already completed.
+Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
 
 ``` swift
 func stopJob(input: StopJobInput, completion: @escaping (ClientRuntime.SdkResult<StopJobOutputResponse, StopJobOutputError>) -> Void)
 ```
 
-### stopRemoteAccessSession(input:​completion:​)
+### stopRemoteAccessSession(input:completion:)
 
 Ends a specified remote access session.
 
@@ -599,28 +544,23 @@ Ends a specified remote access session.
 func stopRemoteAccessSession(input: StopRemoteAccessSessionInput, completion: @escaping (ClientRuntime.SdkResult<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>) -> Void)
 ```
 
-### stopRun(input:​completion:​)
+### stopRun(input:completion:)
 
-Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices
-where tests have not started. You are not billed for these devices. On devices where tests have started
-executing, setup suite and teardown suite tests run to completion on those devices. You are billed for
-setup, teardown, and any tests that were in progress or already completed.
+Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
 
 ``` swift
 func stopRun(input: StopRunInput, completion: @escaping (ClientRuntime.SdkResult<StopRunOutputResponse, StopRunOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
-Associates the specified tags to a resource with the specified resourceArn. If existing tags
-on a resource are not specified in the request parameters, they are not changed. When a resource is deleted,
-the tags associated with that resource are also deleted.
+Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Deletes the specified tags from a resource.
 
@@ -628,7 +568,7 @@ Deletes the specified tags from a resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateDeviceInstance(input:​completion:​)
+### updateDeviceInstance(input:completion:)
 
 Updates information about a private device instance.
 
@@ -636,17 +576,15 @@ Updates information about a private device instance.
 func updateDeviceInstance(input: UpdateDeviceInstanceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>) -> Void)
 ```
 
-### updateDevicePool(input:​completion:​)
+### updateDevicePool(input:completion:)
 
-Modifies the name, description, and rules in a device pool given the attributes and
-the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a
-whole (or not at all).
+Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
 
 ``` swift
 func updateDevicePool(input: UpdateDevicePoolInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>) -> Void)
 ```
 
-### updateInstanceProfile(input:​completion:​)
+### updateInstanceProfile(input:completion:)
 
 Updates information about an existing private device instance profile.
 
@@ -654,7 +592,7 @@ Updates information about an existing private device instance profile.
 func updateInstanceProfile(input: UpdateInstanceProfileInput, completion: @escaping (ClientRuntime.SdkResult<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>) -> Void)
 ```
 
-### updateNetworkProfile(input:​completion:​)
+### updateNetworkProfile(input:completion:)
 
 Updates the network profile.
 
@@ -662,16 +600,15 @@ Updates the network profile.
 func updateNetworkProfile(input: UpdateNetworkProfileInput, completion: @escaping (ClientRuntime.SdkResult<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>) -> Void)
 ```
 
-### updateProject(input:​completion:​)
+### updateProject(input:completion:)
 
-Modifies the specified project name, given the project ARN and a new
-name.
+Modifies the specified project name, given the project ARN and a new name.
 
 ``` swift
 func updateProject(input: UpdateProjectInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProjectOutputResponse, UpdateProjectOutputError>) -> Void)
 ```
 
-### updateTestGridProject(input:​completion:​)
+### updateTestGridProject(input:completion:)
 
 Change details of a project.
 
@@ -679,7 +616,7 @@ Change details of a project.
 func updateTestGridProject(input: UpdateTestGridProjectInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>) -> Void)
 ```
 
-### updateUpload(input:​completion:​)
+### updateUpload(input:completion:)
 
 Updates an uploaded test spec.
 
@@ -687,7 +624,7 @@ Updates an uploaded test spec.
 func updateUpload(input: UpdateUploadInput, completion: @escaping (ClientRuntime.SdkResult<UpdateUploadOutputResponse, UpdateUploadOutputError>) -> Void)
 ```
 
-### updateVPCEConfiguration(input:​completion:​)
+### updateVPCEConfiguration(input:completion:)
 
 Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
 

@@ -8,5 +8,4 @@
 # Protocols
 
   - [LakeFormationClientProtocol](/aws-sdk-swift/reference/0.x/AWSLakeFormation/LakeFormationClientProtocol):
-    <fullname>AWS Lake Formation</fullname>
-    Defines the public endpoint for the AWS Lake Formation service.
+    AWS Lake Formation Defines the public endpoint for the AWS Lake Formation service.

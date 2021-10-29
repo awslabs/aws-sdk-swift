@@ -8,5 +8,4 @@
 # Protocols
 
   - [LookoutEquipmentClientProtocol](/aws-sdk-swift/reference/0.x/AWSLookoutEquipment/LookoutEquipmentClientProtocol):
-    Amazon Lookout for Equipment is a machine learning service that uses advanced analytics to identify
-    anomalies in machines from sensor data for use in predictive maintenance.
+    Amazon Lookout for Equipment is a machine learning service that uses advanced analytics to identify anomalies in machines from sensor data for use in predictive maintenance.

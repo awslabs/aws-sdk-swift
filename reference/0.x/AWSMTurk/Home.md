@@ -8,4 +8,4 @@
 # Protocols
 
   - [MTurkClientProtocol](/aws-sdk-swift/reference/0.x/AWSMTurk/MTurkClientProtocol):
-    <fullname>Amazon Mechanical Turk API Reference</fullname>
+    Amazon Mechanical Turk API Reference

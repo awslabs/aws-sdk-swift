@@ -8,5 +8,4 @@
 # Protocols
 
   - [TranslateClientProtocol](/aws-sdk-swift/reference/0.x/AWSTranslate/TranslateClientProtocol):
-    Provides translation between one source language and another of the same set of
-    languages.
+    Provides translation between one source language and another of the same set of languages.

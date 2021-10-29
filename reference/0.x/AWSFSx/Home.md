@@ -8,5 +8,4 @@
 # Protocols
 
   - [FSxClientProtocol](/aws-sdk-swift/reference/0.x/AWSFSx/FSxClientProtocol):
-    Amazon FSx is a fully managed service that makes it easy for storage and
-    application administrators to launch and use shared file storage.
+    Amazon FSx is a fully managed service that makes it easy for storage and application administrators to launch and use shared file storage.

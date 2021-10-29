@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SsoOidcClient"
+```
+
 ## Methods
 
 ### `createToken(input:completion:)`
 
-Creates and returns an access token for the authorized client. The access token issued
-will be used to fetch short-term credentials for the assigned roles in the AWS
-account.
+Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
 
 ``` swift
 public func createToken(input: CreateTokenInput, completion: @escaping (ClientRuntime.SdkResult<CreateTokenOutputResponse, CreateTokenOutputError>) -> Void)
@@ -36,8 +42,7 @@ public func createToken(input: CreateTokenInput, completion: @escaping (ClientRu
 
 ### `registerClient(input:completion:)`
 
-Registers a client with AWS SSO. This allows clients to initiate device authorization.
-The output should be persisted for reuse through many authentication requests.
+Registers a client with AWS SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
 
 ``` swift
 public func registerClient(input: RegisterClientInput, completion: @escaping (ClientRuntime.SdkResult<RegisterClientOutputResponse, RegisterClientOutputError>) -> Void)

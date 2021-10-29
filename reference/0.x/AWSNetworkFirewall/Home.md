@@ -8,5 +8,4 @@
 # Protocols
 
   - [NetworkFirewallClientProtocol](/aws-sdk-swift/reference/0.x/AWSNetworkFirewall/NetworkFirewallClientProtocol):
-    This is the API Reference for AWS Network Firewall. This guide is for developers who need
-    detailed information about the Network Firewall API actions, data types, and errors.
+    This is the API Reference for AWS Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.

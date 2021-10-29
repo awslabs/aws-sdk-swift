@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "WisdomClient"
+```
+
 ## Methods
 
 ### `createAssistant(input:completion:)`
@@ -34,9 +42,7 @@ public func createAssistant(input: CreateAssistantInput, completion: @escaping (
 
 ### `createAssistantAssociation(input:completion:)`
 
-Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the
-only supported association is with a knowledge base. An assistant can have only a single
-association.
+Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
 
 ``` swift
 public func createAssistantAssociation(input: CreateAssistantAssociationInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssistantAssociationOutputResponse, CreateAssistantAssociationOutputError>) -> Void)
@@ -44,8 +50,7 @@ public func createAssistantAssociation(input: CreateAssistantAssociationInput, c
 
 ### `createContent(input:completion:)`
 
-Creates Wisdom content. Before to calling this API, use <a href="https:​//docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html">StartContentUpload to
-upload an asset.
+Creates Wisdom content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset.
 
 ``` swift
 public func createContent(input: CreateContentInput, completion: @escaping (ClientRuntime.SdkResult<CreateContentOutputResponse, CreateContentOutputError>) -> Void)
@@ -53,42 +58,23 @@ public func createContent(input: CreateContentInput, completion: @escaping (Clie
 
 ### `createKnowledgeBase(input:completion:)`
 
-Creates a knowledge base.
+Creates a knowledge base. When using this API, you cannot reuse [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following:
 
 ``` swift
 public func createKnowledgeBase(input: CreateKnowledgeBaseInput, completion: @escaping (ClientRuntime.SdkResult<CreateKnowledgeBaseOutputResponse, CreateKnowledgeBaseOutputError>) -> Void)
 ```
 
-``` 
-        When using this API, you cannot reuse <a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html">Amazon AppIntegrations
-    DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do,
-    you'll get an InvalidRequestException error.
+  - Call [DeleteKnowledgeBase](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_DeleteKnowledgeBase.html).
 
-        For example, you're programmatically managing your external knowledge base, and you want
-    to add or remove one of the fields that is being ingested from Salesforce. Do the
-    following:
-        <ol>
+  - Call [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html).
 
-              Call <a href="https://docs.aws.amazon.com/wisdom/latest/APIReference/API_DeleteKnowledgeBase.html">DeleteKnowledgeBase.
+  - Call [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) to recreate the DataIntegration or a create different one.
 
-
-              Call <a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html">DeleteDataIntegration.
-
-
-              Call <a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html">CreateDataIntegration to recreate the DataIntegration or a create different
-        one.
-
-
-              Call CreateKnowledgeBase.
-
-        </ol>
-```
+  - Call CreateKnowledgeBase.
 
 ### `createSession(input:completion:)`
 
-Creates a session. A session is a contextual container used for generating
-recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is
-enabled.
+Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
 
 ``` swift
 public func createSession(input: CreateSessionInput, completion: @escaping (ClientRuntime.SdkResult<CreateSessionOutputResponse, CreateSessionOutputError>) -> Void)
@@ -120,18 +106,10 @@ public func deleteContent(input: DeleteContentInput, completion: @escaping (Clie
 
 ### `deleteKnowledgeBase(input:completion:)`
 
-Deletes the knowledge base.
+Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
 
 ``` swift
 public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput, completion: @escaping (ClientRuntime.SdkResult<DeleteKnowledgeBaseOutputResponse, DeleteKnowledgeBaseOutputError>) -> Void)
-```
-
-``` 
-        When you use this API to delete an external knowledge base such as Salesforce or
-    ServiceNow, you must also delete the <a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html">Amazon AppIntegrations DataIntegration.
-    This is because you can't reuse the DataIntegration after it's been associated with an
-    external knowledge base. However, you can delete and recreate it. See <a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html">DeleteDataIntegration and <a href="https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html">CreateDataIntegration in the Amazon AppIntegrations API
-    Reference.
 ```
 
 ### `getAssistant(input:completion:)`
@@ -176,10 +154,7 @@ public func getKnowledgeBase(input: GetKnowledgeBaseInput, completion: @escaping
 
 ### `getRecommendations(input:completion:)`
 
-Retrieves recommendations for the specified session. To avoid retrieving the same
-recommendations in subsequent calls, use <a href="https:​//docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html">NotifyRecommendationsReceived. This API supports long-polling behavior with the
-waitTimeSeconds parameter. Short poll is the default behavior and only returns
-recommendations already available. To perform a manual query against an assistant, use <a href="https:​//docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html">QueryAssistant.
+Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
 
 ``` swift
 public func getRecommendations(input: GetRecommendationsInput, completion: @escaping (ClientRuntime.SdkResult<GetRecommendationsOutputResponse, GetRecommendationsOutputError>) -> Void)
@@ -235,9 +210,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `notifyRecommendationsReceived(input:completion:)`
 
-Removes the specified recommendations from the specified assistant's queue of newly
-available recommendations. You can use this API in conjunction with <a href="https:​//docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html">GetRecommendations and a waitTimeSeconds input for long-polling
-behavior and avoiding duplicate recommendations.
+Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
 
 ``` swift
 public func notifyRecommendationsReceived(input: NotifyRecommendationsReceivedInput, completion: @escaping (ClientRuntime.SdkResult<NotifyRecommendationsReceivedOutputResponse, NotifyRecommendationsReceivedOutputError>) -> Void)
@@ -245,8 +218,7 @@ public func notifyRecommendationsReceived(input: NotifyRecommendationsReceivedIn
 
 ### `queryAssistant(input:completion:)`
 
-Performs a manual search against the specified assistant. To retrieve recommendations for
-an assistant, use <a href="https:​//docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html">GetRecommendations.
+Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
 
 ``` swift
 public func queryAssistant(input: QueryAssistantInput, completion: @escaping (ClientRuntime.SdkResult<QueryAssistantOutputResponse, QueryAssistantOutputError>) -> Void)
@@ -262,8 +234,7 @@ public func removeKnowledgeBaseTemplateUri(input: RemoveKnowledgeBaseTemplateUri
 
 ### `searchContent(input:completion:)`
 
-Searches for content in a specified knowledge base. Can be used to get a specific content
-resource by its name.
+Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
 
 ``` swift
 public func searchContent(input: SearchContentInput, completion: @escaping (ClientRuntime.SdkResult<SearchContentOutputResponse, SearchContentOutputError>) -> Void)
@@ -279,10 +250,7 @@ public func searchSessions(input: SearchSessionsInput, completion: @escaping (Cl
 
 ### `startContentUpload(input:completion:)`
 
-Get a URL to upload content to a knowledge base. To upload content, first make a PUT
-request to the returned URL with your file, making sure to include the required headers. Then
-use <a href="https:​//docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html">CreateContent to finalize the content creation process or <a href="https:​//docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html">UpdateContent to modify an existing resource. You can only upload content to a
-knowledge base of type CUSTOM.
+Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
 
 ``` swift
 public func startContentUpload(input: StartContentUploadInput, completion: @escaping (ClientRuntime.SdkResult<StartContentUploadOutputResponse, StartContentUploadOutputError>) -> Void)
@@ -314,11 +282,7 @@ public func updateContent(input: UpdateContentInput, completion: @escaping (Clie
 
 ### `updateKnowledgeBaseTemplateUri(input:completion:)`
 
-Updates the template URI of a knowledge base. This is only supported for knowledge bases
-of type EXTERNAL. Include a single variable in ${variable} format; this
-interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce
-article, it has an Id value, and you can set the template URI to
-https:​//myInstanceName.lightning.force.com/lightning/r/Knowledge\_\_kav/*${Id}*/view.
+Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge\_\_kav/*${Id}*/view.
 
 ``` swift
 public func updateKnowledgeBaseTemplateUri(input: UpdateKnowledgeBaseTemplateUriInput, completion: @escaping (ClientRuntime.SdkResult<UpdateKnowledgeBaseTemplateUriOutputResponse, UpdateKnowledgeBaseTemplateUriOutputError>) -> Void)

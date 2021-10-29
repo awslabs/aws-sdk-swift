@@ -22,11 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "MemoryDbClient"
+```
+
 ## Methods
 
 ### `batchUpdateCluster(input:completion:)`
 
-Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see <a href="https:​//docs.aws.amazon.com/MemoryDB/latest/devguide/managing-updates.html#applying-updates">Applying the service updates.
+Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see [Applying the service updates](https://docs.aws.amazon.com/MemoryDB/latest/devguide/managing-updates.html#applying-updates).
 
 ``` swift
 public func batchUpdateCluster(input: BatchUpdateClusterInput, completion: @escaping (ClientRuntime.SdkResult<BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>) -> Void)
@@ -42,7 +50,7 @@ public func copySnapshot(input: CopySnapshotInput, completion: @escaping (Client
 
 ### `createACL(input:completion:)`
 
-Creates an Access Control List. For more information, see <a href="https:​//docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html">Authenticating users with Access Contol Lists (ACLs).
+Creates an Access Control List. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
 
 ``` swift
 public func createACL(input: CreateACLInput, completion: @escaping (ClientRuntime.SdkResult<CreateACLOutputResponse, CreateACLOutputError>) -> Void)
@@ -58,8 +66,7 @@ public func createCluster(input: CreateClusterInput, completion: @escaping (Clie
 
 ### `createParameterGroup(input:completion:)`
 
-Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For
-more information, see <a href="https:​//docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html">Configuring engine parameters using parameter groups.
+Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For more information, see [Configuring engine parameters using parameter groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html).
 
 ``` swift
 public func createParameterGroup(input: CreateParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>) -> Void)
@@ -75,20 +82,15 @@ public func createSnapshot(input: CreateSnapshotInput, completion: @escaping (Cl
 
 ### `createSubnetGroup(input:completion:)`
 
-Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment.
+Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see [Subnets and subnet groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html).
 
 ``` swift
 public func createSubnetGroup(input: CreateSubnetGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>) -> Void)
 ```
 
-``` 
-     When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes.
-     For more information, see <a href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html">Subnets and subnet groups.
-```
-
 ### `createUser(input:completion:)`
 
-Creates a MemoryDB user. For more information, see <a href="https:​//docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html">Authenticating users with Access Contol Lists (ACLs).
+Creates a MemoryDB user. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
 
 ``` swift
 public func createUser(input: CreateUserInput, completion: @escaping (ClientRuntime.SdkResult<CreateUserOutputResponse, CreateUserOutputError>) -> Void)
@@ -96,7 +98,7 @@ public func createUser(input: CreateUserInput, completion: @escaping (ClientRunt
 
 ### `deleteACL(input:completion:)`
 
-Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see <a href="https:​//docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html">Authenticating users with Access Contol Lists (ACLs).
+Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
 
 ``` swift
 public func deleteACL(input: DeleteACLInput, completion: @escaping (ClientRuntime.SdkResult<DeleteACLOutputResponse, DeleteACLOutputError>) -> Void)
@@ -112,8 +114,7 @@ public func deleteCluster(input: DeleteClusterInput, completion: @escaping (Clie
 
 ### `deleteParameterGroup(input:completion:)`
 
-Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters.
-You cannot delete the default parameter groups in your account.
+Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the default parameter groups in your account.
 
 ``` swift
 public func deleteParameterGroup(input: DeleteParameterGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>) -> Void)
@@ -169,14 +170,10 @@ public func describeEngineVersions(input: DescribeEngineVersionsInput, completio
 
 ### `describeEvents(input:completion:)`
 
-Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.
+Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
 
 ``` swift
 public func describeEvents(input: DescribeEventsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEventsOutputResponse, DescribeEventsOutputError>) -> Void)
-```
-
-``` 
-     By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
 ```
 
 ### `describeParameterGroups(input:completion:)`
@@ -205,8 +202,7 @@ public func describeServiceUpdates(input: DescribeServiceUpdatesInput, completio
 
 ### `describeSnapshots(input:completion:)`
 
-Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,
-or just the snapshots associated with a particular cluster.
+Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster.
 
 ``` swift
 public func describeSnapshots(input: DescribeSnapshotsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>) -> Void)
@@ -238,27 +234,18 @@ public func failoverShard(input: FailoverShardInput, completion: @escaping (Clie
 
 ### `listAllowedNodeTypeUpdates(input:completion:)`
 
-Lists all available node types that you can scale to from your cluster's current node type.
+Lists all available node types that you can scale to from your cluster's current node type. When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
 
 ``` swift
 public func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput, completion: @escaping (ClientRuntime.SdkResult<ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>) -> Void)
 ```
 
-``` 
-     When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
-```
-
 ### `listTags(input:completion:)`
 
-Lists all tags currently on a named resource.
+Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html)
 
 ``` swift
 public func listTags(input: ListTagsInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsOutputResponse, ListTagsOutputError>) -> Void)
-```
-
-``` 
-     A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.
-     For more information, see <a href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html">Tagging your MemoryDB resources
 ```
 
 ### `resetParameterGroup(input:completion:)`
@@ -271,22 +258,10 @@ public func resetParameterGroup(input: ResetParameterGroupInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources.
+A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. For more information, see [Resource-level permissions](https://docs.aws.amazon.com/MemoryDB/latest/devguide/iam.resourcelevelpermissions.html). For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
-```
-
-``` 
-     When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. For more information, see
-
-     <a href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/iam.resourcelevelpermissions.html">Resource-level permissions.
-
-     For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value
-      (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories
-      (such as cost centers, application names, or owners) to organize your costs across multiple services.
-
-     For more information, see <a href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html">Using Cost Allocation Tags.
 ```
 
 ### `untagResource(input:completion:)`
@@ -323,7 +298,7 @@ public func updateParameterGroup(input: UpdateParameterGroupInput, completion: @
 
 ### `updateSubnetGroup(input:completion:)`
 
-Updates a subnet group. For more information, see <a href="https:​//docs.aws.amazon.com/MemoryDB/latest/devguide/ubnetGroups.Modifying.html">Updating a subnet group
+Updates a subnet group. For more information, see [Updating a subnet group](https://docs.aws.amazon.com/MemoryDB/latest/devguide/ubnetGroups.Modifying.html)
 
 ``` swift
 public func updateSubnetGroup(input: UpdateSubnetGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>) -> Void)

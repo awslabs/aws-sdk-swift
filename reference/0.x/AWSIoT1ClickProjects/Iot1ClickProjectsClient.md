@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "Iot1ClickProjectsClient"
+```
+
 ## Methods
 
 ### `associateDeviceWithPlacement(input:completion:)`
@@ -42,8 +50,7 @@ public func createPlacement(input: CreatePlacementInput, completion: @escaping (
 
 ### `createProject(input:completion:)`
 
-Creates an empty project with a placement template. A project contains zero or more
-placements that adhere to the placement template defined in the project.
+Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
 
 ``` swift
 public func createProject(input: CreateProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateProjectOutputResponse, CreateProjectOutputError>) -> Void)
@@ -51,28 +58,18 @@ public func createProject(input: CreateProjectInput, completion: @escaping (Clie
 
 ### `deletePlacement(input:completion:)`
 
-Deletes a placement. To delete a placement, it must not have any devices associated with
-it.
+Deletes a placement. To delete a placement, it must not have any devices associated with it. When you delete a placement, all associated data becomes irretrievable.
 
 ``` swift
 public func deletePlacement(input: DeletePlacementInput, completion: @escaping (ClientRuntime.SdkResult<DeletePlacementOutputResponse, DeletePlacementOutputError>) -> Void)
 ```
 
-``` 
-        When you delete a placement, all associated data becomes irretrievable.
-```
-
 ### `deleteProject(input:completion:)`
 
-Deletes a project. To delete a project, it must not have any placements associated with
-it.
+Deletes a project. To delete a project, it must not have any placements associated with it. When you delete a project, all associated data becomes irretrievable.
 
 ``` swift
 public func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
-```
-
-``` 
-        When you delete a project, all associated data becomes irretrievable.
 ```
 
 ### `describePlacement(input:completion:)`
@@ -133,9 +130,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be
-used to manage a resource. For more information, see <a href="https:​//aws.amazon.com/answers/account-management/aws-tagging-strategies/">AWS Tagging
-Strategies.
+Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -151,8 +146,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updatePlacement(input:completion:)`
 
-Updates a placement with the given attributes. To clear an attribute, pass an empty value
-(i.e., "").
+Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
 
 ``` swift
 public func updatePlacement(input: UpdatePlacementInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePlacementOutputResponse, UpdatePlacementOutputError>) -> Void)
@@ -160,10 +154,7 @@ public func updatePlacement(input: UpdatePlacementInput, completion: @escaping (
 
 ### `updateProject(input:completion:)`
 
-Updates a project associated with your AWS account and region. With the exception of
-device template names, you can pass just the values that need to be updated because the update
-request will change only the values that are provided. To clear a value, pass the empty string
-(i.e., "").
+Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
 
 ``` swift
 public func updateProject(input: UpdateProjectInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProjectOutputResponse, UpdateProjectOutputError>) -> Void)

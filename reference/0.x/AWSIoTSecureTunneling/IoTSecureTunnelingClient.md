@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "IoTSecureTunnelingClient"
+```
+
 ## Methods
 
 ### `closeTunnel(input:completion:)`
 
-Closes a tunnel identified by the unique tunnel id. When a CloseTunnel
-request is received, we close the WebSocket connections between the client and proxy
-server so no data can be transmitted.
+Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted.
 
 ``` swift
 public func closeTunnel(input: CloseTunnelInput, completion: @escaping (ClientRuntime.SdkResult<CloseTunnelOutputResponse, CloseTunnelOutputError>) -> Void)
@@ -52,8 +58,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `listTunnels(input:completion:)`
 
-List all tunnels for an AWS account. Tunnels are listed by creation time in
-descending order, newer tunnels will be listed before older tunnels.
+List all tunnels for an AWS account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.
 
 ``` swift
 public func listTunnels(input: ListTunnelsInput, completion: @escaping (ClientRuntime.SdkResult<ListTunnelsOutputResponse, ListTunnelsOutputError>) -> Void)
@@ -61,8 +66,7 @@ public func listTunnels(input: ListTunnelsInput, completion: @escaping (ClientRu
 
 ### `openTunnel(input:completion:)`
 
-Creates a new tunnel, and returns two client access tokens for clients to use to
-connect to the AWS IoT Secure Tunneling proxy server.
+Creates a new tunnel, and returns two client access tokens for clients to use to connect to the AWS IoT Secure Tunneling proxy server.
 
 ``` swift
 public func openTunnel(input: OpenTunnelInput, completion: @escaping (ClientRuntime.SdkResult<OpenTunnelOutputResponse, OpenTunnelOutputError>) -> Void)

@@ -22,85 +22,48 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "S3OutpostsClient"
+```
+
 ## Methods
 
 ### `createEndpoint(input:completion:)`
 
-Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts.
-S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your
-virtual private cloud (VPC). For more information, see <a href="https:​//docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
-Accessing S3 on Outposts using VPC only access points.
-This action creates an endpoint and associates it with the specified Outposts.
+Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC). For more information, see [ Accessing S3 on Outposts using VPC only access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html). This action creates an endpoint and associates it with the specified Outposts. It can take up to 5 minutes for this action to complete. Related actions include:
 
 ``` swift
 public func createEndpoint(input: CreateEndpointInput, completion: @escaping (ClientRuntime.SdkResult<CreateEndpointOutputResponse, CreateEndpointOutputError>) -> Void)
 ```
 
-``` 
-        It can take up to 5 minutes for this action to complete.
+  - [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
 
-
-    Related actions include:
-
-
-
-              <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html">DeleteEndpoint
-
-
-
-
-              <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html">ListEndpoints
-```
+  - [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
 
 ### `deleteEndpoint(input:completion:)`
 
-Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts.
-S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your
-virtual private cloud (VPC). For more information, see <a href="https:​//docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
-Accessing S3 on Outposts using VPC only access points.
-This action deletes an endpoint.
+Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC). For more information, see [ Accessing S3 on Outposts using VPC only access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html). This action deletes an endpoint. It can take up to 5 minutes for this action to complete. Related actions include:
 
 ``` swift
 public func deleteEndpoint(input: DeleteEndpointInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEndpointOutputResponse, DeleteEndpointOutputError>) -> Void)
 ```
 
-``` 
-        It can take up to 5 minutes for this action to complete.
+  - [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
 
-
-    Related actions include:
-
-
-
-              <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html">CreateEndpoint
-
-
-
-
-              <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html">ListEndpoints
-```
+  - [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
 
 ### `listEndpoints(input:completion:)`
 
-Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts.
-S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your
-virtual private cloud (VPC). For more information, see <a href="https:​//docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
-Accessing S3 on Outposts using VPC only access points.
-This action lists endpoints associated with the Outposts.
+Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC). For more information, see [ Accessing S3 on Outposts using VPC only access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html). This action lists endpoints associated with the Outposts. Related actions include:
 
 ``` swift
 public func listEndpoints(input: ListEndpointsInput, completion: @escaping (ClientRuntime.SdkResult<ListEndpointsOutputResponse, ListEndpointsOutputError>) -> Void)
 ```
 
-``` 
-    Related actions include:
+  - [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
 
-
-
-              <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html">CreateEndpoint
-
-
-
-
-              <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html">DeleteEndpoint
-```
+  - [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)

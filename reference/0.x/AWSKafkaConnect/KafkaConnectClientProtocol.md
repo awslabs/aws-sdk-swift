@@ -4,11 +4,9 @@
 public protocol KafkaConnectClientProtocol 
 ```
 
-<p/>
-
 ## Requirements
 
-### createConnector(input:​completion:​)
+### createConnector(input:completion:)
 
 Creates a connector using the specified properties.
 
@@ -16,7 +14,7 @@ Creates a connector using the specified properties.
 func createConnector(input: CreateConnectorInput, completion: @escaping (ClientRuntime.SdkResult<CreateConnectorOutputResponse, CreateConnectorOutputError>) -> Void)
 ```
 
-### createCustomPlugin(input:​completion:​)
+### createCustomPlugin(input:completion:)
 
 Creates a custom plugin using the specified properties.
 
@@ -24,7 +22,7 @@ Creates a custom plugin using the specified properties.
 func createCustomPlugin(input: CreateCustomPluginInput, completion: @escaping (ClientRuntime.SdkResult<CreateCustomPluginOutputResponse, CreateCustomPluginOutputError>) -> Void)
 ```
 
-### createWorkerConfiguration(input:​completion:​)
+### createWorkerConfiguration(input:completion:)
 
 Creates a worker configuration using the specified properties.
 
@@ -32,7 +30,7 @@ Creates a worker configuration using the specified properties.
 func createWorkerConfiguration(input: CreateWorkerConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateWorkerConfigurationOutputResponse, CreateWorkerConfigurationOutputError>) -> Void)
 ```
 
-### deleteConnector(input:​completion:​)
+### deleteConnector(input:completion:)
 
 Deletes the specified connector.
 
@@ -40,7 +38,7 @@ Deletes the specified connector.
 func deleteConnector(input: DeleteConnectorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConnectorOutputResponse, DeleteConnectorOutputError>) -> Void)
 ```
 
-### describeConnector(input:​completion:​)
+### describeConnector(input:completion:)
 
 Returns summary information about the connector.
 
@@ -48,7 +46,7 @@ Returns summary information about the connector.
 func describeConnector(input: DescribeConnectorInput, completion: @escaping (ClientRuntime.SdkResult<DescribeConnectorOutputResponse, DescribeConnectorOutputError>) -> Void)
 ```
 
-### describeCustomPlugin(input:​completion:​)
+### describeCustomPlugin(input:completion:)
 
 A summary description of the custom plugin.
 
@@ -56,7 +54,7 @@ A summary description of the custom plugin.
 func describeCustomPlugin(input: DescribeCustomPluginInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCustomPluginOutputResponse, DescribeCustomPluginOutputError>) -> Void)
 ```
 
-### describeWorkerConfiguration(input:​completion:​)
+### describeWorkerConfiguration(input:completion:)
 
 Returns information about a worker configuration.
 
@@ -64,7 +62,7 @@ Returns information about a worker configuration.
 func describeWorkerConfiguration(input: DescribeWorkerConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeWorkerConfigurationOutputResponse, DescribeWorkerConfigurationOutputError>) -> Void)
 ```
 
-### listConnectors(input:​completion:​)
+### listConnectors(input:completion:)
 
 Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
 
@@ -72,7 +70,7 @@ Returns a list of all the connectors in this account and Region. The list is lim
 func listConnectors(input: ListConnectorsInput, completion: @escaping (ClientRuntime.SdkResult<ListConnectorsOutputResponse, ListConnectorsOutputError>) -> Void)
 ```
 
-### listCustomPlugins(input:​completion:​)
+### listCustomPlugins(input:completion:)
 
 Returns a list of all of the custom plugins in this account and Region.
 
@@ -80,7 +78,7 @@ Returns a list of all of the custom plugins in this account and Region.
 func listCustomPlugins(input: ListCustomPluginsInput, completion: @escaping (ClientRuntime.SdkResult<ListCustomPluginsOutputResponse, ListCustomPluginsOutputError>) -> Void)
 ```
 
-### listWorkerConfigurations(input:​completion:​)
+### listWorkerConfigurations(input:completion:)
 
 Returns a list of all of the worker configurations in this account and Region.
 
@@ -88,7 +86,7 @@ Returns a list of all of the worker configurations in this account and Region.
 func listWorkerConfigurations(input: ListWorkerConfigurationsInput, completion: @escaping (ClientRuntime.SdkResult<ListWorkerConfigurationsOutputResponse, ListWorkerConfigurationsOutputError>) -> Void)
 ```
 
-### updateConnector(input:​completion:​)
+### updateConnector(input:completion:)
 
 Updates the specified connector.
 

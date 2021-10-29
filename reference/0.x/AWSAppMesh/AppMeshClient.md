@@ -22,15 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AppMeshClient"
+```
+
 ## Methods
 
 ### `createGatewayRoute(input:completion:)`
 
-Creates a gateway route.
-A gateway route is attached to a virtual gateway and routes traffic to an existing
-virtual service. If a route matches a request, it can distribute traffic to a target
-virtual service.
-For more information about gateway routes, see <a href="https:​//docs.aws.amazon.com/app-mesh/latest/userguide/gateway-routes.html">Gateway routes.
+Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see [Gateway routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/gateway-routes.html).
 
 ``` swift
 public func createGatewayRoute(input: CreateGatewayRouteInput, completion: @escaping (ClientRuntime.SdkResult<CreateGatewayRouteOutputResponse, CreateGatewayRouteOutputError>) -> Void)
@@ -38,12 +42,7 @@ public func createGatewayRoute(input: CreateGatewayRouteInput, completion: @esca
 
 ### `createMesh(input:completion:)`
 
-Creates a service mesh.
-A service mesh is a logical boundary for network traffic between services that are
-represented by resources within the mesh. After you create your service mesh, you can
-create virtual services, virtual nodes, virtual routers, and routes to distribute traffic
-between the applications in your mesh.
-For more information about service meshes, see <a href="https:​//docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html">Service meshes.
+Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see [Service meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html).
 
 ``` swift
 public func createMesh(input: CreateMeshInput, completion: @escaping (ClientRuntime.SdkResult<CreateMeshOutputResponse, CreateMeshOutputError>) -> Void)
@@ -51,10 +50,7 @@ public func createMesh(input: CreateMeshInput, completion: @escaping (ClientRunt
 
 ### `createRoute(input:completion:)`
 
-Creates a route that is associated with a virtual router.
-You can route several different protocols and define a retry policy for a route.
-Traffic can be routed to one or more virtual nodes.
-For more information about routes, see <a href="https:​//docs.aws.amazon.com/app-mesh/latest/userguide/routes.html">Routes.
+Creates a route that is associated with a virtual router. You can route several different protocols and define a retry policy for a route. Traffic can be routed to one or more virtual nodes. For more information about routes, see [Routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html).
 
 ``` swift
 public func createRoute(input: CreateRouteInput, completion: @escaping (ClientRuntime.SdkResult<CreateRouteOutputResponse, CreateRouteOutputError>) -> Void)
@@ -62,13 +58,7 @@ public func createRoute(input: CreateRouteInput, completion: @escaping (ClientRu
 
 ### `createVirtualGateway(input:completion:)`
 
-Creates a virtual gateway.
-A virtual gateway allows resources outside your mesh to communicate to resources that
-are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS
-task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which
-represents an Envoy running with an application, a virtual gateway represents Envoy
-deployed by itself.
-For more information about virtual gateways, see <a href="https:​//docs.aws.amazon.com/app-mesh/latest/userguide/virtual_gateways.html">Virtual gateways.
+Creates a virtual gateway. A virtual gateway allows resources outside your mesh to communicate to resources that are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself. For more information about virtual gateways, see [Virtual gateways](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_gateways.html).
 
 ``` swift
 public func createVirtualGateway(input: CreateVirtualGatewayInput, completion: @escaping (ClientRuntime.SdkResult<CreateVirtualGatewayOutputResponse, CreateVirtualGatewayOutputError>) -> Void)
@@ -76,45 +66,15 @@ public func createVirtualGateway(input: CreateVirtualGatewayInput, completion: @
 
 ### `createVirtualNode(input:completion:)`
 
-Creates a virtual node within a service mesh.
-A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS
-service or a Kubernetes deployment. When you create a virtual node, you can specify the
-service discovery information for your task group, and whether the proxy running in a task
-group will communicate with other proxies using Transport Layer Security (TLS).
-You define a listener for any inbound traffic that your virtual node
-expects. Any virtual service that your virtual node expects to communicate to is specified
-as a backend.
-The response metadata for your new virtual node contains the arn that is
-associated with the virtual node. Set this value to the full ARN; for example,
-arn:​aws:​appmesh:​us-west-2:​123456789012:​myMesh/default/virtualNode/myApp)
-as the APPMESH\_RESOURCE\_ARN environment variable for your task group's Envoy
-proxy container in your task definition or pod spec. This is then mapped to the
-node.id and node.cluster Envoy parameters.
+Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that your virtual node expects to communicate to is specified as a backend. The response metadata for your new virtual node contains the arn that is associated with the virtual node. Set this value to the full ARN; for example, arn:aws:appmesh:us-west-2:123456789012:myMesh/default/virtualNode/myApp) as the APPMESH\_RESOURCE\_ARN environment variable for your task group's Envoy proxy container in your task definition or pod spec. This is then mapped to the node.id and node.cluster Envoy parameters. By default, App Mesh uses the name of the resource you specified in APPMESH\_RESOURCE\_ARN when Envoy is referring to itself in metrics and traces. You can override this behavior by setting the APPMESH\_RESOURCE\_CLUSTER environment variable with your own name. For more information about virtual nodes, see [Virtual nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html). You must be using 1.15.0 or later of the Envoy image when setting these variables. For more information aboutApp Mesh Envoy variables, see [Envoy image](https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html) in the AWS App Mesh User Guide.
 
 ``` swift
 public func createVirtualNode(input: CreateVirtualNodeInput, completion: @escaping (ClientRuntime.SdkResult<CreateVirtualNodeOutputResponse, CreateVirtualNodeOutputError>) -> Void)
 ```
 
-``` 
-        By default, App Mesh uses the name of the resource you specified in
-           APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and
-        traces. You can override this behavior by setting the
-           APPMESH_RESOURCE_CLUSTER environment variable with your own name.
-
-     For more information about virtual nodes, see <a href="https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html">Virtual nodes. You must be using 1.15.0 or later of the Envoy image when
-     setting these variables. For more information aboutApp Mesh Envoy variables, see <a href="https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html">Envoy image in
-     the AWS App Mesh User Guide.
-```
-
 ### `createVirtualRouter(input:completion:)`
 
-Creates a virtual router within a service mesh.
-Specify a listener for any inbound traffic that your virtual router
-receives. Create a virtual router for each protocol and port that you need to route.
-Virtual routers handle traffic for one or more virtual services within your mesh. After you
-create your virtual router, create and associate routes for your virtual router that direct
-incoming requests to different virtual nodes.
-For more information about virtual routers, see <a href="https:​//docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html">Virtual routers.
+Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see [Virtual routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html).
 
 ``` swift
 public func createVirtualRouter(input: CreateVirtualRouterInput, completion: @escaping (ClientRuntime.SdkResult<CreateVirtualRouterOutputResponse, CreateVirtualRouterOutputError>) -> Void)
@@ -122,13 +82,7 @@ public func createVirtualRouter(input: CreateVirtualRouterInput, completion: @es
 
 ### `createVirtualService(input:completion:)`
 
-Creates a virtual service within a service mesh.
-A virtual service is an abstraction of a real service that is provided by a virtual node
-directly or indirectly by means of a virtual router. Dependent services call your virtual
-service by its virtualServiceName, and those requests are routed to the
-virtual node or virtual router that is specified as the provider for the virtual
-service.
-For more information about virtual services, see <a href="https:​//docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html">Virtual services.
+Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName, and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see [Virtual services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html).
 
 ``` swift
 public func createVirtualService(input: CreateVirtualServiceInput, completion: @escaping (ClientRuntime.SdkResult<CreateVirtualServiceOutputResponse, CreateVirtualServiceOutputError>) -> Void)
@@ -144,9 +98,7 @@ public func deleteGatewayRoute(input: DeleteGatewayRouteInput, completion: @esca
 
 ### `deleteMesh(input:completion:)`
 
-Deletes an existing service mesh.
-You must delete all resources (virtual services, routes, virtual routers, and virtual
-nodes) in the service mesh before you can delete the mesh itself.
+Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself.
 
 ``` swift
 public func deleteMesh(input: DeleteMeshInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMeshOutputResponse, DeleteMeshOutputError>) -> Void)
@@ -162,8 +114,7 @@ public func deleteRoute(input: DeleteRouteInput, completion: @escaping (ClientRu
 
 ### `deleteVirtualGateway(input:completion:)`
 
-Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
-routes are associated to it.
+Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it.
 
 ``` swift
 public func deleteVirtualGateway(input: DeleteVirtualGatewayInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVirtualGatewayOutputResponse, DeleteVirtualGatewayOutputError>) -> Void)
@@ -171,9 +122,7 @@ public func deleteVirtualGateway(input: DeleteVirtualGatewayInput, completion: @
 
 ### `deleteVirtualNode(input:completion:)`
 
-Deletes an existing virtual node.
-You must delete any virtual services that list a virtual node as a service provider
-before you can delete the virtual node itself.
+Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself.
 
 ``` swift
 public func deleteVirtualNode(input: DeleteVirtualNodeInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVirtualNodeOutputResponse, DeleteVirtualNodeOutputError>) -> Void)
@@ -181,9 +130,7 @@ public func deleteVirtualNode(input: DeleteVirtualNodeInput, completion: @escapi
 
 ### `deleteVirtualRouter(input:completion:)`
 
-Deletes an existing virtual router.
-You must delete any routes associated with the virtual router before you can delete the
-router itself.
+Deletes an existing virtual router. You must delete any routes associated with the virtual router before you can delete the router itself.
 
 ``` swift
 public func deleteVirtualRouter(input: DeleteVirtualRouterInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVirtualRouterOutputResponse, DeleteVirtualRouterOutputError>) -> Void)
@@ -255,8 +202,7 @@ public func describeVirtualService(input: DescribeVirtualServiceInput, completio
 
 ### `listGatewayRoutes(input:completion:)`
 
-Returns a list of existing gateway routes that are associated to a virtual
-gateway.
+Returns a list of existing gateway routes that are associated to a virtual gateway.
 
 ``` swift
 public func listGatewayRoutes(input: ListGatewayRoutesInput, completion: @escaping (ClientRuntime.SdkResult<ListGatewayRoutesOutputResponse, ListGatewayRoutesOutputError>) -> Void)
@@ -320,10 +266,7 @@ public func listVirtualServices(input: ListVirtualServicesInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Associates the specified tags to a resource with the specified resourceArn.
-If existing tags on a resource aren't specified in the request parameters, they aren't
-changed. When a resource is deleted, the tags associated with that resource are also
-deleted.
+Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -339,8 +282,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateGatewayRoute(input:completion:)`
 
-Updates an existing gateway route that is associated to a specified virtual gateway in a
-service mesh.
+Updates an existing gateway route that is associated to a specified virtual gateway in a service mesh.
 
 ``` swift
 public func updateGatewayRoute(input: UpdateGatewayRouteInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGatewayRouteOutputResponse, UpdateGatewayRouteOutputError>) -> Void)

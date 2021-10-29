@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "RoboMakerClient"
+```
+
 ## Methods
 
 ### `batchDeleteWorlds(input:completion:)`
@@ -58,8 +66,7 @@ public func cancelSimulationJob(input: CancelSimulationJobInput, completion: @es
 
 ### `cancelSimulationJobBatch(input:completion:)`
 
-Cancels a simulation job batch. When you cancel a simulation job batch, you are also
-cancelling all of the active simulation jobs created as part of the batch.
+Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
 
 ``` swift
 public func cancelSimulationJobBatch(input: CancelSimulationJobBatchInput, completion: @escaping (ClientRuntime.SdkResult<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>) -> Void)
@@ -83,18 +90,10 @@ public func cancelWorldGenerationJob(input: CancelWorldGenerationJobInput, compl
 
 ### `createDeploymentJob(input:completion:)`
 
-Deploys a specific version of a robot application to robots in a fleet.
-The robot application must have a numbered applicationVersion for
-consistency reasons. To create a new version, use
-CreateRobotApplicationVersion or see <a href="https:​//docs.aws.amazon.com/robomaker/latest/dg/create-robot-application-version.html">Creating a Robot Application Version.
+Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see [Creating a Robot Application Version](https://docs.aws.amazon.com/robomaker/latest/dg/create-robot-application-version.html). After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
 
 ``` swift
 public func createDeploymentJob(input: CreateDeploymentJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>) -> Void)
-```
-
-``` 
-        After 90 days, deployment jobs expire and will be deleted. They will no longer be
-        accessible.
 ```
 
 ### `createFleet(input:completion:)`
@@ -147,15 +146,10 @@ public func createSimulationApplicationVersion(input: CreateSimulationApplicatio
 
 ### `createSimulationJob(input:completion:)`
 
-Creates a simulation job.
+Creates a simulation job. After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
 
 ``` swift
 public func createSimulationJob(input: CreateSimulationJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>) -> Void)
-```
-
-``` 
-        After 90 days, simulation jobs expire and will be deleted. They will no longer be
-        accessible.
 ```
 
 ### `createWorldExportJob(input:completion:)`
@@ -328,8 +322,7 @@ public func getWorldTemplateBody(input: GetWorldTemplateBodyInput, completion: @
 
 ### `listDeploymentJobs(input:completion:)`
 
-Returns a list of deployment jobs for a fleet. You can optionally provide filters to
-retrieve specific deployment jobs.
+Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
 
 ``` swift
 public func listDeploymentJobs(input: ListDeploymentJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>) -> Void)
@@ -337,8 +330,7 @@ public func listDeploymentJobs(input: ListDeploymentJobsInput, completion: @esca
 
 ### `listFleets(input:completion:)`
 
-Returns a list of fleets. You can optionally provide filters to retrieve specific
-fleets.
+Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
 
 ``` swift
 public func listFleets(input: ListFleetsInput, completion: @escaping (ClientRuntime.SdkResult<ListFleetsOutputResponse, ListFleetsOutputError>) -> Void)
@@ -346,8 +338,7 @@ public func listFleets(input: ListFleetsInput, completion: @escaping (ClientRunt
 
 ### `listRobotApplications(input:completion:)`
 
-Returns a list of robot application. You can optionally provide filters to retrieve
-specific robot applications.
+Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
 
 ``` swift
 public func listRobotApplications(input: ListRobotApplicationsInput, completion: @escaping (ClientRuntime.SdkResult<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>) -> Void)
@@ -355,8 +346,7 @@ public func listRobotApplications(input: ListRobotApplicationsInput, completion:
 
 ### `listRobots(input:completion:)`
 
-Returns a list of robots. You can optionally provide filters to retrieve specific
-robots.
+Returns a list of robots. You can optionally provide filters to retrieve specific robots.
 
 ``` swift
 public func listRobots(input: ListRobotsInput, completion: @escaping (ClientRuntime.SdkResult<ListRobotsOutputResponse, ListRobotsOutputError>) -> Void)
@@ -364,8 +354,7 @@ public func listRobots(input: ListRobotsInput, completion: @escaping (ClientRunt
 
 ### `listSimulationApplications(input:completion:)`
 
-Returns a list of simulation applications. You can optionally provide filters to
-retrieve specific simulation applications.
+Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
 
 ``` swift
 public func listSimulationApplications(input: ListSimulationApplicationsInput, completion: @escaping (ClientRuntime.SdkResult<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>) -> Void)
@@ -373,8 +362,7 @@ public func listSimulationApplications(input: ListSimulationApplicationsInput, c
 
 ### `listSimulationJobBatches(input:completion:)`
 
-Returns a list simulation job batches. You can optionally provide filters to retrieve
-specific simulation batch jobs.
+Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
 
 ``` swift
 public func listSimulationJobBatches(input: ListSimulationJobBatchesInput, completion: @escaping (ClientRuntime.SdkResult<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>) -> Void)
@@ -382,8 +370,7 @@ public func listSimulationJobBatches(input: ListSimulationJobBatchesInput, compl
 
 ### `listSimulationJobs(input:completion:)`
 
-Returns a list of simulation jobs. You can optionally provide filters to retrieve
-specific simulation jobs.
+Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
 
 ``` swift
 public func listSimulationJobs(input: ListSimulationJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>) -> Void)
@@ -447,8 +434,7 @@ public func restartSimulationJob(input: RestartSimulationJobInput, completion: @
 
 ### `startSimulationJobBatch(input:completion:)`
 
-Starts a new simulation job batch. The batch is defined using one or more
-SimulationJobRequest objects.
+Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
 
 ``` swift
 public func startSimulationJobBatch(input: StartSimulationJobBatchInput, completion: @escaping (ClientRuntime.SdkResult<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>) -> Void)
@@ -456,8 +442,7 @@ public func startSimulationJobBatch(input: StartSimulationJobBatchInput, complet
 
 ### `syncDeploymentJob(input:completion:)`
 
-Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were
-added after a deployment.
+Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
 
 ``` swift
 public func syncDeploymentJob(input: SyncDeploymentJobInput, completion: @escaping (ClientRuntime.SdkResult<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>) -> Void)
@@ -465,11 +450,7 @@ public func syncDeploymentJob(input: SyncDeploymentJobInput, completion: @escapi
 
 ### `tagResource(input:completion:)`
 
-Adds or edits tags for a AWS RoboMaker resource.
-Each tag consists of a tag key and a tag value. Tag keys and tag values are both
-required, but tag values can be empty strings.
-For information about the rules that apply to tag keys and tag values, see <a href="https:​//docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined Tag Restrictions in the AWS Billing and Cost Management
-User Guide.
+Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings. For information about the rules that apply to tag keys and tag values, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the AWS Billing and Cost Management User Guide.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -477,11 +458,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `untagResource(input:completion:)`
 
-Removes the specified tags from the specified AWS RoboMaker resource.
-To remove a tag, specify the tag key. To change the tag value of an existing tag key,
-use <a href="https:​//docs.aws.amazon.com/robomaker/latest/dg/API_TagResource.html">
-TagResource
-.
+Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use [TagResource](https://docs.aws.amazon.com/robomaker/latest/dg/API_TagResource.html).
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)

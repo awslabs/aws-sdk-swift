@@ -22,15 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "TranscribeClient"
+```
+
 ## Methods
 
 ### `createCallAnalyticsCategory(input:completion:)`
 
-Creates an analytics category. Amazon Transcribe applies the conditions specified by your
-analytics categories to your call analytics jobs. For each analytics category, you specify one or
-more rules. For example, you can specify a rule that the customer sentiment was neutral or
-negative within that category. If you start a call analytics job, Amazon Transcribe applies the
-category to the analytics job that you've specified.
+Creates an analytics category. Amazon Transcribe applies the conditions specified by your analytics categories to your call analytics jobs. For each analytics category, you specify one or more rules. For example, you can specify a rule that the customer sentiment was neutral or negative within that category. If you start a call analytics job, Amazon Transcribe applies the category to the analytics job that you've specified.
 
 ``` swift
 public func createCallAnalyticsCategory(input: CreateCallAnalyticsCategoryInput, completion: @escaping (ClientRuntime.SdkResult<CreateCallAnalyticsCategoryOutputResponse, CreateCallAnalyticsCategoryOutputError>) -> Void)
@@ -38,8 +42,7 @@ public func createCallAnalyticsCategory(input: CreateCallAnalyticsCategoryInput,
 
 ### `createLanguageModel(input:completion:)`
 
-Creates a new custom language model. Use Amazon S3 prefixes to provide the location of your input files. The time it
-takes to create your model depends on the size of your training data.
+Creates a new custom language model. Use Amazon S3 prefixes to provide the location of your input files. The time it takes to create your model depends on the size of your training data.
 
 ``` swift
 public func createLanguageModel(input: CreateLanguageModelInput, completion: @escaping (ClientRuntime.SdkResult<CreateLanguageModelOutputResponse, CreateLanguageModelOutputError>) -> Void)
@@ -55,8 +58,7 @@ public func createMedicalVocabulary(input: CreateMedicalVocabularyInput, complet
 
 ### `createVocabulary(input:completion:)`
 
-Creates a new custom vocabulary that you can use to change the way Amazon Transcribe handles transcription of an
-audio file.
+Creates a new custom vocabulary that you can use to change the way Amazon Transcribe handles transcription of an audio file.
 
 ``` swift
 public func createVocabulary(input: CreateVocabularyInput, completion: @escaping (ClientRuntime.SdkResult<CreateVocabularyOutputResponse, CreateVocabularyOutputError>) -> Void)
@@ -64,8 +66,7 @@ public func createVocabulary(input: CreateVocabularyInput, completion: @escaping
 
 ### `createVocabularyFilter(input:completion:)`
 
-Creates a new vocabulary filter that you can use to filter words, such as profane words, from the output of
-a transcription job.
+Creates a new vocabulary filter that you can use to filter words, such as profane words, from the output of a transcription job.
 
 ``` swift
 public func createVocabularyFilter(input: CreateVocabularyFilterInput, completion: @escaping (ClientRuntime.SdkResult<CreateVocabularyFilterOutputResponse, CreateVocabularyFilterOutputError>) -> Void)
@@ -113,8 +114,7 @@ public func deleteMedicalVocabulary(input: DeleteMedicalVocabularyInput, complet
 
 ### `deleteTranscriptionJob(input:completion:)`
 
-Deletes a previously submitted transcription job along with any other generated results such as the
-transcription, models, and so on.
+Deletes a previously submitted transcription job along with any other generated results such as the transcription, models, and so on.
 
 ``` swift
 public func deleteTranscriptionJob(input: DeleteTranscriptionJobInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTranscriptionJobOutputResponse, DeleteTranscriptionJobOutputError>) -> Void)
@@ -138,11 +138,7 @@ public func deleteVocabularyFilter(input: DeleteVocabularyFilterInput, completio
 
 ### `describeLanguageModel(input:completion:)`
 
-Gets information about a single custom language model. Use this information to see details about the
-language model in your Amazon Web Services account. You can also see whether the base language model used
-to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a
-new custom language model using the updated base model. If the language model wasn't created, you can use this
-operation to understand why Amazon Transcribe couldn't create it.
+Gets information about a single custom language model. Use this information to see details about the language model in your Amazon Web Services account. You can also see whether the base language model used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If the language model wasn't created, you can use this operation to understand why Amazon Transcribe couldn't create it.
 
 ``` swift
 public func describeLanguageModel(input: DescribeLanguageModelInput, completion: @escaping (ClientRuntime.SdkResult<DescribeLanguageModelOutputResponse, DescribeLanguageModelOutputError>) -> Void)
@@ -158,11 +154,7 @@ public func getCallAnalyticsCategory(input: GetCallAnalyticsCategoryInput, compl
 
 ### `getCallAnalyticsJob(input:completion:)`
 
-Returns information about a call analytics job. To see the status of the job, check the
-CallAnalyticsJobStatus field. If the status is COMPLETED, the job
-is finished and you can find the results at the location specified in the TranscriptFileUri
-field. If you enable personally identifiable information (PII) redaction, the redacted transcript appears
-in the RedactedTranscriptFileUri field.
+Returns information about a call analytics job. To see the status of the job, check the CallAnalyticsJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptFileUri field. If you enable personally identifiable information (PII) redaction, the redacted transcript appears in the RedactedTranscriptFileUri field.
 
 ``` swift
 public func getCallAnalyticsJob(input: GetCallAnalyticsJobInput, completion: @escaping (ClientRuntime.SdkResult<GetCallAnalyticsJobOutputResponse, GetCallAnalyticsJobOutputError>) -> Void)
@@ -170,9 +162,7 @@ public func getCallAnalyticsJob(input: GetCallAnalyticsJobInput, completion: @es
 
 ### `getMedicalTranscriptionJob(input:completion:)`
 
-Returns information about a transcription job from Amazon Transcribe Medical. To see the status of the job, check the
-TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You
-find the results of the completed job in the TranscriptFileUri field.
+Returns information about a transcription job from Amazon Transcribe Medical. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You find the results of the completed job in the TranscriptFileUri field.
 
 ``` swift
 public func getMedicalTranscriptionJob(input: GetMedicalTranscriptionJobInput, completion: @escaping (ClientRuntime.SdkResult<GetMedicalTranscriptionJobOutputResponse, GetMedicalTranscriptionJobOutputError>) -> Void)
@@ -188,10 +178,7 @@ public func getMedicalVocabulary(input: GetMedicalVocabularyInput, completion: @
 
 ### `getTranscriptionJob(input:completion:)`
 
-Returns information about a transcription job. To see the status of the job, check the
-TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and
-you can find the results at the location specified in the TranscriptFileUri field. If you enable content
-redaction, the redacted transcript appears in RedactedTranscriptFileUri.
+Returns information about a transcription job. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptFileUri field. If you enable content redaction, the redacted transcript appears in RedactedTranscriptFileUri.
 
 ``` swift
 public func getTranscriptionJob(input: GetTranscriptionJobInput, completion: @escaping (ClientRuntime.SdkResult<GetTranscriptionJobOutputResponse, GetTranscriptionJobOutputError>) -> Void)
@@ -215,9 +202,7 @@ public func getVocabularyFilter(input: GetVocabularyFilterInput, completion: @es
 
 ### `listCallAnalyticsCategories(input:completion:)`
 
-Provides more information about the call analytics categories that you've created. You
-can use the information in this list to find a specific category. You can then use the
-operation to get more information about it.
+Provides more information about the call analytics categories that you've created. You can use the information in this list to find a specific category. You can then use the operation to get more information about it.
 
 ``` swift
 public func listCallAnalyticsCategories(input: ListCallAnalyticsCategoriesInput, completion: @escaping (ClientRuntime.SdkResult<ListCallAnalyticsCategoriesOutputResponse, ListCallAnalyticsCategoriesOutputError>) -> Void)
@@ -233,9 +218,7 @@ public func listCallAnalyticsJobs(input: ListCallAnalyticsJobsInput, completion:
 
 ### `listLanguageModels(input:completion:)`
 
-Provides more information about the custom language models you've created. You can use the information in
-this list to find a specific custom language model. You can then use the
-operation to get more information about it.
+Provides more information about the custom language models you've created. You can use the information in this list to find a specific custom language model. You can then use the operation to get more information about it.
 
 ``` swift
 public func listLanguageModels(input: ListLanguageModelsInput, completion: @escaping (ClientRuntime.SdkResult<ListLanguageModelsOutputResponse, ListLanguageModelsOutputError>) -> Void)
@@ -251,8 +234,7 @@ public func listMedicalTranscriptionJobs(input: ListMedicalTranscriptionJobsInpu
 
 ### `listMedicalVocabularies(input:completion:)`
 
-Returns a list of vocabularies that match the specified criteria. If you don't enter a value in any of the request
-parameters, returns the entire list of vocabularies.
+Returns a list of vocabularies that match the specified criteria. If you don't enter a value in any of the request parameters, returns the entire list of vocabularies.
 
 ``` swift
 public func listMedicalVocabularies(input: ListMedicalVocabulariesInput, completion: @escaping (ClientRuntime.SdkResult<ListMedicalVocabulariesOutputResponse, ListMedicalVocabulariesOutputError>) -> Void)
@@ -276,8 +258,7 @@ public func listTranscriptionJobs(input: ListTranscriptionJobsInput, completion:
 
 ### `listVocabularies(input:completion:)`
 
-Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list
-of vocabularies.
+Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list of vocabularies.
 
 ``` swift
 public func listVocabularies(input: ListVocabulariesInput, completion: @escaping (ClientRuntime.SdkResult<ListVocabulariesOutputResponse, ListVocabulariesOutputError>) -> Void)
@@ -293,11 +274,7 @@ public func listVocabularyFilters(input: ListVocabularyFiltersInput, completion:
 
 ### `startCallAnalyticsJob(input:completion:)`
 
-Starts an asynchronous analytics job that not only transcribes the audio recording of a caller and agent, but
-also returns additional insights. These insights include how quickly or loudly the caller or agent was speaking. To
-retrieve additional insights with your analytics jobs, create categories. A category is a way to classify analytics jobs
-based on attributes, such as a customer's sentiment or a particular phrase being used during the call. For more
-information, see the  operation.
+Starts an asynchronous analytics job that not only transcribes the audio recording of a caller and agent, but also returns additional insights. These insights include how quickly or loudly the caller or agent was speaking. To retrieve additional insights with your analytics jobs, create categories. A category is a way to classify analytics jobs based on attributes, such as a customer's sentiment or a particular phrase being used during the call. For more information, see the operation.
 
 ``` swift
 public func startCallAnalyticsJob(input: StartCallAnalyticsJobInput, completion: @escaping (ClientRuntime.SdkResult<StartCallAnalyticsJobOutputResponse, StartCallAnalyticsJobOutputError>) -> Void)
@@ -337,8 +314,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateCallAnalyticsCategory(input:completion:)`
 
-Updates the call analytics category with new values. The UpdateCallAnalyticsCategory
-operation overwrites all of the existing information with the values that you provide in the request.
+Updates the call analytics category with new values. The UpdateCallAnalyticsCategory operation overwrites all of the existing information with the values that you provide in the request.
 
 ``` swift
 public func updateCallAnalyticsCategory(input: UpdateCallAnalyticsCategoryInput, completion: @escaping (ClientRuntime.SdkResult<UpdateCallAnalyticsCategoryOutputResponse, UpdateCallAnalyticsCategoryOutputError>) -> Void)
@@ -346,9 +322,7 @@ public func updateCallAnalyticsCategory(input: UpdateCallAnalyticsCategoryInput,
 
 ### `updateMedicalVocabulary(input:completion:)`
 
-Updates a vocabulary with new values that you provide in a different text file from the one you used to create
-the vocabulary. The UpdateMedicalVocabulary operation overwrites all of the existing information
-with the values that you provide in the request.
+Updates a vocabulary with new values that you provide in a different text file from the one you used to create the vocabulary. The UpdateMedicalVocabulary operation overwrites all of the existing information with the values that you provide in the request.
 
 ``` swift
 public func updateMedicalVocabulary(input: UpdateMedicalVocabularyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateMedicalVocabularyOutputResponse, UpdateMedicalVocabularyOutputError>) -> Void)
@@ -356,8 +330,7 @@ public func updateMedicalVocabulary(input: UpdateMedicalVocabularyInput, complet
 
 ### `updateVocabulary(input:completion:)`
 
-Updates an existing vocabulary with new values. The UpdateVocabulary operation overwrites
-all of the existing information with the values that you provide in the request.
+Updates an existing vocabulary with new values. The UpdateVocabulary operation overwrites all of the existing information with the values that you provide in the request.
 
 ``` swift
 public func updateVocabulary(input: UpdateVocabularyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateVocabularyOutputResponse, UpdateVocabularyOutputError>) -> Void)

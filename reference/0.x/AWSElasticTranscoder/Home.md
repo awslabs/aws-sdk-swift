@@ -8,5 +8,4 @@
 # Protocols
 
   - [ElasticTranscoderClientProtocol](/aws-sdk-swift/reference/0.x/AWSElasticTranscoder/ElasticTranscoderClientProtocol):
-    <fullname>AWS Elastic Transcoder Service</fullname>
-    The AWS Elastic Transcoder Service.
+    AWS Elastic Transcoder Service The AWS Elastic Transcoder Service.

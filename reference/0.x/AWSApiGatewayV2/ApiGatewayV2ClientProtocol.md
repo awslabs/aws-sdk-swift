@@ -8,7 +8,7 @@ public protocol ApiGatewayV2ClientProtocol
 
 ## Requirements
 
-### createApi(input:​completion:​)
+### createApi(input:completion:)
 
 Creates an Api resource.
 
@@ -16,7 +16,7 @@ Creates an Api resource.
 func createApi(input: CreateApiInput, completion: @escaping (ClientRuntime.SdkResult<CreateApiOutputResponse, CreateApiOutputError>) -> Void)
 ```
 
-### createApiMapping(input:​completion:​)
+### createApiMapping(input:completion:)
 
 Creates an API mapping.
 
@@ -24,7 +24,7 @@ Creates an API mapping.
 func createApiMapping(input: CreateApiMappingInput, completion: @escaping (ClientRuntime.SdkResult<CreateApiMappingOutputResponse, CreateApiMappingOutputError>) -> Void)
 ```
 
-### createAuthorizer(input:​completion:​)
+### createAuthorizer(input:completion:)
 
 Creates an Authorizer for an API.
 
@@ -32,7 +32,7 @@ Creates an Authorizer for an API.
 func createAuthorizer(input: CreateAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<CreateAuthorizerOutputResponse, CreateAuthorizerOutputError>) -> Void)
 ```
 
-### createDeployment(input:​completion:​)
+### createDeployment(input:completion:)
 
 Creates a Deployment for an API.
 
@@ -40,7 +40,7 @@ Creates a Deployment for an API.
 func createDeployment(input: CreateDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<CreateDeploymentOutputResponse, CreateDeploymentOutputError>) -> Void)
 ```
 
-### createDomainName(input:​completion:​)
+### createDomainName(input:completion:)
 
 Creates a domain name.
 
@@ -48,7 +48,7 @@ Creates a domain name.
 func createDomainName(input: CreateDomainNameInput, completion: @escaping (ClientRuntime.SdkResult<CreateDomainNameOutputResponse, CreateDomainNameOutputError>) -> Void)
 ```
 
-### createIntegration(input:​completion:​)
+### createIntegration(input:completion:)
 
 Creates an Integration.
 
@@ -56,7 +56,7 @@ Creates an Integration.
 func createIntegration(input: CreateIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<CreateIntegrationOutputResponse, CreateIntegrationOutputError>) -> Void)
 ```
 
-### createIntegrationResponse(input:​completion:​)
+### createIntegrationResponse(input:completion:)
 
 Creates an IntegrationResponses.
 
@@ -64,7 +64,7 @@ Creates an IntegrationResponses.
 func createIntegrationResponse(input: CreateIntegrationResponseInput, completion: @escaping (ClientRuntime.SdkResult<CreateIntegrationResponseOutputResponse, CreateIntegrationResponseOutputError>) -> Void)
 ```
 
-### createModel(input:​completion:​)
+### createModel(input:completion:)
 
 Creates a Model for an API.
 
@@ -72,7 +72,7 @@ Creates a Model for an API.
 func createModel(input: CreateModelInput, completion: @escaping (ClientRuntime.SdkResult<CreateModelOutputResponse, CreateModelOutputError>) -> Void)
 ```
 
-### createRoute(input:​completion:​)
+### createRoute(input:completion:)
 
 Creates a Route for an API.
 
@@ -80,7 +80,7 @@ Creates a Route for an API.
 func createRoute(input: CreateRouteInput, completion: @escaping (ClientRuntime.SdkResult<CreateRouteOutputResponse, CreateRouteOutputError>) -> Void)
 ```
 
-### createRouteResponse(input:​completion:​)
+### createRouteResponse(input:completion:)
 
 Creates a RouteResponse for a Route.
 
@@ -88,7 +88,7 @@ Creates a RouteResponse for a Route.
 func createRouteResponse(input: CreateRouteResponseInput, completion: @escaping (ClientRuntime.SdkResult<CreateRouteResponseOutputResponse, CreateRouteResponseOutputError>) -> Void)
 ```
 
-### createStage(input:​completion:​)
+### createStage(input:completion:)
 
 Creates a Stage for an API.
 
@@ -96,7 +96,7 @@ Creates a Stage for an API.
 func createStage(input: CreateStageInput, completion: @escaping (ClientRuntime.SdkResult<CreateStageOutputResponse, CreateStageOutputError>) -> Void)
 ```
 
-### createVpcLink(input:​completion:​)
+### createVpcLink(input:completion:)
 
 Creates a VPC link.
 
@@ -104,7 +104,7 @@ Creates a VPC link.
 func createVpcLink(input: CreateVpcLinkInput, completion: @escaping (ClientRuntime.SdkResult<CreateVpcLinkOutputResponse, CreateVpcLinkOutputError>) -> Void)
 ```
 
-### deleteAccessLogSettings(input:​completion:​)
+### deleteAccessLogSettings(input:completion:)
 
 Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
 
@@ -112,7 +112,7 @@ Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage
 func deleteAccessLogSettings(input: DeleteAccessLogSettingsInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAccessLogSettingsOutputResponse, DeleteAccessLogSettingsOutputError>) -> Void)
 ```
 
-### deleteApi(input:​completion:​)
+### deleteApi(input:completion:)
 
 Deletes an Api resource.
 
@@ -120,7 +120,7 @@ Deletes an Api resource.
 func deleteApi(input: DeleteApiInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApiOutputResponse, DeleteApiOutputError>) -> Void)
 ```
 
-### deleteApiMapping(input:​completion:​)
+### deleteApiMapping(input:completion:)
 
 Deletes an API mapping.
 
@@ -128,7 +128,7 @@ Deletes an API mapping.
 func deleteApiMapping(input: DeleteApiMappingInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApiMappingOutputResponse, DeleteApiMappingOutputError>) -> Void)
 ```
 
-### deleteAuthorizer(input:​completion:​)
+### deleteAuthorizer(input:completion:)
 
 Deletes an Authorizer.
 
@@ -136,7 +136,7 @@ Deletes an Authorizer.
 func deleteAuthorizer(input: DeleteAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAuthorizerOutputResponse, DeleteAuthorizerOutputError>) -> Void)
 ```
 
-### deleteCorsConfiguration(input:​completion:​)
+### deleteCorsConfiguration(input:completion:)
 
 Deletes a CORS configuration.
 
@@ -144,7 +144,7 @@ Deletes a CORS configuration.
 func deleteCorsConfiguration(input: DeleteCorsConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteCorsConfigurationOutputResponse, DeleteCorsConfigurationOutputError>) -> Void)
 ```
 
-### deleteDeployment(input:​completion:​)
+### deleteDeployment(input:completion:)
 
 Deletes a Deployment.
 
@@ -152,7 +152,7 @@ Deletes a Deployment.
 func deleteDeployment(input: DeleteDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDeploymentOutputResponse, DeleteDeploymentOutputError>) -> Void)
 ```
 
-### deleteDomainName(input:​completion:​)
+### deleteDomainName(input:completion:)
 
 Deletes a domain name.
 
@@ -160,7 +160,7 @@ Deletes a domain name.
 func deleteDomainName(input: DeleteDomainNameInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>) -> Void)
 ```
 
-### deleteIntegration(input:​completion:​)
+### deleteIntegration(input:completion:)
 
 Deletes an Integration.
 
@@ -168,7 +168,7 @@ Deletes an Integration.
 func deleteIntegration(input: DeleteIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIntegrationOutputResponse, DeleteIntegrationOutputError>) -> Void)
 ```
 
-### deleteIntegrationResponse(input:​completion:​)
+### deleteIntegrationResponse(input:completion:)
 
 Deletes an IntegrationResponses.
 
@@ -176,7 +176,7 @@ Deletes an IntegrationResponses.
 func deleteIntegrationResponse(input: DeleteIntegrationResponseInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIntegrationResponseOutputResponse, DeleteIntegrationResponseOutputError>) -> Void)
 ```
 
-### deleteModel(input:​completion:​)
+### deleteModel(input:completion:)
 
 Deletes a Model.
 
@@ -184,7 +184,7 @@ Deletes a Model.
 func deleteModel(input: DeleteModelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteModelOutputResponse, DeleteModelOutputError>) -> Void)
 ```
 
-### deleteRoute(input:​completion:​)
+### deleteRoute(input:completion:)
 
 Deletes a Route.
 
@@ -192,7 +192,7 @@ Deletes a Route.
 func deleteRoute(input: DeleteRouteInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRouteOutputResponse, DeleteRouteOutputError>) -> Void)
 ```
 
-### deleteRouteRequestParameter(input:​completion:​)
+### deleteRouteRequestParameter(input:completion:)
 
 Deletes a route request parameter.
 
@@ -200,7 +200,7 @@ Deletes a route request parameter.
 func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRouteRequestParameterOutputResponse, DeleteRouteRequestParameterOutputError>) -> Void)
 ```
 
-### deleteRouteResponse(input:​completion:​)
+### deleteRouteResponse(input:completion:)
 
 Deletes a RouteResponse.
 
@@ -208,7 +208,7 @@ Deletes a RouteResponse.
 func deleteRouteResponse(input: DeleteRouteResponseInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRouteResponseOutputResponse, DeleteRouteResponseOutputError>) -> Void)
 ```
 
-### deleteRouteSettings(input:​completion:​)
+### deleteRouteSettings(input:completion:)
 
 Deletes the RouteSettings for a stage.
 
@@ -216,7 +216,7 @@ Deletes the RouteSettings for a stage.
 func deleteRouteSettings(input: DeleteRouteSettingsInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRouteSettingsOutputResponse, DeleteRouteSettingsOutputError>) -> Void)
 ```
 
-### deleteStage(input:​completion:​)
+### deleteStage(input:completion:)
 
 Deletes a Stage.
 
@@ -224,7 +224,7 @@ Deletes a Stage.
 func deleteStage(input: DeleteStageInput, completion: @escaping (ClientRuntime.SdkResult<DeleteStageOutputResponse, DeleteStageOutputError>) -> Void)
 ```
 
-### deleteVpcLink(input:​completion:​)
+### deleteVpcLink(input:completion:)
 
 Deletes a VPC link.
 
@@ -232,13 +232,13 @@ Deletes a VPC link.
 func deleteVpcLink(input: DeleteVpcLinkInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVpcLinkOutputResponse, DeleteVpcLinkOutputError>) -> Void)
 ```
 
-### exportApi(input:​completion:​)
+### exportApi(input:completion:)
 
 ``` swift
 func exportApi(input: ExportApiInput, completion: @escaping (ClientRuntime.SdkResult<ExportApiOutputResponse, ExportApiOutputError>) -> Void)
 ```
 
-### getApi(input:​completion:​)
+### getApi(input:completion:)
 
 Gets an Api resource.
 
@@ -246,7 +246,7 @@ Gets an Api resource.
 func getApi(input: GetApiInput, completion: @escaping (ClientRuntime.SdkResult<GetApiOutputResponse, GetApiOutputError>) -> Void)
 ```
 
-### getApiMapping(input:​completion:​)
+### getApiMapping(input:completion:)
 
 Gets an API mapping.
 
@@ -254,7 +254,7 @@ Gets an API mapping.
 func getApiMapping(input: GetApiMappingInput, completion: @escaping (ClientRuntime.SdkResult<GetApiMappingOutputResponse, GetApiMappingOutputError>) -> Void)
 ```
 
-### getApiMappings(input:​completion:​)
+### getApiMappings(input:completion:)
 
 Gets API mappings.
 
@@ -262,7 +262,7 @@ Gets API mappings.
 func getApiMappings(input: GetApiMappingsInput, completion: @escaping (ClientRuntime.SdkResult<GetApiMappingsOutputResponse, GetApiMappingsOutputError>) -> Void)
 ```
 
-### getApis(input:​completion:​)
+### getApis(input:completion:)
 
 Gets a collection of Api resources.
 
@@ -270,7 +270,7 @@ Gets a collection of Api resources.
 func getApis(input: GetApisInput, completion: @escaping (ClientRuntime.SdkResult<GetApisOutputResponse, GetApisOutputError>) -> Void)
 ```
 
-### getAuthorizer(input:​completion:​)
+### getAuthorizer(input:completion:)
 
 Gets an Authorizer.
 
@@ -278,7 +278,7 @@ Gets an Authorizer.
 func getAuthorizer(input: GetAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<GetAuthorizerOutputResponse, GetAuthorizerOutputError>) -> Void)
 ```
 
-### getAuthorizers(input:​completion:​)
+### getAuthorizers(input:completion:)
 
 Gets the Authorizers for an API.
 
@@ -286,7 +286,7 @@ Gets the Authorizers for an API.
 func getAuthorizers(input: GetAuthorizersInput, completion: @escaping (ClientRuntime.SdkResult<GetAuthorizersOutputResponse, GetAuthorizersOutputError>) -> Void)
 ```
 
-### getDeployment(input:​completion:​)
+### getDeployment(input:completion:)
 
 Gets a Deployment.
 
@@ -294,7 +294,7 @@ Gets a Deployment.
 func getDeployment(input: GetDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<GetDeploymentOutputResponse, GetDeploymentOutputError>) -> Void)
 ```
 
-### getDeployments(input:​completion:​)
+### getDeployments(input:completion:)
 
 Gets the Deployments for an API.
 
@@ -302,7 +302,7 @@ Gets the Deployments for an API.
 func getDeployments(input: GetDeploymentsInput, completion: @escaping (ClientRuntime.SdkResult<GetDeploymentsOutputResponse, GetDeploymentsOutputError>) -> Void)
 ```
 
-### getDomainName(input:​completion:​)
+### getDomainName(input:completion:)
 
 Gets a domain name.
 
@@ -310,7 +310,7 @@ Gets a domain name.
 func getDomainName(input: GetDomainNameInput, completion: @escaping (ClientRuntime.SdkResult<GetDomainNameOutputResponse, GetDomainNameOutputError>) -> Void)
 ```
 
-### getDomainNames(input:​completion:​)
+### getDomainNames(input:completion:)
 
 Gets the domain names for an AWS account.
 
@@ -318,7 +318,7 @@ Gets the domain names for an AWS account.
 func getDomainNames(input: GetDomainNamesInput, completion: @escaping (ClientRuntime.SdkResult<GetDomainNamesOutputResponse, GetDomainNamesOutputError>) -> Void)
 ```
 
-### getIntegration(input:​completion:​)
+### getIntegration(input:completion:)
 
 Gets an Integration.
 
@@ -326,7 +326,7 @@ Gets an Integration.
 func getIntegration(input: GetIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<GetIntegrationOutputResponse, GetIntegrationOutputError>) -> Void)
 ```
 
-### getIntegrationResponse(input:​completion:​)
+### getIntegrationResponse(input:completion:)
 
 Gets an IntegrationResponses.
 
@@ -334,7 +334,7 @@ Gets an IntegrationResponses.
 func getIntegrationResponse(input: GetIntegrationResponseInput, completion: @escaping (ClientRuntime.SdkResult<GetIntegrationResponseOutputResponse, GetIntegrationResponseOutputError>) -> Void)
 ```
 
-### getIntegrationResponses(input:​completion:​)
+### getIntegrationResponses(input:completion:)
 
 Gets the IntegrationResponses for an Integration.
 
@@ -342,7 +342,7 @@ Gets the IntegrationResponses for an Integration.
 func getIntegrationResponses(input: GetIntegrationResponsesInput, completion: @escaping (ClientRuntime.SdkResult<GetIntegrationResponsesOutputResponse, GetIntegrationResponsesOutputError>) -> Void)
 ```
 
-### getIntegrations(input:​completion:​)
+### getIntegrations(input:completion:)
 
 Gets the Integrations for an API.
 
@@ -350,7 +350,7 @@ Gets the Integrations for an API.
 func getIntegrations(input: GetIntegrationsInput, completion: @escaping (ClientRuntime.SdkResult<GetIntegrationsOutputResponse, GetIntegrationsOutputError>) -> Void)
 ```
 
-### getModel(input:​completion:​)
+### getModel(input:completion:)
 
 Gets a Model.
 
@@ -358,7 +358,7 @@ Gets a Model.
 func getModel(input: GetModelInput, completion: @escaping (ClientRuntime.SdkResult<GetModelOutputResponse, GetModelOutputError>) -> Void)
 ```
 
-### getModels(input:​completion:​)
+### getModels(input:completion:)
 
 Gets the Models for an API.
 
@@ -366,7 +366,7 @@ Gets the Models for an API.
 func getModels(input: GetModelsInput, completion: @escaping (ClientRuntime.SdkResult<GetModelsOutputResponse, GetModelsOutputError>) -> Void)
 ```
 
-### getModelTemplate(input:​completion:​)
+### getModelTemplate(input:completion:)
 
 Gets a model template.
 
@@ -374,7 +374,7 @@ Gets a model template.
 func getModelTemplate(input: GetModelTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetModelTemplateOutputResponse, GetModelTemplateOutputError>) -> Void)
 ```
 
-### getRoute(input:​completion:​)
+### getRoute(input:completion:)
 
 Gets a Route.
 
@@ -382,7 +382,7 @@ Gets a Route.
 func getRoute(input: GetRouteInput, completion: @escaping (ClientRuntime.SdkResult<GetRouteOutputResponse, GetRouteOutputError>) -> Void)
 ```
 
-### getRouteResponse(input:​completion:​)
+### getRouteResponse(input:completion:)
 
 Gets a RouteResponse.
 
@@ -390,7 +390,7 @@ Gets a RouteResponse.
 func getRouteResponse(input: GetRouteResponseInput, completion: @escaping (ClientRuntime.SdkResult<GetRouteResponseOutputResponse, GetRouteResponseOutputError>) -> Void)
 ```
 
-### getRouteResponses(input:​completion:​)
+### getRouteResponses(input:completion:)
 
 Gets the RouteResponses for a Route.
 
@@ -398,7 +398,7 @@ Gets the RouteResponses for a Route.
 func getRouteResponses(input: GetRouteResponsesInput, completion: @escaping (ClientRuntime.SdkResult<GetRouteResponsesOutputResponse, GetRouteResponsesOutputError>) -> Void)
 ```
 
-### getRoutes(input:​completion:​)
+### getRoutes(input:completion:)
 
 Gets the Routes for an API.
 
@@ -406,7 +406,7 @@ Gets the Routes for an API.
 func getRoutes(input: GetRoutesInput, completion: @escaping (ClientRuntime.SdkResult<GetRoutesOutputResponse, GetRoutesOutputError>) -> Void)
 ```
 
-### getStage(input:​completion:​)
+### getStage(input:completion:)
 
 Gets a Stage.
 
@@ -414,7 +414,7 @@ Gets a Stage.
 func getStage(input: GetStageInput, completion: @escaping (ClientRuntime.SdkResult<GetStageOutputResponse, GetStageOutputError>) -> Void)
 ```
 
-### getStages(input:​completion:​)
+### getStages(input:completion:)
 
 Gets the Stages for an API.
 
@@ -422,7 +422,7 @@ Gets the Stages for an API.
 func getStages(input: GetStagesInput, completion: @escaping (ClientRuntime.SdkResult<GetStagesOutputResponse, GetStagesOutputError>) -> Void)
 ```
 
-### getTags(input:​completion:​)
+### getTags(input:completion:)
 
 Gets a collection of Tag resources.
 
@@ -430,7 +430,7 @@ Gets a collection of Tag resources.
 func getTags(input: GetTagsInput, completion: @escaping (ClientRuntime.SdkResult<GetTagsOutputResponse, GetTagsOutputError>) -> Void)
 ```
 
-### getVpcLink(input:​completion:​)
+### getVpcLink(input:completion:)
 
 Gets a VPC link.
 
@@ -438,7 +438,7 @@ Gets a VPC link.
 func getVpcLink(input: GetVpcLinkInput, completion: @escaping (ClientRuntime.SdkResult<GetVpcLinkOutputResponse, GetVpcLinkOutputError>) -> Void)
 ```
 
-### getVpcLinks(input:​completion:​)
+### getVpcLinks(input:completion:)
 
 Gets a collection of VPC links.
 
@@ -446,7 +446,7 @@ Gets a collection of VPC links.
 func getVpcLinks(input: GetVpcLinksInput, completion: @escaping (ClientRuntime.SdkResult<GetVpcLinksOutputResponse, GetVpcLinksOutputError>) -> Void)
 ```
 
-### importApi(input:​completion:​)
+### importApi(input:completion:)
 
 Imports an API.
 
@@ -454,7 +454,7 @@ Imports an API.
 func importApi(input: ImportApiInput, completion: @escaping (ClientRuntime.SdkResult<ImportApiOutputResponse, ImportApiOutputError>) -> Void)
 ```
 
-### reimportApi(input:​completion:​)
+### reimportApi(input:completion:)
 
 Puts an Api resource.
 
@@ -462,7 +462,7 @@ Puts an Api resource.
 func reimportApi(input: ReimportApiInput, completion: @escaping (ClientRuntime.SdkResult<ReimportApiOutputResponse, ReimportApiOutputError>) -> Void)
 ```
 
-### resetAuthorizersCache(input:​completion:​)
+### resetAuthorizersCache(input:completion:)
 
 Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
 
@@ -470,7 +470,7 @@ Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
 func resetAuthorizersCache(input: ResetAuthorizersCacheInput, completion: @escaping (ClientRuntime.SdkResult<ResetAuthorizersCacheOutputResponse, ResetAuthorizersCacheOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Creates a new Tag resource to represent a tag.
 
@@ -478,7 +478,7 @@ Creates a new Tag resource to represent a tag.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Deletes a Tag.
 
@@ -486,7 +486,7 @@ Deletes a Tag.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateApi(input:​completion:​)
+### updateApi(input:completion:)
 
 Updates an Api resource.
 
@@ -494,7 +494,7 @@ Updates an Api resource.
 func updateApi(input: UpdateApiInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApiOutputResponse, UpdateApiOutputError>) -> Void)
 ```
 
-### updateApiMapping(input:​completion:​)
+### updateApiMapping(input:completion:)
 
 The API mapping.
 
@@ -502,7 +502,7 @@ The API mapping.
 func updateApiMapping(input: UpdateApiMappingInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApiMappingOutputResponse, UpdateApiMappingOutputError>) -> Void)
 ```
 
-### updateAuthorizer(input:​completion:​)
+### updateAuthorizer(input:completion:)
 
 Updates an Authorizer.
 
@@ -510,7 +510,7 @@ Updates an Authorizer.
 func updateAuthorizer(input: UpdateAuthorizerInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAuthorizerOutputResponse, UpdateAuthorizerOutputError>) -> Void)
 ```
 
-### updateDeployment(input:​completion:​)
+### updateDeployment(input:completion:)
 
 Updates a Deployment.
 
@@ -518,7 +518,7 @@ Updates a Deployment.
 func updateDeployment(input: UpdateDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDeploymentOutputResponse, UpdateDeploymentOutputError>) -> Void)
 ```
 
-### updateDomainName(input:​completion:​)
+### updateDomainName(input:completion:)
 
 Updates a domain name.
 
@@ -526,7 +526,7 @@ Updates a domain name.
 func updateDomainName(input: UpdateDomainNameInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>) -> Void)
 ```
 
-### updateIntegration(input:​completion:​)
+### updateIntegration(input:completion:)
 
 Updates an Integration.
 
@@ -534,7 +534,7 @@ Updates an Integration.
 func updateIntegration(input: UpdateIntegrationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateIntegrationOutputResponse, UpdateIntegrationOutputError>) -> Void)
 ```
 
-### updateIntegrationResponse(input:​completion:​)
+### updateIntegrationResponse(input:completion:)
 
 Updates an IntegrationResponses.
 
@@ -542,7 +542,7 @@ Updates an IntegrationResponses.
 func updateIntegrationResponse(input: UpdateIntegrationResponseInput, completion: @escaping (ClientRuntime.SdkResult<UpdateIntegrationResponseOutputResponse, UpdateIntegrationResponseOutputError>) -> Void)
 ```
 
-### updateModel(input:​completion:​)
+### updateModel(input:completion:)
 
 Updates a Model.
 
@@ -550,7 +550,7 @@ Updates a Model.
 func updateModel(input: UpdateModelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateModelOutputResponse, UpdateModelOutputError>) -> Void)
 ```
 
-### updateRoute(input:​completion:​)
+### updateRoute(input:completion:)
 
 Updates a Route.
 
@@ -558,7 +558,7 @@ Updates a Route.
 func updateRoute(input: UpdateRouteInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRouteOutputResponse, UpdateRouteOutputError>) -> Void)
 ```
 
-### updateRouteResponse(input:​completion:​)
+### updateRouteResponse(input:completion:)
 
 Updates a RouteResponse.
 
@@ -566,7 +566,7 @@ Updates a RouteResponse.
 func updateRouteResponse(input: UpdateRouteResponseInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRouteResponseOutputResponse, UpdateRouteResponseOutputError>) -> Void)
 ```
 
-### updateStage(input:​completion:​)
+### updateStage(input:completion:)
 
 Updates a Stage.
 
@@ -574,7 +574,7 @@ Updates a Stage.
 func updateStage(input: UpdateStageInput, completion: @escaping (ClientRuntime.SdkResult<UpdateStageOutputResponse, UpdateStageOutputError>) -> Void)
 ```
 
-### updateVpcLink(input:​completion:​)
+### updateVpcLink(input:completion:)
 
 Updates a VPC link.
 

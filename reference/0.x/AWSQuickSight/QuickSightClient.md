@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "QuickSightClient"
+```
+
 ## Methods
 
 ### `cancelIngestion(input:completion:)`
@@ -34,33 +42,10 @@ public func cancelIngestion(input: CancelIngestionInput, completion: @escaping (
 
 ### `createAccountCustomization(input:completion:)`
 
-Creates Amazon QuickSight customizations the current Amazon Web Services Region;. Currently, you can
-add a custom default theme by using the CreateAccountCustomization or
-UpdateAccountCustomization API operation. To further customize
-Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see <a href="https:​//docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html">Customizing Amazon QuickSight in the Amazon QuickSight User
-Guide.
+Creates Amazon QuickSight customizations the current Amazon Web Services Region;. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see [Customizing Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the \[DescribeThemePermissions\] API operation. To share the theme, grant permissions by using the \[UpdateThemePermissions\] API operation.
 
 ``` swift
 public func createAccountCustomization(input: CreateAccountCustomizationInput, completion: @escaping (ClientRuntime.SdkResult<CreateAccountCustomizationOutputResponse, CreateAccountCustomizationOutputError>) -> Void)
-```
-
-``` 
-    You can create customizations for your Amazon Web Services account or, if you specify a namespace, for
-        a Amazon QuickSight namespace instead. Customizations that apply to a namespace always override
-        customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
-        the DescribeAccountCustomization API operation.
-    Before you use the CreateAccountCustomization API operation to add a theme
-        as the namespace default, make sure that you first share the theme with the namespace.
-        If you don't share it with the namespace, the theme isn't visible to your users
-        even if you make it the default theme.
-        To check if the theme is shared, view the current permissions by using the
-
-           DescribeThemePermissions
-         API operation.
-        To share the theme, grant permissions by using the
-
-           UpdateThemePermissions
-         API operation.
 ```
 
 ### `createAnalysis(input:completion:)`
@@ -73,13 +58,7 @@ public func createAnalysis(input: CreateAnalysisInput, completion: @escaping (Cl
 
 ### `createDashboard(input:completion:)`
 
-Creates a dashboard from a template. To first create a template, see the
-CreateTemplate
-API operation.
-A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created
-from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can
-create scheduled email reports from them. If you have the correct permissions, you can
-create a dashboard from a template that exists in a different Amazon Web Services account.
+Creates a dashboard from a template. To first create a template, see the \[CreateTemplate\] API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
 
 ``` swift
 public func createDashboard(input: CreateDashboardInput, completion: @escaping (ClientRuntime.SdkResult<CreateDashboardOutputResponse, CreateDashboardOutputError>) -> Void)
@@ -119,11 +98,7 @@ public func createFolderMembership(input: CreateFolderMembershipInput, completio
 
 ### `createGroup(input:completion:)`
 
-Creates an Amazon QuickSight group.
-The permissions resource is
-arn:​aws:​quicksight:​us-east-1:​<relevant-aws-account-id>:​group/default/<group-name>
-.
-The response is a group object.
+Creates an Amazon QuickSight group. The permissions resource is arn:aws:quicksight:us-east-1::group/default/ . The response is a group object.
 
 ``` swift
 public func createGroup(input: CreateGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateGroupOutputResponse, CreateGroupOutputError>) -> Void)
@@ -139,10 +114,7 @@ public func createGroupMembership(input: CreateGroupMembershipInput, completion:
 
 ### `createIAMPolicyAssignment(input:completion:)`
 
-Creates an assignment with one specified IAMpolicy, identified by its Amazon Resource Name
-(ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight.
-Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces,
-use assignment names that are unique.
+Creates an assignment with one specified IAMpolicy, identified by its Amazon Resource Name (ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces, use assignment names that are unique.
 
 ``` swift
 public func createIAMPolicyAssignment(input: CreateIAMPolicyAssignmentInput, completion: @escaping (ClientRuntime.SdkResult<CreateIAMPolicyAssignmentOutputResponse, CreateIAMPolicyAssignmentOutputError>) -> Void)
@@ -150,28 +122,15 @@ public func createIAMPolicyAssignment(input: CreateIAMPolicyAssignmentInput, com
 
 ### `createIngestion(input:completion:)`
 
-Creates and starts a new SPICE ingestion on a dataset
+Creates and starts a new SPICE ingestion on a dataset Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see [How do I create an IAM policy to control access to Amazon EC2 resources using tags?](http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/) in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
 
 ``` swift
 public func createIngestion(input: CreateIngestionInput, completion: @escaping (ClientRuntime.SdkResult<CreateIngestionOutputResponse, CreateIngestionOutputError>) -> Void)
 ```
 
-``` 
-	       Any ingestions operating on tagged datasets inherit the same tags automatically for use in
-		access control. For an example, see <a href="http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/">How do I create an IAM policy to control access to Amazon EC2 resources using
-			tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
-```
-
 ### `createNamespace(input:completion:)`
 
-(Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight.
-A namespace allows you to isolate the Amazon QuickSight users and groups that are registered
-for that namespace. Users that access the namespace can share assets only with other
-users or groups in the same namespace. They can't see users and groups in other
-namespaces. You can create a namespace after your Amazon Web Services account is subscribed to
-Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a
-limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with
-Amazon Web Services Support.
+(Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
 
 ``` swift
 public func createNamespace(input: CreateNamespaceInput, completion: @escaping (ClientRuntime.SdkResult<CreateNamespaceOutputResponse, CreateNamespaceOutputError>) -> Void)
@@ -179,14 +138,7 @@ public func createNamespace(input: CreateNamespaceInput, completion: @escaping (
 
 ### `createTemplate(input:completion:)`
 
-Creates a template from an existing Amazon QuickSight analysis or template. You can use the resulting
-template to create a dashboard.
-A template is an entity in Amazon QuickSight that encapsulates the metadata
-required to create an analysis and that you can use to create s dashboard. A template adds
-a layer of abstraction by using placeholders to replace the dataset associated with the
-analysis. You can use templates to create dashboards by replacing dataset placeholders
-with datasets that follow the same schema that was used to create the source analysis
-and template.
+Creates a template from an existing Amazon QuickSight analysis or template. You can use the resulting template to create a dashboard. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
 
 ``` swift
 public func createTemplate(input: CreateTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateTemplateOutputResponse, CreateTemplateOutputError>) -> Void)
@@ -202,10 +154,7 @@ public func createTemplateAlias(input: CreateTemplateAliasInput, completion: @es
 
 ### `createTheme(input:completion:)`
 
-Creates a theme.
-A theme is set of configuration options for color and layout.
-Themes apply to analyses and dashboards. For more information, see <a href="https:​//docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html">Using
-Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
+Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon QuickSight User Guide.
 
 ``` swift
 public func createTheme(input: CreateThemeInput, completion: @escaping (ClientRuntime.SdkResult<CreateThemeOutputResponse, CreateThemeOutputError>) -> Void)
@@ -221,8 +170,7 @@ public func createThemeAlias(input: CreateThemeAliasInput, completion: @escaping
 
 ### `deleteAccountCustomization(input:completion:)`
 
-Deletes all Amazon QuickSight customizations in this Amazon Web Services Region; for the specified
-Amazon Web Services account and Amazon QuickSight namespace.
+Deletes all Amazon QuickSight customizations in this Amazon Web Services Region; for the specified Amazon Web Services account and Amazon QuickSight namespace.
 
 ``` swift
 public func deleteAccountCustomization(input: DeleteAccountCustomizationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAccountCustomizationOutputResponse, DeleteAccountCustomizationOutputError>) -> Void)
@@ -230,18 +178,7 @@ public func deleteAccountCustomization(input: DeleteAccountCustomizationInput, c
 
 ### `deleteAnalysis(input:completion:)`
 
-Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during
-which you can restore the analysis. If you don't specify a recovery window value, the
-operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to
-the response that specifies the end of the recovery window. At the end of the recovery
-window, Amazon QuickSight deletes the analysis permanently.
-At any time before recovery window ends, you can use the RestoreAnalysis
-API operation to remove the DeletionTime stamp and cancel the deletion of
-the analysis. The analysis remains visible in the API until it's deleted, so you can
-describe it but you can't make a template from it.
-An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console.
-To access it in the console, restore it. Deleting an analysis doesn't delete the
-dashboards that you publish from it.
+Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
 
 ``` swift
 public func deleteAnalysis(input: DeleteAnalysisInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAnalysisOutputResponse, DeleteAnalysisOutputError>) -> Void)
@@ -265,8 +202,7 @@ public func deleteDataSet(input: DeleteDataSetInput, completion: @escaping (Clie
 
 ### `deleteDataSource(input:completion:)`
 
-Deletes the data source permanently. This operation breaks
-all the datasets that reference the deleted data source.
+Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
 
 ``` swift
 public func deleteDataSource(input: DeleteDataSourceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>) -> Void)
@@ -314,9 +250,7 @@ public func deleteIAMPolicyAssignment(input: DeleteIAMPolicyAssignmentInput, com
 
 ### `deleteNamespace(input:completion:)`
 
-Deletes a namespace and the users and groups that are associated with the namespace.
-This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not
-deleted. To delete these assets, you use the API operations for the relevant asset.
+Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset.
 
 ``` swift
 public func deleteNamespace(input: DeleteNamespaceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>) -> Void)
@@ -332,8 +266,7 @@ public func deleteTemplate(input: DeleteTemplateInput, completion: @escaping (Cl
 
 ### `deleteTemplateAlias(input:completion:)`
 
-Deletes the item that the specified template alias points to. If you provide a specific
-alias, you delete the version of the template that the alias points to.
+Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
 
 ``` swift
 public func deleteTemplateAlias(input: DeleteTemplateAliasInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTemplateAliasOutputResponse, DeleteTemplateAliasOutputError>) -> Void)
@@ -349,9 +282,7 @@ public func deleteTheme(input: DeleteThemeInput, completion: @escaping (ClientRu
 
 ### `deleteThemeAlias(input:completion:)`
 
-Deletes the version of the theme that the specified theme alias points to.
-If you provide a specific alias, you delete the version of the theme
-that the alias points to.
+Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
 
 ``` swift
 public func deleteThemeAlias(input: DeleteThemeAliasInput, completion: @escaping (ClientRuntime.SdkResult<DeleteThemeAliasOutputResponse, DeleteThemeAliasOutputError>) -> Void)
@@ -359,9 +290,7 @@ public func deleteThemeAlias(input: DeleteThemeAliasInput, completion: @escaping
 
 ### `deleteUser(input:completion:)`
 
-Deletes the Amazon QuickSight user that is associated with the identity of the
-Identity and Access Management (IAM) user or role that's making the call. The IAM user
-isn't deleted as a result of this call.
+Deletes the Amazon QuickSight user that is associated with the identity of the Identity and Access Management (IAM) user or role that's making the call. The IAM user isn't deleted as a result of this call.
 
 ``` swift
 public func deleteUser(input: DeleteUserInput, completion: @escaping (ClientRuntime.SdkResult<DeleteUserOutputResponse, DeleteUserOutputError>) -> Void)
@@ -377,70 +306,29 @@ public func deleteUserByPrincipalId(input: DeleteUserByPrincipalIdInput, complet
 
 ### `describeAccountCustomization(input:completion:)`
 
-Describes the customizations associated with the provided Amazon Web Services account and Amazon
-Amazon QuickSight namespace in an Amazon Web Services Region;. The Amazon QuickSight console evaluates which
-customizations to apply by running this API operation with the Resolved flag
-included.
-To determine what customizations display when you run this command, it can help to
-visualize the relationship of the entities involved.
+Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region;. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
 
 ``` swift
 public func describeAccountCustomization(input: DescribeAccountCustomizationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAccountCustomizationOutputResponse, DescribeAccountCustomizationOutputError>) -> Void)
 ```
 
-``` 
-              Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy.
-                It has the potential to use all of the Amazon Web Services Regions; and AWS Services. When you
-                subscribe to Amazon QuickSight, you choose one Amazon Web Services Region; to use as your home Region.
-                That's where your free SPICE capacity is located. You can use Amazon QuickSight in any
-                supported Amazon Web Services Region;.
+  - Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions; and AWS Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region; to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region;.
 
+  - Amazon Web Services Region; - In each Amazon Web Services Region; where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region;, unless they are constrained to a namespace. To run the command in a different Amazon Web Services Region;, you change your Region settings. If you're using the AWS CLI, you can use one of the following options:
 
+  - Use [command line options](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html).
 
-              Amazon Web Services Region; - In each Amazon Web Services Region; where you sign in to Amazon QuickSight
-                at least once, Amazon QuickSight acts as a separate instance of the same service. If
-                you have a user directory, it resides in us-east-1, which is the US East (N.
-                Virginia). Generally speaking, these users have access to Amazon QuickSight in any
-                Amazon Web Services Region;, unless they are constrained to a namespace.
-            To run the command in a different Amazon Web Services Region;, you change your Region settings.
-                If you're using the AWS CLI, you can use one of the following options:
+  - Use [named profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html).
 
+  - Run aws configure to change your default Amazon Web Services Region;. Use Enter to key the same settings for your keys. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html).
 
-                    Use <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html">command line options.
+  - Namespace - A Amazon QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region;.
 
-
-                    Use <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">named profiles.
-
-
-                    Run aws configure to change your default Amazon Web Services Region;. Use
-                        Enter to key the same settings for your keys. For more information, see
-                        <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI.
-
-
-
-
-
-              Namespace - A Amazon QuickSight namespace is a partition that contains
-                users and assets (data sources, datasets, dashboards, and so on). To access
-                assets that are in a specific namespace, users and groups must also be part of
-                the same namespace. People who share a namespace are completely isolated from
-                users and assets in other namespaces, even if they are in the same Amazon Web Services account
-                and Amazon Web Services Region;.
-
-
-
-              Applied customizations -  Within an Amazon Web Services Region;, a set of
-                Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace.
-                Settings that you apply to a namespace override settings that you apply to an
-                Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region;. To apply them in
-                other Amazon Web Services Regions;, run the CreateAccountCustomization command in
-                each Amazon Web Services Region; where you want to apply the same customizations.
-```
+  - Applied customizations - Within an Amazon Web Services Region;, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region;. To apply them in other Amazon Web Services Regions;, run the CreateAccountCustomization command in each Amazon Web Services Region; where you want to apply the same customizations.
 
 ### `describeAccountSettings(input:completion:)`
 
-Describes the settings that were used when your Amazon QuickSight subscription was first
-created in this Amazon Web Services account.
+Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
 
 ``` swift
 public func describeAccountSettings(input: DescribeAccountSettingsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAccountSettingsOutputResponse, DescribeAccountSettingsOutputError>) -> Void)
@@ -488,8 +376,7 @@ public func describeDataSet(input: DescribeDataSetInput, completion: @escaping (
 
 ### `describeDataSetPermissions(input:completion:)`
 
-Describes the permissions on a dataset.
-The permissions resource is arn:​aws:​quicksight:​region:​aws-account-id:​dataset/data-set-id.
+Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 
 ``` swift
 public func describeDataSetPermissions(input: DescribeDataSetPermissionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDataSetPermissionsOutputResponse, DescribeDataSetPermissionsOutputError>) -> Void)
@@ -625,121 +512,65 @@ public func describeUser(input: DescribeUserInput, completion: @escaping (Client
 
 ### `generateEmbedUrlForAnonymousUser(input:completion:)`
 
-Generates an embed URL that you can use to embed an Amazon QuickSight dashboard in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions.
-The following rules apply to the generated URL:​
+Generates an embed URL that you can use to embed an Amazon QuickSight dashboard in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:
 
 ``` swift
 public func generateEmbedUrlForAnonymousUser(input: GenerateEmbedUrlForAnonymousUserInput, completion: @escaping (ClientRuntime.SdkResult<GenerateEmbedUrlForAnonymousUserOutputResponse, GenerateEmbedUrlForAnonymousUserOutputError>) -> Void)
 ```
 
-``` 
-            It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
+  - It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
 
+  - The URL validity period should not be confused with the actual session lifetime that can be customized using the [SessionLifetimeInMinutes](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForAnonymousUser.html#QS-GenerateEmbedUrlForAnonymousUser-request-SessionLifetimeInMinutes) parameter. The resulting user session is valid for 15 minutes (default) to 10 hours (maximum).
 
-            The URL validity period should not be confused with the actual session lifetime
-    that can be customized using the
-                 <a href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForAnonymousUser.html#QS-GenerateEmbedUrlForAnonymousUser-request-SessionLifetimeInMinutes">SessionLifetimeInMinutes
-               parameter.
-            The resulting user session is valid for 15 minutes (default) to 10 hours (maximum).
+  - You are charged only when the URL is used or there is interaction with Amazon QuickSight.
 
-
-            You are charged only when the URL is used or there is interaction with Amazon QuickSight.
-
-
-    For more information, see <a href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedded Analytics in the Amazon QuickSight User
-        Guide.
-    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the <a href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html">Amazon QuickSight Developer Portal.
-```
+For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
 
 ### `generateEmbedUrlForRegisteredUser(input:completion:)`
 
-Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
-The following rules apply to the generated URL:​
+Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:
 
 ``` swift
 public func generateEmbedUrlForRegisteredUser(input: GenerateEmbedUrlForRegisteredUserInput, completion: @escaping (ClientRuntime.SdkResult<GenerateEmbedUrlForRegisteredUserOutputResponse, GenerateEmbedUrlForRegisteredUserOutputError>) -> Void)
 ```
 
-``` 
-            It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
+  - It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
 
+  - The URL validity period should not be confused with the actual session lifetime that can be customized using the [SessionLifetimeInMinutes](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html#QS-GenerateEmbedUrlForRegisteredUser-request-SessionLifetimeInMinutes) parameter. The resulting user session is valid for 15 minutes (default) to 10 hours (maximum).
 
-            The URL validity period should not be confused with the actual session lifetime
-    that can be customized using the
-                 <a href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html#QS-GenerateEmbedUrlForRegisteredUser-request-SessionLifetimeInMinutes">SessionLifetimeInMinutes
-               parameter.
-            The resulting user session is valid for 15 minutes (default) to 10 hours (maximum).
+  - You are charged only when the URL is used or there is interaction with Amazon QuickSight.
 
-
-            You are charged only when the URL is used or there is interaction with Amazon QuickSight.
-
-
-    For more information, see <a href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedded Analytics in the Amazon QuickSight User
-        Guide.
-        For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the <a href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html">Amazon QuickSight Developer Portal.
-```
+For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
 
 ### `getDashboardEmbedUrl(input:completion:)`
 
-Generates a session URL and authorization code that you can use to embed an Amazon
-Amazon QuickSight read-only dashboard in your web server code. Before you use this command,
-make sure that you have configured the dashboards and permissions.
-Currently, you can use GetDashboardEmbedURL only from the server, not
-from the user's browser. The following rules apply to the combination of URL and
-authorization code:​
+Generates a session URL and authorization code that you can use to embed an Amazon Amazon QuickSight read-only dashboard in your web server code. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the combination of URL and authorization code:
 
 ``` swift
 public func getDashboardEmbedUrl(input: GetDashboardEmbedUrlInput, completion: @escaping (ClientRuntime.SdkResult<GetDashboardEmbedUrlOutputResponse, GetDashboardEmbedUrlOutputError>) -> Void)
 ```
 
-``` 
-            They must be used together.
+  - They must be used together.
 
+  - They can be used one time only.
 
-            They can be used one time only.
+  - They are valid for 5 minutes after you run this command.
 
+  - The resulting user session is valid for 10 hours.
 
-            They are valid for 5 minutes after you run this command.
-
-
-            The resulting user session is valid for 10 hours.
-
-
-    For more information, see <a href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html">Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User
-        Guide.
-        For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the <a href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html">Amazon QuickSight Developer Portal.
-```
+For more information, see [Embedding Analytics Using GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
 
 ### `getSessionEmbedUrl(input:completion:)`
 
-Generates a session URL and authorization code that you can use to embed the Amazon
-Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where
-you want to provide an authoring portal that allows users to create data sources,
-datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console
-need belong to the author or admin security cohort. If you want to restrict permissions
-to some of these features, add a custom permissions profile to the user with the
+Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the \[UpdateUser\] API operation. Use \[RegisterUser\] API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
 
 ``` swift
 public func getSessionEmbedUrl(input: GetSessionEmbedUrlInput, completion: @escaping (ClientRuntime.SdkResult<GetSessionEmbedUrlOutputResponse, GetSessionEmbedUrlOutputError>) -> Void)
 ```
 
-``` 
-           UpdateUser
-         API operation. Use
-           RegisterUser
-         API operation to add a new user with a custom permission profile attached. For more
-        information, see the following sections in the Amazon QuickSight User
-        Guide:
+  - [Embedding Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
 
-
-
-              <a href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedding Analytics
-
-
-
-
-              <a href="https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html">Customizing Access to the Amazon QuickSight Console
-```
+  - [Customizing Access to the Amazon QuickSight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
 
 ### `listAnalyses(input:completion:)`
 
@@ -767,8 +598,7 @@ public func listDashboards(input: ListDashboardsInput, completion: @escaping (Cl
 
 ### `listDataSets(input:completion:)`
 
-Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region;.
-The permissions resource is arn:​aws:​quicksight:​region:​aws-account-id:​dataset/\*.
+Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region;. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/\*.
 
 ``` swift
 public func listDataSets(input: ListDataSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListDataSetsOutputResponse, ListDataSetsOutputError>) -> Void)
@@ -824,9 +654,7 @@ public func listIAMPolicyAssignments(input: ListIAMPolicyAssignmentsInput, compl
 
 ### `listIAMPolicyAssignmentsForUser(input:completion:)`
 
-Lists all the IAMpolicy assignments, including the Amazon Resource Names (ARNs) for the IAM
-policies assigned to the specified user and group or groups that the user belongs
-to.
+Lists all the IAMpolicy assignments, including the Amazon Resource Names (ARNs) for the IAM policies assigned to the specified user and group or groups that the user belongs to.
 
 ``` swift
 public func listIAMPolicyAssignmentsForUser(input: ListIAMPolicyAssignmentsForUserInput, completion: @escaping (ClientRuntime.SdkResult<ListIAMPolicyAssignmentsForUserOutputResponse, ListIAMPolicyAssignmentsForUserOutputError>) -> Void)
@@ -922,8 +750,7 @@ public func listUsers(input: ListUsersInput, completion: @escaping (ClientRuntim
 
 ### `registerUser(input:completion:)`
 
-Creates an Amazon QuickSight user, whose identity is associated with the AWS Identity
-and Access Management (IAM) identity or role specified in the request.
+Creates an Amazon QuickSight user, whose identity is associated with the AWS Identity and Access Management (IAM) identity or role specified in the request.
 
 ``` swift
 public func registerUser(input: RegisterUserInput, completion: @escaping (ClientRuntime.SdkResult<RegisterUserOutputResponse, RegisterUserOutputError>) -> Void)
@@ -939,26 +766,18 @@ public func restoreAnalysis(input: RestoreAnalysisInput, completion: @escaping (
 
 ### `searchAnalyses(input:completion:)`
 
-Searches for analyses that belong to the user specified in the filter.
+Searches for analyses that belong to the user specified in the filter. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
 
 ``` swift
 public func searchAnalyses(input: SearchAnalysesInput, completion: @escaping (ClientRuntime.SdkResult<SearchAnalysesOutputResponse, SearchAnalysesOutputError>) -> Void)
 ```
 
-``` 
-        This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
-```
-
 ### `searchDashboards(input:completion:)`
 
-Searches for dashboards that belong to a user.
+Searches for dashboards that belong to a user. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
 
 ``` swift
 public func searchDashboards(input: SearchDashboardsInput, completion: @escaping (ClientRuntime.SdkResult<SearchDashboardsOutputResponse, SearchDashboardsOutputError>) -> Void)
-```
-
-``` 
-        This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
 ```
 
 ### `searchFolders(input:completion:)`
@@ -971,31 +790,15 @@ public func searchFolders(input: SearchFoldersInput, completion: @escaping (Clie
 
 ### `tagResource(input:completion:)`
 
-Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.
-Tags can help you organize and categorize your resources. You can also use them to
-scope user permissions, by granting a user permission to access or change only resources
-with certain tag values. You can use the TagResource operation with a
-resource that already has tags. If you specify a new tag key for the resource, this tag
-is appended to the list of tags associated with the resource. If you specify a tag key
-that is already associated with the resource, the new tag value that you specify
-replaces the previous value for that tag.
-You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
-set, data source, dashboard, and template.
-Tagging for Amazon QuickSight works in a similar way to tagging for other AWS services, except for
-the following:​
+Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data set, data source, dashboard, and template. Tagging for Amazon QuickSight works in a similar way to tagging for other AWS services, except for the following:
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-``` 
-           You can't use tags to track AWS costs for Amazon QuickSight. This restriction is because Amazon QuickSight
-				costs are based on users and SPICE capacity, which aren't taggable
-				resources.
+  - You can't use tags to track AWS costs for Amazon QuickSight. This restriction is because Amazon QuickSight costs are based on users and SPICE capacity, which aren't taggable resources.
 
-
-           Amazon QuickSight doesn't currently support the Tag Editor for Resource Groups.
-```
+  - Amazon QuickSight doesn't currently support the Tag Editor for Resource Groups.
 
 ### `untagResource(input:completion:)`
 
@@ -1007,12 +810,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateAccountCustomization(input:completion:)`
 
-Updates Amazon QuickSight customizations the current Amazon Web Services Region;. Currently, the only
-customization you can use is a theme.
-You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a
-Amazon QuickSight namespace instead. Customizations that apply to a namespace override
-customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
-the DescribeAccountCustomization API operation.
+Updates Amazon QuickSight customizations the current Amazon Web Services Region;. Currently, the only customization you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
 
 ``` swift
 public func updateAccountCustomization(input: UpdateAccountCustomizationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAccountCustomizationOutputResponse, UpdateAccountCustomizationOutputError>) -> Void)
@@ -1044,16 +842,10 @@ public func updateAnalysisPermissions(input: UpdateAnalysisPermissionsInput, com
 
 ### `updateDashboard(input:completion:)`
 
-Updates a dashboard in an Amazon Web Services account.
+Updates a dashboard in an Amazon Web Services account. Updating a Dashboard creates a new dashboard version but does not immediately publish the new version. You can update the published version of a dashboard by using the \[UpdateDashboardPublishedVersion\] API operation.
 
 ``` swift
 public func updateDashboard(input: UpdateDashboardInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDashboardOutputResponse, UpdateDashboardOutputError>) -> Void)
-```
-
-``` 
-        Updating a Dashboard creates a new dashboard version but does not immediately publish
-            the new version.  You can update the published version of a dashboard by
-            using the UpdateDashboardPublishedVersion API operation.
 ```
 
 ### `updateDashboardPermissions(input:completion:)`
@@ -1082,8 +874,7 @@ public func updateDataSet(input: UpdateDataSetInput, completion: @escaping (Clie
 
 ### `updateDataSetPermissions(input:completion:)`
 
-Updates the permissions on a dataset.
-The permissions resource is arn:​aws:​quicksight:​region:​aws-account-id:​dataset/data-set-id.
+Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 
 ``` swift
 public func updateDataSetPermissions(input: UpdateDataSetPermissionsInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDataSetPermissionsOutputResponse, UpdateDataSetPermissionsOutputError>) -> Void)
@@ -1131,9 +922,7 @@ public func updateGroup(input: UpdateGroupInput, completion: @escaping (ClientRu
 
 ### `updateIAMPolicyAssignment(input:completion:)`
 
-Updates an existing IAMpolicy assignment. This operation updates only the optional
-parameter or parameters that are specified in the request.
-This overwrites all of the users included in Identities.
+Updates an existing IAMpolicy assignment. This operation updates only the optional parameter or parameters that are specified in the request. This overwrites all of the users included in Identities.
 
 ``` swift
 public func updateIAMPolicyAssignment(input: UpdateIAMPolicyAssignmentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateIAMPolicyAssignmentOutputResponse, UpdateIAMPolicyAssignmentOutputError>) -> Void)
@@ -1181,103 +970,47 @@ public func updateThemeAlias(input: UpdateThemeAliasInput, completion: @escaping
 
 ### `updateThemePermissions(input:completion:)`
 
-Updates the resource permissions for a theme. Permissions apply to the action to grant or
-revoke permissions on, for example "quicksight:​DescribeTheme".
-Theme permissions apply in groupings. Valid groupings include the following for the three
-levels of permissions, which are user, owner, or no permissions:​
+Updates the resource permissions for a theme. Permissions apply to the action to grant or revoke permissions on, for example "quicksight:DescribeTheme". Theme permissions apply in groupings. Valid groupings include the following for the three levels of permissions, which are user, owner, or no permissions:
 
 ``` swift
 public func updateThemePermissions(input: UpdateThemePermissionsInput, completion: @escaping (ClientRuntime.SdkResult<UpdateThemePermissionsOutputResponse, UpdateThemePermissionsOutputError>) -> Void)
 ```
 
-``` 
-           User
-				
+  - User
 
+  - "quicksight:DescribeTheme"
 
-                    "quicksight:DescribeTheme"
+  - "quicksight:DescribeThemeAlias"
 
+  - "quicksight:ListThemeAliases"
 
+  - "quicksight:ListThemeVersions"
 
+  - Owner
 
-                    "quicksight:DescribeThemeAlias"
+  - "quicksight:DescribeTheme"
 
+  - "quicksight:DescribeThemeAlias"
 
+  - "quicksight:ListThemeAliases"
 
+  - "quicksight:ListThemeVersions"
 
-                    "quicksight:ListThemeAliases"
+  - "quicksight:DeleteTheme"
 
+  - "quicksight:UpdateTheme"
 
+  - "quicksight:CreateThemeAlias"
 
+  - "quicksight:DeleteThemeAlias"
 
-                    "quicksight:ListThemeVersions"
+  - "quicksight:UpdateThemeAlias"
 
+  - "quicksight:UpdateThemePermissions"
 
+  - "quicksight:DescribeThemePermissions"
 
-			
-
-           Owner
-				
-
-
-                    "quicksight:DescribeTheme"
-
-
-
-
-                    "quicksight:DescribeThemeAlias"
-
-
-
-
-                    "quicksight:ListThemeAliases"
-
-
-
-
-                    "quicksight:ListThemeVersions"
-
-
-
-
-                    "quicksight:DeleteTheme"
-
-
-
-
-                    "quicksight:UpdateTheme"
-
-
-
-
-                    "quicksight:CreateThemeAlias"
-
-
-
-
-                    "quicksight:DeleteThemeAlias"
-
-
-
-
-                    "quicksight:UpdateThemeAlias"
-
-
-
-
-                    "quicksight:UpdateThemePermissions"
-
-
-
-
-                    "quicksight:DescribeThemePermissions"
-
-
-
-			
-
-           To specify no permissions, omit the permissions list.
-```
+  - To specify no permissions, omit the permissions list.
 
 ### `updateUser(input:completion:)`
 

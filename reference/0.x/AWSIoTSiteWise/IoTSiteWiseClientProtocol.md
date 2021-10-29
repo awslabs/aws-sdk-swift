@@ -1,7 +1,6 @@
 # IoTSiteWiseClientProtocol
 
-Welcome to the IoT SiteWise API Reference. IoT SiteWise is an Amazon Web Services service that connects <a href="https:​//en.wikipedia.org/wiki/Internet_of_things#Industrial_applications">Industrial Internet of Things (IIoT) devices to the power of the Amazon Web Services Cloud. For more information, see the
-<a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/">IoT SiteWise User Guide. For information about IoT SiteWise quotas, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html">Quotas in the IoT SiteWise User Guide.
+Welcome to the IoT SiteWise API Reference. IoT SiteWise is an Amazon Web Services service that connects [Industrial Internet of Things (IIoT)](https://en.wikipedia.org/wiki/Internet_of_things#Industrial_applications) devices to the power of the Amazon Web Services Cloud. For more information, see the [IoT SiteWise User Guide](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/). For information about IoT SiteWise quotas, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
 
 ``` swift
 public protocol IoTSiteWiseClientProtocol 
@@ -9,17 +8,15 @@ public protocol IoTSiteWiseClientProtocol
 
 ## Requirements
 
-### associateAssets(input:​completion:​)
+### associateAssets(input:completion:)
 
-Associates a child asset with the given parent asset through a hierarchy defined in the
-parent asset's model. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/add-associated-assets.html">Associating assets in the
-IoT SiteWise User Guide.
+Associates a child asset with the given parent asset through a hierarchy defined in the parent asset's model. For more information, see [Associating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/add-associated-assets.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func associateAssets(input: AssociateAssetsInput, completion: @escaping (ClientRuntime.SdkResult<AssociateAssetsOutputResponse, AssociateAssetsOutputError>) -> Void)
 ```
 
-### batchAssociateProjectAssets(input:​completion:​)
+### batchAssociateProjectAssets(input:completion:)
 
 Associates a group (batch) of assets with an IoT SiteWise Monitor project.
 
@@ -27,7 +24,7 @@ Associates a group (batch) of assets with an IoT SiteWise Monitor project.
 func batchAssociateProjectAssets(input: BatchAssociateProjectAssetsInput, completion: @escaping (ClientRuntime.SdkResult<BatchAssociateProjectAssetsOutputResponse, BatchAssociateProjectAssetsOutputError>) -> Void)
 ```
 
-### batchDisassociateProjectAssets(input:​completion:​)
+### batchDisassociateProjectAssets(input:completion:)
 
 Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
 
@@ -35,70 +32,45 @@ Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
 func batchDisassociateProjectAssets(input: BatchDisassociateProjectAssetsInput, completion: @escaping (ClientRuntime.SdkResult<BatchDisassociateProjectAssetsOutputResponse, BatchDisassociateProjectAssetsOutputError>) -> Void)
 ```
 
-### batchPutAssetPropertyValue(input:​completion:​)
+### batchPutAssetPropertyValue(input:completion:)
 
-Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value
-(TQV) data point. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/ingest-api.html">Ingesting data using the API in the
-IoT SiteWise User Guide.
-To identify an asset property, you must specify one of the following:​
+Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see [Ingesting data using the API](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ingest-api.html) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
 
 ``` swift
 func batchPutAssetPropertyValue(input: BatchPutAssetPropertyValueInput, completion: @escaping (ClientRuntime.SdkResult<BatchPutAssetPropertyValueOutputResponse, BatchPutAssetPropertyValueOutputError>) -> Void)
 ```
 
-``` 
-           The assetId and propertyId of an asset property.
+  - The assetId and propertyId of an asset property.
 
+  - A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
-           A propertyAlias, which is a data stream alias (for example,
-      /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty.
+With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have a timestamp of no more than 7 days in the past and no more than 10 minutes in the future. IoT SiteWise rejects timestamps outside of the inclusive range of \[-7 days, +10 minutes\] and returns a TimestampOutOfRangeException error. For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1}, then storing {T1, GOOD, V2} replaces the existing TQV. IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually. For more information, see [BatchPutAssetPropertyValue authorization](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-batchputassetpropertyvalue-action) in the IoT SiteWise User Guide.
 
+### createAccessPolicy(input:completion:)
 
-
-        With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have a timestamp of no more
-    than 7 days in the past and no more than 10 minutes in the future. IoT SiteWise rejects timestamps
-    outside of the inclusive range of [-7 days, +10 minutes] and returns a
-      TimestampOutOfRangeException error.
-        For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer
-    TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1},
-    then storing {T1, GOOD, V2} replaces the existing TQV.
-
-     IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually.
-  For more information, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-batchputassetpropertyvalue-action">BatchPutAssetPropertyValue authorization in the
-  IoT SiteWise User Guide.
-```
-
-### createAccessPolicy(input:​completion:​)
-
-Creates an access policy that grants the specified identity (Amazon Web Services SSO user, Amazon Web Services SSO group, or
-IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
+Creates an access policy that grants the specified identity (Amazon Web Services SSO user, Amazon Web Services SSO group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
 
 ``` swift
 func createAccessPolicy(input: CreateAccessPolicyInput, completion: @escaping (ClientRuntime.SdkResult<CreateAccessPolicyOutputResponse, CreateAccessPolicyOutputError>) -> Void)
 ```
 
-### createAsset(input:​completion:​)
+### createAsset(input:completion:)
 
-Creates an asset from an existing asset model. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/create-assets.html">Creating assets in the
-IoT SiteWise User Guide.
+Creates an asset from an existing asset model. For more information, see [Creating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-assets.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func createAsset(input: CreateAssetInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssetOutputResponse, CreateAssetOutputError>) -> Void)
 ```
 
-### createAssetModel(input:​completion:​)
+### createAssetModel(input:completion:)
 
-Creates an asset model from specified property and hierarchy definitions. You create
-assets from asset models. With asset models, you can easily create assets of the same type
-that have standardized definitions. Each asset created from a model inherits the asset model's
-property and hierarchy definitions. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html">Defining asset models in the
-IoT SiteWise User Guide.
+Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see [Defining asset models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func createAssetModel(input: CreateAssetModelInput, completion: @escaping (ClientRuntime.SdkResult<CreateAssetModelOutputResponse, CreateAssetModelOutputError>) -> Void)
 ```
 
-### createDashboard(input:​completion:​)
+### createDashboard(input:completion:)
 
 Creates a dashboard in an IoT SiteWise Monitor project.
 
@@ -106,32 +78,23 @@ Creates a dashboard in an IoT SiteWise Monitor project.
 func createDashboard(input: CreateDashboardInput, completion: @escaping (ClientRuntime.SdkResult<CreateDashboardOutputResponse, CreateDashboardOutputError>) -> Void)
 ```
 
-### createGateway(input:​completion:​)
+### createGateway(input:completion:)
 
-Creates a gateway, which is a virtual or edge device that delivers industrial data streams
-from local servers to IoT SiteWise. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html">Ingesting data using a gateway in the
-IoT SiteWise User Guide.
+Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see [Ingesting data using a gateway](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func createGateway(input: CreateGatewayInput, completion: @escaping (ClientRuntime.SdkResult<CreateGatewayOutputResponse, CreateGatewayOutputError>) -> Void)
 ```
 
-### createPortal(input:​completion:​)
+### createPortal(input:completion:)
 
-Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses Amazon Web Services SSO or IAM
-to authenticate portal users and manage user permissions.
+Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses Amazon Web Services SSO or IAM to authenticate portal users and manage user permissions. Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see [Adding or removing portal administrators](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/administer-portals.html#portal-change-admins) in the IoT SiteWise User Guide.
 
 ``` swift
 func createPortal(input: CreatePortalInput, completion: @escaping (ClientRuntime.SdkResult<CreatePortalOutputResponse, CreatePortalOutputError>) -> Void)
 ```
 
-``` 
-        Before you can sign in to a new portal, you must add at least one identity to that
-    portal. For more information, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/administer-portals.html#portal-change-admins">Adding or removing portal
-      administrators in the IoT SiteWise User Guide.
-```
-
-### createProject(input:​completion:​)
+### createProject(input:completion:)
 
 Creates a project in the specified portal.
 
@@ -139,43 +102,31 @@ Creates a project in the specified portal.
 func createProject(input: CreateProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateProjectOutputResponse, CreateProjectOutputError>) -> Void)
 ```
 
-### deleteAccessPolicy(input:​completion:​)
+### deleteAccessPolicy(input:completion:)
 
-Deletes an access policy that grants the specified identity access to the specified
-IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor
-resource.
+Deletes an access policy that grants the specified identity access to the specified IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor resource.
 
 ``` swift
 func deleteAccessPolicy(input: DeleteAccessPolicyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAccessPolicyOutputResponse, DeleteAccessPolicyOutputError>) -> Void)
 ```
 
-### deleteAsset(input:​completion:​)
+### deleteAsset(input:completion:)
 
-Deletes an asset. This action can't be undone. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html">Deleting assets and
-models in the IoT SiteWise User Guide.
+Deletes an asset. This action can't be undone. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide. You can't delete an asset that's associated to another asset. For more information, see [DisassociateAssets](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html).
 
 ``` swift
 func deleteAsset(input: DeleteAssetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssetOutputResponse, DeleteAssetOutputError>) -> Void)
 ```
 
-``` 
-        You can't delete an asset that's associated to another asset. For more information, see
-      <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html">DisassociateAssets.
-```
+### deleteAssetModel(input:completion:)
 
-### deleteAssetModel(input:​completion:​)
-
-Deletes an asset model. This action can't be undone. You must delete all assets created
-from an asset model before you can delete the model. Also, you can't delete an asset model if
-a parent asset model exists that contains a property formula expression that depends on the
-asset model that you want to delete. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html">Deleting assets and models in the
-IoT SiteWise User Guide.
+Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func deleteAssetModel(input: DeleteAssetModelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAssetModelOutputResponse, DeleteAssetModelOutputError>) -> Void)
 ```
 
-### deleteDashboard(input:​completion:​)
+### deleteDashboard(input:completion:)
 
 Deletes a dashboard from IoT SiteWise Monitor.
 
@@ -183,16 +134,15 @@ Deletes a dashboard from IoT SiteWise Monitor.
 func deleteDashboard(input: DeleteDashboardInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDashboardOutputResponse, DeleteDashboardOutputError>) -> Void)
 ```
 
-### deleteGateway(input:​completion:​)
+### deleteGateway(input:completion:)
 
-Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain
-in your gateway's file system.
+Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system.
 
 ``` swift
 func deleteGateway(input: DeleteGatewayInput, completion: @escaping (ClientRuntime.SdkResult<DeleteGatewayOutputResponse, DeleteGatewayOutputError>) -> Void)
 ```
 
-### deletePortal(input:​completion:​)
+### deletePortal(input:completion:)
 
 Deletes a portal from IoT SiteWise Monitor.
 
@@ -200,7 +150,7 @@ Deletes a portal from IoT SiteWise Monitor.
 func deletePortal(input: DeletePortalInput, completion: @escaping (ClientRuntime.SdkResult<DeletePortalOutputResponse, DeletePortalOutputError>) -> Void)
 ```
 
-### deleteProject(input:​completion:​)
+### deleteProject(input:completion:)
 
 Deletes a project from IoT SiteWise Monitor.
 
@@ -208,16 +158,15 @@ Deletes a project from IoT SiteWise Monitor.
 func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
 ```
 
-### describeAccessPolicy(input:​completion:​)
+### describeAccessPolicy(input:completion:)
 
-Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or
-project.
+Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or project.
 
 ``` swift
 func describeAccessPolicy(input: DescribeAccessPolicyInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAccessPolicyOutputResponse, DescribeAccessPolicyOutputError>) -> Void)
 ```
 
-### describeAsset(input:​completion:​)
+### describeAsset(input:completion:)
 
 Retrieves information about an asset.
 
@@ -225,7 +174,7 @@ Retrieves information about an asset.
 func describeAsset(input: DescribeAssetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAssetOutputResponse, DescribeAssetOutputError>) -> Void)
 ```
 
-### describeAssetModel(input:​completion:​)
+### describeAssetModel(input:completion:)
 
 Retrieves information about an asset model.
 
@@ -233,24 +182,15 @@ Retrieves information about an asset model.
 func describeAssetModel(input: DescribeAssetModelInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAssetModelOutputResponse, DescribeAssetModelOutputError>) -> Void)
 ```
 
-### describeAssetProperty(input:​completion:​)
+### describeAssetProperty(input:completion:)
 
-Retrieves information about an asset property.
+Retrieves information about an asset property. When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value. This operation doesn't return the value of the asset property. To get the value of an asset property, use [GetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html).
 
 ``` swift
 func describeAssetProperty(input: DescribeAssetPropertyInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAssetPropertyOutputResponse, DescribeAssetPropertyOutputError>) -> Void)
 ```
 
-``` 
-        When you call this operation for an attribute property, this response includes the
-    default attribute value that you define in the asset model. If you update the default value
-    in the model, this operation's response includes the new default value.
-
-     This operation doesn't return the value of the asset property. To get the value of an
-  asset property, use <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html">GetAssetPropertyValue.
-```
-
-### describeDashboard(input:​completion:​)
+### describeDashboard(input:completion:)
 
 Retrieves information about a dashboard.
 
@@ -258,17 +198,15 @@ Retrieves information about a dashboard.
 func describeDashboard(input: DescribeDashboardInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDashboardOutputResponse, DescribeDashboardOutputError>) -> Void)
 ```
 
-### describeDefaultEncryptionConfiguration(input:​completion:​)
+### describeDefaultEncryptionConfiguration(input:completion:)
 
-Retrieves information about the default encryption configuration for the Amazon Web Services account in
-the default or specified Region. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html">Key management in the
-IoT SiteWise User Guide.
+Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func describeDefaultEncryptionConfiguration(input: DescribeDefaultEncryptionConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDefaultEncryptionConfigurationOutputResponse, DescribeDefaultEncryptionConfigurationOutputError>) -> Void)
 ```
 
-### describeGateway(input:​completion:​)
+### describeGateway(input:completion:)
 
 Retrieves information about a gateway.
 
@@ -276,19 +214,15 @@ Retrieves information about a gateway.
 func describeGateway(input: DescribeGatewayInput, completion: @escaping (ClientRuntime.SdkResult<DescribeGatewayOutputResponse, DescribeGatewayOutputError>) -> Void)
 ```
 
-### describeGatewayCapabilityConfiguration(input:​completion:​)
+### describeGatewayCapabilityConfiguration(input:completion:)
 
-Retrieves information about a gateway capability configuration.
-Each gateway capability defines data sources for a gateway. A capability configuration
-can contain multiple data source configurations. If you define OPC-UA sources for a gateway in
-the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To
-list all capability configurations for a gateway, use <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html">DescribeGateway.
+Retrieves information about a gateway capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use [DescribeGateway](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html).
 
 ``` swift
 func describeGatewayCapabilityConfiguration(input: DescribeGatewayCapabilityConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeGatewayCapabilityConfigurationOutputResponse, DescribeGatewayCapabilityConfigurationOutputError>) -> Void)
 ```
 
-### describeLoggingOptions(input:​completion:​)
+### describeLoggingOptions(input:completion:)
 
 Retrieves the current IoT SiteWise logging options.
 
@@ -296,7 +230,7 @@ Retrieves the current IoT SiteWise logging options.
 func describeLoggingOptions(input: DescribeLoggingOptionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeLoggingOptionsOutputResponse, DescribeLoggingOptionsOutputError>) -> Void)
 ```
 
-### describePortal(input:​completion:​)
+### describePortal(input:completion:)
 
 Retrieves information about a portal.
 
@@ -304,7 +238,7 @@ Retrieves information about a portal.
 func describePortal(input: DescribePortalInput, completion: @escaping (ClientRuntime.SdkResult<DescribePortalOutputResponse, DescribePortalOutputError>) -> Void)
 ```
 
-### describeProject(input:​completion:​)
+### describeProject(input:completion:)
 
 Retrieves information about a project.
 
@@ -312,7 +246,7 @@ Retrieves information about a project.
 func describeProject(input: DescribeProjectInput, completion: @escaping (ClientRuntime.SdkResult<DescribeProjectOutputResponse, DescribeProjectOutputError>) -> Void)
 ```
 
-### describeStorageConfiguration(input:​completion:​)
+### describeStorageConfiguration(input:completion:)
 
 Retrieves information about the storage configuration for IoT SiteWise.
 
@@ -320,100 +254,71 @@ Retrieves information about the storage configuration for IoT SiteWise.
 func describeStorageConfiguration(input: DescribeStorageConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DescribeStorageConfigurationOutputResponse, DescribeStorageConfigurationOutputError>) -> Void)
 ```
 
-### disassociateAssets(input:​completion:​)
+### disassociateAssets(input:completion:)
 
-Disassociates a child asset from the given parent asset through a hierarchy defined in the
-parent asset's model.
+Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model.
 
 ``` swift
 func disassociateAssets(input: DisassociateAssetsInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateAssetsOutputResponse, DisassociateAssetsOutputError>) -> Void)
 ```
 
-### getAssetPropertyAggregates(input:​completion:​)
+### getAssetPropertyAggregates(input:completion:)
 
-Gets aggregated values for an asset property. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates">Querying
-aggregates in the IoT SiteWise User Guide.
-To identify an asset property, you must specify one of the following:​
+Gets aggregated values for an asset property. For more information, see [Querying aggregates](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
 
 ``` swift
 func getAssetPropertyAggregates(input: GetAssetPropertyAggregatesInput, completion: @escaping (ClientRuntime.SdkResult<GetAssetPropertyAggregatesOutputResponse, GetAssetPropertyAggregatesOutputError>) -> Void)
 ```
 
-``` 
-           The assetId and propertyId of an asset property.
+  - The assetId and propertyId of an asset property.
 
+  - A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
-           A propertyAlias, which is a data stream alias (for example,
-      /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty.
-```
+### getAssetPropertyValue(input:completion:)
 
-### getAssetPropertyValue(input:​completion:​)
-
-Gets an asset property's current value. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values">Querying
-current values in the IoT SiteWise User Guide.
-To identify an asset property, you must specify one of the following:​
+Gets an asset property's current value. For more information, see [Querying current values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
 
 ``` swift
 func getAssetPropertyValue(input: GetAssetPropertyValueInput, completion: @escaping (ClientRuntime.SdkResult<GetAssetPropertyValueOutputResponse, GetAssetPropertyValueOutputError>) -> Void)
 ```
 
-``` 
-           The assetId and propertyId of an asset property.
+  - The assetId and propertyId of an asset property.
 
+  - A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
-           A propertyAlias, which is a data stream alias (for example,
-      /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty.
-```
+### getAssetPropertyValueHistory(input:completion:)
 
-### getAssetPropertyValueHistory(input:​completion:​)
-
-Gets the history of an asset property's values. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values">Querying
-historical values in the IoT SiteWise User Guide.
-To identify an asset property, you must specify one of the following:​
+Gets the history of an asset property's values. For more information, see [Querying historical values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
 
 ``` swift
 func getAssetPropertyValueHistory(input: GetAssetPropertyValueHistoryInput, completion: @escaping (ClientRuntime.SdkResult<GetAssetPropertyValueHistoryOutputResponse, GetAssetPropertyValueHistoryOutputError>) -> Void)
 ```
 
-``` 
-           The assetId and propertyId of an asset property.
+  - The assetId and propertyId of an asset property.
 
+  - A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
-           A propertyAlias, which is a data stream alias (for example,
-      /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty.
-```
+### getInterpolatedAssetPropertyValues(input:completion:)
 
-### getInterpolatedAssetPropertyValues(input:​completion:​)
-
-Get interpolated values for an asset property for a specified time interval, during a
-period of time. If your time series is missing data points during the specified time interval,
-you can use interpolation to estimate the missing data.
-For example, you can use this operation to return the interpolated
-temperature values for a wind turbine every 24 hours over a duration of 7 days.
-To identify an asset property, you must specify one of the following:​
+Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:
 
 ``` swift
 func getInterpolatedAssetPropertyValues(input: GetInterpolatedAssetPropertyValuesInput, completion: @escaping (ClientRuntime.SdkResult<GetInterpolatedAssetPropertyValuesOutputResponse, GetInterpolatedAssetPropertyValuesOutputError>) -> Void)
 ```
 
-``` 
-           The assetId and propertyId of an asset property.
+  - The assetId and propertyId of an asset property.
 
+  - A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
-           A propertyAlias, which is a data stream alias (for example,
-      /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty.
-```
+### listAccessPolicies(input:completion:)
 
-### listAccessPolicies(input:​completion:​)
-
-Retrieves a paginated list of access policies for an identity (an Amazon Web Services SSO user, an Amazon Web Services SSO
-group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
+Retrieves a paginated list of access policies for an identity (an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
 
 ``` swift
 func listAccessPolicies(input: ListAccessPoliciesInput, completion: @escaping (ClientRuntime.SdkResult<ListAccessPoliciesOutputResponse, ListAccessPoliciesOutputError>) -> Void)
 ```
 
-### listAssetModels(input:​completion:​)
+### listAssetModels(input:completion:)
 
 Retrieves a paginated list of summaries of all asset models.
 
@@ -421,54 +326,41 @@ Retrieves a paginated list of summaries of all asset models.
 func listAssetModels(input: ListAssetModelsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssetModelsOutputResponse, ListAssetModelsOutputError>) -> Void)
 ```
 
-### listAssetRelationships(input:​completion:​)
+### listAssetRelationships(input:completion:)
 
-Retrieves a paginated list of asset relationships for an asset. You can use this operation
-to identify an asset's root asset and all associated assets between that asset and its
-root.
+Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root.
 
 ``` swift
 func listAssetRelationships(input: ListAssetRelationshipsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssetRelationshipsOutputResponse, ListAssetRelationshipsOutputError>) -> Void)
 ```
 
-### listAssets(input:​completion:​)
+### listAssets(input:completion:)
 
-Retrieves a paginated list of asset summaries.
-You can use this operation to do the following:​
+Retrieves a paginated list of asset summaries. You can use this operation to do the following:
 
 ``` swift
 func listAssets(input: ListAssetsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssetsOutputResponse, ListAssetsOutputError>) -> Void)
 ```
 
-``` 
-           List assets based on a specific asset model.
+  - List assets based on a specific asset model.
 
+  - List top-level assets.
 
-           List top-level assets.
+You can't use this operation to list all assets. To retrieve summaries for all of your assets, use [ListAssetModels](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ListAssetModels.html) to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model.
 
+### listAssociatedAssets(input:completion:)
 
-     You can't use this operation to list all assets. To retrieve summaries for all of your
-  assets, use <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ListAssetModels.html">ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all
-  assets for each asset model.
-```
-
-### listAssociatedAssets(input:​completion:​)
-
-Retrieves a paginated list of associated assets.
-You can use this operation to do the following:​
+Retrieves a paginated list of associated assets. You can use this operation to do the following:
 
 ``` swift
 func listAssociatedAssets(input: ListAssociatedAssetsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssociatedAssetsOutputResponse, ListAssociatedAssetsOutputError>) -> Void)
 ```
 
-``` 
-           List child assets associated to a parent asset by a hierarchy that you specify.
+  - List child assets associated to a parent asset by a hierarchy that you specify.
 
+  - List an asset's parent asset.
 
-           List an asset's parent asset.
-```
-
-### listDashboards(input:​completion:​)
+### listDashboards(input:completion:)
 
 Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
 
@@ -476,7 +368,7 @@ Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
 func listDashboards(input: ListDashboardsInput, completion: @escaping (ClientRuntime.SdkResult<ListDashboardsOutputResponse, ListDashboardsOutputError>) -> Void)
 ```
 
-### listGateways(input:​completion:​)
+### listGateways(input:completion:)
 
 Retrieves a paginated list of gateways.
 
@@ -484,7 +376,7 @@ Retrieves a paginated list of gateways.
 func listGateways(input: ListGatewaysInput, completion: @escaping (ClientRuntime.SdkResult<ListGatewaysOutputResponse, ListGatewaysOutputError>) -> Void)
 ```
 
-### listPortals(input:​completion:​)
+### listPortals(input:completion:)
 
 Retrieves a paginated list of IoT SiteWise Monitor portals.
 
@@ -492,7 +384,7 @@ Retrieves a paginated list of IoT SiteWise Monitor portals.
 func listPortals(input: ListPortalsInput, completion: @escaping (ClientRuntime.SdkResult<ListPortalsOutputResponse, ListPortalsOutputError>) -> Void)
 ```
 
-### listProjectAssets(input:​completion:​)
+### listProjectAssets(input:completion:)
 
 Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
 
@@ -500,7 +392,7 @@ Retrieves a paginated list of assets associated with an IoT SiteWise Monitor pro
 func listProjectAssets(input: ListProjectAssetsInput, completion: @escaping (ClientRuntime.SdkResult<ListProjectAssetsOutputResponse, ListProjectAssetsOutputError>) -> Void)
 ```
 
-### listProjects(input:​completion:​)
+### listProjects(input:completion:)
 
 Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
 
@@ -508,7 +400,7 @@ Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
 func listProjects(input: ListProjectsInput, completion: @escaping (ClientRuntime.SdkResult<ListProjectsOutputResponse, ListProjectsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Retrieves the list of tags for an IoT SiteWise resource.
 
@@ -516,17 +408,15 @@ Retrieves the list of tags for an IoT SiteWise resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### putDefaultEncryptionConfiguration(input:​completion:​)
+### putDefaultEncryptionConfiguration(input:completion:)
 
-Sets the default encryption configuration for the Amazon Web Services account. For more information, see
-<a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html">Key management in
-the IoT SiteWise User Guide.
+Sets the default encryption configuration for the Amazon Web Services account. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func putDefaultEncryptionConfiguration(input: PutDefaultEncryptionConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<PutDefaultEncryptionConfigurationOutputResponse, PutDefaultEncryptionConfigurationOutputError>) -> Void)
 ```
 
-### putLoggingOptions(input:​completion:​)
+### putLoggingOptions(input:completion:)
 
 Sets logging options for IoT SiteWise.
 
@@ -534,7 +424,7 @@ Sets logging options for IoT SiteWise.
 func putLoggingOptions(input: PutLoggingOptionsInput, completion: @escaping (ClientRuntime.SdkResult<PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>) -> Void)
 ```
 
-### putStorageConfiguration(input:​completion:​)
+### putStorageConfiguration(input:completion:)
 
 Configures storage settings for IoT SiteWise.
 
@@ -542,16 +432,15 @@ Configures storage settings for IoT SiteWise.
 func putStorageConfiguration(input: PutStorageConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<PutStorageConfigurationOutputResponse, PutStorageConfigurationOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
-Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation
-updates the tag's value.
+Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes a tag from an IoT SiteWise resource.
 
@@ -559,60 +448,39 @@ Removes a tag from an IoT SiteWise resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateAccessPolicy(input:​completion:​)
+### updateAccessPolicy(input:completion:)
 
-Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor
-portal or project resource.
+Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
 
 ``` swift
 func updateAccessPolicy(input: UpdateAccessPolicyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAccessPolicyOutputResponse, UpdateAccessPolicyOutputError>) -> Void)
 ```
 
-### updateAsset(input:​completion:​)
+### updateAsset(input:completion:)
 
-Updates an asset's name. For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html">Updating assets and models in the
-IoT SiteWise User Guide.
+Updates an asset's name. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide.
 
 ``` swift
 func updateAsset(input: UpdateAssetInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssetOutputResponse, UpdateAssetOutputError>) -> Void)
 ```
 
-### updateAssetModel(input:​completion:​)
+### updateAssetModel(input:completion:)
 
-Updates an asset model and all of the assets that were created from the model. Each asset
-created from the model inherits the updated asset model's property and hierarchy definitions.
-For more information, see <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html">Updating assets and models in the
-IoT SiteWise User Guide.
+Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide. This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see [DescribeAssetModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html). If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property.
 
 ``` swift
 func updateAssetModel(input: UpdateAssetModelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssetModelOutputResponse, UpdateAssetModelOutputError>) -> Void)
 ```
 
-``` 
-        This operation overwrites the existing model with the provided model. To avoid deleting
-    your asset model's properties or hierarchies, you must include their IDs and definitions in
-    the updated asset model payload. For more information, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html">DescribeAssetModel.
-        If you remove a property from an asset model, IoT SiteWise deletes all previous data for that
-    property. If you remove a hierarchy definition from an asset model, IoT SiteWise disassociates every
-    asset associated with that hierarchy. You can't change the type or data type of an existing
-    property.
-```
+### updateAssetProperty(input:completion:)
 
-### updateAssetProperty(input:​completion:​)
-
-Updates an asset property's alias and notification state.
+Updates an asset property's alias and notification state. This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see [DescribeAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html).
 
 ``` swift
 func updateAssetProperty(input: UpdateAssetPropertyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAssetPropertyOutputResponse, UpdateAssetPropertyOutputError>) -> Void)
 ```
 
-``` 
-        This operation overwrites the property's existing alias and notification state. To keep
-    your existing property's alias or notification state, you must include the existing values
-    in the UpdateAssetProperty request. For more information, see <a href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html">DescribeAssetProperty.
-```
-
-### updateDashboard(input:​completion:​)
+### updateDashboard(input:completion:)
 
 Updates an IoT SiteWise Monitor dashboard.
 
@@ -620,7 +488,7 @@ Updates an IoT SiteWise Monitor dashboard.
 func updateDashboard(input: UpdateDashboardInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDashboardOutputResponse, UpdateDashboardOutputError>) -> Void)
 ```
 
-### updateGateway(input:​completion:​)
+### updateGateway(input:completion:)
 
 Updates a gateway's name.
 
@@ -628,19 +496,15 @@ Updates a gateway's name.
 func updateGateway(input: UpdateGatewayInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGatewayOutputResponse, UpdateGatewayOutputError>) -> Void)
 ```
 
-### updateGatewayCapabilityConfiguration(input:​completion:​)
+### updateGatewayCapabilityConfiguration(input:completion:)
 
-Updates a gateway capability configuration or defines a new capability configuration.
-Each gateway capability defines data sources for a gateway. A capability configuration
-can contain multiple data source configurations. If you define OPC-UA sources for a gateway in
-the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To
-list all capability configurations for a gateway, use <a href="https:​//docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html">DescribeGateway.
+Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use [DescribeGateway](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html).
 
 ``` swift
 func updateGatewayCapabilityConfiguration(input: UpdateGatewayCapabilityConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGatewayCapabilityConfigurationOutputResponse, UpdateGatewayCapabilityConfigurationOutputError>) -> Void)
 ```
 
-### updatePortal(input:​completion:​)
+### updatePortal(input:completion:)
 
 Updates an IoT SiteWise Monitor portal.
 
@@ -648,7 +512,7 @@ Updates an IoT SiteWise Monitor portal.
 func updatePortal(input: UpdatePortalInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePortalOutputResponse, UpdatePortalOutputError>) -> Void)
 ```
 
-### updateProject(input:​completion:​)
+### updateProject(input:completion:)
 
 Updates an IoT SiteWise Monitor project.
 

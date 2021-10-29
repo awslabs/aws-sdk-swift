@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SsmContactsClient"
+```
+
 ## Methods
 
 ### `acceptPage(input:completion:)`
@@ -34,8 +42,7 @@ public func acceptPage(input: AcceptPageInput, completion: @escaping (ClientRunt
 
 ### `activateContactChannel(input:completion:)`
 
-Activates a contact's contact channel. Incident Manager can't engage a contact until the
-contact channel has been activated.
+Activates a contact's contact channel. Incident Manager can't engage a contact until the contact channel has been activated.
 
 ``` swift
 public func activateContactChannel(input: ActivateContactChannelInput, completion: @escaping (ClientRuntime.SdkResult<ActivateContactChannelOutputResponse, ActivateContactChannelOutputError>) -> Void)
@@ -43,9 +50,7 @@ public func activateContactChannel(input: ActivateContactChannelInput, completio
 
 ### `createContact(input:completion:)`
 
-Contacts are either the contacts that Incident Manager engages during an incident or the
-escalation plans that Incident Manager uses to engage contacts in phases during an
-incident.
+Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to engage contacts in phases during an incident.
 
 ``` swift
 public func createContact(input: CreateContactInput, completion: @escaping (ClientRuntime.SdkResult<CreateContactOutputResponse, CreateContactOutputError>) -> Void)
@@ -61,8 +66,7 @@ public func createContactChannel(input: CreateContactChannelInput, completion: @
 
 ### `deactivateContactChannel(input:completion:)`
 
-To no longer receive Incident Manager engagements to a contact channel, you can deactivate
-the channel.
+To no longer receive Incident Manager engagements to a contact channel, you can deactivate the channel.
 
 ``` swift
 public func deactivateContactChannel(input: DeactivateContactChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeactivateContactChannelOutputResponse, DeactivateContactChannelOutputError>) -> Void)
@@ -70,10 +74,7 @@ public func deactivateContactChannel(input: DeactivateContactChannelInput, compl
 
 ### `deleteContact(input:completion:)`
 
-To remove a contact from Incident Manager, you can delete the contact. Deleting a contact
-removes them from all escalation plans and related response plans. Deleting an escalation
-plan removes it from all related response plans. You will have to recreate the contact and
-its contact channels before you can use it again.
+To remove a contact from Incident Manager, you can delete the contact. Deleting a contact removes them from all escalation plans and related response plans. Deleting an escalation plan removes it from all related response plans. You will have to recreate the contact and its contact channels before you can use it again.
 
 ``` swift
 public func deleteContact(input: DeleteContactInput, completion: @escaping (ClientRuntime.SdkResult<DeleteContactOutputResponse, DeleteContactOutputError>) -> Void)
@@ -81,10 +82,7 @@ public func deleteContact(input: DeleteContactInput, completion: @escaping (Clie
 
 ### `deleteContactChannel(input:completion:)`
 
-To no longer receive engagements on a contact channel, you can delete the channel from a
-contact. Deleting the contact channel removes it from the contact's engagement plan. If you
-delete the only contact channel for a contact, you won't be able to engage that contact
-during an incident.
+To no longer receive engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel removes it from the contact's engagement plan. If you delete the only contact channel for a contact, you won't be able to engage that contact during an incident.
 
 ``` swift
 public func deleteContactChannel(input: DeleteContactChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteContactChannelOutputResponse, DeleteContactChannelOutputError>) -> Void)
@@ -92,8 +90,7 @@ public func deleteContactChannel(input: DeleteContactChannelInput, completion: @
 
 ### `describeEngagement(input:completion:)`
 
-Incident Manager uses engagements to engage contacts and escalation plans during an incident.
-Use this command to describe the engagement that occurred during an incident.
+Incident Manager uses engagements to engage contacts and escalation plans during an incident. Use this command to describe the engagement that occurred during an incident.
 
 ``` swift
 public func describeEngagement(input: DescribeEngagementInput, completion: @escaping (ClientRuntime.SdkResult<DescribeEngagementOutputResponse, DescribeEngagementOutputError>) -> Void)
@@ -125,8 +122,7 @@ public func getContactChannel(input: GetContactChannelInput, completion: @escapi
 
 ### `getContactPolicy(input:completion:)`
 
-Retrieves the resource policies attached to the specified contact or escalation
-plan.
+Retrieves the resource policies attached to the specified contact or escalation plan.
 
 ``` swift
 public func getContactPolicy(input: GetContactPolicyInput, completion: @escaping (ClientRuntime.SdkResult<GetContactPolicyOutputResponse, GetContactPolicyOutputError>) -> Void)
@@ -198,9 +194,7 @@ public func putContactPolicy(input: PutContactPolicyInput, completion: @escaping
 
 ### `sendActivationCode(input:completion:)`
 
-Sends an activation code to a contact channel. The contact can use this code to activate
-the contact channel in the console or with the ActivateChannel operation.
-Incident Manager can't engage a contact channel until it has been activated.
+Sends an activation code to a contact channel. The contact can use this code to activate the contact channel in the console or with the ActivateChannel operation. Incident Manager can't engage a contact channel until it has been activated.
 
 ``` swift
 public func sendActivationCode(input: SendActivationCodeInput, completion: @escaping (ClientRuntime.SdkResult<SendActivationCodeOutputResponse, SendActivationCodeOutputError>) -> Void)
@@ -208,8 +202,7 @@ public func sendActivationCode(input: SendActivationCodeInput, completion: @esca
 
 ### `startEngagement(input:completion:)`
 
-Starts an engagement to a contact or escalation plan. The engagement engages each
-contact specified in the incident.
+Starts an engagement to a contact or escalation plan. The engagement engages each contact specified in the incident.
 
 ``` swift
 public func startEngagement(input: StartEngagementInput, completion: @escaping (ClientRuntime.SdkResult<StartEngagementOutputResponse, StartEngagementOutputError>) -> Void)
@@ -217,8 +210,7 @@ public func startEngagement(input: StartEngagementInput, completion: @escaping (
 
 ### `stopEngagement(input:completion:)`
 
-Stops an engagement before it finishes the final stage of the escalation plan or
-engagement plan. Further contacts aren't engaged.
+Stops an engagement before it finishes the final stage of the escalation plan or engagement plan. Further contacts aren't engaged.
 
 ``` swift
 public func stopEngagement(input: StopEngagementInput, completion: @escaping (ClientRuntime.SdkResult<StopEngagementOutputResponse, StopEngagementOutputError>) -> Void)
@@ -226,8 +218,7 @@ public func stopEngagement(input: StopEngagementInput, completion: @escaping (Cl
 
 ### `tagResource(input:completion:)`
 
-Tags a contact or escalation plan. You can tag only contacts and escalation plans in the
-first region of your replication set.
+Tags a contact or escalation plan. You can tag only contacts and escalation plans in the first region of your replication set.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)

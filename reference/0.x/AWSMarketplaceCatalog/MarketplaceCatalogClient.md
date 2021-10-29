@@ -22,14 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "MarketplaceCatalogClient"
+```
+
 ## Methods
 
 ### `cancelChangeSet(input:completion:)`
 
-Used to cancel an open change request. Must be sent before the status of the request
-changes to APPLYING, the final stage of completing your change request. You
-can describe a change during the 60-day request history retention period for API
-calls.
+Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.
 
 ``` swift
 public func cancelChangeSet(input: CancelChangeSetInput, completion: @escaping (ClientRuntime.SdkResult<CancelChangeSetOutputResponse, CancelChangeSetOutputError>) -> Void)
@@ -53,18 +58,10 @@ public func describeEntity(input: DescribeEntityInput, completion: @escaping (Cl
 
 ### `listChangeSets(input:completion:)`
 
-Returns the list of change sets owned by the account being used to make the call. You
-can filter this list by providing any combination of entityId,
-ChangeSetName, and status. If you provide more than one filter, the API
-operation applies a logical AND between the filters.
+Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
 
 ``` swift
 public func listChangeSets(input: ListChangeSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListChangeSetsOutputResponse, ListChangeSetsOutputError>) -> Void)
-```
-
-``` 
-    You can describe a change during the 60-day request history retention period for API
-        calls.
 ```
 
 ### `listEntities(input:completion:)`
@@ -77,22 +74,8 @@ public func listEntities(input: ListEntitiesInput, completion: @escaping (Client
 
 ### `startChangeSet(input:completion:)`
 
-This operation allows you to request changes for your entities. Within a single
-ChangeSet, you cannot start the same change type against the same entity multiple times.
-Additionally, when a ChangeSet is running, all the entities targeted by the different
-changes are locked until the ChangeSet has completed (either succeeded, cancelled, or failed). If
-you try to start a ChangeSet containing a change against an entity that is already
-locked, you will receive a ResourceInUseException.
+This operation allows you to request changes for your entities. Within a single ChangeSet, you cannot start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the ChangeSet has completed (either succeeded, cancelled, or failed). If you try to start a ChangeSet containing a change against an entity that is already locked, you will receive a ResourceInUseException. For example, you cannot start the ChangeSet described in the [example](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples) later in this topic, because it contains two changes to execute the same change type (AddRevisions) against the same entity (entity-id@1). For more information about working with change sets, see [ Working with change sets](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets).
 
 ``` swift
 public func startChangeSet(input: StartChangeSetInput, completion: @escaping (ClientRuntime.SdkResult<StartChangeSetOutputResponse, StartChangeSetOutputError>) -> Void)
-```
-
-``` 
-    For example, you cannot start the ChangeSet described in the <a href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples">example later in this topic, because it contains two changes to execute the same change
-        type (AddRevisions) against the same entity
-        (entity-id@1).
-
-    For more information about working with change sets, see <a href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">
-        Working with change sets.
 ```

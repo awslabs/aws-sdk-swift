@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "LookoutMetricsClient"
+```
+
 ## Methods
 
 ### `activateAnomalyDetector(input:completion:)`
@@ -74,8 +82,7 @@ public func deleteAlert(input: DeleteAlertInput, completion: @escaping (ClientRu
 
 ### `deleteAnomalyDetector(input:completion:)`
 
-Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any
-configured datasets and alerts.
+Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
 
 ``` swift
 public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAnomalyDetectorOutputResponse, DeleteAnomalyDetectorOutputError>) -> Void)
@@ -83,9 +90,7 @@ public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput, completion:
 
 ### `describeAlert(input:completion:)`
 
-Describes an alert.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 public func describeAlert(input: DescribeAlertInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAlertOutputResponse, DescribeAlertOutputError>) -> Void)
@@ -101,9 +106,7 @@ public func describeAnomalyDetectionExecutions(input: DescribeAnomalyDetectionEx
 
 ### `describeAnomalyDetector(input:completion:)`
 
-Describes a detector.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 public func describeAnomalyDetector(input: DescribeAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAnomalyDetectorOutputResponse, DescribeAnomalyDetectorOutputError>) -> Void)
@@ -111,9 +114,7 @@ public func describeAnomalyDetector(input: DescribeAnomalyDetectorInput, complet
 
 ### `describeMetricSet(input:completion:)`
 
-Describes a dataset.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 public func describeMetricSet(input: DescribeMetricSetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeMetricSetOutputResponse, DescribeMetricSetOutputError>) -> Void)
@@ -145,9 +146,7 @@ public func getSampleData(input: GetSampleDataInput, completion: @escaping (Clie
 
 ### `listAlerts(input:completion:)`
 
-Lists the alerts attached to a detector.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 public func listAlerts(input: ListAlertsInput, completion: @escaping (ClientRuntime.SdkResult<ListAlertsOutputResponse, ListAlertsOutputError>) -> Void)
@@ -155,9 +154,7 @@ public func listAlerts(input: ListAlertsInput, completion: @escaping (ClientRunt
 
 ### `listAnomalyDetectors(input:completion:)`
 
-Lists the detectors in the current AWS Region.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 public func listAnomalyDetectors(input: ListAnomalyDetectorsInput, completion: @escaping (ClientRuntime.SdkResult<ListAnomalyDetectorsOutputResponse, ListAnomalyDetectorsOutputError>) -> Void)
@@ -181,9 +178,7 @@ public func listAnomalyGroupTimeSeries(input: ListAnomalyGroupTimeSeriesInput, c
 
 ### `listMetricSets(input:completion:)`
 
-Lists the datasets in the current AWS Region.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 public func listMetricSets(input: ListMetricSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListMetricSetsOutputResponse, ListMetricSetsOutputError>) -> Void)
@@ -191,7 +186,7 @@ public func listMetricSets(input: ListMetricSetsInput, completion: @escaping (Cl
 
 ### `listTagsForResource(input:completion:)`
 
-Gets a list of <a href="https:​//docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html">tags for a detector, dataset, or alert.
+Gets a list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) for a detector, dataset, or alert.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -207,7 +202,7 @@ public func putFeedback(input: PutFeedbackInput, completion: @escaping (ClientRu
 
 ### `tagResource(input:completion:)`
 
-Adds <a href="https:​//docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html">tags to a detector, dataset, or alert.
+Adds [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) to a detector, dataset, or alert.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -215,7 +210,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `untagResource(input:completion:)`
 
-Removes <a href="https:​//docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html">tags from a detector, dataset, or alert.
+Removes [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) from a detector, dataset, or alert.
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)

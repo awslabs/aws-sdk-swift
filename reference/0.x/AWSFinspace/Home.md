@@ -8,5 +8,4 @@
 # Protocols
 
   - [FinspaceClientProtocol](/aws-sdk-swift/reference/0.x/AWSFinspace/FinspaceClientProtocol):
-    The FinSpace management service provides the APIs for managing the FinSpace
-    environments.
+    The FinSpace management service provides the APIs for managing the FinSpace environments.

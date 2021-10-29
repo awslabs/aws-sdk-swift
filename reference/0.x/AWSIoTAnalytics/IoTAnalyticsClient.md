@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "IoTAnalyticsClient"
+```
+
 ## Methods
 
 ### `batchPutMessage(input:completion:)`
@@ -42,8 +50,7 @@ public func cancelPipelineReprocessing(input: CancelPipelineReprocessingInput, c
 
 ### `createChannel(input:completion:)`
 
-Used to create a channel. A channel collects data from an MQTT topic and archives the raw,
-unprocessed messages before publishing the data to a pipeline.
+Used to create a channel. A channel collects data from an MQTT topic and archives the raw, unprocessed messages before publishing the data to a pipeline.
 
 ``` swift
 public func createChannel(input: CreateChannelInput, completion: @escaping (ClientRuntime.SdkResult<CreateChannelOutputResponse, CreateChannelOutputError>) -> Void)
@@ -51,11 +58,7 @@ public func createChannel(input: CreateChannelInput, completion: @escaping (Clie
 
 ### `createDataset(input:completion:)`
 
-Used to create a dataset. A dataset stores data retrieved from a data store by applying a
-queryAction (a SQL query) or a containerAction (executing a
-containerized application). This operation creates the skeleton of a dataset. The dataset can
-be populated manually by calling CreateDatasetContent or automatically according
-to a trigger you specify.
+Used to create a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
 
 ``` swift
 public func createDataset(input: CreateDatasetInput, completion: @escaping (ClientRuntime.SdkResult<CreateDatasetOutputResponse, CreateDatasetOutputError>) -> Void)
@@ -63,8 +66,7 @@ public func createDataset(input: CreateDatasetInput, completion: @escaping (Clie
 
 ### `createDatasetContent(input:completion:)`
 
-Creates the content of a dataset by applying a queryAction (a SQL query) or a
-containerAction (executing a containerized application).
+Creates the content of a dataset by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
 
 ``` swift
 public func createDatasetContent(input: CreateDatasetContentInput, completion: @escaping (ClientRuntime.SdkResult<CreateDatasetContentOutputResponse, CreateDatasetContentOutputError>) -> Void)
@@ -80,10 +82,7 @@ public func createDatastore(input: CreateDatastoreInput, completion: @escaping (
 
 ### `createPipeline(input:completion:)`
 
-Creates a pipeline. A pipeline consumes messages from a channel and allows you to process
-the messages before storing them in a data store. You must specify both a channel
-and a datastore activity and, optionally, as many as 23 additional activities in
-the pipelineActivities array.
+Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
 
 ``` swift
 public func createPipeline(input: CreatePipelineInput, completion: @escaping (ClientRuntime.SdkResult<CreatePipelineOutputResponse, CreatePipelineOutputError>) -> Void)
@@ -99,9 +98,7 @@ public func deleteChannel(input: DeleteChannelInput, completion: @escaping (Clie
 
 ### `deleteDataset(input:completion:)`
 
-Deletes the specified dataset.
-You do not have to delete the content of the dataset before you perform this
-operation.
+Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
 
 ``` swift
 public func deleteDataset(input: DeleteDatasetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDatasetOutputResponse, DeleteDatasetOutputError>) -> Void)
@@ -229,11 +226,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `putLoggingOptions(input:completion:)`
 
-Sets or updates the IoT Analytics logging options.
-If you update the value of any loggingOptions field, it takes up to one
-minute for the change to take effect. Also, if you change the policy attached to the role you
-specified in the roleArn field (for example, to correct an invalid policy), it
-takes up to five minutes for that change to take effect.
+Sets or updates the IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
 
 ``` swift
 public func putLoggingOptions(input: PutLoggingOptionsInput, completion: @escaping (ClientRuntime.SdkResult<PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>) -> Void)
@@ -249,8 +242,7 @@ public func runPipelineActivity(input: RunPipelineActivityInput, completion: @es
 
 ### `sampleChannelData(input:completion:)`
 
-Retrieves a sample of messages from the specified channel ingested during the specified
-timeframe. Up to 10 messages can be retrieved.
+Retrieves a sample of messages from the specified channel ingested during the specified timeframe. Up to 10 messages can be retrieved.
 
 ``` swift
 public func sampleChannelData(input: SampleChannelDataInput, completion: @escaping (ClientRuntime.SdkResult<SampleChannelDataOutputResponse, SampleChannelDataOutputError>) -> Void)
@@ -266,8 +258,7 @@ public func startPipelineReprocessing(input: StartPipelineReprocessingInput, com
 
 ### `tagResource(input:completion:)`
 
-Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
-manage a resource.
+Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -307,9 +298,7 @@ public func updateDatastore(input: UpdateDatastoreInput, completion: @escaping (
 
 ### `updatePipeline(input:completion:)`
 
-Updates the settings of a pipeline. You must specify both a channel and a
-datastore activity and, optionally, as many as 23 additional activities in the
-pipelineActivities array.
+Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
 
 ``` swift
 public func updatePipeline(input: UpdatePipelineInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePipelineOutputResponse, UpdatePipelineOutputError>) -> Void)

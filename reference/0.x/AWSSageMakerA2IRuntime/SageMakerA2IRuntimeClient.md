@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SageMakerA2IRuntimeClient"
+```
+
 ## Methods
 
 ### `deleteHumanLoop(input:completion:)`
 
-Deletes the specified human loop for a flow definition.
-If the human loop was deleted, this operation will return a
-ResourceNotFoundException.
+Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException.
 
 ``` swift
 public func deleteHumanLoop(input: DeleteHumanLoopInput, completion: @escaping (ClientRuntime.SdkResult<DeleteHumanLoopOutputResponse, DeleteHumanLoopOutputError>) -> Void)
@@ -36,8 +42,7 @@ public func deleteHumanLoop(input: DeleteHumanLoopInput, completion: @escaping (
 
 ### `describeHumanLoop(input:completion:)`
 
-Returns information about the specified human loop. If the human loop was deleted, this
-operation will return a ResourceNotFoundException error.
+Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error.
 
 ``` swift
 public func describeHumanLoop(input: DescribeHumanLoopInput, completion: @escaping (ClientRuntime.SdkResult<DescribeHumanLoopOutputResponse, DescribeHumanLoopOutputError>) -> Void)

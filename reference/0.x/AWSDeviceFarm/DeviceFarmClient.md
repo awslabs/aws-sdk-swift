@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "DeviceFarmClient"
+```
+
 ## Methods
 
 ### `createDevicePool(input:completion:)`
@@ -34,8 +42,7 @@ public func createDevicePool(input: CreateDevicePoolInput, completion: @escaping
 
 ### `createInstanceProfile(input:completion:)`
 
-Creates a profile that can be applied to one or more private fleet device
-instances.
+Creates a profile that can be applied to one or more private fleet device instances.
 
 ``` swift
 public func createInstanceProfile(input: CreateInstanceProfileInput, completion: @escaping (ClientRuntime.SdkResult<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>) -> Void)
@@ -67,8 +74,7 @@ public func createRemoteAccessSession(input: CreateRemoteAccessSessionInput, com
 
 ### `createTestGridProject(input:completion:)`
 
-Creates a Selenium testing project. Projects are used to track TestGridSession
-instances.
+Creates a Selenium testing project. Projects are used to track \[TestGridSession\] instances.
 
 ``` swift
 public func createTestGridProject(input: CreateTestGridProjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>) -> Void)
@@ -76,8 +82,7 @@ public func createTestGridProject(input: CreateTestGridProjectInput, completion:
 
 ### `createTestGridUrl(input:completion:)`
 
-Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver
-constructor.
+Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
 
 ``` swift
 public func createTestGridUrl(input: CreateTestGridUrlInput, completion: @escaping (ClientRuntime.SdkResult<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>) -> Void)
@@ -93,8 +98,7 @@ public func createUpload(input: CreateUploadInput, completion: @escaping (Client
 
 ### `createVPCEConfiguration(input:completion:)`
 
-Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud
-(VPC) endpoint.
+Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
 
 ``` swift
 public func createVPCEConfiguration(input: CreateVPCEConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>) -> Void)
@@ -102,8 +106,7 @@ public func createVPCEConfiguration(input: CreateVPCEConfigurationInput, complet
 
 ### `deleteDevicePool(input:completion:)`
 
-Deletes a device pool given the pool ARN. Does not allow deletion of curated pools
-owned by the system.
+Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
 
 ``` swift
 public func deleteDevicePool(input: DeleteDevicePoolInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>) -> Void)
@@ -127,8 +130,7 @@ public func deleteNetworkProfile(input: DeleteNetworkProfileInput, completion: @
 
 ### `deleteProject(input:completion:)`
 
-Deletes an AWS Device Farm project, given the project ARN.
-Deleting this resource does not stop an in-progress run.
+Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
 
 ``` swift
 public func deleteProject(input: DeleteProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProjectOutputResponse, DeleteProjectOutputError>) -> Void)
@@ -144,8 +146,7 @@ public func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput, com
 
 ### `deleteRun(input:completion:)`
 
-Deletes the run, given the run ARN.
-Deleting this resource does not stop an in-progress run.
+Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
 
 ``` swift
 public func deleteRun(input: DeleteRunInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRunOutputResponse, DeleteRunOutputError>) -> Void)
@@ -153,17 +154,10 @@ public func deleteRun(input: DeleteRunInput, completion: @escaping (ClientRuntim
 
 ### `deleteTestGridProject(input:completion:)`
 
-Deletes a Selenium testing project and all content generated under it.
+Deletes a Selenium testing project and all content generated under it. You cannot undo this operation. You cannot delete a project if it has active sessions.
 
 ``` swift
 public func deleteTestGridProject(input: DeleteTestGridProjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>) -> Void)
-```
-
-``` 
-       You cannot undo this operation.
-
-
-       You cannot delete a project if it has active sessions.
 ```
 
 ### `deleteUpload(input:completion:)`
@@ -184,8 +178,7 @@ public func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput, complet
 
 ### `getAccountSettings(input:completion:)`
 
-Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the
-account.
+Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
 
 ``` swift
 public func getAccountSettings(input: GetAccountSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>) -> Void)
@@ -249,10 +242,7 @@ public func getNetworkProfile(input: GetNetworkProfileInput, completion: @escapi
 
 ### `getOfferingStatus(input:completion:)`
 
-Gets the current status and future status of all offerings purchased by an AWS account. The response
-indicates how many offerings are currently available and the offerings that will be available in the next
-period. The API returns a NotEligible error if the user is not permitted to invoke the
-operation. If you must be able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 public func getOfferingStatus(input: GetOfferingStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>) -> Void)
@@ -308,18 +298,15 @@ public func getTestGridProject(input: GetTestGridProjectInput, completion: @esca
 
 ### `getTestGridSession(input:completion:)`
 
-A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:​
+A session is an instance of a browser created through a RemoteWebDriver with the URL from \[CreateTestGridUrlResult$url\]. You can use the following to look up sessions:
 
 ``` swift
 public func getTestGridSession(input: GetTestGridSessionInput, completion: @escaping (ClientRuntime.SdkResult<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>) -> Void)
 ```
 
-``` 
-           The session ARN (GetTestGridSessionRequest$sessionArn).
+  - The session ARN (\[GetTestGridSessionRequest$sessionArn\]).
 
-
-           The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).
-```
+  - The project ARN and a session ID (\[GetTestGridSessionRequest$projectArn\] and \[GetTestGridSessionRequest$sessionId\]).
 
 ### `getUpload(input:completion:)`
 
@@ -331,8 +318,7 @@ public func getUpload(input: GetUploadInput, completion: @escaping (ClientRuntim
 
 ### `getVPCEConfiguration(input:completion:)`
 
-Returns information about the configuration settings for your Amazon Virtual Private
-Cloud (VPC) endpoint.
+Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
 
 ``` swift
 public func getVPCEConfiguration(input: GetVPCEConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>) -> Void)
@@ -340,9 +326,7 @@ public func getVPCEConfiguration(input: GetVPCEConfigurationInput, completion: @
 
 ### `installToRemoteAccessSession(input:completion:)`
 
-Installs an application to the device in a remote access session. For Android
-applications, the file must be in .apk format. For iOS applications, the file must be in
-.ipa format.
+Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
 
 ``` swift
 public func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput, completion: @escaping (ClientRuntime.SdkResult<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>) -> Void)
@@ -358,8 +342,7 @@ public func listArtifacts(input: ListArtifactsInput, completion: @escaping (Clie
 
 ### `listDeviceInstances(input:completion:)`
 
-Returns information about the private device instances associated with one or more AWS
-accounts.
+Returns information about the private device instances associated with one or more AWS accounts.
 
 ``` swift
 public func listDeviceInstances(input: ListDeviceInstancesInput, completion: @escaping (ClientRuntime.SdkResult<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>) -> Void)
@@ -407,9 +390,7 @@ public func listNetworkProfiles(input: ListNetworkProfilesInput, completion: @es
 
 ### `listOfferingPromotions(input:completion:)`
 
-Returns a list of offering promotions. Each offering promotion record contains the ID and description
-of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke
-the operation. Contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
+Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact <aws-devicefarm-support@amazon.com> if you must be able to invoke this operation.
 
 ``` swift
 public func listOfferingPromotions(input: ListOfferingPromotionsInput, completion: @escaping (ClientRuntime.SdkResult<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>) -> Void)
@@ -417,10 +398,7 @@ public func listOfferingPromotions(input: ListOfferingPromotionsInput, completio
 
 ### `listOfferingTransactions(input:completion:)`
 
-Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS
-account. The list is paginated and ordered by a descending timestamp (most recent transactions are first).
-The API returns a NotEligible error if the user is not permitted to invoke the operation. If
-you must be able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 public func listOfferingTransactions(input: ListOfferingTransactionsInput, completion: @escaping (ClientRuntime.SdkResult<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>) -> Void)
@@ -428,10 +406,7 @@ public func listOfferingTransactions(input: ListOfferingTransactionsInput, compl
 
 ### `listOfferings(input:completion:)`
 
-Returns a list of products or offerings that the user can manage through the API. Each offering record
-indicates the recurring price per unit and the frequency for that offering. The API returns a
-NotEligible error if the user is not permitted to invoke the operation.  If you must be
-able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 public func listOfferings(input: ListOfferingsInput, completion: @escaping (ClientRuntime.SdkResult<ListOfferingsOutputResponse, ListOfferingsOutputError>) -> Void)
@@ -495,7 +470,7 @@ public func listTestGridProjects(input: ListTestGridProjectsInput, completion: @
 
 ### `listTestGridSessionActions(input:completion:)`
 
-Returns a list of the actions taken in a TestGridSession.
+Returns a list of the actions taken in a \[TestGridSession\].
 
 ``` swift
 public func listTestGridSessionActions(input: ListTestGridSessionActionsInput, completion: @escaping (ClientRuntime.SdkResult<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>) -> Void)
@@ -511,7 +486,7 @@ public func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInpu
 
 ### `listTestGridSessions(input:completion:)`
 
-Retrieves a list of sessions for a TestGridProject.
+Retrieves a list of sessions for a \[TestGridProject\].
 
 ``` swift
 public func listTestGridSessions(input: ListTestGridSessionsInput, completion: @escaping (ClientRuntime.SdkResult<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>) -> Void)
@@ -527,11 +502,7 @@ public func listTests(input: ListTestsInput, completion: @escaping (ClientRuntim
 
 ### `listUniqueProblems(input:completion:)`
 
-Gets information about unique problems, such as exceptions or crashes.
-Unique problems are defined as a single instance of an error across a run, job, or suite. For example,
-if a call in your application consistently raises an exception (OutOfBoundsException in
-MyActivity.java:​386), ListUniqueProblems returns a single entry instead of many
-individual entries for that exception.
+Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
 
 ``` swift
 public func listUniqueProblems(input: ListUniqueProblemsInput, completion: @escaping (ClientRuntime.SdkResult<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>) -> Void)
@@ -547,8 +518,7 @@ public func listUploads(input: ListUploadsInput, completion: @escaping (ClientRu
 
 ### `listVPCEConfigurations(input:completion:)`
 
-Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
-configurations in the AWS account.
+Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
 
 ``` swift
 public func listVPCEConfigurations(input: ListVPCEConfigurationsInput, completion: @escaping (ClientRuntime.SdkResult<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>) -> Void)
@@ -556,10 +526,7 @@ public func listVPCEConfigurations(input: ListVPCEConfigurationsInput, completio
 
 ### `purchaseOffering(input:completion:)`
 
-Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased
-quantity for an offering, unless the renewal was overridden. The API returns a NotEligible
-error if the user is not permitted to invoke the operation. If you must be able to invoke this operation,
-contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 public func purchaseOffering(input: PurchaseOfferingInput, completion: @escaping (ClientRuntime.SdkResult<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>) -> Void)
@@ -567,9 +534,7 @@ public func purchaseOffering(input: PurchaseOfferingInput, completion: @escaping
 
 ### `renewOffering(input:completion:)`
 
-Explicitly sets the quantity of devices to renew for an offering, starting from the
-effectiveDate of the next period. The API returns a NotEligible error if the
-user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <a href="mailto:​aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com.
+Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact <aws-devicefarm-support@amazon.com>.
 
 ``` swift
 public func renewOffering(input: RenewOfferingInput, completion: @escaping (ClientRuntime.SdkResult<RenewOfferingOutputResponse, RenewOfferingOutputError>) -> Void)
@@ -585,10 +550,7 @@ public func scheduleRun(input: ScheduleRunInput, completion: @escaping (ClientRu
 
 ### `stopJob(input:completion:)`
 
-Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device
-where tests have not started. You are not billed for this device. On the device where tests have started,
-setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown,
-and any tests that were in progress or already completed.
+Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
 
 ``` swift
 public func stopJob(input: StopJobInput, completion: @escaping (ClientRuntime.SdkResult<StopJobOutputResponse, StopJobOutputError>) -> Void)
@@ -604,10 +566,7 @@ public func stopRemoteAccessSession(input: StopRemoteAccessSessionInput, complet
 
 ### `stopRun(input:completion:)`
 
-Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices
-where tests have not started. You are not billed for these devices. On devices where tests have started
-executing, setup suite and teardown suite tests run to completion on those devices. You are billed for
-setup, teardown, and any tests that were in progress or already completed.
+Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
 
 ``` swift
 public func stopRun(input: StopRunInput, completion: @escaping (ClientRuntime.SdkResult<StopRunOutputResponse, StopRunOutputError>) -> Void)
@@ -615,9 +574,7 @@ public func stopRun(input: StopRunInput, completion: @escaping (ClientRuntime.Sd
 
 ### `tagResource(input:completion:)`
 
-Associates the specified tags to a resource with the specified resourceArn. If existing tags
-on a resource are not specified in the request parameters, they are not changed. When a resource is deleted,
-the tags associated with that resource are also deleted.
+Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -641,9 +598,7 @@ public func updateDeviceInstance(input: UpdateDeviceInstanceInput, completion: @
 
 ### `updateDevicePool(input:completion:)`
 
-Modifies the name, description, and rules in a device pool given the attributes and
-the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a
-whole (or not at all).
+Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
 
 ``` swift
 public func updateDevicePool(input: UpdateDevicePoolInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>) -> Void)
@@ -667,8 +622,7 @@ public func updateNetworkProfile(input: UpdateNetworkProfileInput, completion: @
 
 ### `updateProject(input:completion:)`
 
-Modifies the specified project name, given the project ARN and a new
-name.
+Modifies the specified project name, given the project ARN and a new name.
 
 ``` swift
 public func updateProject(input: UpdateProjectInput, completion: @escaping (ClientRuntime.SdkResult<UpdateProjectOutputResponse, UpdateProjectOutputError>) -> Void)

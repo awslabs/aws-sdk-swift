@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CostExplorerClient"
+```
+
 ## Methods
 
 ### `createAnomalyMonitor(input:completion:)`
 
-Creates a new cost anomaly detection monitor with the requested type and monitor
-specification.
+Creates a new cost anomaly detection monitor with the requested type and monitor specification.
 
 ``` swift
 public func createAnomalyMonitor(input: CreateAnomalyMonitorInput, completion: @escaping (ClientRuntime.SdkResult<CreateAnomalyMonitorOutputResponse, CreateAnomalyMonitorOutputError>) -> Void)
@@ -35,9 +42,7 @@ public func createAnomalyMonitor(input: CreateAnomalyMonitorInput, completion: @
 
 ### `createAnomalySubscription(input:completion:)`
 
-Adds a subscription to a cost anomaly detection monitor. You can use each subscription to
-define subscribers with email or SNS notifications. Email subscribers can set a dollar
-threshold and a time frequency for receiving notifications.
+Adds a subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set a dollar threshold and a time frequency for receiving notifications.
 
 ``` swift
 public func createAnomalySubscription(input: CreateAnomalySubscriptionInput, completion: @escaping (ClientRuntime.SdkResult<CreateAnomalySubscriptionOutputResponse, CreateAnomalySubscriptionOutputError>) -> Void)
@@ -77,8 +82,7 @@ public func deleteCostCategoryDefinition(input: DeleteCostCategoryDefinitionInpu
 
 ### `describeCostCategoryDefinition(input:completion:)`
 
-Returns the name, ARN, rules, definition, and effective dates of a Cost Category that's defined in the account.
-You have the option to use EffectiveOn to return a Cost Category that is active on a specific date. If there is no EffectiveOn specified, you’ll see a Cost Category that is effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
+Returns the name, ARN, rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that is active on a specific date. If there is no EffectiveOn specified, you’ll see a Cost Category that is effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
 
 ``` swift
 public func describeCostCategoryDefinition(input: DescribeCostCategoryDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCostCategoryDefinitionOutputResponse, DescribeCostCategoryDefinitionOutputError>) -> Void)
@@ -86,8 +90,7 @@ public func describeCostCategoryDefinition(input: DescribeCostCategoryDefinition
 
 ### `getAnomalies(input:completion:)`
 
-Retrieves all of the cost anomalies detected on your account during the time period that's
-specified by the DateInterval object.
+Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object.
 
 ``` swift
 public func getAnomalies(input: GetAnomaliesInput, completion: @escaping (ClientRuntime.SdkResult<GetAnomaliesOutputResponse, GetAnomaliesOutputError>) -> Void)
@@ -95,8 +98,7 @@ public func getAnomalies(input: GetAnomaliesInput, completion: @escaping (Client
 
 ### `getAnomalyMonitors(input:completion:)`
 
-Retrieves the cost anomaly monitor definitions for your account. You can filter using a
-list of cost anomaly monitor Amazon Resource Names (ARNs).
+Retrieves the cost anomaly monitor definitions for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
 
 ``` swift
 public func getAnomalyMonitors(input: GetAnomalyMonitorsInput, completion: @escaping (ClientRuntime.SdkResult<GetAnomalyMonitorsOutputResponse, GetAnomalyMonitorsOutputError>) -> Void)
@@ -104,8 +106,7 @@ public func getAnomalyMonitors(input: GetAnomalyMonitorsInput, completion: @esca
 
 ### `getAnomalySubscriptions(input:completion:)`
 
-Retrieves the cost anomaly subscription objects for your account. You can filter using a
-list of cost anomaly monitor Amazon Resource Names (ARNs).
+Retrieves the cost anomaly subscription objects for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
 
 ``` swift
 public func getAnomalySubscriptions(input: GetAnomalySubscriptionsInput, completion: @escaping (ClientRuntime.SdkResult<GetAnomalySubscriptionsOutputResponse, GetAnomalySubscriptionsOutputError>) -> Void)
@@ -113,12 +114,7 @@ public func getAnomalySubscriptions(input: GetAnomalySubscriptionsInput, complet
 
 ### `getCostAndUsage(input:completion:)`
 
-Retrieves cost and usage metrics for your account. You can specify which cost and
-usage-related metric that you want the request to return. For example, you can specify
-BlendedCosts or UsageQuantity. You can also filter and group your
-data by various dimensions, such as SERVICE or AZ, in a specific
-time range. For a complete list of valid dimensions, see the <a href="https:​//docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html">GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts.
-For information about filter limitations, see <a href="https:​//docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-limits.html">Quotas and restrictions in the Billing and Cost Management User Guide.
+Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to return. For example, you can specify BlendedCosts or UsageQuantity. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the [GetDimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html) operation. Management account in an organization in Organizations have access to all member accounts. For information about filter limitations, see [Quotas and restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-limits.html) in the Billing and Cost Management User Guide.
 
 ``` swift
 public func getCostAndUsage(input: GetCostAndUsageInput, completion: @escaping (ClientRuntime.SdkResult<GetCostAndUsageOutputResponse, GetCostAndUsageOutputError>) -> Void)
@@ -126,30 +122,18 @@ public func getCostAndUsage(input: GetCostAndUsageInput, completion: @escaping (
 
 ### `getCostAndUsageWithResources(input:completion:)`
 
-Retrieves cost and usage metrics with resources for your account. You can specify which cost and
-usage-related metric, such as BlendedCosts or UsageQuantity, that
-you want the request to return. You can also filter and group your data by various dimensions,
-such as SERVICE or AZ, in a specific time range. For a complete list
-of valid dimensions, see the <a href="https:​//docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html">GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. This API is currently available for the Amazon Elastic Compute Cloud – Compute service only.
+Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the [GetDimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html) operation. Management account in an organization in Organizations have access to all member accounts. This API is currently available for the Amazon Elastic Compute Cloud – Compute service only. This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information on how to access the Settings page, see [Controlling Access for Cost Explorer](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-access.html) in the Billing and Cost Management User Guide.
 
 ``` swift
 public func getCostAndUsageWithResources(input: GetCostAndUsageWithResourcesInput, completion: @escaping (ClientRuntime.SdkResult<GetCostAndUsageWithResourcesOutputResponse, GetCostAndUsageWithResourcesOutputError>) -> Void)
 ```
 
-``` 
-        This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information on how to access the Settings page, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-access.html">Controlling Access for Cost Explorer in the Billing and Cost Management User Guide.
-```
-
 ### `getCostCategories(input:completion:)`
 
-Retrieves an array of Cost Category names and values incurred cost.
+Retrieves an array of Cost Category names and values incurred cost. If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
 
 ``` swift
 public func getCostCategories(input: GetCostCategoriesInput, completion: @escaping (ClientRuntime.SdkResult<GetCostCategoriesOutputResponse, GetCostCategoriesOutputError>) -> Void)
-```
-
-``` 
-        If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
 ```
 
 ### `getCostForecast(input:completion:)`
@@ -170,66 +154,41 @@ public func getDimensionValues(input: GetDimensionValuesInput, completion: @esca
 
 ### `getReservationCoverage(input:completion:)`
 
-Retrieves the reservation coverage for your account. This enables you to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or
-Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions.
-For any time period, you can filter data about reservation usage by the following dimensions:​
+Retrieves the reservation coverage for your account. This enables you to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:
 
 ``` swift
 public func getReservationCoverage(input: GetReservationCoverageInput, completion: @escaping (ClientRuntime.SdkResult<GetReservationCoverageOutputResponse, GetReservationCoverageOutputError>) -> Void)
 ```
 
-``` 
-           AZ
+  - AZ
 
+  - CACHE\_ENGINE
 
-           CACHE_ENGINE
+  - DATABASE\_ENGINE
 
+  - DEPLOYMENT\_OPTION
 
-           DATABASE_ENGINE
+  - INSTANCE\_TYPE
 
+  - LINKED\_ACCOUNT
 
-           DEPLOYMENT_OPTION
+  - OPERATING\_SYSTEM
 
+  - PLATFORM
 
-           INSTANCE_TYPE
+  - REGION
 
+  - SERVICE
 
-           LINKED_ACCOUNT
+  - TAG
 
+  - TENANCY
 
-           OPERATING_SYSTEM
-
-
-           PLATFORM
-
-
-           REGION
-
-
-           SERVICE
-
-
-           TAG
-
-
-           TENANCY
-
-
-	       To determine valid values for a dimension, use the GetDimensionValues operation.
-```
+To determine valid values for a dimension, use the GetDimensionValues operation.
 
 ### `getReservationPurchaseRecommendation(input:completion:)`
 
-Gets recommendations for which reservations to purchase. These recommendations could help you reduce your costs.
-Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing.
-Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage
-into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reservations
-in each category of usage to identify the best number of each type of RI to purchase to maximize your estimated savings.
-For example, Amazon Web Services automatically aggregates your Amazon EC2 Linux, shared tenancy, and c4 family usage in the US West (Oregon) Region
-and recommends that you buy size-flexible regional reservations to apply to the c4 family usage. Amazon Web Services recommends the smallest size instance
-in an instance family. This makes it easier to purchase a size-flexible RI. Amazon Web Services also shows the equal number of normalized units
-so that you can purchase any instance size that you want. For this example, your RI recommendation would be for c4.large
-because that is the smallest size instance in the c4 instance family.
+Gets recommendations for which reservations to purchase. These recommendations could help you reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing. Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reservations in each category of usage to identify the best number of each type of RI to purchase to maximize your estimated savings. For example, Amazon Web Services automatically aggregates your Amazon EC2 Linux, shared tenancy, and c4 family usage in the US West (Oregon) Region and recommends that you buy size-flexible regional reservations to apply to the c4 family usage. Amazon Web Services recommends the smallest size instance in an instance family. This makes it easier to purchase a size-flexible RI. Amazon Web Services also shows the equal number of normalized units so that you can purchase any instance size that you want. For this example, your RI recommendation would be for c4.large because that is the smallest size instance in the c4 instance family.
 
 ``` swift
 public func getReservationPurchaseRecommendation(input: GetReservationPurchaseRecommendationInput, completion: @escaping (ClientRuntime.SdkResult<GetReservationPurchaseRecommendationOutputResponse, GetReservationPurchaseRecommendationOutputError>) -> Void)
@@ -237,9 +196,7 @@ public func getReservationPurchaseRecommendation(input: GetReservationPurchaseRe
 
 ### `getReservationUtilization(input:completion:)`
 
-Retrieves the reservation utilization for your account. Management account in an organization have access to member accounts.
-You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible
-dimension values. Currently, you can group only by SUBSCRIPTION\_ID.
+Retrieves the reservation utilization for your account. Management account in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION\_ID.
 
 ``` swift
 public func getReservationUtilization(input: GetReservationUtilizationInput, completion: @escaping (ClientRuntime.SdkResult<GetReservationUtilizationOutputResponse, GetReservationUtilizationOutputError>) -> Void)
@@ -247,16 +204,7 @@ public func getReservationUtilization(input: GetReservationUtilizationInput, com
 
 ### `getRightsizingRecommendation(input:completion:)`
 
-Creates recommendations that
-help you save cost
-by identifying idle and underutilized Amazon EC2 instances.
-Recommendations are generated to either downsize or terminate instances, along with
-providing savings detail and metrics. For details on calculation and function, see
-<a href="https:​//docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-rightsizing.html">Optimizing
-Your Cost with Rightsizing
-Recommendations
-in the Billing and Cost Management User
-Guide.
+Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For details on calculation and function, see [Optimizing Your Cost with Rightsizing Recommendations](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-rightsizing.html) in the Billing and Cost Management User Guide.
 
 ``` swift
 public func getRightsizingRecommendation(input: GetRightsizingRecommendationInput, completion: @escaping (ClientRuntime.SdkResult<GetRightsizingRecommendationOutputResponse, GetRightsizingRecommendationOutputError>) -> Void)
@@ -264,34 +212,21 @@ public func getRightsizingRecommendation(input: GetRightsizingRecommendationInpu
 
 ### `getSavingsPlansCoverage(input:completion:)`
 
-Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:​
+Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
 
 ``` swift
 public func getSavingsPlansCoverage(input: GetSavingsPlansCoverageInput, completion: @escaping (ClientRuntime.SdkResult<GetSavingsPlansCoverageOutputResponse, GetSavingsPlansCoverageOutputError>) -> Void)
 ```
 
-``` 
-              LINKED_ACCOUNT
+  - LINKED\_ACCOUNT
 
+  - REGION
 
+  - SERVICE
 
+  - INSTANCE\_FAMILY
 
-              REGION
-
-
-
-
-              SERVICE
-
-
-
-
-              INSTANCE_FAMILY
-
-
-
-        To determine valid values for a dimension, use the GetDimensionValues operation.
-```
+To determine valid values for a dimension, use the GetDimensionValues operation.
 
 ### `getSavingsPlansPurchaseRecommendation(input:completion:)`
 
@@ -303,26 +238,18 @@ public func getSavingsPlansPurchaseRecommendation(input: GetSavingsPlansPurchase
 
 ### `getSavingsPlansUtilization(input:completion:)`
 
-Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS\_PLANS to determine the possible dimension values.
+Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS\_PLANS to determine the possible dimension values. You cannot group by any dimension values for GetSavingsPlansUtilization.
 
 ``` swift
 public func getSavingsPlansUtilization(input: GetSavingsPlansUtilizationInput, completion: @escaping (ClientRuntime.SdkResult<GetSavingsPlansUtilizationOutputResponse, GetSavingsPlansUtilizationOutputError>) -> Void)
 ```
 
-``` 
-        You cannot group by any dimension values for GetSavingsPlansUtilization.
-```
-
 ### `getSavingsPlansUtilizationDetails(input:completion:)`
 
-Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS\_PLANS to determine the possible dimension values.
+Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS\_PLANS to determine the possible dimension values. GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn.
 
 ``` swift
 public func getSavingsPlansUtilizationDetails(input: GetSavingsPlansUtilizationDetailsInput, completion: @escaping (ClientRuntime.SdkResult<GetSavingsPlansUtilizationDetailsOutputResponse, GetSavingsPlansUtilizationDetailsOutputError>) -> Void)
-```
-
-``` 
-           GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn.
 ```
 
 ### `getTags(input:completion:)`
@@ -359,8 +286,7 @@ public func provideAnomalyFeedback(input: ProvideAnomalyFeedbackInput, completio
 
 ### `updateAnomalyMonitor(input:completion:)`
 
-Updates an existing cost anomaly monitor. The changes made are applied going forward, and
-doesn'tt change anomalies detected in the past.
+Updates an existing cost anomaly monitor. The changes made are applied going forward, and doesn'tt change anomalies detected in the past.
 
 ``` swift
 public func updateAnomalyMonitor(input: UpdateAnomalyMonitorInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAnomalyMonitorOutputResponse, UpdateAnomalyMonitorOutputError>) -> Void)

@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ServiceCatalogAppRegistryClient"
+```
+
 ## Methods
 
 ### `associateAttributeGroup(input:completion:)`
 
-Associates an attribute group with an application to augment the application's metadata
-with the group's attributes. This feature enables applications to be described with
-user-defined details that are machine-readable, such as third-party integrations.
+Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations.
 
 ``` swift
 public func associateAttributeGroup(input: AssociateAttributeGroupInput, completion: @escaping (ClientRuntime.SdkResult<AssociateAttributeGroupOutputResponse, AssociateAttributeGroupOutputError>) -> Void)
@@ -52,10 +58,7 @@ public func createApplication(input: CreateApplicationInput, completion: @escapi
 
 ### `createAttributeGroup(input:completion:)`
 
-Creates a new attribute group as a container for user-defined attributes. This feature
-enables users to have full control over their cloud application's metadata in a rich
-machine-readable format to facilitate integration with automated workflows and third-party
-tools.
+Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
 
 ``` swift
 public func createAttributeGroup(input: CreateAttributeGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateAttributeGroupOutputResponse, CreateAttributeGroupOutputError>) -> Void)
@@ -127,7 +130,7 @@ public func listApplications(input: ListApplicationsInput, completion: @escaping
 
 ### `listAssociatedAttributeGroups(input:completion:)`
 
-Lists all attribute groups that are associated with specified application.  Results are paginated.
+Lists all attribute groups that are associated with specified application. Results are paginated.
 
 ``` swift
 public func listAssociatedAttributeGroups(input: ListAssociatedAttributeGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListAssociatedAttributeGroupsOutputResponse, ListAssociatedAttributeGroupsOutputError>) -> Void)
@@ -159,8 +162,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `syncResource(input:completion:)`
 
-Syncs the resource with current AppRegistry records.
-Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
+Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
 
 ``` swift
 public func syncResource(input: SyncResourceInput, completion: @escaping (ClientRuntime.SdkResult<SyncResourceOutputResponse, SyncResourceOutputError>) -> Void)
@@ -168,9 +170,7 @@ public func syncResource(input: SyncResourceInput, completion: @escaping (Client
 
 ### `tagResource(input:completion:)`
 
-Assigns one or more tags (key-value pairs) to the specified resource.
-Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
-This operation returns an empty response if the call was successful.
+Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -178,8 +178,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `untagResource(input:completion:)`
 
-Removes tags from a resource.
-This operation returns an empty response if the call was successful.
+Removes tags from a resource. This operation returns an empty response if the call was successful.
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)

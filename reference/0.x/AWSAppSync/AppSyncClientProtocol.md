@@ -1,7 +1,6 @@
 # AppSyncClientProtocol
 
-AppSync provides API actions for creating and interacting with data
-sources using GraphQL from your application.
+AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
 
 ``` swift
 public protocol AppSyncClientProtocol 
@@ -9,7 +8,7 @@ public protocol AppSyncClientProtocol
 
 ## Requirements
 
-### createApiCache(input:​completion:​)
+### createApiCache(input:completion:)
 
 Creates a cache for the GraphQL API.
 
@@ -17,16 +16,15 @@ Creates a cache for the GraphQL API.
 func createApiCache(input: CreateApiCacheInput, completion: @escaping (ClientRuntime.SdkResult<CreateApiCacheOutputResponse, CreateApiCacheOutputError>) -> Void)
 ```
 
-### createApiKey(input:​completion:​)
+### createApiKey(input:completion:)
 
-Creates a unique key that you can distribute to clients who are executing your
-API.
+Creates a unique key that you can distribute to clients who are executing your API.
 
 ``` swift
 func createApiKey(input: CreateApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<CreateApiKeyOutputResponse, CreateApiKeyOutputError>) -> Void)
 ```
 
-### createDataSource(input:​completion:​)
+### createDataSource(input:completion:)
 
 Creates a DataSource object.
 
@@ -34,17 +32,15 @@ Creates a DataSource object.
 func createDataSource(input: CreateDataSourceInput, completion: @escaping (ClientRuntime.SdkResult<CreateDataSourceOutputResponse, CreateDataSourceOutputError>) -> Void)
 ```
 
-### createFunction(input:​completion:​)
+### createFunction(input:completion:)
 
-Creates a Function object.
-A function is a reusable entity. Multiple functions can be used to compose the resolver
-logic.
+Creates a Function object. A function is a reusable entity. Multiple functions can be used to compose the resolver logic.
 
 ``` swift
 func createFunction(input: CreateFunctionInput, completion: @escaping (ClientRuntime.SdkResult<CreateFunctionOutputResponse, CreateFunctionOutputError>) -> Void)
 ```
 
-### createGraphqlApi(input:​completion:​)
+### createGraphqlApi(input:completion:)
 
 Creates a GraphqlApi object.
 
@@ -52,17 +48,15 @@ Creates a GraphqlApi object.
 func createGraphqlApi(input: CreateGraphqlApiInput, completion: @escaping (ClientRuntime.SdkResult<CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>) -> Void)
 ```
 
-### createResolver(input:​completion:​)
+### createResolver(input:completion:)
 
-Creates a Resolver object.
-A resolver converts incoming requests into a format that a data source can understand
-and converts the data source's responses into GraphQL.
+Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand and converts the data source's responses into GraphQL.
 
 ``` swift
 func createResolver(input: CreateResolverInput, completion: @escaping (ClientRuntime.SdkResult<CreateResolverOutputResponse, CreateResolverOutputError>) -> Void)
 ```
 
-### createType(input:​completion:​)
+### createType(input:completion:)
 
 Creates a Type object.
 
@@ -70,7 +64,7 @@ Creates a Type object.
 func createType(input: CreateTypeInput, completion: @escaping (ClientRuntime.SdkResult<CreateTypeOutputResponse, CreateTypeOutputError>) -> Void)
 ```
 
-### deleteApiCache(input:​completion:​)
+### deleteApiCache(input:completion:)
 
 Deletes an ApiCache object.
 
@@ -78,7 +72,7 @@ Deletes an ApiCache object.
 func deleteApiCache(input: DeleteApiCacheInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>) -> Void)
 ```
 
-### deleteApiKey(input:​completion:​)
+### deleteApiKey(input:completion:)
 
 Deletes an API key.
 
@@ -86,7 +80,7 @@ Deletes an API key.
 func deleteApiKey(input: DeleteApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>) -> Void)
 ```
 
-### deleteDataSource(input:​completion:​)
+### deleteDataSource(input:completion:)
 
 Deletes a DataSource object.
 
@@ -94,7 +88,7 @@ Deletes a DataSource object.
 func deleteDataSource(input: DeleteDataSourceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>) -> Void)
 ```
 
-### deleteFunction(input:​completion:​)
+### deleteFunction(input:completion:)
 
 Deletes a Function.
 
@@ -102,7 +96,7 @@ Deletes a Function.
 func deleteFunction(input: DeleteFunctionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteFunctionOutputResponse, DeleteFunctionOutputError>) -> Void)
 ```
 
-### deleteGraphqlApi(input:​completion:​)
+### deleteGraphqlApi(input:completion:)
 
 Deletes a GraphqlApi object.
 
@@ -110,7 +104,7 @@ Deletes a GraphqlApi object.
 func deleteGraphqlApi(input: DeleteGraphqlApiInput, completion: @escaping (ClientRuntime.SdkResult<DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>) -> Void)
 ```
 
-### deleteResolver(input:​completion:​)
+### deleteResolver(input:completion:)
 
 Deletes a Resolver object.
 
@@ -118,7 +112,7 @@ Deletes a Resolver object.
 func deleteResolver(input: DeleteResolverInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResolverOutputResponse, DeleteResolverOutputError>) -> Void)
 ```
 
-### deleteType(input:​completion:​)
+### deleteType(input:completion:)
 
 Deletes a Type object.
 
@@ -126,7 +120,7 @@ Deletes a Type object.
 func deleteType(input: DeleteTypeInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTypeOutputResponse, DeleteTypeOutputError>) -> Void)
 ```
 
-### flushApiCache(input:​completion:​)
+### flushApiCache(input:completion:)
 
 Flushes an ApiCache object.
 
@@ -134,7 +128,7 @@ Flushes an ApiCache object.
 func flushApiCache(input: FlushApiCacheInput, completion: @escaping (ClientRuntime.SdkResult<FlushApiCacheOutputResponse, FlushApiCacheOutputError>) -> Void)
 ```
 
-### getApiCache(input:​completion:​)
+### getApiCache(input:completion:)
 
 Retrieves an ApiCache object.
 
@@ -142,7 +136,7 @@ Retrieves an ApiCache object.
 func getApiCache(input: GetApiCacheInput, completion: @escaping (ClientRuntime.SdkResult<GetApiCacheOutputResponse, GetApiCacheOutputError>) -> Void)
 ```
 
-### getDataSource(input:​completion:​)
+### getDataSource(input:completion:)
 
 Retrieves a DataSource object.
 
@@ -150,7 +144,7 @@ Retrieves a DataSource object.
 func getDataSource(input: GetDataSourceInput, completion: @escaping (ClientRuntime.SdkResult<GetDataSourceOutputResponse, GetDataSourceOutputError>) -> Void)
 ```
 
-### getFunction(input:​completion:​)
+### getFunction(input:completion:)
 
 Get a Function.
 
@@ -158,7 +152,7 @@ Get a Function.
 func getFunction(input: GetFunctionInput, completion: @escaping (ClientRuntime.SdkResult<GetFunctionOutputResponse, GetFunctionOutputError>) -> Void)
 ```
 
-### getGraphqlApi(input:​completion:​)
+### getGraphqlApi(input:completion:)
 
 Retrieves a GraphqlApi object.
 
@@ -166,7 +160,7 @@ Retrieves a GraphqlApi object.
 func getGraphqlApi(input: GetGraphqlApiInput, completion: @escaping (ClientRuntime.SdkResult<GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>) -> Void)
 ```
 
-### getIntrospectionSchema(input:​completion:​)
+### getIntrospectionSchema(input:completion:)
 
 Retrieves the introspection schema for a GraphQL API.
 
@@ -174,7 +168,7 @@ Retrieves the introspection schema for a GraphQL API.
 func getIntrospectionSchema(input: GetIntrospectionSchemaInput, completion: @escaping (ClientRuntime.SdkResult<GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>) -> Void)
 ```
 
-### getResolver(input:​completion:​)
+### getResolver(input:completion:)
 
 Retrieves a Resolver object.
 
@@ -182,7 +176,7 @@ Retrieves a Resolver object.
 func getResolver(input: GetResolverInput, completion: @escaping (ClientRuntime.SdkResult<GetResolverOutputResponse, GetResolverOutputError>) -> Void)
 ```
 
-### getSchemaCreationStatus(input:​completion:​)
+### getSchemaCreationStatus(input:completion:)
 
 Retrieves the current status of a schema creation operation.
 
@@ -190,7 +184,7 @@ Retrieves the current status of a schema creation operation.
 func getSchemaCreationStatus(input: GetSchemaCreationStatusInput, completion: @escaping (ClientRuntime.SdkResult<GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>) -> Void)
 ```
 
-### getType(input:​completion:​)
+### getType(input:completion:)
 
 Retrieves a Type object.
 
@@ -198,22 +192,15 @@ Retrieves a Type object.
 func getType(input: GetTypeInput, completion: @escaping (ClientRuntime.SdkResult<GetTypeOutputResponse, GetTypeOutputError>) -> Void)
 ```
 
-### listApiKeys(input:​completion:​)
+### listApiKeys(input:completion:)
 
-Lists the API keys for a given API.
+Lists the API keys for a given API. API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
 
 ``` swift
 func listApiKeys(input: ListApiKeysInput, completion: @escaping (ClientRuntime.SdkResult<ListApiKeysOutputResponse, ListApiKeysOutputError>) -> Void)
 ```
 
-``` 
-        API keys are deleted automatically 60 days after they expire. However, they may still
-        be included in the response until they have actually been deleted. You can safely call
-           DeleteApiKey to manually delete a key before it's automatically
-        deleted.
-```
-
-### listDataSources(input:​completion:​)
+### listDataSources(input:completion:)
 
 Lists the data sources for a given API.
 
@@ -221,7 +208,7 @@ Lists the data sources for a given API.
 func listDataSources(input: ListDataSourcesInput, completion: @escaping (ClientRuntime.SdkResult<ListDataSourcesOutputResponse, ListDataSourcesOutputError>) -> Void)
 ```
 
-### listFunctions(input:​completion:​)
+### listFunctions(input:completion:)
 
 List multiple functions.
 
@@ -229,7 +216,7 @@ List multiple functions.
 func listFunctions(input: ListFunctionsInput, completion: @escaping (ClientRuntime.SdkResult<ListFunctionsOutputResponse, ListFunctionsOutputError>) -> Void)
 ```
 
-### listGraphqlApis(input:​completion:​)
+### listGraphqlApis(input:completion:)
 
 Lists your GraphQL APIs.
 
@@ -237,7 +224,7 @@ Lists your GraphQL APIs.
 func listGraphqlApis(input: ListGraphqlApisInput, completion: @escaping (ClientRuntime.SdkResult<ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>) -> Void)
 ```
 
-### listResolvers(input:​completion:​)
+### listResolvers(input:completion:)
 
 Lists the resolvers for a given API and type.
 
@@ -245,7 +232,7 @@ Lists the resolvers for a given API and type.
 func listResolvers(input: ListResolversInput, completion: @escaping (ClientRuntime.SdkResult<ListResolversOutputResponse, ListResolversOutputError>) -> Void)
 ```
 
-### listResolversByFunction(input:​completion:​)
+### listResolversByFunction(input:completion:)
 
 List the resolvers that are associated with a specific function.
 
@@ -253,7 +240,7 @@ List the resolvers that are associated with a specific function.
 func listResolversByFunction(input: ListResolversByFunctionInput, completion: @escaping (ClientRuntime.SdkResult<ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Lists the tags for a resource.
 
@@ -261,7 +248,7 @@ Lists the tags for a resource.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listTypes(input:​completion:​)
+### listTypes(input:completion:)
 
 Lists the types for a given API.
 
@@ -269,17 +256,15 @@ Lists the types for a given API.
 func listTypes(input: ListTypesInput, completion: @escaping (ClientRuntime.SdkResult<ListTypesOutputResponse, ListTypesOutputError>) -> Void)
 ```
 
-### startSchemaCreation(input:​completion:​)
+### startSchemaCreation(input:completion:)
 
-Adds a new schema to your GraphQL API.
-This operation is asynchronous. Use  to
-determine when it has completed.
+Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
 
 ``` swift
 func startSchemaCreation(input: StartSchemaCreationInput, completion: @escaping (ClientRuntime.SdkResult<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Tags a resource with user-supplied tags.
 
@@ -287,7 +272,7 @@ Tags a resource with user-supplied tags.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Untags a resource.
 
@@ -295,7 +280,7 @@ Untags a resource.
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateApiCache(input:​completion:​)
+### updateApiCache(input:completion:)
 
 Updates the cache for the GraphQL API.
 
@@ -303,7 +288,7 @@ Updates the cache for the GraphQL API.
 func updateApiCache(input: UpdateApiCacheInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>) -> Void)
 ```
 
-### updateApiKey(input:​completion:​)
+### updateApiKey(input:completion:)
 
 Updates an API key. The key can be updated while it is not deleted.
 
@@ -311,7 +296,7 @@ Updates an API key. The key can be updated while it is not deleted.
 func updateApiKey(input: UpdateApiKeyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>) -> Void)
 ```
 
-### updateDataSource(input:​completion:​)
+### updateDataSource(input:completion:)
 
 Updates a DataSource object.
 
@@ -319,7 +304,7 @@ Updates a DataSource object.
 func updateDataSource(input: UpdateDataSourceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>) -> Void)
 ```
 
-### updateFunction(input:​completion:​)
+### updateFunction(input:completion:)
 
 Updates a Function object.
 
@@ -327,7 +312,7 @@ Updates a Function object.
 func updateFunction(input: UpdateFunctionInput, completion: @escaping (ClientRuntime.SdkResult<UpdateFunctionOutputResponse, UpdateFunctionOutputError>) -> Void)
 ```
 
-### updateGraphqlApi(input:​completion:​)
+### updateGraphqlApi(input:completion:)
 
 Updates a GraphqlApi object.
 
@@ -335,7 +320,7 @@ Updates a GraphqlApi object.
 func updateGraphqlApi(input: UpdateGraphqlApiInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>) -> Void)
 ```
 
-### updateResolver(input:​completion:​)
+### updateResolver(input:completion:)
 
 Updates a Resolver object.
 
@@ -343,7 +328,7 @@ Updates a Resolver object.
 func updateResolver(input: UpdateResolverInput, completion: @escaping (ClientRuntime.SdkResult<UpdateResolverOutputResponse, UpdateResolverOutputError>) -> Void)
 ```
 
-### updateType(input:​completion:​)
+### updateType(input:completion:)
 
 Updates a Type object.
 

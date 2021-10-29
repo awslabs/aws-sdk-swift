@@ -8,7 +8,7 @@ public protocol PinpointClientProtocol
 
 ## Requirements
 
-### createApp(input:​completion:​)
+### createApp(input:completion:)
 
 Creates an application.
 
@@ -16,7 +16,7 @@ Creates an application.
 func createApp(input: CreateAppInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppOutputResponse, CreateAppOutputError>) -> Void)
 ```
 
-### createCampaign(input:​completion:​)
+### createCampaign(input:completion:)
 
 Creates a new campaign for an application or updates the settings of an existing campaign for an application.
 
@@ -24,7 +24,7 @@ Creates a new campaign for an application or updates the settings of an existing
 func createCampaign(input: CreateCampaignInput, completion: @escaping (ClientRuntime.SdkResult<CreateCampaignOutputResponse, CreateCampaignOutputError>) -> Void)
 ```
 
-### createEmailTemplate(input:​completion:​)
+### createEmailTemplate(input:completion:)
 
 Creates a message template for messages that are sent through the email channel.
 
@@ -32,7 +32,7 @@ Creates a message template for messages that are sent through the email channel.
 func createEmailTemplate(input: CreateEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateEmailTemplateOutputResponse, CreateEmailTemplateOutputError>) -> Void)
 ```
 
-### createExportJob(input:​completion:​)
+### createExportJob(input:completion:)
 
 Creates an export job for an application.
 
@@ -40,7 +40,7 @@ Creates an export job for an application.
 func createExportJob(input: CreateExportJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateExportJobOutputResponse, CreateExportJobOutputError>) -> Void)
 ```
 
-### createImportJob(input:​completion:​)
+### createImportJob(input:completion:)
 
 Creates an import job for an application.
 
@@ -48,7 +48,7 @@ Creates an import job for an application.
 func createImportJob(input: CreateImportJobInput, completion: @escaping (ClientRuntime.SdkResult<CreateImportJobOutputResponse, CreateImportJobOutputError>) -> Void)
 ```
 
-### createInAppTemplate(input:​completion:​)
+### createInAppTemplate(input:completion:)
 
 Creates a new message template for messages using the in-app message channel.
 
@@ -56,7 +56,7 @@ Creates a new message template for messages using the in-app message channel.
 func createInAppTemplate(input: CreateInAppTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateInAppTemplateOutputResponse, CreateInAppTemplateOutputError>) -> Void)
 ```
 
-### createJourney(input:​completion:​)
+### createJourney(input:completion:)
 
 Creates a journey for an application.
 
@@ -64,7 +64,7 @@ Creates a journey for an application.
 func createJourney(input: CreateJourneyInput, completion: @escaping (ClientRuntime.SdkResult<CreateJourneyOutputResponse, CreateJourneyOutputError>) -> Void)
 ```
 
-### createPushTemplate(input:​completion:​)
+### createPushTemplate(input:completion:)
 
 Creates a message template for messages that are sent through a push notification channel.
 
@@ -72,7 +72,7 @@ Creates a message template for messages that are sent through a push notificatio
 func createPushTemplate(input: CreatePushTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreatePushTemplateOutputResponse, CreatePushTemplateOutputError>) -> Void)
 ```
 
-### createRecommenderConfiguration(input:​completion:​)
+### createRecommenderConfiguration(input:completion:)
 
 Creates an Amazon Pinpoint configuration for a recommender model.
 
@@ -80,7 +80,7 @@ Creates an Amazon Pinpoint configuration for a recommender model.
 func createRecommenderConfiguration(input: CreateRecommenderConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateRecommenderConfigurationOutputResponse, CreateRecommenderConfigurationOutputError>) -> Void)
 ```
 
-### createSegment(input:​completion:​)
+### createSegment(input:completion:)
 
 Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
 
@@ -88,7 +88,7 @@ Creates a new segment for an application or updates the configuration, dimension
 func createSegment(input: CreateSegmentInput, completion: @escaping (ClientRuntime.SdkResult<CreateSegmentOutputResponse, CreateSegmentOutputError>) -> Void)
 ```
 
-### createSmsTemplate(input:​completion:​)
+### createSmsTemplate(input:completion:)
 
 Creates a message template for messages that are sent through the SMS channel.
 
@@ -96,7 +96,7 @@ Creates a message template for messages that are sent through the SMS channel.
 func createSmsTemplate(input: CreateSmsTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateSmsTemplateOutputResponse, CreateSmsTemplateOutputError>) -> Void)
 ```
 
-### createVoiceTemplate(input:​completion:​)
+### createVoiceTemplate(input:completion:)
 
 Creates a message template for messages that are sent through the voice channel.
 
@@ -104,7 +104,7 @@ Creates a message template for messages that are sent through the voice channel.
 func createVoiceTemplate(input: CreateVoiceTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateVoiceTemplateOutputResponse, CreateVoiceTemplateOutputError>) -> Void)
 ```
 
-### deleteAdmChannel(input:​completion:​)
+### deleteAdmChannel(input:completion:)
 
 Disables the ADM channel for an application and deletes any existing settings for the channel.
 
@@ -112,7 +112,7 @@ Disables the ADM channel for an application and deletes any existing settings fo
 func deleteAdmChannel(input: DeleteAdmChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAdmChannelOutputResponse, DeleteAdmChannelOutputError>) -> Void)
 ```
 
-### deleteApnsChannel(input:​completion:​)
+### deleteApnsChannel(input:completion:)
 
 Disables the APNs channel for an application and deletes any existing settings for the channel.
 
@@ -120,7 +120,7 @@ Disables the APNs channel for an application and deletes any existing settings f
 func deleteApnsChannel(input: DeleteApnsChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApnsChannelOutputResponse, DeleteApnsChannelOutputError>) -> Void)
 ```
 
-### deleteApnsSandboxChannel(input:​completion:​)
+### deleteApnsSandboxChannel(input:completion:)
 
 Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
 
@@ -128,7 +128,7 @@ Disables the APNs sandbox channel for an application and deletes any existing se
 func deleteApnsSandboxChannel(input: DeleteApnsSandboxChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApnsSandboxChannelOutputResponse, DeleteApnsSandboxChannelOutputError>) -> Void)
 ```
 
-### deleteApnsVoipChannel(input:​completion:​)
+### deleteApnsVoipChannel(input:completion:)
 
 Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
 
@@ -136,7 +136,7 @@ Disables the APNs VoIP channel for an application and deletes any existing setti
 func deleteApnsVoipChannel(input: DeleteApnsVoipChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApnsVoipChannelOutputResponse, DeleteApnsVoipChannelOutputError>) -> Void)
 ```
 
-### deleteApnsVoipSandboxChannel(input:​completion:​)
+### deleteApnsVoipSandboxChannel(input:completion:)
 
 Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
 
@@ -144,7 +144,7 @@ Disables the APNs VoIP sandbox channel for an application and deletes any existi
 func deleteApnsVoipSandboxChannel(input: DeleteApnsVoipSandboxChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteApnsVoipSandboxChannelOutputResponse, DeleteApnsVoipSandboxChannelOutputError>) -> Void)
 ```
 
-### deleteApp(input:​completion:​)
+### deleteApp(input:completion:)
 
 Deletes an application.
 
@@ -152,7 +152,7 @@ Deletes an application.
 func deleteApp(input: DeleteAppInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAppOutputResponse, DeleteAppOutputError>) -> Void)
 ```
 
-### deleteBaiduChannel(input:​completion:​)
+### deleteBaiduChannel(input:completion:)
 
 Disables the Baidu channel for an application and deletes any existing settings for the channel.
 
@@ -160,7 +160,7 @@ Disables the Baidu channel for an application and deletes any existing settings 
 func deleteBaiduChannel(input: DeleteBaiduChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBaiduChannelOutputResponse, DeleteBaiduChannelOutputError>) -> Void)
 ```
 
-### deleteCampaign(input:​completion:​)
+### deleteCampaign(input:completion:)
 
 Deletes a campaign from an application.
 
@@ -168,7 +168,7 @@ Deletes a campaign from an application.
 func deleteCampaign(input: DeleteCampaignInput, completion: @escaping (ClientRuntime.SdkResult<DeleteCampaignOutputResponse, DeleteCampaignOutputError>) -> Void)
 ```
 
-### deleteEmailChannel(input:​completion:​)
+### deleteEmailChannel(input:completion:)
 
 Disables the email channel for an application and deletes any existing settings for the channel.
 
@@ -176,7 +176,7 @@ Disables the email channel for an application and deletes any existing settings 
 func deleteEmailChannel(input: DeleteEmailChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEmailChannelOutputResponse, DeleteEmailChannelOutputError>) -> Void)
 ```
 
-### deleteEmailTemplate(input:​completion:​)
+### deleteEmailTemplate(input:completion:)
 
 Deletes a message template for messages that were sent through the email channel.
 
@@ -184,7 +184,7 @@ Deletes a message template for messages that were sent through the email channel
 func deleteEmailTemplate(input: DeleteEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEmailTemplateOutputResponse, DeleteEmailTemplateOutputError>) -> Void)
 ```
 
-### deleteEndpoint(input:​completion:​)
+### deleteEndpoint(input:completion:)
 
 Deletes an endpoint from an application.
 
@@ -192,7 +192,7 @@ Deletes an endpoint from an application.
 func deleteEndpoint(input: DeleteEndpointInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEndpointOutputResponse, DeleteEndpointOutputError>) -> Void)
 ```
 
-### deleteEventStream(input:​completion:​)
+### deleteEventStream(input:completion:)
 
 Deletes the event stream for an application.
 
@@ -200,7 +200,7 @@ Deletes the event stream for an application.
 func deleteEventStream(input: DeleteEventStreamInput, completion: @escaping (ClientRuntime.SdkResult<DeleteEventStreamOutputResponse, DeleteEventStreamOutputError>) -> Void)
 ```
 
-### deleteGcmChannel(input:​completion:​)
+### deleteGcmChannel(input:completion:)
 
 Disables the GCM channel for an application and deletes any existing settings for the channel.
 
@@ -208,7 +208,7 @@ Disables the GCM channel for an application and deletes any existing settings fo
 func deleteGcmChannel(input: DeleteGcmChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteGcmChannelOutputResponse, DeleteGcmChannelOutputError>) -> Void)
 ```
 
-### deleteInAppTemplate(input:​completion:​)
+### deleteInAppTemplate(input:completion:)
 
 Deletes a message template for messages sent using the in-app message channel.
 
@@ -216,7 +216,7 @@ Deletes a message template for messages sent using the in-app message channel.
 func deleteInAppTemplate(input: DeleteInAppTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteInAppTemplateOutputResponse, DeleteInAppTemplateOutputError>) -> Void)
 ```
 
-### deleteJourney(input:​completion:​)
+### deleteJourney(input:completion:)
 
 Deletes a journey from an application.
 
@@ -224,7 +224,7 @@ Deletes a journey from an application.
 func deleteJourney(input: DeleteJourneyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteJourneyOutputResponse, DeleteJourneyOutputError>) -> Void)
 ```
 
-### deletePushTemplate(input:​completion:​)
+### deletePushTemplate(input:completion:)
 
 Deletes a message template for messages that were sent through a push notification channel.
 
@@ -232,7 +232,7 @@ Deletes a message template for messages that were sent through a push notificati
 func deletePushTemplate(input: DeletePushTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeletePushTemplateOutputResponse, DeletePushTemplateOutputError>) -> Void)
 ```
 
-### deleteRecommenderConfiguration(input:​completion:​)
+### deleteRecommenderConfiguration(input:completion:)
 
 Deletes an Amazon Pinpoint configuration for a recommender model.
 
@@ -240,7 +240,7 @@ Deletes an Amazon Pinpoint configuration for a recommender model.
 func deleteRecommenderConfiguration(input: DeleteRecommenderConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRecommenderConfigurationOutputResponse, DeleteRecommenderConfigurationOutputError>) -> Void)
 ```
 
-### deleteSegment(input:​completion:​)
+### deleteSegment(input:completion:)
 
 Deletes a segment from an application.
 
@@ -248,7 +248,7 @@ Deletes a segment from an application.
 func deleteSegment(input: DeleteSegmentInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSegmentOutputResponse, DeleteSegmentOutputError>) -> Void)
 ```
 
-### deleteSmsChannel(input:​completion:​)
+### deleteSmsChannel(input:completion:)
 
 Disables the SMS channel for an application and deletes any existing settings for the channel.
 
@@ -256,7 +256,7 @@ Disables the SMS channel for an application and deletes any existing settings fo
 func deleteSmsChannel(input: DeleteSmsChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSmsChannelOutputResponse, DeleteSmsChannelOutputError>) -> Void)
 ```
 
-### deleteSmsTemplate(input:​completion:​)
+### deleteSmsTemplate(input:completion:)
 
 Deletes a message template for messages that were sent through the SMS channel.
 
@@ -264,7 +264,7 @@ Deletes a message template for messages that were sent through the SMS channel.
 func deleteSmsTemplate(input: DeleteSmsTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSmsTemplateOutputResponse, DeleteSmsTemplateOutputError>) -> Void)
 ```
 
-### deleteUserEndpoints(input:​completion:​)
+### deleteUserEndpoints(input:completion:)
 
 Deletes all the endpoints that are associated with a specific user ID.
 
@@ -272,7 +272,7 @@ Deletes all the endpoints that are associated with a specific user ID.
 func deleteUserEndpoints(input: DeleteUserEndpointsInput, completion: @escaping (ClientRuntime.SdkResult<DeleteUserEndpointsOutputResponse, DeleteUserEndpointsOutputError>) -> Void)
 ```
 
-### deleteVoiceChannel(input:​completion:​)
+### deleteVoiceChannel(input:completion:)
 
 Disables the voice channel for an application and deletes any existing settings for the channel.
 
@@ -280,7 +280,7 @@ Disables the voice channel for an application and deletes any existing settings 
 func deleteVoiceChannel(input: DeleteVoiceChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVoiceChannelOutputResponse, DeleteVoiceChannelOutputError>) -> Void)
 ```
 
-### deleteVoiceTemplate(input:​completion:​)
+### deleteVoiceTemplate(input:completion:)
 
 Deletes a message template for messages that were sent through the voice channel.
 
@@ -288,7 +288,7 @@ Deletes a message template for messages that were sent through the voice channel
 func deleteVoiceTemplate(input: DeleteVoiceTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVoiceTemplateOutputResponse, DeleteVoiceTemplateOutputError>) -> Void)
 ```
 
-### getAdmChannel(input:​completion:​)
+### getAdmChannel(input:completion:)
 
 Retrieves information about the status and settings of the ADM channel for an application.
 
@@ -296,7 +296,7 @@ Retrieves information about the status and settings of the ADM channel for an ap
 func getAdmChannel(input: GetAdmChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetAdmChannelOutputResponse, GetAdmChannelOutputError>) -> Void)
 ```
 
-### getApnsChannel(input:​completion:​)
+### getApnsChannel(input:completion:)
 
 Retrieves information about the status and settings of the APNs channel for an application.
 
@@ -304,7 +304,7 @@ Retrieves information about the status and settings of the APNs channel for an a
 func getApnsChannel(input: GetApnsChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetApnsChannelOutputResponse, GetApnsChannelOutputError>) -> Void)
 ```
 
-### getApnsSandboxChannel(input:​completion:​)
+### getApnsSandboxChannel(input:completion:)
 
 Retrieves information about the status and settings of the APNs sandbox channel for an application.
 
@@ -312,7 +312,7 @@ Retrieves information about the status and settings of the APNs sandbox channel 
 func getApnsSandboxChannel(input: GetApnsSandboxChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetApnsSandboxChannelOutputResponse, GetApnsSandboxChannelOutputError>) -> Void)
 ```
 
-### getApnsVoipChannel(input:​completion:​)
+### getApnsVoipChannel(input:completion:)
 
 Retrieves information about the status and settings of the APNs VoIP channel for an application.
 
@@ -320,7 +320,7 @@ Retrieves information about the status and settings of the APNs VoIP channel for
 func getApnsVoipChannel(input: GetApnsVoipChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetApnsVoipChannelOutputResponse, GetApnsVoipChannelOutputError>) -> Void)
 ```
 
-### getApnsVoipSandboxChannel(input:​completion:​)
+### getApnsVoipSandboxChannel(input:completion:)
 
 Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
 
@@ -328,7 +328,7 @@ Retrieves information about the status and settings of the APNs VoIP sandbox cha
 func getApnsVoipSandboxChannel(input: GetApnsVoipSandboxChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetApnsVoipSandboxChannelOutputResponse, GetApnsVoipSandboxChannelOutputError>) -> Void)
 ```
 
-### getApp(input:​completion:​)
+### getApp(input:completion:)
 
 Retrieves information about an application.
 
@@ -336,7 +336,7 @@ Retrieves information about an application.
 func getApp(input: GetAppInput, completion: @escaping (ClientRuntime.SdkResult<GetAppOutputResponse, GetAppOutputError>) -> Void)
 ```
 
-### getApplicationDateRangeKpi(input:​completion:​)
+### getApplicationDateRangeKpi(input:completion:)
 
 Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
 
@@ -344,7 +344,7 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to an
 func getApplicationDateRangeKpi(input: GetApplicationDateRangeKpiInput, completion: @escaping (ClientRuntime.SdkResult<GetApplicationDateRangeKpiOutputResponse, GetApplicationDateRangeKpiOutputError>) -> Void)
 ```
 
-### getApplicationSettings(input:​completion:​)
+### getApplicationSettings(input:completion:)
 
 Retrieves information about the settings for an application.
 
@@ -352,7 +352,7 @@ Retrieves information about the settings for an application.
 func getApplicationSettings(input: GetApplicationSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetApplicationSettingsOutputResponse, GetApplicationSettingsOutputError>) -> Void)
 ```
 
-### getApps(input:​completion:​)
+### getApps(input:completion:)
 
 Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
 
@@ -360,7 +360,7 @@ Retrieves information about all the applications that are associated with your A
 func getApps(input: GetAppsInput, completion: @escaping (ClientRuntime.SdkResult<GetAppsOutputResponse, GetAppsOutputError>) -> Void)
 ```
 
-### getBaiduChannel(input:​completion:​)
+### getBaiduChannel(input:completion:)
 
 Retrieves information about the status and settings of the Baidu channel for an application.
 
@@ -368,7 +368,7 @@ Retrieves information about the status and settings of the Baidu channel for an 
 func getBaiduChannel(input: GetBaiduChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetBaiduChannelOutputResponse, GetBaiduChannelOutputError>) -> Void)
 ```
 
-### getCampaign(input:​completion:​)
+### getCampaign(input:completion:)
 
 Retrieves information about the status, configuration, and other settings for a campaign.
 
@@ -376,7 +376,7 @@ Retrieves information about the status, configuration, and other settings for a 
 func getCampaign(input: GetCampaignInput, completion: @escaping (ClientRuntime.SdkResult<GetCampaignOutputResponse, GetCampaignOutputError>) -> Void)
 ```
 
-### getCampaignActivities(input:​completion:​)
+### getCampaignActivities(input:completion:)
 
 Retrieves information about all the activities for a campaign.
 
@@ -384,7 +384,7 @@ Retrieves information about all the activities for a campaign.
 func getCampaignActivities(input: GetCampaignActivitiesInput, completion: @escaping (ClientRuntime.SdkResult<GetCampaignActivitiesOutputResponse, GetCampaignActivitiesOutputError>) -> Void)
 ```
 
-### getCampaignDateRangeKpi(input:​completion:​)
+### getCampaignDateRangeKpi(input:completion:)
 
 Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
 
@@ -392,7 +392,7 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to a 
 func getCampaignDateRangeKpi(input: GetCampaignDateRangeKpiInput, completion: @escaping (ClientRuntime.SdkResult<GetCampaignDateRangeKpiOutputResponse, GetCampaignDateRangeKpiOutputError>) -> Void)
 ```
 
-### getCampaigns(input:​completion:​)
+### getCampaigns(input:completion:)
 
 Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
 
@@ -400,7 +400,7 @@ Retrieves information about the status, configuration, and other settings for al
 func getCampaigns(input: GetCampaignsInput, completion: @escaping (ClientRuntime.SdkResult<GetCampaignsOutputResponse, GetCampaignsOutputError>) -> Void)
 ```
 
-### getCampaignVersion(input:​completion:​)
+### getCampaignVersion(input:completion:)
 
 Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
 
@@ -408,7 +408,7 @@ Retrieves information about the status, configuration, and other settings for a 
 func getCampaignVersion(input: GetCampaignVersionInput, completion: @escaping (ClientRuntime.SdkResult<GetCampaignVersionOutputResponse, GetCampaignVersionOutputError>) -> Void)
 ```
 
-### getCampaignVersions(input:​completion:​)
+### getCampaignVersions(input:completion:)
 
 Retrieves information about the status, configuration, and other settings for all versions of a campaign.
 
@@ -416,7 +416,7 @@ Retrieves information about the status, configuration, and other settings for al
 func getCampaignVersions(input: GetCampaignVersionsInput, completion: @escaping (ClientRuntime.SdkResult<GetCampaignVersionsOutputResponse, GetCampaignVersionsOutputError>) -> Void)
 ```
 
-### getChannels(input:​completion:​)
+### getChannels(input:completion:)
 
 Retrieves information about the history and status of each channel for an application.
 
@@ -424,7 +424,7 @@ Retrieves information about the history and status of each channel for an applic
 func getChannels(input: GetChannelsInput, completion: @escaping (ClientRuntime.SdkResult<GetChannelsOutputResponse, GetChannelsOutputError>) -> Void)
 ```
 
-### getEmailChannel(input:​completion:​)
+### getEmailChannel(input:completion:)
 
 Retrieves information about the status and settings of the email channel for an application.
 
@@ -432,7 +432,7 @@ Retrieves information about the status and settings of the email channel for an 
 func getEmailChannel(input: GetEmailChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetEmailChannelOutputResponse, GetEmailChannelOutputError>) -> Void)
 ```
 
-### getEmailTemplate(input:​completion:​)
+### getEmailTemplate(input:completion:)
 
 Retrieves the content and settings of a message template for messages that are sent through the email channel.
 
@@ -440,7 +440,7 @@ Retrieves the content and settings of a message template for messages that are s
 func getEmailTemplate(input: GetEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetEmailTemplateOutputResponse, GetEmailTemplateOutputError>) -> Void)
 ```
 
-### getEndpoint(input:​completion:​)
+### getEndpoint(input:completion:)
 
 Retrieves information about the settings and attributes of a specific endpoint for an application.
 
@@ -448,7 +448,7 @@ Retrieves information about the settings and attributes of a specific endpoint f
 func getEndpoint(input: GetEndpointInput, completion: @escaping (ClientRuntime.SdkResult<GetEndpointOutputResponse, GetEndpointOutputError>) -> Void)
 ```
 
-### getEventStream(input:​completion:​)
+### getEventStream(input:completion:)
 
 Retrieves information about the event stream settings for an application.
 
@@ -456,7 +456,7 @@ Retrieves information about the event stream settings for an application.
 func getEventStream(input: GetEventStreamInput, completion: @escaping (ClientRuntime.SdkResult<GetEventStreamOutputResponse, GetEventStreamOutputError>) -> Void)
 ```
 
-### getExportJob(input:​completion:​)
+### getExportJob(input:completion:)
 
 Retrieves information about the status and settings of a specific export job for an application.
 
@@ -464,7 +464,7 @@ Retrieves information about the status and settings of a specific export job for
 func getExportJob(input: GetExportJobInput, completion: @escaping (ClientRuntime.SdkResult<GetExportJobOutputResponse, GetExportJobOutputError>) -> Void)
 ```
 
-### getExportJobs(input:​completion:​)
+### getExportJobs(input:completion:)
 
 Retrieves information about the status and settings of all the export jobs for an application.
 
@@ -472,7 +472,7 @@ Retrieves information about the status and settings of all the export jobs for a
 func getExportJobs(input: GetExportJobsInput, completion: @escaping (ClientRuntime.SdkResult<GetExportJobsOutputResponse, GetExportJobsOutputError>) -> Void)
 ```
 
-### getGcmChannel(input:​completion:​)
+### getGcmChannel(input:completion:)
 
 Retrieves information about the status and settings of the GCM channel for an application.
 
@@ -480,7 +480,7 @@ Retrieves information about the status and settings of the GCM channel for an ap
 func getGcmChannel(input: GetGcmChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetGcmChannelOutputResponse, GetGcmChannelOutputError>) -> Void)
 ```
 
-### getImportJob(input:​completion:​)
+### getImportJob(input:completion:)
 
 Retrieves information about the status and settings of a specific import job for an application.
 
@@ -488,7 +488,7 @@ Retrieves information about the status and settings of a specific import job for
 func getImportJob(input: GetImportJobInput, completion: @escaping (ClientRuntime.SdkResult<GetImportJobOutputResponse, GetImportJobOutputError>) -> Void)
 ```
 
-### getImportJobs(input:​completion:​)
+### getImportJobs(input:completion:)
 
 Retrieves information about the status and settings of all the import jobs for an application.
 
@@ -496,7 +496,7 @@ Retrieves information about the status and settings of all the import jobs for a
 func getImportJobs(input: GetImportJobsInput, completion: @escaping (ClientRuntime.SdkResult<GetImportJobsOutputResponse, GetImportJobsOutputError>) -> Void)
 ```
 
-### getInAppMessages(input:​completion:​)
+### getInAppMessages(input:completion:)
 
 Retrieves the in-app messages targeted for the provided endpoint ID.
 
@@ -504,7 +504,7 @@ Retrieves the in-app messages targeted for the provided endpoint ID.
 func getInAppMessages(input: GetInAppMessagesInput, completion: @escaping (ClientRuntime.SdkResult<GetInAppMessagesOutputResponse, GetInAppMessagesOutputError>) -> Void)
 ```
 
-### getInAppTemplate(input:​completion:​)
+### getInAppTemplate(input:completion:)
 
 Retrieves the content and settings of a message template for messages sent through the in-app channel.
 
@@ -512,7 +512,7 @@ Retrieves the content and settings of a message template for messages sent throu
 func getInAppTemplate(input: GetInAppTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetInAppTemplateOutputResponse, GetInAppTemplateOutputError>) -> Void)
 ```
 
-### getJourney(input:​completion:​)
+### getJourney(input:completion:)
 
 Retrieves information about the status, configuration, and other settings for a journey.
 
@@ -520,7 +520,7 @@ Retrieves information about the status, configuration, and other settings for a 
 func getJourney(input: GetJourneyInput, completion: @escaping (ClientRuntime.SdkResult<GetJourneyOutputResponse, GetJourneyOutputError>) -> Void)
 ```
 
-### getJourneyDateRangeKpi(input:​completion:​)
+### getJourneyDateRangeKpi(input:completion:)
 
 Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
 
@@ -528,7 +528,7 @@ Retrieves (queries) pre-aggregated data for a standard engagement metric that ap
 func getJourneyDateRangeKpi(input: GetJourneyDateRangeKpiInput, completion: @escaping (ClientRuntime.SdkResult<GetJourneyDateRangeKpiOutputResponse, GetJourneyDateRangeKpiOutputError>) -> Void)
 ```
 
-### getJourneyExecutionActivityMetrics(input:​completion:​)
+### getJourneyExecutionActivityMetrics(input:completion:)
 
 Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
 
@@ -536,7 +536,7 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 func getJourneyExecutionActivityMetrics(input: GetJourneyExecutionActivityMetricsInput, completion: @escaping (ClientRuntime.SdkResult<GetJourneyExecutionActivityMetricsOutputResponse, GetJourneyExecutionActivityMetricsOutputError>) -> Void)
 ```
 
-### getJourneyExecutionMetrics(input:​completion:​)
+### getJourneyExecutionMetrics(input:completion:)
 
 Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
 
@@ -544,7 +544,7 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 func getJourneyExecutionMetrics(input: GetJourneyExecutionMetricsInput, completion: @escaping (ClientRuntime.SdkResult<GetJourneyExecutionMetricsOutputResponse, GetJourneyExecutionMetricsOutputError>) -> Void)
 ```
 
-### getPushTemplate(input:​completion:​)
+### getPushTemplate(input:completion:)
 
 Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
 
@@ -552,7 +552,7 @@ Retrieves the content and settings of a message template for messages that are s
 func getPushTemplate(input: GetPushTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetPushTemplateOutputResponse, GetPushTemplateOutputError>) -> Void)
 ```
 
-### getRecommenderConfiguration(input:​completion:​)
+### getRecommenderConfiguration(input:completion:)
 
 Retrieves information about an Amazon Pinpoint configuration for a recommender model.
 
@@ -560,7 +560,7 @@ Retrieves information about an Amazon Pinpoint configuration for a recommender m
 func getRecommenderConfiguration(input: GetRecommenderConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<GetRecommenderConfigurationOutputResponse, GetRecommenderConfigurationOutputError>) -> Void)
 ```
 
-### getRecommenderConfigurations(input:​completion:​)
+### getRecommenderConfigurations(input:completion:)
 
 Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
 
@@ -568,7 +568,7 @@ Retrieves information about all the recommender model configurations that are as
 func getRecommenderConfigurations(input: GetRecommenderConfigurationsInput, completion: @escaping (ClientRuntime.SdkResult<GetRecommenderConfigurationsOutputResponse, GetRecommenderConfigurationsOutputError>) -> Void)
 ```
 
-### getSegment(input:​completion:​)
+### getSegment(input:completion:)
 
 Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
 
@@ -576,7 +576,7 @@ Retrieves information about the configuration, dimension, and other settings for
 func getSegment(input: GetSegmentInput, completion: @escaping (ClientRuntime.SdkResult<GetSegmentOutputResponse, GetSegmentOutputError>) -> Void)
 ```
 
-### getSegmentExportJobs(input:​completion:​)
+### getSegmentExportJobs(input:completion:)
 
 Retrieves information about the status and settings of the export jobs for a segment.
 
@@ -584,7 +584,7 @@ Retrieves information about the status and settings of the export jobs for a seg
 func getSegmentExportJobs(input: GetSegmentExportJobsInput, completion: @escaping (ClientRuntime.SdkResult<GetSegmentExportJobsOutputResponse, GetSegmentExportJobsOutputError>) -> Void)
 ```
 
-### getSegmentImportJobs(input:​completion:​)
+### getSegmentImportJobs(input:completion:)
 
 Retrieves information about the status and settings of the import jobs for a segment.
 
@@ -592,7 +592,7 @@ Retrieves information about the status and settings of the import jobs for a seg
 func getSegmentImportJobs(input: GetSegmentImportJobsInput, completion: @escaping (ClientRuntime.SdkResult<GetSegmentImportJobsOutputResponse, GetSegmentImportJobsOutputError>) -> Void)
 ```
 
-### getSegments(input:​completion:​)
+### getSegments(input:completion:)
 
 Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
 
@@ -600,7 +600,7 @@ Retrieves information about the configuration, dimension, and other settings for
 func getSegments(input: GetSegmentsInput, completion: @escaping (ClientRuntime.SdkResult<GetSegmentsOutputResponse, GetSegmentsOutputError>) -> Void)
 ```
 
-### getSegmentVersion(input:​completion:​)
+### getSegmentVersion(input:completion:)
 
 Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
 
@@ -608,7 +608,7 @@ Retrieves information about the configuration, dimension, and other settings for
 func getSegmentVersion(input: GetSegmentVersionInput, completion: @escaping (ClientRuntime.SdkResult<GetSegmentVersionOutputResponse, GetSegmentVersionOutputError>) -> Void)
 ```
 
-### getSegmentVersions(input:​completion:​)
+### getSegmentVersions(input:completion:)
 
 Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
 
@@ -616,7 +616,7 @@ Retrieves information about the configuration, dimension, and other settings for
 func getSegmentVersions(input: GetSegmentVersionsInput, completion: @escaping (ClientRuntime.SdkResult<GetSegmentVersionsOutputResponse, GetSegmentVersionsOutputError>) -> Void)
 ```
 
-### getSmsChannel(input:​completion:​)
+### getSmsChannel(input:completion:)
 
 Retrieves information about the status and settings of the SMS channel for an application.
 
@@ -624,7 +624,7 @@ Retrieves information about the status and settings of the SMS channel for an ap
 func getSmsChannel(input: GetSmsChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetSmsChannelOutputResponse, GetSmsChannelOutputError>) -> Void)
 ```
 
-### getSmsTemplate(input:​completion:​)
+### getSmsTemplate(input:completion:)
 
 Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
 
@@ -632,7 +632,7 @@ Retrieves the content and settings of a message template for messages that are s
 func getSmsTemplate(input: GetSmsTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetSmsTemplateOutputResponse, GetSmsTemplateOutputError>) -> Void)
 ```
 
-### getUserEndpoints(input:​completion:​)
+### getUserEndpoints(input:completion:)
 
 Retrieves information about all the endpoints that are associated with a specific user ID.
 
@@ -640,7 +640,7 @@ Retrieves information about all the endpoints that are associated with a specifi
 func getUserEndpoints(input: GetUserEndpointsInput, completion: @escaping (ClientRuntime.SdkResult<GetUserEndpointsOutputResponse, GetUserEndpointsOutputError>) -> Void)
 ```
 
-### getVoiceChannel(input:​completion:​)
+### getVoiceChannel(input:completion:)
 
 Retrieves information about the status and settings of the voice channel for an application.
 
@@ -648,7 +648,7 @@ Retrieves information about the status and settings of the voice channel for an 
 func getVoiceChannel(input: GetVoiceChannelInput, completion: @escaping (ClientRuntime.SdkResult<GetVoiceChannelOutputResponse, GetVoiceChannelOutputError>) -> Void)
 ```
 
-### getVoiceTemplate(input:​completion:​)
+### getVoiceTemplate(input:completion:)
 
 Retrieves the content and settings of a message template for messages that are sent through the voice channel.
 
@@ -656,7 +656,7 @@ Retrieves the content and settings of a message template for messages that are s
 func getVoiceTemplate(input: GetVoiceTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetVoiceTemplateOutputResponse, GetVoiceTemplateOutputError>) -> Void)
 ```
 
-### listJourneys(input:​completion:​)
+### listJourneys(input:completion:)
 
 Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
 
@@ -664,7 +664,7 @@ Retrieves information about the status, configuration, and other settings for al
 func listJourneys(input: ListJourneysInput, completion: @escaping (ClientRuntime.SdkResult<ListJourneysOutputResponse, ListJourneysOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
 
@@ -672,7 +672,7 @@ Retrieves all the tags (keys and values) that are associated with an application
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### listTemplates(input:​completion:​)
+### listTemplates(input:completion:)
 
 Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
 
@@ -680,7 +680,7 @@ Retrieves information about all the message templates that are associated with y
 func listTemplates(input: ListTemplatesInput, completion: @escaping (ClientRuntime.SdkResult<ListTemplatesOutputResponse, ListTemplatesOutputError>) -> Void)
 ```
 
-### listTemplateVersions(input:​completion:​)
+### listTemplateVersions(input:completion:)
 
 Retrieves information about all the versions of a specific message template.
 
@@ -688,7 +688,7 @@ Retrieves information about all the versions of a specific message template.
 func listTemplateVersions(input: ListTemplateVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListTemplateVersionsOutputResponse, ListTemplateVersionsOutputError>) -> Void)
 ```
 
-### phoneNumberValidate(input:​completion:​)
+### phoneNumberValidate(input:completion:)
 
 Retrieves information about a phone number.
 
@@ -696,7 +696,7 @@ Retrieves information about a phone number.
 func phoneNumberValidate(input: PhoneNumberValidateInput, completion: @escaping (ClientRuntime.SdkResult<PhoneNumberValidateOutputResponse, PhoneNumberValidateOutputError>) -> Void)
 ```
 
-### putEvents(input:​completion:​)
+### putEvents(input:completion:)
 
 Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
 
@@ -704,7 +704,7 @@ Creates a new event to record for endpoints, or creates or updates endpoint data
 func putEvents(input: PutEventsInput, completion: @escaping (ClientRuntime.SdkResult<PutEventsOutputResponse, PutEventsOutputError>) -> Void)
 ```
 
-### putEventStream(input:​completion:​)
+### putEventStream(input:completion:)
 
 Creates a new event stream for an application or updates the settings of an existing event stream for an application.
 
@@ -712,7 +712,7 @@ Creates a new event stream for an application or updates the settings of an exis
 func putEventStream(input: PutEventStreamInput, completion: @escaping (ClientRuntime.SdkResult<PutEventStreamOutputResponse, PutEventStreamOutputError>) -> Void)
 ```
 
-### removeAttributes(input:​completion:​)
+### removeAttributes(input:completion:)
 
 Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
 
@@ -720,7 +720,7 @@ Removes one or more attributes, of the same attribute type, from all the endpoin
 func removeAttributes(input: RemoveAttributesInput, completion: @escaping (ClientRuntime.SdkResult<RemoveAttributesOutputResponse, RemoveAttributesOutputError>) -> Void)
 ```
 
-### sendMessages(input:​completion:​)
+### sendMessages(input:completion:)
 
 Creates and sends a direct message.
 
@@ -728,7 +728,7 @@ Creates and sends a direct message.
 func sendMessages(input: SendMessagesInput, completion: @escaping (ClientRuntime.SdkResult<SendMessagesOutputResponse, SendMessagesOutputError>) -> Void)
 ```
 
-### sendUsersMessages(input:​completion:​)
+### sendUsersMessages(input:completion:)
 
 Creates and sends a message to a list of users.
 
@@ -736,7 +736,7 @@ Creates and sends a message to a list of users.
 func sendUsersMessages(input: SendUsersMessagesInput, completion: @escaping (ClientRuntime.SdkResult<SendUsersMessagesOutputResponse, SendUsersMessagesOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
 
@@ -744,7 +744,7 @@ Adds one or more tags (keys and values) to an application, campaign, message tem
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
 
@@ -752,7 +752,7 @@ Removes one or more tags (keys and values) from an application, campaign, messag
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateAdmChannel(input:​completion:​)
+### updateAdmChannel(input:completion:)
 
 Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
 
@@ -760,7 +760,7 @@ Enables the ADM channel for an application or updates the status and settings of
 func updateAdmChannel(input: UpdateAdmChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAdmChannelOutputResponse, UpdateAdmChannelOutputError>) -> Void)
 ```
 
-### updateApnsChannel(input:​completion:​)
+### updateApnsChannel(input:completion:)
 
 Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
 
@@ -768,7 +768,7 @@ Enables the APNs channel for an application or updates the status and settings o
 func updateApnsChannel(input: UpdateApnsChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApnsChannelOutputResponse, UpdateApnsChannelOutputError>) -> Void)
 ```
 
-### updateApnsSandboxChannel(input:​completion:​)
+### updateApnsSandboxChannel(input:completion:)
 
 Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
 
@@ -776,7 +776,7 @@ Enables the APNs sandbox channel for an application or updates the status and se
 func updateApnsSandboxChannel(input: UpdateApnsSandboxChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApnsSandboxChannelOutputResponse, UpdateApnsSandboxChannelOutputError>) -> Void)
 ```
 
-### updateApnsVoipChannel(input:​completion:​)
+### updateApnsVoipChannel(input:completion:)
 
 Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
 
@@ -784,7 +784,7 @@ Enables the APNs VoIP channel for an application or updates the status and setti
 func updateApnsVoipChannel(input: UpdateApnsVoipChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApnsVoipChannelOutputResponse, UpdateApnsVoipChannelOutputError>) -> Void)
 ```
 
-### updateApnsVoipSandboxChannel(input:​completion:​)
+### updateApnsVoipSandboxChannel(input:completion:)
 
 Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
 
@@ -792,7 +792,7 @@ Enables the APNs VoIP sandbox channel for an application or updates the status a
 func updateApnsVoipSandboxChannel(input: UpdateApnsVoipSandboxChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApnsVoipSandboxChannelOutputResponse, UpdateApnsVoipSandboxChannelOutputError>) -> Void)
 ```
 
-### updateApplicationSettings(input:​completion:​)
+### updateApplicationSettings(input:completion:)
 
 Updates the settings for an application.
 
@@ -800,7 +800,7 @@ Updates the settings for an application.
 func updateApplicationSettings(input: UpdateApplicationSettingsInput, completion: @escaping (ClientRuntime.SdkResult<UpdateApplicationSettingsOutputResponse, UpdateApplicationSettingsOutputError>) -> Void)
 ```
 
-### updateBaiduChannel(input:​completion:​)
+### updateBaiduChannel(input:completion:)
 
 Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
 
@@ -808,7 +808,7 @@ Enables the Baidu channel for an application or updates the status and settings 
 func updateBaiduChannel(input: UpdateBaiduChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBaiduChannelOutputResponse, UpdateBaiduChannelOutputError>) -> Void)
 ```
 
-### updateCampaign(input:​completion:​)
+### updateCampaign(input:completion:)
 
 Updates the configuration and other settings for a campaign.
 
@@ -816,7 +816,7 @@ Updates the configuration and other settings for a campaign.
 func updateCampaign(input: UpdateCampaignInput, completion: @escaping (ClientRuntime.SdkResult<UpdateCampaignOutputResponse, UpdateCampaignOutputError>) -> Void)
 ```
 
-### updateEmailChannel(input:​completion:​)
+### updateEmailChannel(input:completion:)
 
 Enables the email channel for an application or updates the status and settings of the email channel for an application.
 
@@ -824,7 +824,7 @@ Enables the email channel for an application or updates the status and settings 
 func updateEmailChannel(input: UpdateEmailChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateEmailChannelOutputResponse, UpdateEmailChannelOutputError>) -> Void)
 ```
 
-### updateEmailTemplate(input:​completion:​)
+### updateEmailTemplate(input:completion:)
 
 Updates an existing message template for messages that are sent through the email channel.
 
@@ -832,7 +832,7 @@ Updates an existing message template for messages that are sent through the emai
 func updateEmailTemplate(input: UpdateEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateEmailTemplateOutputResponse, UpdateEmailTemplateOutputError>) -> Void)
 ```
 
-### updateEndpoint(input:​completion:​)
+### updateEndpoint(input:completion:)
 
 Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
 
@@ -840,7 +840,7 @@ Creates a new endpoint for an application or updates the settings and attributes
 func updateEndpoint(input: UpdateEndpointInput, completion: @escaping (ClientRuntime.SdkResult<UpdateEndpointOutputResponse, UpdateEndpointOutputError>) -> Void)
 ```
 
-### updateEndpointsBatch(input:​completion:​)
+### updateEndpointsBatch(input:completion:)
 
 Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
 
@@ -848,7 +848,7 @@ Creates a new batch of endpoints for an application or updates the settings and 
 func updateEndpointsBatch(input: UpdateEndpointsBatchInput, completion: @escaping (ClientRuntime.SdkResult<UpdateEndpointsBatchOutputResponse, UpdateEndpointsBatchOutputError>) -> Void)
 ```
 
-### updateGcmChannel(input:​completion:​)
+### updateGcmChannel(input:completion:)
 
 Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
 
@@ -856,7 +856,7 @@ Enables the GCM channel for an application or updates the status and settings of
 func updateGcmChannel(input: UpdateGcmChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGcmChannelOutputResponse, UpdateGcmChannelOutputError>) -> Void)
 ```
 
-### updateInAppTemplate(input:​completion:​)
+### updateInAppTemplate(input:completion:)
 
 Updates an existing message template for messages sent through the in-app message channel.
 
@@ -864,7 +864,7 @@ Updates an existing message template for messages sent through the in-app messag
 func updateInAppTemplate(input: UpdateInAppTemplateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateInAppTemplateOutputResponse, UpdateInAppTemplateOutputError>) -> Void)
 ```
 
-### updateJourney(input:​completion:​)
+### updateJourney(input:completion:)
 
 Updates the configuration and other settings for a journey.
 
@@ -872,7 +872,7 @@ Updates the configuration and other settings for a journey.
 func updateJourney(input: UpdateJourneyInput, completion: @escaping (ClientRuntime.SdkResult<UpdateJourneyOutputResponse, UpdateJourneyOutputError>) -> Void)
 ```
 
-### updateJourneyState(input:​completion:​)
+### updateJourneyState(input:completion:)
 
 Cancels (stops) an active journey.
 
@@ -880,7 +880,7 @@ Cancels (stops) an active journey.
 func updateJourneyState(input: UpdateJourneyStateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateJourneyStateOutputResponse, UpdateJourneyStateOutputError>) -> Void)
 ```
 
-### updatePushTemplate(input:​completion:​)
+### updatePushTemplate(input:completion:)
 
 Updates an existing message template for messages that are sent through a push notification channel.
 
@@ -888,7 +888,7 @@ Updates an existing message template for messages that are sent through a push n
 func updatePushTemplate(input: UpdatePushTemplateInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePushTemplateOutputResponse, UpdatePushTemplateOutputError>) -> Void)
 ```
 
-### updateRecommenderConfiguration(input:​completion:​)
+### updateRecommenderConfiguration(input:completion:)
 
 Updates an Amazon Pinpoint configuration for a recommender model.
 
@@ -896,7 +896,7 @@ Updates an Amazon Pinpoint configuration for a recommender model.
 func updateRecommenderConfiguration(input: UpdateRecommenderConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRecommenderConfigurationOutputResponse, UpdateRecommenderConfigurationOutputError>) -> Void)
 ```
 
-### updateSegment(input:​completion:​)
+### updateSegment(input:completion:)
 
 Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
 
@@ -904,7 +904,7 @@ Creates a new segment for an application or updates the configuration, dimension
 func updateSegment(input: UpdateSegmentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSegmentOutputResponse, UpdateSegmentOutputError>) -> Void)
 ```
 
-### updateSmsChannel(input:​completion:​)
+### updateSmsChannel(input:completion:)
 
 Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
 
@@ -912,7 +912,7 @@ Enables the SMS channel for an application or updates the status and settings of
 func updateSmsChannel(input: UpdateSmsChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSmsChannelOutputResponse, UpdateSmsChannelOutputError>) -> Void)
 ```
 
-### updateSmsTemplate(input:​completion:​)
+### updateSmsTemplate(input:completion:)
 
 Updates an existing message template for messages that are sent through the SMS channel.
 
@@ -920,7 +920,7 @@ Updates an existing message template for messages that are sent through the SMS 
 func updateSmsTemplate(input: UpdateSmsTemplateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSmsTemplateOutputResponse, UpdateSmsTemplateOutputError>) -> Void)
 ```
 
-### updateTemplateActiveVersion(input:​completion:​)
+### updateTemplateActiveVersion(input:completion:)
 
 Changes the status of a specific version of a message template to active.
 
@@ -928,7 +928,7 @@ Changes the status of a specific version of a message template to active.
 func updateTemplateActiveVersion(input: UpdateTemplateActiveVersionInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTemplateActiveVersionOutputResponse, UpdateTemplateActiveVersionOutputError>) -> Void)
 ```
 
-### updateVoiceChannel(input:​completion:​)
+### updateVoiceChannel(input:completion:)
 
 Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
 
@@ -936,7 +936,7 @@ Enables the voice channel for an application or updates the status and settings 
 func updateVoiceChannel(input: UpdateVoiceChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateVoiceChannelOutputResponse, UpdateVoiceChannelOutputError>) -> Void)
 ```
 
-### updateVoiceTemplate(input:​completion:​)
+### updateVoiceTemplate(input:completion:)
 
 Updates an existing message template for messages that are sent through the voice channel.
 

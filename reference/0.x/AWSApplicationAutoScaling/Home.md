@@ -8,5 +8,4 @@
 # Protocols
 
   - [ApplicationAutoScalingClientProtocol](/aws-sdk-swift/reference/0.x/AWSApplicationAutoScaling/ApplicationAutoScalingClientProtocol):
-    With Application Auto Scaling, you can configure automatic scaling for the following
-    resources:
+    With Application Auto Scaling, you can configure automatic scaling for the following resources:

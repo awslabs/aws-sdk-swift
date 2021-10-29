@@ -22,15 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AppRunnerClient"
+```
+
 ## Methods
 
 ### `associateCustomDomain(input:completion:)`
 
-Associate your own domain name with the AWS App Runner subdomain URL of your App Runner service.
-After you call AssociateCustomDomain and receive a successful response, use the information in the CustomDomain record
-that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or
-more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks
-domain validity in a certificate stored in <a href="https:​//docs.aws.amazon.com/acm/latest/userguide">AWS Certificate Manager (ACM).
+Associate your own domain name with the AWS App Runner subdomain URL of your App Runner service. After you call AssociateCustomDomain and receive a successful response, use the information in the \[CustomDomain\] record that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks domain validity in a certificate stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide).
 
 ``` swift
 public func associateCustomDomain(input: AssociateCustomDomainInput, completion: @escaping (ClientRuntime.SdkResult<AssociateCustomDomainOutputResponse, AssociateCustomDomainOutputError>) -> Void)
@@ -38,15 +42,7 @@ public func associateCustomDomain(input: AssociateCustomDomainInput, completion:
 
 ### `createAutoScalingConfiguration(input:completion:)`
 
-Create an AWS App Runner automatic scaling configuration resource. App Runner requires this resource
-when you create App Runner services that require non-default auto scaling settings. You can share an
-auto scaling configuration across multiple services.
-Create multiple revisions of a configuration by using the same AutoScalingConfigurationName and different
-AutoScalingConfigurationRevision values. When you create a service, you can set it to use the latest active revision of an auto scaling
-configuration or a specific revision.
-Configure a higher MinSize to increase the spread of your App Runner service over more Availability Zones in the AWS Region. The tradeoff is
-a higher minimal cost.
-Configure a lower MaxSize to control your cost. The tradeoff is lower responsiveness during peak demand.
+Create an AWS App Runner automatic scaling configuration resource. App Runner requires this resource when you create App Runner services that require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by using the same AutoScalingConfigurationName and different AutoScalingConfigurationRevision values. When you create a service, you can set it to use the latest active revision of an auto scaling configuration or a specific revision. Configure a higher MinSize to increase the spread of your App Runner service over more Availability Zones in the AWS Region. The tradeoff is a higher minimal cost. Configure a lower MaxSize to control your cost. The tradeoff is lower responsiveness during peak demand.
 
 ``` swift
 public func createAutoScalingConfiguration(input: CreateAutoScalingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<CreateAutoScalingConfigurationOutputResponse, CreateAutoScalingConfigurationOutputError>) -> Void)
@@ -54,10 +50,7 @@ public func createAutoScalingConfiguration(input: CreateAutoScalingConfiguration
 
 ### `createConnection(input:completion:)`
 
-Create an AWS App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from
-certain third-party providers. You can share a connection across multiple services.
-A connection resource is needed to access GitHub repositories. GitHub requires a user interface approval process through the App Runner console before you
-can use the connection.
+Create an AWS App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub repositories. GitHub requires a user interface approval process through the App Runner console before you can use the connection.
 
 ``` swift
 public func createConnection(input: CreateConnectionInput, completion: @escaping (ClientRuntime.SdkResult<CreateConnectionOutputResponse, CreateConnectionOutputError>) -> Void)
@@ -65,8 +58,7 @@ public func createConnection(input: CreateConnectionInput, completion: @escaping
 
 ### `createService(input:completion:)`
 
-Create an AWS App Runner service. After the service is created, the action also automatically starts a deployment.
-This is an asynchronous operation. On a successful call, you can use the returned OperationId and the <a href="https:​//docs.aws.amazon.com/apprunner/latest/api/API_ListOperations.html">ListOperations call to track the operation's progress.
+Create an AWS App Runner service. After the service is created, the action also automatically starts a deployment. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations](https://docs.aws.amazon.com/apprunner/latest/api/API_ListOperations.html) call to track the operation's progress.
 
 ``` swift
 public func createService(input: CreateServiceInput, completion: @escaping (ClientRuntime.SdkResult<CreateServiceOutputResponse, CreateServiceOutputError>) -> Void)
@@ -74,8 +66,7 @@ public func createService(input: CreateServiceInput, completion: @escaping (Clie
 
 ### `deleteAutoScalingConfiguration(input:completion:)`
 
-Delete an AWS App Runner automatic scaling configuration resource. You can delete a specific revision or the latest active revision. You can't delete a
-configuration that's used by one or more App Runner services.
+Delete an AWS App Runner automatic scaling configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
 
 ``` swift
 public func deleteAutoScalingConfiguration(input: DeleteAutoScalingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAutoScalingConfigurationOutputResponse, DeleteAutoScalingConfigurationOutputError>) -> Void)
@@ -83,8 +74,7 @@ public func deleteAutoScalingConfiguration(input: DeleteAutoScalingConfiguration
 
 ### `deleteConnection(input:completion:)`
 
-Delete an AWS App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the
-DeleteConnection action fails.
+Delete an AWS App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the DeleteConnection action fails.
 
 ``` swift
 public func deleteConnection(input: DeleteConnectionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConnectionOutputResponse, DeleteConnectionOutputError>) -> Void)
@@ -92,9 +82,7 @@ public func deleteConnection(input: DeleteConnectionInput, completion: @escaping
 
 ### `deleteService(input:completion:)`
 
-Delete an AWS App Runner service.
-This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations
-call to track the operation's progress.
+Delete an AWS App Runner service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the \[ListOperations\] call to track the operation's progress.
 
 ``` swift
 public func deleteService(input: DeleteServiceInput, completion: @escaping (ClientRuntime.SdkResult<DeleteServiceOutputResponse, DeleteServiceOutputError>) -> Void)
@@ -126,10 +114,7 @@ public func describeService(input: DescribeServiceInput, completion: @escaping (
 
 ### `disassociateCustomDomain(input:completion:)`
 
-Disassociate a custom domain name from an AWS App Runner service.
-Certificates tracking domain validity are associated with a custom domain and are stored in <a href="https:​//docs.aws.amazon.com/acm/latest/userguide">AWS
-Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for
-30 days after a domain is disassociated from your service.
+Disassociate a custom domain name from an AWS App Runner service. Certificates tracking domain validity are associated with a custom domain and are stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service.
 
 ``` swift
 public func disassociateCustomDomain(input: DisassociateCustomDomainInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateCustomDomainOutputResponse, DisassociateCustomDomainOutputError>) -> Void)
@@ -137,8 +122,7 @@ public func disassociateCustomDomain(input: DisassociateCustomDomainInput, compl
 
 ### `listAutoScalingConfigurations(input:completion:)`
 
-Returns a list of AWS App Runner automatic scaling configurations in your AWS account. You can query the revisions for a specific configuration name or
-the revisions for all configurations in your account. You can optionally query only the latest revision of each requested name.
+Returns a list of AWS App Runner automatic scaling configurations in your AWS account. You can query the revisions for a specific configuration name or the revisions for all configurations in your account. You can optionally query only the latest revision of each requested name.
 
 ``` swift
 public func listAutoScalingConfigurations(input: ListAutoScalingConfigurationsInput, completion: @escaping (ClientRuntime.SdkResult<ListAutoScalingConfigurationsOutputResponse, ListAutoScalingConfigurationsOutputError>) -> Void)
@@ -154,9 +138,7 @@ public func listConnections(input: ListConnectionsInput, completion: @escaping (
 
 ### `listOperations(input:completion:)`
 
-Return a list of operations that occurred on an AWS App Runner service.
-The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the
-last started operation.
+Return a list of operations that occurred on an AWS App Runner service. The resulting list of \[OperationSummary\] objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
 
 ``` swift
 public func listOperations(input: ListOperationsInput, completion: @escaping (ClientRuntime.SdkResult<ListOperationsOutputResponse, ListOperationsOutputError>) -> Void)
@@ -180,10 +162,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `pauseService(input:completion:)`
 
-Pause an active AWS App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is
-removed).
-This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations
-call to track the operation's progress.
+Pause an active AWS App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is removed). This is an asynchronous operation. On a successful call, you can use the returned OperationId and the \[ListOperations\] call to track the operation's progress.
 
 ``` swift
 public func pauseService(input: PauseServiceInput, completion: @escaping (ClientRuntime.SdkResult<PauseServiceOutputResponse, PauseServiceOutputError>) -> Void)
@@ -191,9 +170,7 @@ public func pauseService(input: PauseServiceInput, completion: @escaping (Client
 
 ### `resumeService(input:completion:)`
 
-Resume an active AWS App Runner service. App Runner provisions compute capacity for the service.
-This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations
-call to track the operation's progress.
+Resume an active AWS App Runner service. App Runner provisions compute capacity for the service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the \[ListOperations\] call to track the operation's progress.
 
 ``` swift
 public func resumeService(input: ResumeServiceInput, completion: @escaping (ClientRuntime.SdkResult<ResumeServiceOutputResponse, ResumeServiceOutputError>) -> Void)
@@ -201,12 +178,7 @@ public func resumeService(input: ResumeServiceInput, completion: @escaping (Clie
 
 ### `startDeployment(input:completion:)`
 
-Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an AWS App Runner
-service.
-For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker
-image. In both cases, App Runner then deploys the new image to your service and starts a new container instance.
-This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations
-call to track the operation's progress.
+Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an AWS App Runner service. For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker image. In both cases, App Runner then deploys the new image to your service and starts a new container instance. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the \[ListOperations\] call to track the operation's progress.
 
 ``` swift
 public func startDeployment(input: StartDeploymentInput, completion: @escaping (ClientRuntime.SdkResult<StartDeploymentOutputResponse, StartDeploymentOutputError>) -> Void)
@@ -230,12 +202,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateService(input:completion:)`
 
-Update an AWS App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto
-scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service.
-These can be set only when you create the service.
-To update the tags applied to your service, use the separate actions TagResource and UntagResource.
-This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations
-call to track the operation's progress.
+Update an AWS App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service. To update the tags applied to your service, use the separate actions \[TagResource\] and \[UntagResource\]. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the \[ListOperations\] call to track the operation's progress.
 
 ``` swift
 public func updateService(input: UpdateServiceInput, completion: @escaping (ClientRuntime.SdkResult<UpdateServiceOutputResponse, UpdateServiceOutputError>) -> Void)

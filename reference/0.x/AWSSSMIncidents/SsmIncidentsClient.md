@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SsmIncidentsClient"
+```
+
 ## Methods
 
 ### `createReplicationSet(input:completion:)`
 
-A replication set replicates and encrypts your data to the provided Regions with the
-provided KMS key.
+A replication set replicates and encrypts your data to the provided Regions with the provided KMS key.
 
 ``` swift
 public func createReplicationSet(input: CreateReplicationSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateReplicationSetOutputResponse, CreateReplicationSetOutputError>) -> Void)
@@ -35,10 +42,7 @@ public func createReplicationSet(input: CreateReplicationSetInput, completion: @
 
 ### `createResponsePlan(input:completion:)`
 
-Creates a response plan that automates the initial response to incidents. A response
-plan engages contacts, starts chat channel collaboration, and
-initiates
-runbooks at the beginning of an incident.
+Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident.
 
 ``` swift
 public func createResponsePlan(input: CreateResponsePlanInput, completion: @escaping (ClientRuntime.SdkResult<CreateResponsePlanOutputResponse, CreateResponsePlanOutputError>) -> Void)
@@ -46,10 +50,7 @@ public func createResponsePlan(input: CreateResponsePlanInput, completion: @esca
 
 ### `createTimelineEvent(input:completion:)`
 
-Creates a custom timeline event on the incident details page of an incident record.
-Timeline events are automatically created by Incident Manager, marking key moment during an
-incident. You can create custom timeline events to mark important events that are
-automatically detected by Incident Manager.
+Creates a custom timeline event on the incident details page of an incident record. Timeline events are automatically created by Incident Manager, marking key moment during an incident. You can create custom timeline events to mark important events that are automatically detected by Incident Manager.
 
 ``` swift
 public func createTimelineEvent(input: CreateTimelineEventInput, completion: @escaping (ClientRuntime.SdkResult<CreateTimelineEventOutputResponse, CreateTimelineEventOutputError>) -> Void)
@@ -65,8 +66,7 @@ public func deleteIncidentRecord(input: DeleteIncidentRecordInput, completion: @
 
 ### `deleteReplicationSet(input:completion:)`
 
-Deletes all Regions in your replication set. Deleting the replication set deletes all
-Incident Manager data.
+Deletes all Regions in your replication set. Deleting the replication set deletes all Incident Manager data.
 
 ``` swift
 public func deleteReplicationSet(input: DeleteReplicationSetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReplicationSetOutputResponse, DeleteReplicationSetOutputError>) -> Void)
@@ -74,9 +74,7 @@ public func deleteReplicationSet(input: DeleteReplicationSetInput, completion: @
 
 ### `deleteResourcePolicy(input:completion:)`
 
-Deletes the resource policy that
-AWS
-Resource Access Manager uses to share your Incident Manager resource.
+Deletes the resource policy that AWS Resource Access Manager uses to share your Incident Manager resource.
 
 ``` swift
 public func deleteResourcePolicy(input: DeleteResourcePolicyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>) -> Void)
@@ -84,9 +82,7 @@ public func deleteResourcePolicy(input: DeleteResourcePolicyInput, completion: @
 
 ### `deleteResponsePlan(input:completion:)`
 
-Deletes the specified response plan. Deleting a response plan stops all linked
-CloudWatch alarms and EventBridge events from creating an incident with this response
-plan.
+Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response plan.
 
 ``` swift
 public func deleteResponsePlan(input: DeleteResponsePlanInput, completion: @escaping (ClientRuntime.SdkResult<DeleteResponsePlanOutputResponse, DeleteResponsePlanOutputError>) -> Void)
@@ -142,8 +138,7 @@ public func getTimelineEvent(input: GetTimelineEventInput, completion: @escaping
 
 ### `listIncidentRecords(input:completion:)`
 
-Lists all incident records in your account. Use this command to retrieve the Amazon
-Resource Name (ARN) of the incident record you want to update.
+Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
 
 ``` swift
 public func listIncidentRecords(input: ListIncidentRecordsInput, completion: @escaping (ClientRuntime.SdkResult<ListIncidentRecordsOutputResponse, ListIncidentRecordsOutputError>) -> Void)
@@ -223,8 +218,7 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateDeletionProtection(input:completion:)`
 
-Update deletion protection to either allow or deny deletion of the final Region in a
-replication set.
+Update deletion protection to either allow or deny deletion of the final Region in a replication set.
 
 ``` swift
 public func updateDeletionProtection(input: UpdateDeletionProtectionInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDeletionProtectionOutputResponse, UpdateDeletionProtectionOutputError>) -> Void)
@@ -232,9 +226,7 @@ public func updateDeletionProtection(input: UpdateDeletionProtectionInput, compl
 
 ### `updateIncidentRecord(input:completion:)`
 
-Update the details of an incident record. You can use this action to update an
-incident record from the defined chat channel. For more information about using actions
-in chat channels, see <a href="https:​//docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact">Interacting through chat.
+Update the details of an incident record. You can use this action to update an incident record from the defined chat channel. For more information about using actions in chat channels, see [Interacting through chat](https://docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact).
 
 ``` swift
 public func updateIncidentRecord(input: UpdateIncidentRecordInput, completion: @escaping (ClientRuntime.SdkResult<UpdateIncidentRecordOutputResponse, UpdateIncidentRecordOutputError>) -> Void)
@@ -266,8 +258,7 @@ public func updateResponsePlan(input: UpdateResponsePlanInput, completion: @esca
 
 ### `updateTimelineEvent(input:completion:)`
 
-Updates a timeline event. You can update events of type Custom
-Event.
+Updates a timeline event. You can update events of type Custom Event.
 
 ``` swift
 public func updateTimelineEvent(input: UpdateTimelineEventInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTimelineEventOutputResponse, UpdateTimelineEventOutputError>) -> Void)

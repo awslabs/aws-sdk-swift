@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CodestarNotificationsClient"
+```
+
 ## Methods
 
 ### `createNotificationRule(input:completion:)`
 
-Creates a notification rule for a resource. The rule specifies the events you want
-notifications about and the targets (such as SNS topics) where you want to receive
-them.
+Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as SNS topics) where you want to receive them.
 
 ``` swift
 public func createNotificationRule(input: CreateNotificationRuleInput, completion: @escaping (ClientRuntime.SdkResult<CreateNotificationRuleOutputResponse, CreateNotificationRuleOutputError>) -> Void)
@@ -92,9 +98,7 @@ public func listTargets(input: ListTargetsInput, completion: @escaping (ClientRu
 
 ### `subscribe(input:completion:)`
 
-Creates an association between a notification rule and an SNS topic so that the
-associated target can receive notifications when the events described in the rule are
-triggered.
+Creates an association between a notification rule and an SNS topic so that the associated target can receive notifications when the events described in the rule are triggered.
 
 ``` swift
 public func subscribe(input: SubscribeInput, completion: @escaping (ClientRuntime.SdkResult<SubscribeOutputResponse, SubscribeOutputError>) -> Void)
@@ -110,9 +114,7 @@ public func tagResource(input: TagResourceInput, completion: @escaping (ClientRu
 
 ### `unsubscribe(input:completion:)`
 
-Removes an association between a notification rule and an Amazon SNS topic so that
-subscribers to that topic stop receiving notifications when the events described in the
-rule are triggered.
+Removes an association between a notification rule and an Amazon SNS topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
 
 ``` swift
 public func unsubscribe(input: UnsubscribeInput, completion: @escaping (ClientRuntime.SdkResult<UnsubscribeOutputResponse, UnsubscribeOutputError>) -> Void)
@@ -120,8 +122,7 @@ public func unsubscribe(input: UnsubscribeInput, completion: @escaping (ClientRu
 
 ### `untagResource(input:completion:)`
 
-Removes the association between one or more provided tags and a notification
-rule.
+Removes the association between one or more provided tags and a notification rule.
 
 ``` swift
 public func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
@@ -129,14 +130,8 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateNotificationRule(input:completion:)`
 
-Updates a notification rule for a resource. You can change the events that trigger the
-notification rule, the status of the rule, and the targets that receive the
-notifications.
+Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. To add or remove tags for a notification rule, you must use \[TagResource\] and \[UntagResource\].
 
 ``` swift
 public func updateNotificationRule(input: UpdateNotificationRuleInput, completion: @escaping (ClientRuntime.SdkResult<UpdateNotificationRuleOutputResponse, UpdateNotificationRuleOutputError>) -> Void)
-```
-
-``` 
-        To add or remove tags for a notification rule, you must use TagResource and UntagResource.
 ```

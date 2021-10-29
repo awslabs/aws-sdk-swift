@@ -22,11 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CloudDirectoryClient"
+```
+
 ## Methods
 
 ### `addFacetToObject(input:completion:)`
 
-Adds a new Facet to an object. An object can have more than one facet applied on it.
+Adds a new \[Facet\] to an object. An object can have more than one facet applied on it.
 
 ``` swift
 public func addFacetToObject(input: AddFacetToObjectInput, completion: @escaping (ClientRuntime.SdkResult<AddFacetToObjectOutputResponse, AddFacetToObjectOutputError>) -> Void)
@@ -34,8 +42,7 @@ public func addFacetToObject(input: AddFacetToObjectInput, completion: @escaping
 
 ### `applySchema(input:completion:)`
 
-Copies the input published schema, at the specified version, into the Directory with the same
-name and version as that of the published schema.
+Copies the input published schema, at the specified version, into the \[Directory\] with the same name and version as that of the published schema.
 
 ``` swift
 public func applySchema(input: ApplySchemaInput, completion: @escaping (ClientRuntime.SdkResult<ApplySchemaOutputResponse, ApplySchemaOutputError>) -> Void)
@@ -43,29 +50,19 @@ public func applySchema(input: ApplySchemaInput, completion: @escaping (ClientRu
 
 ### `attachObject(input:completion:)`
 
-Attaches an existing object to another object. An object can be accessed in two
-ways:​
-
-<ol>
+Attaches an existing object to another object. An object can be accessed in two ways:
 
 ``` swift
 public func attachObject(input: AttachObjectInput, completion: @escaping (ClientRuntime.SdkResult<AttachObjectOutputResponse, AttachObjectOutputError>) -> Void)
 ```
 
-``` 
-           Using the path
+  - Using the path
 
-
-           Using ObjectIdentifier
-
-
-     </ol>
-```
+  - Using ObjectIdentifier
 
 ### `attachPolicy(input:completion:)`
 
-Attaches a policy object to a regular object. An object can have a limited number of attached
-policies.
+Attaches a policy object to a regular object. An object can have a limited number of attached policies.
 
 ``` swift
 public func attachPolicy(input: AttachPolicyInput, completion: @escaping (ClientRuntime.SdkResult<AttachPolicyOutputResponse, AttachPolicyOutputError>) -> Void)
@@ -81,7 +78,7 @@ public func attachToIndex(input: AttachToIndexInput, completion: @escaping (Clie
 
 ### `attachTypedLink(input:completion:)`
 
-Attaches a typed link to a specified source and target object. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Attaches a typed link to a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func attachTypedLink(input: AttachTypedLinkInput, completion: @escaping (ClientRuntime.SdkResult<AttachTypedLinkOutputResponse, AttachTypedLinkOutputError>) -> Void)
@@ -97,8 +94,7 @@ public func batchRead(input: BatchReadInput, completion: @escaping (ClientRuntim
 
 ### `batchWrite(input:completion:)`
 
-Performs all the write operations in a batch. Either all the operations succeed or
-none.
+Performs all the write operations in a batch. Either all the operations succeed or none.
 
 ``` swift
 public func batchWrite(input: BatchWriteInput, completion: @escaping (ClientRuntime.SdkResult<BatchWriteOutputResponse, BatchWriteOutputError>) -> Void)
@@ -106,10 +102,7 @@ public func batchWrite(input: BatchWriteInput, completion: @escaping (ClientRunt
 
 ### `createDirectory(input:completion:)`
 
-Creates a Directory by copying the published schema into the
-directory. A directory cannot be created without a schema.
-You can also quickly create a directory using a managed schema, called the
-QuickStartSchema. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html">Managed Schema in the Amazon Cloud Directory Developer Guide.
+Creates a \[Directory\] by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema. For more information, see [Managed Schema](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html) in the Amazon Cloud Directory Developer Guide.
 
 ``` swift
 public func createDirectory(input: CreateDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<CreateDirectoryOutputResponse, CreateDirectoryOutputError>) -> Void)
@@ -117,8 +110,7 @@ public func createDirectory(input: CreateDirectoryInput, completion: @escaping (
 
 ### `createFacet(input:completion:)`
 
-Creates a new Facet in a schema. Facet creation is allowed only
-in development or applied schemas.
+Creates a new \[Facet\] in a schema. Facet creation is allowed only in development or applied schemas.
 
 ``` swift
 public func createFacet(input: CreateFacetInput, completion: @escaping (ClientRuntime.SdkResult<CreateFacetOutputResponse, CreateFacetOutputError>) -> Void)
@@ -126,7 +118,7 @@ public func createFacet(input: CreateFacetInput, completion: @escaping (ClientRu
 
 ### `createIndex(input:completion:)`
 
-Creates an index object. See <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html">Indexing and search for more information.
+Creates an index object. See [Indexing and search](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html) for more information.
 
 ``` swift
 public func createIndex(input: CreateIndexInput, completion: @escaping (ClientRuntime.SdkResult<CreateIndexOutputResponse, CreateIndexOutputError>) -> Void)
@@ -134,10 +126,7 @@ public func createIndex(input: CreateIndexInput, completion: @escaping (ClientRu
 
 ### `createObject(input:completion:)`
 
-Creates an object in a Directory. Additionally attaches the object to
-a parent, if a parent reference and LinkName is specified. An object is simply a
-collection of Facet attributes. You can also use this API call to create a
-policy object, if the facet from which you create the object is a policy facet.
+Creates an object in a \[Directory\]. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of \[Facet\] attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet.
 
 ``` swift
 public func createObject(input: CreateObjectInput, completion: @escaping (ClientRuntime.SdkResult<CreateObjectOutputResponse, CreateObjectOutputError>) -> Void)
@@ -145,33 +134,21 @@ public func createObject(input: CreateObjectInput, completion: @escaping (Client
 
 ### `createSchema(input:completion:)`
 
-Creates a new schema in a development state. A schema can exist in three
-phases:​
+Creates a new schema in a development state. A schema can exist in three phases:
 
 ``` swift
 public func createSchema(input: CreateSchemaInput, completion: @escaping (ClientRuntime.SdkResult<CreateSchemaOutputResponse, CreateSchemaOutputError>) -> Void)
 ```
 
-``` 
-              Development: This is a mutable phase of the schema. All new
-      schemas are in the development phase. Once the schema is finalized, it can be
-      published.
+  - Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published.
 
+  - Published: Published schemas are immutable and have a version associated with them.
 
-
-              Published: Published schemas are immutable and have a version
-      associated with them.
-
-
-
-              Applied: Applied schemas are mutable in a way that allows you
-      to add new schema facets. You can also add new, nonrequired attributes to existing schema
-      facets. You can apply only published schemas to directories.
-```
+  - Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.
 
 ### `createTypedLinkFacet(input:completion:)`
 
-Creates a TypedLinkFacet. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Creates a \[TypedLinkFacet\]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func createTypedLinkFacet(input: CreateTypedLinkFacetInput, completion: @escaping (ClientRuntime.SdkResult<CreateTypedLinkFacetOutputResponse, CreateTypedLinkFacetOutputError>) -> Void)
@@ -179,9 +156,7 @@ public func createTypedLinkFacet(input: CreateTypedLinkFacetInput, completion: @
 
 ### `deleteDirectory(input:completion:)`
 
-Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme
-caution
-when deleting directories.
+Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories.
 
 ``` swift
 public func deleteDirectory(input: DeleteDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>) -> Void)
@@ -189,9 +164,7 @@ public func deleteDirectory(input: DeleteDirectoryInput, completion: @escaping (
 
 ### `deleteFacet(input:completion:)`
 
-Deletes a given Facet. All attributes and Rules
-that are associated with the facet will be deleted. Only development schema facets are allowed
-deletion.
+Deletes a given \[Facet\]. All attributes and \[Rule\]s that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
 
 ``` swift
 public func deleteFacet(input: DeleteFacetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteFacetOutputResponse, DeleteFacetOutputError>) -> Void)
@@ -199,8 +172,7 @@ public func deleteFacet(input: DeleteFacetInput, completion: @escaping (ClientRu
 
 ### `deleteObject(input:completion:)`
 
-Deletes an object and its associated attributes. Only objects with no children and no
-parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Amazon Cloud Directory Limits.
+Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see [Amazon Cloud Directory Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html).
 
 ``` swift
 public func deleteObject(input: DeleteObjectInput, completion: @escaping (ClientRuntime.SdkResult<DeleteObjectOutputResponse, DeleteObjectOutputError>) -> Void)
@@ -216,7 +188,7 @@ public func deleteSchema(input: DeleteSchemaInput, completion: @escaping (Client
 
 ### `deleteTypedLinkFacet(input:completion:)`
 
-Deletes a TypedLinkFacet. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Deletes a \[TypedLinkFacet\]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func deleteTypedLinkFacet(input: DeleteTypedLinkFacetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTypedLinkFacetOutputResponse, DeleteTypedLinkFacetOutputError>) -> Void)
@@ -232,8 +204,7 @@ public func detachFromIndex(input: DetachFromIndexInput, completion: @escaping (
 
 ### `detachObject(input:completion:)`
 
-Detaches a given object from the parent object. The object that is to be detached from the
-parent is specified by the link name.
+Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name.
 
 ``` swift
 public func detachObject(input: DetachObjectInput, completion: @escaping (ClientRuntime.SdkResult<DetachObjectOutputResponse, DetachObjectOutputError>) -> Void)
@@ -249,7 +220,7 @@ public func detachPolicy(input: DetachPolicyInput, completion: @escaping (Client
 
 ### `detachTypedLink(input:completion:)`
 
-Detaches a typed link from a specified source and target object. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Detaches a typed link from a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func detachTypedLink(input: DetachTypedLinkInput, completion: @escaping (ClientRuntime.SdkResult<DetachTypedLinkOutputResponse, DetachTypedLinkOutputError>) -> Void)
@@ -257,8 +228,7 @@ public func detachTypedLink(input: DetachTypedLinkInput, completion: @escaping (
 
 ### `disableDirectory(input:completion:)`
 
-Disables the specified directory. Disabled directories cannot be read or written to.
-Only enabled directories can be disabled. Disabled directories may be reenabled.
+Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
 
 ``` swift
 public func disableDirectory(input: DisableDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<DisableDirectoryOutputResponse, DisableDirectoryOutputError>) -> Void)
@@ -266,8 +236,7 @@ public func disableDirectory(input: DisableDirectoryInput, completion: @escaping
 
 ### `enableDirectory(input:completion:)`
 
-Enables the specified directory. Only disabled directories can be enabled. Once
-enabled, the directory can then be read and written to.
+Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
 
 ``` swift
 public func enableDirectory(input: EnableDirectoryInput, completion: @escaping (ClientRuntime.SdkResult<EnableDirectoryOutputResponse, EnableDirectoryOutputError>) -> Void)
@@ -291,8 +260,7 @@ public func getDirectory(input: GetDirectoryInput, completion: @escaping (Client
 
 ### `getFacet(input:completion:)`
 
-Gets details of the Facet, such as facet name, attributes, Rules, or ObjectType. You can call this on all kinds of schema
-facets -- published, development, or applied.
+Gets details of the \[Facet\], such as facet name, attributes, \[Rule\]s, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
 
 ``` swift
 public func getFacet(input: GetFacetInput, completion: @escaping (ClientRuntime.SdkResult<GetFacetOutputResponse, GetFacetOutputError>) -> Void)
@@ -324,7 +292,7 @@ public func getObjectInformation(input: GetObjectInformationInput, completion: @
 
 ### `getSchemaAsJson(input:completion:)`
 
-Retrieves a JSON representation of the schema. See <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json">JSON Schema Format for more information.
+Retrieves a JSON representation of the schema. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
 
 ``` swift
 public func getSchemaAsJson(input: GetSchemaAsJsonInput, completion: @escaping (ClientRuntime.SdkResult<GetSchemaAsJsonOutputResponse, GetSchemaAsJsonOutputError>) -> Void)
@@ -332,7 +300,7 @@ public func getSchemaAsJson(input: GetSchemaAsJsonInput, completion: @escaping (
 
 ### `getTypedLinkFacetInformation(input:completion:)`
 
-Returns the identity attribute order for a specific TypedLinkFacet. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Returns the identity attribute order for a specific \[TypedLinkFacet\]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func getTypedLinkFacetInformation(input: GetTypedLinkFacetInformationInput, completion: @escaping (ClientRuntime.SdkResult<GetTypedLinkFacetInformationOutputResponse, GetTypedLinkFacetInformationOutputError>) -> Void)
@@ -356,8 +324,7 @@ public func listAttachedIndices(input: ListAttachedIndicesInput, completion: @es
 
 ### `listDevelopmentSchemaArns(input:completion:)`
 
-Retrieves each Amazon Resource Name (ARN) of schemas in the development
-state.
+Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
 
 ``` swift
 public func listDevelopmentSchemaArns(input: ListDevelopmentSchemaArnsInput, completion: @escaping (ClientRuntime.SdkResult<ListDevelopmentSchemaArnsOutputResponse, ListDevelopmentSchemaArnsOutputError>) -> Void)
@@ -389,9 +356,7 @@ public func listFacetNames(input: ListFacetNamesInput, completion: @escaping (Cl
 
 ### `listIncomingTypedLinks(input:completion:)`
 
-Returns a paginated list of all the incoming TypedLinkSpecifier
-information for an object. It also supports filtering by typed link facet and identity
-attributes. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Returns a paginated list of all the incoming \[TypedLinkSpecifier\] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func listIncomingTypedLinks(input: ListIncomingTypedLinksInput, completion: @escaping (ClientRuntime.SdkResult<ListIncomingTypedLinksOutputResponse, ListIncomingTypedLinksOutputError>) -> Void)
@@ -423,8 +388,7 @@ public func listObjectAttributes(input: ListObjectAttributesInput, completion: @
 
 ### `listObjectChildren(input:completion:)`
 
-Returns a paginated list of child objects that are associated with a given
-object.
+Returns a paginated list of child objects that are associated with a given object.
 
 ``` swift
 public func listObjectChildren(input: ListObjectChildrenInput, completion: @escaping (ClientRuntime.SdkResult<ListObjectChildrenOutputResponse, ListObjectChildrenOutputError>) -> Void)
@@ -432,14 +396,7 @@ public func listObjectChildren(input: ListObjectChildrenInput, completion: @esca
 
 ### `listObjectParentPaths(input:completion:)`
 
-Retrieves all available parent paths for any object type such as node, leaf node,
-policy node, and index node objects. For more information about objects, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory Structure.
-Use this API to evaluate all parents for an object. The call returns all objects from
-the root of the directory up to the requested object. The API returns the number of paths
-based on user-defined MaxResults, in case there are multiple paths to the parent.
-The order of the paths and nodes returned is consistent among multiple API calls unless the
-objects are deleted or moved. Paths not leading to the directory root are ignored from the
-target object.
+Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see [Directory Structure](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html). Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
 
 ``` swift
 public func listObjectParentPaths(input: ListObjectParentPathsInput, completion: @escaping (ClientRuntime.SdkResult<ListObjectParentPathsOutputResponse, ListObjectParentPathsOutputError>) -> Void)
@@ -447,8 +404,7 @@ public func listObjectParentPaths(input: ListObjectParentPathsInput, completion:
 
 ### `listObjectParents(input:completion:)`
 
-Lists parent objects that are associated with a given object in pagination
-fashion.
+Lists parent objects that are associated with a given object in pagination fashion.
 
 ``` swift
 public func listObjectParents(input: ListObjectParentsInput, completion: @escaping (ClientRuntime.SdkResult<ListObjectParentsOutputResponse, ListObjectParentsOutputError>) -> Void)
@@ -464,9 +420,7 @@ public func listObjectPolicies(input: ListObjectPoliciesInput, completion: @esca
 
 ### `listOutgoingTypedLinks(input:completion:)`
 
-Returns a paginated list of all the outgoing TypedLinkSpecifier
-information for an object. It also supports filtering by typed link facet and identity
-attributes. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Returns a paginated list of all the outgoing \[TypedLinkSpecifier\] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func listOutgoingTypedLinks(input: ListOutgoingTypedLinksInput, completion: @escaping (ClientRuntime.SdkResult<ListOutgoingTypedLinksOutputResponse, ListOutgoingTypedLinksOutputError>) -> Void)
@@ -490,9 +444,7 @@ public func listPublishedSchemaArns(input: ListPublishedSchemaArnsInput, complet
 
 ### `listTagsForResource(input:completion:)`
 
-Returns tags for a resource. Tagging is currently supported only for directories with a
-limit of 50 tags per directory. All 50 tags are returned for a given directory with this API
-call.
+Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
 
 ``` swift
 public func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
@@ -500,7 +452,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `listTypedLinkFacetAttributes(input:completion:)`
 
-Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Returns a paginated list of all attribute definitions for a particular \[TypedLinkFacet\]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func listTypedLinkFacetAttributes(input: ListTypedLinkFacetAttributesInput, completion: @escaping (ClientRuntime.SdkResult<ListTypedLinkFacetAttributesOutputResponse, ListTypedLinkFacetAttributesOutputError>) -> Void)
@@ -508,8 +460,7 @@ public func listTypedLinkFacetAttributes(input: ListTypedLinkFacetAttributesInpu
 
 ### `listTypedLinkFacetNames(input:completion:)`
 
-Returns a paginated list of TypedLink facet names for a particular schema.
-For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Returns a paginated list of TypedLink facet names for a particular schema. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func listTypedLinkFacetNames(input: ListTypedLinkFacetNamesInput, completion: @escaping (ClientRuntime.SdkResult<ListTypedLinkFacetNamesOutputResponse, ListTypedLinkFacetNamesOutputError>) -> Void)
@@ -517,12 +468,7 @@ public func listTypedLinkFacetNames(input: ListTypedLinkFacetNamesInput, complet
 
 ### `lookupPolicy(input:completion:)`
 
-Lists all policies from the root of the Directory to the object
-specified. If there are no policies present, an empty list is returned. If policies are
-present, and if some objects don't have the policies attached, it returns the ObjectIdentifier
-for such objects. If policies are present, it returns ObjectIdentifier, policyId, and
-policyType. Paths that don't lead to the root from the target object are ignored. For more
-information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies.
+Lists all policies from the root of the \[Directory\] to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
 
 ``` swift
 public func lookupPolicy(input: LookupPolicyInput, completion: @escaping (ClientRuntime.SdkResult<LookupPolicyOutputResponse, LookupPolicyOutputError>) -> Void)
@@ -538,7 +484,7 @@ public func publishSchema(input: PublishSchemaInput, completion: @escaping (Clie
 
 ### `putSchemaFromJson(input:completion:)`
 
-Allows a schema to be updated using JSON upload. Only available for development schemas. See <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json">JSON Schema Format for more information.
+Allows a schema to be updated using JSON upload. Only available for development schemas. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
 
 ``` swift
 public func putSchemaFromJson(input: PutSchemaFromJsonInput, completion: @escaping (ClientRuntime.SdkResult<PutSchemaFromJsonOutputResponse, PutSchemaFromJsonOutputError>) -> Void)
@@ -570,25 +516,17 @@ public func untagResource(input: UntagResourceInput, completion: @escaping (Clie
 
 ### `updateFacet(input:completion:)`
 
-Does the following:​
-
-<ol>
+Does the following:
 
 ``` swift
 public func updateFacet(input: UpdateFacetInput, completion: @escaping (ClientRuntime.SdkResult<UpdateFacetOutputResponse, UpdateFacetOutputError>) -> Void)
 ```
 
-``` 
-           Adds new Attributes, Rules, or ObjectTypes.
+  - Adds new Attributes, Rules, or ObjectTypes.
 
+  - Updates existing Attributes, Rules, or ObjectTypes.
 
-           Updates existing Attributes, Rules, or ObjectTypes.
-
-
-           Deletes existing Attributes, Rules, or ObjectTypes.
-
-     </ol>
-```
+  - Deletes existing Attributes, Rules, or ObjectTypes.
 
 ### `updateLinkAttributes(input:completion:)`
 
@@ -608,8 +546,7 @@ public func updateObjectAttributes(input: UpdateObjectAttributesInput, completio
 
 ### `updateSchema(input:completion:)`
 
-Updates the schema name with a new name. Only development schema names can be
-updated.
+Updates the schema name with a new name. Only development schema names can be updated.
 
 ``` swift
 public func updateSchema(input: UpdateSchemaInput, completion: @escaping (ClientRuntime.SdkResult<UpdateSchemaOutputResponse, UpdateSchemaOutputError>) -> Void)
@@ -617,7 +554,7 @@ public func updateSchema(input: UpdateSchemaInput, completion: @escaping (Client
 
 ### `updateTypedLinkFacet(input:completion:)`
 
-Updates a TypedLinkFacet. For more information, see <a href="https:​//docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed Links.
+Updates a \[TypedLinkFacet\]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 ``` swift
 public func updateTypedLinkFacet(input: UpdateTypedLinkFacetInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTypedLinkFacetOutputResponse, UpdateTypedLinkFacetOutputError>) -> Void)
@@ -625,7 +562,7 @@ public func updateTypedLinkFacet(input: UpdateTypedLinkFacetInput, completion: @
 
 ### `upgradeAppliedSchema(input:completion:)`
 
-Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note:​ This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
+Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
 
 ``` swift
 public func upgradeAppliedSchema(input: UpgradeAppliedSchemaInput, completion: @escaping (ClientRuntime.SdkResult<UpgradeAppliedSchemaOutputResponse, UpgradeAppliedSchemaOutputError>) -> Void)

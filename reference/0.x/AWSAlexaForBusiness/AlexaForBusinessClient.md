@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "AlexaForBusinessClient"
+```
+
 ## Methods
 
 ### `approveSkill(input:completion:)`
 
-Associates a skill with the organization under the customer's AWS account. If a skill
-is private, the user implicitly accepts access to this skill during enablement.
+Associates a skill with the organization under the customer's AWS account. If a skill is private, the user implicitly accepts access to this skill during enablement.
 
 ``` swift
 public func approveSkill(input: ApproveSkillInput, completion: @escaping (ClientRuntime.SdkResult<ApproveSkillOutputResponse, ApproveSkillOutputError>) -> Void)
@@ -51,9 +58,7 @@ public func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkP
 
 ### `associateDeviceWithRoom(input:completion:)`
 
-Associates a device with a given room. This applies all the settings from the room
-profile to the device, and all the skills in any skill groups added to that room. This
-operation requires the device to be online, or else a manual sync is required.
+Associates a device with a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or else a manual sync is required.
 
 ``` swift
 public func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput, completion: @escaping (ClientRuntime.SdkResult<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>) -> Void)
@@ -61,8 +66,7 @@ public func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput, complet
 
 ### `associateSkillGroupWithRoom(input:completion:)`
 
-Associates a skill group with a given room. This enables all skills in the associated
-skill group on all devices in the room.
+Associates a skill group with a given room. This enables all skills in the associated skill group on all devices in the room.
 
 ``` swift
 public func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput, completion: @escaping (ClientRuntime.SdkResult<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>) -> Void)
@@ -94,8 +98,7 @@ public func createAddressBook(input: CreateAddressBookInput, completion: @escapi
 
 ### `createBusinessReportSchedule(input:completion:)`
 
-Creates a recurring schedule for usage reports to deliver to the specified S3
-location with a specified daily or weekly interval.
+Creates a recurring schedule for usage reports to deliver to the specified S3 location with a specified daily or weekly interval.
 
 ``` swift
 public func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput, completion: @escaping (ClientRuntime.SdkResult<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>) -> Void)
@@ -175,8 +178,7 @@ public func deleteAddressBook(input: DeleteAddressBookInput, completion: @escapi
 
 ### `deleteBusinessReportSchedule(input:completion:)`
 
-Deletes the recurring report delivery schedule with the specified schedule
-ARN.
+Deletes the recurring report delivery schedule with the specified schedule ARN.
 
 ``` swift
 public func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>) -> Void)
@@ -208,9 +210,7 @@ public func deleteDevice(input: DeleteDeviceInput, completion: @escaping (Client
 
 ### `deleteDeviceUsageData(input:completion:)`
 
-When this action is called for a specified shared device, it allows authorized users to
-delete the device's entire previous history of voice input data and associated response
-data. This action can be called once every 24 hours for a specific shared device.
+When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device.
 
 ``` swift
 public func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput, completion: @escaping (ClientRuntime.SdkResult<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>) -> Void)
@@ -290,9 +290,7 @@ public func disassociateContactFromAddressBook(input: DisassociateContactFromAdd
 
 ### `disassociateDeviceFromRoom(input:completion:)`
 
-Disassociates a device from its current room. The device continues to be connected to
-the Wi-Fi network and is still registered to the account. The device settings and skills
-are removed from the room.
+Disassociates a device from its current room. The device continues to be connected to the Wi-Fi network and is still registered to the account. The device settings and skills are removed from the room.
 
 ``` swift
 public func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>) -> Void)
@@ -308,8 +306,7 @@ public func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGro
 
 ### `disassociateSkillFromUsers(input:completion:)`
 
-Makes a private skill unavailable for enrolled users and prevents them from enabling it
-on their devices.
+Makes a private skill unavailable for enrolled users and prevents them from enabling it on their devices.
 
 ``` swift
 public func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>) -> Void)
@@ -317,8 +314,7 @@ public func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput, c
 
 ### `disassociateSkillGroupFromRoom(input:completion:)`
 
-Disassociates a skill group from a specified room. This disables all skills in the
-skill group on all devices in the room.
+Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
 
 ``` swift
 public func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>) -> Void)
@@ -390,8 +386,7 @@ public func getGatewayGroup(input: GetGatewayGroupInput, completion: @escaping (
 
 ### `getInvitationConfiguration(input:completion:)`
 
-Retrieves the configured values for the user enrollment invitation email
-template.
+Retrieves the configured values for the user enrollment invitation email template.
 
 ``` swift
 public func getInvitationConfiguration(input: GetInvitationConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>) -> Void)
@@ -455,8 +450,7 @@ public func listConferenceProviders(input: ListConferenceProvidersInput, complet
 
 ### `listDeviceEvents(input:completion:)`
 
-Lists the device event history, including device connection status, for up to 30
-days.
+Lists the device event history, including device connection status, for up to 30 days.
 
 ``` swift
 public func listDeviceEvents(input: ListDeviceEventsInput, completion: @escaping (ClientRuntime.SdkResult<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>) -> Void)
@@ -464,8 +458,7 @@ public func listDeviceEvents(input: ListDeviceEventsInput, completion: @escaping
 
 ### `listGatewayGroups(input:completion:)`
 
-Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of
-a specific gateway group.
+Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
 
 ``` swift
 public func listGatewayGroups(input: ListGatewayGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>) -> Void)
@@ -473,9 +466,7 @@ public func listGatewayGroups(input: ListGatewayGroupsInput, completion: @escapi
 
 ### `listGateways(input:completion:)`
 
-Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific
-gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries
-of gateways that are associated with that gateway group ARN.
+Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
 
 ``` swift
 public func listGateways(input: ListGatewaysInput, completion: @escaping (ClientRuntime.SdkResult<ListGatewaysOutputResponse, ListGatewaysOutputError>) -> Void)
@@ -523,8 +514,7 @@ public func listTags(input: ListTagsInput, completion: @escaping (ClientRuntime.
 
 ### `putConferencePreference(input:completion:)`
 
-Sets the conference preferences on a specific conference provider at the account
-level.
+Sets the conference preferences on a specific conference provider at the account level.
 
 ``` swift
 public func putConferencePreference(input: PutConferencePreferenceInput, completion: @escaping (ClientRuntime.SdkResult<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>) -> Void)
@@ -532,8 +522,7 @@ public func putConferencePreference(input: PutConferencePreferenceInput, complet
 
 ### `putInvitationConfiguration(input:completion:)`
 
-Configures the email template for the user enrollment invitation with the specified
-attributes.
+Configures the email template for the user enrollment invitation with the specified attributes.
 
 ``` swift
 public func putInvitationConfiguration(input: PutInvitationConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>) -> Void)
@@ -541,8 +530,7 @@ public func putInvitationConfiguration(input: PutInvitationConfigurationInput, c
 
 ### `putRoomSkillParameter(input:completion:)`
 
-Updates room skill parameter details by room, skill, and parameter key ID. Not all
-skills have a room skill parameter.
+Updates room skill parameter details by room, skill, and parameter key ID. Not all skills have a room skill parameter.
 
 ``` swift
 public func putRoomSkillParameter(input: PutRoomSkillParameterInput, completion: @escaping (ClientRuntime.SdkResult<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>) -> Void)
@@ -550,9 +538,7 @@ public func putRoomSkillParameter(input: PutRoomSkillParameterInput, completion:
 
 ### `putSkillAuthorization(input:completion:)`
 
-Links a user's account to a third-party skill provider. If this API operation is
-called by an assumed IAM role, the skill being linked must be a private skill. Also, the
-skill must be owned by the AWS account that assumed the IAM role.
+Links a user's account to a third-party skill provider. If this API operation is called by an assumed IAM role, the skill being linked must be a private skill. Also, the skill must be owned by the AWS account that assumed the IAM role.
 
 ``` swift
 public func putSkillAuthorization(input: PutSkillAuthorizationInput, completion: @escaping (ClientRuntime.SdkResult<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>) -> Void)
@@ -560,8 +546,7 @@ public func putSkillAuthorization(input: PutSkillAuthorizationInput, completion:
 
 ### `registerAVSDevice(input:completion:)`
 
-Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM)
-using Alexa Voice Service (AVS).
+Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM) using Alexa Voice Service (AVS).
 
 ``` swift
 public func registerAVSDevice(input: RegisterAVSDeviceInput, completion: @escaping (ClientRuntime.SdkResult<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>) -> Void)
@@ -569,9 +554,7 @@ public func registerAVSDevice(input: RegisterAVSDeviceInput, completion: @escapi
 
 ### `rejectSkill(input:completion:)`
 
-Disassociates a skill from the organization under a user's AWS account. If the skill
-is a private skill, it moves to an AcceptStatus of PENDING. Any private or public skill
-that is rejected can be added later by calling the ApproveSkill API.
+Disassociates a skill from the organization under a user's AWS account. If the skill is a private skill, it moves to an AcceptStatus of PENDING. Any private or public skill that is rejected can be added later by calling the ApproveSkill API.
 
 ``` swift
 public func rejectSkill(input: RejectSkillInput, completion: @escaping (ClientRuntime.SdkResult<RejectSkillOutputResponse, RejectSkillOutputError>) -> Void)
@@ -579,13 +562,7 @@ public func rejectSkill(input: RejectSkillInput, completion: @escaping (ClientRu
 
 ### `resolveRoom(input:completion:)`
 
-Determines the details for the room from which a skill request was invoked. This
-operation is used by skill developers.
-To query ResolveRoom from an Alexa skill, the skill ID needs to be authorized. When
-the skill is using an AWS Lambda function, the skill is automatically authorized when you
-publish your skill as a private skill to your AWS account. Skills that are hosted using a
-custom web service must be manually authorized. To get your skill authorized, contact AWS
-Support with your AWS account ID that queries the ResolveRoom API and skill ID.
+Determines the details for the room from which a skill request was invoked. This operation is used by skill developers. To query ResolveRoom from an Alexa skill, the skill ID needs to be authorized. When the skill is using an AWS Lambda function, the skill is automatically authorized when you publish your skill as a private skill to your AWS account. Skills that are hosted using a custom web service must be manually authorized. To get your skill authorized, contact AWS Support with your AWS account ID that queries the ResolveRoom API and skill ID.
 
 ``` swift
 public func resolveRoom(input: ResolveRoomInput, completion: @escaping (ClientRuntime.SdkResult<ResolveRoomOutputResponse, ResolveRoomOutputError>) -> Void)
@@ -601,8 +578,7 @@ public func revokeInvitation(input: RevokeInvitationInput, completion: @escaping
 
 ### `searchAddressBooks(input:completion:)`
 
-Searches address books and lists the ones that meet a set of filter and sort
-criteria.
+Searches address books and lists the ones that meet a set of filter and sort criteria.
 
 ``` swift
 public func searchAddressBooks(input: SearchAddressBooksInput, completion: @escaping (ClientRuntime.SdkResult<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>) -> Void)
@@ -610,8 +586,7 @@ public func searchAddressBooks(input: SearchAddressBooksInput, completion: @esca
 
 ### `searchContacts(input:completion:)`
 
-Searches contacts and lists the ones that meet a set of filter and sort
-criteria.
+Searches contacts and lists the ones that meet a set of filter and sort criteria.
 
 ``` swift
 public func searchContacts(input: SearchContactsInput, completion: @escaping (ClientRuntime.SdkResult<SearchContactsOutputResponse, SearchContactsOutputError>) -> Void)
@@ -627,8 +602,7 @@ public func searchDevices(input: SearchDevicesInput, completion: @escaping (Clie
 
 ### `searchNetworkProfiles(input:completion:)`
 
-Searches network profiles and lists the ones that meet a set of filter and sort
-criteria.
+Searches network profiles and lists the ones that meet a set of filter and sort criteria.
 
 ``` swift
 public func searchNetworkProfiles(input: SearchNetworkProfilesInput, completion: @escaping (ClientRuntime.SdkResult<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>) -> Void)
@@ -636,8 +610,7 @@ public func searchNetworkProfiles(input: SearchNetworkProfilesInput, completion:
 
 ### `searchProfiles(input:completion:)`
 
-Searches room profiles and lists the ones that meet a set of filter
-criteria.
+Searches room profiles and lists the ones that meet a set of filter criteria.
 
 ``` swift
 public func searchProfiles(input: SearchProfilesInput, completion: @escaping (ClientRuntime.SdkResult<SearchProfilesOutputResponse, SearchProfilesOutputError>) -> Void)
@@ -645,8 +618,7 @@ public func searchProfiles(input: SearchProfilesInput, completion: @escaping (Cl
 
 ### `searchRooms(input:completion:)`
 
-Searches rooms and lists the ones that meet a set of filter and sort
-criteria.
+Searches rooms and lists the ones that meet a set of filter and sort criteria.
 
 ``` swift
 public func searchRooms(input: SearchRoomsInput, completion: @escaping (ClientRuntime.SdkResult<SearchRoomsOutputResponse, SearchRoomsOutputError>) -> Void)
@@ -654,8 +626,7 @@ public func searchRooms(input: SearchRoomsInput, completion: @escaping (ClientRu
 
 ### `searchSkillGroups(input:completion:)`
 
-Searches skill groups and lists the ones that meet a set of filter and sort
-criteria.
+Searches skill groups and lists the ones that meet a set of filter and sort criteria.
 
 ``` swift
 public func searchSkillGroups(input: SearchSkillGroupsInput, completion: @escaping (ClientRuntime.SdkResult<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>) -> Void)
@@ -663,8 +634,7 @@ public func searchSkillGroups(input: SearchSkillGroupsInput, completion: @escapi
 
 ### `searchUsers(input:completion:)`
 
-Searches users and lists the ones that meet a set of filter and sort
-criteria.
+Searches users and lists the ones that meet a set of filter and sort criteria.
 
 ``` swift
 public func searchUsers(input: SearchUsersInput, completion: @escaping (ClientRuntime.SdkResult<SearchUsersOutputResponse, SearchUsersOutputError>) -> Void)
@@ -672,8 +642,7 @@ public func searchUsers(input: SearchUsersInput, completion: @escaping (ClientRu
 
 ### `sendAnnouncement(input:completion:)`
 
-Triggers an asynchronous flow to send text, SSML, or audio announcements to rooms that
-are identified by a search or filter.
+Triggers an asynchronous flow to send text, SSML, or audio announcements to rooms that are identified by a search or filter.
 
 ``` swift
 public func sendAnnouncement(input: SendAnnouncementInput, completion: @escaping (ClientRuntime.SdkResult<SendAnnouncementOutputResponse, SendAnnouncementOutputError>) -> Void)
@@ -681,8 +650,7 @@ public func sendAnnouncement(input: SendAnnouncementInput, completion: @escaping
 
 ### `sendInvitation(input:completion:)`
 
-Sends an enrollment invitation email with a URL to a user. The URL is valid for 30
-days or until you call this operation again, whichever comes first.
+Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or until you call this operation again, whichever comes first.
 
 ``` swift
 public func sendInvitation(input: SendInvitationInput, completion: @escaping (ClientRuntime.SdkResult<SendInvitationOutputResponse, SendInvitationOutputError>) -> Void)
@@ -690,36 +658,25 @@ public func sendInvitation(input: SendInvitationInput, completion: @escaping (Cl
 
 ### `startDeviceSync(input:completion:)`
 
-Resets a device and its account to the known default settings. This clears all
-information and settings set by previous users in the following ways:​
+Resets a device and its account to the known default settings. This clears all information and settings set by previous users in the following ways:
 
 ``` swift
 public func startDeviceSync(input: StartDeviceSyncInput, completion: @escaping (ClientRuntime.SdkResult<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>) -> Void)
 ```
 
-``` 
-           Bluetooth - This unpairs all bluetooth devices paired with your echo
-           device.
+  - Bluetooth - This unpairs all bluetooth devices paired with your echo device.
 
+  - Volume - This resets the echo device's volume to the default value.
 
-           Volume - This resets the echo device's volume to the default value.
+  - Notifications - This clears all notifications from your echo device.
 
+  - Lists - This clears all to-do items from your echo device.
 
-           Notifications - This clears all notifications from your echo device.
-
-
-           Lists - This clears all to-do items from your echo device.
-
-
-           Settings - This internally syncs the room's profile (if the device is assigned to
-           a room), contacts, address books, delegation access for account linking, and
-           communications (if enabled on the room profile).
-```
+  - Settings - This internally syncs the room's profile (if the device is assigned to a room), contacts, address books, delegation access for account linking, and communications (if enabled on the room profile).
 
 ### `startSmartHomeApplianceDiscovery(input:completion:)`
 
-Initiates the discovery of any smart home appliances associated with the
-room.
+Initiates the discovery of any smart home appliances associated with the room.
 
 ``` swift
 public func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput, completion: @escaping (ClientRuntime.SdkResult<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>) -> Void)
@@ -751,8 +708,7 @@ public func updateAddressBook(input: UpdateAddressBookInput, completion: @escapi
 
 ### `updateBusinessReportSchedule(input:completion:)`
 
-Updates the configuration of the report delivery schedule with the specified schedule
-ARN.
+Updates the configuration of the report delivery schedule with the specified schedule ARN.
 
 ``` swift
 public func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>) -> Void)
@@ -784,8 +740,7 @@ public func updateDevice(input: UpdateDeviceInput, completion: @escaping (Client
 
 ### `updateGateway(input:completion:)`
 
-Updates the details of a gateway. If any optional field is not provided, the existing
-corresponding value is left unmodified.
+Updates the details of a gateway. If any optional field is not provided, the existing corresponding value is left unmodified.
 
 ``` swift
 public func updateGateway(input: UpdateGatewayInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGatewayOutputResponse, UpdateGatewayOutputError>) -> Void)
@@ -793,8 +748,7 @@ public func updateGateway(input: UpdateGatewayInput, completion: @escaping (Clie
 
 ### `updateGatewayGroup(input:completion:)`
 
-Updates the details of a gateway group. If any optional field is not provided, the
-existing corresponding value is left unmodified.
+Updates the details of a gateway group. If any optional field is not provided, the existing corresponding value is left unmodified.
 
 ``` swift
 public func updateGatewayGroup(input: UpdateGatewayGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>) -> Void)

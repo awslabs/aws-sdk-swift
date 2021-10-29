@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "LakeFormationClient"
+```
+
 ## Methods
 
 ### `addLFTagsToResource(input:completion:)`
@@ -66,14 +74,10 @@ public func deleteLFTag(input: DeleteLFTagInput, completion: @escaping (ClientRu
 
 ### `deregisterResource(input:completion:)`
 
-Deregisters the resource as managed by the Data Catalog.
+Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
 
 ``` swift
 public func deregisterResource(input: DeregisterResourceInput, completion: @escaping (ClientRuntime.SdkResult<DeregisterResourceOutputResponse, DeregisterResourceOutputError>) -> Void)
-```
-
-``` 
-     When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
 ```
 
 ### `describeResource(input:completion:)`
@@ -94,8 +98,7 @@ public func getDataLakeSettings(input: GetDataLakeSettingsInput, completion: @es
 
 ### `getEffectivePermissionsForPath(input:completion:)`
 
-Returns the Lake Formation permissions for a specified table or database resource located
-at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
+Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
 
 ``` swift
 public func getEffectivePermissionsForPath(input: GetEffectivePermissionsForPathInput, completion: @escaping (ClientRuntime.SdkResult<GetEffectivePermissionsForPathOutputResponse, GetEffectivePermissionsForPathOutputError>) -> Void)
@@ -119,8 +122,7 @@ public func getResourceLFTags(input: GetResourceLFTagsInput, completion: @escapi
 
 ### `grantPermissions(input:completion:)`
 
-Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
-For information about permissions, see <a href="https:​//docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html">Security and Access Control to Metadata and Data.
+Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 
 ``` swift
 public func grantPermissions(input: GrantPermissionsInput, completion: @escaping (ClientRuntime.SdkResult<GrantPermissionsOutputResponse, GrantPermissionsOutputError>) -> Void)
@@ -136,9 +138,7 @@ public func listLFTags(input: ListLFTagsInput, completion: @escaping (ClientRunt
 
 ### `listPermissions(input:completion:)`
 
-Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
-This operation returns only those permissions that have been explicitly granted.
-For information about permissions, see <a href="https:​//docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html">Security and Access Control to Metadata and Data.
+Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 
 ``` swift
 public func listPermissions(input: ListPermissionsInput, completion: @escaping (ClientRuntime.SdkResult<ListPermissionsOutputResponse, ListPermissionsOutputError>) -> Void)
@@ -154,40 +154,18 @@ public func listResources(input: ListResourcesInput, completion: @escaping (Clie
 
 ### `putDataLakeSettings(input:completion:)`
 
-Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see <a href="https:​//docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html">Granting Lake Formation Permissions.
+Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html). This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
 
 ``` swift
 public func putDataLakeSettings(input: PutDataLakeSettingsInput, completion: @escaping (ClientRuntime.SdkResult<PutDataLakeSettingsOutputResponse, PutDataLakeSettingsOutputError>) -> Void)
 ```
 
-``` 
-        This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
-```
-
 ### `registerResource(input:completion:)`
 
-Registers the resource as managed by the Data Catalog.
+Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives AWS Lake Formation permission to use the service-linked role to access that location. ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn: arn:aws:iam::12345:role/my-data-access-role
 
 ``` swift
 public func registerResource(input: RegisterResourceInput, completion: @escaping (ClientRuntime.SdkResult<RegisterResourceOutputResponse, RegisterResourceOutputError>) -> Void)
-```
-
-``` 
-        To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy.
-
-     The following request registers a new location and gives AWS Lake Formation permission to use the service-linked role to access that location.
-
-
-        ResourceArn = arn:aws:s3:::my-bucket
-```
-
-UseServiceLinkedRole = true
-
-``` 
-        If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:
-
-
-        arn:aws:iam::12345:role/my-data-access-role
 ```
 
 ### `removeLFTagsFromResource(input:completion:)`

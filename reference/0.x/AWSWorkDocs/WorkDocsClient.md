@@ -22,14 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "WorkDocsClient"
+```
+
 ## Methods
 
 ### `abortDocumentVersionUpload(input:completion:)`
 
-Aborts the upload of the specified document version that was previously initiated
-by InitiateDocumentVersionUpload. The client should make this call
-only when it no longer intends to upload the document version, or fails to do
-so.
+Aborts the upload of the specified document version that was previously initiated by \[InitiateDocumentVersionUpload\]. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
 
 ``` swift
 public func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput, completion: @escaping (ClientRuntime.SdkResult<AbortDocumentVersionUploadOutputResponse, AbortDocumentVersionUploadOutputError>) -> Void)
@@ -37,8 +42,7 @@ public func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput, c
 
 ### `activateUser(input:completion:)`
 
-Activates the specified user. Only active users can access Amazon
-WorkDocs.
+Activates the specified user. Only active users can access Amazon WorkDocs.
 
 ``` swift
 public func activateUser(input: ActivateUserInput, completion: @escaping (ClientRuntime.SdkResult<ActivateUserOutputResponse, ActivateUserOutputError>) -> Void)
@@ -46,9 +50,7 @@ public func activateUser(input: ActivateUserInput, completion: @escaping (Client
 
 ### `addResourcePermissions(input:completion:)`
 
-Creates a set of permissions for the specified folder or document. The resource
-permissions are overwritten if the principals already have different
-permissions.
+Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
 
 ``` swift
 public func addResourcePermissions(input: AddResourcePermissionsInput, completion: @escaping (ClientRuntime.SdkResult<AddResourcePermissionsOutputResponse, AddResourcePermissionsOutputError>) -> Void)
@@ -64,8 +66,7 @@ public func createComment(input: CreateCommentInput, completion: @escaping (Clie
 
 ### `createCustomMetadata(input:completion:)`
 
-Adds one or more custom properties to the specified resource (a folder, document,
-or version).
+Adds one or more custom properties to the specified resource (a folder, document, or version).
 
 ``` swift
 public func createCustomMetadata(input: CreateCustomMetadataInput, completion: @escaping (ClientRuntime.SdkResult<CreateCustomMetadataOutputResponse, CreateCustomMetadataOutputError>) -> Void)
@@ -81,8 +82,7 @@ public func createFolder(input: CreateFolderInput, completion: @escaping (Client
 
 ### `createLabels(input:completion:)`
 
-Adds the specified list of labels to the given resource (a document or
-folder)
+Adds the specified list of labels to the given resource (a document or folder)
 
 ``` swift
 public func createLabels(input: CreateLabelsInput, completion: @escaping (ClientRuntime.SdkResult<CreateLabelsOutputResponse, CreateLabelsOutputError>) -> Void)
@@ -90,11 +90,7 @@ public func createLabels(input: CreateLabelsInput, completion: @escaping (Client
 
 ### `createNotificationSubscription(input:completion:)`
 
-Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a
-confirmation message, and must confirm the subscription.
-For more information, see <a href="https:​//docs.aws.amazon.com/workdocs/latest/developerguide/subscribe-notifications.html">Subscribe to
-Notifications in the Amazon WorkDocs Developer
-Guide.
+Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Subscribe to Notifications](https://docs.aws.amazon.com/workdocs/latest/developerguide/subscribe-notifications.html) in the Amazon WorkDocs Developer Guide.
 
 ``` swift
 public func createNotificationSubscription(input: CreateNotificationSubscriptionInput, completion: @escaping (ClientRuntime.SdkResult<CreateNotificationSubscriptionOutputResponse, CreateNotificationSubscriptionOutputError>) -> Void)
@@ -102,8 +98,7 @@ public func createNotificationSubscription(input: CreateNotificationSubscription
 
 ### `createUser(input:completion:)`
 
-Creates a user in a Simple AD or Microsoft AD directory. The status of a newly
-created user is "ACTIVE". New users can access Amazon WorkDocs.
+Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
 
 ``` swift
 public func createUser(input: CreateUserInput, completion: @escaping (ClientRuntime.SdkResult<CreateUserOutputResponse, CreateUserOutputError>) -> Void)
@@ -111,8 +106,7 @@ public func createUser(input: CreateUserInput, completion: @escaping (ClientRunt
 
 ### `deactivateUser(input:completion:)`
 
-Deactivates the specified user, which revokes the user's access to Amazon
-WorkDocs.
+Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
 
 ``` swift
 public func deactivateUser(input: DeactivateUserInput, completion: @escaping (ClientRuntime.SdkResult<DeactivateUserOutputResponse, DeactivateUserOutputError>) -> Void)
@@ -200,8 +194,7 @@ public func describeComments(input: DescribeCommentsInput, completion: @escaping
 
 ### `describeDocumentVersions(input:completion:)`
 
-Retrieves the document versions for the specified document.
-By default, only active versions are returned.
+Retrieves the document versions for the specified document. By default, only active versions are returned.
 
 ``` swift
 public func describeDocumentVersions(input: DescribeDocumentVersionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeDocumentVersionsOutputResponse, DescribeDocumentVersionsOutputError>) -> Void)
@@ -209,12 +202,7 @@ public func describeDocumentVersions(input: DescribeDocumentVersionsInput, compl
 
 ### `describeFolderContents(input:completion:)`
 
-Describes the contents of the specified folder, including its documents and
-subfolders.
-By default, Amazon WorkDocs returns the first 100 active document and folder
-metadata items. If there are more results, the response includes a marker that you can
-use to request the next set of results. You can also request initialized
-documents.
+Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
 
 ``` swift
 public func describeFolderContents(input: DescribeFolderContentsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFolderContentsOutputResponse, DescribeFolderContentsOutputError>) -> Void)
@@ -222,8 +210,7 @@ public func describeFolderContents(input: DescribeFolderContentsInput, completio
 
 ### `describeGroups(input:completion:)`
 
-Describes the groups specified by the query. Groups are defined by the underlying
-Active Directory.
+Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
 
 ``` swift
 public func describeGroups(input: DescribeGroupsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeGroupsOutputResponse, DescribeGroupsOutputError>) -> Void)
@@ -247,15 +234,7 @@ public func describeResourcePermissions(input: DescribeResourcePermissionsInput,
 
 ### `describeRootFolders(input:completion:)`
 
-Describes the current user's special folders; the RootFolder and the
-RecycleBin. RootFolder is the root of user's files and
-folders and RecycleBin is the root of recycled items. This is not a valid
-action for SigV4 (administrative API) clients.
-This action requires an authentication token. To get an authentication token,
-register an application with Amazon WorkDocs. For more information, see <a href="https:​//docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html">Authentication and Access
-Control for User Applications in the
-Amazon
-WorkDocs Developer Guide.
+Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
 
 ``` swift
 public func describeRootFolders(input: DescribeRootFoldersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRootFoldersOutputResponse, DescribeRootFoldersOutputError>) -> Void)
@@ -263,11 +242,7 @@ public func describeRootFolders(input: DescribeRootFoldersInput, completion: @es
 
 ### `describeUsers(input:completion:)`
 
-Describes the specified users. You can describe all users or filter the results
-(for example, by status or organization).
-By default, Amazon WorkDocs returns the first 24 active or pending users. If there
-are more results, the response includes a marker that you can use to request the next
-set of results.
+Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
 
 ``` swift
 public func describeUsers(input: DescribeUsersInput, completion: @escaping (ClientRuntime.SdkResult<DescribeUsersOutputResponse, DescribeUsersOutputError>) -> Void)
@@ -275,13 +250,7 @@ public func describeUsers(input: DescribeUsersInput, completion: @escaping (Clie
 
 ### `getCurrentUser(input:completion:)`
 
-Retrieves details of the current user for whom the authentication token was
-generated. This is not a valid action for SigV4 (administrative API) clients.
-This action requires an authentication token. To get an authentication token,
-register an application with Amazon WorkDocs. For more information, see <a href="https:​//docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html">Authentication and Access
-Control for User Applications in the
-Amazon
-WorkDocs Developer Guide.
+Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
 
 ``` swift
 public func getCurrentUser(input: GetCurrentUserInput, completion: @escaping (ClientRuntime.SdkResult<GetCurrentUserOutputResponse, GetCurrentUserOutputError>) -> Void)
@@ -297,12 +266,7 @@ public func getDocument(input: GetDocumentInput, completion: @escaping (ClientRu
 
 ### `getDocumentPath(input:completion:)`
 
-Retrieves the path information (the hierarchy from the root folder) for the
-requested document.
-By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the
-requested document and only includes the IDs of the parent folders in the path. You can
-limit the maximum number of levels. You can also request the names of the parent
-folders.
+Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
 
 ``` swift
 public func getDocumentPath(input: GetDocumentPathInput, completion: @escaping (ClientRuntime.SdkResult<GetDocumentPathOutputResponse, GetDocumentPathOutputError>) -> Void)
@@ -326,12 +290,7 @@ public func getFolder(input: GetFolderInput, completion: @escaping (ClientRuntim
 
 ### `getFolderPath(input:completion:)`
 
-Retrieves the path information (the hierarchy from the root folder) for the
-specified folder.
-By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the
-requested folder and only includes the IDs of the parent folders in the path. You can
-limit the maximum number of levels. You can also request the parent folder
-names.
+Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
 
 ``` swift
 public func getFolderPath(input: GetFolderPathInput, completion: @escaping (ClientRuntime.SdkResult<GetFolderPathOutputResponse, GetFolderPathOutputError>) -> Void)
@@ -339,8 +298,7 @@ public func getFolderPath(input: GetFolderPathInput, completion: @escaping (Clie
 
 ### `getResources(input:completion:)`
 
-Retrieves a collection of resources, including folders and documents. The only
-CollectionType supported is SHARED\_WITH\_ME.
+Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED\_WITH\_ME.
 
 ``` swift
 public func getResources(input: GetResourcesInput, completion: @escaping (ClientRuntime.SdkResult<GetResourcesOutputResponse, GetResourcesOutputError>) -> Void)
@@ -348,12 +306,7 @@ public func getResources(input: GetResourcesInput, completion: @escaping (Client
 
 ### `initiateDocumentVersionUpload(input:completion:)`
 
-Creates a new document object and version object.
-The client specifies the parent folder ID and name of the document to upload. The
-ID is optionally specified when creating a new version of an existing document. This is
-the first step to upload a document. Next, upload the document to the URL returned from
-the call, and then call UpdateDocumentVersion.
-To cancel the document upload, call AbortDocumentVersionUpload.
+Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call \[UpdateDocumentVersion\]. To cancel the document upload, call \[AbortDocumentVersionUpload\].
 
 ``` swift
 public func initiateDocumentVersionUpload(input: InitiateDocumentVersionUploadInput, completion: @escaping (ClientRuntime.SdkResult<InitiateDocumentVersionUploadOutputResponse, InitiateDocumentVersionUploadOutputError>) -> Void)
@@ -369,8 +322,7 @@ public func removeAllResourcePermissions(input: RemoveAllResourcePermissionsInpu
 
 ### `removeResourcePermission(input:completion:)`
 
-Removes the permission for the specified principal from the specified
-resource.
+Removes the permission for the specified principal from the specified resource.
 
 ``` swift
 public func removeResourcePermission(input: RemoveResourcePermissionInput, completion: @escaping (ClientRuntime.SdkResult<RemoveResourcePermissionOutputResponse, RemoveResourcePermissionOutputError>) -> Void)
@@ -378,8 +330,7 @@ public func removeResourcePermission(input: RemoveResourcePermissionInput, compl
 
 ### `updateDocument(input:completion:)`
 
-Updates the specified attributes of a document. The user must have access to both
-the document and its parent folder, if applicable.
+Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
 
 ``` swift
 public func updateDocument(input: UpdateDocumentInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDocumentOutputResponse, UpdateDocumentOutputError>) -> Void)
@@ -387,10 +338,7 @@ public func updateDocument(input: UpdateDocumentInput, completion: @escaping (Cl
 
 ### `updateDocumentVersion(input:completion:)`
 
-Changes the status of the document version to ACTIVE.
-Amazon WorkDocs also sets its document container to ACTIVE. This is the last step
-in a document upload, after the client uploads the document to an S3-presigned URL
-returned by InitiateDocumentVersionUpload.
+Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by \[InitiateDocumentVersionUpload\].
 
 ``` swift
 public func updateDocumentVersion(input: UpdateDocumentVersionInput, completion: @escaping (ClientRuntime.SdkResult<UpdateDocumentVersionOutputResponse, UpdateDocumentVersionOutputError>) -> Void)
@@ -398,8 +346,7 @@ public func updateDocumentVersion(input: UpdateDocumentVersionInput, completion:
 
 ### `updateFolder(input:completion:)`
 
-Updates the specified attributes of the specified folder. The user must have access
-to both the folder and its parent folder, if applicable.
+Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
 
 ``` swift
 public func updateFolder(input: UpdateFolderInput, completion: @escaping (ClientRuntime.SdkResult<UpdateFolderOutputResponse, UpdateFolderOutputError>) -> Void)
@@ -407,8 +354,7 @@ public func updateFolder(input: UpdateFolderInput, completion: @escaping (Client
 
 ### `updateUser(input:completion:)`
 
-Updates the specified attributes of the specified user, and grants or revokes
-administrative privileges to the Amazon WorkDocs site.
+Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
 
 ``` swift
 public func updateUser(input: UpdateUserInput, completion: @escaping (ClientRuntime.SdkResult<UpdateUserOutputResponse, UpdateUserOutputError>) -> Void)

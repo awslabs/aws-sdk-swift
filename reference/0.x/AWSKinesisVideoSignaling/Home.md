@@ -8,6 +8,4 @@
 # Protocols
 
   - [KinesisVideoSignalingClientProtocol](/aws-sdk-swift/reference/0.x/AWSKinesisVideoSignaling/KinesisVideoSignalingClientProtocol):
-    Kinesis Video Streams Signaling Service is a intermediate service that establishes a
-    communication channel for discovering peers, transmitting offers and answers in order to
-    establish peer-to-peer connection in webRTC technology.
+    Kinesis Video Streams Signaling Service is a intermediate service that establishes a communication channel for discovering peers, transmitting offers and answers in order to establish peer-to-peer connection in webRTC technology.

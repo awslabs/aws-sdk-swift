@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ShieldClient"
+```
+
 ## Methods
 
 ### `associateDRTLogBucket(input:completion:)`
 
-Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription.
-To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the <a href="https:​//aws.amazon.com/premiumsupport/business-support/">Business Support plan or the <a href="https:​//aws.amazon.com/premiumsupport/enterprise-support/">Enterprise Support plan.
+Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the [Business Support plan](https://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](https://aws.amazon.com/premiumsupport/enterprise-support/).
 
 ``` swift
 public func associateDRTLogBucket(input: AssociateDRTLogBucketInput, completion: @escaping (ClientRuntime.SdkResult<AssociateDRTLogBucketOutputResponse, AssociateDRTLogBucketOutputError>) -> Void)
@@ -35,24 +42,15 @@ public func associateDRTLogBucket(input: AssociateDRTLogBucketInput, completion:
 
 ### `associateDRTRole(input:completion:)`
 
-Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs.
-You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn.
-Prior to making the AssociateDRTRole request, you must attach the <a href="https:​//console.aws.amazon.com/iam/home?#/policies/arn:​aws:​iam:​:​aws:​policy/service-role/AWSShieldDRTAccessPolicy">AWSShieldDRTAccessPolicy managed policy to the role you will specify in the request. For more information see <a href=" https:​//docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html">Attaching and Detaching IAM Policies. The role must also trust the service principal  drt.shield.amazonaws.com. For more information, see <a href="https:​//docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">IAM JSON Policy Elements:​ Principal.
+Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn. Prior to making the AssociateDRTRole request, you must attach the [AWSShieldDRTAccessPolicy](https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy) managed policy to the role you will specify in the request. For more information see [Attaching and Detaching IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html). The role must also trust the service principal  drt.shield.amazonaws.com. For more information, see [IAM JSON Policy Elements: Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html). The SRT will have access only to your WAF and Shield resources. By submitting this request, you authorize the SRT to inspect your WAF and Shield configuration and create and update WAF rules and web ACLs on your behalf. The SRT takes these actions only if explicitly authorized by you. You must have the iam:PassRole permission to make an AssociateDRTRole request. For more information, see [Granting a User Permissions to Pass a Role to an Amazon Web Services Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html). To use the services of the SRT and make an AssociateDRTRole request, you must be subscribed to the [Business Support plan](https://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](https://aws.amazon.com/premiumsupport/enterprise-support/).
 
 ``` swift
 public func associateDRTRole(input: AssociateDRTRoleInput, completion: @escaping (ClientRuntime.SdkResult<AssociateDRTRoleOutputResponse, AssociateDRTRoleOutputError>) -> Void)
 ```
 
-``` 
-     The SRT will have access only to your WAF and Shield resources. By submitting this request, you authorize the SRT to inspect your WAF and Shield configuration and create and update WAF rules and web ACLs on your behalf. The SRT takes these actions only if explicitly authorized by you.
-     You must have the iam:PassRole permission to make an AssociateDRTRole request. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">Granting a User Permissions to Pass a Role to an Amazon Web Services Service.
-     To use the services of the SRT and make an AssociateDRTRole request, you must be subscribed to the <a href="https://aws.amazon.com/premiumsupport/business-support/">Business Support plan or the <a href="https://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise Support plan.
-```
-
 ### `associateHealthCheck(input:completion:)`
 
-Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and mitigation.
-You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see <a href="https:​//docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option">Shield Advanced Health-Based Detection in the WAF Developer Guide.
+Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and mitigation. You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see [Shield Advanced Health-Based Detection](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option) in the WAF Developer Guide.
 
 ``` swift
 public func associateHealthCheck(input: AssociateHealthCheckInput, completion: @escaping (ClientRuntime.SdkResult<AssociateHealthCheckOutputResponse, AssociateHealthCheckOutputError>) -> Void)
@@ -60,22 +58,15 @@ public func associateHealthCheck(input: AssociateHealthCheckInput, completion: @
 
 ### `associateProactiveEngagementDetails(input:completion:)`
 
-Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list.
-After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement.
+Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement. This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to initiate proactive customer support. The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it to this call.
 
 ``` swift
 public func associateProactiveEngagementDetails(input: AssociateProactiveEngagementDetailsInput, completion: @escaping (ClientRuntime.SdkResult<AssociateProactiveEngagementDetailsOutputResponse, AssociateProactiveEngagementDetailsOutputError>) -> Void)
 ```
 
-``` 
-        This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to initiate proactive customer support.
-        The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it to this call.
-```
-
 ### `createProtection(input:completion:)`
 
-Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, Global Accelerator accelerator, Elastic IP Address, or an Amazon Route 53 hosted zone.
-You can add protection to only a single resource with each CreateProtection request. If you want to add protection to multiple resources at once, use the <a href="https:​//console.aws.amazon.com/waf/">WAF console. For more information see <a href="https:​//docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html">Getting Started with Shield Advanced and <a href="https:​//docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html">Add Shield Advanced Protection to more Amazon Web Services Resources.
+Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, Global Accelerator accelerator, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection to only a single resource with each CreateProtection request. If you want to add protection to multiple resources at once, use the [WAF console](https://console.aws.amazon.com/waf/). For more information see [Getting Started with Shield Advanced](https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html) and [Add Shield Advanced Protection to more Amazon Web Services Resources](https://docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html).
 
 ``` swift
 public func createProtection(input: CreateProtectionInput, completion: @escaping (ClientRuntime.SdkResult<CreateProtectionOutputResponse, CreateProtectionOutputError>) -> Void)
@@ -91,19 +82,15 @@ public func createProtectionGroup(input: CreateProtectionGroupInput, completion:
 
 ### `createSubscription(input:completion:)`
 
-Activates Shield Advanced for an account.
+Activates Shield Advanced for an account. When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request.
 
 ``` swift
 public func createSubscription(input: CreateSubscriptionInput, completion: @escaping (ClientRuntime.SdkResult<CreateSubscriptionOutputResponse, CreateSubscriptionOutputError>) -> Void)
 ```
 
-``` 
-     When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period.  You can change this by submitting an UpdateSubscription request.
-```
-
 ### `deleteProtection(input:completion:)`
 
-Deletes an Shield Advanced Protection.
+Deletes an Shield Advanced \[Protection\].
 
 ``` swift
 public func deleteProtection(input: DeleteProtectionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteProtectionOutputResponse, DeleteProtectionOutputError>) -> Void)
@@ -136,9 +123,7 @@ public func describeAttack(input: DescribeAttackInput, completion: @escaping (Cl
 
 ### `describeAttackStatistics(input:completion:)`
 
-Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers.
-The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:​39:​32 PDT, equal to 2020-10-26 22:​39:​32 UTC, then the time range for the attack data returned is from 2019-10-26 00:​00:​00 UTC to 2020-10-26 00:​00:​00 UTC.
-The time range indicates the period covered by the attack statistics data items.
+Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC. The time range indicates the period covered by the attack statistics data items.
 
 ``` swift
 public func describeAttackStatistics(input: DescribeAttackStatisticsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAttackStatisticsOutputResponse, DescribeAttackStatisticsOutputError>) -> Void)
@@ -162,7 +147,7 @@ public func describeEmergencyContactSettings(input: DescribeEmergencyContactSett
 
 ### `describeProtection(input:completion:)`
 
-Lists the details of a Protection object.
+Lists the details of a \[Protection\] object.
 
 ``` swift
 public func describeProtection(input: DescribeProtectionInput, completion: @escaping (ClientRuntime.SdkResult<DescribeProtectionOutputResponse, DescribeProtectionOutputError>) -> Void)
@@ -194,8 +179,7 @@ public func disableProactiveEngagement(input: DisableProactiveEngagementInput, c
 
 ### `disassociateDRTLogBucket(input:completion:)`
 
-Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
-To make a DisassociateDRTLogBucket request, you must be subscribed to the <a href="https:​//aws.amazon.com/premiumsupport/business-support/">Business Support plan or the <a href="https:​//aws.amazon.com/premiumsupport/enterprise-support/">Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the SRT access to your account, you can submit a DisassociateDRTLogBucket request to remove this access.
+Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously. To make a DisassociateDRTLogBucket request, you must be subscribed to the [Business Support plan](https://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](https://aws.amazon.com/premiumsupport/enterprise-support/). However, if you are not subscribed to one of these support plans, but had been previously and had granted the SRT access to your account, you can submit a DisassociateDRTLogBucket request to remove this access.
 
 ``` swift
 public func disassociateDRTLogBucket(input: DisassociateDRTLogBucketInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateDRTLogBucketOutputResponse, DisassociateDRTLogBucketOutputError>) -> Void)
@@ -203,8 +187,7 @@ public func disassociateDRTLogBucket(input: DisassociateDRTLogBucketInput, compl
 
 ### `disassociateDRTRole(input:completion:)`
 
-Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
-To make a DisassociateDRTRole request, you must be subscribed to the <a href="https:​//aws.amazon.com/premiumsupport/business-support/">Business Support plan or the <a href="https:​//aws.amazon.com/premiumsupport/enterprise-support/">Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the SRT access to your account, you can submit a DisassociateDRTRole request to remove this access.
+Removes the Shield Response Team's (SRT) access to your Amazon Web Services account. To make a DisassociateDRTRole request, you must be subscribed to the [Business Support plan](https://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](https://aws.amazon.com/premiumsupport/enterprise-support/). However, if you are not subscribed to one of these support plans, but had been previously and had granted the SRT access to your account, you can submit a DisassociateDRTRole request to remove this access.
 
 ``` swift
 public func disassociateDRTRole(input: DisassociateDRTRoleInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateDRTRoleOutputResponse, DisassociateDRTRoleOutputError>) -> Void)
@@ -212,8 +195,7 @@ public func disassociateDRTRole(input: DisassociateDRTRoleInput, completion: @es
 
 ### `disassociateHealthCheck(input:completion:)`
 
-Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and mitigation.
-You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see <a href="https:​//docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option">Shield Advanced Health-Based Detection in the WAF Developer Guide.
+Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and mitigation. You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see [Shield Advanced Health-Based Detection](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option) in the WAF Developer Guide.
 
 ``` swift
 public func disassociateHealthCheck(input: DisassociateHealthCheckInput, completion: @escaping (ClientRuntime.SdkResult<DisassociateHealthCheckOutputResponse, DisassociateHealthCheckOutputError>) -> Void)
@@ -237,8 +219,7 @@ public func getSubscriptionState(input: GetSubscriptionStateInput, completion: @
 
 ### `listAttacks(input:completion:)`
 
-Returns all ongoing DDoS attacks or all DDoS attacks during a specified time
-period.
+Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
 
 ``` swift
 public func listAttacks(input: ListAttacksInput, completion: @escaping (ClientRuntime.SdkResult<ListAttacksOutputResponse, ListAttacksOutputError>) -> Void)
@@ -246,7 +227,7 @@ public func listAttacks(input: ListAttacksInput, completion: @escaping (ClientRu
 
 ### `listProtectionGroups(input:completion:)`
 
-Retrieves the ProtectionGroup objects for the account.
+Retrieves the \[ProtectionGroup\] objects for the account.
 
 ``` swift
 public func listProtectionGroups(input: ListProtectionGroupsInput, completion: @escaping (ClientRuntime.SdkResult<ListProtectionGroupsOutputResponse, ListProtectionGroupsOutputError>) -> Void)
@@ -254,7 +235,7 @@ public func listProtectionGroups(input: ListProtectionGroupsInput, completion: @
 
 ### `listProtections(input:completion:)`
 
-Lists all Protection objects for the account.
+Lists all \[Protection\] objects for the account.
 
 ``` swift
 public func listProtections(input: ListProtectionsInput, completion: @escaping (ClientRuntime.SdkResult<ListProtectionsOutputResponse, ListProtectionsOutputError>) -> Void)

@@ -8,37 +8,28 @@ public protocol TranscribeStreamingClientProtocol
 
 ## Requirements
 
-### startMedicalStreamTranscription(input:​completion:​)
+### startMedicalStreamTranscription(input:completion:)
 
-Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe Medical and the
-transcription results are streamed to your application.
+Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe Medical and the transcription results are streamed to your application.
 
 ``` swift
 func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput, completion: @escaping (ClientRuntime.SdkResult<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>) -> Void)
 ```
 
-### startStreamTranscription(input:​completion:​)
+### startStreamTranscription(input:completion:)
 
-Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe and the transcription
-results are streamed to your application.
-The following are encoded as HTTP/2 headers:​
+Starts a bidirectional HTTP/2 stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following are encoded as HTTP/2 headers:
 
 ``` swift
 func startStreamTranscription(input: StartStreamTranscriptionInput, completion: @escaping (ClientRuntime.SdkResult<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>) -> Void)
 ```
 
-``` 
-           x-amzn-transcribe-language-code
+  - x-amzn-transcribe-language-code
 
+  - x-amzn-transcribe-media-encoding
 
-           x-amzn-transcribe-media-encoding
+  - x-amzn-transcribe-sample-rate
 
+  - x-amzn-transcribe-session-id
 
-           x-amzn-transcribe-sample-rate
-
-
-           x-amzn-transcribe-session-id
-
-
-     See the <a href="https://docs.aws.amazon.com/sdk-for-go/api/service/transcribestreamingservice/#TranscribeStreamingService.StartStreamTranscription"> SDK for Go API Reference for more detail.
-```
+See the [ SDK for Go API Reference](https://docs.aws.amazon.com/sdk-for-go/api/service/transcribestreamingservice/#TranscribeStreamingService.StartStreamTranscription) for more detail.

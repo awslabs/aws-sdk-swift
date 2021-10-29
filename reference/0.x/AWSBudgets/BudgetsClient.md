@@ -22,18 +22,22 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "BudgetsClient"
+```
+
 ## Methods
 
 ### `createBudget(input:completion:)`
 
-Creates a budget and, if included, notifications and subscribers.
+Creates a budget and, if included, notifications and subscribers. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples) section.
 
 ``` swift
 public func createBudget(input: CreateBudgetInput, completion: @escaping (ClientRuntime.SdkResult<CreateBudgetOutputResponse, CreateBudgetOutputError>) -> Void)
-```
-
-``` 
-		         Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples">Examples section.
 ```
 
 ### `createBudgetAction(input:completion:)`
@@ -62,14 +66,10 @@ public func createSubscriber(input: CreateSubscriberInput, completion: @escaping
 
 ### `deleteBudget(input:completion:)`
 
-Deletes a budget. You can delete your budget at any time.
+Deletes a budget. You can delete your budget at any time. Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
 
 ``` swift
 public func deleteBudget(input: DeleteBudgetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteBudgetOutputResponse, DeleteBudgetOutputError>) -> Void)
-```
-
-``` 
-		         Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
 ```
 
 ### `deleteBudgetAction(input:completion:)`
@@ -82,38 +82,26 @@ public func deleteBudgetAction(input: DeleteBudgetActionInput, completion: @esca
 
 ### `deleteNotification(input:completion:)`
 
-Deletes a notification.
+Deletes a notification. Deleting a notification also deletes the subscribers that are associated with the notification.
 
 ``` swift
 public func deleteNotification(input: DeleteNotificationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteNotificationOutputResponse, DeleteNotificationOutputError>) -> Void)
 ```
 
-``` 
-		         Deleting a notification also deletes the subscribers that are associated with the notification.
-```
-
 ### `deleteSubscriber(input:completion:)`
 
-Deletes a subscriber.
+Deletes a subscriber. Deleting the last subscriber to a notification also deletes the notification.
 
 ``` swift
 public func deleteSubscriber(input: DeleteSubscriberInput, completion: @escaping (ClientRuntime.SdkResult<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>) -> Void)
 ```
 
-``` 
-		         Deleting the last subscriber to a notification also deletes the notification.
-```
-
 ### `describeBudget(input:completion:)`
 
-Describes a budget.
+Describes a budget. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples) section.
 
 ``` swift
 public func describeBudget(input: DescribeBudgetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeBudgetOutputResponse, DescribeBudgetOutputError>) -> Void)
-```
-
-``` 
-		         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples">Examples section.
 ```
 
 ### `describeBudgetAction(input:completion:)`
@@ -158,14 +146,10 @@ public func describeBudgetPerformanceHistory(input: DescribeBudgetPerformanceHis
 
 ### `describeBudgets(input:completion:)`
 
-Lists the budgets that are associated with an account.
+Lists the budgets that are associated with an account. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples) section.
 
 ``` swift
 public func describeBudgets(input: DescribeBudgetsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeBudgetsOutputResponse, DescribeBudgetsOutputError>) -> Void)
-```
-
-``` 
-		         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples">Examples section.
 ```
 
 ### `describeNotificationsForBudget(input:completion:)`
@@ -194,14 +178,10 @@ public func executeBudgetAction(input: ExecuteBudgetActionInput, completion: @es
 
 ### `updateBudget(input:completion:)`
 
-Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting.
+Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples) section.
 
 ``` swift
 public func updateBudget(input: UpdateBudgetInput, completion: @escaping (ClientRuntime.SdkResult<UpdateBudgetOutputResponse, UpdateBudgetOutputError>) -> Void)
-```
-
-``` 
-		         Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples">Examples section.
 ```
 
 ### `updateBudgetAction(input:completion:)`

@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ChimeClient"
+```
+
 ## Methods
 
 ### `associatePhoneNumberWithUser(input:completion:)`
@@ -58,10 +66,7 @@ public func associateSigninDelegateGroupsWithAccount(input: AssociateSigninDeleg
 
 ### `batchCreateAttendee(input:completion:)`
 
-Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the
-Amazon Chime Developer Guide.
+Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
 
 ``` swift
 public func batchCreateAttendee(input: BatchCreateAttendeeInput, completion: @escaping (ClientRuntime.SdkResult<BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>) -> Void)
@@ -85,62 +90,31 @@ public func batchCreateRoomMembership(input: BatchCreateRoomMembershipInput, com
 
 ### `batchDeletePhoneNumber(input:completion:)`
 
-Moves phone numbers into the
-Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted.
+Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
 
 ``` swift
 public func batchDeletePhoneNumber(input: BatchDeletePhoneNumberInput, completion: @escaping (ClientRuntime.SdkResult<BatchDeletePhoneNumberOutputResponse, BatchDeletePhoneNumberOutputError>) -> Void)
 ```
 
-Phone numbers remain in the
-Deletion queue for 7 days before they are deleted permanently.
-
 ### `batchSuspendUser(input:completion:)`
 
-Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime
-account. For more information about different account types, see <a href="https:​//docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html">Managing Your Amazon Chime Accounts in the Amazon Chime Administration
-Guide.
+Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the \[InviteUsers\] action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the \[BatchUnsuspendUser\] action. To sign out users without suspending them, use the \[LogoutUser\] action.
 
 ``` swift
 public func batchSuspendUser(input: BatchSuspendUserInput, completion: @escaping (ClientRuntime.SdkResult<BatchSuspendUserOutputResponse, BatchSuspendUserOutputError>) -> Void)
 ```
 
-``` 
-     Users suspended from a Team account are disassociated from the account,but they
-        can continue to use Amazon Chime as free users. To remove the suspension from suspended
-            Team account users, invite them to the Team account again.
-        You can use the InviteUsers action to do so.
-
-     Users suspended from an EnterpriseLWA account are immediately signed out of
-        Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the BatchUnsuspendUser action.
-```
-
-To sign out users without suspending them, use the
-LogoutUser
-action.
-
 ### `batchUnsuspendUser(input:completion:)`
 
-Removes the suspension from up to 50 previously suspended users for the specified Amazon
-Chime EnterpriseLWA account. Only users on EnterpriseLWA
-accounts can be unsuspended using this action. For more information about different account types, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html">
-Managing Your Amazon Chime Accounts
-in the account types, in the Amazon Chime Administration Guide.
+Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see [ Managing Your Amazon Chime Accounts ](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the account types, in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
 
 ``` swift
 public func batchUnsuspendUser(input: BatchUnsuspendUserInput, completion: @escaping (ClientRuntime.SdkResult<BatchUnsuspendUserOutputResponse, BatchUnsuspendUserOutputError>) -> Void)
 ```
 
-Previously suspended users who are unsuspended using this action are returned to
-Registered
-status. Users who are not previously suspended are ignored.
-
 ### `batchUpdatePhoneNumber(input:completion:)`
 
-Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name.
-For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
-Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
 
 ``` swift
 public func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput, completion: @escaping (ClientRuntime.SdkResult<BatchUpdatePhoneNumberOutputResponse, BatchUpdatePhoneNumberOutputError>) -> Void)
@@ -148,7 +122,7 @@ public func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput, completio
 
 ### `batchUpdateUser(input:completion:)`
 
-Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
+Updates user details within the \[UpdateUserRequestItem\] object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
 
 ``` swift
 public func batchUpdateUser(input: BatchUpdateUserInput, completion: @escaping (ClientRuntime.SdkResult<BatchUpdateUserOutputResponse, BatchUpdateUserOutputError>) -> Void)
@@ -156,9 +130,7 @@ public func batchUpdateUser(input: BatchUpdateUserInput, completion: @escaping (
 
 ### `createAccount(input:completion:)`
 
-Creates an Amazon Chime account under the administrator's AWS account. Only Team
-account types are currently supported for this action. For more information about different account types, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html">Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
+Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide.
 
 ``` swift
 public func createAccount(input: CreateAccountInput, completion: @escaping (ClientRuntime.SdkResult<CreateAccountOutputResponse, CreateAccountOutputError>) -> Void)
@@ -166,8 +138,7 @@ public func createAccount(input: CreateAccountInput, completion: @escaping (Clie
 
 ### `createAppInstance(input:completion:)`
 
-Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API.
-CreateAppInstance supports idempotency behavior as described in the AWS API Standard.
+Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard.
 
 ``` swift
 public func createAppInstance(input: CreateAppInstanceInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppInstanceOutputResponse, CreateAppInstanceOutputError>) -> Void)
@@ -181,22 +152,15 @@ Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perfor
 public func createAppInstanceAdmin(input: CreateAppInstanceAdminInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppInstanceAdminOutputResponse, CreateAppInstanceAdminOutputError>) -> Void)
 ```
 
-``` 
-              ChannelModerator actions across all channels in the AppInstance.
+  - ChannelModerator actions across all channels in the AppInstance.
 
+  - DeleteChannelMessage actions.
 
-
-              DeleteChannelMessage actions.
-
-
-
-     Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
-```
+Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
 
 ### `createAppInstanceUser(input:completion:)`
 
-Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and
-Name for that user.
+Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
 
 ``` swift
 public func createAppInstanceUser(input: CreateAppInstanceUserInput, completion: @escaping (ClientRuntime.SdkResult<CreateAppInstanceUserOutputResponse, CreateAppInstanceUserOutputError>) -> Void)
@@ -204,10 +168,7 @@ public func createAppInstanceUser(input: CreateAppInstanceUserInput, completion:
 
 ### `createAttendee(input:completion:)`
 
-Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the
-Amazon Chime Developer Guide.
+Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
 
 ``` swift
 public func createAttendee(input: CreateAttendeeInput, completion: @escaping (ClientRuntime.SdkResult<CreateAttendeeOutputResponse, CreateAttendeeOutputError>) -> Void)
@@ -223,115 +184,65 @@ public func createBot(input: CreateBotInput, completion: @escaping (ClientRuntim
 
 ### `createChannel(input:completion:)`
 
-Creates a channel to which you can add users and send messages.
+Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func createChannel(input: CreateChannelInput, completion: @escaping (ClientRuntime.SdkResult<CreateChannelOutputResponse, CreateChannelOutputError>) -> Void)
 ```
 
-``` 
-        Restriction: You can't change a channel's
-     privacy.
-
-
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `createChannelBan(input:completion:)`
 
-Permanently bans a member from a channel. Moderators can't add banned members to a
-channel. To undo a ban, you first have to DeleteChannelBan, and then
-CreateChannelMembership. Bans are cleaned up when you delete users or
-channels.
-If you ban a user who is already part of a channel, that user is automatically kicked
-from the channel.
+Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func createChannelBan(input: CreateChannelBanInput, completion: @escaping (ClientRuntime.SdkResult<CreateChannelBanOutputResponse, CreateChannelBanOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `createChannelMembership(input:completion:)`
 
-Adds a user to a channel. The InvitedBy response field is derived from the
-request header. A channel member can:​
+Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:
 
 ``` swift
 public func createChannelMembership(input: CreateChannelMembershipInput, completion: @escaping (ClientRuntime.SdkResult<CreateChannelMembershipOutputResponse, CreateChannelMembershipOutputError>) -> Void)
 ```
 
-``` 
-           List messages
+  - List messages
 
+  - Send messages
 
-           Send messages
+  - Receive messages
 
+  - Edit their own messages
 
-           Receive messages
+  - Leave the channel
 
+Privacy settings impact this action as follows:
 
-           Edit their own messages
+  - Public Channels: You do not need to be a member to list messages, but you must be a member to send messages.
 
+  - Private Channels: You must be a member to list or send messages.
 
-           Leave the channel
-
-
-
-     Privacy settings impact this action as follows:
-
-
-
-           Public Channels: You do not need to be a member to list messages, but you must be
-           a member to send messages.
-
-
-           Private Channels: You must be a member to list or send messages.
-
-
-
-
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
+The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ### `createChannelModerator(input:completion:)`
 
-Creates a new ChannelModerator. A channel moderator can:​
+Creates a new ChannelModerator. A channel moderator can:
 
 ``` swift
 public func createChannelModerator(input: CreateChannelModeratorInput, completion: @escaping (ClientRuntime.SdkResult<CreateChannelModeratorOutputResponse, CreateChannelModeratorOutputError>) -> Void)
 ```
 
-``` 
-           Add and remove other members of the channel.
+  - Add and remove other members of the channel.
 
+  - Add and remove other moderators of the channel.
 
-           Add and remove other moderators of the channel.
+  - Add and remove user bans for the channel.
 
+  - Redact messages in the channel.
 
-           Add and remove user bans for the channel.
+  - List messages in the channel.
 
-
-           Redact messages in the channel.
-
-
-           List messages in the channel.
-
-
-
-
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
+The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ### `createMediaCapturePipeline(input:completion:)`
 
@@ -343,15 +254,7 @@ public func createMediaCapturePipeline(input: CreateMediaCapturePipelineInput, c
 
 ### `createMeeting(input:completion:)`
 
-Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon Chime SDK Media Regions
-in the
-Amazon Chime Developer Guide
-. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the
-Amazon Chime Developer Guide
-.
+Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
 
 ``` swift
 public func createMeeting(input: CreateMeetingInput, completion: @escaping (ClientRuntime.SdkResult<CreateMeetingOutputResponse, CreateMeetingOutputError>) -> Void)
@@ -359,30 +262,15 @@ public func createMeeting(input: CreateMeetingInput, completion: @escaping (Clie
 
 ### `createMeetingDialOut(input:completion:)`
 
-Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public
-switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer.
+Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID.
 
 ``` swift
 public func createMeetingDialOut(input: CreateMeetingDialOutInput, completion: @escaping (ClientRuntime.SdkResult<CreateMeetingDialOutOutputResponse, CreateMeetingDialOutOutputError>) -> Void)
 ```
 
-``` 
-     To play welcome audio or implement an interactive voice response (IVR), use the
-```
-
-CreateSipMediaApplicationCall action with the corresponding SIP media application ID.
-
 ### `createMeetingWithAttendees(input:completion:)`
 
-Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon Chime SDK Media Regions
-in the
-Amazon Chime Developer Guide
-. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the
-Amazon Chime Developer Guide
-.
+Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
 
 ``` swift
 public func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput, completion: @escaping (ClientRuntime.SdkResult<CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>) -> Void)
@@ -390,8 +278,7 @@ public func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput, c
 
 ### `createPhoneNumberOrder(input:completion:)`
 
-Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type.
-For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
+Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
 
 ``` swift
 public func createPhoneNumberOrder(input: CreatePhoneNumberOrderInput, completion: @escaping (ClientRuntime.SdkResult<CreatePhoneNumberOrderOutputResponse, CreatePhoneNumberOrderOutputError>) -> Void)
@@ -431,8 +318,7 @@ public func createSipMediaApplication(input: CreateSipMediaApplicationInput, com
 
 ### `createSipMediaApplicationCall(input:completion:)`
 
-Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified
-sipMediaApplicationId.
+Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
 
 ``` swift
 public func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput, completion: @escaping (ClientRuntime.SdkResult<CreateSipMediaApplicationCallOutputResponse, CreateSipMediaApplicationCallOutputError>) -> Void)
@@ -456,23 +342,15 @@ public func createUser(input: CreateUserInput, completion: @escaping (ClientRunt
 
 ### `createVoiceConnector(input:completion:)`
 
-Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region.
+Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling \[CreateVoiceConnectorRequest$RequireEncryption\] configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
 
 ``` swift
 public func createVoiceConnector(input: CreateVoiceConnectorInput, completion: @escaping (ClientRuntime.SdkResult<CreateVoiceConnectorOutputResponse, CreateVoiceConnectorOutputError>) -> Void)
 ```
 
-Enabling
-CreateVoiceConnectorRequest$RequireEncryption
-configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
-
 ### `createVoiceConnectorGroup(input:completion:)`
 
-Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can
-associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by
-including VoiceConnectorItems in the request.
-You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This
-creates a fault tolerant mechanism for fallback in case of availability events.
+Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
 
 ``` swift
 public func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput, completion: @escaping (ClientRuntime.SdkResult<CreateVoiceConnectorGroupOutputResponse, CreateVoiceConnectorGroupOutputError>) -> Void)
@@ -480,27 +358,11 @@ public func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput, com
 
 ### `deleteAccount(input:completion:)`
 
-Deletes the specified Amazon Chime account. You must suspend all users before deleting
-Team account. You can use the BatchSuspendUser action
-to dodo.
+Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the \[BatchSuspendUser\] action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
 
 ``` swift
 public func deleteAccount(input: DeleteAccountInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAccountOutputResponse, DeleteAccountOutputError>) -> Void)
 ```
-
-``` 
-     For EnterpriseLWA and EnterpriseAD accounts, you must release the
-        claimed domains for your Amazon Chime account before deletion. As soon as you release
-        the domain, all users under that account are suspended.
-
-     Deleted accounts appear in your Disabled accounts list for 90 days. To restore
-        deleted account from your Disabled accounts list, you must contact AWS
-        Support.
-
-     After 90 days, deleted accounts are permanently removed from your
-```
-
-Disabled accounts list.
 
 ### `deleteAppInstance(input:completion:)`
 
@@ -536,10 +398,7 @@ public func deleteAppInstanceUser(input: DeleteAppInstanceUserInput, completion:
 
 ### `deleteAttendee(input:completion:)`
 
-Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
-JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the Amazon Chime Developer Guide.
+Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
 
 ``` swift
 public func deleteAttendee(input: DeleteAttendeeInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>) -> Void)
@@ -547,75 +406,42 @@ public func deleteAttendee(input: DeleteAttendeeInput, completion: @escaping (Cl
 
 ### `deleteChannel(input:completion:)`
 
-Immediately makes a channel and its memberships inaccessible and marks them for
-deletion. This is an irreversible process.
+Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func deleteChannel(input: DeleteChannelInput, completion: @escaping (ClientRuntime.SdkResult<DeleteChannelOutputResponse, DeleteChannelOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `deleteChannelBan(input:completion:)`
 
-Removes a user from a channel's ban list.
+Removes a user from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func deleteChannelBan(input: DeleteChannelBanInput, completion: @escaping (ClientRuntime.SdkResult<DeleteChannelBanOutputResponse, DeleteChannelBanOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `deleteChannelMembership(input:completion:)`
 
-Removes a member from a channel.
+Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func deleteChannelMembership(input: DeleteChannelMembershipInput, completion: @escaping (ClientRuntime.SdkResult<DeleteChannelMembershipOutputResponse, DeleteChannelMembershipOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `deleteChannelMessage(input:completion:)`
 
-Deletes a channel message. Only admins can perform this action. Deletion makes messages
-inaccessible immediately. A background process deletes any revisions created by
-UpdateChannelMessage.
+Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func deleteChannelMessage(input: DeleteChannelMessageInput, completion: @escaping (ClientRuntime.SdkResult<DeleteChannelMessageOutputResponse, DeleteChannelMessageOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `deleteChannelModerator(input:completion:)`
 
-Deletes a channel moderator.
+Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func deleteChannelModerator(input: DeleteChannelModeratorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteChannelModeratorOutputResponse, DeleteChannelModeratorOutputError>) -> Void)
-```
-
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
 ```
 
 ### `deleteEventsConfiguration(input:completion:)`
@@ -636,10 +462,7 @@ public func deleteMediaCapturePipeline(input: DeleteMediaCapturePipelineInput, c
 
 ### `deleteMeeting(input:completion:)`
 
-Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from
-joining the meeting. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK in the
-Amazon Chime Developer Guide.
+Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
 
 ``` swift
 public func deleteMeeting(input: DeleteMeetingInput, completion: @escaping (ClientRuntime.SdkResult<DeleteMeetingOutputResponse, DeleteMeetingOutputError>) -> Void)
@@ -647,20 +470,11 @@ public func deleteMeeting(input: DeleteMeetingInput, completion: @escaping (Clie
 
 ### `deletePhoneNumber(input:completion:)`
 
-Moves the specified phone number into the Deletion queue. A
-phone number must be disassociated from any users or Amazon Chime Voice Connectors
-before it can be deleted.
+Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
 
 ``` swift
 public func deletePhoneNumber(input: DeletePhoneNumberInput, completion: @escaping (ClientRuntime.SdkResult<DeletePhoneNumberOutputResponse, DeletePhoneNumberOutputError>) -> Void)
 ```
-
-``` 
-     Deleted phone numbers remain in the
-```
-
-Deletion queue
-for 7 days before they are deleted permanently.
 
 ### `deleteProxySession(input:completion:)`
 
@@ -704,9 +518,7 @@ public func deleteSipRule(input: DeleteSipRuleInput, completion: @escaping (Clie
 
 ### `deleteVoiceConnector(input:completion:)`
 
-Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the
-Amazon Chime Voice Connector must be disassociated from it before it can be
-deleted.
+Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
 
 ``` swift
 public func deleteVoiceConnector(input: DeleteVoiceConnectorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVoiceConnectorOutputResponse, DeleteVoiceConnectorOutputError>) -> Void)
@@ -722,9 +534,7 @@ public func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoice
 
 ### `deleteVoiceConnectorGroup(input:completion:)`
 
-Deletes the specified Amazon Chime Voice Connector group. Any
-VoiceConnectorItems
-and phone numbers associated with the group must be removed before it can be deleted.
+Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
 
 ``` swift
 public func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVoiceConnectorGroupOutputResponse, DeleteVoiceConnectorGroupOutputError>) -> Void)
@@ -732,14 +542,10 @@ public func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput, com
 
 ### `deleteVoiceConnectorOrigination(input:completion:)`
 
-Deletes the origination settings for the specified Amazon Chime Voice Connector.
+Deletes the origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings.
 
 ``` swift
 public func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVoiceConnectorOriginationOutputResponse, DeleteVoiceConnectorOriginationOutputError>) -> Void)
-```
-
-``` 
-        If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings.
 ```
 
 ### `deleteVoiceConnectorProxy(input:completion:)`
@@ -760,14 +566,10 @@ public func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnect
 
 ### `deleteVoiceConnectorTermination(input:completion:)`
 
-Deletes the termination settings for the specified Amazon Chime Voice Connector.
+Deletes the termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings.
 
 ``` swift
 public func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVoiceConnectorTerminationOutputResponse, DeleteVoiceConnectorTerminationOutputError>) -> Void)
-```
-
-``` 
-        If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings.
 ```
 
 ### `deleteVoiceConnectorTerminationCredentials(input:completion:)`
@@ -804,89 +606,50 @@ public func describeAppInstanceUser(input: DescribeAppInstanceUserInput, complet
 
 ### `describeChannel(input:completion:)`
 
-Returns the full details of a channel in an Amazon Chime
-AppInstance.
+Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func describeChannel(input: DescribeChannelInput, completion: @escaping (ClientRuntime.SdkResult<DescribeChannelOutputResponse, DescribeChannelOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `describeChannelBan(input:completion:)`
 
-Returns the full details of a channel ban.
+Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func describeChannelBan(input: DescribeChannelBanInput, completion: @escaping (ClientRuntime.SdkResult<DescribeChannelBanOutputResponse, DescribeChannelBanOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `describeChannelMembership(input:completion:)`
 
-Returns the full details of a user's channel membership.
+Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func describeChannelMembership(input: DescribeChannelMembershipInput, completion: @escaping (ClientRuntime.SdkResult<DescribeChannelMembershipOutputResponse, DescribeChannelMembershipOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `describeChannelMembershipForAppInstanceUser(input:completion:)`
 
-Returns the details of a channel based on the membership of the specified
-AppInstanceUser.
+Returns the details of a channel based on the membership of the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func describeChannelMembershipForAppInstanceUser(input: DescribeChannelMembershipForAppInstanceUserInput, completion: @escaping (ClientRuntime.SdkResult<DescribeChannelMembershipForAppInstanceUserOutputResponse, DescribeChannelMembershipForAppInstanceUserOutputError>) -> Void)
 ```
 
-``` 
-       The x-amz-chime-bearer request header is mandatory. Use the
-          AppInstanceUserArn of the user that makes the API call as the value in
-       the header.
-```
-
 ### `describeChannelModeratedByAppInstanceUser(input:completion:)`
 
-Returns the full details of a channel moderated by the specified
-AppInstanceUser.
+Returns the full details of a channel moderated by the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func describeChannelModeratedByAppInstanceUser(input: DescribeChannelModeratedByAppInstanceUserInput, completion: @escaping (ClientRuntime.SdkResult<DescribeChannelModeratedByAppInstanceUserOutputResponse, DescribeChannelModeratedByAppInstanceUserOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `describeChannelModerator(input:completion:)`
 
-Returns the full details of a single ChannelModerator.
+Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func describeChannelModerator(input: DescribeChannelModeratorInput, completion: @escaping (ClientRuntime.SdkResult<DescribeChannelModeratorOutputResponse, DescribeChannelModeratorOutputError>) -> Void)
-```
-
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
 ```
 
 ### `disassociatePhoneNumberFromUser(input:completion:)`
@@ -923,8 +686,7 @@ public func disassociateSigninDelegateGroupsFromAccount(input: DisassociateSigni
 
 ### `getAccount(input:completion:)`
 
-Retrieves details for the specified Amazon Chime account, such as account type and supported
-licenses.
+Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
 
 ``` swift
 public func getAccount(input: GetAccountInput, completion: @escaping (ClientRuntime.SdkResult<GetAccountOutputResponse, GetAccountOutputError>) -> Void)
@@ -932,9 +694,7 @@ public func getAccount(input: GetAccountInput, completion: @escaping (ClientRunt
 
 ### `getAccountSettings(input:completion:)`
 
-Retrieves account settings for the specified Amazon Chime account ID, such as remote control
-and dialout settings. For more information about these settings, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/ag/policies.html">Use the Policies Page in the Amazon Chime Administration Guide.
+Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
 
 ``` swift
 public func getAccountSettings(input: GetAccountSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>) -> Void)
@@ -958,11 +718,7 @@ public func getAppInstanceStreamingConfigurations(input: GetAppInstanceStreaming
 
 ### `getAttendee(input:completion:)`
 
-Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the
-Amazon Chime Developer Guide
-.
+Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
 
 ``` swift
 public func getAttendee(input: GetAttendeeInput, completion: @escaping (ClientRuntime.SdkResult<GetAttendeeOutputResponse, GetAttendeeOutputError>) -> Void)
@@ -978,16 +734,10 @@ public func getBot(input: GetBotInput, completion: @escaping (ClientRuntime.SdkR
 
 ### `getChannelMessage(input:completion:)`
 
-Gets the full details of a channel message.
+Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func getChannelMessage(input: GetChannelMessageInput, completion: @escaping (ClientRuntime.SdkResult<GetChannelMessageOutputResponse, GetChannelMessageOutputError>) -> Void)
-```
-
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
 ```
 
 ### `getEventsConfiguration(input:completion:)`
@@ -1000,8 +750,7 @@ public func getEventsConfiguration(input: GetEventsConfigurationInput, completio
 
 ### `getGlobalSettings(input:completion:)`
 
-Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business
-Calling and Amazon Chime Voice Connector settings.
+Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
 
 ``` swift
 public func getGlobalSettings(input: GetGlobalSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetGlobalSettingsOutputResponse, GetGlobalSettingsOutputError>) -> Void)
@@ -1017,11 +766,7 @@ public func getMediaCapturePipeline(input: GetMediaCapturePipelineInput, complet
 
 ### `getMeeting(input:completion:)`
 
-Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the
-Amazon Chime Developer Guide
-.
+Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
 
 ``` swift
 public func getMeeting(input: GetMeetingInput, completion: @escaping (ClientRuntime.SdkResult<GetMeetingOutputResponse, GetMeetingOutputError>) -> Void)
@@ -1045,8 +790,7 @@ public func getPhoneNumber(input: GetPhoneNumberInput, completion: @escaping (Cl
 
 ### `getPhoneNumberOrder(input:completion:)`
 
-Retrieves details for the specified phone number order, such as the order creation timestamp, phone
-numbers in E.164 format, product type, and order status.
+Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
 
 ``` swift
 public func getPhoneNumberOrder(input: GetPhoneNumberOrderInput, completion: @escaping (ClientRuntime.SdkResult<GetPhoneNumberOrderOutputResponse, GetPhoneNumberOrderOutputError>) -> Void)
@@ -1070,8 +814,7 @@ public func getProxySession(input: GetProxySessionInput, completion: @escaping (
 
 ### `getRetentionSettings(input:completion:)`
 
-Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/ag/chat-retention.html">Managing Chat Retention Policies in the Amazon Chime Administration Guide.
+Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
 
 ``` swift
 public func getRetentionSettings(input: GetRetentionSettingsInput, completion: @escaping (ClientRuntime.SdkResult<GetRetentionSettingsOutputResponse, GetRetentionSettingsOutputError>) -> Void)
@@ -1111,14 +854,11 @@ public func getSipRule(input: GetSipRuleInput, completion: @escaping (ClientRunt
 
 ### `getUser(input:completion:)`
 
-Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN.
+Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the \[ListUsers\] action, and then filter by email address.
 
 ``` swift
 public func getUser(input: GetUserInput, completion: @escaping (ClientRuntime.SdkResult<GetUserOutputResponse, GetUserOutputError>) -> Void)
 ```
-
-To retrieve user details with an email address instead of a user ID, use the
-ListUsers action, and then filter by email address.
 
 ### `getUserSettings(input:completion:)`
 
@@ -1178,9 +918,7 @@ public func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput, completio
 
 ### `getVoiceConnectorStreamingConfiguration(input:completion:)`
 
-Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector.
-Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows
-the retention period, in hours, for the Amazon Kinesis data.
+Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
 
 ``` swift
 public func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<GetVoiceConnectorStreamingConfigurationOutputResponse, GetVoiceConnectorStreamingConfigurationOutputError>) -> Void)
@@ -1196,8 +934,7 @@ public func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInpu
 
 ### `getVoiceConnectorTerminationHealth(input:completion:)`
 
-Retrieves information about the last time a SIP OPTIONS ping was received from
-your SIP infrastructure for the specified Amazon Chime Voice Connector.
+Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
 
 ``` swift
 public func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput, completion: @escaping (ClientRuntime.SdkResult<GetVoiceConnectorTerminationHealthOutputResponse, GetVoiceConnectorTerminationHealthOutputError>) -> Void)
@@ -1205,9 +942,7 @@ public func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminati
 
 ### `inviteUsers(input:completion:)`
 
-Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime
-Team account. Only Team account types are currently
-supported for this action.
+Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
 
 ``` swift
 public func inviteUsers(input: InviteUsersInput, completion: @escaping (ClientRuntime.SdkResult<InviteUsersOutputResponse, InviteUsersOutputError>) -> Void)
@@ -1215,9 +950,7 @@ public func inviteUsers(input: InviteUsersInput, completion: @escaping (ClientRu
 
 ### `listAccounts(input:completion:)`
 
-Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts
-by account name prefix. To find out which Amazon Chime account a user belongs to, you can
-filter by the user's email address, which returns one account result.
+Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
 
 ``` swift
 public func listAccounts(input: ListAccountsInput, completion: @escaping (ClientRuntime.SdkResult<ListAccountsOutputResponse, ListAccountsOutputError>) -> Void)
@@ -1233,8 +966,7 @@ public func listAppInstanceAdmins(input: ListAppInstanceAdminsInput, completion:
 
 ### `listAppInstanceUsers(input:completion:)`
 
-List all AppInstanceUsers
-created under a single AppInstance.
+List all AppInstanceUsers created under a single AppInstance.
 
 ``` swift
 public func listAppInstanceUsers(input: ListAppInstanceUsersInput, completion: @escaping (ClientRuntime.SdkResult<ListAppInstanceUsersOutputResponse, ListAppInstanceUsersOutputError>) -> Void)
@@ -1258,9 +990,7 @@ public func listAttendeeTags(input: ListAttendeeTagsInput, completion: @escaping
 
 ### `listAttendees(input:completion:)`
 
-Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the Amazon Chime Developer Guide.
+Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
 
 ``` swift
 public func listAttendees(input: ListAttendeesInput, completion: @escaping (ClientRuntime.SdkResult<ListAttendeesOutputResponse, ListAttendeesOutputError>) -> Void)
@@ -1276,122 +1006,64 @@ public func listBots(input: ListBotsInput, completion: @escaping (ClientRuntime.
 
 ### `listChannelBans(input:completion:)`
 
-Lists all the users banned from a particular channel.
+Lists all the users banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func listChannelBans(input: ListChannelBansInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelBansOutputResponse, ListChannelBansOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `listChannelMemberships(input:completion:)`
 
-Lists all channel memberships in a channel.
+Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func listChannelMemberships(input: ListChannelMembershipsInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelMembershipsOutputResponse, ListChannelMembershipsOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `listChannelMembershipsForAppInstanceUser(input:completion:)`
 
-Lists all channels that a particular AppInstanceUser is a part of. Only an
-AppInstanceAdmin can call the API with a user ARN that is not their own.
+Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func listChannelMembershipsForAppInstanceUser(input: ListChannelMembershipsForAppInstanceUserInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelMembershipsForAppInstanceUserOutputResponse, ListChannelMembershipsForAppInstanceUserOutputError>) -> Void)
 ```
 
-``` 
-       The x-amz-chime-bearer request header is mandatory. Use the
-          AppInstanceUserArn of the user that makes the API call as the value in
-       the header.
-```
-
 ### `listChannelMessages(input:completion:)`
 
-List all the messages in a channel. Returns a paginated list of
-ChannelMessages. By default, sorted by creation timestamp in descending
-order.
+List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func listChannelMessages(input: ListChannelMessagesInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelMessagesOutputResponse, ListChannelMessagesOutputError>) -> Void)
 ```
 
-``` 
-        Redacted messages appear in the results as empty, since they are only redacted, not
-        deleted. Deleted messages do not appear in the results. This action always returns the
-        latest version of an edited message.
-        Also, the x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `listChannelModerators(input:completion:)`
 
-Lists all the moderators for a channel.
+Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func listChannelModerators(input: ListChannelModeratorsInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelModeratorsOutputResponse, ListChannelModeratorsOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `listChannels(input:completion:)`
 
-Lists all Channels created under a single Chime App as a paginated list. You can specify
-filters to narrow results.
+Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results. Functionality & restrictions
 
 ``` swift
 public func listChannels(input: ListChannelsInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelsOutputResponse, ListChannelsOutputError>) -> Void)
 ```
 
-``` 
-     <p class="title">
-        Functionality & restrictions
+  - Use privacy = PUBLIC to retrieve all public channels in the account.
 
+  - Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.
 
-
-           Use privacy = PUBLIC to retrieve all public channels in the
-           account.
-
-
-           Only an AppInstanceAdmin can set privacy = PRIVATE to
-           list the private channels in an account.
-
-
-
-
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
+The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ### `listChannelsModeratedByAppInstanceUser(input:completion:)`
 
-A list of the channels moderated by an AppInstanceUser.
+A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func listChannelsModeratedByAppInstanceUser(input: ListChannelsModeratedByAppInstanceUserInput, completion: @escaping (ClientRuntime.SdkResult<ListChannelsModeratedByAppInstanceUserOutputResponse, ListChannelsModeratedByAppInstanceUserOutputError>) -> Void)
-```
-
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
 ```
 
 ### `listMediaCapturePipelines(input:completion:)`
@@ -1412,9 +1084,7 @@ public func listMeetingTags(input: ListMeetingTagsInput, completion: @escaping (
 
 ### `listMeetings(input:completion:)`
 
-Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using the Amazon Chime SDK
-in the Amazon Chime Developer Guide.
+Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
 
 ``` swift
 public func listMeetings(input: ListMeetingsInput, completion: @escaping (ClientRuntime.SdkResult<ListMeetingsOutputResponse, ListMeetingsOutputError>) -> Void)
@@ -1446,8 +1116,7 @@ public func listProxySessions(input: ListProxySessionsInput, completion: @escapi
 
 ### `listRoomMemberships(input:completion:)`
 
-Lists the membership details for the specified room in an Amazon Chime Enterprise account,
-such as the members' IDs, email addresses, and names.
+Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
 
 ``` swift
 public func listRoomMemberships(input: ListRoomMembershipsInput, completion: @escaping (ClientRuntime.SdkResult<ListRoomMembershipsOutputResponse, ListRoomMembershipsOutputError>) -> Void)
@@ -1495,8 +1164,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `listUsers(input:completion:)`
 
-Lists the users that belong to the specified Amazon Chime account. You can specify an email
-address to list only the user that the email address belongs to.
+Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
 
 ``` swift
 public func listUsers(input: ListUsersInput, completion: @escaping (ClientRuntime.SdkResult<ListUsersOutputResponse, ListUsersOutputError>) -> Void)
@@ -1552,9 +1220,7 @@ public func putAppInstanceStreamingConfigurations(input: PutAppInstanceStreaming
 
 ### `putEventsConfiguration(input:completion:)`
 
-Creates an events configuration that allows a bot to receive outgoing events sent by Amazon
-Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information,
-see Bot.
+Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see \[Bot\].
 
 ``` swift
 public func putEventsConfiguration(input: PutEventsConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<PutEventsConfigurationOutputResponse, PutEventsConfigurationOutputError>) -> Void)
@@ -1562,21 +1228,11 @@ public func putEventsConfiguration(input: PutEventsConfigurationInput, completio
 
 ### `putRetentionSettings(input:completion:)`
 
-Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see
-<a href="https:​//docs.aws.amazon.com/chime/latest/ag/cloudtrail.html">Logging Amazon Chime API Calls with AWS CloudTrail
-in the Amazon Chime Administration Guide.
+Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see [Logging Amazon Chime API Calls with AWS CloudTrail](https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html) in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
 
 ``` swift
 public func putRetentionSettings(input: PutRetentionSettingsInput, completion: @escaping (ClientRuntime.SdkResult<PutRetentionSettingsOutputResponse, PutRetentionSettingsOutputError>) -> Void)
 ```
-
-To turn off existing retention settings, remove the number of days from the corresponding
-RetentionDays
-field in the
-RetentionSettings
-object. For more information about retention settings, see
-<a href="https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html">Managing Chat Retention Policies
-in the Amazon Chime Administration Guide.
 
 ### `putSipMediaApplicationLoggingConfiguration(input:completion:)`
 
@@ -1588,8 +1244,7 @@ public func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplica
 
 ### `putVoiceConnectorEmergencyCallingConfiguration(input:completion:)`
 
-Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for
-the Amazon Chime Voice Connector before emergency calling can be configured.
+Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured.
 
 ``` swift
 public func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<PutVoiceConnectorEmergencyCallingConfigurationOutputResponse, PutVoiceConnectorEmergencyCallingConfigurationOutputError>) -> Void)
@@ -1605,14 +1260,10 @@ public func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggin
 
 ### `putVoiceConnectorOrigination(input:completion:)`
 
-Adds origination settings for the specified Amazon Chime Voice Connector.
+Adds origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings.
 
 ``` swift
 public func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput, completion: @escaping (ClientRuntime.SdkResult<PutVoiceConnectorOriginationOutputResponse, PutVoiceConnectorOriginationOutputError>) -> Void)
-```
-
-``` 
-        If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings.
 ```
 
 ### `putVoiceConnectorProxy(input:completion:)`
@@ -1625,9 +1276,7 @@ public func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput, completio
 
 ### `putVoiceConnectorStreamingConfiguration(input:completion:)`
 
-Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming
-configuration specifies whether media streaming is enabled for sending to Indonesians.
-It also sets the retention period, in hours, for the Amazon Kinesis data.
+Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Indonesians. It also sets the retention period, in hours, for the Amazon Kinesis data.
 
 ``` swift
 public func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput, completion: @escaping (ClientRuntime.SdkResult<PutVoiceConnectorStreamingConfigurationOutputResponse, PutVoiceConnectorStreamingConfigurationOutputError>) -> Void)
@@ -1635,14 +1284,10 @@ public func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStre
 
 ### `putVoiceConnectorTermination(input:completion:)`
 
-Adds termination settings for the specified Amazon Chime Voice Connector.
+Adds termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings.
 
 ``` swift
 public func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput, completion: @escaping (ClientRuntime.SdkResult<PutVoiceConnectorTerminationOutputResponse, PutVoiceConnectorTerminationOutputError>) -> Void)
-```
-
-``` 
-        If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings.
 ```
 
 ### `putVoiceConnectorTerminationCredentials(input:completion:)`
@@ -1655,17 +1300,10 @@ public func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerm
 
 ### `redactChannelMessage(input:completion:)`
 
-Redacts message content, but not metadata. The message exists in the back end, but the
-action returns null content, and the state shows as redacted.
+Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func redactChannelMessage(input: RedactChannelMessageInput, completion: @escaping (ClientRuntime.SdkResult<RedactChannelMessageOutputResponse, RedactChannelMessageOutputError>) -> Void)
-```
-
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
 ```
 
 ### `redactConversationMessage(input:completion:)`
@@ -1694,8 +1332,7 @@ public func regenerateSecurityToken(input: RegenerateSecurityTokenInput, complet
 
 ### `resetPersonalPIN(input:completion:)`
 
-Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns
-the User object with the updated personal meeting PIN.
+Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the \[User\] object with the updated personal meeting PIN.
 
 ``` swift
 public func resetPersonalPIN(input: ResetPersonalPINInput, completion: @escaping (ClientRuntime.SdkResult<ResetPersonalPINOutputResponse, ResetPersonalPINOutputError>) -> Void)
@@ -1703,8 +1340,7 @@ public func resetPersonalPIN(input: ResetPersonalPINInput, completion: @escaping
 
 ### `restorePhoneNumber(input:completion:)`
 
-Moves a phone number from the Deletion queue back into the
-phone number Inventory.
+Moves a phone number from the Deletion queue back into the phone number Inventory.
 
 ``` swift
 public func restorePhoneNumber(input: RestorePhoneNumberInput, completion: @escaping (ClientRuntime.SdkResult<RestorePhoneNumberOutputResponse, RestorePhoneNumberOutputError>) -> Void)
@@ -1712,11 +1348,7 @@ public func restorePhoneNumber(input: RestorePhoneNumberInput, completion: @esca
 
 ### `searchAvailablePhoneNumbers(input:completion:)`
 
-Searches for phone numbers that can be ordered. For US numbers, provide at least one of
-the following search filters:​ AreaCode, City,
-State, or TollFreePrefix. If you provide
-City, you must also provide State. Numbers outside the US only
-support the PhoneNumberType filter, which you must use.
+Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
 
 ``` swift
 public func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput, completion: @escaping (ClientRuntime.SdkResult<SearchAvailablePhoneNumbersOutputResponse, SearchAvailablePhoneNumbersOutputError>) -> Void)
@@ -1724,19 +1356,10 @@ public func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput,
 
 ### `sendChannelMessage(input:completion:)`
 
-Sends a message to a particular channel that the member is a part of.
+Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.
 
 ``` swift
 public func sendChannelMessage(input: SendChannelMessageInput, completion: @escaping (ClientRuntime.SdkResult<SendChannelMessageOutputResponse, SendChannelMessageOutputError>) -> Void)
-```
-
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-
-        Also, STANDARD messages can contain 4KB of data and the 1KB of metadata.
-           CONTROL messages can contain 30 bytes of data and no metadata.
 ```
 
 ### `startMeetingTranscription(input:completion:)`
@@ -1813,11 +1436,7 @@ public func updateAccount(input: UpdateAccountInput, completion: @escaping (Clie
 
 ### `updateAccountSettings(input:completion:)`
 
-Updates the settings for the specified Amazon Chime account. You can update settings for
-remote control of shared screens, or for the dial-out option. For more information about
-these settings, see <a href="https:​//docs.aws.amazon.com/chime/latest/ag/policies.html">Use
-the Policies Page in the Amazon Chime Administration
-Guide.
+Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
 
 ``` swift
 public func updateAccountSettings(input: UpdateAccountSettingsInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>) -> Void)
@@ -1849,46 +1468,26 @@ public func updateBot(input: UpdateBotInput, completion: @escaping (ClientRuntim
 
 ### `updateChannel(input:completion:)`
 
-Update a channel's attributes.
+Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func updateChannel(input: UpdateChannelInput, completion: @escaping (ClientRuntime.SdkResult<UpdateChannelOutputResponse, UpdateChannelOutputError>) -> Void)
 ```
 
-``` 
-        Restriction: You can't change a channel's privacy.
-
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `updateChannelMessage(input:completion:)`
 
-Updates the content of a message.
+Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func updateChannelMessage(input: UpdateChannelMessageInput, completion: @escaping (ClientRuntime.SdkResult<UpdateChannelMessageOutputResponse, UpdateChannelMessageOutputError>) -> Void)
 ```
 
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
-```
-
 ### `updateChannelReadMarker(input:completion:)`
 
-The details of the time when a user last read messages in a channel.
+The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 ``` swift
 public func updateChannelReadMarker(input: UpdateChannelReadMarkerInput, completion: @escaping (ClientRuntime.SdkResult<UpdateChannelReadMarkerOutputResponse, UpdateChannelReadMarkerOutputError>) -> Void)
-```
-
-``` 
-        The x-amz-chime-bearer request header is mandatory. Use the
-           AppInstanceUserArn of the user that makes the API call as the value in
-        the header.
 ```
 
 ### `updateGlobalSettings(input:completion:)`
@@ -1901,9 +1500,7 @@ public func updateGlobalSettings(input: UpdateGlobalSettingsInput, completion: @
 
 ### `updatePhoneNumber(input:completion:)`
 
-Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action.
-For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
-Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
 
 ``` swift
 public func updatePhoneNumber(input: UpdatePhoneNumberInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>) -> Void)
@@ -1911,9 +1508,7 @@ public func updatePhoneNumber(input: UpdatePhoneNumberInput, completion: @escapi
 
 ### `updatePhoneNumberSettings(input:completion:)`
 
-Updates the phone number settings for the administrator's AWS account, such as the default
-outbound calling name. You can update the default outbound calling name once every seven
-days. Outbound calling names can take up to 72 hours to update.
+Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
 
 ``` swift
 public func updatePhoneNumberSettings(input: UpdatePhoneNumberSettingsInput, completion: @escaping (ClientRuntime.SdkResult<UpdatePhoneNumberSettingsOutputResponse, UpdatePhoneNumberSettingsOutputError>) -> Void)
@@ -1937,10 +1532,7 @@ public func updateRoom(input: UpdateRoomInput, completion: @escaping (ClientRunt
 
 ### `updateRoomMembership(input:completion:)`
 
-Updates room membership details, such as the member role, for a room in an Amazon Chime
-Enterprise account. The member role designates whether the member is a chat room
-administrator or a general chat room member. The member role can be updated only for
-user IDs.
+Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
 
 ``` swift
 public func updateRoomMembership(input: UpdateRoomMembershipInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRoomMembershipOutputResponse, UpdateRoomMembershipOutputError>) -> Void)
@@ -1996,8 +1588,7 @@ public func updateVoiceConnector(input: UpdateVoiceConnectorInput, completion: @
 
 ### `updateVoiceConnectorGroup(input:completion:)`
 
-Updates details of the specified Amazon Chime Voice Connector group, such as the name and
-Amazon Chime Voice Connector priority ranking.
+Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.
 
 ``` swift
 public func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput, completion: @escaping (ClientRuntime.SdkResult<UpdateVoiceConnectorGroupOutputResponse, UpdateVoiceConnectorGroupOutputError>) -> Void)

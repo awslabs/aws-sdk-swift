@@ -8,7 +8,7 @@ public protocol PinpointSmsVoiceClientProtocol
 
 ## Requirements
 
-### createConfigurationSet(input:​completion:​)
+### createConfigurationSet(input:completion:)
 
 Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
 
@@ -16,7 +16,7 @@ Create a new configuration set. After you create the configuration set, you can 
 func createConfigurationSet(input: CreateConfigurationSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>) -> Void)
 ```
 
-### createConfigurationSetEventDestination(input:​completion:​)
+### createConfigurationSetEventDestination(input:completion:)
 
 Create a new event destination in a configuration set.
 
@@ -24,7 +24,7 @@ Create a new event destination in a configuration set.
 func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput, completion: @escaping (ClientRuntime.SdkResult<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>) -> Void)
 ```
 
-### deleteConfigurationSet(input:​completion:​)
+### deleteConfigurationSet(input:completion:)
 
 Deletes an existing configuration set.
 
@@ -32,7 +32,7 @@ Deletes an existing configuration set.
 func deleteConfigurationSet(input: DeleteConfigurationSetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>) -> Void)
 ```
 
-### deleteConfigurationSetEventDestination(input:​completion:​)
+### deleteConfigurationSetEventDestination(input:completion:)
 
 Deletes an event destination in a configuration set.
 
@@ -40,7 +40,7 @@ Deletes an event destination in a configuration set.
 func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>) -> Void)
 ```
 
-### getConfigurationSetEventDestinations(input:​completion:​)
+### getConfigurationSetEventDestinations(input:completion:)
 
 Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
 
@@ -48,7 +48,7 @@ Obtain information about an event destination, including the types of events it 
 func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput, completion: @escaping (ClientRuntime.SdkResult<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>) -> Void)
 ```
 
-### listConfigurationSets(input:​completion:​)
+### listConfigurationSets(input:completion:)
 
 List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
 
@@ -56,7 +56,7 @@ List all of the configuration sets associated with your Amazon Pinpoint account 
 func listConfigurationSets(input: ListConfigurationSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>) -> Void)
 ```
 
-### sendVoiceMessage(input:​completion:​)
+### sendVoiceMessage(input:completion:)
 
 Create a new voice message and send it to a recipient's phone number.
 
@@ -64,7 +64,7 @@ Create a new voice message and send it to a recipient's phone number.
 func sendVoiceMessage(input: SendVoiceMessageInput, completion: @escaping (ClientRuntime.SdkResult<SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>) -> Void)
 ```
 
-### updateConfigurationSetEventDestination(input:​completion:​)
+### updateConfigurationSetEventDestination(input:completion:)
 
 Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
 

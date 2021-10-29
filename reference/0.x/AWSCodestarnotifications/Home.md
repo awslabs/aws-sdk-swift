@@ -8,6 +8,4 @@
 # Protocols
 
   - [CodestarNotificationsClientProtocol](/aws-sdk-swift/reference/0.x/AWSCodestarnotifications/CodestarNotificationsClientProtocol):
-    This AWS CodeStar Notifications API Reference provides descriptions and usage examples of the
-    operations and data types for the AWS CodeStar Notifications API. You can use the AWS CodeStar Notifications API
-    to work with the following objects:
+    This AWS CodeStar Notifications API Reference provides descriptions and usage examples of the operations and data types for the AWS CodeStar Notifications API. You can use the AWS CodeStar Notifications API to work with the following objects: Notification rules, by calling the following:

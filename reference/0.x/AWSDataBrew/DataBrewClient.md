@@ -22,57 +22,45 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "DataBrewClient"
+```
+
 ## Methods
 
 ### `batchDeleteRecipeVersion(input:completion:)`
 
-Deletes one or more versions of a recipe at a time.
+Deletes one or more versions of a recipe at a time. The entire request will be rejected if:
 
 ``` swift
 public func batchDeleteRecipeVersion(input: BatchDeleteRecipeVersionInput, completion: @escaping (ClientRuntime.SdkResult<BatchDeleteRecipeVersionOutputResponse, BatchDeleteRecipeVersionOutputError>) -> Void)
 ```
 
-``` 
-    The entire request will be rejected if:
+  - The recipe does not exist.
 
+  - There is an invalid version identifier in the list of versions.
 
-            The recipe does not exist.
+  - The version list is empty.
 
+  - The version list size exceeds 50.
 
-            There is an invalid version identifier in the list of versions.
+  - The version list contains duplicate entries.
 
+The request will complete successfully, but with partial failures, if:
 
-            The version list is empty.
+  - A version does not exist.
 
+  - A version is being used by a job.
 
-            The version list size exceeds 50.
+  - You specify LATEST\_WORKING, but it's being used by a project.
 
+  - The version fails to be deleted.
 
-            The version list contains duplicate entries.
-
-
-
-    The request will complete successfully, but with partial failures, if:
-
-
-            A version does not exist.
-
-
-            A version is being used by a job.
-
-
-            You specify LATEST_WORKING, but it's being used by a
-                project.
-
-
-            The version fails to be deleted.
-
-
-    The LATEST_WORKING version will only be deleted if the recipe has no
-        other versions. If you try to delete LATEST_WORKING while other versions
-        exist (or if they can't be deleted), then LATEST_WORKING will be listed as
-        partial failure in the response.
-```
+The LATEST\_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST\_WORKING while other versions exist (or if they can't be deleted), then LATEST\_WORKING will be listed as partial failure in the response.
 
 ### `createDataset(input:completion:)`
 
@@ -116,8 +104,7 @@ public func createRecipeJob(input: CreateRecipeJobInput, completion: @escaping (
 
 ### `createSchedule(input:completion:)`
 
-Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific
-date and time, or at regular intervals.
+Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
 
 ``` swift
 public func createSchedule(input: CreateScheduleInput, completion: @escaping (ClientRuntime.SdkResult<CreateScheduleOutputResponse, CreateScheduleOutputError>) -> Void)
@@ -197,8 +184,7 @@ public func describeProject(input: DescribeProjectInput, completion: @escaping (
 
 ### `describeRecipe(input:completion:)`
 
-Returns the definition of a specific DataBrew recipe corresponding to a particular
-version.
+Returns the definition of a specific DataBrew recipe corresponding to a particular version.
 
 ``` swift
 public func describeRecipe(input: DescribeRecipeInput, completion: @escaping (ClientRuntime.SdkResult<DescribeRecipeOutputResponse, DescribeRecipeOutputError>) -> Void)
@@ -246,8 +232,7 @@ public func listProjects(input: ListProjectsInput, completion: @escaping (Client
 
 ### `listRecipeVersions(input:completion:)`
 
-Lists the versions of a particular DataBrew recipe, except for
-LATEST\_WORKING.
+Lists the versions of a particular DataBrew recipe, except for LATEST\_WORKING.
 
 ``` swift
 public func listRecipeVersions(input: ListRecipeVersionsInput, completion: @escaping (ClientRuntime.SdkResult<ListRecipeVersionsOutputResponse, ListRecipeVersionsOutputError>) -> Void)
@@ -287,8 +272,7 @@ public func publishRecipe(input: PublishRecipeInput, completion: @escaping (Clie
 
 ### `sendProjectSessionAction(input:completion:)`
 
-Performs a recipe step within an interactive DataBrew session that's currently
-open.
+Performs a recipe step within an interactive DataBrew session that's currently open.
 
 ``` swift
 public func sendProjectSessionAction(input: SendProjectSessionActionInput, completion: @escaping (ClientRuntime.SdkResult<SendProjectSessionActionOutputResponse, SendProjectSessionActionOutputError>) -> Void)
@@ -304,8 +288,7 @@ public func startJobRun(input: StartJobRunInput, completion: @escaping (ClientRu
 
 ### `startProjectSession(input:completion:)`
 
-Creates an interactive session, enabling you to manipulate data in a DataBrew
-project.
+Creates an interactive session, enabling you to manipulate data in a DataBrew project.
 
 ``` swift
 public func startProjectSession(input: StartProjectSessionInput, completion: @escaping (ClientRuntime.SdkResult<StartProjectSessionOutputResponse, StartProjectSessionOutputError>) -> Void)
@@ -321,8 +304,7 @@ public func stopJobRun(input: StopJobRunInput, completion: @escaping (ClientRunt
 
 ### `tagResource(input:completion:)`
 
-Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or
-schedule.
+Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
@@ -362,8 +344,7 @@ public func updateProject(input: UpdateProjectInput, completion: @escaping (Clie
 
 ### `updateRecipe(input:completion:)`
 
-Modifies the definition of the LATEST\_WORKING version of a DataBrew
-recipe.
+Modifies the definition of the LATEST\_WORKING version of a DataBrew recipe.
 
 ``` swift
 public func updateRecipe(input: UpdateRecipeInput, completion: @escaping (ClientRuntime.SdkResult<UpdateRecipeOutputResponse, UpdateRecipeOutputError>) -> Void)

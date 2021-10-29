@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SageMakerFeatureStoreRuntimeClient"
+```
+
 ## Methods
 
 ### `batchGetRecord(input:completion:)`
@@ -34,9 +42,7 @@ public func batchGetRecord(input: BatchGetRecordInput, completion: @escaping (Cl
 
 ### `deleteRecord(input:completion:)`
 
-Deletes a Record from a FeatureGroup. A new record will show
-up in the OfflineStore when the DeleteRecord API is called. This
-record will have a value of True in the is\_deleted column.
+Deletes a Record from a FeatureGroup. A new record will show up in the OfflineStore when the DeleteRecord API is called. This record will have a value of True in the is\_deleted column.
 
 ``` swift
 public func deleteRecord(input: DeleteRecordInput, completion: @escaping (ClientRuntime.SdkResult<DeleteRecordOutputResponse, DeleteRecordOutputError>) -> Void)
@@ -44,9 +50,7 @@ public func deleteRecord(input: DeleteRecordInput, completion: @escaping (Client
 
 ### `getRecord(input:completion:)`
 
-Use for OnlineStore serving from a FeatureStore. Only the
-latest records stored in the OnlineStore can be retrieved. If no Record with
-RecordIdentifierValue is found, then an empty result is returned.
+Use for OnlineStore serving from a FeatureStore. Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned.
 
 ``` swift
 public func getRecord(input: GetRecordInput, completion: @escaping (ClientRuntime.SdkResult<GetRecordOutputResponse, GetRecordOutputError>) -> Void)
@@ -54,11 +58,7 @@ public func getRecord(input: GetRecordInput, completion: @escaping (ClientRuntim
 
 ### `putRecord(input:completion:)`
 
-Used for data ingestion into the FeatureStore. The PutRecord
-API writes to both the OnlineStore and OfflineStore. If the
-record is the latest record for the recordIdentifier, the record is written to
-both the OnlineStore and OfflineStore. If the record is a
-historic record, it is written only to the OfflineStore.
+Used for data ingestion into the FeatureStore. The PutRecord API writes to both the OnlineStore and OfflineStore. If the record is the latest record for the recordIdentifier, the record is written to both the OnlineStore and OfflineStore. If the record is a historic record, it is written only to the OfflineStore.
 
 ``` swift
 public func putRecord(input: PutRecordInput, completion: @escaping (ClientRuntime.SdkResult<PutRecordOutputResponse, PutRecordOutputError>) -> Void)

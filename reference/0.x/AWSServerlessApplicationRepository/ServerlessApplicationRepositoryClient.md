@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ServerlessApplicationRepositoryClient"
+```
+
 ## Methods
 
 ### `createApplication(input:completion:)`
@@ -114,10 +122,7 @@ public func listApplications(input: ListApplicationsInput, completion: @escaping
 
 ### `putApplicationPolicy(input:completion:)`
 
-Sets the permission policy for an application. For the list of actions supported for this operation, see
-<a href="https:​//docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
-Permissions
-.
+Sets the permission policy for an application. For the list of actions supported for this operation, see [Application Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions) .
 
 ``` swift
 public func putApplicationPolicy(input: PutApplicationPolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutApplicationPolicyOutputResponse, PutApplicationPolicyOutputError>) -> Void)

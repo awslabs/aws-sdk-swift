@@ -22,6 +22,14 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "MediaStoreDataClient"
+```
+
 ## Methods
 
 ### `deleteObject(input:completion:)`
@@ -50,8 +58,7 @@ public func getObject(input: GetObjectInput, completion: @escaping (ClientRuntim
 
 ### `listItems(input:completion:)`
 
-Provides a list of metadata entries about folders and objects in the specified
-folder.
+Provides a list of metadata entries about folders and objects in the specified folder.
 
 ``` swift
 public func listItems(input: ListItemsInput, completion: @escaping (ClientRuntime.SdkResult<ListItemsOutputResponse, ListItemsOutputError>) -> Void)

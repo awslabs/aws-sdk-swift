@@ -1,7 +1,6 @@
 # HealthLakeClientProtocol
 
-Amazon HealthLake is a HIPAA eligibile service that allows customers to store,
-transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
+Amazon HealthLake is a HIPAA eligibile service that allows customers to store, transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
 
 ``` swift
 public protocol HealthLakeClientProtocol 
@@ -9,7 +8,7 @@ public protocol HealthLakeClientProtocol
 
 ## Requirements
 
-### createFHIRDatastore(input:​completion:​)
+### createFHIRDatastore(input:completion:)
 
 Creates a Data Store that can ingest and export FHIR formatted data.
 
@@ -17,7 +16,7 @@ Creates a Data Store that can ingest and export FHIR formatted data.
 func createFHIRDatastore(input: CreateFHIRDatastoreInput, completion: @escaping (ClientRuntime.SdkResult<CreateFHIRDatastoreOutputResponse, CreateFHIRDatastoreOutputError>) -> Void)
 ```
 
-### deleteFHIRDatastore(input:​completion:​)
+### deleteFHIRDatastore(input:completion:)
 
 Deletes a Data Store.
 
@@ -25,17 +24,15 @@ Deletes a Data Store.
 func deleteFHIRDatastore(input: DeleteFHIRDatastoreInput, completion: @escaping (ClientRuntime.SdkResult<DeleteFHIRDatastoreOutputResponse, DeleteFHIRDatastoreOutputError>) -> Void)
 ```
 
-### describeFHIRDatastore(input:​completion:​)
+### describeFHIRDatastore(input:completion:)
 
-Gets the properties associated with the FHIR Data Store, including the Data Store ID,
-Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and
-Data Store endpoint.
+Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and Data Store endpoint.
 
 ``` swift
 func describeFHIRDatastore(input: DescribeFHIRDatastoreInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFHIRDatastoreOutputResponse, DescribeFHIRDatastoreOutputError>) -> Void)
 ```
 
-### describeFHIRExportJob(input:​completion:​)
+### describeFHIRExportJob(input:completion:)
 
 Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
 
@@ -43,7 +40,7 @@ Displays the properties of a FHIR export job, including the ID, ARN, name, and t
 func describeFHIRExportJob(input: DescribeFHIRExportJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFHIRExportJobOutputResponse, DescribeFHIRExportJobOutputError>) -> Void)
 ```
 
-### describeFHIRImportJob(input:​completion:​)
+### describeFHIRImportJob(input:completion:)
 
 Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
 
@@ -51,16 +48,15 @@ Displays the properties of a FHIR import job, including the ID, ARN, name, and t
 func describeFHIRImportJob(input: DescribeFHIRImportJobInput, completion: @escaping (ClientRuntime.SdkResult<DescribeFHIRImportJobOutputResponse, DescribeFHIRImportJobOutputError>) -> Void)
 ```
 
-### listFHIRDatastores(input:​completion:​)
+### listFHIRDatastores(input:completion:)
 
-Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store
-status.
+Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
 
 ``` swift
 func listFHIRDatastores(input: ListFHIRDatastoresInput, completion: @escaping (ClientRuntime.SdkResult<ListFHIRDatastoresOutputResponse, ListFHIRDatastoresOutputError>) -> Void)
 ```
 
-### listFHIRExportJobs(input:​completion:​)
+### listFHIRExportJobs(input:completion:)
 
 Lists all FHIR export jobs associated with an account and their statuses.
 
@@ -68,7 +64,7 @@ Lists all FHIR export jobs associated with an account and their statuses.
 func listFHIRExportJobs(input: ListFHIRExportJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListFHIRExportJobsOutputResponse, ListFHIRExportJobsOutputError>) -> Void)
 ```
 
-### listFHIRImportJobs(input:​completion:​)
+### listFHIRImportJobs(input:completion:)
 
 Lists all FHIR import jobs associated with an account and their statuses.
 
@@ -76,7 +72,7 @@ Lists all FHIR import jobs associated with an account and their statuses.
 func listFHIRImportJobs(input: ListFHIRImportJobsInput, completion: @escaping (ClientRuntime.SdkResult<ListFHIRImportJobsOutputResponse, ListFHIRImportJobsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
 Returns a list of all existing tags associated with a Data Store.
 
@@ -84,7 +80,7 @@ Returns a list of all existing tags associated with a Data Store.
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### startFHIRExportJob(input:​completion:​)
+### startFHIRExportJob(input:completion:)
 
 Begins a FHIR export job.
 
@@ -92,7 +88,7 @@ Begins a FHIR export job.
 func startFHIRExportJob(input: StartFHIRExportJobInput, completion: @escaping (ClientRuntime.SdkResult<StartFHIRExportJobOutputResponse, StartFHIRExportJobOutputError>) -> Void)
 ```
 
-### startFHIRImportJob(input:​completion:​)
+### startFHIRImportJob(input:completion:)
 
 Begins a FHIR Import job.
 
@@ -100,7 +96,7 @@ Begins a FHIR Import job.
 func startFHIRImportJob(input: StartFHIRImportJobInput, completion: @escaping (ClientRuntime.SdkResult<StartFHIRImportJobOutputResponse, StartFHIRImportJobOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
 Adds a user specifed key and value tag to a Data Store.
 
@@ -108,7 +104,7 @@ Adds a user specifed key and value tag to a Data Store.
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
 Removes tags from a Data Store.
 

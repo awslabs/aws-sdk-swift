@@ -22,13 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "CodeStarConnectionsClient"
+```
+
 ## Methods
 
 ### `createConnection(input:completion:)`
 
-Creates a connection that can then be given to other AWS services like CodePipeline so
-that it can access third-party code repositories. The connection is in pending status until
-the third-party connection handshake is completed from the console.
+Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
 
 ``` swift
 public func createConnection(input: CreateConnectionInput, completion: @escaping (ClientRuntime.SdkResult<CreateConnectionOutputResponse, CreateConnectionOutputError>) -> Void)
@@ -36,18 +42,10 @@ public func createConnection(input: CreateConnectionInput, completion: @escaping
 
 ### `createHost(input:completion:)`
 
-Creates a resource that represents the infrastructure where a third-party provider is
-installed. The host is used when you create connections to an installed third-party provider
-type, such as GitHub Enterprise Server. You create one host for all connections to that
-provider.
+Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
 
 ``` swift
 public func createHost(input: CreateHostInput, completion: @escaping (ClientRuntime.SdkResult<CreateHostOutputResponse, CreateHostOutputError>) -> Void)
-```
-
-``` 
-        A host created through the CLI or the SDK is in `PENDING` status by
-    default. You can make its status `AVAILABLE` by setting up the host in the console.
 ```
 
 ### `deleteConnection(input:completion:)`
@@ -60,14 +58,10 @@ public func deleteConnection(input: DeleteConnectionInput, completion: @escaping
 
 ### `deleteHost(input:completion:)`
 
-The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.
+The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. A host cannot be deleted if it is in the VPC\_CONFIG\_INITIALIZING or VPC\_CONFIG\_DELETING state.
 
 ``` swift
 public func deleteHost(input: DeleteHostInput, completion: @escaping (ClientRuntime.SdkResult<DeleteHostOutputResponse, DeleteHostOutputError>) -> Void)
-```
-
-``` 
-        A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
 ```
 
 ### `getConnection(input:completion:)`
@@ -80,8 +74,7 @@ public func getConnection(input: GetConnectionInput, completion: @escaping (Clie
 
 ### `getHost(input:completion:)`
 
-Returns the host ARN and details such as status, provider type, endpoint, and, if
-applicable, the VPC configuration.
+Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
 
 ``` swift
 public func getHost(input: GetHostInput, completion: @escaping (ClientRuntime.SdkResult<GetHostOutputResponse, GetHostOutputError>) -> Void)
@@ -113,8 +106,7 @@ public func listTagsForResource(input: ListTagsForResourceInput, completion: @es
 
 ### `tagResource(input:completion:)`
 
-Adds to or modifies the tags of the given resource. Tags are metadata that can be used
-to manage a resource.
+Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
 
 ``` swift
 public func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)

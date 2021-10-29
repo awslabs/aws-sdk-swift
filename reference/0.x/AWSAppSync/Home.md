@@ -8,5 +8,4 @@
 # Protocols
 
   - [AppSyncClientProtocol](/aws-sdk-swift/reference/0.x/AWSAppSync/AppSyncClientProtocol):
-    AppSync provides API actions for creating and interacting with data
-    sources using GraphQL from your application.
+    AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.

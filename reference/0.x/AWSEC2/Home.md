@@ -8,11 +8,4 @@
 # Protocols
 
   - [Ec2ClientProtocol](/aws-sdk-swift/reference/0.x/AWSEC2/Ec2ClientProtocol):
-    <fullname>Amazon Elastic Compute Cloud</fullname>
-    Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS Cloud.
-    Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications
-    faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the
-    AWS Cloud where you can launch AWS resources in a virtual network that you've defined. Amazon Elastic Block Store
-    (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available
-    and reliable storage volumes that can be attached to any running instance and used like a hard drive.
-    To learn more, see the following resources:
+    Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS Cloud. Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you've defined. Amazon Elastic Block Store (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available

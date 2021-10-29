@@ -1,8 +1,6 @@
 # LookoutMetricsClientProtocol
 
-This is the Amazon Lookout for Metrics API Reference. For an introduction to the service
-with tutorials for getting started, visit <a href="https:​//docs.aws.amazon.com/lookoutmetrics/latest/dev">Amazon
-Lookout for Metrics Developer Guide.
+This is the Amazon Lookout for Metrics API Reference. For an introduction to the service with tutorials for getting started, visit [Amazon Lookout for Metrics Developer Guide](https://docs.aws.amazon.com/lookoutmetrics/latest/dev).
 
 ``` swift
 public protocol LookoutMetricsClientProtocol 
@@ -10,7 +8,7 @@ public protocol LookoutMetricsClientProtocol
 
 ## Requirements
 
-### activateAnomalyDetector(input:​completion:​)
+### activateAnomalyDetector(input:completion:)
 
 Activates an anomaly detector.
 
@@ -18,7 +16,7 @@ Activates an anomaly detector.
 func activateAnomalyDetector(input: ActivateAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<ActivateAnomalyDetectorOutputResponse, ActivateAnomalyDetectorOutputError>) -> Void)
 ```
 
-### backTestAnomalyDetector(input:​completion:​)
+### backTestAnomalyDetector(input:completion:)
 
 Runs a backtest for anomaly detection for the specified resource.
 
@@ -26,7 +24,7 @@ Runs a backtest for anomaly detection for the specified resource.
 func backTestAnomalyDetector(input: BackTestAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<BackTestAnomalyDetectorOutputResponse, BackTestAnomalyDetectorOutputError>) -> Void)
 ```
 
-### createAlert(input:​completion:​)
+### createAlert(input:completion:)
 
 Creates an alert for an anomaly detector.
 
@@ -34,7 +32,7 @@ Creates an alert for an anomaly detector.
 func createAlert(input: CreateAlertInput, completion: @escaping (ClientRuntime.SdkResult<CreateAlertOutputResponse, CreateAlertOutputError>) -> Void)
 ```
 
-### createAnomalyDetector(input:​completion:​)
+### createAnomalyDetector(input:completion:)
 
 Creates an anomaly detector.
 
@@ -42,7 +40,7 @@ Creates an anomaly detector.
 func createAnomalyDetector(input: CreateAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<CreateAnomalyDetectorOutputResponse, CreateAnomalyDetectorOutputError>) -> Void)
 ```
 
-### createMetricSet(input:​completion:​)
+### createMetricSet(input:completion:)
 
 Creates a dataset.
 
@@ -50,7 +48,7 @@ Creates a dataset.
 func createMetricSet(input: CreateMetricSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateMetricSetOutputResponse, CreateMetricSetOutputError>) -> Void)
 ```
 
-### deleteAlert(input:​completion:​)
+### deleteAlert(input:completion:)
 
 Deletes an alert.
 
@@ -58,26 +56,23 @@ Deletes an alert.
 func deleteAlert(input: DeleteAlertInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAlertOutputResponse, DeleteAlertOutputError>) -> Void)
 ```
 
-### deleteAnomalyDetector(input:​completion:​)
+### deleteAnomalyDetector(input:completion:)
 
-Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any
-configured datasets and alerts.
+Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
 
 ``` swift
 func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<DeleteAnomalyDetectorOutputResponse, DeleteAnomalyDetectorOutputError>) -> Void)
 ```
 
-### describeAlert(input:​completion:​)
+### describeAlert(input:completion:)
 
-Describes an alert.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 func describeAlert(input: DescribeAlertInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAlertOutputResponse, DescribeAlertOutputError>) -> Void)
 ```
 
-### describeAnomalyDetectionExecutions(input:​completion:​)
+### describeAnomalyDetectionExecutions(input:completion:)
 
 Returns information about the status of the specified anomaly detection jobs.
 
@@ -85,27 +80,23 @@ Returns information about the status of the specified anomaly detection jobs.
 func describeAnomalyDetectionExecutions(input: DescribeAnomalyDetectionExecutionsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAnomalyDetectionExecutionsOutputResponse, DescribeAnomalyDetectionExecutionsOutputError>) -> Void)
 ```
 
-### describeAnomalyDetector(input:​completion:​)
+### describeAnomalyDetector(input:completion:)
 
-Describes a detector.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 func describeAnomalyDetector(input: DescribeAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAnomalyDetectorOutputResponse, DescribeAnomalyDetectorOutputError>) -> Void)
 ```
 
-### describeMetricSet(input:​completion:​)
+### describeMetricSet(input:completion:)
 
-Describes a dataset.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 func describeMetricSet(input: DescribeMetricSetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeMetricSetOutputResponse, DescribeMetricSetOutputError>) -> Void)
 ```
 
-### getAnomalyGroup(input:​completion:​)
+### getAnomalyGroup(input:completion:)
 
 Returns details about a group of anomalous metrics.
 
@@ -113,7 +104,7 @@ Returns details about a group of anomalous metrics.
 func getAnomalyGroup(input: GetAnomalyGroupInput, completion: @escaping (ClientRuntime.SdkResult<GetAnomalyGroupOutputResponse, GetAnomalyGroupOutputError>) -> Void)
 ```
 
-### getFeedback(input:​completion:​)
+### getFeedback(input:completion:)
 
 Get feedback for an anomaly group.
 
@@ -121,7 +112,7 @@ Get feedback for an anomaly group.
 func getFeedback(input: GetFeedbackInput, completion: @escaping (ClientRuntime.SdkResult<GetFeedbackOutputResponse, GetFeedbackOutputError>) -> Void)
 ```
 
-### getSampleData(input:​completion:​)
+### getSampleData(input:completion:)
 
 Returns a selection of sample records from an Amazon S3 datasource.
 
@@ -129,27 +120,23 @@ Returns a selection of sample records from an Amazon S3 datasource.
 func getSampleData(input: GetSampleDataInput, completion: @escaping (ClientRuntime.SdkResult<GetSampleDataOutputResponse, GetSampleDataOutputError>) -> Void)
 ```
 
-### listAlerts(input:​completion:​)
+### listAlerts(input:completion:)
 
-Lists the alerts attached to a detector.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 func listAlerts(input: ListAlertsInput, completion: @escaping (ClientRuntime.SdkResult<ListAlertsOutputResponse, ListAlertsOutputError>) -> Void)
 ```
 
-### listAnomalyDetectors(input:​completion:​)
+### listAnomalyDetectors(input:completion:)
 
-Lists the detectors in the current AWS Region.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 func listAnomalyDetectors(input: ListAnomalyDetectorsInput, completion: @escaping (ClientRuntime.SdkResult<ListAnomalyDetectorsOutputResponse, ListAnomalyDetectorsOutputError>) -> Void)
 ```
 
-### listAnomalyGroupSummaries(input:​completion:​)
+### listAnomalyGroupSummaries(input:completion:)
 
 Returns a list of anomaly groups.
 
@@ -157,7 +144,7 @@ Returns a list of anomaly groups.
 func listAnomalyGroupSummaries(input: ListAnomalyGroupSummariesInput, completion: @escaping (ClientRuntime.SdkResult<ListAnomalyGroupSummariesOutputResponse, ListAnomalyGroupSummariesOutputError>) -> Void)
 ```
 
-### listAnomalyGroupTimeSeries(input:​completion:​)
+### listAnomalyGroupTimeSeries(input:completion:)
 
 Gets a list of anomalous metrics for a measure in an anomaly group.
 
@@ -165,25 +152,23 @@ Gets a list of anomalous metrics for a measure in an anomaly group.
 func listAnomalyGroupTimeSeries(input: ListAnomalyGroupTimeSeriesInput, completion: @escaping (ClientRuntime.SdkResult<ListAnomalyGroupTimeSeriesOutputResponse, ListAnomalyGroupTimeSeriesOutputError>) -> Void)
 ```
 
-### listMetricSets(input:​completion:​)
+### listMetricSets(input:completion:)
 
-Lists the datasets in the current AWS Region.
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource
-immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
 
 ``` swift
 func listMetricSets(input: ListMetricSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListMetricSetsOutputResponse, ListMetricSetsOutputError>) -> Void)
 ```
 
-### listTagsForResource(input:​completion:​)
+### listTagsForResource(input:completion:)
 
-Gets a list of <a href="https:​//docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html">tags for a detector, dataset, or alert.
+Gets a list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) for a detector, dataset, or alert.
 
 ``` swift
 func listTagsForResource(input: ListTagsForResourceInput, completion: @escaping (ClientRuntime.SdkResult<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>) -> Void)
 ```
 
-### putFeedback(input:​completion:​)
+### putFeedback(input:completion:)
 
 Add feedback for an anomalous metric.
 
@@ -191,23 +176,23 @@ Add feedback for an anomalous metric.
 func putFeedback(input: PutFeedbackInput, completion: @escaping (ClientRuntime.SdkResult<PutFeedbackOutputResponse, PutFeedbackOutputError>) -> Void)
 ```
 
-### tagResource(input:​completion:​)
+### tagResource(input:completion:)
 
-Adds <a href="https:​//docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html">tags to a detector, dataset, or alert.
+Adds [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) to a detector, dataset, or alert.
 
 ``` swift
 func tagResource(input: TagResourceInput, completion: @escaping (ClientRuntime.SdkResult<TagResourceOutputResponse, TagResourceOutputError>) -> Void)
 ```
 
-### untagResource(input:​completion:​)
+### untagResource(input:completion:)
 
-Removes <a href="https:​//docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html">tags from a detector, dataset, or alert.
+Removes [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) from a detector, dataset, or alert.
 
 ``` swift
 func untagResource(input: UntagResourceInput, completion: @escaping (ClientRuntime.SdkResult<UntagResourceOutputResponse, UntagResourceOutputError>) -> Void)
 ```
 
-### updateAnomalyDetector(input:​completion:​)
+### updateAnomalyDetector(input:completion:)
 
 Updates a detector. After activation, you can only change a detector's ingestion delay and description.
 
@@ -215,7 +200,7 @@ Updates a detector. After activation, you can only change a detector's ingestion
 func updateAnomalyDetector(input: UpdateAnomalyDetectorInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAnomalyDetectorOutputResponse, UpdateAnomalyDetectorOutputError>) -> Void)
 ```
 
-### updateMetricSet(input:​completion:​)
+### updateMetricSet(input:completion:)
 
 Updates a dataset.
 

@@ -8,5 +8,4 @@
 # Protocols
 
   - [VoiceIdClientProtocol](/aws-sdk-swift/reference/0.x/AWSVoiceID/VoiceIdClientProtocol):
-    Amazon Connect Voice ID provides real-time caller authentication and fraud screening. This guide
-    describes the APIs used for this service.
+    Amazon Connect Voice ID provides real-time caller authentication and fraud screening. This guide describes the APIs used for this service.

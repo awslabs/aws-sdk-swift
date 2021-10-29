@@ -22,16 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SesClient"
+```
+
 ## Methods
 
 ### `cloneReceiptRuleSet(input:completion:)`
 
-Creates a receipt rule set by cloning an existing one. All receipt rules and
-configurations are copied to the new receipt rule set and are completely independent of
-the source rule set.
-For information about setting up rule sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func cloneReceiptRuleSet(input: CloneReceiptRuleSetInput, completion: @escaping (ClientRuntime.SdkResult<CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>) -> Void)
@@ -39,11 +42,7 @@ public func cloneReceiptRuleSet(input: CloneReceiptRuleSetInput, completion: @es
 
 ### `createConfigurationSet(input:completion:)`
 
-Creates a configuration set.
-Configuration sets enable you to publish email sending events. For information about
-using configuration sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Creates a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func createConfigurationSet(input: CreateConfigurationSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>) -> Void)
@@ -51,30 +50,15 @@ public func createConfigurationSet(input: CreateConfigurationSetInput, completio
 
 ### `createConfigurationSetEventDestination(input:completion:)`
 
-Creates a configuration set event destination.
+Creates a configuration set event destination. When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). An event destination is the AWS service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput, completion: @escaping (ClientRuntime.SdkResult<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>) -> Void)
 ```
 
-``` 
-        When you create or update an event destination, you must provide one, and only
-            one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS).
-
-    An event destination is the AWS service to which Amazon SES publishes the email sending
-        events associated with a configuration set. For information about using configuration
-        sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon SES Developer
-            Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `createConfigurationSetTrackingOptions(input:completion:)`
 
-Creates an association between a configuration set and a custom domain for open and
-click event tracking.
-By default, images and links used for tracking open and click events are hosted on
-domains operated by Amazon SES. You can configure a subdomain of your own to handle these
-events. For information about using custom domains, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Amazon SES Developer Guide.
+Creates an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html).
 
 ``` swift
 public func createConfigurationSetTrackingOptions(input: CreateConfigurationSetTrackingOptionsInput, completion: @escaping (ClientRuntime.SdkResult<CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>) -> Void)
@@ -82,10 +66,7 @@ public func createConfigurationSetTrackingOptions(input: CreateConfigurationSetT
 
 ### `createCustomVerificationEmailTemplate(input:completion:)`
 
-Creates a new custom verification email template.
-For more information about custom verification email templates, see <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using Custom Verification Email Templates in the Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Creates a new custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 ``` swift
 public func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>) -> Void)
@@ -93,9 +74,7 @@ public func createCustomVerificationEmailTemplate(input: CreateCustomVerificatio
 
 ### `createReceiptFilter(input:completion:)`
 
-Creates a new IP address filter.
-For information about setting up IP address filters, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon SES Developer Guide.
-You can execute this operation no more than once per second.
+Creates a new IP address filter. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func createReceiptFilter(input: CreateReceiptFilterInput, completion: @escaping (ClientRuntime.SdkResult<CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>) -> Void)
@@ -103,10 +82,7 @@ public func createReceiptFilter(input: CreateReceiptFilterInput, completion: @es
 
 ### `createReceiptRule(input:completion:)`
 
-Creates a receipt rule.
-For information about setting up receipt rules, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Creates a receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func createReceiptRule(input: CreateReceiptRuleInput, completion: @escaping (ClientRuntime.SdkResult<CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>) -> Void)
@@ -114,10 +90,7 @@ public func createReceiptRule(input: CreateReceiptRuleInput, completion: @escapi
 
 ### `createReceiptRuleSet(input:completion:)`
 
-Creates an empty receipt rule set.
-For information about setting up receipt rule sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Creates an empty receipt rule set. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func createReceiptRuleSet(input: CreateReceiptRuleSetInput, completion: @escaping (ClientRuntime.SdkResult<CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>) -> Void)
@@ -125,10 +98,7 @@ public func createReceiptRuleSet(input: CreateReceiptRuleSetInput, completion: @
 
 ### `createTemplate(input:completion:)`
 
-Creates an email template. Email templates enable you to send personalized email to
-one or more destinations in a single API operation. For more information, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func createTemplate(input: CreateTemplateInput, completion: @escaping (ClientRuntime.SdkResult<CreateTemplateOutputResponse, CreateTemplateOutputError>) -> Void)
@@ -136,9 +106,7 @@ public func createTemplate(input: CreateTemplateInput, completion: @escaping (Cl
 
 ### `deleteConfigurationSet(input:completion:)`
 
-Deletes a configuration set. Configuration sets enable you to publish email sending
-events. For information about using configuration sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon SES Developer Guide.
-You can execute this operation no more than once per second.
+Deletes a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteConfigurationSet(input: DeleteConfigurationSetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>) -> Void)
@@ -146,10 +114,7 @@ public func deleteConfigurationSet(input: DeleteConfigurationSetInput, completio
 
 ### `deleteConfigurationSetEventDestination(input:completion:)`
 
-Deletes a configuration set event destination. Configuration set event destinations
-are associated with configuration sets, which enable you to publish email sending
-events. For information about using configuration sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon SES Developer Guide.
-You can execute this operation no more than once per second.
+Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>) -> Void)
@@ -157,28 +122,15 @@ public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSet
 
 ### `deleteConfigurationSetTrackingOptions(input:completion:)`
 
-Deletes an association between a configuration set and a custom domain for open and
-click event tracking.
-By default, images and links used for tracking open and click events are hosted on
-domains operated by Amazon SES. You can configure a subdomain of your own to handle these
-events. For information about using custom domains, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Amazon SES Developer Guide.
+Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html). Deleting this kind of association will result in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains.
 
 ``` swift
 public func deleteConfigurationSetTrackingOptions(input: DeleteConfigurationSetTrackingOptionsInput, completion: @escaping (ClientRuntime.SdkResult<DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>) -> Void)
 ```
 
-``` 
-        Deleting this kind of association will result in emails sent using the specified
-            configuration set to capture open and click events using the standard,
-            Amazon SES-operated domains.
-```
-
 ### `deleteCustomVerificationEmailTemplate(input:completion:)`
 
-Deletes an existing custom verification email template.
-For more information about custom verification email templates, see <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using Custom Verification Email Templates in the Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>) -> Void)
@@ -186,9 +138,7 @@ public func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificatio
 
 ### `deleteIdentity(input:completion:)`
 
-Deletes the specified identity (an email address or a domain) from the list of
-verified identities.
-You can execute this operation no more than once per second.
+Deletes the specified identity (an email address or a domain) from the list of verified identities. You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteIdentity(input: DeleteIdentityInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIdentityOutputResponse, DeleteIdentityOutputError>) -> Void)
@@ -196,31 +146,15 @@ public func deleteIdentity(input: DeleteIdentityInput, completion: @escaping (Cl
 
 ### `deleteIdentityPolicy(input:completion:)`
 
-Deletes the specified sending authorization policy for the given identity (an email
-address or a domain). This API returns successfully even if a policy with the specified
-name does not exist.
+Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteIdentityPolicy(input: DeleteIdentityPolicyInput, completion: @escaping (ClientRuntime.SdkResult<DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>) -> Void)
 ```
 
-``` 
-        This API is for the identity owner only. If you have not verified the identity,
-            this API will return an error.
-
-    Sending authorization is a feature that enables an identity owner to authorize other
-        senders to use its identities. For information about using sending authorization, see
-        the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon SES Developer
-            Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `deleteReceiptFilter(input:completion:)`
 
-Deletes the specified IP address filter.
-For information about managing IP address filters, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-ip-filters.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Deletes the specified IP address filter. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-ip-filters.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteReceiptFilter(input: DeleteReceiptFilterInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>) -> Void)
@@ -228,10 +162,7 @@ public func deleteReceiptFilter(input: DeleteReceiptFilterInput, completion: @es
 
 ### `deleteReceiptRule(input:completion:)`
 
-Deletes the specified receipt rule.
-For information about managing receipt rules, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Deletes the specified receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteReceiptRule(input: DeleteReceiptRuleInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>) -> Void)
@@ -239,24 +170,15 @@ public func deleteReceiptRule(input: DeleteReceiptRuleInput, completion: @escapi
 
 ### `deleteReceiptRuleSet(input:completion:)`
 
-Deletes the specified receipt rule set and all of the receipt rules it
-contains.
+Deletes the specified receipt rule set and all of the receipt rules it contains. The currently active rule set cannot be deleted. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteReceiptRuleSet(input: DeleteReceiptRuleSetInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>) -> Void)
 ```
 
-``` 
-        The currently active rule set cannot be deleted.
-
-    For information about managing receipt rule sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon SES Developer Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `deleteTemplate(input:completion:)`
 
-Deletes an email template.
-You can execute this operation no more than once per second.
+Deletes an email template. You can execute this operation no more than once per second.
 
 ``` swift
 public func deleteTemplate(input: DeleteTemplateInput, completion: @escaping (ClientRuntime.SdkResult<DeleteTemplateOutputResponse, DeleteTemplateOutputError>) -> Void)
@@ -264,8 +186,7 @@ public func deleteTemplate(input: DeleteTemplateInput, completion: @escaping (Cl
 
 ### `deleteVerifiedEmailAddress(input:completion:)`
 
-Deprecated. Use the DeleteIdentity operation to delete email addresses
-and domains.
+Deprecated. Use the DeleteIdentity operation to delete email addresses and domains.
 
 ``` swift
 public func deleteVerifiedEmailAddress(input: DeleteVerifiedEmailAddressInput, completion: @escaping (ClientRuntime.SdkResult<DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>) -> Void)
@@ -273,11 +194,7 @@ public func deleteVerifiedEmailAddress(input: DeleteVerifiedEmailAddressInput, c
 
 ### `describeActiveReceiptRuleSet(input:completion:)`
 
-Returns the metadata and receipt rules for the receipt rule set that is currently
-active.
-For information about setting up receipt rule sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func describeActiveReceiptRuleSet(input: DescribeActiveReceiptRuleSetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>) -> Void)
@@ -285,10 +202,7 @@ public func describeActiveReceiptRuleSet(input: DescribeActiveReceiptRuleSetInpu
 
 ### `describeConfigurationSet(input:completion:)`
 
-Returns the details of the specified configuration set. For information about using
-configuration sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Returns the details of the specified configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func describeConfigurationSet(input: DescribeConfigurationSetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>) -> Void)
@@ -296,10 +210,7 @@ public func describeConfigurationSet(input: DescribeConfigurationSetInput, compl
 
 ### `describeReceiptRule(input:completion:)`
 
-Returns the details of the specified receipt rule.
-For information about setting up receipt rules, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Returns the details of the specified receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func describeReceiptRule(input: DescribeReceiptRuleInput, completion: @escaping (ClientRuntime.SdkResult<DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>) -> Void)
@@ -307,9 +218,7 @@ public func describeReceiptRule(input: DescribeReceiptRuleInput, completion: @es
 
 ### `describeReceiptRuleSet(input:completion:)`
 
-Returns the details of the specified receipt rule set.
-For information about managing receipt rule sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon SES Developer Guide.
-You can execute this operation no more than once per second.
+Returns the details of the specified receipt rule set. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func describeReceiptRuleSet(input: DescribeReceiptRuleSetInput, completion: @escaping (ClientRuntime.SdkResult<DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>) -> Void)
@@ -317,8 +226,7 @@ public func describeReceiptRuleSet(input: DescribeReceiptRuleSetInput, completio
 
 ### `getAccountSendingEnabled(input:completion:)`
 
-Returns the email sending status of the Amazon SES account for the current region.
-You can execute this operation no more than once per second.
+Returns the email sending status of the Amazon SES account for the current region. You can execute this operation no more than once per second.
 
 ``` swift
 public func getAccountSendingEnabled(input: GetAccountSendingEnabledInput, completion: @escaping (ClientRuntime.SdkResult<GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>) -> Void)
@@ -326,11 +234,7 @@ public func getAccountSendingEnabled(input: GetAccountSendingEnabledInput, compl
 
 ### `getCustomVerificationEmailTemplate(input:completion:)`
 
-Returns the custom email verification template for the template name you
-specify.
-For more information about custom verification email templates, see <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using Custom Verification Email Templates in the Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 ``` swift
 public func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>) -> Void)
@@ -338,41 +242,23 @@ public func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmail
 
 ### `getIdentityDkimAttributes(input:completion:)`
 
-Returns the current status of Easy DKIM signing for an entity. For domain name
-identities, this operation also returns the DKIM tokens that are required for Easy DKIM
-signing, and whether Amazon SES has successfully verified that these tokens have been
-published.
-This operation takes a list of identities as input and returns the following
-information for each:​
+Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published. This operation takes a list of identities as input and returns the following information for each:
 
 ``` swift
 public func getIdentityDkimAttributes(input: GetIdentityDkimAttributesInput, completion: @escaping (ClientRuntime.SdkResult<GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>) -> Void)
 ```
 
-``` 
-            Whether Easy DKIM signing is enabled or disabled.
+  - Whether Easy DKIM signing is enabled or disabled.
 
+  - A set of DKIM tokens that represent the identity. If the identity is an email address, the tokens represent the domain of that address.
 
-            A set of DKIM tokens that represent the identity. If the identity is an email
-                address, the tokens represent the domain of that address.
+  - Whether Amazon SES has successfully verified the DKIM tokens published in the domain's DNS. This information is only returned for domain name identities, not for email addresses.
 
-
-            Whether Amazon SES has successfully verified the DKIM tokens published in the
-                domain's DNS. This information is only returned for domain name identities, not
-                for email addresses.
-
-
-    This operation is throttled at one request per second and can only get DKIM attributes
-        for up to 100 identities at a time.
-    For more information about creating DNS records using DKIM tokens, go to the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim-dns-records.html">Amazon SES Developer Guide.
-```
+This operation is throttled at one request per second and can only get DKIM attributes for up to 100 identities at a time. For more information about creating DNS records using DKIM tokens, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim-dns-records.html).
 
 ### `getIdentityMailFromDomainAttributes(input:completion:)`
 
-Returns the custom MAIL FROM attributes for a list of identities (email addresses :​
-domains).
-This operation is throttled at one request per second and can only get custom MAIL
-FROM attributes for up to 100 identities at a time.
+Returns the custom MAIL FROM attributes for a list of identities (email addresses : domains). This operation is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time.
 
 ``` swift
 public func getIdentityMailFromDomainAttributes(input: GetIdentityMailFromDomainAttributesInput, completion: @escaping (ClientRuntime.SdkResult<GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>) -> Void)
@@ -380,12 +266,7 @@ public func getIdentityMailFromDomainAttributes(input: GetIdentityMailFromDomain
 
 ### `getIdentityNotificationAttributes(input:completion:)`
 
-Given a list of verified identities (email addresses and/or domains), returns a
-structure describing identity notification attributes.
-This operation is throttled at one request per second and can only get notification
-attributes for up to 100 identities at a time.
-For more information about using notifications with Amazon SES, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon SES
-Developer Guide.
+Given a list of verified identities (email addresses and/or domains), returns a structure describing identity notification attributes. This operation is throttled at one request per second and can only get notification attributes for up to 100 identities at a time. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html).
 
 ``` swift
 public func getIdentityNotificationAttributes(input: GetIdentityNotificationAttributesInput, completion: @escaping (ClientRuntime.SdkResult<GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>) -> Void)
@@ -393,43 +274,15 @@ public func getIdentityNotificationAttributes(input: GetIdentityNotificationAttr
 
 ### `getIdentityPolicies(input:completion:)`
 
-Returns the requested sending authorization policies for the given identity (an email
-address or a domain). The policies are returned as a map of policy names to policy
-contents. You can retrieve a maximum of 20 policies at a time.
+Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func getIdentityPolicies(input: GetIdentityPoliciesInput, completion: @escaping (ClientRuntime.SdkResult<GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>) -> Void)
 ```
 
-``` 
-        This API is for the identity owner only. If you have not verified the identity,
-            this API will return an error.
-
-    Sending authorization is a feature that enables an identity owner to authorize other
-        senders to use its identities. For information about using sending authorization, see
-        the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon SES Developer
-            Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `getIdentityVerificationAttributes(input:completion:)`
 
-Given a list of identities (email addresses and/or domains), returns the verification
-status and (for domain identities) the verification token for each identity.
-The verification status of an email address is "Pending" until the email address owner
-clicks the link within the verification email that Amazon SES sent to that address. If the
-email address owner clicks the link within 24 hours, the verification status of the
-email address changes to "Success". If the link is not clicked within 24 hours, the
-verification status changes to "Failed." In that case, if you still want to verify the
-email address, you must restart the verification process from the beginning.
-For domain identities, the domain's verification status is "Pending" as Amazon SES searches
-for the required TXT record in the DNS settings of the domain. When Amazon SES detects the
-record, the domain's verification status changes to "Success". If Amazon SES is unable to
-detect the record within 72 hours, the domain's verification status changes to "Failed."
-In that case, if you still want to verify the domain, you must restart the verification
-process from the beginning.
-This operation is throttled at one request per second and can only get verification
-attributes for up to 100 identities at a time.
+Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity. The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 hours, the verification status changes to "Failed." In that case, if you still want to verify the email address, you must restart the verification process from the beginning. For domain identities, the domain's verification status is "Pending" as Amazon SES searches for the required TXT record in the DNS settings of the domain. When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, if you still want to verify the domain, you must restart the verification process from the beginning. This operation is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
 
 ``` swift
 public func getIdentityVerificationAttributes(input: GetIdentityVerificationAttributesInput, completion: @escaping (ClientRuntime.SdkResult<GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>) -> Void)
@@ -437,8 +290,7 @@ public func getIdentityVerificationAttributes(input: GetIdentityVerificationAttr
 
 ### `getSendQuota(input:completion:)`
 
-Provides the sending limits for the Amazon SES account.
-You can execute this operation no more than once per second.
+Provides the sending limits for the Amazon SES account. You can execute this operation no more than once per second.
 
 ``` swift
 public func getSendQuota(input: GetSendQuotaInput, completion: @escaping (ClientRuntime.SdkResult<GetSendQuotaOutputResponse, GetSendQuotaOutputError>) -> Void)
@@ -446,10 +298,7 @@ public func getSendQuota(input: GetSendQuotaInput, completion: @escaping (Client
 
 ### `getSendStatistics(input:completion:)`
 
-Provides sending statistics for the current AWS Region. The result is a list of data
-points, representing the last two weeks of sending activity. Each data point in the list
-contains statistics for a 15-minute period of time.
-You can execute this operation no more than once per second.
+Provides sending statistics for the current AWS Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
 
 ``` swift
 public func getSendStatistics(input: GetSendStatisticsInput, completion: @escaping (ClientRuntime.SdkResult<GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>) -> Void)
@@ -457,9 +306,7 @@ public func getSendStatistics(input: GetSendStatisticsInput, completion: @escapi
 
 ### `getTemplate(input:completion:)`
 
-Displays the template object (which includes the Subject line, HTML part and text
-part) for the template you specify.
-You can execute this operation no more than once per second.
+Displays the template object (which includes the Subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
 
 ``` swift
 public func getTemplate(input: GetTemplateInput, completion: @escaping (ClientRuntime.SdkResult<GetTemplateOutputResponse, GetTemplateOutputError>) -> Void)
@@ -467,30 +314,15 @@ public func getTemplate(input: GetTemplateInput, completion: @escaping (ClientRu
 
 ### `listConfigurationSets(input:completion:)`
 
-Provides a list of the configuration sets associated with your Amazon SES account in the
-current AWS Region. For information about using configuration sets, see <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer
-Guide.
+Provides a list of the configuration sets associated with your Amazon SES account in the current AWS Region. For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second. This operation will return up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation will also return a NextToken element. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
 
 ``` swift
 public func listConfigurationSets(input: ListConfigurationSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>) -> Void)
 ```
 
-``` 
-    You can execute this operation no more than once per second. This operation will
-        return up to 1,000 configuration sets each time it is run. If your Amazon SES account has
-        more than 1,000 configuration sets, this operation will also return a NextToken element.
-        You can then execute the ListConfigurationSets operation again, passing the
-            NextToken parameter and the value of the NextToken element to retrieve
-        additional results.
-```
-
 ### `listCustomVerificationEmailTemplates(input:completion:)`
 
-Lists the existing custom verification email templates for your account in the current
-AWS Region.
-For more information about custom verification email templates, see <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using Custom Verification Email Templates in the Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 ``` swift
 public func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput, completion: @escaping (ClientRuntime.SdkResult<ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>) -> Void)
@@ -498,9 +330,7 @@ public func listCustomVerificationEmailTemplates(input: ListCustomVerificationEm
 
 ### `listIdentities(input:completion:)`
 
-Returns a list containing all of the identities (email addresses and domains) for your
-AWS account in the current AWS Region, regardless of verification status.
-You can execute this operation no more than once per second.
+Returns a list containing all of the identities (email addresses and domains) for your AWS account in the current AWS Region, regardless of verification status. You can execute this operation no more than once per second.
 
 ``` swift
 public func listIdentities(input: ListIdentitiesInput, completion: @escaping (ClientRuntime.SdkResult<ListIdentitiesOutputResponse, ListIdentitiesOutputError>) -> Void)
@@ -508,32 +338,15 @@ public func listIdentities(input: ListIdentitiesInput, completion: @escaping (Cl
 
 ### `listIdentityPolicies(input:completion:)`
 
-Returns a list of sending authorization policies that are attached to the given
-identity (an email address or a domain). This API returns only a list. If you want the
-actual policy content, you can use GetIdentityPolicies.
+Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This API returns only a list. If you want the actual policy content, you can use GetIdentityPolicies. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func listIdentityPolicies(input: ListIdentityPoliciesInput, completion: @escaping (ClientRuntime.SdkResult<ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>) -> Void)
 ```
 
-``` 
-        This API is for the identity owner only. If you have not verified the identity,
-            this API will return an error.
-
-    Sending authorization is a feature that enables an identity owner to authorize other
-        senders to use its identities. For information about using sending authorization, see
-        the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon SES Developer
-            Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `listReceiptFilters(input:completion:)`
 
-Lists the IP address filters associated with your AWS account in the current AWS
-Region.
-For information about managing IP address filters, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-ip-filters.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Lists the IP address filters associated with your AWS account in the current AWS Region. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-ip-filters.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func listReceiptFilters(input: ListReceiptFiltersInput, completion: @escaping (ClientRuntime.SdkResult<ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>) -> Void)
@@ -541,12 +354,7 @@ public func listReceiptFilters(input: ListReceiptFiltersInput, completion: @esca
 
 ### `listReceiptRuleSets(input:completion:)`
 
-Lists the receipt rule sets that exist under your AWS account in the current AWS
-Region. If there are additional receipt rule sets to be retrieved, you will receive a
-NextToken that you can provide to the next call to
-ListReceiptRuleSets to retrieve the additional entries.
-For information about managing receipt rule sets, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon SES Developer Guide.
-You can execute this operation no more than once per second.
+Lists the receipt rule sets that exist under your AWS account in the current AWS Region. If there are additional receipt rule sets to be retrieved, you will receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func listReceiptRuleSets(input: ListReceiptRuleSetsInput, completion: @escaping (ClientRuntime.SdkResult<ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>) -> Void)
@@ -554,9 +362,7 @@ public func listReceiptRuleSets(input: ListReceiptRuleSetsInput, completion: @es
 
 ### `listTemplates(input:completion:)`
 
-Lists the email templates present in your Amazon SES account in the current AWS
-Region.
-You can execute this operation no more than once per second.
+Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
 
 ``` swift
 public func listTemplates(input: ListTemplatesInput, completion: @escaping (ClientRuntime.SdkResult<ListTemplatesOutputResponse, ListTemplatesOutputError>) -> Void)
@@ -564,8 +370,7 @@ public func listTemplates(input: ListTemplatesInput, completion: @escaping (Clie
 
 ### `listVerifiedEmailAddresses(input:completion:)`
 
-Deprecated. Use the ListIdentities operation to list the email addresses
-and domains associated with your account.
+Deprecated. Use the ListIdentities operation to list the email addresses and domains associated with your account.
 
 ``` swift
 public func listVerifiedEmailAddresses(input: ListVerifiedEmailAddressesInput, completion: @escaping (ClientRuntime.SdkResult<ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>) -> Void)
@@ -581,119 +386,53 @@ public func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliver
 
 ### `putIdentityPolicy(input:completion:)`
 
-Adds or updates a sending authorization policy for the specified identity (an email
-address or a domain).
+Adds or updates a sending authorization policy for the specified identity (an email address or a domain). This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func putIdentityPolicy(input: PutIdentityPolicyInput, completion: @escaping (ClientRuntime.SdkResult<PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>) -> Void)
 ```
 
-``` 
-        This API is for the identity owner only. If you have not verified the identity,
-            this API will return an error.
-
-    Sending authorization is a feature that enables an identity owner to authorize other
-        senders to use its identities. For information about using sending authorization, see
-        the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon SES Developer
-            Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `reorderReceiptRuleSet(input:completion:)`
 
-Reorders the receipt rules within a receipt rule set.
+Reorders the receipt rules within a receipt rule set. All of the rules in the rule set must be represented in this request. That is, this API will return an error if the reorder request doesn't explicitly position all of the rules. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func reorderReceiptRuleSet(input: ReorderReceiptRuleSetInput, completion: @escaping (ClientRuntime.SdkResult<ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>) -> Void)
 ```
 
-``` 
-        All of the rules in the rule set must be represented in this request. That is,
-            this API will return an error if the reorder request doesn't explicitly position all
-            of the rules.
-
-    For information about managing receipt rule sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon SES Developer Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `sendBounce(input:completion:)`
 
-Generates and sends a bounce message to the sender of an email you received through
-Amazon SES. You can only use this API on an email up to 24 hours after you receive it.
+Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this API on an email up to 24 hours after you receive it. You cannot use this API to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func sendBounce(input: SendBounceInput, completion: @escaping (ClientRuntime.SdkResult<SendBounceOutputResponse, SendBounceOutputError>) -> Void)
 ```
 
-``` 
-        You cannot use this API to send generic bounces for mail that was not received by
-            Amazon SES.
-
-    For information about receiving email through Amazon SES, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon SES
-            Developer Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `sendBulkTemplatedEmail(input:completion:)`
 
-Composes an email message to multiple destinations. The message body is created using
-an email template.
-In order to send email using the SendBulkTemplatedEmail operation, your
-call to the API must meet the following requirements:​
+Composes an email message to multiple destinations. The message body is created using an email template. In order to send email using the SendBulkTemplatedEmail operation, your call to the API must meet the following requirements:
 
 ``` swift
 public func sendBulkTemplatedEmail(input: SendBulkTemplatedEmailInput, completion: @escaping (ClientRuntime.SdkResult<SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>) -> Void)
 ```
 
-``` 
-            The call must refer to an existing email template. You can create email
-                templates using the CreateTemplate operation.
+  - The call must refer to an existing email template. You can create email templates using the \[CreateTemplate\] operation.
 
+  - The message must be sent from a verified email address or domain.
 
-            The message must be sent from a verified email address or domain.
+  - If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see [Verifying Email Addresses and Domains](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html) in the Amazon SES Developer Guide.
 
+  - The maximum message size is 10 MB.
 
-            If your account is still in the Amazon SES sandbox, you may only send to verified
-                addresses or domains, or to email addresses associated with the Amazon SES Mailbox
-                Simulator. For more information, see <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
-                    Email Addresses and Domains in the Amazon SES Developer
-                    Guide.
+  - Each Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@\[SubDomain.\]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.
 
+  - The message may not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need to send an email message to a larger audience, you can divide your recipient list into groups of 50 or fewer, and then call the SendBulkTemplatedEmail operation several times to send the message to each group.
 
-
-            The maximum message size is 10 MB.
-
-
-            Each Destination parameter must include at least one recipient
-                email address. The recipient address can be a To: address, a CC: address, or a
-                BCC: address. If a recipient email address is invalid (that is, it is not in the
-                format UserName@[SubDomain.]Domain.TopLevelDomain), the
-                entire message will be rejected, even if the message contains other recipients
-                that are valid.
-
-
-            The message may not include more than 50 recipients, across the To:, CC: and
-                BCC: fields. If you need to send an email message to a larger audience, you can
-                divide your recipient list into groups of 50 or fewer, and then call the
-                    SendBulkTemplatedEmail operation several times to send the
-                message to each group.
-
-
-            The number of destinations you can contact in a single call to the API may be
-                limited by your account's maximum sending rate.
-```
+  - The number of destinations you can contact in a single call to the API may be limited by your account's maximum sending rate.
 
 ### `sendCustomVerificationEmail(input:completion:)`
 
-Adds an email address to the list of identities for your Amazon SES account in the current
-AWS Region and attempts to verify it. As a result of executing this operation, a
-customized verification email is sent to the specified address.
-To use this operation, you must first create a custom verification email template. For
-more information about creating and using custom verification email templates, see
-<a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using Custom
-Verification Email Templates in the Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Adds an email address to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 ``` swift
 public func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput, completion: @escaping (ClientRuntime.SdkResult<SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>) -> Void)
@@ -701,292 +440,111 @@ public func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput,
 
 ### `sendEmail(input:completion:)`
 
-Composes an email message and immediately queues it for sending. In order to send
-email using the SendEmail operation, your message must meet the following
-requirements:​
+Composes an email message and immediately queues it for sending. In order to send email using the SendEmail operation, your message must meet the following requirements:
 
 ``` swift
 public func sendEmail(input: SendEmailInput, completion: @escaping (ClientRuntime.SdkResult<SendEmailOutputResponse, SendEmailOutputError>) -> Void)
 ```
 
-``` 
-            The message must be sent from a verified email address or domain. If you
-                attempt to send email using a non-verified address or domain, the operation will
-                result in an "Email address not verified" error.
+  - The message must be sent from a verified email address or domain. If you attempt to send email using a non-verified address or domain, the operation will result in an "Email address not verified" error.
 
+  - If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see [Verifying Email Addresses and Domains](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html) in the Amazon SES Developer Guide.
 
-            If your account is still in the Amazon SES sandbox, you may only send to verified
-                addresses or domains, or to email addresses associated with the Amazon SES Mailbox
-                Simulator. For more information, see <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
-                    Email Addresses and Domains in the Amazon SES Developer
-                    Guide.
+  - The maximum message size is 10 MB.
 
+  - The message must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@\[SubDomain.\]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.
 
+  - The message may not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need to send an email message to a larger audience, you can divide your recipient list into groups of 50 or fewer, and then call the SendEmail operation several times to send the message to each group.
 
-            The maximum message size is 10 MB.
-
-
-            The message must include at least one recipient email address. The recipient
-                address can be a To: address, a CC: address, or a BCC: address. If a recipient
-                email address is invalid (that is, it is not in the format
-                    UserName@[SubDomain.]Domain.TopLevelDomain), the entire
-                message will be rejected, even if the message contains other recipients that are
-                valid.
-
-
-            The message may not include more than 50 recipients, across the To:, CC: and
-                BCC: fields. If you need to send an email message to a larger audience, you can
-                divide your recipient list into groups of 50 or fewer, and then call the
-                    SendEmail operation several times to send the message to each
-                group.
-
-
-
-        For every message that you send, the total number of recipients (including each
-            recipient in the To:, CC: and BCC: fields) is counted against the maximum number of
-            emails you can send in a 24-hour period (your sending quota).
-            For more information about sending quotas in Amazon SES, see <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/manage-sending-limits.html">Managing Your Amazon SES
-                Sending Limits in the Amazon SES Developer Guide.
-```
+For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see [Managing Your Amazon SES Sending Limits](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/manage-sending-limits.html) in the Amazon SES Developer Guide.
 
 ### `sendRawEmail(input:completion:)`
 
-Composes an email message and immediately queues it for sending.
+Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail API operation. When you use the SendRawEmail operation, you can specify the headers of the message as well as its content. This flexibility is useful, for example, when you want to send a multipart MIME email (such a message that contains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the following requirements:
 
 ``` swift
 public func sendRawEmail(input: SendRawEmailInput, completion: @escaping (ClientRuntime.SdkResult<SendRawEmailOutputResponse, SendRawEmailOutputError>) -> Void)
 ```
 
-``` 
-    This operation is more flexible than the SendEmail API operation. When
-        you use the SendRawEmail operation, you can specify the headers of the
-        message as well as its content. This flexibility is useful, for example, when you want
-        to send a multipart MIME email (such a message that contains both a text and an HTML
-        version). You can also use this operation to send messages that include
-        attachments.
-    The SendRawEmail operation has the following requirements:
+  - You can only send email from [verified email addresses or domains](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html). If you try to send email from an address that isn't verified, the operation results in an "Email address not verified" error.
 
+  - If your account is still in the [Amazon SES sandbox](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html), you can only send email to other verified addresses in your account, or to addresses that are associated with the [Amazon SES mailbox simulator](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mailbox-simulator.html).
 
-            You can only send email from <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">verified email addresses or domains. If you try
-                to send email from an address that isn't verified, the operation results in an
-                "Email address not verified" error.
+  - The maximum message size, including attachments, is 10 MB.
 
+  - Each message has to include at least one recipient address. A recipient address includes any address on the To:, CC:, or BCC: lines.
 
-            If your account is still in the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html">Amazon SES sandbox, you can only send email to other
-                verified addresses in your account, or to addresses that are associated with the
-                    <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mailbox-simulator.html">Amazon SES mailbox simulator.
+  - If you send a single message to more than one recipient address, and one of the recipient addresses isn't in a valid format (that is, it's not in the format UserName@\[SubDomain.\]Domain.TopLevelDomain), Amazon SES rejects the entire message, even if the other addresses are valid.
 
+  - Each message can include up to 50 recipient addresses across the To:, CC:, or BCC: lines. If you need to send a single message to more than 50 recipients, you have to split the list of recipient addresses into groups of less than 50 recipients, and send separate messages to each group.
 
-            The maximum message size, including attachments, is 10 MB.
+  - Amazon SES allows you to specify 8-bit Content-Transfer-Encoding for MIME message parts. However, if Amazon SES has to modify the contents of your message (for example, if you use open and click tracking), 8-bit content isn't preserved. For this reason, we highly recommend that you encode all content that isn't 7-bit ASCII. For more information, see [MIME Encoding](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html#send-email-mime-encoding) in the Amazon SES Developer Guide.
 
+Additionally, keep the following considerations in mind when using the SendRawEmail operation:
 
-            Each message has to include at least one recipient address. A recipient
-                address includes any address on the To:, CC:, or BCC: lines.
+  - Although you can customize the message headers when using the SendRawEmail operation, Amazon SES will automatically apply its own Message-ID and Date headers; if you passed these headers when creating the message, they will be overwritten by the values that Amazon SES provides.
 
+  - If you are using sending authorization to send on behalf of another user, SendRawEmail enables you to specify the cross-account identity for the email's Source, From, and Return-Path parameters in one of two ways: you can pass optional parameters SourceArn, FromArn, and/or ReturnPathArn to the API, or you can include the following X-headers in the header of your raw email:
 
-            If you send a single message to more than one recipient address, and one of
-                the recipient addresses isn't in a valid format (that is, it's not in the format
-                    UserName@[SubDomain.]Domain.TopLevelDomain), Amazon SES
-                rejects the entire message, even if the other addresses are valid.
+  - X-SES-SOURCE-ARN
 
+  - X-SES-FROM-ARN
 
-            Each message can include up to 50 recipient addresses across the To:, CC:, or
-                BCC: lines. If you need to send a single message to more than 50 recipients, you
-                have to split the list of recipient addresses into groups of less than 50
-                recipients, and send separate messages to each group.
+  - X-SES-RETURN-PATH-ARN
 
+Don't include these X-headers in the DKIM signature. Amazon SES removes these before it sends the email. If you only specify the SourceIdentityArn parameter, Amazon SES sets the From and Return-Path addresses to the same identity that you specified. For more information about sending authorization, see the [Using Sending Authorization with Amazon SES](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html) in the Amazon SES Developer Guide.
 
-            Amazon SES allows you to specify 8-bit Content-Transfer-Encoding for MIME message
-                parts. However, if Amazon SES has to modify the contents of your message (for
-                example, if you use open and click tracking), 8-bit content isn't preserved. For
-                this reason, we highly recommend that you encode all content that isn't 7-bit
-                ASCII. For more information, see <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html#send-email-mime-encoding">MIME Encoding in the Amazon SES Developer
-                    Guide.
-
-
-
-
-
-    Additionally, keep the following considerations in mind when using the
-            SendRawEmail operation:
-
-
-
-            Although you can customize the message headers when using the
-                    SendRawEmail operation, Amazon SES will automatically apply its own
-                    Message-ID and Date headers; if you passed these
-                headers when creating the message, they will be overwritten by the values that
-                Amazon SES provides.
-
-
-            If you are using sending authorization to send on behalf of another user,
-                    SendRawEmail enables you to specify the cross-account identity
-                for the email's Source, From, and Return-Path parameters in one of two ways: you
-                can pass optional parameters SourceArn, FromArn,
-                and/or ReturnPathArn to the API, or you can include the following
-                X-headers in the header of your raw email:
-
-
-
-                        X-SES-SOURCE-ARN
-
-
-
-
-                        X-SES-FROM-ARN
-
-
-
-
-                        X-SES-RETURN-PATH-ARN
-
-
-
-
-                Don't include these X-headers in the DKIM signature. Amazon SES removes these
-                    before it sends the email.
-
-            If you only specify the SourceIdentityArn parameter, Amazon SES sets
-                the From and Return-Path addresses to the same identity that you
-                specified.
-            For more information about sending authorization, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Using Sending
-                    Authorization with Amazon SES in the Amazon SES Developer
-                    Guide.
-
-
-
-            For every message that you send, the total number of recipients (including
-                each recipient in the To:, CC: and BCC: fields) is counted against the maximum
-                number of emails you can send in a 24-hour period (your sending
-                    quota). For more information about sending quotas in Amazon SES, see
-                    <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/manage-sending-limits.html">Managing Your
-                    Amazon SES Sending Limits in the Amazon SES Developer
-                    Guide.
-```
+  - For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see [Managing Your Amazon SES Sending Limits](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/manage-sending-limits.html) in the Amazon SES Developer Guide.
 
 ### `sendTemplatedEmail(input:completion:)`
 
-Composes an email message using an email template and immediately queues it for
-sending.
-In order to send email using the SendTemplatedEmail operation, your call
-to the API must meet the following requirements:​
+Composes an email message using an email template and immediately queues it for sending. In order to send email using the SendTemplatedEmail operation, your call to the API must meet the following requirements:
 
 ``` swift
 public func sendTemplatedEmail(input: SendTemplatedEmailInput, completion: @escaping (ClientRuntime.SdkResult<SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>) -> Void)
 ```
 
-``` 
-            The call must refer to an existing email template. You can create email
-                templates using the CreateTemplate operation.
+  - The call must refer to an existing email template. You can create email templates using the \[CreateTemplate\] operation.
 
+  - The message must be sent from a verified email address or domain.
 
-            The message must be sent from a verified email address or domain.
+  - If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see [Verifying Email Addresses and Domains](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html) in the Amazon SES Developer Guide.
 
+  - The maximum message size is 10 MB.
 
-            If your account is still in the Amazon SES sandbox, you may only send to verified
-                addresses or domains, or to email addresses associated with the Amazon SES Mailbox
-                Simulator. For more information, see <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
-                    Email Addresses and Domains in the Amazon SES Developer
-                    Guide.
+  - Calls to the SendTemplatedEmail operation may only include one Destination parameter. A destination is a set of recipients who will receive the same version of the email. The Destination parameter can include up to 50 recipients, across the To:, CC: and BCC: fields.
 
+  - The Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@\[SubDomain.\]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.
 
-
-            The maximum message size is 10 MB.
-
-
-            Calls to the SendTemplatedEmail operation may only include one
-                    Destination parameter. A destination is a set of recipients who
-                will receive the same version of the email. The Destination
-                parameter can include up to 50 recipients, across the To:, CC: and BCC:
-                fields.
-
-
-            The Destination parameter must include at least one recipient
-                email address. The recipient address can be a To: address, a CC: address, or a
-                BCC: address. If a recipient email address is invalid (that is, it is not in the
-                format UserName@[SubDomain.]Domain.TopLevelDomain), the
-                entire message will be rejected, even if the message contains other recipients
-                that are valid.
-
-
-
-        If your call to the SendTemplatedEmail operation includes all of the
-            required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES
-            can't render the email because the template contains errors, it doesn't send the
-            email. Additionally, because it already accepted the message, Amazon SES doesn't return a
-            message stating that it was unable to send the email.
-        For these reasons, we highly recommend that you set up Amazon SES to send you
-            notifications when Rendering Failure events occur. For more information, see <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Sending
-                Personalized Email Using the Amazon SES API in the Amazon Simple Email Service
-                Developer Guide.
-```
+If your call to the SendTemplatedEmail operation includes all of the required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES can't render the email because the template contains errors, it doesn't send the email. Additionally, because it already accepted the message, Amazon SES doesn't return a message stating that it was unable to send the email. For these reasons, we highly recommend that you set up Amazon SES to send you notifications when Rendering Failure events occur. For more information, see [Sending Personalized Email Using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html) in the Amazon Simple Email Service Developer Guide.
 
 ### `setActiveReceiptRuleSet(input:completion:)`
 
-Sets the specified receipt rule set as the active receipt rule set.
+Sets the specified receipt rule set as the active receipt rule set. To disable your email-receiving through Amazon SES completely, you can call this API with RuleSetName set to null. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func setActiveReceiptRuleSet(input: SetActiveReceiptRuleSetInput, completion: @escaping (ClientRuntime.SdkResult<SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>) -> Void)
 ```
 
-``` 
-        To disable your email-receiving through Amazon SES completely, you can call this API
-            with RuleSetName set to null.
-
-    For information about managing receipt rule sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon SES Developer Guide.
-    You can execute this operation no more than once per second.
-```
-
 ### `setIdentityDkimEnabled(input:completion:)`
 
-Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM
-signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends
-from addresses on that domain. If Easy DKIM signing is enabled for an email address,
-then Amazon SES uses DKIM to sign all email it sends from that address.
+Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. For email addresses (for example, user@example.com), you can only enable DKIM signing if the corresponding domain (in this case, example.com) has been set up to use Easy DKIM. You can enable DKIM signing for an identity at any time after you start the verification process for the identity, even if the verification process isn't complete. You can execute this operation no more than once per second. For more information about Easy DKIM signing, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
 
 ``` swift
 public func setIdentityDkimEnabled(input: SetIdentityDkimEnabledInput, completion: @escaping (ClientRuntime.SdkResult<SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>) -> Void)
 ```
 
-``` 
-        For email addresses (for example, user@example.com), you can only
-            enable DKIM signing if the corresponding domain (in this case,
-                example.com) has been set up to use Easy DKIM.
-
-    You can enable DKIM signing for an identity at any time after you start the
-        verification process for the identity, even if the verification process isn't complete.
-    You can execute this operation no more than once per second.
-    For more information about Easy DKIM signing, go to the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Amazon SES Developer Guide.
-```
-
 ### `setIdentityFeedbackForwardingEnabled(input:completion:)`
 
-Given an identity (an email address or a domain), enables or disables whether Amazon SES
-forwards bounce and complaint notifications as email. Feedback forwarding can only be
-disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and
-complaints.
+Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints. Feedback forwarding does not apply to delivery notifications. Delivery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html).
 
 ``` swift
 public func setIdentityFeedbackForwardingEnabled(input: SetIdentityFeedbackForwardingEnabledInput, completion: @escaping (ClientRuntime.SdkResult<SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>) -> Void)
 ```
 
-``` 
-        Feedback forwarding does not apply to delivery notifications. Delivery
-            notifications are only available through Amazon SNS.
-
-    You can execute this operation no more than once per second.
-    For more information about using notifications with Amazon SES, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon SES
-            Developer Guide.
-```
-
 ### `setIdentityHeadersInNotificationsEnabled(input:completion:)`
 
-Given an identity (an email address or a domain), sets whether Amazon SES includes the
-original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified
-type.
-You can execute this operation no more than once per second.
-For more information about using notifications with Amazon SES, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon SES
-Developer Guide.
+Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html).
 
 ``` swift
 public func setIdentityHeadersInNotificationsEnabled(input: SetIdentityHeadersInNotificationsEnabledInput, completion: @escaping (ClientRuntime.SdkResult<SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>) -> Void)
@@ -994,34 +552,15 @@ public func setIdentityHeadersInNotificationsEnabled(input: SetIdentityHeadersIn
 
 ### `setIdentityMailFromDomain(input:completion:)`
 
-Enables or disables the custom MAIL FROM domain setup for a verified identity (an
-email address or a domain).
+Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain). To send emails using the specified MAIL FROM domain, you must add an MX record to your MAIL FROM domain's DNS settings. If you want your emails to pass Sender Policy Framework (SPF) checks, you must also add or update an SPF record. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-set.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func setIdentityMailFromDomain(input: SetIdentityMailFromDomainInput, completion: @escaping (ClientRuntime.SdkResult<SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>) -> Void)
 ```
 
-``` 
-        To send emails using the specified MAIL FROM domain, you must add an MX record to
-            your MAIL FROM domain's DNS settings. If you want your emails to pass Sender Policy
-            Framework (SPF) checks, you must also add or update an SPF record. For more
-            information, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-set.html">Amazon SES Developer
-            Guide.
-
-    You can execute this operation no more than once per second.
-```
-
 ### `setIdentityNotificationTopic(input:completion:)`
 
-Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use
-this operation, you specify a verified identity, such as an email address or domain.
-When you send an email that uses the chosen identity in the Source field, Amazon SES sends
-notifications to the topic you specified. You can send bounce, complaint, or delivery
-notifications (or any combination of the three) to the Amazon SNS topic that you
-specify.
-You can execute this operation no more than once per second.
-For more information about feedback notification, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon SES Developer
-Guide.
+Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use this operation, you specify a verified identity, such as an email address or domain. When you send an email that uses the chosen identity in the Source field, Amazon SES sends notifications to the topic you specified. You can send bounce, complaint, or delivery notifications (or any combination of the three) to the Amazon SNS topic that you specify. You can execute this operation no more than once per second. For more information about feedback notification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html).
 
 ``` swift
 public func setIdentityNotificationTopic(input: SetIdentityNotificationTopicInput, completion: @escaping (ClientRuntime.SdkResult<SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>) -> Void)
@@ -1029,10 +568,7 @@ public func setIdentityNotificationTopic(input: SetIdentityNotificationTopicInpu
 
 ### `setReceiptRulePosition(input:completion:)`
 
-Sets the position of the specified receipt rule in the receipt rule set.
-For information about managing receipt rules, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func setReceiptRulePosition(input: SetReceiptRulePositionInput, completion: @escaping (ClientRuntime.SdkResult<SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>) -> Void)
@@ -1040,9 +576,7 @@ public func setReceiptRulePosition(input: SetReceiptRulePositionInput, completio
 
 ### `testRenderTemplate(input:completion:)`
 
-Creates a preview of the MIME content of an email when provided with a template and a
-set of replacement data.
-You can execute this operation no more than once per second.
+Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
 
 ``` swift
 public func testRenderTemplate(input: TestRenderTemplateInput, completion: @escaping (ClientRuntime.SdkResult<TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>) -> Void)
@@ -1050,12 +584,7 @@ public func testRenderTemplate(input: TestRenderTemplateInput, completion: @esca
 
 ### `updateAccountSendingEnabled(input:completion:)`
 
-Enables or disables email sending across your entire Amazon SES account in the current
-AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to
-temporarily pause email sending across your Amazon SES account in a given AWS Region when
-reputation metrics (such as your bounce or complaint rates) reach certain
-thresholds.
-You can execute this operation no more than once per second.
+Enables or disables email sending across your entire Amazon SES account in the current AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given AWS Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
 
 ``` swift
 public func updateAccountSendingEnabled(input: UpdateAccountSendingEnabledInput, completion: @escaping (ClientRuntime.SdkResult<UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>) -> Void)
@@ -1063,31 +592,15 @@ public func updateAccountSendingEnabled(input: UpdateAccountSendingEnabledInput,
 
 ### `updateConfigurationSetEventDestination(input:completion:)`
 
-Updates the event destination of a configuration set. Event destinations are
-associated with configuration sets, which enable you to publish email sending events to
-Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets,
-see <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Monitoring Your Amazon SES
-Sending Activity in the Amazon SES Developer Guide.
+Updates the event destination of a configuration set. Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html) in the Amazon SES Developer Guide. When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). You can execute this operation no more than once per second.
 
 ``` swift
 public func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>) -> Void)
 ```
 
-``` 
-        When you create or update an event destination, you must provide one, and only
-            one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service
-            (Amazon SNS).
-
-    You can execute this operation no more than once per second.
-```
-
 ### `updateConfigurationSetReputationMetricsEnabled(input:completion:)`
 
-Enables or disables the publishing of reputation metrics for emails sent using a
-specific configuration set in a given AWS Region. Reputation metrics include bounce
-and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can
-create alarms when bounce or complaint rates exceed certain thresholds.
-You can execute this operation no more than once per second.
+Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given AWS Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
 
 ``` swift
 public func updateConfigurationSetReputationMetricsEnabled(input: UpdateConfigurationSetReputationMetricsEnabledInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>) -> Void)
@@ -1095,12 +608,7 @@ public func updateConfigurationSetReputationMetricsEnabled(input: UpdateConfigur
 
 ### `updateConfigurationSetSendingEnabled(input:completion:)`
 
-Enables or disables email sending for messages sent using a specific configuration set
-in a given AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms
-to temporarily pause email sending for a configuration set when the reputation metrics
-for that configuration set (such as your bounce on complaint rate) exceed certain
-thresholds.
-You can execute this operation no more than once per second.
+Enables or disables email sending for messages sent using a specific configuration set in a given AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
 
 ``` swift
 public func updateConfigurationSetSendingEnabled(input: UpdateConfigurationSetSendingEnabledInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>) -> Void)
@@ -1108,11 +616,7 @@ public func updateConfigurationSetSendingEnabled(input: UpdateConfigurationSetSe
 
 ### `updateConfigurationSetTrackingOptions(input:completion:)`
 
-Modifies an association between a configuration set and a custom domain for open and
-click event tracking.
-By default, images and links used for tracking open and click events are hosted on
-domains operated by Amazon SES. You can configure a subdomain of your own to handle these
-events. For information about using custom domains, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Amazon SES Developer Guide.
+Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html).
 
 ``` swift
 public func updateConfigurationSetTrackingOptions(input: UpdateConfigurationSetTrackingOptionsInput, completion: @escaping (ClientRuntime.SdkResult<UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>) -> Void)
@@ -1120,10 +624,7 @@ public func updateConfigurationSetTrackingOptions(input: UpdateConfigurationSetT
 
 ### `updateCustomVerificationEmailTemplate(input:completion:)`
 
-Updates an existing custom verification email template.
-For more information about custom verification email templates, see <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using Custom Verification Email Templates in the Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Updates an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 ``` swift
 public func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>) -> Void)
@@ -1131,10 +632,7 @@ public func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificatio
 
 ### `updateReceiptRule(input:completion:)`
 
-Updates a receipt rule.
-For information about managing receipt rules, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon SES
-Developer Guide.
-You can execute this operation no more than once per second.
+Updates a receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func updateReceiptRule(input: UpdateReceiptRuleInput, completion: @escaping (ClientRuntime.SdkResult<UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>) -> Void)
@@ -1142,10 +640,7 @@ public func updateReceiptRule(input: UpdateReceiptRuleInput, completion: @escapi
 
 ### `updateTemplate(input:completion:)`
 
-Updates an email template. Email templates enable you to send personalized email to
-one or more destinations in a single API operation. For more information, see the <a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Amazon SES Developer
-Guide.
-You can execute this operation no more than once per second.
+Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
 
 ``` swift
 public func updateTemplate(input: UpdateTemplateInput, completion: @escaping (ClientRuntime.SdkResult<UpdateTemplateOutputResponse, UpdateTemplateOutputError>) -> Void)
@@ -1153,72 +648,31 @@ public func updateTemplate(input: UpdateTemplateInput, completion: @escaping (Cl
 
 ### `verifyDomainDkim(input:completion:)`
 
-Returns a set of DKIM tokens for a domain identity.
+Returns a set of DKIM tokens for a domain identity. When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity operation. However, you can't send email from the domain until you either successfully [verify it](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-domains.html) or you successfully [set up DKIM for it](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html). You use the tokens that are generated by this operation to create CNAME records. When Amazon SES detects that you've added these records to the DNS configuration for a domain, you can start sending email from that domain. You can start sending email even if you haven't added the TXT record provided by the VerifyDomainIdentity operation to the DNS configuration for your domain. All email that you send from the domain is authenticated using DKIM. To create the CNAME records for DKIM authentication, use the following values:
 
 ``` swift
 public func verifyDomainDkim(input: VerifyDomainDkimInput, completion: @escaping (ClientRuntime.SdkResult<VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>) -> Void)
 ```
 
-``` 
-        When you execute the VerifyDomainDkim operation, the domain that you
-            specify is added to the list of identities that are associated with your account.
-            This is true even if you haven't already associated the domain with your account by
-            using the VerifyDomainIdentity operation. However, you can't send email
-            from the domain until you either successfully <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-domains.html">verify it or you
-            successfully <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">set up DKIM for
-            it.
+  - Name: token.\_domainkey.example.com
 
-    You use the tokens that are generated by this operation to create CNAME records. When
-        Amazon SES detects that you've added these records to the DNS configuration for a domain, you
-        can start sending email from that domain. You can start sending email even if you
-        haven't added the TXT record provided by the VerifyDomainIdentity operation to the DNS
-        configuration for your domain. All email that you send from the domain is authenticated
-        using DKIM.
-    To create the CNAME records for DKIM authentication, use the following values:
+  - Type: CNAME
 
+  - Value: token.dkim.amazonses.com
 
-
-              Name:
-                    token._domainkey.example.com
-
-
-
-
-              Type: CNAME
-
-
-
-              Value:
-                token.dkim.amazonses.com
-
-
-    In the preceding example, replace token with one of the tokens
-        that are generated when you execute this operation. Replace
-            example.com with your domain. Repeat this process for each
-        token that's generated by this operation.
-    You can execute this operation no more than once per second.
-```
+In the preceding example, replace token with one of the tokens that are generated when you execute this operation. Replace example.com with your domain. Repeat this process for each token that's generated by this operation. You can execute this operation no more than once per second.
 
 ### `verifyDomainIdentity(input:completion:)`
 
-Adds a domain to the list of identities for your Amazon SES account in the current AWS
-Region and attempts to verify it. For more information about verifying domains, see
-<a href="https:​//docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying Email
-Addresses and Domains in the Amazon SES Developer
-Guide.
+Adds a domain to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. For more information about verifying domains, see [Verifying Email Addresses and Domains](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 ``` swift
 public func verifyDomainIdentity(input: VerifyDomainIdentityInput, completion: @escaping (ClientRuntime.SdkResult<VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>) -> Void)
 ```
 
-``` 
-    You can execute this operation no more than once per second.
-```
-
 ### `verifyEmailAddress(input:completion:)`
 
-Deprecated. Use the VerifyEmailIdentity operation to verify a new email
-address.
+Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
 
 ``` swift
 public func verifyEmailAddress(input: VerifyEmailAddressInput, completion: @escaping (ClientRuntime.SdkResult<VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>) -> Void)
@@ -1226,10 +680,7 @@ public func verifyEmailAddress(input: VerifyEmailAddressInput, completion: @esca
 
 ### `verifyEmailIdentity(input:completion:)`
 
-Adds an email address to the list of identities for your Amazon SES account in the current
-AWS region and attempts to verify it. As a result of executing this operation, a
-verification email is sent to the specified address.
-You can execute this operation no more than once per second.
+Adds an email address to the list of identities for your Amazon SES account in the current AWS region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.
 
 ``` swift
 public func verifyEmailIdentity(input: VerifyEmailIdentityInput, completion: @escaping (ClientRuntime.SdkResult<VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>) -> Void)

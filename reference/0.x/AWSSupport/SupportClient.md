@@ -22,404 +22,208 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "SupportClient"
+```
+
 ## Methods
 
 ### `addAttachmentsToSet(input:completion:)`
 
-Adds one or more attachments to an attachment set.
-An attachment set is a temporary container for attachments that you add to a case or
-case communication. The set is available for 1 hour after it's created. The
-expiryTime returned in the response is when the set expires.
+Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires.
 
 ``` swift
 public func addAttachmentsToSet(input: AddAttachmentsToSetInput, completion: @escaping (ClientRuntime.SdkResult<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `addCommunicationToCase(input:completion:)`
 
-Adds additional customer communication to an AWS Support case. Use the caseId
-parameter to identify the case to which to add communication. You can list a set of
-email addresses to copy on the communication by using the ccEmailAddresses
-parameter. The communicationBody value contains the text of the
-communication.
+Adds additional customer communication to an AWS Support case. Use the caseId parameter to identify the case to which to add communication. You can list a set of email addresses to copy on the communication by using the ccEmailAddresses parameter. The communicationBody value contains the text of the communication.
 
 ``` swift
 public func addCommunicationToCase(input: AddCommunicationToCaseInput, completion: @escaping (ClientRuntime.SdkResult<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `createCase(input:completion:)`
 
-Creates a case in the AWS Support Center. This operation is similar to how you create a case
-in the AWS Support Center <a href="https:​//console.aws.amazon.com/support/home#/case/create">Create
-Case page.
-The AWS Support API doesn't support requesting service limit increases. You can submit a
-service limit increase in the following ways:​
+Creates a case in the AWS Support Center. This operation is similar to how you create a case in the AWS Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create) page. The AWS Support API doesn't support requesting service limit increases. You can submit a service limit increase in the following ways:
 
 ``` swift
 public func createCase(input: CreateCaseInput, completion: @escaping (ClientRuntime.SdkResult<CreateCaseOutputResponse, CreateCaseOutputError>) -> Void)
 ```
 
-``` 
-            Submit a request from the AWS Support Center <a href="https://console.aws.amazon.com/support/home#/case/create">Create Case page.
+  - Submit a request from the AWS Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create) page.
 
+  - Use the Service Quotas [RequestServiceQuotaIncrease](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_RequestServiceQuotaIncrease.html) operation.
 
-            Use the Service Quotas <a href="https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_RequestServiceQuotaIncrease.html">RequestServiceQuotaIncrease operation.
+A successful CreateCase request returns an AWS Support case number. You can use the \[DescribeCases\] operation and specify the case number to get existing AWS Support cases. After you create a case, use the \[AddCommunicationToCase\] operation to add additional communication or attachments to an existing case. The caseId is separate from the displayId that appears in the [AWS Support Center](https://console.aws.amazon.com/support). Use the \[DescribeCases\] operation to get the displayId.
 
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-    A successful CreateCase request returns an AWS Support case number. You can use
-        the DescribeCases operation and specify the case number to get
-        existing AWS Support cases. After you create a case, use the AddCommunicationToCase operation to add additional communication or
-        attachments to an existing case.
-    The caseId is separate from the displayId that appears in
-        the <a href="https://console.aws.amazon.com/support">AWS Support Center. Use the DescribeCases operation to get the displayId.
-
-
-
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
-
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeAttachment(input:completion:)`
 
-Returns the attachment that has the specified ID. Attachments can include screenshots,
-error logs, or other files that describe your issue. Attachment IDs are generated by the
-case management system when you add an attachment to a case or case communication.
-Attachment IDs are returned in the AttachmentDetails objects that are
-returned by the DescribeCommunications operation.
+Returns the attachment that has the specified ID. Attachments can include screenshots, error logs, or other files that describe your issue. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are returned in the \[AttachmentDetails\] objects that are returned by the \[DescribeCommunications\] operation.
 
 ``` swift
 public func describeAttachment(input: DescribeAttachmentInput, completion: @escaping (ClientRuntime.SdkResult<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeCases(input:completion:)`
 
-Returns a list of cases that you specify by passing one or more case IDs. You can use
-the afterTime and beforeTime parameters to filter the cases by
-date. You can set values for the includeResolvedCases and
-includeCommunications parameters to specify how much information to
-return.
-The response returns the following in JSON format:​
+Returns a list of cases that you specify by passing one or more case IDs. You can use the afterTime and beforeTime parameters to filter the cases by date. You can set values for the includeResolvedCases and includeCommunications parameters to specify how much information to return. The response returns the following in JSON format:
 
 ``` swift
 public func describeCases(input: DescribeCasesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCasesOutputResponse, DescribeCasesOutputError>) -> Void)
 ```
 
-``` 
-            One or more <a href="https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html">CaseDetails data types.
+  - One or more [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html) data types.
 
+  - One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.
 
-            One or more nextToken values, which specify where to paginate the
-                returned records represented by the CaseDetails objects.
+Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request might return an error.
 
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-    Case data is available for 12 months after creation. If a case was created more than
-        12 months ago, a request might return an error.
-
-
-
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
-
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeCommunications(input:completion:)`
 
-Returns communications and attachments for one or more support cases. Use the
-afterTime and beforeTime parameters to filter by date. You
-can use the caseId parameter to restrict the results to a specific
-case.
-Case data is available for 12 months after creation. If a case was created more than
-12 months ago, a request for data might cause an error.
-You can use the maxResults and nextToken parameters to
-control the pagination of the results. Set maxResults to the number of
-cases that you want to display on each page, and use nextToken to specify
-the resumption of pagination.
+Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the results. Set maxResults to the number of cases that you want to display on each page, and use nextToken to specify the resumption of pagination.
 
 ``` swift
 public func describeCommunications(input: DescribeCommunicationsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeServices(input:completion:)`
 
-Returns the current list of AWS services and a list of service categories for each
-service. You then use service names and categories in your CreateCase
-requests. Each AWS service has its own set of categories.
-The service codes and category codes correspond to the values that appear in the
-Service and Category lists on the AWS Support Center <a href="https:​//console.aws.amazon.com/support/home#/case/create">Create Case page. The values in those fields
-don't necessarily match the service codes and categories returned by the
-DescribeServices operation. Always use the service codes and categories
-that the DescribeServices operation returns, so that you have the most
-recent set of service and category codes.
+Returns the current list of AWS services and a list of service categories for each service. You then use service names and categories in your \[CreateCase\] requests. Each AWS service has its own set of categories. The service codes and category codes correspond to the values that appear in the Service and Category lists on the AWS Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create) page. The values in those fields don't necessarily match the service codes and categories returned by the DescribeServices operation. Always use the service codes and categories that the DescribeServices operation returns, so that you have the most recent set of service and category codes.
 
 ``` swift
 public func describeServices(input: DescribeServicesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeServicesOutputResponse, DescribeServicesOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeSeverityLevels(input:completion:)`
 
-Returns the list of severity levels that you can assign to a support case. The severity
-level for a case is also a field in the CaseDetails data type that you
-include for a CreateCase request.
+Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the \[CaseDetails\] data type that you include for a \[CreateCase\] request.
 
 ``` swift
 public func describeSeverityLevels(input: DescribeSeverityLevelsInput, completion: @escaping (ClientRuntime.SdkResult<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeTrustedAdvisorCheckRefreshStatuses(input:completion:)`
 
-Returns the refresh status of the AWS Trusted Advisor checks that have the specified check
-IDs. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation.
-Some checks are refreshed automatically, and you can't return their refresh statuses
-by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you
-call this operation for these checks, you might see an
-InvalidParameterValue error.
+Returns the refresh status of the AWS Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the \[DescribeTrustedAdvisorChecks\] operation. Some checks are refreshed automatically, and you can't return their refresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error.
 
 ``` swift
 public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeTrustedAdvisorCheckResult(input:completion:)`
 
-Returns the results of the AWS Trusted Advisor check that has the specified check ID. You
-can get the check IDs by calling the DescribeTrustedAdvisorChecks
-operation.
-The response contains a TrustedAdvisorCheckResult object, which
-contains these three objects:​
+Returns the results of the AWS Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the \[DescribeTrustedAdvisorChecks\] operation. The response contains a \[TrustedAdvisorCheckResult\] object, which contains these three objects:
 
 ``` swift
 public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>) -> Void)
 ```
 
-``` 
-                TrustedAdvisorCategorySpecificSummary
+  - \[TrustedAdvisorCategorySpecificSummary\]
 
+  - \[TrustedAdvisorResourceDetail\]
 
+  - \[TrustedAdvisorResourcesSummary\]
 
+In addition, the response contains these fields:
 
-                TrustedAdvisorResourceDetail
+  - status - The alert status of the check can be ok (green), warning (yellow), error (red), or not\_available.
 
+  - timestamp - The time of the last refresh of the check.
 
+  - checkId - The unique identifier for the check.
 
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-                TrustedAdvisorResourcesSummary
-
-
-
-    In addition, the response contains these fields:
-
-
-
-                status - The alert status of the check
-                can be ok (green), warning (yellow),
-                    error (red), or not_available.
-
-
-
-                timestamp - The time of the last refresh
-                of the check.
-
-
-
-                checkId - The unique identifier for the
-                check.
-
-
-
-
-
-
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
-
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeTrustedAdvisorCheckSummaries(input:completion:)`
 
-Returns the results for the AWS Trusted Advisor check summaries for the check IDs that you
-specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation.
-The response contains an array of TrustedAdvisorCheckSummary
-objects.
+Returns the results for the AWS Trusted Advisor check summaries for the check IDs that you specified. You can get the check IDs by calling the \[DescribeTrustedAdvisorChecks\] operation. The response contains an array of \[TrustedAdvisorCheckSummary\] objects.
 
 ``` swift
 public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `describeTrustedAdvisorChecks(input:completion:)`
 
-Returns information about all available AWS Trusted Advisor checks, including the name, ID,
-category, description, and metadata. You must specify a language code. The AWS Support API
-currently supports English ("en") and Japanese ("ja"). The response contains a TrustedAdvisorCheckDescription object for each check. You must set the
-AWS Region to us-east-1.
+Returns information about all available AWS Trusted Advisor checks, including the name, ID, category, description, and metadata. You must specify a language code. The AWS Support API currently supports English ("en") and Japanese ("ja"). The response contains a \[TrustedAdvisorCheckDescription\] object for each check. You must set the AWS Region to us-east-1.
 
 ``` swift
 public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput, completion: @escaping (ClientRuntime.SdkResult<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                    SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-
-
-                The names and descriptions for Trusted Advisor checks are subject to change. We recommend
-                    that you specify the check ID in your code to uniquely identify a check.
-```
+  - The names and descriptions for Trusted Advisor checks are subject to change. We recommend that you specify the check ID in your code to uniquely identify a check.
 
 ### `refreshTrustedAdvisorCheck(input:completion:)`
 
-Refreshes the AWS Trusted Advisor check that you specify using the check ID. You can get the
-check IDs by calling the DescribeTrustedAdvisorChecks
-operation.
+Refreshes the AWS Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the \[DescribeTrustedAdvisorChecks\] operation. Some checks are refreshed automatically. If you call the RefreshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a \[TrustedAdvisorCheckRefreshStatus\] object.
 
 ``` swift
 public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput, completion: @escaping (ClientRuntime.SdkResult<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>) -> Void)
 ```
 
-``` 
-        Some checks are refreshed automatically. If you call the
-                RefreshTrustedAdvisorCheck operation to refresh them, you might see
-            the InvalidParameterValue error.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-    The response contains a TrustedAdvisorCheckRefreshStatus
-        object.
-
-
-
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
-
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).
 
 ### `resolveCase(input:completion:)`
 
-Resolves a support case. This operation takes a caseId and returns the
-initial and final state of the case.
+Resolves a support case. This operation takes a caseId and returns the initial and final state of the case.
 
 ``` swift
 public func resolveCase(input: ResolveCaseInput, completion: @escaping (ClientRuntime.SdkResult<ResolveCaseOutputResponse, ResolveCaseOutputError>) -> Void)
 ```
 
-``` 
-                You must have a Business or Enterprise Support plan to use the AWS Support
-                    API.
+  - You must have a Business or Enterprise Support plan to use the AWS Support API.
 
-
-                If you call the AWS Support API from an account that does not have a
-                    Business or Enterprise Support plan, the
-                        SubscriptionRequiredException error message appears. For
-                    information about changing your support plan, see <a href="http://aws.amazon.com/premiumsupport/">AWS Support.
-```
+  - If you call the AWS Support API from an account that does not have a Business or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [AWS Support](http://aws.amazon.com/premiumsupport/).

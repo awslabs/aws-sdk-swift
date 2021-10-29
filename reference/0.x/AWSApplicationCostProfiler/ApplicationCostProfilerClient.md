@@ -22,12 +22,19 @@ public init(config: AWSClientRuntime.AWSClientConfiguration)
 public convenience init(region: Swift.String? = nil) throws 
 ```
 
+## Properties
+
+### `clientName`
+
+``` swift
+public static let clientName = "ApplicationCostProfilerClient"
+```
+
 ## Methods
 
 ### `deleteReportDefinition(input:completion:)`
 
-Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being
-generated.
+Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
 
 ``` swift
 public func deleteReportDefinition(input: DeleteReportDefinitionInput, completion: @escaping (ClientRuntime.SdkResult<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>) -> Void)
@@ -43,10 +50,7 @@ public func getReportDefinition(input: GetReportDefinitionInput, completion: @es
 
 ### `importApplicationUsage(input:completion:)`
 
-Ingests application usage data from Amazon Simple Storage Service (Amazon S3).
-The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler
-copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing
-asynchronously.
+Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
 
 ``` swift
 public func importApplicationUsage(input: ImportApplicationUsageInput, completion: @escaping (ClientRuntime.SdkResult<ImportApplicationUsageOutputResponse, ImportApplicationUsageOutputError>) -> Void)
@@ -54,8 +58,7 @@ public func importApplicationUsage(input: ImportApplicationUsageInput, completio
 
 ### `listReportDefinitions(input:completion:)`
 
-Retrieves a list of all reports and their configurations for your AWS account.
-The maximum number of reports is one.
+Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
 
 ``` swift
 public func listReportDefinitions(input: ListReportDefinitionsInput, completion: @escaping (ClientRuntime.SdkResult<ListReportDefinitionsOutputResponse, ListReportDefinitionsOutputError>) -> Void)
