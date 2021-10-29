@@ -50,7 +50,7 @@ for sdk in `ls ${RELDIR} | grep -e "^AWS"`; do
 done
 
 CHARS=$(python -c 'print u"\u200b".encode("utf8")')
-for generatedFile in `find ${OUTDIR} | grep "\.md$"`; do
+for generatedFile in `find ${OUTDIR_PREFIX} | grep "\.md$"`; do
     TEMPFILE=`mktemp`
     cat ${generatedFile} | sed -r 's/['"${CHARS}"']//g'  > ${TEMPFILE}
     mv ${TEMPFILE} ${generatedFile}
