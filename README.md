@@ -141,6 +141,9 @@ If you’ve made it this far... Congrats!🎉
 *What’s next?*
 Try some other calls?  Help us better understand what you think the most critical features are next.  Run into any bugs? Give us feedback on the call-site interface. etc...
 
+## API Reference documentation
+We recommend to use the documentation generation capabilities within Xcode (Option+Click on a symbol), but if you don't have Xcode available, you can view generated API reference documentation on our [github pages](https://awslabs.github.io/aws-sdk-swift/reference/0.x/).
+
 ## Logging
 The AWS SDK for Swift uses SwiftLog for high performant logging.  Many of our calls are issued to the `debug` level of output, which are disabled in the console by default.  To see debug output to your console, you can add the following code to your application in a place where you know that the code will be called once and only once:
 ```swift
