@@ -47,6 +47,8 @@ appendTstTarget(name: "AWSQueryTestSDKTests", path: "\(baseDir)/aws-query", depe
 //Service specific
 appendLibTarget(name: "GlacierTestSDK", path: "\(baseDir)/glacier")
 appendTstTarget(name: "GlacierTestSDKTests", path: "\(baseDir)/glacier", dependency: "GlacierTestSDK")
+appendLibTarget(name: "MachineLearningTestSDK", path: "\(baseDir)/machinelearning")
+appendTstTarget(name: "MachineLearningTestSDKTests", path: "\(baseDir)/machinelearning", dependency: "MachineLearningTestSDK")
 appendLibTarget(name: "S3TestSDK", path: "\(baseDir)/s3")
 appendTstTarget(name: "S3TestSDKTests", path: "\(baseDir)/s3", dependency: "S3TestSDK")
 
