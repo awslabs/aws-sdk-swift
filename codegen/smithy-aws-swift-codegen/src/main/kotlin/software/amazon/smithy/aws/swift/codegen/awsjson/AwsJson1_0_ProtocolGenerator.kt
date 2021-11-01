@@ -17,6 +17,8 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationJsonName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
+import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val codingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationJsonName())
@@ -37,5 +39,9 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         super.addProtocolSpecificMiddleware(ctx, operation)
 
         operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service))
+
+        val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
+        operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
+        operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
     }
 }

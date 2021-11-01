@@ -25,6 +25,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
+import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 import software.amazon.smithy.swift.codegen.integration.serde.formurl.StructEncodeFormURLGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
@@ -84,5 +85,9 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         // we always need to have an InputBodyMiddleware
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
         operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
+
+        val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
+        operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
+        operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
     }
 }

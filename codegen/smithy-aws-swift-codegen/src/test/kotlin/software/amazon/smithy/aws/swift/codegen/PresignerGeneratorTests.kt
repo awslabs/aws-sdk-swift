@@ -47,8 +47,6 @@ class PresignerGeneratorTests {
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0"))))
                     operation.serializeStep.intercept(position: .after, middleware: GetFooInputHeadersMiddleware())
                     operation.serializeStep.intercept(position: .after, middleware: GetFooInputQueryItemMiddleware())
-                    operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFooInput, GetFooOutputResponse, GetFooOutputError>(contentType: "application/json"))
-                    operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware(retryer: config.retryer))
                     let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))
