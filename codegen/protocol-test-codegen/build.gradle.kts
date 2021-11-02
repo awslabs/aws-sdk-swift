@@ -35,7 +35,7 @@ val enabledProtocols = listOf(
     ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK"),
 
     // service specific tests
-    //ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService"),
+    ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService", "APIGatewayTestSDK"),
     ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK"),
     ProtocolTest("s3", "com.amazonaws.s3#AmazonS3", "S3TestSDK"),
     ProtocolTest("machinelearning", "com.amazonaws.machinelearning#AmazonML_20141212", "MachineLearningTestSDK")
