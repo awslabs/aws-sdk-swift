@@ -80,7 +80,7 @@ let package = Package(
     name: "TestSdk",
     platforms: [.macOS(.v10_15), .iOS(.v13)],
     dependencies: [
-        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.9"),
+        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.14"), // <- enter latest version here
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
