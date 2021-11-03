@@ -99,7 +99,7 @@ Then you can open up main.swift, and instantiate CognitoIdentity as follows:
 
 If you are running Swift <5.5:
 ```swift
-import CognitoIdentity
+import AWSCognitoIdentity
 
 let cognitoIdentityClient = try CognitoIdentityClient(region: "us-east-1")
 let cognitoInputCall = CreateIdentityPoolInput(developerProviderName: "com.amazonaws.mytestapplication",
@@ -116,7 +116,7 @@ cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
 ```
 If you are running 5.5+:
 ```swift
-import CognitoIdentity
+import AWSCognitoIdentity
 
 func createIdentityPool() async throws -> CreateIdentityPoolOutputResponse {
     let cognitoIdentityClient = try CognitoIdentityClient(region: "us-east-1")
