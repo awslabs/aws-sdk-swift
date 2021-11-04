@@ -11,7 +11,7 @@ public struct BundleRegionProvider: RegionProvider {
     private let logger: SwiftLogger
     private let bundle: Bundle
     private let regionKey: String
-    private let maxSizeRegion = 20
+    private let maxSizeRegion = 38
 
     public init(bundle: Bundle = Bundle.main, regionKey: String = "AWS_REGION") {
         self.logger = SwiftLogger(label: "BundleRegionProvider")
