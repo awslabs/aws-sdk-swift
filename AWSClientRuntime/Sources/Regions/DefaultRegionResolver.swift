@@ -30,7 +30,7 @@ public struct DefaultRegionResolver: RegionResolver {
                 return nil
             }
         }
-        logger.error("Unable to resolve region")
+        logger.debug("Unable to resolve region")
         return nil
     }
 }
