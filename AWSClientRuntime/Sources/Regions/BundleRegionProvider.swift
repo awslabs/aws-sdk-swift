@@ -6,15 +6,14 @@
 //
 import AwsCommonRuntimeKit
 import ClientRuntime
-import Foundation.NSBundle
 
 public struct BundleRegionProvider: RegionProvider {
     private let logger: SwiftLogger
-    private let bundle: Foundation.Bundle
+    private let bundle: Bundle
     private let regionKey: String
     private let maxSizeRegion = 20
 
-    public init(bundle: Foundation.Bundle = Bundle.main, regionKey: String = "AWS_REGION") {
+    public init(bundle: Bundle = Bundle.main, regionKey: String = "AWS_REGION") {
         self.logger = SwiftLogger(label: "BundleRegionProvider")
         self.bundle = bundle
         self.regionKey = regionKey

@@ -5,15 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation.NSBundle
-
 // Adapted from: https://nshipster.com/xcconfig/
 struct BundleConfiguration {
     enum Error: Swift.Error {
         case missingKey, invalidValue
     }
 
-    static func value<T>(bundle: Foundation.Bundle, for key: String) throws -> T where T: LosslessStringConvertible {
+    static func value<T>(bundle: Bundle, for key: String) throws -> T where T: LosslessStringConvertible {
         guard let object = bundle.object(forInfoDictionaryKey: key) else {
             throw Error.missingKey
         }
