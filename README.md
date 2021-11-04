@@ -80,7 +80,7 @@ let package = Package(
     name: "TestSdk",
     platforms: [.macOS(.v10_15), .iOS(.v13)],
     dependencies: [
-        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.9"),
+        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.14"), // <- enter latest version here
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -99,7 +99,7 @@ Then you can open up main.swift, and instantiate CognitoIdentity as follows:
 
 If you are running Swift <5.5:
 ```swift
-import CognitoIdentity
+import AWSCognitoIdentity
 
 let cognitoIdentityClient = try CognitoIdentityClient(region: "us-east-1")
 let cognitoInputCall = CreateIdentityPoolInput(developerProviderName: "com.amazonaws.mytestapplication",
@@ -116,7 +116,7 @@ cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
 ```
 If you are running 5.5+:
 ```swift
-import CognitoIdentity
+import AWSCognitoIdentity
 
 func createIdentityPool() async throws -> CreateIdentityPoolOutputResponse {
     let cognitoIdentityClient = try CognitoIdentityClient(region: "us-east-1")
