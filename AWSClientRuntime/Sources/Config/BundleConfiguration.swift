@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
+import Foundation.NSBundle
 
 // Adapted from: https://nshipster.com/xcconfig/
 struct BundleConfiguration {

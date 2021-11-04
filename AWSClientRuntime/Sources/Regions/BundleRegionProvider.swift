@@ -12,7 +12,8 @@ public struct BundleRegionProvider: RegionProvider {
     private let logger: SwiftLogger
     private let bundle: Foundation.Bundle
     private let regionKey: String
-    
+    private let maxSizeRegion = 20
+
     public init(bundle: Foundation.Bundle = Bundle.main, regionKey: String = "AWS_REGION") {
         self.logger = SwiftLogger(label: "BundleRegionProvider")
         self.bundle = bundle
@@ -22,7 +23,12 @@ public struct BundleRegionProvider: RegionProvider {
     public func resolveRegion() -> Future<String?> {
         let future = Future<String?>()
         #if os(iOS) || os(watchOS) || os(tvOS)
-        future.fulfill(region())
+        guard let region = region() else {
+            future.fulfill(nil)
+        }
+        return region.count > maxSizeRegion
+            ? future.fulfill(region.prefix(maxSizeRegion))
+            : future.fulfill(region)
         #else
         future.fulfill(nil)
         #endif
