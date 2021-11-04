@@ -30,17 +30,18 @@ public struct ProfileRegionProvider: RegionProvider {
 
         let profileCollection = profileCollection ?? CRTAWSProfileCollection(fromFile: path, source: .config)
         guard let profileCollection = profileCollection else {
-            logger.info("No default profile collection was found at the path of \(path)")
+            logger.debug("No default profile collection was found at the path of \(path)")
             future.fulfill(nil)
             return future
         }
         
         guard let profile = profileCollection.profile(for: profileName) else {
+            logger.debug("Unable to find profile: \(profileName) in \(path)")
             future.fulfill(nil)
             return future
         }
         guard let region = profile.getProperty(name: "region") else {
-            logger.info("Attempting to use \(profileName), but no region was found")
+            logger.debug("Attempting to use \(profileName), but no region was found")
             future.fulfill(nil)
             return future
         }
