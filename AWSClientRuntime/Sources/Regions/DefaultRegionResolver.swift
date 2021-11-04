@@ -12,7 +12,6 @@ public struct DefaultRegionResolver: RegionResolver {
     let logger: SwiftLogger
 
     public init(providers: [RegionProvider] = [BundleRegionProvider(), EnvironmentRegionProvider(), ProfileRegionProvider(), IMDSRegionProvider()]) {
-        // TODO: add more region resolvers i.e. System Properties, etc
         self.providers = providers
         self.logger = SwiftLogger(label: "DefaultRegionProvider")
     }
