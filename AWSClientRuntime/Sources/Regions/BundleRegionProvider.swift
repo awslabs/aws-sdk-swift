@@ -28,7 +28,7 @@ public struct BundleRegionProvider: RegionProvider {
             return future
         }
 
-        if (region.count > maxSizeRegion) {
+        if region.count > maxSizeRegion {
             future.fulfill(String(region.prefix(maxSizeRegion)))
         } else {
             future.fulfill(region)
