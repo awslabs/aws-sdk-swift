@@ -1,14 +1,15 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
-class SynthesizeSpeechInputGETQueryItemMiddleware : MiddlewareRenderable {
+class InputTypeGETQueryItemMiddlewareRenderable(inputSymbol: Symbol) : MiddlewareRenderable {
 
-    override val name = "SynthesizeSpeechInputGETQueryItemMiddleware"
+    override val name = "${inputSymbol.name}GETQueryItemMiddleware"
 
     override val middlewareStep = MiddlewareStep.SERIALIZESTEP
 

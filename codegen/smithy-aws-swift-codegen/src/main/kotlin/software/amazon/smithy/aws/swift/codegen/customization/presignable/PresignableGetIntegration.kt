@@ -1,9 +1,9 @@
-package software.amazon.smithy.aws.swift.codegen.customization.polly
+package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.SynthesizeSpeechInputGETQueryItemMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
@@ -31,10 +31,17 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
 internal val PRESIGNABLE_GET_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.polly#Parrot_v1" to setOf(
         "com.amazonaws.polly#SynthesizeSpeech"
+    ),
+    "com.amazonaws.s3#AmazonS3" to setOf(
+        "com.amazonaws.s3#GetObject"
     )
 )
 
-class PollyGetPresignerIntegration(private val presignedOperations: Map<String, Set<String>> = PRESIGNABLE_GET_OPERATIONS) : SwiftIntegration {
+internal val PRESIGNABLE_GET_OPERATIONS_SIGNING_OPTIONS: Map<String, String> = mapOf(
+    "com.amazonaws.s3#GetObject" to "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true"
+)
+
+class PresignableGetIntegration(private val presignedOperations: Map<String, Set<String>> = PRESIGNABLE_GET_OPERATIONS) : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
         val currentServiceId = model.expectShape<ServiceShape>(settings.service).id.toString()
 
@@ -75,7 +82,7 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
-        val operationMiddleware = resolveOperationMiddleware(protocolGenerator, op)
+        val operationMiddleware = resolveOperationMiddleware(protocolGenerator, protocolGeneratorContext, op)
 
         writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
         writer.addImport(ClientRuntimeTypes.Http.SdkHttpRequest)
@@ -126,7 +133,8 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
         }
     }
 
-    private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, op: OperationShape): OperationMiddleware {
+    private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, context: ProtocolGenerator.GenerationContext, op: OperationShape): OperationMiddleware {
+        val inputSymbol = MiddlewareShapeUtils.inputSymbol(context.symbolProvider, context.model, op)
         val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.BUILDSTEP, "UserAgentMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
@@ -136,14 +144,18 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters))
-        operationMiddlewareCopy.appendMiddleware(op, SynthesizeSpeechInputGETQueryItemMiddleware())
+        operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
 
         return operationMiddlewareCopy
     }
 
     private fun customSigningParameters(op: OperationShape): String {
-        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-        return "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: $hasUnsignedPayload"
+        return PRESIGNABLE_GET_OPERATIONS_SIGNING_OPTIONS[op.id.toString()]?.let {
+            it
+        } ?: run {
+            val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
+            "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: $hasUnsignedPayload"
+        }
     }
 
     private fun renderMiddlewareClassForQueryString(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {
@@ -166,7 +178,15 @@ class PollyGetPresignerIntegration(private val presignedOperations: Map<String, 
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-            val queryItemMiddleware = PollySynthesizeSpeechGETQueryItemMiddleware(ctx, inputSymbol, outputSymbol, outputErrorSymbol, inputShape, writer)
+            val queryItemMiddleware =
+                software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware(
+                    ctx,
+                    inputSymbol,
+                    outputSymbol,
+                    outputErrorSymbol,
+                    inputShape,
+                    writer
+                )
             MiddlewareGenerator(writer, queryItemMiddleware).generate()
         }
     }
