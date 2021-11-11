@@ -9,7 +9,10 @@ import ClientRuntime
 public struct LanguageMetadata {
     let version: String
     let extras: [String: String]
-    
+    var sanitizedVersion: String {
+        return version.sanitizeForUserAgentToken()
+    }
+
     public init(version: String = swiftVersion, extras: [String: String] = [String: String]()) {
         self.version = version
         self.extras = extras
@@ -18,7 +21,11 @@ public struct LanguageMetadata {
 
 extension LanguageMetadata: CustomStringConvertible {
     public var description: String {
-        return !extras.isEmpty ? "lang/swift/\(version)\(extras.map {" md/\($0.key)/\($0.value.sanitizeForUserAgentToken())"})"
-            : "lang/swift/\(version)"
+        let extrasMetaData = !extras.isEmpty
+            ? extras.map {
+                " md/\($0.key.sanitizeForUserAgentToken())/\($0.value.sanitizeForUserAgentToken())"
+            }.joined()
+            : ""
+        return "lang/swift/\(sanitizedVersion)\(extrasMetaData)"
     }
 }
