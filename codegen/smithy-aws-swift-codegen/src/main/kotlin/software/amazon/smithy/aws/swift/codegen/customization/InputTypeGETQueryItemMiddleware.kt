@@ -1,9 +1,11 @@
-package software.amazon.smithy.aws.swift.codegen.customization.polly
+package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.shapes.IntegerShape
 import software.amazon.smithy.model.shapes.ListShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
+import software.amazon.smithy.model.shapes.TimestampShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Core.URLQueryItem
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftTypes
@@ -12,7 +14,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.model.isEnum
 
-class PollySynthesizeSpeechGETQueryItemMiddleware(
+class InputTypeGETQueryItemMiddleware(
     private val ctx: ProtocolGenerator.GenerationContext,
     inputSymbol: Symbol,
     outputSymbol: Symbol,
@@ -27,8 +29,12 @@ class PollySynthesizeSpeechGETQueryItemMiddleware(
             val memberName = ctx.symbolProvider.toMemberName(member)
             val queryKey = member.memberName
 
+            val memberTargetShape = ctx.model.expectShape(member.target)
+            if (memberTargetShape is IntegerShape || memberTargetShape is TimestampShape) {
+                // TODO: We should support all types in our presignable operations
+                continue
+            }
             writer.openBlock("if let $memberName = input.operationInput.$memberName {", "}") {
-                val memberTargetShape = ctx.model.expectShape(member.target)
                 when (memberTargetShape) {
                     is ListShape -> {
                         val rawValueIfNeeded = rawValueIfNeeded(memberTargetShape.member.target)
