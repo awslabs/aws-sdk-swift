@@ -12,6 +12,7 @@ public struct AWSUserAgentMetadata {
     let osMetadata: OSMetadata
     let languageMetadata: LanguageMetadata
     let executionEnvMetadata: ExecutionEnvMetadata?
+    let frameworkMetadata: FrameworkMetadata?
     
     ///  ABNF for the user agent:
     ///  ua-string =
@@ -25,11 +26,18 @@ public struct AWSUserAgentMetadata {
     ///     (framework-metadata RWS)
     ///     [appId]
     var xAmzUserAgent: String {
-        // TODO: add feat-metadata, config-metadata, framework-metadata (Amplify?) and appId
-        guard let executionEnvMetadata = executionEnvMetadata else {
-            return "\(sdkMetadata) \(apiMetadata) \(osMetadata) \(languageMetadata)"
+        // TODO: add feat-metadata, config-metadata, and appId
+        var components = [sdkMetadata.description,
+                          apiMetadata.description,
+                          osMetadata.description,
+                          languageMetadata.description]
+        if let executionEnvMetadata = executionEnvMetadata {
+            components.append(executionEnvMetadata.description)
         }
-        return "\(sdkMetadata) \(apiMetadata) \(osMetadata) \(languageMetadata) \(String(describing: executionEnvMetadata))"
+        if let frameworkMetadata = frameworkMetadata {
+            components.append(frameworkMetadata.description)
+        }
+        return components.joined(separator: " ")
     }
     
     /// Legacy user agent header value for `UserAgent`
@@ -41,12 +49,14 @@ public struct AWSUserAgentMetadata {
                 apiMetadata: APIMetadata,
                 osMetadata: OSMetadata,
                 languageMetadata: LanguageMetadata,
-                executionEnvMetadata: ExecutionEnvMetadata? = nil) {
+                executionEnvMetadata: ExecutionEnvMetadata? = nil,
+                frameworkMetadata: FrameworkMetadata? = nil) {
         self.sdkMetadata = sdkMetadata
         self.apiMetadata = apiMetadata
         self.osMetadata = osMetadata
         self.languageMetadata = languageMetadata
         self.executionEnvMetadata = executionEnvMetadata
+        self.frameworkMetadata = frameworkMetadata
     }
     
     public static func fromEnv(apiMetadata: APIMetadata) -> AWSUserAgentMetadata {
