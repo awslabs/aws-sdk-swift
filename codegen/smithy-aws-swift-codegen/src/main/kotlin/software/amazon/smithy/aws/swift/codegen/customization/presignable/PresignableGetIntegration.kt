@@ -2,6 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
+import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
@@ -178,15 +179,14 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-            val queryItemMiddleware =
-                software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware(
-                    ctx,
-                    inputSymbol,
-                    outputSymbol,
-                    outputErrorSymbol,
-                    inputShape,
-                    writer
-                )
+            val queryItemMiddleware = InputTypeGETQueryItemMiddleware(
+                ctx,
+                inputSymbol,
+                outputSymbol,
+                outputErrorSymbol,
+                inputShape,
+                writer
+            )
             MiddlewareGenerator(writer, queryItemMiddleware).generate()
         }
     }
