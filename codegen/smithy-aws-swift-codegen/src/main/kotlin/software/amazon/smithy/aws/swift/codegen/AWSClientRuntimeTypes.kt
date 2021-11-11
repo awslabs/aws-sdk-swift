@@ -39,6 +39,7 @@ object AWSClientRuntimeTypes {
         val RetryerMiddleware = runtimeSymbol("RetryerMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
         val EndpointResolver = runtimeSymbol("EndpointResolver")
+        val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")
         val CredentialsProvider = runtimeSymbol("CredentialsProvider")
         val AWSCredentialsProvider = runtimeSymbol("AWSCredentialsProvider")
         val AWSClientConfiguration = runtimeSymbol("AWSClientConfiguration")

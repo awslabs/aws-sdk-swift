@@ -119,6 +119,7 @@ class RestJsonProtocolGeneratorTests {
             
                     public var credentialsProvider: AWSClientRuntime.CredentialsProvider
                     public var endpointResolver: AWSClientRuntime.EndpointResolver
+                    public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
                     public var region: Swift.String?
                     public var regionResolver: AWSClientRuntime.RegionResolver
                     public var signingRegion: Swift.String?
@@ -126,6 +127,7 @@ class RestJsonProtocolGeneratorTests {
                     public init(
                         credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
+                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
                         region: Swift.String? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
@@ -141,6 +143,7 @@ class RestJsonProtocolGeneratorTests {
                         } else {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
                         }
+                        self.frameworkMetadata = frameworkMetadata
                         self.clientLogMode = runtimeConfig.clientLogMode
                         self.decoder = runtimeConfig.decoder
                         self.encoder = runtimeConfig.encoder
@@ -154,12 +157,13 @@ class RestJsonProtocolGeneratorTests {
                     public convenience init(
                         credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
                         endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
+                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
                         region: Swift.String? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil
                     ) throws {
                         let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
-                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
+                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, frameworkMetadata: frameworkMetadata, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
                 }
             }
