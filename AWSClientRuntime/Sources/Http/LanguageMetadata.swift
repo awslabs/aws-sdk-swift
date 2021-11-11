@@ -21,11 +21,11 @@ public struct LanguageMetadata {
 
 extension LanguageMetadata: CustomStringConvertible {
     public var description: String {
-        let extrasMetaData = !extras.isEmpty
+        let extrasMetadata = !extras.isEmpty
             ? extras.map {
                 " md/\($0.key.sanitizeForUserAgentToken())/\($0.value.sanitizeForUserAgentToken())"
             }.joined()
             : ""
-        return "lang/swift/\(sanitizedVersion)\(extrasMetaData)"
+        return "lang/swift/\(sanitizedVersion)\(extrasMetadata)"
     }
 }
