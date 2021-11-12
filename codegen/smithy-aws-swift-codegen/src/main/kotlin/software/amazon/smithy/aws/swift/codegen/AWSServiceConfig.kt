@@ -12,11 +12,12 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ConfigField
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 
-const val REGION_CONFIG_NAME = "region"
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
-const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 const val ENDPOINT_RESOLVER = "endpointResolver"
+const val FRAMEWORK_METADATA = "frameworkMetadata"
+const val REGION_CONFIG_NAME = "region"
 const val REGION_RESOLVER = "regionResolver"
+const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 
 class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig(writer, serviceName) {
     override val typesToConformConfigTo: List<Symbol>
@@ -41,6 +42,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         }
         writer.indent().write("self.credentialsProvider = try \$N.fromChain()", AWSClientRuntimeTypes.Core.AWSCredentialsProvider)
         writer.dedent().write("}")
+        writer.write("self.frameworkMetadata = frameworkMetadata")
         val runtimeTimeConfigFields = sdkRuntimeConfigProperties()
         runtimeTimeConfigFields.forEach {
             writer.write("self.${it.memberName} = runtimeConfig.${it.memberName}")
@@ -69,21 +71,27 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
     override fun otherRuntimeConfigProperties(): List<ConfigField> {
         return listOf(
             ConfigField(
+                CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
+                documentation = "The credentials provider to use to authenticate requests."
+            ),
+            ConfigField(
+                ENDPOINT_RESOLVER, AWSClientRuntimeTypes.Core.EndpointResolver,
+                documentation = "The endpoint resolver used to resolve endpoints."
+            ),
+            ConfigField(
+                FRAMEWORK_METADATA,
+                AWSClientRuntimeTypes.Core.FrameworkMetadata,
+                formatter = "\$T",
+                documentation = "Contains information to inject lib/ into user-agent"
+            ),
+            ConfigField(
                 REGION_CONFIG_NAME,
                 SwiftTypes.String,
                 "\$T",
                 "The region to send requests to. (Required)"
             ),
-            ConfigField(
-                CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
-                documentation = "The credentials provider to use to authenticate requests."
-            ),
-            ConfigField(SIGNING_REGION_CONFIG_NAME, SwiftTypes.String, "\$T", "The region to sign requests in. (Required)"),
-            ConfigField(
-                ENDPOINT_RESOLVER, AWSClientRuntimeTypes.Core.EndpointResolver,
-                documentation = "The endpoint resolver used to resolve endpoints."
-            ),
-            ConfigField(REGION_RESOLVER, AWSClientRuntimeTypes.Core.RegionResolver, documentation = "The region resolver uses an array of region providers to resolve the region.")
+            ConfigField(REGION_RESOLVER, AWSClientRuntimeTypes.Core.RegionResolver, documentation = "The region resolver uses an array of region providers to resolve the region."),
+            ConfigField(SIGNING_REGION_CONFIG_NAME, SwiftTypes.String, "\$T", "The region to sign requests in. (Required)")
         ).sortedBy { it.memberName }
     }
 }
