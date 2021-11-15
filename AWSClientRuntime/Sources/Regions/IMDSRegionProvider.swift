@@ -14,17 +14,7 @@ public struct IMDSRegionProvider: RegionProvider {
         self.imdsClient = IMDSClient()
     }
     
-    public func resolveRegion() -> Future<String?> {
-        let future = Future<String?>()
-        
-        imdsClient.get(path: REGION_PATH, completion: { result in
-            switch result {
-            case .success(let region):
-                future.fulfill(region)
-            case .failure:
-                future.fulfill(nil)
-            }
-        })
-        return future
+    public func resolveRegion() async throws -> String? {
+        return try await imdsClient.get(path: REGION_PATH)
     }
 }

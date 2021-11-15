@@ -7,5 +7,5 @@
 
 public protocol RegionResolver {
     var providers: [RegionProvider] {get}
-    func resolveRegion() -> String?
+    func resolveRegion() async -> String?
 }

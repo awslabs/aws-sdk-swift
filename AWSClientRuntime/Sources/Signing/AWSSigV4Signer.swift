@@ -16,45 +16,39 @@ public class AWSSigV4Signer {
                                       signingName: Swift.String,
                                       signingRegion: Swift.String,
                                       date: ClientRuntime.Date,
-                                      expiration: Int64) -> ClientRuntime.URL? {
-        do {
-            let credentialsResult = try credentialsProvider.getCredentials()
-            let credentials = try credentialsResult.get()
-            let flags = SigningFlags(useDoubleURIEncode: true,
-                                     shouldNormalizeURIPath: true,
-                                     omitSessionToken: false)
-            let signedBodyHeader: AWSSignedBodyHeader = .none
-            let signedBodyValue: AWSSignedBodyValue = .empty
-            let signingConfig = AWSSigningConfig(credentials: credentials,
-                                                 expiration: expiration,
-                                                 signedBodyHeader: signedBodyHeader,
-                                                 signedBodyValue: signedBodyValue,
-                                                 flags: flags,
-                                                 date: date,
-                                                 service: signingName,
-                                                 region: signingRegion,
-                                                 signatureType: .requestQueryParams)
-            let builtRequest = sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
-            guard let presignedURL = builtRequest?.endpoint.url else {
-                logger.error("Failed to generate presigend url")
-                return nil
-            }
-            return presignedURL
-        } catch let err {
-            logger.error("Failed to generate presigned url: \(err)")
+                                      expiration: Int64) async throws -> ClientRuntime.URL? {
+   
+        let credentials = try await credentialsProvider.getCredentials()
+        let flags = SigningFlags(useDoubleURIEncode: true,
+                                 shouldNormalizeURIPath: true,
+                                 omitSessionToken: false)
+        let signedBodyHeader: AWSSignedBodyHeader = .none
+        let signedBodyValue: AWSSignedBodyValue = .empty
+        let signingConfig = AWSSigningConfig(credentials: credentials,
+                                             expiration: expiration,
+                                             signedBodyHeader: signedBodyHeader,
+                                             signedBodyValue: signedBodyValue,
+                                             flags: flags,
+                                             date: date,
+                                             service: signingName,
+                                             region: signingRegion,
+                                             signatureType: .requestQueryParams)
+        let builtRequest = try await sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
+        guard let presignedURL = builtRequest?.endpoint.url else {
+            logger.error("Failed to generate presigend url")
             return nil
         }
+        return presignedURL
     }
     
     public static func sigV4SignedRequest(requestBuilder: SdkHttpRequestBuilder,
-                                          signingConfig: AWSSigningConfig) -> SdkHttpRequest? {
+                                          signingConfig: AWSSigningConfig) async throws -> SdkHttpRequest? {
         let originalRequest = requestBuilder.build()
         let crtUnsignedRequest = originalRequest.toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         do {
-            let result = try signer.signRequest(request: crtUnsignedRequest,
+            let crtSignedRequest = try await signer.signRequest(request: crtUnsignedRequest,
                                                 config: signingConfig.toCRTType())
-            let crtSignedRequest = try result.get()
             let sdkSignedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: originalRequest)
             return sdkSignedRequest.build()
         } catch CRTError.crtError(let crtError) {

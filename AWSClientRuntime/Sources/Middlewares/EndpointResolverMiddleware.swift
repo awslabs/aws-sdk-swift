@@ -17,15 +17,14 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
     
     public func handle<H>(context: Context,
                           input: SdkHttpRequestBuilder,
-                          next: H) -> Result<OperationOutput<OperationStackOutput>, MError>
+                          next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
-    Self.Context == H.Context,
-    Self.MError == H.MiddlewareError {
+    Self.Context == H.Context{
         
         guard let region = context.getRegion(), !region.isEmpty else {
-            return .failure(.client(ClientError.unknownError(("Region is unable to be resolved"))))
+            throw SdkError<OperationStackError>.client(ClientError.unknownError(("Region is unable to be resolved")))
         }
         
         do {
@@ -59,9 +58,9 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
             // TODO: investigate if this header should be the same host value as the actual host and where this header should be set
                 .withHeader(name: "Host", value: host)
             
-            return next.handle(context: updatedContext, input: input)
+            return try await next.handle(context: updatedContext, input: input)
         } catch {
-            return .failure(.client(ClientError.unknownError(("Endpoint is unable to be resolved"))))
+            throw SdkError<OperationStackError>.client(ClientError.unknownError(("Endpoint is unable to be resolved")))
         }
     }
     
