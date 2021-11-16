@@ -82,11 +82,11 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
-        operationMiddleware.appendMiddleware(operation, EndpointResolverMiddleware())
-        operationMiddleware.appendMiddleware(operation, RetryMiddleware())
+        operationMiddleware.appendMiddleware(operation, EndpointResolverMiddleware(ctx.model, ctx.symbolProvider))
+        operationMiddleware.appendMiddleware(operation, RetryMiddleware(ctx.model, ctx.symbolProvider))
 
         if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, operation)) {
-            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware())
+            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(null, ctx.model, ctx.symbolProvider))
         }
 
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))

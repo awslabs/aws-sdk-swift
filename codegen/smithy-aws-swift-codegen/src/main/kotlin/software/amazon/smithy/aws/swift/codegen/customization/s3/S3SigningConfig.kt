@@ -31,7 +31,7 @@ class S3SigningConfig : SwiftIntegration {
         operationMiddleware: OperationMiddleware
     ) {
         operationMiddleware.removeMiddleware(operationShape, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        operationMiddleware.appendMiddleware(operationShape, AWSSigningMiddleware(::middlewareParamsString))
+        operationMiddleware.appendMiddleware(operationShape, AWSSigningMiddleware(::middlewareParamsString, ctx.model, ctx.symbolProvider))
     }
 
     private fun middlewareParamsString(op: OperationShape): String {

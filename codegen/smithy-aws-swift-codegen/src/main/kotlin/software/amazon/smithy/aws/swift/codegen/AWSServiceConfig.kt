@@ -25,7 +25,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
 
     override fun renderInitializers(serviceSymbol: Symbol) {
         val awsConfigFields = otherRuntimeConfigProperties()
-        writer.openBlock("public init(", ") throws {") {
+        writer.openBlock("public init(", ") async throws {") {
             awsConfigFields.forEach {
                 writer.write("${it.memberName}: \$D, ", it.type)
             }
@@ -39,7 +39,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         }
         writer.indent()
         writer.write("let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()")
-        writer.write("let region = resolvedRegionResolver.resolveRegion()")
+        writer.write("let region = await resolvedRegionResolver.resolveRegion()")
         writer.write("self.region = region")
         writer.write("self.regionResolver = resolvedRegionResolver")
         writer.write("self.signingRegion = signingRegion ?? region")
@@ -59,7 +59,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.dedent().write("}")
         writer.write("")
 
-        writer.openBlock("public convenience init(", ") throws {") {
+        writer.openBlock("public convenience init(", ") async throws {") {
 
             awsConfigFields.forEachIndexed { index, configField ->
                 val terminator = if (index != awsConfigFields.lastIndex) ", " else ""
@@ -73,7 +73,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         }
         writer.indent()
         writer.write("let defaultRuntimeConfig = try \$N(\"${serviceName}\")", ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration)
-        writer.write("try self.init(${configParamValues}runtimeConfig: defaultRuntimeConfig)")
+        writer.write("try await self.init(${configParamValues}runtimeConfig: defaultRuntimeConfig)")
         writer.dedent().write("}")
     }
 

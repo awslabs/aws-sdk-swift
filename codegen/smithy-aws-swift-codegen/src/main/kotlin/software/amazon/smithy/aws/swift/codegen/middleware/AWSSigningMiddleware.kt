@@ -9,12 +9,14 @@ import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
+import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.OptionalAuthTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
@@ -23,7 +25,10 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
 
 typealias AWSSigningMiddlewareParamsCallback = (OperationShape) -> String
 
-open class AWSSigningMiddleware(val paramsCallback: AWSSigningMiddlewareParamsCallback? = null) : MiddlewareRenderable {
+open class AWSSigningMiddleware(
+    private val paramsCallback: AWSSigningMiddlewareParamsCallback? = null,
+    val model: Model,
+    val symbolProvider: SymbolProvider) : MiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
 
@@ -37,9 +42,11 @@ open class AWSSigningMiddleware(val paramsCallback: AWSSigningMiddlewareParamsCa
         operationStackName: String,
     ) {
         renderConfigDeclaration(writer, op)
+        val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
+        val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         writer.write(
-            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(config: sigv4Config))",
-            AWSClientRuntimeTypes.Signing.SigV4Middleware
+            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>(config: sigv4Config))",
+            AWSClientRuntimeTypes.Signing.SigV4Middleware, output, outputError
         )
     }
 

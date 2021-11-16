@@ -33,9 +33,9 @@ class GlacierAccountIdMiddleware(private val model: Model, private val symbolPro
             writer.openBlock("guard let accountId = input.${accountId.memberName}, !accountId.isEmpty else {", "}") {
                 writer.write("var copiedInput = input")
                 writer.write("copiedInput.${accountId.memberName} = \"-\"")
-                writer.write("return next.handle(context: context, input: copiedInput)")
+                writer.write("return try await next.handle(context: context, input: copiedInput)")
             }
-            writer.write("return next.handle(context: context, input: input)")
+            writer.write("return try await next.handle(context: context, input: input)")
         }
     }
 }

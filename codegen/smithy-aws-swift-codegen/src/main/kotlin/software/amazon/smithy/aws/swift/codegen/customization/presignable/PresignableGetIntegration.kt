@@ -92,7 +92,7 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
-                "public func presignURL(config: \$N, expiration: \$N) -> \$T {", "}",
+                "public func presignURL(config: \$N, expiration: \$N) async throws -> \$T {", "}",
                 AWSClientRuntimeTypes.Core.AWSClientConfiguration,
                 SwiftTypes.Int64,
                 ClientRuntimeTypes.Core.URL
@@ -123,7 +123,7 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
                 val builtRequestName = "builtRequest"
                 val presignedURL = "presignedURL"
                 writer.write(
-                    "let $requestBuilderName = $operationStackName.presignedRequest(context: context.build(), input: input, next: \$N())",
+                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context.build(), input: input, next: \$N())",
                     ClientRuntimeTypes.Middleware.NoopHandler
                 )
                 writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {
@@ -144,7 +144,7 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputHeadersMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters))
+        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters, context.model, context.symbolProvider))
         operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
 
         return operationMiddlewareCopy
