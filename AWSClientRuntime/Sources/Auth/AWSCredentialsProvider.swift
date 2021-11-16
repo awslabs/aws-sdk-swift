@@ -72,7 +72,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
-    public func getCredentials() async throws -> AWSCredentials{
+    public func getCredentials() async throws -> AWSCredentials {
         let crtCredentials = try await crtCredentialsProvider.getCredentials()
 
         guard let accessKey = crtCredentials.getAccessKey(),

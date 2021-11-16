@@ -28,7 +28,8 @@ typealias AWSSigningMiddlewareParamsCallback = (OperationShape) -> String
 open class AWSSigningMiddleware(
     private val paramsCallback: AWSSigningMiddlewareParamsCallback? = null,
     val model: Model,
-    val symbolProvider: SymbolProvider) : MiddlewareRenderable {
+    val symbolProvider: SymbolProvider
+) : MiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
 

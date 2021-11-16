@@ -21,7 +21,7 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
-    Self.Context == H.Context{
+    Self.Context == H.Context {
         
         guard let region = context.getRegion(), !region.isEmpty else {
             throw SdkError<OperationStackError>.client(ClientError.unknownError(("Region is unable to be resolved")))
