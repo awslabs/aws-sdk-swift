@@ -9,11 +9,11 @@ import ClientRuntime
 
 public struct BundleRegionProvider: RegionProvider {
     private let logger: SwiftLogger
-    private let bundle: Bundle
+    private let bundle: BundleProtocol
     private let regionKey: String
     private let maxSizeRegion = 38
 
-    public init(bundle: Bundle = Bundle.main, regionKey: String = "AWS_REGION") {
+    public init(bundle: BundleProtocol = Bundle.main, regionKey: String = "AWS_REGION") {
         self.logger = SwiftLogger(label: "BundleRegionProvider")
         self.bundle = bundle
         self.regionKey = regionKey
