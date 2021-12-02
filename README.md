@@ -71,7 +71,7 @@ Once Xcode is open, open Package.swift.  Update the file to mirror the following
 * the first target “TestSDK” has a dependency listed as `AWSCognitoIdentity`
 
 ```swift
-// swift-tools-version:5.4
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -97,24 +97,6 @@ let package = Package(
 
 Then you can open up main.swift, and instantiate CognitoIdentity as follows:
 
-If you are running Swift <5.5:
-```swift
-import AWSCognitoIdentity
-
-let cognitoIdentityClient = try CognitoIdentityClient(region: "us-east-1")
-let cognitoInputCall = CreateIdentityPoolInput(developerProviderName: "com.amazonaws.mytestapplication",
-                                               identityPoolName: "identityPoolMadeWithSwiftSDK")
-
-cognitoIdentityClient.createIdentityPool(input: cognitoInputCall) { (result) in
-        switch(result) {
-        case .success(let output):
-        print("\(output)")
-        case .failure(let error):
-        print("\(error)")
-    }
-}
-```
-If you are running 5.5+:
 ```swift
 import AWSCognitoIdentity
 
