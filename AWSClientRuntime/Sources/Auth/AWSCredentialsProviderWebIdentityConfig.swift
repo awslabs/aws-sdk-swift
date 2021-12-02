@@ -10,6 +10,7 @@ import ClientRuntime
         
 public struct AWSCredentialsProviderWebIdentityConfig {
     public let shutDownCallback: ShutDownCallback?
+    private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
     
     public init(shutDownCallback: ShutDownCallback? = nil) {
         self.shutDownCallback = shutDownCallback

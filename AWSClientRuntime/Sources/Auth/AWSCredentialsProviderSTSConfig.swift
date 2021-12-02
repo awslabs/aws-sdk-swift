@@ -14,6 +14,7 @@ public struct AWSCredentialsProviderSTSConfig {
     public let sessionName: String
     public let durationSeconds: UInt16
     public let shutDownCallback: ShutDownCallback?
+    private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
     
     public init(credentialsProvider: AWSCredentialsProvider,
                 roleArn: String,

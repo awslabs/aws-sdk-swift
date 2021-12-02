@@ -15,6 +15,7 @@ import ClientRuntime
 /// See https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-transition-to-version-2 for more information.
 public class IMDSClient {
     let crtIMDSClient: CRTIMDSClient
+    private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
     
     public init(config: IMDSConfig = IMDSConfig()) {
         let crtConfig = config.toCRTConfig()

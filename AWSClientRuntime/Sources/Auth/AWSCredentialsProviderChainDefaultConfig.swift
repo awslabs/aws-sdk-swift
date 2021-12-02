@@ -9,6 +9,7 @@ import ClientRuntime
 
 public struct AWSCredentialsProviderChainDefaultConfig {
     let shutDownCallback: ShutDownCallback?
+    private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
     
     public init(shutDownCallback: ShutDownCallback? = nil) {
         self.shutDownCallback = shutDownCallback
