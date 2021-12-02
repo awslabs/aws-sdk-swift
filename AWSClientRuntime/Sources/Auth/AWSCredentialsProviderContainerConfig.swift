@@ -13,6 +13,7 @@ public struct AWSCredentialsProviderContainerConfig {
     public let host: String?
     public let pathAndQuery: String?
     public let shutDownCallback: ShutDownCallback?
+    private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
     
     init(authToken: String? = nil,
          host: String? = nil,
