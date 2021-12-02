@@ -50,10 +50,10 @@ See the local.properties definition above to specify this in a config file.
 ##### Testing Locally
 Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSClientRuntime` Swift packages.
 
-## Alpha SDK Testing Instructions
+## SDK Usage Instructions
 *Steps*
 
-1. We have all of the AWS SDKs available in our alpha release listed under `/release` in a tagged branch.
+AWS SDKs are available under `/release` in a tagged branch.
 
 We will walk you through how you can use `CognitoIdentity`  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
 
@@ -80,7 +80,7 @@ let package = Package(
     name: "TestSdk",
     platforms: [.macOS(.v10_15), .iOS(.v13)],
     dependencies: [
-        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.0.14"), // <- enter latest version here
+        .package(name: "AWSSwiftSDK", url: "https://github.com/awslabs/aws-sdk-swift", from: "0.1.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
