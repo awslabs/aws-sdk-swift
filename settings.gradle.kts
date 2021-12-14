@@ -5,10 +5,21 @@
 
 pluginManagement {
     repositories {
-        maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
-        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
-
+        mavenCentral()
+	maven("https://plugins.gradle.org/m2/")
+	google()
         gradlePluginPortal()
+    }
+
+    plugins {
+        val kotlinVersion: String by settings
+        val dokkaVersion: String by settings
+        val kotlinxBenchmarkVersion: String by settings
+        val smithyGradleVersion: String by settings
+        id("org.jetbrains.dokka") version dokkaVersion
+        id("org.jetbrains.kotlin.jvm") version kotlinVersion
+        id("org.jetbrains.kotlinx.benchmark") version kotlinxBenchmarkVersion
+        id("software.amazon.smithy") version smithyGradleVersion
     }
 }
 
