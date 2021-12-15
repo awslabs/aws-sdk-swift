@@ -121,7 +121,7 @@ class RestJsonProtocolGeneratorTests {
                     public var endpointResolver: AWSClientRuntime.EndpointResolver
                     public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
                     public var region: Swift.String?
-                    public var regionResolver: AWSClientRuntime.RegionResolver
+                    public var regionResolver: AWSClientRuntime.RegionResolver?
                     public var signingRegion: Swift.String?
             
                     public init(
@@ -133,10 +133,17 @@ class RestJsonProtocolGeneratorTests {
                         signingRegion: Swift.String? = nil,
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
                     ) throws {
-                        self.regionResolver = regionResolver ?? DefaultRegionResolver()
-                        let defaultRegion = self.regionResolver.resolveRegion()
-                        self.region = region ?? defaultRegion
-                        self.signingRegion = signingRegion ?? defaultRegion
+                        if let region = region {
+                            self.region = region
+                            self.regionResolver = nil
+                            self.signingRegion = signingRegion ?? region
+                        } else {
+                            let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
+                            let region = resolvedRegionResolver.resolveRegion()
+                            self.region = region
+                            self.regionResolver = resolvedRegionResolver
+                            self.signingRegion = signingRegion ?? region
+                        }
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
                         if let credProvider = credentialsProvider {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
