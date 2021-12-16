@@ -32,10 +32,19 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
             writer.write("runtimeConfig: \$N", ClientRuntimeTypes.Core.SDKRuntimeConfiguration)
         }
         writer.indent()
-        writer.write("self.regionResolver = regionResolver ?? DefaultRegionResolver()")
-        writer.write("let defaultRegion = self.regionResolver.resolveRegion()")
-        writer.write("self.region = region ?? defaultRegion")
-        writer.write("self.signingRegion = signingRegion ?? defaultRegion")
+        writer.openBlock("if let region = region {", "} else {") {
+            writer.write("self.region = region")
+            writer.write("self.regionResolver = nil")
+            writer.write("self.signingRegion = signingRegion ?? region")
+        }
+        writer.indent()
+        writer.write("let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()")
+        writer.write("let region = resolvedRegionResolver.resolveRegion()")
+        writer.write("self.region = region")
+        writer.write("self.regionResolver = resolvedRegionResolver")
+        writer.write("self.signingRegion = signingRegion ?? region")
+        writer.dedent()
+        writer.write("}")
         writer.write("self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()")
         writer.openBlock("if let credProvider = credentialsProvider {", "} else {") {
             writer.write("self.credentialsProvider = try \$N.fromCustom(credProvider)", AWSClientRuntimeTypes.Core.AWSCredentialsProvider)
@@ -90,7 +99,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
                 "\$T",
                 "The region to send requests to. (Required)"
             ),
-            ConfigField(REGION_RESOLVER, AWSClientRuntimeTypes.Core.RegionResolver, documentation = "The region resolver uses an array of region providers to resolve the region."),
+            ConfigField(REGION_RESOLVER, AWSClientRuntimeTypes.Core.RegionResolver, "\$T", documentation = "The region resolver uses an array of region providers to resolve the region."),
             ConfigField(SIGNING_REGION_CONFIG_NAME, SwiftTypes.String, "\$T", "The region to sign requests in. (Required)")
         ).sortedBy { it.memberName }
     }
