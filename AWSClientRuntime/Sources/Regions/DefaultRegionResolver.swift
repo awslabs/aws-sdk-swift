@@ -13,7 +13,7 @@ public struct DefaultRegionResolver: RegionResolver {
 
     public init(providers: [RegionProvider]? = nil) {
         #if os(iOS) || os(watchOS) || os(tvOS)
-        self.providers = providers ?? [BundleRegionProvider(), EnvironmentRegionProvider(), ProfileRegionProvider()]
+        self.providers = providers ?? [BundleRegionProvider(), EnvironmentRegionProvider()]
         #else
         self.providers = providers ?? [BundleRegionProvider(), EnvironmentRegionProvider(), ProfileRegionProvider(), IMDSRegionProvider()]
         #endif
