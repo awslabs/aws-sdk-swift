@@ -11,8 +11,12 @@ public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     let logger: SwiftLogger
 
-    public init(providers: [RegionProvider] = [BundleRegionProvider(), EnvironmentRegionProvider(), ProfileRegionProvider(), IMDSRegionProvider()]) {
-        self.providers = providers
+    public init(providers: [RegionProvider]? = nil) {
+        #if os(iOS) || os(watchOS) || os(tvOS)
+        self.providers = providers ?? [BundleRegionProvider(), EnvironmentRegionProvider()]
+        #else
+        self.providers = providers ?? [BundleRegionProvider(), EnvironmentRegionProvider(), ProfileRegionProvider(), IMDSRegionProvider()]
+        #endif
         self.logger = SwiftLogger(label: "DefaultRegionProvider")
     }
     
