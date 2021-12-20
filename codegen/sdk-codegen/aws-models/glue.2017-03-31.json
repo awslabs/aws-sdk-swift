@@ -31,6 +31,21 @@
     "shapes": {
         "com.amazonaws.glue#AWSGlue": {
             "type": "service",
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "Glue",
+                    "arnNamespace": "glue",
+                    "cloudFormationName": "Glue",
+                    "cloudTrailEventSource": "glue.amazonaws.com",
+                    "endpointPrefix": "glue"
+                },
+                "aws.auth#sigv4": {
+                    "name": "glue"
+                },
+                "aws.protocols#awsJson1_1": {},
+                "smithy.api#documentation": "<fullname>Glue</fullname>\n         <p>Defines the public endpoint for the Glue service.</p>",
+                "smithy.api#title": "AWS Glue"
+            },
             "version": "2017-03-31",
             "operations": [
                 {
@@ -531,22 +546,7 @@
                 {
                     "target": "com.amazonaws.glue#UpdateWorkflow"
                 }
-            ],
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "Glue",
-                    "arnNamespace": "glue",
-                    "cloudFormationName": "Glue",
-                    "cloudTrailEventSource": "glue.amazonaws.com",
-                    "endpointPrefix": "glue"
-                },
-                "aws.auth#sigv4": {
-                    "name": "glue"
-                },
-                "aws.protocols#awsJson1_1": {},
-                "smithy.api#documentation": "<fullname>Glue</fullname>\n         <p>Defines the public endpoint for the Glue service.</p>",
-                "smithy.api#title": "AWS Glue"
-            }
+            ]
         },
         "com.amazonaws.glue#AccessDeniedException": {
             "type": "structure",
@@ -926,6 +926,9 @@
                     "target": "com.amazonaws.glue#EntityNotFoundException"
                 },
                 {
+                    "target": "com.amazonaws.glue#GlueEncryptionException"
+                },
+                {
                     "target": "com.amazonaws.glue#InternalServiceException"
                 },
                 {
@@ -933,6 +936,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#OperationTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.glue#ResourceNotReadyException"
                 }
             ],
             "traits": {
@@ -972,6 +978,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A list of the table to delete.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "TransactionId": {
+                    "target": "com.amazonaws.glue#TransactionIdString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The transaction ID at which to delete the table contents.</p>"
                     }
                 }
             }
@@ -1320,6 +1332,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InvalidStateException"
                 },
                 {
                     "target": "com.amazonaws.glue#OperationTimeoutException"
@@ -3983,6 +3998,12 @@
                         "smithy.api#documentation": "<p>A <code>ConnectionInput</code> object defining the connection\n      to create.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.glue#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags you assign to the connection.</p>"
+                    }
                 }
             }
         },
@@ -5388,6 +5409,9 @@
                     "target": "com.amazonaws.glue#OperationTimeoutException"
                 },
                 {
+                    "target": "com.amazonaws.glue#ResourceNotReadyException"
+                },
+                {
                     "target": "com.amazonaws.glue#ResourceNumberLimitExceededException"
                 }
             ],
@@ -5422,6 +5446,12 @@
                     "target": "com.amazonaws.glue#PartitionIndexList",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of partition indexes, <code>PartitionIndex</code> structures, to create in the table.</p>"
+                    }
+                },
+                "TransactionId": {
+                    "target": "com.amazonaws.glue#TransactionIdString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the transaction.</p>"
                     }
                 }
             }
@@ -7084,6 +7114,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#OperationTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.glue#ResourceNotReadyException"
                 }
             ],
             "traits": {
@@ -7111,6 +7144,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The name of the table to be deleted. For Hive\n      compatibility, this name is entirely lowercase.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "TransactionId": {
+                    "target": "com.amazonaws.glue#TransactionIdString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The transaction ID at which to delete the table contents.</p>"
                     }
                 }
             }
@@ -7827,6 +7866,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Batch condition that must be met (specified number of events received or batch time window expired)\n      before EventBridge event trigger fires.</p>"
             }
+        },
+        "com.amazonaws.glue#EventQueueArn": {
+            "type": "string"
         },
         "com.amazonaws.glue#ExecutionProperty": {
             "type": "structure",
@@ -10180,7 +10222,13 @@
                     "target": "com.amazonaws.glue#InvalidInputException"
                 },
                 {
+                    "target": "com.amazonaws.glue#InvalidStateException"
+                },
+                {
                     "target": "com.amazonaws.glue#OperationTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.glue#ResourceNotReadyException"
                 }
             ],
             "traits": {
@@ -10240,7 +10288,22 @@
                     }
                 },
                 "ExcludeColumnSchema": {
-                    "target": "com.amazonaws.glue#BooleanNullable"
+                    "target": "com.amazonaws.glue#BooleanNullable",
+                    "traits": {
+                        "smithy.api#documentation": "<p>When true, specifies not returning the partition column schema. Useful when you are interested only in other partition attributes such as partition values or location. This approach avoids the problem of a large response by not returning duplicate data.</p>"
+                    }
+                },
+                "TransactionId": {
+                    "target": "com.amazonaws.glue#TransactionIdString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The transaction ID at which to read the partition contents.</p>"
+                    }
+                },
+                "QueryAsOfTime": {
+                    "target": "com.amazonaws.glue#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time as of when to read the partition contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with <code>TransactionId</code>.</p>"
+                    }
                 }
             }
         },
@@ -11066,6 +11129,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#OperationTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.glue#ResourceNotReadyException"
                 }
             ],
             "traits": {
@@ -11093,6 +11159,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The name of the table for which to retrieve the definition. For Hive\n      compatibility, this name is entirely lowercase.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "TransactionId": {
+                    "target": "com.amazonaws.glue#TransactionIdString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The transaction ID at which to read the table contents. </p>"
+                    }
+                },
+                "QueryAsOfTime": {
+                    "target": "com.amazonaws.glue#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with <code>TransactionId</code>.</p>"
                     }
                 }
             }
@@ -11339,6 +11417,18 @@
                     "target": "com.amazonaws.glue#CatalogGetterPageSize",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum number of tables to return in a single response.</p>"
+                    }
+                },
+                "TransactionId": {
+                    "target": "com.amazonaws.glue#TransactionIdString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The transaction ID at which to read the table contents.</p>"
+                    }
+                },
+                "QueryAsOfTime": {
+                    "target": "com.amazonaws.glue#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with <code>TransactionId</code>.</p>"
                     }
                 }
             }
@@ -12266,6 +12356,21 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The input provided was not valid.</p>",
+                "smithy.api#error": "client"
+            }
+        },
+        "com.amazonaws.glue#InvalidStateException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.glue#MessageString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A message describing the problem.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An error that indicates your data is in an invalid state.</p>",
                 "smithy.api#error": "client"
             }
         },
@@ -15570,6 +15675,10 @@
                     {
                         "value": "CRAWL_NEW_FOLDERS_ONLY",
                         "name": "CRAWL_NEW_FOLDERS_ONLY"
+                    },
+                    {
+                        "value": "CRAWL_EVENT_MODE",
+                        "name": "CRAWL_EVENT_MODE"
                     }
                 ]
             }
@@ -15580,7 +15689,7 @@
                 "RecrawlBehavior": {
                     "target": "com.amazonaws.glue#RecrawlBehavior",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run.</p>\n\t\n\t        <p>A value of <code>CRAWL_EVERYTHING</code> specifies crawling the entire dataset again.</p>\n  \n         <p>A value of <code>CRAWL_NEW_FOLDERS_ONLY</code> specifies crawling only folders that were added since the last crawler run.</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run.</p>\n\t\n\t        <p>A value of <code>CRAWL_EVERYTHING</code> specifies crawling the entire dataset again.</p>\n  \n         <p>A value of <code>CRAWL_NEW_FOLDERS_ONLY</code> specifies crawling only folders that were added since the last crawler run.</p>\n\t\n\t        <p>A value of <code>CRAWL_EVENT_MODE</code> specifies crawling only the changes identified by Amazon S3 events.</p>"
                     }
                 }
             },
@@ -15911,6 +16020,21 @@
                 }
             }
         },
+        "com.amazonaws.glue#ResourceNotReadyException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.glue#MessageString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A message describing the problem.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A resource was not ready for a transaction.</p>",
+                "smithy.api#error": "client"
+            }
+        },
         "com.amazonaws.glue#ResourceNumberLimitExceededException": {
             "type": "structure",
             "members": {
@@ -16155,6 +16279,18 @@
                     "target": "com.amazonaws.glue#NullableInteger",
                     "traits": {
                         "smithy.api#documentation": "<p>Sets the number of files in each leaf folder to be crawled when crawling sample files in a dataset. If not set, all the files are crawled. A valid value is an integer between 1 and 249.</p>"
+                    }
+                },
+                "EventQueueArn": {
+                    "target": "com.amazonaws.glue#EventQueueArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A valid Amazon SQS ARN. For example, <code>arn:aws:sqs:region:account:sqs</code>.</p>"
+                    }
+                },
+                "DlqEventQueueArn": {
+                    "target": "com.amazonaws.glue#EventQueueArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A valid Amazon dead-letter SQS ARN. For example, <code>arn:aws:sqs:region:account:deadLetterQueue</code>.</p>"
                     }
                 }
             },
@@ -18546,6 +18682,16 @@
                 }
             }
         },
+        "com.amazonaws.glue#TransactionIdString": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                },
+                "smithy.api#pattern": "^[\\p{L}\\p{N}\\p{P}]*$"
+            }
+        },
         "com.amazonaws.glue#TransformEncryption": {
             "type": "structure",
             "members": {
@@ -20220,6 +20366,9 @@
                     "target": "com.amazonaws.glue#OperationTimeoutException"
                 },
                 {
+                    "target": "com.amazonaws.glue#ResourceNotReadyException"
+                },
+                {
                     "target": "com.amazonaws.glue#ResourceNumberLimitExceededException"
                 }
             ],
@@ -20254,6 +20403,12 @@
                     "target": "com.amazonaws.glue#BooleanNullable",
                     "traits": {
                         "smithy.api#documentation": "<p>By default, <code>UpdateTable</code> always creates an archived version of the table\n      before updating it. However, if <code>skipArchive</code> is set to true,\n        <code>UpdateTable</code> does not create the archived version.</p>"
+                    }
+                },
+                "TransactionId": {
+                    "target": "com.amazonaws.glue#TransactionIdString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The transaction ID at which to update the table contents. </p>"
                     }
                 }
             }
