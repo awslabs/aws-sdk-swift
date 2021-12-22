@@ -59,9 +59,9 @@ stack.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill"
     guard let accountId = input.accountId, !accountId.isEmpty else {
         var copiedInput = input
         copiedInput.accountId = "-"
-        return next.handle(context: context, input: copiedInput)
+        return try await next.handle(context: context, input: copiedInput)
     }
-    return next.handle(context: context, input: input)
+    return try await next.handle(context: context, input: input)
 }"""
         contents.shouldContainOnlyOnce(expectedContents)
     }

@@ -97,8 +97,8 @@ class RestJsonProtocolGeneratorTests {
                     self.config = config
                 }
             
-                public convenience init(region: Swift.String? = nil) throws {
-                    let config = try ExampleClientConfiguration(region: region)
+                public convenience init(region: Swift.String? = nil) async throws {
+                    let config = try await ExampleClientConfiguration(region: region)
                     self.init(config: config)
                 }
             
@@ -132,14 +132,14 @@ class RestJsonProtocolGeneratorTests {
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
-                    ) throws {
+                    ) async throws {
                         if let region = region {
                             self.region = region
                             self.regionResolver = nil
                             self.signingRegion = signingRegion ?? region
                         } else {
                             let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
-                            let region = resolvedRegionResolver.resolveRegion()
+                            let region = await resolvedRegionResolver.resolveRegion()
                             self.region = region
                             self.regionResolver = resolvedRegionResolver
                             self.signingRegion = signingRegion ?? region
@@ -168,9 +168,9 @@ class RestJsonProtocolGeneratorTests {
                         region: Swift.String? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil
-                    ) throws {
+                    ) async throws {
                         let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
-                        try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, frameworkMetadata: frameworkMetadata, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
+                        try await self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, frameworkMetadata: frameworkMetadata, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
                 }
             }
