@@ -80,6 +80,9 @@ jobs:
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+      with:
+        java-version: '11'
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
@@ -89,5 +92,5 @@ jobs:
           --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
           --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
           --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
-          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS $DOCKER_IMAGE --version=${{ env.BUILDER_VERSION }} \
-          build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
+          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS
+          $DOCKER_IMAGE --version=${{ env.BUILDER_VERSION }} build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
