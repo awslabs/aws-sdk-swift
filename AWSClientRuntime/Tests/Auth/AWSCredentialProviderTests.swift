@@ -12,19 +12,16 @@ import XCTest
 
 class AWSCredentialProviderTests: XCTestCase {
     
-    func testYouCanUseCustomCredentialsProvider() throws {
+    func testYouCanUseCustomCredentialsProvider() async throws {
         let awsCredsProvider = try AWSCredentialsProvider.fromCustom(MyCustomCredentialsProvider())
-        let credentialsResult = try awsCredsProvider.getCredentials()
-        let credentials = try credentialsResult.get()
+        let credentials = try await awsCredsProvider.getCredentials()
         XCTAssertEqual(credentials.accessKey, "MYACCESSKEY")
         XCTAssertEqual(credentials.secret, "sekrit")
     }
 }
 
 struct MyCustomCredentialsProvider: CredentialsProvider {
-    func getCredentials() throws -> SdkFuture<AWSCredentials> {
-        let future = SdkFuture<AWSCredentials>()
-        future.fulfill(AWSCredentials(accessKey: "MYACCESSKEY", secret: "sekrit", expirationTimeout: 30))
-        return future
+    func getCredentials() async throws -> AWSCredentials {
+        return AWSCredentials(accessKey: "MYACCESSKEY", secret: "sekrit", expirationTimeout: 30)
     }
 }
