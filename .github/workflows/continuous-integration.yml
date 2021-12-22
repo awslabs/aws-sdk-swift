@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  BUILDER_VERSION: v0.8.19
+  BUILDER_VERSION: v0.9.7
   BUILDER_SOURCE: releases
   # host owned by CRT team to host aws-crt-builder releases. Contact their on-call with any issues
   BUILDER_HOST: https://d19elf31gohf1l.cloudfront.net
@@ -22,6 +22,8 @@ env:
 jobs:
   ios-compat:
     runs-on: macos-11
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
@@ -43,6 +45,8 @@ jobs:
           AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
   macos-compat:
     runs-on: macos-11
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
