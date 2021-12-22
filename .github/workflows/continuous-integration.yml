@@ -69,16 +69,18 @@ jobs:
   linux-compat:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         image:
-          - aws-crt-swift-5-al2-x64
+          - ubuntu-x64
+          - al2-x64
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u awslabs --password-stdin
-          export DOCKER_IMAGE=docker.pkg.github.com/awslabs/aws-crt-builder/${{ matrix.image }}:${{ env.BUILDER_VERSION }}
+          export DOCKER_IMAGE=docker.pkg.github.com/awslabs/aws-crt-builder/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
           docker pull $DOCKER_IMAGE
           docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
           --env GITHUB_REF \
