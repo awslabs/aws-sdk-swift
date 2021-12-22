@@ -84,7 +84,8 @@ jobs:
         run: |
           aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
           export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
-          docker run --env GITHUB_REF --env GITHUB_HEAD_REF \
+          docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
+          --env GITHUB_REF --env GITHUB_HEAD_REF \
           --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
           --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
           --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
