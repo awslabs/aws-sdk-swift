@@ -55,7 +55,8 @@ public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBindi
                 .withHost(host)
                 .withPort(awsEndpoint.endpoint.port)
                 .withPath(context.getPath())
-            // TODO: investigate if this header should be the same host value as the actual host and where this header should be set
+                // TODO: investigate if this header should be the same host value as
+                // the actual host and where this header should be set
                 .withHeader(name: "Host", value: host)
             
             return try await next.handle(context: updatedContext, input: input)

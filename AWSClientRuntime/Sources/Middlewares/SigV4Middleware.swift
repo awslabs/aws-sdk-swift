@@ -34,16 +34,19 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         let crtUnsignedRequest = originalRequest.toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         guard let credentialsProvider = context.getCredentialsProvider() else {
-            throw SdkError<OperationStackError>.client(ClientError.authError("AwsSigv4Signer requires a credentialsProvider"))
+            throw SdkError<OperationStackError>.client(
+                ClientError.authError("AwsSigv4Signer requires a credentialsProvider"))
         }
         
         guard let signingName = context.getSigningName() ?? config.signingService else {
-            throw SdkError<OperationStackError>.client(ClientError.authError("AwsSigv4Signer requires a signing service"))
+            throw SdkError<OperationStackError>.client(
+                ClientError.authError("AwsSigv4Signer requires a signing service"))
         }
         
         guard let signingRegion = context.getSigningRegion(),
               !signingRegion.isEmpty else {
-            throw SdkError<OperationStackError>.client(ClientError.authError("AwsSigv4Signer requires a signing region"))
+            throw SdkError<OperationStackError>.client(
+                ClientError.authError("AwsSigv4Signer requires a signing region"))
         }
         
         let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,

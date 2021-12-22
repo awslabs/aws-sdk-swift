@@ -7,6 +7,7 @@
 
 import ClientRuntime
 
+// swiftlint:disable force_cast
 public struct RetryerMiddleware<Output: HttpResponseBinding,
                                 OutputError: HttpResponseBinding>: Middleware {
     
@@ -32,7 +33,11 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
         do {
             let partitionId = "\(context.getServiceName()) - \(region))"
             let token = try await retryer.acquireToken(partitionId: partitionId)
-            return try await tryRequest(token: token, partitionId: partitionId, context: context, input: input, next: next)
+            return try await tryRequest(token: token,
+                                        partitionId: partitionId,
+                                        context: context,
+                                        input: input,
+                                        next: next)
             
         } catch let err {
             throw SdkError<OutputError>.client(ClientError.retryError(err))
@@ -59,7 +64,11 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
                 let errorType = retryer.getErrorType(error: error as! SdkError<OutputError>)
                 let newToken = try await retryer.scheduleRetry(token: token, error: errorType)
                 // TODO: rewind the stream once streaming is properly implemented
-                return try await tryRequest(token: newToken, partitionId: partitionId, context: context, input: input, next: next)
+                return try await tryRequest(token: newToken,
+                                            partitionId: partitionId,
+                                            context: context,
+                                            input: input,
+                                            next: next)
             } else {
                 throw error
             }

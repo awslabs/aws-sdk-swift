@@ -69,8 +69,10 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
         return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
     
-    /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes of 1MB chunks of the data.
-    /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
+    /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes
+    /// of 1MB chunks of the data.
+    /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
+    /// for more information.
     private func computeTreeHash(hashes: [[UInt8]]) -> String? {
         guard !hashes.isEmpty else {
             return nil
