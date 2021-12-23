@@ -35,9 +35,8 @@ class AWSXAmzTargetMiddleware(
     ) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op).name
-        val outputErrorName = MiddlewareShapeUtils.outputErrorSymbolName(op)
         writer.addImport(XAmzTargetMiddleware)
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<$inputShapeName, $outputShapeName, $outputErrorName>(${middlewareParamsString(op)}))", XAmzTargetMiddleware)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<$inputShapeName, $outputShapeName>(${middlewareParamsString(op)}))", XAmzTargetMiddleware)
     }
 
     private fun middlewareParamsString(op: OperationShape): String {

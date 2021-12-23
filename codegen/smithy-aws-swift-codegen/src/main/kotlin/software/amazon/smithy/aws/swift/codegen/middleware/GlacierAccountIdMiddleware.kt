@@ -5,7 +5,6 @@ import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
-import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
@@ -25,10 +24,8 @@ class GlacierAccountIdMiddleware(private val model: Model, private val symbolPro
         val outputErrorShapeName = MiddlewareShapeUtils.outputErrorSymbolName(op)
         val accountId = model.expectShape<StructureShape>(op.input.get()).members().first { it.memberName.lowercase() == "accountid" }
         writer.openBlock(
-            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, id: \"${name}\") { (context, input, next) -> \$N<\$N<$outputShapeName>, \$N<$outputErrorShapeName>> in", "}",
-            SwiftTypes.Result,
-            ClientRuntimeTypes.Middleware.OperationOutput,
-            ClientRuntimeTypes.Core.SdkError
+            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, id: \"${name}\") { (context, input, next) -> \$N<$outputShapeName> in", "}",
+            ClientRuntimeTypes.Middleware.OperationOutput
         ) {
             writer.openBlock("guard let accountId = input.${accountId.memberName}, !accountId.isEmpty else {", "}") {
                 writer.write("var copiedInput = input")
