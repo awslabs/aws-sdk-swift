@@ -7,7 +7,6 @@
 
 import ClientRuntime
 
-// swiftlint:disable force_cast
 public struct RetryerMiddleware<Output: HttpResponseBinding,
                                 OutputError: HttpResponseBinding>: Middleware {
     
@@ -44,6 +43,7 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
         }
     }
     
+    // swiftlint:disable force_cast
     func tryRequest<H>(token: RetryToken,
                        errorType: RetryError? = nil,
                        partitionId: String,
