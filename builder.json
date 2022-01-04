@@ -9,12 +9,12 @@
     "{gradlew} -p {source_dir}/codegen/smithy-aws-swift-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen-local build",
-    "cd {source_dir}/AWSClientRuntime && swift build"
+    "cd {source_dir}/AWSClientRuntime && swift build --build-tests"
   ],
   "test_steps": [
-      "cd {source_dir}/AWSClientRuntime && swift test",
+      "cd {source_dir}/AWSClientRuntime && swift test --skip-build",
       "cd {source_dir} && ./scripts/mergeModels.sh {source_dir}/codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models",
-      "cd {source_dir}/codegen && swift test -Xfrontend -validate-tbd-against-ir=none"
+      "cd {source_dir}/codegen && swift build --build-tests && swift test --skip-build"
   ],
   "build_dir": "target/build",
   "hosts": {
