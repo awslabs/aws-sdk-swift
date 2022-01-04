@@ -14,7 +14,7 @@
   "test_steps": [
       "cd {source_dir}/AWSClientRuntime && swift test",
       "cd {source_dir} && ./scripts/mergeModels.sh {source_dir}/codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models",
-      "cd {source_dir}/codegen && swift test"
+      "cd {source_dir}/codegen && swift test -Xfrontend -validate-tbd-against-ir=none"
   ],
   "build_dir": "target/build",
   "hosts": {
