@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import ClientRuntime
-        
+
 public struct AWSUserAgentMetadata {
     let sdkMetadata: SDKMetadata
     let apiMetadata: APIMetadata
