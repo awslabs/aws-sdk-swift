@@ -61,8 +61,8 @@ public struct AWSUserAgentMetadata {
     
     public static func fromEnv(apiMetadata: APIMetadata, frameworkMetadata: FrameworkMetadata? = nil) -> AWSUserAgentMetadata {
         let sdkMetadata = SDKMetadata(name: "swift", version: apiMetadata.version)
-        // TODO: figure out a better way to get both current OS and version of that OS
-        let osMetadata = OSMetadata(family: currentOS, version: nil)
+        let osVersion = PlatformOperationSystemVersion.operatingSystemVersion()
+        let osMetadata = OSMetadata(family: currentOS, version: osVersion)
         let langMetadata = LanguageMetadata(version: swiftVersion)
         return AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                     apiMetadata: apiMetadata,
