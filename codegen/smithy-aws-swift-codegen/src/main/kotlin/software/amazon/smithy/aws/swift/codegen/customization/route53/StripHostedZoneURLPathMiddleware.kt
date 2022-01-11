@@ -10,10 +10,11 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.integration.steps.OperationInitializeStep
 
-class StripHostedZoneURLPathMiddleware(inputSymbol: Symbol,
-                                       outputSymbol: Symbol,
-                                       outputErrorSymbol: Symbol,
-                                       private val writer: SwiftWriter
+class StripHostedZoneURLPathMiddleware(
+    inputSymbol: Symbol,
+    outputSymbol: Symbol,
+    outputErrorSymbol: Symbol,
+    private val writer: SwiftWriter
 ) : Middleware(writer, inputSymbol, OperationInitializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
 
     override val typeName = "${inputSymbol.name}StripHostedZoneMiddleware"
