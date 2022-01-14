@@ -10,7 +10,7 @@
 #
 #  Setup Instructions:
 #    1. Ensure buildswiftsdk.sh is in your PATH
-#    2. Export the environemnt variable BUILDSWIFTSDK_DIR to point to where you cloned aws-sdk-swift
+#    2. Export the environment variable BUILDSWIFTSDK_DIR to point to where you cloned aws-sdk-swift
 #      For example:
 #        emacs ~/.bashrc
 #        export BUILDSWIFTSDK_DIR=/path/to/aws-sdk-swift
