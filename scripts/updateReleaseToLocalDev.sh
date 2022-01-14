@@ -73,6 +73,8 @@ cat ${AWS_SDK_SWIFT_PACKAGE} |\
 	-e "s|\(.*\)url:\ \"https://github.com/awslabs/smithy-swift.*\"\(.*\)|\1path:\ \"$SMITHY_SWIFT\"\2|g" > ${TEMPFILE}
 mv ${TEMPFILE} ${AWS_SDK_SWIFT_PACKAGE}
 rm -f ${TEMPFILE}
+# Package.swift in 'AWSClientRuntime' needs to be removed if users are depending on the top level Package.swift to easily browse code in XCode
+rm -f ${AWS_SDK_SWIFT}/AWSClientRuntime/Package.swift
 echo "Updated ${AWS_SDK_SWIFT_PACKAGE}"
 
 TEMPFILE=`mktemp`
@@ -81,4 +83,6 @@ cat ${SMITHY_SWIFT_PACKAGE} |\
     sed -e "s|\(.*\)url:\ \"https://github.com/awslabs/aws-crt-swift.*\"\(.*\)|\1path:\ \"$AWS_CRT_SWIFT\"\2|g" > ${TEMPFILE}
 mv ${TEMPFILE} ${SMITHY_SWIFT_PACKAGE}
 rm -f ${TEMPFILE}
+# Package.swift in 'Packages' needs to be removed if users are depending on the top level Package.swift to easily browse code in XCode
+rm -f ${SMITHY_SWIFT}/Packages/Package.swift
 echo "Updated ${SMITHY_SWIFT_PACKAGE}"
