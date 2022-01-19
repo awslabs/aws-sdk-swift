@@ -36,17 +36,8 @@ class StripHostedZoneURLPathMiddleware(
             }
         }
     }
-
     override fun generateInit() {
-        writer.openBlock("private func strippedHostedZoneId(_ hostedZoneId: String) -> String {", "}") {
-            writer.write("let prefixesToStrip = [\"/hostedzone/\", \"hostedzone/\", \"/hostedzone\", \"hostedzone\"]")
-            writer.openBlock("for prefixToStrip in prefixesToStrip {", "}") {
-                writer.openBlock("if hostedZoneId.hasPrefix(prefixToStrip) {", "}") {
-                    writer.write("return hostedZoneId.removePrefix(prefixToStrip)")
-                }
-            }
-            writer.write("return hostedZoneId")
-        }
+        // No-op
     }
 
     override fun generateMiddlewareClosure() {
@@ -54,7 +45,7 @@ class StripHostedZoneURLPathMiddleware(
             writer.write("return next.handle(context: context, input: input)")
         }
         writer.write("var copiedInput = input")
-        writer.write("let stripped = strippedHostedZoneId(hostedZoneId)")
+        writer.write("let stripped = hostedZoneId.stripFirstMatching(prefixes: [\"/hostedzone/\", \"hostedzone/\", \"/hostedzone\", \"hostedzone\"])")
         writer.write("copiedInput.hostedZoneId = stripped")
     }
 
