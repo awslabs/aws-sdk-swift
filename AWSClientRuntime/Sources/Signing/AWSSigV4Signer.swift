@@ -42,7 +42,7 @@ public class AWSSigV4Signer {
     }
     
     public static func sigV4SignedRequest(requestBuilder: SdkHttpRequestBuilder,
-                                          signingConfig: AWSSigningConfig) async throws -> SdkHttpRequest? {
+                                          signingConfig: AWSSigningConfig) async -> SdkHttpRequest? {
         let originalRequest = requestBuilder.build()
         let crtUnsignedRequest = originalRequest.toHttpRequest()
         let signer = SigV4HttpRequestSigner()
