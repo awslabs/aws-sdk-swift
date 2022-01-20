@@ -16,29 +16,33 @@ public class AWSSigV4Signer {
                                       signingName: Swift.String,
                                       signingRegion: Swift.String,
                                       date: ClientRuntime.Date,
-                                      expiration: Int64) async throws -> ClientRuntime.URL? {
-   
-        let credentials = try await credentialsProvider.getCredentials()
-        let flags = SigningFlags(useDoubleURIEncode: true,
-                                 shouldNormalizeURIPath: true,
-                                 omitSessionToken: false)
-        let signedBodyHeader: AWSSignedBodyHeader = .none
-        let signedBodyValue: AWSSignedBodyValue = .empty
-        let signingConfig = AWSSigningConfig(credentials: credentials,
-                                             expiration: expiration,
-                                             signedBodyHeader: signedBodyHeader,
-                                             signedBodyValue: signedBodyValue,
-                                             flags: flags,
-                                             date: date,
-                                             service: signingName,
-                                             region: signingRegion,
-                                             signatureType: .requestQueryParams)
-        let builtRequest = try await sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
-        guard let presignedURL = builtRequest?.endpoint.url else {
-            logger.error("Failed to generate presigend url")
+                                      expiration: Int64) async -> ClientRuntime.URL? {
+        do {
+            let credentials = try await credentialsProvider.getCredentials()
+            let flags = SigningFlags(useDoubleURIEncode: true,
+                                     shouldNormalizeURIPath: true,
+                                     omitSessionToken: false)
+            let signedBodyHeader: AWSSignedBodyHeader = .none
+            let signedBodyValue: AWSSignedBodyValue = .empty
+            let signingConfig = AWSSigningConfig(credentials: credentials,
+                                                 expiration: expiration,
+                                                 signedBodyHeader: signedBodyHeader,
+                                                 signedBodyValue: signedBodyValue,
+                                                 flags: flags,
+                                                 date: date,
+                                                 service: signingName,
+                                                 region: signingRegion,
+                                                 signatureType: .requestQueryParams)
+            let builtRequest = await sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
+            guard let presignedURL = builtRequest?.endpoint.url else {
+                logger.error("Failed to generate presigend url")
+                return nil
+            }
+            return presignedURL
+        } catch let err  {
+            logger.error("Failed to generate presigned url: \(err)")
             return nil
         }
-        return presignedURL
     }
     
     public static func sigV4SignedRequest(requestBuilder: SdkHttpRequestBuilder,
@@ -48,7 +52,7 @@ public class AWSSigV4Signer {
         let signer = SigV4HttpRequestSigner()
         do {
             let crtSignedRequest = try await signer.signRequest(request: crtUnsignedRequest,
-                                                config: signingConfig.toCRTType())
+                                                                config: signingConfig.toCRTType())
             let sdkSignedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: originalRequest)
             return sdkSignedRequest.build()
         } catch CRTError.crtError(let crtError) {
