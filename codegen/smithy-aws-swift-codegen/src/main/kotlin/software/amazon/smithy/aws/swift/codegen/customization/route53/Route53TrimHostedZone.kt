@@ -14,7 +14,7 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.Mid
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-internal val Route53ShapeId: ShapeId = ShapeId.from("com.amazonaws.route53#AWSDnsV20130401")
+private val Route53ShapeId: ShapeId = ShapeId.from("com.amazonaws.route53#AWSDnsV20130401")
 
 class Route53TrimHostedZone : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {

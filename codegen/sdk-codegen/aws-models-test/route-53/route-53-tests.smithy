@@ -7,7 +7,7 @@ use smithy.test#httpRequestTests
 
 apply ListResourceRecordSets @httpRequestTests([
     {
-        id: "ListResourceRecordSetsTrimHostdZone",
+        id: "ListResourceRecordSetsTrimHostedZone",
         documentation: "This test validates that that hosted zone is correctly trimmed",
         method: "GET",
         protocol: "aws.protocols#restXml",
