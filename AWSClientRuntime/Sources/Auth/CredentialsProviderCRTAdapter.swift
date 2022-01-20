@@ -22,7 +22,6 @@ struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
     
     func getCredentials() async throws -> CRTCredentials {
         let credentials = try await credentialsProvider.getCredentials()
-        let crtCredentials = credentials.toCRTType()
-        return crtCredentials
+        return credentials.toCRTType()
     }
 }

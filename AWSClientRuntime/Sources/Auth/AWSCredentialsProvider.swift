@@ -74,14 +74,14 @@ public class AWSCredentialsProvider: CredentialsProvider {
     
     public func getCredentials() async throws -> AWSCredentials {
         let crtCredentials = try await crtCredentialsProvider.getCredentials()
-
+        
         guard let accessKey = crtCredentials.getAccessKey(),
               let secret = crtCredentials.getSecret() else {
-            throw ClientError.authError("Unable to get credentials.  Required: accessKey, secret.")
-        }
+                  throw ClientError.authError("Unable to get credentials.  Required: accessKey, secret.")
+              }
         return AWSCredentials(accessKey: accessKey,
-                                      secret: secret,
-                                      expirationTimeout: crtCredentials.getExpirationTimeout(),
-                                      sessionToken: crtCredentials.getSessionToken())
+                              secret: secret,
+                              expirationTimeout: crtCredentials.getExpirationTimeout(),
+                              sessionToken: crtCredentials.getSessionToken())
     }
 }
