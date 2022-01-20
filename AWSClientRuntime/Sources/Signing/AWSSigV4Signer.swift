@@ -39,7 +39,7 @@ public class AWSSigV4Signer {
                 return nil
             }
             return presignedURL
-        } catch let err  {
+        } catch let err {
             logger.error("Failed to generate presigned url: \(err)")
             return nil
         }
