@@ -84,6 +84,7 @@ jobs:
         with:
           java-version: '11'
       - name: Build and Test ${{ env.PACKAGE_NAME }}
+        # todo: remove the aws credentials from the below command eventually once the CRT builder no longer requires aws credentials
         run: |
           aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
           export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
