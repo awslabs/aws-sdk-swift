@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import Runtime
 import AwsCommonRuntimeKit
 
 public class AWSSigV4Signer {
@@ -15,8 +15,8 @@ public class AWSSigV4Signer {
                                       credentialsProvider: CredentialsProvider,
                                       signingName: Swift.String,
                                       signingRegion: Swift.String,
-                                      date: ClientRuntime.Date,
-                                      expiration: Int64) -> ClientRuntime.URL? {
+                                      date: Runtime.Date,
+                                      expiration: Int64) -> Runtime.URL? {
         do {
             let credentialsResult = try credentialsProvider.getCredentials()
             let credentials = try credentialsResult.get()

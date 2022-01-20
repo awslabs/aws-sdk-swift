@@ -5,7 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import Runtime
+import XMLRuntime
 
 public struct RestXMLError {
     public let errorCode: String?

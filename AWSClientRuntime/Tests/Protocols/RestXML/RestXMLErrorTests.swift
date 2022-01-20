@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
         
-
-import ClientRuntime
+import XMLRuntime
+import Runtime
 import SmithyTestUtil
 import XCTest
 @testable import AWSClientRuntime

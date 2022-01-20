@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import AwsCommonRuntimeKit
-import ClientRuntime
+import Runtime
 
 public struct BundleRegionProvider: RegionProvider {
     private let logger: SwiftLogger

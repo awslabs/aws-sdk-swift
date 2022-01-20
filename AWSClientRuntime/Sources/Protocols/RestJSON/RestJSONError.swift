@@ -4,7 +4,8 @@
  */
 
 import Foundation
-import ClientRuntime
+import Runtime
+import JSONRuntime
 
 /// A general Error Structure for Rest JSON protocol
 public struct RestJSONError {

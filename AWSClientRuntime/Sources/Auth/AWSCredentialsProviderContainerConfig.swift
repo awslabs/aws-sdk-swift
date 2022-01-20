@@ -6,7 +6,7 @@
 //
 
 import AwsCommonRuntimeKit
-import ClientRuntime
+import Runtime
 
 public struct AWSCredentialsProviderContainerConfig {
     public let authToken: String?

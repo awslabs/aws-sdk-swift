@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-import ClientRuntime
+import Runtime
 
 /**
   A structure used by the service client to determine the endpoint.

@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import AwsCommonRuntimeKit
-import ClientRuntime
+import Runtime
 
 // TODO: support more config options that are required to be supported when the CRT adds the ability to pass them down.
 public struct IMDSConfig {

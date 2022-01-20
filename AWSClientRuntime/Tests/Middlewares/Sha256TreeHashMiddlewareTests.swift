@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import ClientRuntime
+import Runtime
 import AwsCommonRuntimeKit
 import SmithyTestUtil
 @testable import AWSClientRuntime

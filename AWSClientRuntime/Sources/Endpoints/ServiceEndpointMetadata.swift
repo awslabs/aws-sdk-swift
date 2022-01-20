@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-import ClientRuntime
+import Runtime
 
 public struct ServiceEndpointMetadata {
     private let defaultProtocol = ProtocolType.https.rawValue

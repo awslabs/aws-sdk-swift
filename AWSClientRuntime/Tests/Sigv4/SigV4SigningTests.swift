@@ -6,7 +6,7 @@
 //
 
 import AwsCommonRuntimeKit
-import ClientRuntime
+import Runtime
 import XCTest
 
 @testable import AWSClientRuntime

@@ -21,7 +21,7 @@ let package = Package(
         .target(
             name: "AWSClientRuntime",
             dependencies: [
-                .product(name: "ClientRuntime", package: "ClientRuntime"),
+                .product(name: "Runtime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
             ],
             path: "./Sources"
@@ -31,7 +31,7 @@ let package = Package(
             dependencies: [
                 "AWSClientRuntime",
                 .product(name: "SmithyTestUtil", package: "ClientRuntime"),
-                .product(name: "ClientRuntime", package: "ClientRuntime")
+                .product(name: "Runtime", package: "ClientRuntime")
             ],
             path: "./Tests"
         )

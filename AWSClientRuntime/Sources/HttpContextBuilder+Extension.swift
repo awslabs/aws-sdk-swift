@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import Runtime
 
 extension HttpContext {
     static let credentialsProvider = AttributeKey<CredentialsProvider>(name: "CredentialsProvider")
