@@ -59,7 +59,7 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
             let serviceResponse = try await next.handle(context: context, input: input)
             retryer.recordSuccess(token: token)
             return serviceResponse
-        } catch let error {
+        } catch let error where error is SdkError<OutputError> {
             if retryer.isErrorRetryable(error: error as! SdkError<OutputError>) {
                 let errorType = retryer.getErrorType(error: error as! SdkError<OutputError>)
                 let newToken = try await retryer.scheduleRetry(token: token, error: errorType)
@@ -72,6 +72,8 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
             } else {
                 throw error
             }
+        } catch let error {
+            throw error
         }
     }
     
