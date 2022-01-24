@@ -22,19 +22,19 @@ class MapEncodeFormURLGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension QueryMapsInput: Swift.Encodable, ClientRuntime.Reflection {
+            extension QueryMapsInput: Swift.Encodable, Runtime.Reflection {
                 public func encode(to encoder: Swift.Encoder) throws {
-                    var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+                    var container = encoder.container(keyedBy: Runtime.Key.self)
                     if let complexMapArg = complexMapArg {
-                        var complexMapArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ComplexMapArg"))
+                        var complexMapArgContainer = container.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("ComplexMapArg"))
                         for (index0, element0) in complexMapArg.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
                             let stringKey0 = element0.key
                             let greetingstructValue0 = element0.value
-                            var entryContainer0 = complexMapArgContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
-                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
-                            try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
-                            try valueContainer0.encode(greetingstructValue0, forKey: ClientRuntime.Key(""))
+                            var entryContainer0 = complexMapArgContainer.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("entry.\(index0.advanced(by: 1))"))
+                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("key"))
+                            try keyContainer0.encode(stringKey0, forKey: Runtime.Key(""))
+                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("value"))
+                            try valueContainer0.encode(greetingstructValue0, forKey: Runtime.Key(""))
                         }
                     }
                     if let flattenedMap = flattenedMap {
@@ -42,11 +42,11 @@ class MapEncodeFormURLGeneratorTests {
                             for (index0, element0) in flattenedMap.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
                                 let stringKey0 = element0.key
                                 let stringValue0 = element0.value
-                                var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("FlattenedMap.\(index0.advanced(by: 1))"))
-                                var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
-                                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                                var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
-                                try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+                                var nestedContainer0 = container.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("FlattenedMap.\(index0.advanced(by: 1))"))
+                                var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("key"))
+                                try keyContainer0.encode(stringKey0, forKey: Runtime.Key(""))
+                                var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("value"))
+                                try valueContainer0.encode(stringValue0, forKey: Runtime.Key(""))
                             }
                         }
                     }
@@ -55,66 +55,66 @@ class MapEncodeFormURLGeneratorTests {
                             for (index0, element0) in flattenedMapWithXmlName.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
                                 let stringKey0 = element0.key
                                 let stringValue0 = element0.value
-                                var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Hi.\(index0.advanced(by: 1))"))
-                                var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("K"))
-                                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                                var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("V"))
-                                try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+                                var nestedContainer0 = container.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("Hi.\(index0.advanced(by: 1))"))
+                                var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("K"))
+                                try keyContainer0.encode(stringKey0, forKey: Runtime.Key(""))
+                                var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("V"))
+                                try valueContainer0.encode(stringValue0, forKey: Runtime.Key(""))
                             }
                         }
                     }
                     if let mapArg = mapArg {
-                        var mapArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MapArg"))
+                        var mapArgContainer = container.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("MapArg"))
                         for (index0, element0) in mapArg.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
                             let stringKey0 = element0.key
                             let stringValue0 = element0.value
-                            var entryContainer0 = mapArgContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
-                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
-                            try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
-                            try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+                            var entryContainer0 = mapArgContainer.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("entry.\(index0.advanced(by: 1))"))
+                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("key"))
+                            try keyContainer0.encode(stringKey0, forKey: Runtime.Key(""))
+                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("value"))
+                            try valueContainer0.encode(stringValue0, forKey: Runtime.Key(""))
                         }
                     }
                     if let mapOfLists = mapOfLists {
-                        var mapOfListsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MapOfLists"))
+                        var mapOfListsContainer = container.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("MapOfLists"))
                         for (index0, element0) in mapOfLists.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
                             let stringKey0 = element0.key
                             let stringlistValue0 = element0.value
-                            var entryContainer0 = mapOfListsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
-                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
-                            try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                            var valueContainer1 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                            var entryContainer0 = mapOfListsContainer.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("entry.\(index0.advanced(by: 1))"))
+                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("key"))
+                            try keyContainer0.encode(stringKey0, forKey: Runtime.Key(""))
+                            var valueContainer1 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("value"))
                             for (index1, string1) in stringlistValue0.enumerated() {
-                                try valueContainer1.encode(string1, forKey: ClientRuntime.Key("member.\(index1.advanced(by: 1))"))
+                                try valueContainer1.encode(string1, forKey: Runtime.Key("member.\(index1.advanced(by: 1))"))
                             }
                         }
                     }
                     if let mapWithXmlMemberName = mapWithXmlMemberName {
-                        var mapWithXmlMemberNameContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MapWithXmlMemberName"))
+                        var mapWithXmlMemberNameContainer = container.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("MapWithXmlMemberName"))
                         for (index0, element0) in mapWithXmlMemberName.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
                             let stringKey0 = element0.key
                             let stringValue0 = element0.value
-                            var entryContainer0 = mapWithXmlMemberNameContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
-                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("K"))
-                            try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("V"))
-                            try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+                            var entryContainer0 = mapWithXmlMemberNameContainer.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("entry.\(index0.advanced(by: 1))"))
+                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("K"))
+                            try keyContainer0.encode(stringKey0, forKey: Runtime.Key(""))
+                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("V"))
+                            try valueContainer0.encode(stringValue0, forKey: Runtime.Key(""))
                         }
                     }
                     if let renamedMapArg = renamedMapArg {
-                        var renamedMapArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Foo"))
+                        var renamedMapArgContainer = container.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("Foo"))
                         for (index0, element0) in renamedMapArg.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
                             let stringKey0 = element0.key
                             let stringValue0 = element0.value
-                            var entryContainer0 = renamedMapArgContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
-                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
-                            try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
-                            try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+                            var entryContainer0 = renamedMapArgContainer.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("entry.\(index0.advanced(by: 1))"))
+                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("key"))
+                            try keyContainer0.encode(stringKey0, forKey: Runtime.Key(""))
+                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: Runtime.Key.self, forKey: Runtime.Key("value"))
+                            try valueContainer0.encode(stringValue0, forKey: Runtime.Key(""))
                         }
                     }
-                    try container.encode("QueryMaps", forKey:ClientRuntime.Key("Action"))
-                    try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
+                    try container.encode("QueryMaps", forKey:Runtime.Key("Action"))
+                    try container.encode("2020-01-08", forKey:Runtime.Key("Version"))
                 }
             }
             """.trimIndent()

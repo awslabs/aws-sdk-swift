@@ -29,13 +29,13 @@ class StructDecodeWrappedXMLGeneratorTests {
             }
         
             public init (from decoder: Swift.Decoder) throws {
-                let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-                let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FlattenedXmlMapResult"))
+                let topLevelContainer = try decoder.container(keyedBy: Runtime.Key.self)
+                let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: Runtime.Key("FlattenedXmlMapResult"))
                 if containerValues.contains(.myMap) {
                     struct KeyVal0{struct key{}; struct value{}}
-                    let myMapWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .myMap)
+                    let myMapWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: XMLRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .myMap)
                     if myMapWrappedContainer != nil {
-                        let myMapContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .myMap)
+                        let myMapContainer = try containerValues.decodeIfPresent([XMLRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .myMap)
                         var myMapBuffer: [Swift.String:Swift.String]? = nil
                         if let myMapContainer = myMapContainer {
                             myMapBuffer = [Swift.String:Swift.String]()

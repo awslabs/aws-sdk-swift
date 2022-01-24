@@ -78,19 +78,19 @@ class RestJsonProtocolGeneratorTests {
             """
             public class ExampleClient {
                 public static let clientName = "ExampleClient"
-                let client: ClientRuntime.SdkHttpClient
+                let client: Runtime.SdkHttpClient
                 let config: AWSRuntime.AWSClientConfiguration
                 let serviceName = "Example"
-                let encoder: ClientRuntime.RequestEncoder
-                let decoder: ClientRuntime.ResponseDecoder
+                let encoder: Runtime.RequestEncoder
+                let decoder: Runtime.ResponseDecoder
             
                 public init(config: AWSRuntime.AWSClientConfiguration) {
-                    client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-                    let encoder = ClientRuntime.JSONEncoder()
+                    client = Runtime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
+                    let encoder = JSONRuntime.JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
                     encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
                     self.encoder = config.encoder ?? encoder
-                    let decoder = ClientRuntime.JSONDecoder()
+                    let decoder = JSONRuntime.JSONDecoder()
                     decoder.dateDecodingStrategy = .secondsSince1970
                     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
                     self.decoder = config.decoder ?? decoder
@@ -108,14 +108,14 @@ class RestJsonProtocolGeneratorTests {
             
                 public class ExampleClientConfiguration: AWSRuntime.AWSClientConfiguration {
             
-                    public var clientLogMode: ClientRuntime.ClientLogMode
-                    public var decoder: ClientRuntime.ResponseDecoder?
-                    public var encoder: ClientRuntime.RequestEncoder?
-                    public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-                    public var httpClientEngine: ClientRuntime.HttpClientEngine
-                    public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-                    public var logger: ClientRuntime.LogAgent
-                    public var retryer: ClientRuntime.SDKRetryer
+                    public var clientLogMode: Runtime.ClientLogMode
+                    public var decoder: Runtime.ResponseDecoder?
+                    public var encoder: Runtime.RequestEncoder?
+                    public var httpClientConfiguration: Runtime.HttpClientConfiguration
+                    public var httpClientEngine: Runtime.HttpClientEngine
+                    public var idempotencyTokenGenerator: Runtime.IdempotencyTokenGenerator
+                    public var logger: Runtime.LogAgent
+                    public var retryer: Runtime.SDKRetryer
             
                     public var credentialsProvider: AWSRuntime.CredentialsProvider
                     public var endpointResolver: AWSRuntime.EndpointResolver
@@ -131,7 +131,7 @@ class RestJsonProtocolGeneratorTests {
                         region: Swift.String? = nil,
                         regionResolver: AWSRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
-                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
+                        runtimeConfig: Runtime.SDKRuntimeConfiguration
                     ) throws {
                         if let region = region {
                             self.region = region
