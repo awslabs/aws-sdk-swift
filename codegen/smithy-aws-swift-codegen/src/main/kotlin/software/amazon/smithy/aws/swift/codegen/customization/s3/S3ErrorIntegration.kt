@@ -94,7 +94,7 @@ class S3ErrorIntegration : SwiftIntegration {
         }
 
         writer.openBlock("extension $operationErrorName {", "}") {
-            writer.openBlock("static func isNotFoundAndEmptyBody(httpResponse: HttpResponse) -> Bool {", "}") {
+            writer.openBlock("static func isNotFoundAndEmptyBody(httpResponse: \$N) -> \$N {", "}", ClientRuntimeTypes.Http.HttpResponse, SwiftTypes.Bool) {
                 writer.write("if case .none = httpResponse.body {")
                 writer.indent()
                 writer.write("return httpResponse.statusCode == .notFound")
@@ -107,10 +107,10 @@ class S3ErrorIntegration : SwiftIntegration {
                 writer.write("return false")
             }
 
-            writer.openBlock("static func constructRestXMLError(httpResponse: HttpResponse) -> AWSClientRuntime.RestXMLError {", "}") {
-                writer.write("return RestXMLError(errorCode: \"NotFound\", requestId: httpResponse.headers.value(for: \"x-amz-request-id\"))")
+            writer.openBlock("static func constructRestXMLError(httpResponse: \$N) -> \$N {", "}", ClientRuntimeTypes.Http.HttpResponse, AWSClientRuntimeTypes.RestXML.RestXMLError) {
+                writer.write("return \$N(errorCode: \"NotFound\", requestId: httpResponse.headers.value(for: \"x-amz-request-id\"))", AWSClientRuntimeTypes.RestXML.RestXMLError)
             }
-            writer.openBlock("static func getRequestId2(httpResponse: HttpResponse) -> String? {", "}") {
+            writer.openBlock("static func getRequestId2(httpResponse: \$N) -> \$T {", "}", ClientRuntimeTypes.Http.HttpResponse, SwiftTypes.String) {
                 writer.write("return httpResponse.headers.value(for: \"x-amz-id-2\")")
             }
         }

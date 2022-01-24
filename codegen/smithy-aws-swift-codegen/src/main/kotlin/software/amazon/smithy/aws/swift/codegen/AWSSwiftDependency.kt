@@ -15,14 +15,31 @@ enum class AWSSwiftDependency(
     private val localPath: String,
     var packageName: String
 ) : SymbolDependencyContainer {
-    AWS_CLIENT_RUNTIME(
-        "AWSClientRuntime",
+    AWS_RUNTIME(
+        "AWSRuntime",
         "main",
         "0.1.0",
         "https://github.com/awslabs/aws-sdk-swift",
         Resources.computeAbsolutePath("aws-sdk-swift/AWSClientRuntime", "AWSClientRuntime", "AWS_SDK_SWIFT_CI_DIR") + "/AWSClientRuntime",
         "AWSClientRuntime"
-    );
+    ),
+    AWS_XMLRUNTIME(
+        "AWSXMLRuntime",
+        "main",
+        "0.1.0",
+        "https://github.com/awslabs/aws-sdk-swift",
+        Resources.computeAbsolutePath("aws-sdk-swift/AWSClientRuntime", "AWSClientRuntime", "AWS_SDK_SWIFT_CI_DIR") + "/AWSClientRuntime",
+        "AWSClientRuntime"
+    ),
+    AWS_JSONRUNTIME(
+        "AWSJSONRuntime",
+        "main",
+        "0.1.0",
+        "https://github.com/awslabs/aws-sdk-swift",
+        Resources.computeAbsolutePath("aws-sdk-swift/AWSClientRuntime", "AWSClientRuntime", "AWS_SDK_SWIFT_CI_DIR") + "/AWSClientRuntime",
+        "AWSClientRuntime"
+    )
+    ;
 
     override fun getDependencies(): List<SymbolDependency> {
         val dependency = SymbolDependency.builder()

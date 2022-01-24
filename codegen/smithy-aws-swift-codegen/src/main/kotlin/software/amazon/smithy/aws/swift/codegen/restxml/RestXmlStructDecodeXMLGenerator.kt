@@ -8,6 +8,7 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.TimestampShape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -23,6 +24,7 @@ class RestXmlStructDecodeXMLGenerator(
     defaultTimestampFormat: TimestampFormatTrait.Format
 ) : StructDecodeXMLGenerator(ctx, members, metadata, writer, defaultTimestampFormat) {
     override fun render() {
+        writer.addImport(SwiftDependency.XML_RUNTIME.target)
         writer.openBlock("public init (from decoder: \$N) throws {", "}", SwiftTypes.Decoder) {
             if (members.isNotEmpty()) {
                 renderDecodeBody()

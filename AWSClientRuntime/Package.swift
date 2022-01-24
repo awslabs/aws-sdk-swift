@@ -15,25 +15,65 @@ let package = Package(
 	.iOS(.v13)
     ],
     products: [
-        .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
+        .library(name: "AWSRuntime", targets: ["AWSRuntime"]),
+        .library(name: "AWSJSONRuntime", targets: ["AWSJSONRuntime"]),
+        .library(name: "AWSXMLRuntime", targets: ["AWSXMLRuntime"])
     ],
     targets: [
         .target(
-            name: "AWSClientRuntime",
+            name: "AWSRuntime",
             dependencies: [
                 .product(name: "Runtime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
             ],
-            path: "./Sources"
+            path: "./AWSRuntime/Sources"
         ),
         .testTarget(
-            name: "AWSClientRuntimeTests",
+            name: "AWSRuntimeTests",
             dependencies: [
-                "AWSClientRuntime",
+                "AWSRuntime",
                 .product(name: "SmithyTestUtil", package: "ClientRuntime"),
                 .product(name: "Runtime", package: "ClientRuntime")
             ],
-            path: "./Tests"
+            path: "./AWSRuntime/Tests"
+        ),
+        .target(
+            name: "AWSJSONRuntime",
+            dependencies: [
+                "AWSRuntime",
+                .product(name: "Runtime", package: "ClientRuntime"),
+                .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
+            ],
+            path: "./AWSJSONRuntime/Sources"
+        ),
+        .testTarget(
+            name: "AWSJSONRuntimeTests",
+            dependencies: [
+                "AWSJSONRuntime",
+                "AWSRuntime",
+                .product(name: "SmithyTestUtil", package: "ClientRuntime"),
+                .product(name: "Runtime", package: "ClientRuntime")
+            ],
+            path: "./AWSJSONRuntime/Tests"
+        ),
+        .target(
+            name: "AWSXMLRuntime",
+            dependencies: [
+                "AWSRuntime",
+                .product(name: "Runtime", package: "ClientRuntime"),
+                .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
+            ],
+            path: "./AWSXMLRuntime/Sources"
+        ),
+        .testTarget(
+            name: "AWSXMLRuntimeTests",
+            dependencies: [
+                "AWSXMLRuntime",
+                "AWSRuntime",
+                .product(name: "SmithyTestUtil", package: "ClientRuntime"),
+                .product(name: "Runtime", package: "ClientRuntime")
+            ],
+            path: "./AWSXMLRuntime/Tests"
         )
     ]
 )

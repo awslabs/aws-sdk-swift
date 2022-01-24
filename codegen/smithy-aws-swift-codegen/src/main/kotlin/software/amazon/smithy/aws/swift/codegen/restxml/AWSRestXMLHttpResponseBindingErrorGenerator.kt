@@ -30,8 +30,9 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
             .build()
 
         ctx.delegator.useShapeWriter(httpBindingSymbol) { writer ->
-            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
+            writer.addImport(AWSSwiftDependency.AWS_RUNTIME.target)
+            writer.addImport(SwiftDependency.RUNTIME.target)
+            writer.addImport(AWSSwiftDependency.AWS_XMLRUNTIME.target)
 
             writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseBinding) {
                 writer.openBlock("public init(httpResponse: \$N, decoder: \$D) throws {", "}", ClientRuntimeTypes.Http.HttpResponse, ClientRuntimeTypes.Serde.ResponseDecoder) {

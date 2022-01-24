@@ -10,20 +10,20 @@ import software.amazon.smithy.swift.codegen.model.buildSymbol
 
 object AWSClientRuntimeTypes {
     object EC2Query {
-        val Ec2NarrowedResponse = runtimeSymbol("Ec2NarrowedResponse")
+        val Ec2NarrowedResponse = runtimeSymbol("Ec2NarrowedResponse", AWSSwiftDependency.AWS_XMLRUNTIME)
     }
     object AWSJSON {
-        val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware")
+        val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware", AWSSwiftDependency.AWS_JSONRUNTIME)
     }
     object RestJSON {
-        val RestJSONError = runtimeSymbol("RestJSONError")
+        val RestJSONError = runtimeSymbol("RestJSONError", AWSSwiftDependency.AWS_JSONRUNTIME)
     }
 
     object RestXML {
-        val RestXMLError = runtimeSymbol("RestXMLError")
-        val ErrorResponseContainer = runtimeSymbol("ErrorResponseContainer")
+        val RestXMLError = runtimeSymbol("RestXMLError", AWSSwiftDependency.AWS_XMLRUNTIME)
+        val ErrorResponseContainer = runtimeSymbol("ErrorResponseContainer", AWSSwiftDependency.AWS_XMLRUNTIME)
         object S3 {
-            val S3HttpServiceError = runtimeSymbol("S3HttpServiceError")
+            val S3HttpServiceError = runtimeSymbol("S3HttpServiceError", AWSSwiftDependency.AWS_XMLRUNTIME)
         }
     }
 
@@ -54,8 +54,8 @@ object AWSClientRuntimeTypes {
     }
 }
 
-private fun runtimeSymbol(name: String): Symbol = buildSymbol {
+private fun runtimeSymbol(name: String, dependency: AWSSwiftDependency = AWSSwiftDependency.AWS_RUNTIME): Symbol = buildSymbol {
     this.name = name
-    this.namespace = AWSSwiftDependency.AWS_CLIENT_RUNTIME.target
-    dependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
+    this.namespace = dependency.target
+    dependency(dependency)
 }

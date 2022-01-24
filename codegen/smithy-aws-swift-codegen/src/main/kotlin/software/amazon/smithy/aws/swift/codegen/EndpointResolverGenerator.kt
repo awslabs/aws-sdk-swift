@@ -26,7 +26,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
     }
 
     private fun renderResolver(writer: SwiftWriter) {
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_RUNTIME.target)
 
         writer.openBlock("struct DefaultEndpointResolver : \$N {", "}", AWSClientRuntimeTypes.Core.EndpointResolver) {
             writer.openBlock("func resolve(serviceId: String, region: String) throws -> \$N {", "}", AWSClientRuntimeTypes.Core.AWSEndpoint) {
@@ -42,7 +42,7 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
             PartitionNode(ctx.service.endpointPrefix, it)
         }.sortedWith(PartitionNode.comparePartitions)
 
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_RUNTIME.target)
         writer.write("")
         writer.openBlock("private let servicePartitions = [", "]") {
             partitions.forEach { renderPartition(writer, it) }
