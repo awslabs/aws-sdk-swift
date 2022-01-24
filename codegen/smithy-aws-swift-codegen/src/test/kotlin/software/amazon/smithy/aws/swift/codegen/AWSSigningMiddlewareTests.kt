@@ -69,8 +69,8 @@ class AWSSigningMiddlewareTests {
     fun `renderSigningMiddleware unsignedBody true`() {
         val expectedContents =
             """
-let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: true)
-stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
+let sigv4Config = AWSRuntime.SigV4Config(unsignedBody: true)
+stack.finalizeStep.intercept(position: .before, middleware: AWSRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")
@@ -89,8 +89,8 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
     fun `renderSigningMiddleware unsignedBody false`() {
         val expectedContents =
             """
-let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
-stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
+let sigv4Config = AWSRuntime.SigV4Config(unsignedBody: false)
+stack.finalizeStep.intercept(position: .before, middleware: AWSRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")
@@ -108,8 +108,8 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
     fun `renderSigningMiddleware unsignedBody true, presigner`() {
         val expectedContents =
             """
-let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: true)
-stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
+let sigv4Config = AWSRuntime.SigV4Config(expiration: expiration, unsignedBody: true)
+stack.finalizeStep.intercept(position: .before, middleware: AWSRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")
@@ -130,8 +130,8 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
     fun `renderSigningMiddleware unsignedBody false, presigner`() {
         val expectedContents =
             """
-let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
-stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware(config: sigv4Config))"""
+let sigv4Config = AWSRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
+stack.finalizeStep.intercept(position: .before, middleware: AWSRuntime.SigV4Middleware(config: sigv4Config))"""
         val writer = SwiftWriter("testName")
         val operationShape = OperationShape.builder()
             .id("com.test#ExampleOperation")

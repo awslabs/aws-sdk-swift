@@ -22,7 +22,7 @@ class RestJsonProtocolGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension SmokeTestInput: Swift.Encodable, ClientRuntime.Reflection {
+            extension SmokeTestInput: Swift.Encodable, Runtime.Reflection {
                 enum CodingKeys: Swift.String, Swift.CodingKey {
                     case payload1
                     case payload2
@@ -53,7 +53,7 @@ class RestJsonProtocolGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension ExplicitBlobInput: Swift.Encodable, ClientRuntime.Reflection {
+            extension ExplicitBlobInput: Swift.Encodable, Runtime.Reflection {
                 enum CodingKeys: Swift.String, Swift.CodingKey {
                     case payload1
                 }
@@ -79,12 +79,12 @@ class RestJsonProtocolGeneratorTests {
             public class ExampleClient {
                 public static let clientName = "ExampleClient"
                 let client: ClientRuntime.SdkHttpClient
-                let config: AWSClientRuntime.AWSClientConfiguration
+                let config: AWSRuntime.AWSClientConfiguration
                 let serviceName = "Example"
                 let encoder: ClientRuntime.RequestEncoder
                 let decoder: ClientRuntime.ResponseDecoder
             
-                public init(config: AWSClientRuntime.AWSClientConfiguration) {
+                public init(config: AWSRuntime.AWSClientConfiguration) {
                     client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
                     let encoder = ClientRuntime.JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
@@ -106,7 +106,7 @@ class RestJsonProtocolGeneratorTests {
                     client.close()
                 }
             
-                public class ExampleClientConfiguration: AWSClientRuntime.AWSClientConfiguration {
+                public class ExampleClientConfiguration: AWSRuntime.AWSClientConfiguration {
             
                     public var clientLogMode: ClientRuntime.ClientLogMode
                     public var decoder: ClientRuntime.ResponseDecoder?
@@ -117,19 +117,19 @@ class RestJsonProtocolGeneratorTests {
                     public var logger: ClientRuntime.LogAgent
                     public var retryer: ClientRuntime.SDKRetryer
             
-                    public var credentialsProvider: AWSClientRuntime.CredentialsProvider
-                    public var endpointResolver: AWSClientRuntime.EndpointResolver
-                    public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
+                    public var credentialsProvider: AWSRuntime.CredentialsProvider
+                    public var endpointResolver: AWSRuntime.EndpointResolver
+                    public var frameworkMetadata: AWSRuntime.FrameworkMetadata?
                     public var region: Swift.String?
-                    public var regionResolver: AWSClientRuntime.RegionResolver?
+                    public var regionResolver: AWSRuntime.RegionResolver?
                     public var signingRegion: Swift.String?
             
                     public init(
-                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
-                        endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
-                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+                        credentialsProvider: AWSRuntime.CredentialsProvider? = nil,
+                        endpointResolver: AWSRuntime.EndpointResolver? = nil,
+                        frameworkMetadata: AWSRuntime.FrameworkMetadata? = nil,
                         region: Swift.String? = nil,
-                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
+                        regionResolver: AWSRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
                     ) throws {
@@ -146,9 +146,9 @@ class RestJsonProtocolGeneratorTests {
                         }
                         self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
                         if let credProvider = credentialsProvider {
-                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
+                            self.credentialsProvider = try AWSRuntime.AWSCredentialsProvider.fromCustom(credProvider)
                         } else {
-                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
+                            self.credentialsProvider = try AWSRuntime.AWSCredentialsProvider.fromChain()
                         }
                         self.frameworkMetadata = frameworkMetadata
                         self.clientLogMode = runtimeConfig.clientLogMode
@@ -162,28 +162,28 @@ class RestJsonProtocolGeneratorTests {
                     }
             
                     public convenience init(
-                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
-                        endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
-                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+                        credentialsProvider: AWSRuntime.CredentialsProvider? = nil,
+                        endpointResolver: AWSRuntime.EndpointResolver? = nil,
+                        frameworkMetadata: AWSRuntime.FrameworkMetadata? = nil,
                         region: Swift.String? = nil,
-                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
+                        regionResolver: AWSRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil
                     ) throws {
-                        let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
+                        let defaultRuntimeConfig = try Runtime.DefaultSDKRuntimeConfiguration("ExampleClient")
                         try self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, frameworkMetadata: frameworkMetadata, region: region, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
                     }
                 }
             }
             
-            public struct ExampleClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
+            public struct ExampleClientLogHandlerFactory: Runtime.SDKLogHandlerFactory {
                 public var label = "ExampleClient"
-                let logLevel: ClientRuntime.SDKLogLevel
+                let logLevel: Runtime.SDKLogLevel
                 public func construct(label: String) -> LogHandler {
                     var handler = StreamLogHandler.standardOutput(label: label)
                     handler.logLevel = logLevel.toLoggerType()
                     return handler
                 }
-                public init(logLevel: ClientRuntime.SDKLogLevel) {
+                public init(logLevel: Runtime.SDKLogLevel) {
                     self.logLevel = logLevel
                 }
             }
