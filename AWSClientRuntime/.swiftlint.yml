@@ -1,5 +1,7 @@
 excluded:
-  - Tests
+  - AWSRuntime/Tests
+  - AWSJSONRuntime/Tests
+  - AWSXMLRuntime/Tests
   - .build
 
 analyzer_rules:
