@@ -24,8 +24,7 @@ public struct ComplexXMLError: Runtime.ServiceError, Equatable {
         header: String? = nil,
         nested: ComplexXMLNestedErrorData? = nil,
         topLevel: String? = nil
-    )
-    {
+    ) {
         self.header = header
         self.nested = nested
         self.topLevel = topLevel

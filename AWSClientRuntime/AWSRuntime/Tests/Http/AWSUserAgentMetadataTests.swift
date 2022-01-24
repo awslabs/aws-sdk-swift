@@ -71,7 +71,7 @@ class AWSUseragentMetadataTests: XCTestCase {
 
     func testWithLanguageMetadataExtrasAndExecutionEnvWithFrameworkExtras() {
         let languageMetadataWithExtras = LanguageMetadata(version: "5.0", extras: ["test1": "1.2.3"])
-        let frameworkMetadataWithExtras = FrameworkMetadata(name: "aws-amplify", version: "2.0.1", extras: ["f1" : "c1"])
+        let frameworkMetadataWithExtras = FrameworkMetadata(name: "aws-amplify", version: "2.0.1", extras: ["f1": "c1"])
 
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,

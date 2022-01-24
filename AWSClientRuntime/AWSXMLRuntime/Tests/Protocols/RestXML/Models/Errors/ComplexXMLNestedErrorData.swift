@@ -12,8 +12,7 @@ public struct ComplexXMLNestedErrorData: Equatable {
 
     public init (
         foo: String? = nil
-    )
-    {
+    ) {
         self.foo = foo
     }
 }

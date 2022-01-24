@@ -3,7 +3,6 @@
 
 import AwsCommonRuntimeKit
 import Runtime
-//import AwsCCal
 
 public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding,
                                        OperationStackError: HttpResponseBinding>: Middleware {

@@ -22,8 +22,7 @@ public struct InvalidGreeting: Runtime.ServiceError, Equatable {
 
     public init (
         message: String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
