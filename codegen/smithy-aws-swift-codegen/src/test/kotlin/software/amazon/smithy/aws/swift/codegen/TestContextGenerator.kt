@@ -76,7 +76,7 @@ class TestContextGenerator {
                 .withMember("homepage", Node.from("https://docs.amplify.aws/"))
                 .withMember("author", Node.from("Amazon Web Services"))
                 .withMember("gitRepo", Node.from("https://github.com/awslabs/aws-sdk-swift.git"))
-                .withMember("swiftVersion", Node.from("5.4.0"))
+                .withMember("swiftVersion", Node.from("5.5.0"))
                 .build()
         }
         fun listFilesFromManifest(manifest: MockManifest): String {

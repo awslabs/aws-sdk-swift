@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.gradle.tasks.ProtocolTestTask
+import software.amazon.smithy.gradle.tasks.SmithyBuild
 
 plugins {
     id("software.amazon.smithy").version("0.5.3")
@@ -50,7 +50,7 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
                       "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                       "author": "Amazon Web Services",
                       "homepage": "https://docs.amplify.aws/",
-                      "swiftVersion": "5.4.0",
+                      "swiftVersion": "5.5.0",
                       "build": {
                         "rootProject": true
                       }
