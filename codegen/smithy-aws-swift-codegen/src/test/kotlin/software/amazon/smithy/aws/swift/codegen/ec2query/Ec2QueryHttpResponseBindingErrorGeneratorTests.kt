@@ -39,7 +39,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             """
             extension GreetingWithErrorsOutputError: Runtime.HttpResponseBinding {
                 public init(httpResponse: Runtime.HttpResponse, decoder: Runtime.ResponseDecoder? = nil) throws {
-                    let errorDetails = try Ec2QueryError(httpResponse: httpResponse)
+                    let errorDetails = try AWSXMLRuntime.Ec2QueryError(httpResponse: httpResponse)
                     try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
                 }
             }
