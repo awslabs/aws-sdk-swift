@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
@@ -24,12 +25,13 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
             .build()
 
         ctx.delegator.useShapeWriter(httpBindingSymbol) { writer ->
-            writer.addImport(AWSSwiftDependency.AWS_RUNTIME.packageName)
-            writer.addImport(SwiftDependency.RUNTIME.packageName)
+            writer.addImport(AWSSwiftDependency.AWS_RUNTIME.target)
+            writer.addImport(AWSSwiftDependency.AWS_XMLRUNTIME.target)
+            writer.addImport(SwiftDependency.RUNTIME.target)
 
             writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseBinding) {
                 writer.openBlock("public init(httpResponse: \$N, decoder: \$D) throws {", "}", ClientRuntimeTypes.Http.HttpResponse, ClientRuntimeTypes.Serde.ResponseDecoder) {
-                    writer.write("let errorDetails = try Ec2QueryError(httpResponse: httpResponse)")
+                    writer.write("let errorDetails = try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.EC2Query.Ec2QueryError)
                     writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)")
                 }
             }

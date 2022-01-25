@@ -11,6 +11,7 @@ import software.amazon.smithy.swift.codegen.model.buildSymbol
 object AWSClientRuntimeTypes {
     object EC2Query {
         val Ec2NarrowedResponse = runtimeSymbol("Ec2NarrowedResponse", AWSSwiftDependency.AWS_XMLRUNTIME)
+        val Ec2QueryError = runtimeSymbol("Ec2QueryError", AWSSwiftDependency.AWS_XMLRUNTIME)
     }
     object AWSJSON {
         val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware", AWSSwiftDependency.AWS_JSONRUNTIME)

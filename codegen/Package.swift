@@ -61,20 +61,31 @@ appendLibTarget(name: "rest_json_extras", path: "\(baseDirLocal)/rest_json_extra
 appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_extras", dependency: "rest_json_extras")
 
 func appendLibTarget(name: String, path: String) {
+    var dependencies: [Target.Dependency] = [
+        .product(
+            name: "Runtime",
+            package: "ClientRuntime"
+        ),
+        .product(
+            name: "AWSRuntime",
+            package: "AWSClientRuntime"
+        ),
+    ]
+    
+    if name.lowercased().contains("json") {
+        dependencies.append(.product(name: "JSONRuntime", package: "ClientRuntime"))
+        dependencies.append(.product(name: "AWSJSONRuntime", package: "AWSClientRuntime"))
+    } else {
+        dependencies.append(.product(name: "XMLRuntime", package: "ClientRuntime"))
+        dependencies.append(.product(name: "AWSXMLRuntime", package: "AWSClientRuntime"))
+    }
+    
     package.targets.append(
         .target(name: name,
-                dependencies:  [
-                    .product(
-                        name: "ClientRuntime",
-                        package: "ClientRuntime"
-                    ),
-                    .product(
-                        name: "AWSClientRuntime",
-                        package: "AWSClientRuntime"
-                    ),
-                ],
+                dependencies:  dependencies,
                 path: "\(path)/swift-codegen/\(name)")
     )
+
     package.products.append(
         .library(name: name, targets: [name])
     )

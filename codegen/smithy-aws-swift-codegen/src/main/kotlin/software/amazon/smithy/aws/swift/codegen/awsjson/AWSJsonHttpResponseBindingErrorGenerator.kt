@@ -30,6 +30,7 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
 
         ctx.delegator.useShapeWriter(httpBindingSymbol) { writer ->
             writer.addImport(AWSSwiftDependency.AWS_RUNTIME.target)
+            writer.addImport(AWSSwiftDependency.AWS_JSONRUNTIME.target)
             writer.addImport(SwiftDependency.RUNTIME.target)
 
             writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseBinding) {
