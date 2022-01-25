@@ -44,7 +44,12 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     override val shouldRenderCodingKeysForEncodable = true
 
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
-        val imports = listOf(AWSSwiftDependency.AWS_RUNTIME.target)
+        var imports = mutableListOf(AWSSwiftDependency.AWS_RUNTIME.target)
+        if (ctx.protocol.name.lowercase().contains("json")) {
+            imports.add(AWSSwiftDependency.AWS_JSONRUNTIME.target)
+        } else {
+            imports.add(AWSSwiftDependency.AWS_XMLRUNTIME.target)
+        }
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,

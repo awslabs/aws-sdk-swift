@@ -92,12 +92,20 @@ func appendLibTarget(name: String, path: String) {
 }
 
 func appendTstTarget(name: String, path: String, dependency: String) {
-    var dependencies: [Target.Dependency]  = [.product(name: "SmithyTestUtil", package: "ClientRuntime")]
+    var dependencies: [Target.Dependency]  = [.product(name: "SmithyTestUtil", package: "ClientRuntime"),
+                                              .product(name: "Runtime", package: "ClientRuntime")]
 #if swift(>=5.5)
     dependencies.append(.byNameItem(name: dependency, condition: nil))
 #else
     dependencies.append(._byNameItem(name: dependency, condition: nil))
 #endif
+    if name.lowercased().contains("json") {
+        dependencies.append(.product(name: "JSONRuntime", package: "ClientRuntime"))
+        dependencies.append(.product(name: "AWSJSONRuntime", package: "AWSClientRuntime"))
+    } else {
+        dependencies.append(.product(name: "XMLRuntime", package: "ClientRuntime"))
+        dependencies.append(.product(name: "AWSXMLRuntime", package: "AWSClientRuntime"))
+    }
     package.targets.append(.testTarget(name: name,
                                        dependencies:  dependencies,
                                        path: "\(path)/swift-codegen/\(name)")
