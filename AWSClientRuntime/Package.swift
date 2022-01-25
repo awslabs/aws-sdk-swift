@@ -41,6 +41,7 @@ let package = Package(
             name: "AWSJSONRuntime",
             dependencies: [
                 "AWSRuntime",
+                .product(name: "JSONRuntime", package: "ClientRuntime"),
                 .product(name: "Runtime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
             ],
@@ -60,6 +61,7 @@ let package = Package(
             name: "AWSXMLRuntime",
             dependencies: [
                 "AWSRuntime",
+                .product(name: "XMLRuntime", package: "ClientRuntime"),
                 .product(name: "Runtime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
             ],
