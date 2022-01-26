@@ -54,7 +54,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         writer: SwiftWriter,
         serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
-        writer.addImport(AWSSwiftDependency.AWS_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         val clientProperties = getClientProperties()
         return AWSHttpProtocolServiceClient(ctx, writer, clientProperties, serviceConfig)
     }

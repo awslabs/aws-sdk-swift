@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AWSRuntime
+import AWSClientRuntime
 import AWSXMLRuntime
-import Runtime
+import ClientRuntime
 
 extension GreetingWithErrorsOutputError: HttpResponseBinding {
     public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {

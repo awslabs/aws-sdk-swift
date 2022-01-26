@@ -37,15 +37,15 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension GreetingWithErrorsOutputError: Runtime.HttpResponseBinding {
-                public init(httpResponse: Runtime.HttpResponse, decoder: Runtime.ResponseDecoder? = nil) throws {
+            extension GreetingWithErrorsOutputError: ClientRuntime.HttpResponseBinding {
+                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
                     let errorDetails = try AWSXMLRuntime.Ec2QueryError(httpResponse: httpResponse)
                     try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
                 }
             }
             
             extension GreetingWithErrorsOutputError {
-                public init(errorType: Swift.String?, httpResponse: Runtime.HttpResponse, decoder: Runtime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+                public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     switch errorType {
                     case "ComplexError" : self = .complexError(try ComplexError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
                     case "InvalidGreeting" : self = .invalidGreeting(try InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -65,7 +65,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val expectedContents =
             """
             extension ComplexError {
-                public init (httpResponse: Runtime.HttpResponse, decoder: Runtime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+                public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
                         let data = reader.toBytes().toData()
@@ -93,14 +93,14 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct ComplexError: AWSRuntime.AWSHttpServiceError, Swift.Equatable {
-                public var _headers: Runtime.Headers?
-                public var _statusCode: Runtime.HttpStatusCode?
+            public struct ComplexError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+                public var _headers: ClientRuntime.Headers?
+                public var _statusCode: ClientRuntime.HttpStatusCode?
                 public var _message: Swift.String?
                 public var _requestID: Swift.String?
                 public var _retryable: Swift.Bool = false
                 public var _isThrottling: Swift.Bool = false
-                public var _type: Runtime.ErrorType = .client
+                public var _type: ClientRuntime.ErrorType = .client
                 public var nested: AwsEc2ClientTypes.ComplexNestedErrorData?
                 public var topLevel: Swift.String?
             

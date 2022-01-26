@@ -178,7 +178,7 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
             .name(inputSymbol.name)
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
-            writer.addImport(SwiftDependency.RUNTIME.target)
+            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
             val queryItemMiddleware = InputTypeGETQueryItemMiddleware(
                 ctx,
                 inputSymbol,

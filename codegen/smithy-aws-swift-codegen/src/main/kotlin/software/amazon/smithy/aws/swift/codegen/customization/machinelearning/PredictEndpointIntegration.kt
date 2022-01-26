@@ -44,7 +44,7 @@ class PredictEndpointIntegration(private val enabledOperations: Map<String, Set<
 
             val inputType = op.input.get()
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+EndpointURLHostMiddleware.swift") { writer ->
-                writer.addImport(SwiftDependency.RUNTIME.target)
+                writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
                 val predictMiddleware = PredictInputEndpointURLHostMiddlewareHandler(writer, protocolGeneratorContext, inputSymbol, outputSymbol, outputErrorSymbol)
                 MiddlewareGenerator(writer, predictMiddleware).generate()
             }

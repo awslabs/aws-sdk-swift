@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import AWSRuntime
+@testable import AWSClientRuntime
 
 class FrameworkMetadataTests: XCTestCase {
     func testWithNoMetadata() {

@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Runtime
+import ClientRuntime
         
 public protocol CredentialsProvider {
     /// Resolves `AWSCredentials` through custom means

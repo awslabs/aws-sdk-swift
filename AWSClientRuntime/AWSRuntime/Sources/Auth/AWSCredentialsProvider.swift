@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 import AwsCommonRuntimeKit
-import Runtime
+import ClientRuntime
 
 public class AWSCredentialsProvider: CredentialsProvider {
     let crtCredentialsProvider: CRTAWSCredentialsProvider

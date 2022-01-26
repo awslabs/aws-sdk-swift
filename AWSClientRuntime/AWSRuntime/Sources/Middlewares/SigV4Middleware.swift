@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import Runtime
+import ClientRuntime
 import AwsCommonRuntimeKit
 
 public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,

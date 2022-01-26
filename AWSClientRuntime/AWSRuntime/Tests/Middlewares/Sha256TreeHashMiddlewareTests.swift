@@ -6,10 +6,10 @@
 //
 
 import XCTest
-import Runtime
+import ClientRuntime
 import AwsCommonRuntimeKit
 import SmithyTestUtil
-@testable import AWSRuntime
+@testable import AWSClientRuntime
 
 class Sha256TreeHashMiddlewareTests: XCTestCase {
     override func setUp() {

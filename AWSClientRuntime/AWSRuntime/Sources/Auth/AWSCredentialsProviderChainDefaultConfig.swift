@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import AwsCommonRuntimeKit
-import Runtime
+import ClientRuntime
 
 public struct AWSCredentialsProviderChainDefaultConfig {
     let shutDownCallback: ShutDownCallback?

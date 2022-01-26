@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import AwsCommonRuntimeKit
-import Runtime
+import ClientRuntime
 
 public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding,
                                        OperationStackError: HttpResponseBinding>: Middleware {

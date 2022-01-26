@@ -63,11 +63,11 @@ appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_
 func appendLibTarget(name: String, path: String) {
     var dependencies: [Target.Dependency] = [
         .product(
-            name: "Runtime",
+            name: "ClientRuntime",
             package: "ClientRuntime"
         ),
         .product(
-            name: "AWSRuntime",
+            name: "AWSClientRuntime",
             package: "AWSClientRuntime"
         ),
     ]
@@ -93,7 +93,7 @@ func appendLibTarget(name: String, path: String) {
 
 func appendTstTarget(name: String, path: String, dependency: String) {
     var dependencies: [Target.Dependency]  = [.product(name: "SmithyTestUtil", package: "ClientRuntime"),
-                                              .product(name: "Runtime", package: "ClientRuntime")]
+                                              .product(name: "ClientRuntime", package: "ClientRuntime")]
 #if swift(>=5.5)
     dependencies.append(.byNameItem(name: dependency, condition: nil))
 #else

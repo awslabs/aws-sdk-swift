@@ -6,7 +6,7 @@
 //
         
 import XMLRuntime
-import Runtime
+import ClientRuntime
 import SmithyTestUtil
 import XCTest
 import AWSXMLRuntime

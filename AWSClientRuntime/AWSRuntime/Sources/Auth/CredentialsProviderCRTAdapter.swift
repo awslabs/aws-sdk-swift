@@ -6,7 +6,7 @@
 //
 
 import AwsCommonRuntimeKit
-import Runtime
+import ClientRuntime
         
 struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
     var allocator: Allocator

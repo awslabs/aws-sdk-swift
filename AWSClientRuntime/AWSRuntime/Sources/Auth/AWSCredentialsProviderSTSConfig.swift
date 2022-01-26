@@ -6,7 +6,7 @@
 //
         
 import AwsCommonRuntimeKit
-import Runtime
+import ClientRuntime
         
 public struct AWSCredentialsProviderSTSConfig {
     public let credentialsProvider: AWSCredentialsProvider

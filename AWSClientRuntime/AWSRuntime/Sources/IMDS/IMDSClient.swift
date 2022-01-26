@@ -6,7 +6,7 @@
 //
 
 import AwsCommonRuntimeKit
-import Runtime
+import ClientRuntime
 
 /// IMDSv2 Client
 ///

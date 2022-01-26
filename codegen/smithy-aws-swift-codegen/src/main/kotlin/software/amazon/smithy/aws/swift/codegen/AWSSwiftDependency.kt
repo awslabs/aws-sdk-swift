@@ -15,8 +15,8 @@ enum class AWSSwiftDependency(
     private val localPath: String,
     var packageName: String
 ) : SymbolDependencyContainer {
-    AWS_RUNTIME(
-        "AWSRuntime",
+    AWS_CLIENT_RUNTIME(
+        "AWSClientRuntime",
         "main",
         "0.1.0",
         "https://github.com/awslabs/aws-sdk-swift",

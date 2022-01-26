@@ -29,8 +29,8 @@ class StructDecodeWrappedXMLGeneratorTests {
             }
         
             public init (from decoder: Swift.Decoder) throws {
-                let topLevelContainer = try decoder.container(keyedBy: Runtime.Key.self)
-                let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: Runtime.Key("FlattenedXmlMapResult"))
+                let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+                let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FlattenedXmlMapResult"))
                 if containerValues.contains(.myMap) {
                     struct KeyVal0{struct key{}; struct value{}}
                     let myMapWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: XMLRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .myMap)

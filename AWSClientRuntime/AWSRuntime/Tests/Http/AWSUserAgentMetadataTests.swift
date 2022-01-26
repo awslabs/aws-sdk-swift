@@ -6,8 +6,8 @@
 //
 
 import XCTest
-import Runtime
-@testable import AWSRuntime
+import ClientRuntime
+@testable import AWSClientRuntime
 
 class AWSUseragentMetadataTests: XCTestCase {
     let sdkMetadata = SDKMetadata(name: "swift", version: "0.0.1")
@@ -89,7 +89,7 @@ class AWSUseragentMetadataTests: XCTestCase {
     }
     
     func testXAmzUserAgent() {
-        let currentOS = Runtime.currentOS
+        let currentOS = ClientRuntime.currentOS
         let apiMeta = APIMetadata(serviceId: "Test Service", version: "1.2.3")
         let sdkMeta = SDKMetadata(name: "swift", version: apiMeta.version)
         let osMeta = OSMetadata(family: currentOS, version: "11.4")

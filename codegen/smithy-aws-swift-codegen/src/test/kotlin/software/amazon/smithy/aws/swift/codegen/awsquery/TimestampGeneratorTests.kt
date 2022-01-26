@@ -22,20 +22,20 @@ class TimestampGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension QueryTimestampsInput: Swift.Encodable, Runtime.Reflection {
+            extension QueryTimestampsInput: Swift.Encodable, ClientRuntime.Reflection {
                 public func encode(to encoder: Swift.Encoder) throws {
-                    var container = encoder.container(keyedBy: Runtime.Key.self)
+                    var container = encoder.container(keyedBy: ClientRuntime.Key.self)
                     if let epochMember = epochMember {
-                        try container.encode(Runtime.TimestampWrapper(epochMember, format: .epochSeconds), forKey: Runtime.Key("epochMember"))
+                        try container.encode(ClientRuntime.TimestampWrapper(epochMember, format: .epochSeconds), forKey: ClientRuntime.Key("epochMember"))
                     }
                     if let epochTarget = epochTarget {
-                        try container.encode(Runtime.TimestampWrapper(epochTarget, format: .epochSeconds), forKey: Runtime.Key("epochTarget"))
+                        try container.encode(ClientRuntime.TimestampWrapper(epochTarget, format: .epochSeconds), forKey: ClientRuntime.Key("epochTarget"))
                     }
                     if let normalFormat = normalFormat {
-                        try container.encode(Runtime.TimestampWrapper(normalFormat, format: .dateTime), forKey: Runtime.Key("normalFormat"))
+                        try container.encode(ClientRuntime.TimestampWrapper(normalFormat, format: .dateTime), forKey: ClientRuntime.Key("normalFormat"))
                     }
-                    try container.encode("QueryTimestamps", forKey:Runtime.Key("Action"))
-                    try container.encode("2020-01-08", forKey:Runtime.Key("Version"))
+                    try container.encode("QueryTimestamps", forKey:ClientRuntime.Key("Action"))
+                    try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
                 }
             }
             """.trimIndent()

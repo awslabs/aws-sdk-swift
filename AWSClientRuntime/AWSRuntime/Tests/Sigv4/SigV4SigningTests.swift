@@ -6,10 +6,10 @@
 //
 
 import AwsCommonRuntimeKit
-import Runtime
+import ClientRuntime
 import XCTest
 
-@testable import AWSRuntime
+@testable import AWSClientRuntime
 
 class Sigv4SigningTests: XCTestCase {
     override func setUp() {

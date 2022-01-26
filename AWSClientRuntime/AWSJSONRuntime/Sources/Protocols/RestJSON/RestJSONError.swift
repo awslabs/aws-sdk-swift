@@ -4,7 +4,7 @@
  */
 
 import Foundation
-import Runtime
+import ClientRuntime
 import JSONRuntime
 
 /// A general Error Structure for Rest JSON protocol

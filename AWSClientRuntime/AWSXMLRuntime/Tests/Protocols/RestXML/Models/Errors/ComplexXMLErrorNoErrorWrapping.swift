@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Runtime
+import ClientRuntime
 
-public struct ComplexXMLErrorNoErrorWrapping: Runtime.ServiceError, Equatable {
+public struct ComplexXMLErrorNoErrorWrapping: ClientRuntime.ServiceError, Equatable {
     public var _isThrottling: Bool = false
     public var _headers: Headers?
     public var _statusCode: HttpStatusCode?

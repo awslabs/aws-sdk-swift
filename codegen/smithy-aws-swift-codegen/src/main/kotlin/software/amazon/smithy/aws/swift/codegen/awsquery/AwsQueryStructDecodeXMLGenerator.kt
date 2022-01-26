@@ -19,7 +19,7 @@ class AwsQueryStructDecodeXMLGenerator(
     defaultTimestampFormat: TimestampFormatTrait.Format
 ) : StructDecodeXMLGenerator(ctx, members, metadata, writer, defaultTimestampFormat) {
     override fun render() {
-        writer.addImport(SwiftDependency.XML_RUNTIME.target)
+        writer.addImport(SwiftDependency.XML_RUNTIME, SwiftDependency.XML_RUNTIME.target)
         writer.openBlock("public init (from decoder: \$N) throws {", "}", SwiftTypes.Decoder) {
             if (members.isNotEmpty()) {
                 renderDecodeBody()

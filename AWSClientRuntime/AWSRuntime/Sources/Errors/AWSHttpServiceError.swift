@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import Runtime
+import ClientRuntime
 
 public let X_AMZN_REQUEST_ID_HEADER = "X-Amzn-RequestId"
 

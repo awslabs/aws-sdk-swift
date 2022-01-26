@@ -55,7 +55,7 @@ object AWSClientRuntimeTypes {
     }
 }
 
-private fun runtimeSymbol(name: String, dependency: AWSSwiftDependency = AWSSwiftDependency.AWS_RUNTIME): Symbol = buildSymbol {
+private fun runtimeSymbol(name: String, dependency: AWSSwiftDependency = AWSSwiftDependency.AWS_CLIENT_RUNTIME): Symbol = buildSymbol {
     this.name = name
     this.namespace = dependency.target
     dependency(dependency)

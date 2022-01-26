@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import Runtime
-import AWSRuntime
+import ClientRuntime
+import AWSClientRuntime
 
 public protocol S3HttpServiceError: AWSHttpServiceError {
     var _requestID2: String? { get set }

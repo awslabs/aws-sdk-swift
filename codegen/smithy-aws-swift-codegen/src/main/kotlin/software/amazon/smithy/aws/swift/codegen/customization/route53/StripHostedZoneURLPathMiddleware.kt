@@ -30,7 +30,7 @@ class StripHostedZoneURLPathMiddleware(
                 .name(inputSymbol.name)
                 .build()
             ctx.delegator.useShapeWriter(urlPathMiddlewareSymbol) { writer ->
-                writer.addImport(SwiftDependency.RUNTIME.target)
+                writer.addImport(SwiftDependency.CLIENT_RUNTIME, SwiftDependency.CLIENT_RUNTIME.target)
                 val urlPathMiddleware = StripHostedZoneURLPathMiddleware(inputSymbol, outputSymbol, outputErrorSymbol, writer)
                 MiddlewareGenerator(writer, urlPathMiddleware).generate()
             }

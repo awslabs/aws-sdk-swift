@@ -15,15 +15,15 @@ let package = Package(
 	.iOS(.v13)
     ],
     products: [
-        .library(name: "AWSRuntime", targets: ["AWSRuntime"]),
+        .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
         .library(name: "AWSJSONRuntime", targets: ["AWSJSONRuntime"]),
         .library(name: "AWSXMLRuntime", targets: ["AWSXMLRuntime"])
     ],
     targets: [
         .target(
-            name: "AWSRuntime",
+            name: "AWSClientRuntime",
             dependencies: [
-                .product(name: "Runtime", package: "ClientRuntime"),
+                .product(name: "ClientRuntime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
             ],
             path: "./AWSRuntime/Sources"
@@ -31,18 +31,18 @@ let package = Package(
         .testTarget(
             name: "AWSRuntimeTests",
             dependencies: [
-                "AWSRuntime",
+                "AWSClientRuntime",
                 .product(name: "SmithyTestUtil", package: "ClientRuntime"),
-                .product(name: "Runtime", package: "ClientRuntime")
+                .product(name: "ClientRuntime", package: "ClientRuntime")
             ],
             path: "./AWSRuntime/Tests"
         ),
         .target(
             name: "AWSJSONRuntime",
             dependencies: [
-                "AWSRuntime",
+                "AWSClientRuntime",
                 .product(name: "JSONRuntime", package: "ClientRuntime"),
-                .product(name: "Runtime", package: "ClientRuntime"),
+                .product(name: "ClientRuntime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
             ],
             path: "./AWSJSONRuntime/Sources"
@@ -51,18 +51,18 @@ let package = Package(
             name: "AWSJSONRuntimeTests",
             dependencies: [
                 "AWSJSONRuntime",
-                "AWSRuntime",
+                "AWSClientRuntime",
                 .product(name: "SmithyTestUtil", package: "ClientRuntime"),
-                .product(name: "Runtime", package: "ClientRuntime")
+                .product(name: "ClientRuntime", package: "ClientRuntime")
             ],
             path: "./AWSJSONRuntime/Tests"
         ),
         .target(
             name: "AWSXMLRuntime",
             dependencies: [
-                "AWSRuntime",
+                "AWSClientRuntime",
                 .product(name: "XMLRuntime", package: "ClientRuntime"),
-                .product(name: "Runtime", package: "ClientRuntime"),
+                .product(name: "ClientRuntime", package: "ClientRuntime"),
                 .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
             ],
             path: "./AWSXMLRuntime/Sources"
@@ -71,9 +71,9 @@ let package = Package(
             name: "AWSXMLRuntimeTests",
             dependencies: [
                 "AWSXMLRuntime",
-                "AWSRuntime",
+                "AWSClientRuntime",
                 .product(name: "SmithyTestUtil", package: "ClientRuntime"),
-                .product(name: "Runtime", package: "ClientRuntime")
+                .product(name: "ClientRuntime", package: "ClientRuntime")
             ],
             path: "./AWSXMLRuntime/Tests"
         )

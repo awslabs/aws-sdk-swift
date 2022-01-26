@@ -1,6 +1,6 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0.
-import Runtime
+import ClientRuntime
 
 // TODO: this struct is unfinished. proper endpoint resolving will need to be added futuristically
 public struct EndpointResolverMiddleware<OperationStackOutput: HttpResponseBinding,

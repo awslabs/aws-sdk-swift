@@ -5,10 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Runtime
+import ClientRuntime
 import SmithyTestUtil
 import XCTest
-@testable import AWSRuntime
+@testable import AWSClientRuntime
 
 class AWSCredentialProviderTests: XCTestCase {
     
