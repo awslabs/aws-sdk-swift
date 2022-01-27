@@ -18,7 +18,6 @@ import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolBodyMiddlewareGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
@@ -78,9 +77,9 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         decoder.render()
     }
 
-    override fun httpProtocolBodyMiddleware(): HttpProtocolBodyMiddlewareGeneratorFactory {
-        return FormURLBodyMiddlewareGeneratorFactory()
-    }
+//    override fun httpProtocolBodyMiddleware(): HttpProtocolBodyMiddlewareGeneratorFactory {
+//        return FormURLBodyMiddlewareGeneratorFactory()
+//    }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)

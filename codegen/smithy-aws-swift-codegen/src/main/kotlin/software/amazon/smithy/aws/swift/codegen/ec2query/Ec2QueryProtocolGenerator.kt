@@ -8,7 +8,6 @@ package software.amazon.smithy.aws.swift.codegen.ec2query
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
-import software.amazon.smithy.aws.swift.codegen.awsquery.FormURLBodyMiddlewareGeneratorFactory
 import software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse.AWSEc2QueryHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse.AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
@@ -19,7 +18,6 @@ import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolBodyMiddlewareGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
@@ -75,9 +73,9 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         decoder.render()
     }
 
-    override fun httpProtocolBodyMiddleware(): HttpProtocolBodyMiddlewareGeneratorFactory {
-        return FormURLBodyMiddlewareGeneratorFactory()
-    }
+//    override fun httpProtocolBodyMiddleware(): HttpProtocolBodyMiddlewareGeneratorFactory {
+//        return FormURLBodyMiddlewareGeneratorFactory()
+//    }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
