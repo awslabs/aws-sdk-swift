@@ -1,26 +1,26 @@
-///*
+// /*
 // * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // * SPDX-License-Identifier: Apache-2.0.
 // */
 //
-//package software.amazon.smithy.aws.swift.codegen.middleware
+// package software.amazon.smithy.aws.swift.codegen.middleware
 //
-//import software.amazon.smithy.codegen.core.Symbol
-//import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
-//import software.amazon.smithy.swift.codegen.Middleware
-//import software.amazon.smithy.swift.codegen.SwiftWriter
-//import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
-//import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-//import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
+// import software.amazon.smithy.codegen.core.Symbol
+// import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
+// import software.amazon.smithy.swift.codegen.Middleware
+// import software.amazon.smithy.swift.codegen.SwiftWriter
+// import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
+// import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+// import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 //
-//class FormURLHttpBodyMiddleware(
+// class FormURLHttpBodyMiddleware(
 //    private val writer: SwiftWriter,
 //    ctx: ProtocolGenerator.GenerationContext,
 //    inputSymbol: Symbol,
 //    outputSymbol: Symbol,
 //    outputErrorSymbol: Symbol,
 //    requestBindings: List<HttpBindingDescriptor>
-//) : Middleware(writer, inputSymbol, OperationSerializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
+// ) : Middleware(writer, inputSymbol, OperationSerializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
 //
 //    override val typeName = "${inputSymbol.name}BodyMiddleware"
 //
@@ -40,4 +40,4 @@
 //    override fun generateInit() {
 //        writer.write("public init() {}")
 //    }
-//}
+// }

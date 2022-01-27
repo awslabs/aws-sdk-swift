@@ -1,8 +1,8 @@
 package software.amazon.smithy.aws.swift.codegen.awsquery
 
-//import software.amazon.smithy.aws.swift.codegen.middleware.FormURLHttpBodyMiddleware
+// import software.amazon.smithy.aws.swift.codegen.middleware.FormURLHttpBodyMiddleware
 
-//class FormURLBodyMiddlewareGeneratorFactory : HttpProtocolBodyMiddlewareGeneratorFactory {
+// class FormURLBodyMiddlewareGeneratorFactory : HttpProtocolBodyMiddlewareGeneratorFactory {
 //    override fun shouldRenderHttpBodyMiddleware(shape: Shape): Boolean {
 //        return true
 //    }
@@ -17,4 +17,4 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 //    ): Middleware {
 //        return FormURLHttpBodyMiddleware(writer, ctx, inputSymbol, outputSymbol, outputErrorSymbol, requestBindings)
 //    }
-//}
+// }
