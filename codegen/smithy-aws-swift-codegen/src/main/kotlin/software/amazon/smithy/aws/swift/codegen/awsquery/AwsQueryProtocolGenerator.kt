@@ -77,10 +77,6 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         decoder.render()
     }
 
-//    override fun httpProtocolBodyMiddleware(): HttpProtocolBodyMiddlewareGeneratorFactory {
-//        return FormURLBodyMiddlewareGeneratorFactory()
-//    }
-
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
