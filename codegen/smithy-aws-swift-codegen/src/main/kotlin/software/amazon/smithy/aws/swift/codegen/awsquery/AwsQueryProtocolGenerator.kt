@@ -83,7 +83,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSQuery
         // we always need to have an InputBodyMiddleware
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
-        operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, resolver, true))
+        operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
 
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
         operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
