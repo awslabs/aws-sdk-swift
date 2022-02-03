@@ -1,4 +1,4 @@
-package software.amazon.smithy.aws.swift.codegen.customization.sts
+package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.SourceLocation
@@ -14,7 +14,16 @@ internal val DISABLED_AUTH_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.sts#AWSSecurityTokenServiceV20110615" to setOf(
         "com.amazonaws.sts#AssumeRoleWithSAML",
         "com.amazonaws.sts#AssumeRoleWithWebIdentity"
-    )
+    ),
+    "com.amazonaws.cognitoidentityprovider#AWSCognitoIdentityProviderService" to setOf(
+        "com.amazonaws.cognitoidentityprovider#ConfirmDevice",
+        "com.amazonaws.cognitoidentityprovider#ForgetDevice",
+        "com.amazonaws.cognitoidentityprovider#GetDevice",
+        "com.amazonaws.cognitoidentityprovider#GlobalSignOut",
+        "com.amazonaws.cognitoidentityprovider#ListDevices",
+        "com.amazonaws.cognitoidentityprovider#RevokeToken",
+        "com.amazonaws.cognitoidentityprovider#UpdateDeviceStatus"
+    ) // operations with missing optional auth: [] per documentation https://docs.aws.amazon.com/cognito/latest/developerguide/security_iam_service-with-iam.html
 )
 // TODO: If or when the service team adds this trait to their model, we can remove this customization
 class DisabledAuth(private val disabledAuth: Map<String, Set<String>> = DISABLED_AUTH_OPERATIONS) : SwiftIntegration {
