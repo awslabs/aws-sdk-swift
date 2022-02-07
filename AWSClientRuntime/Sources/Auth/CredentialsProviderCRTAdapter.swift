@@ -12,6 +12,8 @@ struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
     var allocator: Allocator
     let credentialsProvider: CredentialsProvider
     let logger: SwiftLogger
+    private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
+    
     init(credentialsProvider: CredentialsProvider) {
         self.credentialsProvider = credentialsProvider
         self.logger = SwiftLogger(label: "CustomCredentialProvider")
