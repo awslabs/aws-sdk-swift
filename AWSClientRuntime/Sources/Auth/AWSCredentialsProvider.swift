@@ -7,6 +7,7 @@ import ClientRuntime
 
 public class AWSCredentialsProvider: CredentialsProvider {
     let crtCredentialsProvider: CRTAWSCredentialsProvider
+    private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
     
     init(awsCredentialsProvider: CRTAWSCredentialsProvider) {
         self.crtCredentialsProvider = awsCredentialsProvider

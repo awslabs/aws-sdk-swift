@@ -12,18 +12,7 @@ import SmithyTestUtil
 @testable import AWSClientRuntime
 
 class Sha256TreeHashMiddlewareTests: XCTestCase {
-    override func setUp() {
-        #if os(Linux)
-        AwsCommonRuntimeKit.initialize()
-        #endif
-    }
-    
-    override func tearDown() {
-        #if os(Linux)
-        AwsCommonRuntimeKit.cleanUp()
-        #endif
-    }
-    
+
     func testTreeHashAllZeroes() throws {
         let context = HttpContextBuilder().build()
         let expectation = XCTestExpectation(description: "closure was run")
