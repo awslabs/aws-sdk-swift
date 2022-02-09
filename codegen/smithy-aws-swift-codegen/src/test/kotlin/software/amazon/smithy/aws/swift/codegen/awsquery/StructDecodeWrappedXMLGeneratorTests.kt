@@ -20,7 +20,7 @@ class StructDecodeWrappedXMLGeneratorTests {
         val contents = getFileContents(context.manifest, "/Example/models/FlattenedXmlMapOutputResponseBody+Decodable.swift")
         val expectedContents = """
         struct FlattenedXmlMapOutputResponseBody: Swift.Equatable {
-            public let myMap: [Swift.String:Swift.String]?
+            let myMap: [Swift.String:Swift.String]?
         }
         
         extension FlattenedXmlMapOutputResponseBody: Swift.Decodable {
