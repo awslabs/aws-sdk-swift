@@ -42,7 +42,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
 
     override val shouldRenderDecodableBodyStructForInputShapes = true
     override val shouldRenderCodingKeysForEncodable = true
-
+    override val shouldRenderEncodableConformance = false
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
         val imports = listOf(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         return HttpProtocolTestGenerator(

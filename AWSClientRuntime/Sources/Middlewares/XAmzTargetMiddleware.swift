@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import ClientRuntime
 
-public struct XAmzTargetMiddleware<OperationStackInput: Encodable & Reflection,
+public struct XAmzTargetMiddleware<OperationStackInput,
                                    OperationStackOutput: HttpResponseBinding,
                                    OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "XAmzTargetHeader"
