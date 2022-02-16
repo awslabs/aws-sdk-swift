@@ -19,24 +19,20 @@ public struct BundleRegionProvider: RegionProvider {
         self.regionKey = regionKey
     }
     
-    public func resolveRegion() -> Future<String?> {
-        let future = Future<String?>()
-
+    public func resolveRegion() async throws -> String? {
         #if os(iOS) || os(watchOS) || os(tvOS)
         guard let region = region() else {
-            future.fulfill(nil)
-            return future
+            return nil
         }
 
         if region.count > maxSizeRegion {
-            future.fulfill(String(region.prefix(maxSizeRegion)))
+            return String(region.prefix(maxSizeRegion))
         } else {
-            future.fulfill(region)
+            return region
         }
         #else
-        future.fulfill(nil)
+        return nil
         #endif
-        return future
     }
 
     func region() -> String? {

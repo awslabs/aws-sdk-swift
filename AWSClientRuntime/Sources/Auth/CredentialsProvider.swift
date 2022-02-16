@@ -9,5 +9,5 @@ import ClientRuntime
         
 public protocol CredentialsProvider {
     /// Resolves `AWSCredentials` through custom means
-    func getCredentials() throws -> SdkFuture<AWSCredentials>
+    func getCredentials() async throws -> AWSCredentials
 }

@@ -16,10 +16,9 @@ public class AWSSigV4Signer {
                                       signingName: Swift.String,
                                       signingRegion: Swift.String,
                                       date: ClientRuntime.Date,
-                                      expiration: Int64) -> ClientRuntime.URL? {
+                                      expiration: Int64) async -> ClientRuntime.URL? {
         do {
-            let credentialsResult = try credentialsProvider.getCredentials()
-            let credentials = try credentialsResult.get()
+            let credentials = try await credentialsProvider.getCredentials()
             let flags = SigningFlags(useDoubleURIEncode: true,
                                      shouldNormalizeURIPath: true,
                                      omitSessionToken: false)
@@ -34,7 +33,7 @@ public class AWSSigV4Signer {
                                                  service: signingName,
                                                  region: signingRegion,
                                                  signatureType: .requestQueryParams)
-            let builtRequest = sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
+            let builtRequest = await sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
             guard let presignedURL = builtRequest?.endpoint.url else {
                 logger.error("Failed to generate presigend url")
                 return nil
@@ -47,14 +46,13 @@ public class AWSSigV4Signer {
     }
     
     public static func sigV4SignedRequest(requestBuilder: SdkHttpRequestBuilder,
-                                          signingConfig: AWSSigningConfig) -> SdkHttpRequest? {
+                                          signingConfig: AWSSigningConfig) async -> SdkHttpRequest? {
         let originalRequest = requestBuilder.build()
         let crtUnsignedRequest = originalRequest.toHttpRequest()
         let signer = SigV4HttpRequestSigner()
         do {
-            let result = try signer.signRequest(request: crtUnsignedRequest,
-                                                config: signingConfig.toCRTType())
-            let crtSignedRequest = try result.get()
+            let crtSignedRequest = try await signer.signRequest(request: crtUnsignedRequest,
+                                                                config: signingConfig.toCRTType())
             let sdkSignedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: originalRequest)
             return sdkSignedRequest.build()
         } catch CRTError.crtError(let crtError) {

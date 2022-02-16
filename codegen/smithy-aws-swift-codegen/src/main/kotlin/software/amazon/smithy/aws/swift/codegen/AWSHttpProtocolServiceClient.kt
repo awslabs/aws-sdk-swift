@@ -20,8 +20,8 @@ class AWSHttpProtocolServiceClient(
     private val serviceConfig: ServiceConfig
 ) : HttpProtocolServiceClient(ctx, writer, properties, serviceConfig) {
     override fun renderConvenienceInit(serviceSymbol: Symbol) {
-        writer.openBlock("public convenience init(region: \$D) throws {", "}", SwiftTypes.String) {
-            writer.write("let config = try ${serviceConfig.typeName}(region: region)")
+        writer.openBlock("public convenience init(region: \$D) async throws {", "}", SwiftTypes.String) {
+            writer.write("let config = try await ${serviceConfig.typeName}(region: region)")
             writer.write("self.init(config: config)")
         }
     }

@@ -20,17 +20,8 @@ struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
         self.allocator = defaultAllocator
     }
     
-    func getCredentials(credentialCallbackData: CRTCredentialsCallbackData) {
-        do {
-            let credentialsResult = try credentialsProvider.getCredentials()
-            let credentials = try credentialsResult.get()
-            let emptyError = AWSError(errorCode: 0)
-            let crtCredentials = credentials.toCRTType()
-            credentialCallbackData.onCredentialsResolved?(crtCredentials, CRTError.crtError(emptyError))
-        } catch let err {
-            logger.error("An error occurred with retrieving credentials from your custom credentials provider. Error: \(err)")
-            
-            credentialCallbackData.onCredentialsResolved?(nil, CRTError.crtError(AWSError(errorCode: -1)))
-        }
+    func getCredentials() async throws -> CRTCredentials {
+        let credentials = try await credentialsProvider.getCredentials()
+        return credentials.toCRTType()
     }
 }

@@ -6,8 +6,7 @@
 //
 import ClientRuntime
 
-public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding,
-                                  OperationStackError: HttpResponseBinding>: Middleware {
+public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding>: Middleware {
     public let id: String = "UserAgentHeader"
     
     private let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
@@ -21,22 +20,20 @@ public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding,
     
     public func handle<H>(context: Context,
                           input: SdkHttpRequestBuilder,
-                          next: H) -> Result<OperationOutput<OperationStackOutput>, MError>
+                          next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
-          Self.Context == H.Context,
-          Self.MError == H.MiddlewareError {
+          Self.Context == H.Context {
         // x-amz-user-agent and User-Agent is swapped here.  See top note in the
         // sdk-user-agent-header SEP. More details here in the SEP about legacy issues with metrics
         input.withHeader(name: X_AMZ_USER_AGENT, value: metadata.userAgent)
         input.withHeader(name: USER_AGENT, value: metadata.xAmzUserAgent)
         
-        return next.handle(context: context, input: input)
+        return try await next.handle(context: context, input: input)
     }
     
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
-    public typealias MError = SdkError<OperationStackError>
     public typealias Context = HttpContext
 }

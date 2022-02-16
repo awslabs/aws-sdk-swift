@@ -22,14 +22,7 @@ public class IMDSClient {
         self.crtIMDSClient = CRTIMDSClient(options: crtConfig)
     }
     
-    public func get(path: String, completion: @escaping (Result<String, ClientError>) -> Void) {
-        let callbackData = CRTIMDSClientResourceCallbackData { resource, error in
-            guard let resource = resource else {
-                completion(.failure(.crtError(error)))
-                return
-            }
-            completion(.success(resource))
-        }
-        crtIMDSClient.getResource(resourcePath: path, callbackData: callbackData)
+    public func get(path: String) async throws -> String? {
+        return try await crtIMDSClient.getResource(resourcePath: path)
     }
 }

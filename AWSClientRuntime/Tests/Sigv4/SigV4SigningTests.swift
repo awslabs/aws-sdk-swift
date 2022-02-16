@@ -17,14 +17,12 @@ class Sigv4SigningTests: XCTestCase {
     }
 
     struct MyCustomCredentialsProvider: CredentialsProvider {
-        func getCredentials() throws -> SdkFuture<AWSCredentials> {
-            let future = SdkFuture<AWSCredentials>()
-            future.fulfill(AWSCredentials(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY", expirationTimeout: 30))
-            return future
+        func getCredentials() async throws -> AWSCredentials {
+            return AWSCredentials(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY", expirationTimeout: 30)
         }
     }
 
-    func testPresigner() throws {
+    func testPresigner() async throws {
         let dateString = "2015-08-30T12:36:00Z"
         let dateFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
         guard let date = dateFormatter.date(from: dateString) else {
@@ -42,7 +40,7 @@ class Sigv4SigningTests: XCTestCase {
             .withHeader(name: "host", value: "example.amazonaws.com")
             .withQueryItem(URLQueryItem(name: "%E1%88%B4", value: "bar"))
         
-        guard let url = AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
+        guard let url = try await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
                                                 credentialsProvider: MyCustomCredentialsProvider(),
                                                 signingName: "service",
                                                 signingRegion: "us-east-1",

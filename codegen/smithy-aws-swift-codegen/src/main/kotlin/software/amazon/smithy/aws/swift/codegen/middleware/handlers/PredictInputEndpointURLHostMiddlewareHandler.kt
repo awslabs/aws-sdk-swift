@@ -25,7 +25,7 @@ class PredictInputEndpointURLHostMiddlewareHandler(
         writer.openBlock("if let endpoint = input.predictEndpoint, let url = \$N(string: endpoint), let host = url.host {", "}", ClientRuntimeTypes.Core.URL) {
             writer.write("var copiedContext = context")
             writer.write("copiedContext.attributes.set(key: AttributeKey<String>(name: \"Host\"), value: host)")
-            writer.write("return next.handle(context: copiedContext, input: input)")
+            writer.write("return try await next.handle(context: copiedContext, input: input)")
         }
     }
 }

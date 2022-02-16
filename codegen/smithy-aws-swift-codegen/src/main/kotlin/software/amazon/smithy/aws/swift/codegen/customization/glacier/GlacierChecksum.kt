@@ -31,8 +31,8 @@ class GlacierChecksum : SwiftIntegration {
         operationMiddleware: OperationMiddleware
     ) {
         operationMiddleware.removeMiddleware(operationShape, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        operationMiddleware.appendMiddleware(operationShape, AWSSigningMiddleware(::middlewareParamsString))
-        operationMiddleware.appendMiddleware(operationShape, Sha256TreeHashMiddleware())
+        operationMiddleware.appendMiddleware(operationShape, AWSSigningMiddleware(::middlewareParamsString, ctx.model, ctx.symbolProvider))
+        operationMiddleware.appendMiddleware(operationShape, Sha256TreeHashMiddleware(ctx.symbolProvider, ctx.model))
     }
 
     private fun middlewareParamsString(op: OperationShape): String {

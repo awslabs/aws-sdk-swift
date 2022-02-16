@@ -17,18 +17,17 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
     
     public func handle<H>(context: Context,
                           input: MInput,
-                          next: H) -> Result<MOutput, MError>
+                          next: H) async throws -> MOutput
     where H: Handler,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
-          Self.Context == H.Context,
-          Self.MError == H.MiddlewareError {
+          Self.Context == H.Context {
               let request = input.build()
               
               switch request.body {
               case .data(let data):
                   guard let data = data else {
-                      return next.handle(context: context, input: input)
+                      return try await next.handle(context: context, input: input)
                   }
                   if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
                       let sha256 = ByteBuffer(data: data).sha256().encodeToHexString()
@@ -37,7 +36,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
               case .stream(let stream):
                   let streamBytes = stream.toBytes()
                   guard streamBytes.length > 0 else {
-                      return next.handle(context: context, input: input)
+                      return try await next.handle(context: context, input: input)
                   }
                   let (linearHash, treeHash) = computeHashes(bytes: streamBytes)
                   if let treeHash = treeHash, let linearHash = linearHash {
@@ -48,7 +47,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                   break
               }
               
-              return next.handle(context: context, input: input)
+              return try await next.handle(context: context, input: input)
           }
     
     /// Computes the tree-hash and linear hash of a `ByteBuffer`.
@@ -70,8 +69,10 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
         return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
     
-    /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes of 1MB chunks of the data.
-    /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
+    /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes
+    /// of 1MB chunks of the data.
+    /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
+    /// for more information.
     private func computeTreeHash(hashes: [[UInt8]]) -> String? {
         guard !hashes.isEmpty else {
             return nil

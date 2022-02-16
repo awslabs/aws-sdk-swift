@@ -55,13 +55,13 @@ class GlacierAccountIdMiddlewareTest {
 
         val contents = writer.toString()
         val expectedContents = """
-stack.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> Swift.Result<ClientRuntime.OperationOutput<TestOutputShapeName>, ClientRuntime.SdkError<ExampleOperationOutputError>> in
+stack.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<TestOutputShapeName> in
     guard let accountId = input.accountId, !accountId.isEmpty else {
         var copiedInput = input
         copiedInput.accountId = "-"
-        return next.handle(context: context, input: copiedInput)
+        return try await next.handle(context: context, input: copiedInput)
     }
-    return next.handle(context: context, input: input)
+    return try await next.handle(context: context, input: input)
 }"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
