@@ -1,3 +1,4 @@
+// TODO: remove this file when https://bugs.swift.org/browse/SR-13773?focusedCommentId=64312&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-64312 is resolved. This file is purely a workaround for the time being.
 import class Foundation.Bundle
 
 private class BundleFinder {}
