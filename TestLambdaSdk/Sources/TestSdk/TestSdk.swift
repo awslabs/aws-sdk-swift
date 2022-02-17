@@ -20,7 +20,7 @@ struct TestSdk {
             print("why is data empty")
             fatalError()
         }
-       
+       //REPLACEME: replace with your own bucket and key in the correct region above for testing the locally generated sdk.
         let input = PutObjectInput(body: ByteStream.from(data: data),
                                    bucket: "nickijustinsite", key: "4kimage.jpg")
         
