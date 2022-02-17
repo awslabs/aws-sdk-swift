@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 /*
@@ -23,7 +23,9 @@ let package = Package(
             name: "TestSdk",
             dependencies: [
                 "AWSS3"
-            ]),
+            ],
+            path: "Sources/TestSdk",
+            resources: [.copy("Resources")]),
         .testTarget(
             name: "TestSdkTests",
             dependencies: ["TestSdk"]),
