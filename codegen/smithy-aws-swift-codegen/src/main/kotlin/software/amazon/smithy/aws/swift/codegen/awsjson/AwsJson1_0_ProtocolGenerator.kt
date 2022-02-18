@@ -34,6 +34,7 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     )
     override val serdeContext = serdeContextJSON
     override val shouldRenderEncodableConformance: Boolean = true
+    override val shouldRenderDecodableBodyStructForInputShapes: Boolean = true
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
         HttpBindingResolver = AwsJsonHttpBindingResolver(ctx, defaultContentType)
 
