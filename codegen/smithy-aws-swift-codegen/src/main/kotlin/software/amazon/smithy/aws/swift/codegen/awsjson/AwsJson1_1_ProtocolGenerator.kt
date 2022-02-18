@@ -18,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCus
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
+import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -32,6 +33,7 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSJsonHttpResponseBindingErrorGenerator()
     )
     override val serdeContext = serdeContextJSON
+    override val shouldRenderEncodableConformance: Boolean = true
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
         HttpBindingResolver = AwsJsonHttpBindingResolver(ctx, defaultContentType)
 
@@ -39,6 +41,10 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         super.addProtocolSpecificMiddleware(ctx, operation)
 
         operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service))
+        // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSJson protocols
+        // we always need to have an InputBodyMiddleware
+        operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+        operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
 
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
