@@ -22,7 +22,7 @@ class RestJsonProtocolGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension SmokeTestInput: Swift.Encodable, ClientRuntime.Reflection {
+            extension SmokeTestInput: Swift.Encodable {
                 enum CodingKeys: Swift.String, Swift.CodingKey {
                     case payload1
                     case payload2
@@ -53,7 +53,7 @@ class RestJsonProtocolGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension ExplicitBlobInput: Swift.Encodable, ClientRuntime.Reflection {
+            extension ExplicitBlobInput: Swift.Encodable {
                 enum CodingKeys: Swift.String, Swift.CodingKey {
                     case payload1
                 }

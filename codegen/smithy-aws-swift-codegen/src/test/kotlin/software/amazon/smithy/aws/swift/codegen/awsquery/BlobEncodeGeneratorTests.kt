@@ -21,7 +21,7 @@ class BlobEncodeGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension BlobInputParamsInput: Swift.Encodable, ClientRuntime.Reflection {
+            extension BlobInputParamsInput: Swift.Encodable {
                 public func encode(to encoder: Swift.Encoder) throws {
                     var container = encoder.container(keyedBy: ClientRuntime.Key.self)
                     if let blobList = blobList {
