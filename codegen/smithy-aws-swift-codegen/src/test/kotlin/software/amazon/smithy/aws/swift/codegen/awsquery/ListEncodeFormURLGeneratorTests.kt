@@ -21,7 +21,7 @@ class ListEncodeFormURLGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension QueryListsInput: Swift.Encodable, ClientRuntime.Reflection {
+            extension QueryListsInput: Swift.Encodable {
                 public func encode(to encoder: Swift.Encoder) throws {
                     var container = encoder.container(keyedBy: ClientRuntime.Key.self)
                     if let complexListArg = complexListArg {
