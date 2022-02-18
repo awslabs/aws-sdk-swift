@@ -9,7 +9,7 @@
 
 import ClientRuntime
 
-extension ComplexXMLNestedErrorData: Codable, Reflection {
+extension ComplexXMLNestedErrorData: Codable {
     enum CodingKeys: String, CodingKey {
         case foo = "Foo"
     }
