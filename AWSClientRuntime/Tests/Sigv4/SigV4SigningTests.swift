@@ -40,7 +40,7 @@ class Sigv4SigningTests: XCTestCase {
             .withHeader(name: "host", value: "example.amazonaws.com")
             .withQueryItem(URLQueryItem(name: "%E1%88%B4", value: "bar"))
         
-        guard let url = try await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
+        guard let url = await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
                                                 credentialsProvider: MyCustomCredentialsProvider(),
                                                 signingName: "service",
                                                 signingRegion: "us-east-1",
