@@ -149,7 +149,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters, context.model, context.symbolProvider))
 
-        if(op.id.toString() != "com.amazonaws.s3#PutObject") {
+        if (op.id.toString() != "com.amazonaws.s3#PutObject") {
             operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
             operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
         }
