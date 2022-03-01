@@ -29,20 +29,22 @@ import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-internal val PRESIGNABLE_GET_OPERATIONS: Map<String, Set<String>> = mapOf(
+internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.polly#Parrot_v1" to setOf(
         "com.amazonaws.polly#SynthesizeSpeech"
     ),
     "com.amazonaws.s3#AmazonS3" to setOf(
-        "com.amazonaws.s3#GetObject"
+        "com.amazonaws.s3#GetObject",
+        "com.amazonaws.s3#PutObject"
     )
 )
 
-internal val PRESIGNABLE_GET_OPERATIONS_SIGNING_OPTIONS: Map<String, String> = mapOf(
-    "com.amazonaws.s3#GetObject" to "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true"
+internal val PRESIGNABLE_URL_OPERATIONS_SIGNING_OPTIONS: Map<String, String> = mapOf(
+    "com.amazonaws.s3#GetObject" to "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true",
+    "com.amazonaws.s3#PutObject" to "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true"
 )
 
-class PresignableGetIntegration(private val presignedOperations: Map<String, Set<String>> = PRESIGNABLE_GET_OPERATIONS) : SwiftIntegration {
+class PresignableUrlIntegration(private val presignedOperations: Map<String, Set<String>> = PRESIGNABLE_URL_OPERATIONS) : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
         val currentServiceId = model.expectShape<ServiceShape>(settings.service).id.toString()
 
@@ -69,7 +71,9 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
                 renderPresigner(writer, ctx, delegator, op, inputType)
             }
-            renderMiddlewareClassForQueryString(ctx, delegator, op)
+            if (presignableOperation.operationId != "com.amazonaws.s3#PutObject") {
+                renderMiddlewareClassForQueryString(ctx, delegator, op)
+            }
         }
     }
 
@@ -113,7 +117,7 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
                     protocolGenerator.httpProtocolCustomizable,
                     operationMiddleware,
                     operationStackName,
-                    ::overrideHttpMethodWithGet
+                    ::overrideHttpMethod
                 )
                 generator.render(op) { writer, _ ->
                     writer.write("return nil")
@@ -139,19 +143,22 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
         val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.BUILDSTEP, "UserAgentMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputQueryItemMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputHeadersMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters, context.model, context.symbolProvider))
-        operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
+
+        if(op.id.toString() != "com.amazonaws.s3#PutObject") {
+            operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+            operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
+        }
 
         return operationMiddlewareCopy
     }
 
     private fun customSigningParameters(op: OperationShape): String {
-        return PRESIGNABLE_GET_OPERATIONS_SIGNING_OPTIONS[op.id.toString()]?.let {
+        return PRESIGNABLE_URL_OPERATIONS_SIGNING_OPTIONS[op.id.toString()]?.let {
             it
         } ?: run {
             val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
@@ -174,7 +181,7 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
 
         val rootNamespace = ctx.settings.moduleName
         val headerMiddlewareSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/${inputSymbol.name}+QueryItemMiddlewareForPresignGet.swift")
+            .definitionFile("./$rootNamespace/models/${inputSymbol.name}+QueryItemMiddlewareForPresignUrl.swift")
             .name(inputSymbol.name)
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
@@ -191,7 +198,10 @@ class PresignableGetIntegration(private val presignedOperations: Map<String, Set
         }
     }
 
-    private fun overrideHttpMethodWithGet(): String {
-        return "get"
+    private fun overrideHttpMethod(operation: OperationShape): String {
+        return when (operation.id.toString()) {
+            "com.amazonaws.s3#PutObject" -> "put"
+            else -> "get"
+        }
     }
 }
