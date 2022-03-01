@@ -42,7 +42,7 @@ class StripHostedZoneURLPathMiddleware(
 
     override fun generateMiddlewareClosure() {
         writer.openBlock("guard let hostedZoneId = input.hostedZoneId else {", "}") {
-            writer.write("return next.handle(context: context, input: input)")
+            writer.write("return try await next.handle(context: context, input: input)")
         }
         writer.write("var copiedInput = input")
         writer.write("let stripped = hostedZoneId.stripFirstMatching(prefixes: [\"/hostedzone/\", \"hostedzone/\", \"/hostedzone\", \"hostedzone\"])")
@@ -50,6 +50,6 @@ class StripHostedZoneURLPathMiddleware(
     }
 
     override fun renderReturn() {
-        writer.write("return next.handle(context: context, input: copiedInput)")
+        writer.write("return try await next.handle(context: context, input: copiedInput)")
     }
 }
