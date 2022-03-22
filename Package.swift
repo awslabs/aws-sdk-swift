@@ -310,7 +310,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift.git", .exact("0.1.1")),
-        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift.git", .exact("0.1.3"))
+        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift.git", .exact("0.1.4"))
     ],
     targets: [
         .target(
