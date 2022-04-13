@@ -27,7 +27,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         val runtimeTimeConfigFields = sdkRuntimeConfigProperties()
 
         val awsSyncConfigFields = syncRuntimeConfigProperties()
-        
+
         writer.openBlock("public init(", ") throws {") {
             writer.write("region: Swift.String,")
             awsSyncConfigFields.forEach {
@@ -113,7 +113,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         writer.dedent().write("}")
     }
 
-    fun syncRuntimeConfigProperties(): List<ConfigField> { 
+    fun syncRuntimeConfigProperties(): List<ConfigField> {
         return listOf(
             ConfigField(
                 CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
@@ -133,7 +133,7 @@ class AWSServiceConfig(writer: SwiftWriter, serviceName: String) : ServiceConfig
         ).sortedBy { it.memberName }
     }
 
-    fun asyncRuntimeConfigProperties(): List<ConfigField> { 
+    fun asyncRuntimeConfigProperties(): List<ConfigField> {
         return listOf(
             ConfigField(
                 CREDENTIALS_PROVIDER_CONFIG_NAME, AWSClientRuntimeTypes.Core.CredentialsProvider,
