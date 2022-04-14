@@ -12,7 +12,7 @@ let releaseURL = rootURL.appendingPathComponent("release")
 
 var isDirectory = ObjCBool(true)
 if !FileManager.default.fileExists(atPath: releaseURL.path, isDirectory: &isDirectory) || !isDirectory.boolValue {
-    fatalError("Please check out a branch using a release tag. [git checkout -b v0.2.2 0.2.2]")
+    fatalError("Please check out a branch using a release tag. [git checkout -b v<% AwsCrtVersion %> <% AwsCrtVersion %>]")
 }
 
 let clientRuntime: Target.Dependency = .product(name: "ClientRuntime", package: "ClientRuntime")
@@ -67,8 +67,8 @@ let package = Package(
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
     ] + clientProducts,
     dependencies: [
-        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift.git", from: "0.2.2"),
-        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift.git", from: "0.2.3")
+        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift.git", from: "<% AwsCrtVersion %>"),
+        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift.git", from: "<% ClientRuntimeVersion %>")
     ],
     targets: [
         .target(
