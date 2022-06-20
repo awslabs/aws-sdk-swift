@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>clientRuntimeVersion</key>
-	<string>0.2.3</string>
+	<string>0.2.4</string>
 	<key>awsCRTSwiftVersion</key>
 	<string>0.2.2</string>
 </dict>
