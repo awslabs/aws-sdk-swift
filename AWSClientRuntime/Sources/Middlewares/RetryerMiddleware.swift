@@ -53,7 +53,6 @@ public struct RetryerMiddleware<Output: HttpResponseBinding,
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
           Self.Context == H.Context {
-              defer { retryer.releaseToken(token: token)}
               do {
                   let serviceResponse = try await next.handle(context: context, input: input)
                   retryer.recordSuccess(token: token)
