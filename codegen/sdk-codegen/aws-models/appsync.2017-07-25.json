@@ -539,7 +539,7 @@
                 "smithy.api#documentation": "<p>Maps an endpoint to your custom domain.</p>",
                 "smithy.api#http": {
                     "method": "POST",
-                    "uri": "/domainnames/{domainName}/apiassociation",
+                    "uri": "/v1/domainnames/{domainName}/apiassociation",
                     "code": 200
                 }
             }
@@ -1129,7 +1129,7 @@
                 "smithy.api#documentation": "<p>Creates a custom <code>DomainName</code> object.</p>",
                 "smithy.api#http": {
                     "method": "POST",
-                    "uri": "/domainnames",
+                    "uri": "/v1/domainnames",
                     "code": 200
                 }
             }
@@ -1253,6 +1253,12 @@
                 },
                 "syncConfig": {
                     "target": "com.amazonaws.appsync#SyncConfig"
+                },
+                "maxBatchSize": {
+                    "target": "com.amazonaws.appsync#MaxBatchSize",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum batching size for a resolver.</p>"
+                    }
                 }
             }
         },
@@ -1473,6 +1479,12 @@
                     "target": "com.amazonaws.appsync#CachingConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>The caching configuration for the resolver.</p>"
+                    }
+                },
+                "maxBatchSize": {
+                    "target": "com.amazonaws.appsync#MaxBatchSize",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum batching size for a resolver.</p>"
                     }
                 }
             }
@@ -1891,7 +1903,7 @@
                 "smithy.api#documentation": "<p>Deletes a custom <code>DomainName</code> object.</p>",
                 "smithy.api#http": {
                     "method": "DELETE",
-                    "uri": "/domainnames/{domainName}",
+                    "uri": "/v1/domainnames/{domainName}",
                     "code": 200
                 }
             }
@@ -2211,7 +2223,7 @@
                 "smithy.api#documentation": "<p>Removes an <code>ApiAssociation</code> object from a custom domain.</p>",
                 "smithy.api#http": {
                     "method": "DELETE",
-                    "uri": "/domainnames/{domainName}/apiassociation",
+                    "uri": "/v1/domainnames/{domainName}/apiassociation",
                     "code": 200
                 }
             }
@@ -2481,6 +2493,12 @@
                 },
                 "syncConfig": {
                     "target": "com.amazonaws.appsync#SyncConfig"
+                },
+                "maxBatchSize": {
+                    "target": "com.amazonaws.appsync#MaxBatchSize",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum batching size for a resolver.</p>"
+                    }
                 }
             },
             "traits": {
@@ -2525,7 +2543,7 @@
                 "smithy.api#documentation": "<p>Retrieves an <code>ApiAssociation</code> object.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domainnames/{domainName}/apiassociation",
+                    "uri": "/v1/domainnames/{domainName}/apiassociation",
                     "code": 200
                 }
             }
@@ -2710,7 +2728,7 @@
                 "smithy.api#documentation": "<p>Retrieves a custom <code>DomainName</code> object.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domainnames/{domainName}",
+                    "uri": "/v1/domainnames/{domainName}",
                     "code": 200
                 }
             }
@@ -3511,7 +3529,7 @@
                 "smithy.api#documentation": "<p>Lists multiple custom domain names.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domainnames",
+                    "uri": "/v1/domainnames",
                     "code": 200
                 }
             }
@@ -4050,6 +4068,16 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 65536
+                },
+                "smithy.api#pattern": "^.*$"
+            }
+        },
+        "com.amazonaws.appsync#MaxBatchSize": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 0,
+                    "max": 2000
                 }
             }
         },
@@ -4299,6 +4327,12 @@
                     "target": "com.amazonaws.appsync#CachingConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>The caching configuration for the resolver.</p>"
+                    }
+                },
+                "maxBatchSize": {
+                    "target": "com.amazonaws.appsync#MaxBatchSize",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum batching size for a resolver.</p>"
                     }
                 }
             },
@@ -4588,7 +4622,8 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 256
-                }
+                },
+                "smithy.api#pattern": "^[\\s\\w+-=\\.:/@]*$"
             }
         },
         "com.amazonaws.appsync#Type": {
@@ -5041,7 +5076,7 @@
                 "smithy.api#documentation": "<p>Updates a custom <code>DomainName</code> object.</p>",
                 "smithy.api#http": {
                     "method": "POST",
-                    "uri": "/domainnames/{domainName}",
+                    "uri": "/v1/domainnames/{domainName}",
                     "code": 200
                 }
             }
@@ -5167,6 +5202,12 @@
                 },
                 "syncConfig": {
                     "target": "com.amazonaws.appsync#SyncConfig"
+                },
+                "maxBatchSize": {
+                    "target": "com.amazonaws.appsync#MaxBatchSize",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum batching size for a resolver.</p>"
+                    }
                 }
             }
         },
@@ -5389,6 +5430,12 @@
                     "target": "com.amazonaws.appsync#CachingConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>The caching configuration for the resolver.</p>"
+                    }
+                },
+                "maxBatchSize": {
+                    "target": "com.amazonaws.appsync#MaxBatchSize",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum batching size for a resolver.</p>"
                     }
                 }
             }
