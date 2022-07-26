@@ -242,12 +242,18 @@
                         "smithy.api#required": {}
                     }
                 },
+                "ProvisionedThroughput": {
+                    "target": "com.amazonaws.kafka#ProvisionedThroughput",
+                    "traits": {
+                        "smithy.api#documentation": "EBS volume provisioned throughput information.",
+                        "smithy.api#jsonName": "provisionedThroughput"
+                    }
+                },
                 "VolumeSizeGB": {
                     "target": "com.amazonaws.kafka#__integer",
                     "traits": {
                         "smithy.api#documentation": "<p>Size of the EBS volume to update.</p>",
-                        "smithy.api#jsonName": "volumeSizeGB",
-                        "smithy.api#required": {}
+                        "smithy.api#jsonName": "volumeSizeGB"
                     }
                 }
             },
@@ -291,7 +297,7 @@
                 "ClientSubnets": {
                     "target": "com.amazonaws.kafka#__listOf__string",
                     "traits": {
-                        "smithy.api#documentation": "<p>The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't be in Availability Zone us-east-1e.</p>",
+                        "smithy.api#documentation": "<p>The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't occupy the Availability Zone with ID use use1-az3.</p>",
                         "smithy.api#jsonName": "clientSubnets",
                         "smithy.api#required": {}
                     }
@@ -1959,6 +1965,13 @@
         "com.amazonaws.kafka#EBSStorageInfo": {
             "type": "structure",
             "members": {
+                "ProvisionedThroughput": {
+                    "target": "com.amazonaws.kafka#ProvisionedThroughput",
+                    "traits": {
+                        "smithy.api#documentation": "EBS volume provisioned throughput information.",
+                        "smithy.api#jsonName": "provisionedThroughput"
+                    }
+                },
                 "VolumeSize": {
                     "target": "com.amazonaws.kafka#__integerMin1Max16384",
                     "traits": {
@@ -3689,6 +3702,28 @@
                 "smithy.api#documentation": "<p>Provisioned cluster request.</p>"
             }
         },
+        "com.amazonaws.kafka#ProvisionedThroughput": {
+            "type": "structure",
+            "members": {
+                "Enabled": {
+                    "target": "com.amazonaws.kafka#__boolean",
+                    "traits": {
+                        "smithy.api#documentation": "Provisioned throughput is enabled or not.",
+                        "smithy.api#jsonName": "enabled"
+                    }
+                },
+                "VolumeThroughput": {
+                    "target": "com.amazonaws.kafka#__integer",
+                    "traits": {
+                        "smithy.api#documentation": "Throughput value of the EBS volumes for the data drive on each kafka broker node in MiB per second.",
+                        "smithy.api#jsonName": "volumeThroughput"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Contains information about provisioned throughput for EBS storage volumes attached to kafka broker nodes."
+            }
+        },
         "com.amazonaws.kafka#PublicAccess": {
             "type": "structure",
             "members": {
@@ -3985,6 +4020,9 @@
             "input": {
                 "target": "com.amazonaws.kafka#TagResourceRequest"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.kafka#BadRequestException"
@@ -4141,6 +4179,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.kafka#UntagResourceRequest"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {

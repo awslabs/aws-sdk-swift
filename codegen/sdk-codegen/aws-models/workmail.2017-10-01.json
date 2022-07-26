@@ -328,6 +328,71 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.workmail#AvailabilityConfiguration": {
+            "type": "structure",
+            "members": {
+                "DomainName": {
+                    "target": "com.amazonaws.workmail#DomainName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Displays the domain to which the provider applies.</p>"
+                    }
+                },
+                "ProviderType": {
+                    "target": "com.amazonaws.workmail#AvailabilityProviderType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Displays the provider type that applies to this domain.</p>"
+                    }
+                },
+                "EwsProvider": {
+                    "target": "com.amazonaws.workmail#RedactedEwsAvailabilityProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If <code>ProviderType</code> is <code>EWS</code>, then this field contains\n            <code>RedactedEwsAvailabilityProvider</code>. Otherwise, it is not requried.</p>"
+                    }
+                },
+                "LambdaProvider": {
+                    "target": "com.amazonaws.workmail#LambdaAvailabilityProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If ProviderType is <code>LAMBDA</code> then this field contains\n            <code>LambdaAvailabilityProvider</code>. Otherwise, it is not required.</p>"
+                    }
+                },
+                "DateCreated": {
+                    "target": "com.amazonaws.workmail#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time at which the availability configuration was created.</p>"
+                    }
+                },
+                "DateModified": {
+                    "target": "com.amazonaws.workmail#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time at which the availability configuration was last modified.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>List all the <code>AvailabilityConfiguration</code>'s for the given WorkMail\n         organization.</p>"
+            }
+        },
+        "com.amazonaws.workmail#AvailabilityConfigurationList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.workmail#AvailabilityConfiguration"
+            }
+        },
+        "com.amazonaws.workmail#AvailabilityProviderType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "EWS",
+                        "name": "EWS"
+                    },
+                    {
+                        "value": "LAMBDA",
+                        "name": "LAMBDA"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.workmail#BookingOptions": {
             "type": "structure",
             "members": {
@@ -490,6 +555,78 @@
             }
         },
         "com.amazonaws.workmail#CreateAliasResponse": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.workmail#CreateAvailabilityConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#CreateAvailabilityConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#CreateAvailabilityConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#NameAvailabilityException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates an <code>AvailabilityConfiguration</code> for the given WorkMail organization and domain.</p>",
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.workmail#CreateAvailabilityConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "ClientToken": {
+                    "target": "com.amazonaws.workmail#IdempotencyClientToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An idempotent token that ensures that an API request is executed only once.</p>",
+                        "smithy.api#idempotencyToken": {}
+                    }
+                },
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon WorkMail organization for which the <code>AvailabilityConfiguration</code> will be created.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "DomainName": {
+                    "target": "com.amazonaws.workmail#DomainName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The domain to which the provider applies.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "EwsProvider": {
+                    "target": "com.amazonaws.workmail#EwsAvailabilityProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Exchange Web Services (EWS) availability provider definition. The request must contain exactly one provider definition, either <code>EwsProvider</code> or <code>LambdaProvider</code>.</p>"
+                    }
+                },
+                "LambdaProvider": {
+                    "target": "com.amazonaws.workmail#LambdaAvailabilityProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Lambda availability provider definition. The request must contain exactly one provider definition, either <code>EwsProvider</code> or <code>LambdaProvider</code>.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#CreateAvailabilityConfigurationResponse": {
             "type": "structure",
             "members": {}
         },
@@ -1054,6 +1191,90 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.workmail#DeleteAvailabilityConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#DeleteAvailabilityConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#DeleteAvailabilityConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes the <code>AvailabilityConfiguration</code> for the given WorkMail organization and domain.</p>",
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.workmail#DeleteAvailabilityConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon WorkMail organization for which the <code>AvailabilityConfiguration</code> will be deleted.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "DomainName": {
+                    "target": "com.amazonaws.workmail#DomainName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The domain for which the <code>AvailabilityConfiguration</code> will be deleted.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#DeleteAvailabilityConfigurationResponse": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.workmail#DeleteEmailMonitoringConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#DeleteEmailMonitoringConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#DeleteEmailMonitoringConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes the email monitoring configuration for a specified organization.</p>",
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.workmail#DeleteEmailMonitoringConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the organization from which the email monitoring configuration is deleted.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#DeleteEmailMonitoringConfigurationResponse": {
+            "type": "structure",
+            "members": {}
+        },
         "com.amazonaws.workmail#DeleteGroup": {
             "type": "operation",
             "input": {
@@ -1603,6 +1824,62 @@
         "com.amazonaws.workmail#DeregisterMailDomainResponse": {
             "type": "structure",
             "members": {}
+        },
+        "com.amazonaws.workmail#DescribeEmailMonitoringConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#DescribeEmailMonitoringConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#DescribeEmailMonitoringConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Describes the current email monitoring configuration for a specified organization.</p>",
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.workmail#DescribeEmailMonitoringConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the organization for which the email monitoring configuration is described.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#DescribeEmailMonitoringConfigurationResponse": {
+            "type": "structure",
+            "members": {
+                "RoleArn": {
+                    "target": "com.amazonaws.workmail#RoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.</p>"
+                    }
+                },
+                "LogGroupArn": {
+                    "target": "com.amazonaws.workmail#LogGroupArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration.</p>"
+                    }
+                }
+            }
         },
         "com.amazonaws.workmail#DescribeGroup": {
             "type": "operation",
@@ -2611,6 +2888,45 @@
                 "smithy.api#error": "client"
             }
         },
+        "com.amazonaws.workmail#EwsAvailabilityProvider": {
+            "type": "structure",
+            "members": {
+                "EwsEndpoint": {
+                    "target": "com.amazonaws.workmail#Url",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The endpoint of the remote EWS server.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "EwsUsername": {
+                    "target": "com.amazonaws.workmail#ExternalUserName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The username used to authenticate the remote EWS server.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "EwsPassword": {
+                    "target": "com.amazonaws.workmail#Password",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The password used to authenticate the remote EWS server.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Describes an EWS based availability provider. This is only used as input to the service.</p>"
+            }
+        },
+        "com.amazonaws.workmail#ExternalUserName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[\\u0020-\\u00FF]+$"
+            }
+        },
         "com.amazonaws.workmail#FolderConfiguration": {
             "type": "structure",
             "members": {
@@ -3305,6 +3621,31 @@
                 "smithy.api#pattern": "^arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$"
             }
         },
+        "com.amazonaws.workmail#LambdaArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 49,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^arn:aws:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9\\-_\\.]+(:(\\$LATEST|[a-zA-Z0-9\\-_]+))?$"
+            }
+        },
+        "com.amazonaws.workmail#LambdaAvailabilityProvider": {
+            "type": "structure",
+            "members": {
+                "LambdaArn": {
+                    "target": "com.amazonaws.workmail#LambdaArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Describes a Lambda based availability provider.</p>"
+            }
+        },
         "com.amazonaws.workmail#LimitExceededException": {
             "type": "structure",
             "members": {
@@ -3439,6 +3780,73 @@
                     "target": "com.amazonaws.workmail#NextToken",
                     "traits": {
                         "smithy.api#documentation": "<p>The token to use to retrieve the next page of results. The value is \"null\" when there\n         are no more results to return.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#ListAvailabilityConfigurations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#ListAvailabilityConfigurationsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#ListAvailabilityConfigurationsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>List all the <code>AvailabilityConfiguration</code>'s for the given WorkMail organization.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "AvailabilityConfigurations",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.workmail#ListAvailabilityConfigurationsRequest": {
+            "type": "structure",
+            "members": {
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon WorkMail organization for which the <code>AvailabilityConfiguration</code>'s will be\n         listed.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.workmail#MaxResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results to return in a single call.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.workmail#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token to use to retrieve the next page of results. The first call does not require a token.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#ListAvailabilityConfigurationsResponse": {
+            "type": "structure",
+            "members": {
+                "AvailabilityConfigurations": {
+                    "target": "com.amazonaws.workmail#AvailabilityConfigurationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of <code>AvailabilityConfiguration</code>'s that exist for the specified Amazon WorkMail organization.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.workmail#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token to use to retrieve the next page of results. The value is <code>null</code> when there are no further results to return.</p>"
                     }
                 }
             }
@@ -4269,6 +4677,16 @@
                 }
             }
         },
+        "com.amazonaws.workmail#LogGroupArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 47,
+                    "max": 562
+                },
+                "smithy.api#pattern": "^arn:aws:logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([\\.\\-_/#A-Za-z0-9]+):\\*$"
+            }
+        },
         "com.amazonaws.workmail#MailDomainInUseException": {
             "type": "structure",
             "members": {
@@ -5062,6 +5480,63 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.workmail#PutEmailMonitoringConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#PutEmailMonitoringConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#PutEmailMonitoringConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates or updates the email monitoring configuration for a specified organization.</p>",
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.workmail#PutEmailMonitoringConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the organization for which the email monitoring configuration is set.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RoleArn": {
+                    "target": "com.amazonaws.workmail#RoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "LogGroupArn": {
+                    "target": "com.amazonaws.workmail#LogGroupArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#PutEmailMonitoringConfigurationResponse": {
+            "type": "structure",
+            "members": {}
+        },
         "com.amazonaws.workmail#PutInboundDmarcSettings": {
             "type": "operation",
             "input": {
@@ -5313,6 +5788,26 @@
         "com.amazonaws.workmail#PutRetentionPolicyResponse": {
             "type": "structure",
             "members": {}
+        },
+        "com.amazonaws.workmail#RedactedEwsAvailabilityProvider": {
+            "type": "structure",
+            "members": {
+                "EwsEndpoint": {
+                    "target": "com.amazonaws.workmail#Url",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The endpoint of the remote EWS server.</p>"
+                    }
+                },
+                "EwsUsername": {
+                    "target": "com.amazonaws.workmail#ExternalUserName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The username used to authenticate the remote EWS server.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Describes an EWS based availability provider when returned from the service. It does not\n         contain the password of the endpoint.</p>"
+            }
         },
         "com.amazonaws.workmail#RegisterMailDomain": {
             "type": "operation",
@@ -5935,6 +6430,73 @@
                 }
             }
         },
+        "com.amazonaws.workmail#TestAvailabilityConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#TestAvailabilityConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#TestAvailabilityConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access\n         policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a <code>SourceArn</code> or <code>SourceAccount</code> header.</p>  \n         <note>\n            <p>The request must contain either one provider definition (<code>EwsProvider</code> or\n               <code>LambdaProvider</code>) or the <code>DomainName</code> parameter. If the\n               <code>DomainName</code> parameter is provided, the configuration stored under the\n               <code>DomainName</code> will be tested. </p>\n         </note>"
+            }
+        },
+        "com.amazonaws.workmail#TestAvailabilityConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon WorkMail organization where the availability provider will be tested.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "DomainName": {
+                    "target": "com.amazonaws.workmail#DomainName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The domain to which the provider applies. If this field is provided, a stored availability provider associated to this domain name will be tested.</p>"
+                    }
+                },
+                "EwsProvider": {
+                    "target": "com.amazonaws.workmail#EwsAvailabilityProvider"
+                },
+                "LambdaProvider": {
+                    "target": "com.amazonaws.workmail#LambdaAvailabilityProvider"
+                }
+            }
+        },
+        "com.amazonaws.workmail#TestAvailabilityConfigurationResponse": {
+            "type": "structure",
+            "members": {
+                "TestPassed": {
+                    "target": "com.amazonaws.workmail#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Boolean indicating whether the test passed or failed.</p>"
+                    }
+                },
+                "FailureReason": {
+                    "target": "com.amazonaws.workmail#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>String containing the reason for a failed test if <code>TestPassed</code> is false.</p>"
+                    }
+                }
+            }
+        },
         "com.amazonaws.workmail#Timestamp": {
             "type": "timestamp"
         },
@@ -6000,6 +6562,68 @@
             }
         },
         "com.amazonaws.workmail#UntagResourceResponse": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.workmail#UpdateAvailabilityConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.workmail#UpdateAvailabilityConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.workmail#UpdateAvailabilityConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.workmail#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#OrganizationStateException"
+                },
+                {
+                    "target": "com.amazonaws.workmail#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates an existing <code>AvailabilityConfiguration</code> for the given WorkMail\n         organization and domain.</p>",
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.workmail#UpdateAvailabilityConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "OrganizationId": {
+                    "target": "com.amazonaws.workmail#OrganizationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon WorkMail organization for which the <code>AvailabilityConfiguration</code> will be\n         updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "DomainName": {
+                    "target": "com.amazonaws.workmail#DomainName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The domain to which the provider applies the availability configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "EwsProvider": {
+                    "target": "com.amazonaws.workmail#EwsAvailabilityProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The EWS availability provider definition. The request must contain exactly one provider\n         definition, either <code>EwsProvider</code> or <code>LambdaProvider</code>. The previously\n         stored provider will be overridden by the one provided.</p>"
+                    }
+                },
+                "LambdaProvider": {
+                    "target": "com.amazonaws.workmail#LambdaAvailabilityProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Lambda availability provider definition. The request must contain exactly one\n         provider definition, either <code>EwsProvider</code> or <code>LambdaProvider</code>. The\n         previously stored provider will be overridden by the one provided.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workmail#UpdateAvailabilityConfigurationResponse": {
             "type": "structure",
             "members": {}
         },
@@ -6391,6 +7015,16 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.workmail#Url": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^https?://[A-Za-z0-9.-]+(:[0-9]+)?/"
+            }
+        },
         "com.amazonaws.workmail#User": {
             "type": "structure",
             "members": {
@@ -6515,6 +7149,21 @@
         },
         "com.amazonaws.workmail#WorkMailService": {
             "type": "service",
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "WorkMail",
+                    "arnNamespace": "workmail",
+                    "cloudFormationName": "WorkMail",
+                    "cloudTrailEventSource": "workmail.amazonaws.com",
+                    "endpointPrefix": "workmail"
+                },
+                "aws.auth#sigv4": {
+                    "name": "workmail"
+                },
+                "aws.protocols#awsJson1_1": {},
+                "smithy.api#documentation": "<p>Amazon WorkMail is a secure, managed business email and calendaring service with support for\n         existing desktop and mobile email clients. You can access your email, contacts, and\n         calendars using Microsoft Outlook, your browser, or other native iOS and Android email\n         applications. You can integrate WorkMail with your existing corporate directory and control\n         both the keys that encrypt your data and the location in which your data is\n         stored.</p>\n         <p>The WorkMail API is designed for the following scenarios:</p>\n         <ul>\n            <li>\n               <p>Listing and describing organizations</p>\n            </li>\n         </ul>\n         <ul>\n            <li>\n               <p>Managing users</p>\n            </li>\n         </ul>\n         <ul>\n            <li>\n               <p>Managing groups</p>\n            </li>\n         </ul>\n         <ul>\n            <li>\n               <p>Managing resources</p>\n            </li>\n         </ul>\n         <p>All WorkMail API operations are Amazon-authenticated and certificate-signed. They not\n         only require the use of the AWS SDK, but also allow for the exclusive use of AWS Identity and Access Management\n         users and roles to help facilitate access, trust, and permission policies. By creating a\n         role and allowing an IAM user to access the WorkMail site, the IAM user gains full\n         administrative visibility into the entire WorkMail organization (or as set in the IAM\n         policy). This includes, but is not limited to, the ability to create, update, and delete\n         users, groups, and resources. This allows developers to perform the scenarios listed above,\n         as well as give users the ability to grant access on a selective basis using the IAM\n         model.</p>",
+                "smithy.api#title": "Amazon WorkMail"
+            },
             "version": "2017-10-01",
             "operations": [
                 {
@@ -6528,6 +7177,9 @@
                 },
                 {
                     "target": "com.amazonaws.workmail#CreateAlias"
+                },
+                {
+                    "target": "com.amazonaws.workmail#CreateAvailabilityConfiguration"
                 },
                 {
                     "target": "com.amazonaws.workmail#CreateGroup"
@@ -6549,6 +7201,12 @@
                 },
                 {
                     "target": "com.amazonaws.workmail#DeleteAlias"
+                },
+                {
+                    "target": "com.amazonaws.workmail#DeleteAvailabilityConfiguration"
+                },
+                {
+                    "target": "com.amazonaws.workmail#DeleteEmailMonitoringConfiguration"
                 },
                 {
                     "target": "com.amazonaws.workmail#DeleteGroup"
@@ -6579,6 +7237,9 @@
                 },
                 {
                     "target": "com.amazonaws.workmail#DeregisterMailDomain"
+                },
+                {
+                    "target": "com.amazonaws.workmail#DescribeEmailMonitoringConfiguration"
                 },
                 {
                     "target": "com.amazonaws.workmail#DescribeGroup"
@@ -6629,6 +7290,9 @@
                     "target": "com.amazonaws.workmail#ListAliases"
                 },
                 {
+                    "target": "com.amazonaws.workmail#ListAvailabilityConfigurations"
+                },
+                {
                     "target": "com.amazonaws.workmail#ListGroupMembers"
                 },
                 {
@@ -6668,6 +7332,9 @@
                     "target": "com.amazonaws.workmail#PutAccessControlRule"
                 },
                 {
+                    "target": "com.amazonaws.workmail#PutEmailMonitoringConfiguration"
+                },
+                {
                     "target": "com.amazonaws.workmail#PutInboundDmarcSettings"
                 },
                 {
@@ -6695,7 +7362,13 @@
                     "target": "com.amazonaws.workmail#TagResource"
                 },
                 {
+                    "target": "com.amazonaws.workmail#TestAvailabilityConfiguration"
+                },
+                {
                     "target": "com.amazonaws.workmail#UntagResource"
+                },
+                {
+                    "target": "com.amazonaws.workmail#UpdateAvailabilityConfiguration"
                 },
                 {
                     "target": "com.amazonaws.workmail#UpdateDefaultMailDomain"
@@ -6712,22 +7385,7 @@
                 {
                     "target": "com.amazonaws.workmail#UpdateResource"
                 }
-            ],
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "WorkMail",
-                    "arnNamespace": "workmail",
-                    "cloudFormationName": "WorkMail",
-                    "cloudTrailEventSource": "workmail.amazonaws.com",
-                    "endpointPrefix": "workmail"
-                },
-                "aws.auth#sigv4": {
-                    "name": "workmail"
-                },
-                "aws.protocols#awsJson1_1": {},
-                "smithy.api#documentation": "<p>Amazon WorkMail is a secure, managed business email and calendaring service with support for\n         existing desktop and mobile email clients. You can access your email, contacts, and\n         calendars using Microsoft Outlook, your browser, or other native iOS and Android email\n         applications. You can integrate WorkMail with your existing corporate directory and control\n         both the keys that encrypt your data and the location in which your data is\n         stored.</p>\n         <p>The WorkMail API is designed for the following scenarios:</p>\n         <ul>\n            <li>\n               <p>Listing and describing organizations</p>\n            </li>\n         </ul>\n         <ul>\n            <li>\n               <p>Managing users</p>\n            </li>\n         </ul>\n         <ul>\n            <li>\n               <p>Managing groups</p>\n            </li>\n         </ul>\n         <ul>\n            <li>\n               <p>Managing resources</p>\n            </li>\n         </ul>\n         <p>All WorkMail API operations are Amazon-authenticated and certificate-signed. They not\n         only require the use of the AWS SDK, but also allow for the exclusive use of AWS Identity and Access Management\n         users and roles to help facilitate access, trust, and permission policies. By creating a\n         role and allowing an IAM user to access the WorkMail site, the IAM user gains full\n         administrative visibility into the entire WorkMail organization (or as set in the IAM\n         policy). This includes, but is not limited to, the ability to create, update, and delete\n         users, groups, and resources. This allows developers to perform the scenarios listed above,\n         as well as give users the ability to grant access on a selective basis using the IAM\n         model.</p>",
-                "smithy.api#title": "Amazon WorkMail"
-            }
+            ]
         }
     }
 }
