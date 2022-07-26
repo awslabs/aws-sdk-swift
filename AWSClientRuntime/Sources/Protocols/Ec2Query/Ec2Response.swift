@@ -7,7 +7,7 @@
         
 public struct Ec2Response: Decodable {
     public let errors: Ec2Errors
-    public let requestId: String
+    public let requestId: String?
 
     enum CodingKeys: String, CodingKey {
         case errors = "Errors"
