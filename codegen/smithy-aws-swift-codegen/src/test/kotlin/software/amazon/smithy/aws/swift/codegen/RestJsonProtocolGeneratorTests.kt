@@ -31,13 +31,13 @@ class RestJsonProtocolGeneratorTests {
             
                 public func encode(to encoder: Swift.Encoder) throws {
                     var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-                    if let payload1 = payload1 {
+                    if let payload1 = self.payload1 {
                         try encodeContainer.encode(payload1, forKey: .payload1)
                     }
-                    if let payload2 = payload2 {
+                    if let payload2 = self.payload2 {
                         try encodeContainer.encode(payload2, forKey: .payload2)
                     }
-                    if let payload3 = payload3 {
+                    if let payload3 = self.payload3 {
                         try encodeContainer.encode(payload3, forKey: .payload3)
                     }
                 }
@@ -60,7 +60,7 @@ class RestJsonProtocolGeneratorTests {
             
                 public func encode(to encoder: Swift.Encoder) throws {
                     var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-                    if let payload1 = payload1 {
+                    if let payload1 = self.payload1 {
                         try encodeContainer.encode(payload1.base64EncodedString(), forKey: .payload1)
                     }
                 }
