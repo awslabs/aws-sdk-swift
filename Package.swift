@@ -20,7 +20,7 @@ import class Foundation.FileManager
  In order to use setup local development:
 
  1. Install a Java 18 JDK if one is not already installed to your system.
-   The OpenJDK-based Amazon Corretto JDK is available at https://aws.amazon.com/corretto.
+   The OpenJDK-based Amazon Corretto JDK is available at https://aws.amazon.com/corretto .
 
  2. Create a folder:
    mkdir -p ~/Projects/Amplify/SwiftSDK
