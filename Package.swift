@@ -18,16 +18,20 @@ import class Foundation.FileManager
 
 
  In order to use setup local development:
- 1. Create a folder:
+
+ 1. Install a Java 18 JDK if one is not already installed to your system.
+   The OpenJDK-based Amazon Corretto JDK is available at https://aws.amazon.com/corretto .
+
+ 2. Create a folder:
    mkdir -p ~/Projects/Amplify/SwiftSDK
    cd ~/Projects/Amplify/SwiftSDK
 
- 2. Checkout projects:
+ 3. Checkout projects:
    git clone https://github.com/awslabs/aws-sdk-swift.git
    git clone https://github.com/awslabs/smithy-swift.git
    git clone https://github.com/awslabs/aws-crt-swift.git --recursive
 
- 3.  Build
+ 4.  Build
    cd ~/Projects/Amplify/SwiftSDK/aws-sdk-swift
    echo "compositeProjects=$HOME/Projects/Amplify/SwiftSDK/smithy-swift" >> local.properties
    ./gradlew -p codegen/sdk-codegen build
