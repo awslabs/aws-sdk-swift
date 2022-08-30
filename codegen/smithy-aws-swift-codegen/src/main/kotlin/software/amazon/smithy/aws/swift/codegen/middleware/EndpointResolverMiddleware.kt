@@ -20,7 +20,10 @@ import software.amazon.smithy.swift.codegen.integration.steps.OperationBuildStep
  * Generates endpoint middleware for the service.
  */
 class EndpointResolverMiddleware(
-    private val writer: SwiftWriter, inputSymbol: Symbol, outputSymbol: Symbol, outputErrorSymbol: Symbol
+    private val writer: SwiftWriter,
+    inputSymbol: Symbol,
+    outputSymbol: Symbol,
+    outputErrorSymbol: Symbol
 ) : Middleware(writer, inputSymbol, OperationBuildStep(outputSymbol, outputErrorSymbol)) {
 
     override val id: String = "EndpointResolverMiddleware"

@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.aws.reterminus.EndpointRuleset
 import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
-import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
 import software.amazon.smithy.rulesengine.traits.ContextParamTrait
@@ -22,8 +21,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.toCamelCase
-import java.lang.StringBuilder
-import java.util.StringJoiner
 
 /**
  * Generates EndpointResolverMiddleware interception code.

@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.reterminus.EndpointRuleset
-import software.amazon.smithy.aws.reterminus.eval.Value
 import software.amazon.smithy.aws.reterminus.lang.parameters.Parameter
 import software.amazon.smithy.aws.reterminus.lang.parameters.ParameterType
 import software.amazon.smithy.codegen.core.CodegenException
