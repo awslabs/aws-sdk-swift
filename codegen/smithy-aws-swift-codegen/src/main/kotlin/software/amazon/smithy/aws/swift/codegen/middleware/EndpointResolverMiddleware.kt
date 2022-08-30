@@ -50,13 +50,7 @@ class EndpointResolverMiddleware(
     override fun generateMiddlewareClosure() {
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
-        writer.write("var endpoint: Endpoint")
-        writer.openBlock("do {", "} catch {") {
-            writer.write("endpoint = try endpointResolver.resolve(params: endpointParams)")
-        }
-        writer.indent()
-            .write("throw \$N.client(ClientError.unknownError((\"Unable to resolve endpoint.\")))", errorType).dedent()
-            .write("}")
+        writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
 
         writer.write("")
         writer.openBlock("guard let authScheme = endpoint.authScheme(name: \"sigv4\") else {", "}") {
