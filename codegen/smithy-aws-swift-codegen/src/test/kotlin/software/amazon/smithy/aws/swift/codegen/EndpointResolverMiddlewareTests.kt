@@ -45,12 +45,7 @@ class EndpointResolverMiddlewareTests {
                 Self.MOutput == H.Output,
                 Self.Context == H.Context
                 {
-                    var endpoint: Endpoint
-                    do {
-                        endpoint = try endpointResolver.resolve(params: endpointParams)
-                    } catch {
-                        throw ClientRuntime.SdkError<OperationStackError>.client(ClientError.unknownError(("Unable to resolve endpoint.")))
-                    }
+                    let endpoint = try endpointResolver.resolve(params: endpointParams)
             
                     guard let authScheme = endpoint.authScheme(name: "sigv4") else {
                         throw ClientRuntime.SdkError<OperationStackError>.client(ClientError.unknownError(("Unable to resolve endpoint. Missing auth scheme.")))
