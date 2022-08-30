@@ -47,7 +47,6 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
     override val typesToConformConfigTo: List<Symbol>
         get() = listOf(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
 
-
     override fun renderInitializers(serviceSymbol: Symbol) {
         val runtimeConfigs = sdkRuntimeConfigProperties()
         var otherConfigs = otherRuntimeConfigProperties()
@@ -301,4 +300,3 @@ object AWSServiceTypes {
         this.name = name
     }
 }
-
