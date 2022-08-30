@@ -12,7 +12,6 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ConfigField
-import software.amazon.smithy.swift.codegen.integration.ENDPOINT
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
@@ -29,6 +28,7 @@ const val SIGNING_REGION_CONFIG_NAME = "signingRegion"
 const val USE_FIPS_CONFIG_NAME = "useFips"
 const val USE_DUAL_STACK_CONFIG_NAME = "useDualStack"
 const val RUNTIME_CONFIG_NAME = "runtimeConfig"
+const val ENDPOINT_CONFIG_NAME = "endpoint"
 
 val runtimeConfig = ConfigField(
     RUNTIME_CONFIG_NAME,
@@ -39,10 +39,6 @@ val runtimeConfig = ConfigField(
 
 class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.GenerationContext) :
     ServiceConfig(writer, ctx.symbolProvider.toSymbol(ctx.service).name) {
-
-    override val runtimeConfigNames: Set<String> = super.runtimeConfigNames + setOf(
-        ENDPOINT, REGION_CONFIG_NAME, USE_FIPS_CONFIG_NAME, USE_DUAL_STACK_CONFIG_NAME
-    )
 
     override val typesToConformConfigTo: List<Symbol>
         get() = listOf(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
@@ -242,7 +238,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
     override fun otherRuntimeConfigProperties(): List<ConfigField> {
         return listOf(
-            ConfigField(ENDPOINT, SwiftTypes.String, "\$T"),
+            ConfigField(ENDPOINT_CONFIG_NAME, SwiftTypes.String, "\$T"),
             ConfigField(
                 CREDENTIALS_PROVIDER_CONFIG_NAME,
                 AWSClientRuntimeTypes.Core.CredentialsProvider,
