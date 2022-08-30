@@ -1,6 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
@@ -51,7 +52,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         return presignedOperations.keys.contains(currentServiceId)
     }
 
-    override fun writeAdditionalFiles(ctx: CodegenContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: CodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
         if (!AWSSigningMiddleware.isSupportedAuthentication(ctx.model, service)) return
@@ -69,7 +70,8 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
-                renderPresigner(writer, ctx, delegator, op, inputType)
+                val serviceConfig = AWSServiceConfig(writer, protocolGenerationContext)
+                renderPresigner(writer, ctx, delegator, op, inputType, serviceConfig)
             }
             if (presignableOperation.operationId != "com.amazonaws.s3#PutObject") {
                 renderMiddlewareClassForQueryString(ctx, delegator, op)
@@ -82,7 +84,8 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         ctx: CodegenContext,
         delegator: SwiftDelegator,
         op: OperationShape,
-        inputType: String
+        inputType: String,
+        serviceConfig: AWSServiceConfig
     ) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
@@ -97,7 +100,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
                 "public func presignURL(config: \$N, expiration: \$N) async throws -> \$T {", "}",
-                AWSClientRuntimeTypes.Core.AWSClientConfiguration,
+                serviceConfig.typeProtocol,
                 SwiftTypes.Int64,
                 ClientRuntimeTypes.Core.URL
             ) {

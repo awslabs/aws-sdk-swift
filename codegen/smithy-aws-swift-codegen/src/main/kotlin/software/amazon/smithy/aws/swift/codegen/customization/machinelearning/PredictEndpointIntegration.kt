@@ -30,7 +30,7 @@ class PredictEndpointIntegration(private val enabledOperations: Map<String, Set<
         val currentServiceId = model.expectShape<ServiceShape>(settings.service).id.toString()
         return enabledOperations.keys.contains(currentServiceId)
     }
-    override fun writeAdditionalFiles(ctx: CodegenContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: CodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)

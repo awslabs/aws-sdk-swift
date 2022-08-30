@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.swift.codegen.core.GenerationContext
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class PresignerGeneratorTests {
 
@@ -19,7 +20,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension GetFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -43,7 +44,8 @@ class PresignerGeneratorTests {
                     var operation = ClientRuntime.OperationStack<GetFooInput, GetFooOutputResponse, GetFooOutputError>(id: "getFoo")
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFooInput, GetFooOutputResponse, GetFooOutputError>())
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFooInput, GetFooOutputResponse>())
-                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetFooOutputResponse, GetFooOutputError>(endpointResolver: config.endpointResolver, serviceId: serviceName))
+                    let endpointParams = EndpointParams()
+                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFooOutputResponse, GetFooOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
                     let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0")
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
                     operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetFooOutputResponse, GetFooOutputError>(retryer: config.retryer))
@@ -73,7 +75,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PostFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -97,7 +99,8 @@ class PresignerGeneratorTests {
                     var operation = ClientRuntime.OperationStack<PostFooInput, PostFooOutputResponse, PostFooOutputError>(id: "postFoo")
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostFooInput, PostFooOutputResponse, PostFooOutputError>())
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostFooInput, PostFooOutputResponse>())
-                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PostFooOutputResponse, PostFooOutputError>(endpointResolver: config.endpointResolver, serviceId: serviceName))
+                    let endpointParams = EndpointParams()
+                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostFooOutputResponse, PostFooOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
                     let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0")
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
                     operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostFooInput, PostFooOutputResponse>(contentType: "application/json"))
@@ -130,7 +133,7 @@ class PresignerGeneratorTests {
             import ClientRuntime
             
             extension PutFooInput {
-                public func presign(config: AWSClientRuntime.AWSClientConfiguration, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "Example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -154,7 +157,8 @@ class PresignerGeneratorTests {
                     var operation = ClientRuntime.OperationStack<PutFooInput, PutFooOutputResponse, PutFooOutputError>(id: "putFoo")
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFooInput, PutFooOutputResponse, PutFooOutputError>())
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFooInput, PutFooOutputResponse>())
-                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutFooOutputResponse, PutFooOutputError>(endpointResolver: config.endpointResolver, serviceId: serviceName))
+                    let endpointParams = EndpointParams()
+                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFooOutputResponse, PutFooOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
                     let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0")
                     operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
                     operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFooInput, PutFooOutputResponse>(contentType: "application/json"))
@@ -182,8 +186,9 @@ class PresignerGeneratorTests {
         val generator = AWSRestJson1ProtocolGenerator()
 
         val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, generator)
+        val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
         codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
-        presigner.writeAdditionalFiles(codegenContext, context.ctx.delegator)
+        presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
         context.ctx.delegator.flushWriters()
         return context
     }

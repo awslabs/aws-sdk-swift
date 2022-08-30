@@ -79,12 +79,12 @@ class RestJsonProtocolGeneratorTests {
             public class ExampleClient {
                 public static let clientName = "ExampleClient"
                 let client: ClientRuntime.SdkHttpClient
-                let config: AWSClientRuntime.AWSClientConfiguration
+                let config: ExampleClientConfigurationProtocol
                 let serviceName = "Example"
                 let encoder: ClientRuntime.RequestEncoder
                 let decoder: ClientRuntime.ResponseDecoder
             
-                public init(config: AWSClientRuntime.AWSClientConfiguration) {
+                public init(config: ExampleClientConfigurationProtocol) {
                     client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
                     let encoder = ClientRuntime.JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
@@ -101,18 +101,17 @@ class RestJsonProtocolGeneratorTests {
                     let config = try ExampleClientConfiguration(region: region)
                     self.init(config: config)
                 }
-
+            
                 public convenience init() async throws {
                     let config = try await ExampleClientConfiguration()
                     self.init(config: config)
                 }
-
+            
                 deinit {
                     client.close()
                 }
             
-                public class ExampleClientConfiguration: AWSClientRuntime.AWSClientConfiguration {
-            
+                public class ExampleClientConfiguration: ExampleClientConfigurationProtocol {
                     public var clientLogMode: ClientRuntime.ClientLogMode
                     public var decoder: ClientRuntime.ResponseDecoder?
                     public var encoder: ClientRuntime.RequestEncoder?
@@ -123,69 +122,41 @@ class RestJsonProtocolGeneratorTests {
                     public var retryer: ClientRuntime.SDKRetryer
             
                     public var credentialsProvider: AWSClientRuntime.CredentialsProvider
-                    public var endpointResolver: AWSClientRuntime.EndpointResolver
+                    public var endpoint: Swift.String?
                     public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
                     public var region: Swift.String?
                     public var regionResolver: AWSClientRuntime.RegionResolver?
                     public var signingRegion: Swift.String?
-
-                    public init(
-                        region: Swift.String,
-                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
-                        endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
-                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-                        signingRegion: Swift.String? = nil,
-                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
-                    ) throws {
-                        self.region = region
-                        self.signingRegion = signingRegion ?? region
-                        self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
-                        if let credProvider = credentialsProvider {
-                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
-                        } else {
-                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
-                        }
-                        self.frameworkMetadata = frameworkMetadata
-                        self.clientLogMode = runtimeConfig.clientLogMode
-                        self.decoder = runtimeConfig.decoder
-                        self.encoder = runtimeConfig.encoder
-                        self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
-                        self.httpClientEngine = runtimeConfig.httpClientEngine
-                        self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
-                        self.logger = runtimeConfig.logger
-                        self.retryer = runtimeConfig.retryer
-                    }
-
-                    public convenience init(
-                        region: Swift.String,
-                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
-                        endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
-                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-                        signingRegion: Swift.String? = nil
-                    ) throws {
-                        let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
-                        try self.init(region: region, credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, frameworkMetadata: frameworkMetadata, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
-                    }
-
+                    public var useDualStack: Swift.Bool?
+                    public var useFips: Swift.Bool?
+            
+                    public var endpointResolver: EndpointResolver
+            
                     public init(
                         credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
-                        endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
+                        endpoint: Swift.String? = nil,
+                        endpointResolver: EndpointResolver? = nil,
                         frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+                        region: Swift.String,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
+                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration,
                         signingRegion: Swift.String? = nil,
-                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration
-                    ) async throws {
-                        let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
-                        self.region = await resolvedRegionResolver.resolveRegion()
-                        self.regionResolver = resolvedRegionResolver
-                        self.signingRegion = signingRegion ?? region
-                        self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
+                        useDualStack: Swift.Bool? = nil,
+                        useFips: Swift.Bool? = nil
+                    ) throws {
                         if let credProvider = credentialsProvider {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
                         } else {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
                         }
+                        self.endpoint = endpoint
+                        self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
                         self.frameworkMetadata = frameworkMetadata
+                        self.region = region
+                        self.regionResolver = regionResolver ?? DefaultRegionResolver()
+                        self.signingRegion = signingRegion ?? region
+                        self.useDualStack = useDualStack
+                        self.useFips = useFips
                         self.clientLogMode = runtimeConfig.clientLogMode
                         self.decoder = runtimeConfig.decoder
                         self.encoder = runtimeConfig.encoder
@@ -198,14 +169,89 @@ class RestJsonProtocolGeneratorTests {
             
                     public convenience init(
                         credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
-                        endpointResolver: AWSClientRuntime.EndpointResolver? = nil,
+                        endpoint: Swift.String? = nil,
+                        endpointResolver: EndpointResolver? = nil,
+                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+                        region: Swift.String,
+                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
+                        signingRegion: Swift.String? = nil,
+                        useDualStack: Swift.Bool? = nil,
+                        useFips: Swift.Bool? = nil
+                    ) throws {
+                        let runtimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
+                        try self.init(
+                            credentialsProvider: credentialsProvider,
+                            endpoint: endpoint,
+                            endpointResolver: endpointResolver,
+                            frameworkMetadata: frameworkMetadata,
+                            region: region,
+                            regionResolver: regionResolver,
+                            runtimeConfig: runtimeConfig,
+                            signingRegion: signingRegion,
+                            useDualStack: useDualStack,
+                            useFips: useFips
+                        )
+                    }
+            
+                    public init(
+                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
+                        endpoint: Swift.String? = nil,
+                        endpointResolver: EndpointResolver? = nil,
                         frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
-                        signingRegion: Swift.String? = nil
+                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration,
+                        signingRegion: Swift.String? = nil,
+                        useDualStack: Swift.Bool? = nil,
+                        useFips: Swift.Bool? = nil
                     ) async throws {
-                        let defaultRuntimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
-                        try await self.init(credentialsProvider: credentialsProvider, endpointResolver: endpointResolver, frameworkMetadata: frameworkMetadata, regionResolver: regionResolver, signingRegion: signingRegion, runtimeConfig: defaultRuntimeConfig)
+                        if let credProvider = credentialsProvider {
+                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
+                        } else {
+                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
+                        }
+                        self.endpoint = endpoint
+                        self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
+                        self.frameworkMetadata = frameworkMetadata
+                        let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
+                        self.region = await resolvedRegionResolver.resolveRegion()
+                        self.regionResolver = regionResolver ?? DefaultRegionResolver()
+                        self.signingRegion = signingRegion ?? region
+                        self.useDualStack = useDualStack
+                        self.useFips = useFips
+                        self.clientLogMode = runtimeConfig.clientLogMode
+                        self.decoder = runtimeConfig.decoder
+                        self.encoder = runtimeConfig.encoder
+                        self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
+                        self.httpClientEngine = runtimeConfig.httpClientEngine
+                        self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
+                        self.logger = runtimeConfig.logger
+                        self.retryer = runtimeConfig.retryer
                     }
+            
+                    public convenience init(
+                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
+                        endpoint: Swift.String? = nil,
+                        endpointResolver: EndpointResolver? = nil,
+                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+                        regionResolver: AWSClientRuntime.RegionResolver? = nil,
+                        signingRegion: Swift.String? = nil,
+                        useDualStack: Swift.Bool? = nil,
+                        useFips: Swift.Bool? = nil
+                    ) async throws {
+                        let runtimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
+                        try await self.init(
+                            credentialsProvider: credentialsProvider,
+                            endpoint: endpoint,
+                            endpointResolver: endpointResolver,
+                            frameworkMetadata: frameworkMetadata,
+                            regionResolver: regionResolver,
+                            runtimeConfig: runtimeConfig,
+                            signingRegion: signingRegion,
+                            useDualStack: useDualStack,
+                            useFips: useFips
+                        )
+                    }
+            
                 }
             }
             

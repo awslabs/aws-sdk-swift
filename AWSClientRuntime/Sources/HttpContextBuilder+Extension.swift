@@ -10,8 +10,8 @@ import ClientRuntime
 extension HttpContext {
     static let credentialsProvider = AttributeKey<CredentialsProvider>(name: "CredentialsProvider")
     static let region = AttributeKey<String>(name: "Region")
-    static let signingName = AttributeKey<String>(name: "SigningName")
-    static let signingRegion = AttributeKey<String>(name: "SigningRegion")
+    public static let signingName = AttributeKey<String>(name: "SigningName")
+    public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
 
     func getCredentialsProvider() -> CredentialsProvider? {
         return attributes.get(key: HttpContext.credentialsProvider)
