@@ -7,6 +7,10 @@ plugins {
     jacoco
 }
 
+configurations.implementation {
+    exclude(group = "brazil")
+}
+
 group = "software.amazon.smithy"
 version = "0.1.0"
 
@@ -25,6 +29,8 @@ dependencies {
     implementation("software.amazon.smithy:smithy-protocol-test-traits:$smithyVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
+    implementation("software.amazon.smithy:smithy-rules-engine:$smithyVersion")
+    implementation("software.amazon.smithy:reterminus-core:0.2.0")
 }
 
 jacoco {

@@ -29,7 +29,7 @@ data class PresignableOperation(
 )
 
 class PresignerGenerator : SwiftIntegration {
-    override fun writeAdditionalFiles(ctx: CodegenContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: CodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
         if (!AWSSigningMiddleware.isSupportedAuthentication(ctx.model, service)) return
@@ -44,7 +44,8 @@ class PresignerGenerator : SwiftIntegration {
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
-                renderPresigner(writer, ctx, delegator, op, inputType)
+                var serviceConfig = AWSServiceConfig(writer, protoCtx)
+                renderPresigner(writer, ctx, delegator, op, inputType, serviceConfig)
             }
         }
     }
@@ -54,7 +55,8 @@ class PresignerGenerator : SwiftIntegration {
         ctx: CodegenContext,
         delegator: SwiftDelegator,
         op: OperationShape,
-        inputType: String
+        inputType: String,
+        serviceConfig: AWSServiceConfig
     ) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
@@ -67,7 +69,7 @@ class PresignerGenerator : SwiftIntegration {
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("public func presign(config: \$N, expiration: \$N) async throws -> \$T {", "}", AWSClientConfiguration, SwiftTypes.Int64, SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$N, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeProtocol, SwiftTypes.Int64, SdkHttpRequest) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
                 val operationStackName = "operation"

@@ -15,7 +15,7 @@ public struct AWSEndpoint: Equatable {
     The endpoint object contains the host name (e.g. "{service-id}.{region}.amazonaws.com"),
     the transport protocol (e.g. "HTTPS") and the port to connect to when making requests to this endpoint.
      */
-    let endpoint: Endpoint
+    public let endpoint: Endpoint
 
     /**
     Flag indicating that the hostname can be modified by the SDK client.
@@ -24,17 +24,17 @@ public struct AWSEndpoint: Equatable {
     is expected to be mutable and the client cannot modify the endpoint correctly, the operation
     will likely fail.
     */
-    let isHostnameImmutable: Bool
+    public let isHostnameImmutable: Bool
     /**
      The service name that should be used for signing requests to this endpoint.
      This overrides the default signing name used by an SDK client.
      */
-    let signingName: String?
+    public let signingName: String?
     /**
     The region that should be used for signing requests to this endpoint.
     This overrides the default signing region used by an SDK client.
      */
-    let signingRegion: String?
+    public let signingRegion: String?
     
     public init(endpoint: Endpoint,
                 isHostnameImmutable: Bool = false,
@@ -54,5 +54,20 @@ public struct AWSEndpoint: Equatable {
         
         let candidate = partitions.first { $0.canResolveEndpoint(region: region)} ?? partitions[0]
         return try candidate.resolveEndpoint(region: region)
+    }
+}
+
+extension Endpoint {
+    public func authScheme(name: String) -> [String: Any]? {
+        guard let authSchemes = properties["authSchemes"] as? [[String: Any]],
+              let scheme = authSchemes.first(where: {
+                  guard let schemeName = $0["name"] as? String else {
+                      return false
+                  }
+                  return name == schemeName }) else {
+            return nil
+        }
+        
+        return scheme
     }
 }
