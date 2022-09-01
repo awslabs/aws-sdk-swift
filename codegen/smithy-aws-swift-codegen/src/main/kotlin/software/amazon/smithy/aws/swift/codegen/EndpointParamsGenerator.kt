@@ -61,17 +61,17 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleset?) {
 }
 
 fun Parameter.toSymbol(): Symbol {
-    val swiftType = when (this.type) {
+    val swiftType = when (type) {
         ParameterType.STRING -> SwiftTypes.String
         ParameterType.BOOLEAN -> SwiftTypes.Bool
-        else -> throw CodegenException("Unsupported parameter type: ${this.type}")
+        else -> throw CodegenException("Unsupported parameter type: ${type}")
     }
     var builder = Symbol.builder().name(swiftType.fullName)
-    if (!this.isRequired) {
+    if (!isRequired) {
         builder = builder.boxed()
     }
 
-    this.defaultValue.ifPresent { defaultValue ->
+    defaultValue.ifPresent { defaultValue ->
         builder.defaultValue(defaultValue.toString())
     }
 
