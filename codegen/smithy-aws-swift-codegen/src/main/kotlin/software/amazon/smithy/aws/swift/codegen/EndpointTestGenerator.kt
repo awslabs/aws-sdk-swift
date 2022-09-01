@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.reterminus.EndpointRuleset
 import software.amazon.smithy.aws.reterminus.eval.Value
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
@@ -19,6 +20,7 @@ import software.amazon.smithy.swift.codegen.utils.toCamelCase
  */
 class EndpointTestGenerator(
     private val endpointTest: EndpointTestsTrait,
+    private val endpointRuleSet: EndpointRuleset?,
     private val ctx: ProtocolGenerator.GenerationContext
 ) {
     fun render(writer: SwiftWriter) {
@@ -30,22 +32,26 @@ class EndpointTestGenerator(
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
         writer.addImport(SwiftDependency.XCTest.target)
 
+        // used to filter out test params that are not valid
+        val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
+
         writer.openBlock("class EndpointResolverTest: XCTestCase {", "}") {
             endpointTest.testCases.forEachIndexed { idx, testCase ->
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve$idx() throws {", "}") {
                     writer.openBlock("let endpointParams = EndpointParams(", ")") {
-                        testCase.params.members.toSortedMap(compareBy { it.value }).map { (key, value) ->
-                            key to value
-                        }.forEachIndexed { idx, pair ->
-                            writer.writeInline("${pair.first.value.toCamelCase()}: ")
-                            val value = Value.fromNode(pair.second)
-                            writer.call {
-                                generateValue(
-                                    writer, value, if (idx < testCase.params.members.values.count() - 1) "," else ""
-                                )
+                        testCase.params.members.filter { endpointParamsMembers.contains(it.key.value) }
+                            .toSortedMap(compareBy { it.value }).map { (key, value) ->
+                                key to value
+                            }.forEachIndexed { idx, pair ->
+                                writer.writeInline("${pair.first.value.toCamelCase()}: ")
+                                val value = Value.fromNode(pair.second)
+                                writer.call {
+                                    generateValue(
+                                        writer, value, if (idx < testCase.params.members.values.count() - 1) "," else ""
+                                    )
+                                }
                             }
-                        }
                     }
                     writer.write("let resolver = DefaultEndpointResolver()").write("")
 
