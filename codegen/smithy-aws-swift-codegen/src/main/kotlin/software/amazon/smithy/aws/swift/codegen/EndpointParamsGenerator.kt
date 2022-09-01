@@ -54,10 +54,7 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleset?) {
             val memberName = param.name.toString().toCamelCase()
             val memberSymbol = param.toSymbol()
             val optional = if (param.isRequired) "" else "?"
-            val documentation = param.documentation.getOrNull()
-            if (documentation != null) {
-                writer.write("/// $documentation")
-            }
+            param.documentation.getOrNull()?.let { writer.write("/// $it") }
             writer.write("public let \$L: \$L$optional", memberName, memberSymbol)
         }
     }
