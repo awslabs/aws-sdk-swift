@@ -36,7 +36,7 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleset?) {
             for ((index, param) in parameters.withIndex()) {
                 val memberName = param.name.toString().toCamelCase()
                 val memberSymbol = param.toSymbol()
-                val terminator = if (index != parameters.lastIndex) ", " else ""
+                val terminator = if (index != parameters.lastIndex) "," else ""
                 writer.write("$memberName: \$D$terminator", memberSymbol)
             }
         }
