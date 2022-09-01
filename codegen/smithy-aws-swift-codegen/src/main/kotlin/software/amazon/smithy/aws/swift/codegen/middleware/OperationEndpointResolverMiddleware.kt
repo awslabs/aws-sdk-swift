@@ -43,8 +43,7 @@ class OperationEndpointResolverMiddleware(
         ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
             val ruleSet = EndpointRuleset.fromNode(node)
             val staticContextParams = op.getTrait<StaticContextParamsTrait>()?.parameters ?: emptyMap()
-            val clientContextParams =
-                ctx.service.getTrait<ClientContextParamsTrait>()?.parameters ?: emptyMap()
+            ctx.service.getTrait<ClientContextParamsTrait>()?.parameters ?: emptyMap()
             val parameters = ruleSet.parameters.toList()
             parameters.toList()
                 .sortedBy { it.name.toString() }
@@ -73,10 +72,7 @@ class OperationEndpointResolverMiddleware(
                 }
         }
         writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>(${middlewareParamsString()}))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
-    }
-
-    private fun middlewareParamsString(): String {
-        return "endpointResolver: config.endpointResolver, endpointParams: endpointParams"
+        val middlewareParamsString = "endpointResolver: config.endpointResolver, endpointParams: endpointParams"
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>(${middlewareParamsString}))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
     }
 }
