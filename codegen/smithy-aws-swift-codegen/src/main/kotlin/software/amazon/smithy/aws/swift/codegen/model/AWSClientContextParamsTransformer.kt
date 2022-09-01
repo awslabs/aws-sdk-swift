@@ -34,7 +34,7 @@ class AWSClientContextParamsTransformer : SwiftIntegration {
                         trait?.toBuilder() as ClientContextParamsTrait.Builder? ?: ClientContextParamsTrait.builder()
 
                     shape.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { ruleSet ->
-                        var endpointRuleSet = EndpointRuleset.fromNode(ruleSet)
+                        val endpointRuleSet = EndpointRuleset.fromNode(ruleSet)
                         endpointRuleSet.parameters.toList().filter {
                             it.builtIn?.getOrNull()?.let { builtIn ->
                                 builtIn.split("::").size == 3
