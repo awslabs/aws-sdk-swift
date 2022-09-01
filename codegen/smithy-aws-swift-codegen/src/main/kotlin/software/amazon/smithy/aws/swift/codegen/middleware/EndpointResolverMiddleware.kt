@@ -53,7 +53,7 @@ class EndpointResolverMiddleware(
         writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
 
         writer.write("")
-        writer.openBlock("guard let authScheme = endpoint.authScheme(name: \"sigv4\") else {", "}") {
+        writer.openBlock("""guard let authScheme = endpoint.authScheme(name: "sigv4") else {""", "}") {
             writer.write(
                 "throw \$N.client(ClientError.unknownError((\"Unable to resolve endpoint. Unsupported auth scheme.\")))",
                 errorType
@@ -61,14 +61,14 @@ class EndpointResolverMiddleware(
         }
 
         writer.write("")
-        writer.write("let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme[\"signingName\"] as? String, signingRegion: authScheme[\"signingRegion\"] as? String)")
+        writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme["signingName"] as? String, signingRegion: authScheme["signingRegion"] as? String)""")
 
         writer.write("")
-        writer.write("var host = \"\"")
+        writer.write("""var host = """"")
         writer.openBlock("if let hostOverride = context.getHost() {", "} else {") {
             writer.write("host = hostOverride")
         }
-        writer.indent().write("host = \"\\(context.getHostPrefix() ?? \"\")\\(awsEndpoint.endpoint.host)\"").dedent()
+        writer.indent().write("""host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"""").dedent()
             .write("}")
 
         writer.write("")
@@ -91,7 +91,7 @@ class EndpointResolverMiddleware(
         writer.write(".withHost(host)")
         writer.write(".withPort(awsEndpoint.endpoint.port)")
         writer.write(".withPath(context.getPath())")
-        writer.write(".withHeader(name: \"Host\", value: host)")
+        writer.write(""".withHeader(name: "Host", value: host)""")
         writer.dedent()
         writer.write("")
     }
