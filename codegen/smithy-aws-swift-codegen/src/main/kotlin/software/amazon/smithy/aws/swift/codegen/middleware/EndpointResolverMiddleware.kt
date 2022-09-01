@@ -55,7 +55,7 @@ class EndpointResolverMiddleware(
         writer.write("")
         writer.openBlock("guard let authScheme = endpoint.authScheme(name: \"sigv4\") else {", "}") {
             writer.write(
-                "throw \$N.client(ClientError.unknownError((\"Unable to resolve endpoint. Missing auth scheme.\")))",
+                "throw \$N.client(ClientError.unknownError((\"Unable to resolve endpoint. Unsupported auth scheme.\")))",
                 errorType
             )
         }
