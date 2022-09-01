@@ -25,7 +25,7 @@ import software.amazon.smithy.swift.codegen.model.getTrait
 class AWSClientContextParamsTransformer : SwiftIntegration {
     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
         val transformer = ModelTransformer.create()
-        val updated = transformer.mapShapes(model) { shape ->
+        return transformer.mapShapes(model) { shape ->
             when (shape) {
                 is ServiceShape -> {
                     val shapeBuilder = shape.toBuilder()
@@ -55,8 +55,6 @@ class AWSClientContextParamsTransformer : SwiftIntegration {
                 else -> shape
             }
         }
-
-        return updated
     }
 }
 
