@@ -24,9 +24,10 @@ class EndpointResolverGenerator() {
     fun render(ctx: ProtocolGenerator.GenerationContext) {
         val rootNamespace = ctx.settings.moduleName
 
+        val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
+        val ruleSet = if (ruleSetNode != null) EndpointRuleset.fromNode(ruleSetNode) else null
+
         ctx.delegator.useFileWriter("./$rootNamespace/EndpointResolver.swift") {
-            val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
-            val ruleSet = if (ruleSetNode != null) EndpointRuleset.fromNode(ruleSetNode) else null
             val endpointParamsGenerator = EndpointParamsGenerator(ruleSet)
             endpointParamsGenerator.render(it)
         }
@@ -50,7 +51,7 @@ class EndpointResolverGenerator() {
             }
 
             ctx.delegator.useFileWriter("./${ctx.settings.moduleName}Tests/EndpointResolverTest.swift") { swiftWriter ->
-                EndpointTestGenerator(testsTrait, ctx).render(swiftWriter)
+                EndpointTestGenerator(testsTrait, ruleSet, ctx).render(swiftWriter)
             }
         }
     }
