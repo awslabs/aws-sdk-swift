@@ -8,8 +8,8 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.reterminus.EndpointRuleset
 import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
+import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDependency
@@ -19,9 +19,8 @@ import software.amazon.smithy.swift.codegen.model.getTrait
 
 /**
  * Generates a per/service endpoint resolver (internal to the generated SDK) using endpoints.json
- * @param endpointData Parsed endpoints.json [ObjectNode]
  */
-class EndpointResolverGenerator(private val endpointData: ObjectNode) {
+class EndpointResolverGenerator() {
     fun render(ctx: ProtocolGenerator.GenerationContext) {
         val rootNamespace = ctx.settings.moduleName
 
@@ -43,6 +42,16 @@ class EndpointResolverGenerator(private val endpointData: ObjectNode) {
             it.addImport(SwiftDependency.CLIENT_RUNTIME.target)
             it.write("")
             MiddlewareGenerator(it, middleware).generate()
+        }
+
+        ctx.service.getTrait<EndpointTestsTrait>()?.let { testsTrait ->
+            if (testsTrait.testCases.isEmpty()) {
+                return
+            }
+
+            ctx.delegator.useFileWriter("./${ctx.settings.moduleName}Tests/EndpointResolverTest.swift") { swiftWriter ->
+                EndpointTestGenerator(testsTrait, ctx).render(swiftWriter)
+            }
         }
     }
 

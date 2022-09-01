@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -32,8 +31,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        val endpointData = Node.parse(EndpointResolverGenerator::class.java.getResource("/software.amazon.smithy.aws.swift.codegen/endpoints.json").readText()).expectObjectNode()
-        EndpointResolverGenerator(endpointData).render(ctx)
+        EndpointResolverGenerator().render(ctx)
     }
 
     override fun getClientProperties(): List<ClientProperty> {
