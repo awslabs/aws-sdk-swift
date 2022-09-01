@@ -65,6 +65,10 @@ class OperationEndpointResolverMiddleware(
                     } else if (param.defaultValue.getOrNull() != null) {
                         // check if the param has a default value
                         params.add("$memberName: ${param.defaultValue.getOrNull().toString().toCamelCase()}")
+                    } else {
+                        // pass
+                        // a default value is given based on the EndpointParams structure definition
+                        // a compile error will be thrown if EndpointParams is missing default value
                     }
                 }
         }
