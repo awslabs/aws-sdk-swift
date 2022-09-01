@@ -34,8 +34,8 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleset?) {
     private fun renderInit(writer: SwiftWriter, parameters: List<Parameter>) {
         writer.openBlock("public init(", ")") {
             for ((index, param) in parameters.withIndex()) {
-                var memberName = param.name.toString().toCamelCase()
-                var memberSymbol = param.toSymbol()
+                val memberName = param.name.toString().toCamelCase()
+                val memberSymbol = param.toSymbol()
                 val terminator = if (index != parameters.lastIndex) ", " else ""
                 writer.write("$memberName: \$D$terminator", memberSymbol)
             }
@@ -43,7 +43,7 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleset?) {
 
         writer.openBlock("{", "}") {
             parameters.forEach {
-                var memberName = it.name.toString().toCamelCase()
+                val memberName = it.name.toString().toCamelCase()
                 writer.write("self.\$1L = \$1L", memberName)
             }
         }
@@ -51,10 +51,10 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleset?) {
 
     private fun renderMembers(writer: SwiftWriter, parameters: List<Parameter>) {
         parameters.forEach { param ->
-            var memberName = param.name.toString().toCamelCase()
-            var memberSymbol = param.toSymbol()
+            val memberName = param.name.toString().toCamelCase()
+            val memberSymbol = param.toSymbol()
             val optional = if (param.isRequired) "" else "?"
-            var documentation = param.documentation.getOrNull()
+            val documentation = param.documentation.getOrNull()
             if (documentation != null) {
                 writer.write("/// $documentation")
             }
