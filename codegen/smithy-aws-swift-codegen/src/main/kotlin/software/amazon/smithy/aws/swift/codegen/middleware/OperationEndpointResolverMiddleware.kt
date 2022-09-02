@@ -43,7 +43,6 @@ class OperationEndpointResolverMiddleware(
         ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
             val ruleSet = EndpointRuleset.fromNode(node)
             val staticContextParams = op.getTrait<StaticContextParamsTrait>()?.parameters ?: emptyMap()
-            ctx.service.getTrait<ClientContextParamsTrait>()?.parameters ?: emptyMap()
             val parameters = ruleSet.parameters.toList()
             parameters.toList()
                 .sortedBy { it.name.toString() }
