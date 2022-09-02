@@ -51,49 +51,52 @@ class EndpointResolverMiddleware(
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
         writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
+            .write("")
 
-        writer.write("")
         writer.openBlock("""guard let authScheme = endpoint.authScheme(name: "sigv4") else {""", "}") {
             writer.write(
                 "throw \$N.client(ClientError.unknownError((\"Unable to resolve endpoint. Unsupported auth scheme.\")))",
                 errorType
             )
-        }
+        }.write("")
 
-        writer.write("")
         writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme["signingName"] as? String, signingRegion: authScheme["signingRegion"] as? String)""")
+            .write("")
 
-        writer.write("")
         writer.write("""var host = """"")
-        writer.openBlock("if let hostOverride = context.getHost() {", "} else {") {
-            writer.write("host = hostOverride")
-        }
-        writer.indent().write("""host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"""").dedent()
+            .openBlock("if let hostOverride = context.getHost() {", "} else {") {
+                writer.write("host = hostOverride")
+            }
+            .indent()
+            .write("""host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"""")
+            .dedent()
             .write("}")
 
         writer.write("")
         writer.openBlock("if let protocolType = awsEndpoint.endpoint.protocolType {", "}") {
             writer.write("input.withProtocol(protocolType)")
-        }
+        }.write("")
 
-        writer.write("")
         writer.write("var updatedContext = context")
-        writer.openBlock("if let signingRegion = awsEndpoint.signingRegion {", "}") {
-            writer.write("updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
+            .openBlock("if let signingRegion = awsEndpoint.signingRegion {", "}") {
+                writer.write("updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
         }
         writer.openBlock("if let signingName = awsEndpoint.signingName {", "}") {
             writer.write("updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)")
-        }
+        }.write("")
 
-        writer.write("")
+        writer.openBlock("if let headers = endpoint.headers {", "}") {
+            writer.write("input.withHeaders(headers)")
+        }.write("")
+
         writer.write("input.withMethod(context.getMethod())")
-        writer.indent()
-        writer.write(".withHost(host)")
-        writer.write(".withPort(awsEndpoint.endpoint.port)")
-        writer.write(".withPath(context.getPath())")
-        writer.write(""".withHeader(name: "Host", value: host)""")
-        writer.dedent()
-        writer.write("")
+            .indent()
+            .write(".withHost(host)")
+            .write(".withPort(awsEndpoint.endpoint.port)")
+            .write(".withPath(context.getPath())")
+            .write(""".withHeader(name: "Host", value: host)""")
+            .dedent()
+            .write("")
     }
 
     override fun renderReturn() {
