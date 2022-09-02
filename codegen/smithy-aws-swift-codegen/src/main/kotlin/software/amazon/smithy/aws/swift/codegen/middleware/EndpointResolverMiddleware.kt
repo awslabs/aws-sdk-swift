@@ -80,7 +80,7 @@ class EndpointResolverMiddleware(
         writer.write("var updatedContext = context")
             .openBlock("if let signingRegion = awsEndpoint.signingRegion {", "}") {
                 writer.write("updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
-        }
+            }
         writer.openBlock("if let signingName = awsEndpoint.signingName {", "}") {
             writer.write("updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)")
         }.write("")

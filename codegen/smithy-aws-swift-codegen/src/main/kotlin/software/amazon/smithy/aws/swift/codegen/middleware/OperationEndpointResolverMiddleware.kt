@@ -8,7 +8,6 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 import software.amazon.smithy.aws.reterminus.EndpointRuleset
 import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
 import software.amazon.smithy.rulesengine.traits.ContextParamTrait
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
@@ -72,6 +71,6 @@ class OperationEndpointResolverMiddleware(
         }
         writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
         val middlewareParamsString = "endpointResolver: config.endpointResolver, endpointParams: endpointParams"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>(${middlewareParamsString}))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
     }
 }
