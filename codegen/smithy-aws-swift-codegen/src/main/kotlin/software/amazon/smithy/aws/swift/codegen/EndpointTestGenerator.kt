@@ -40,18 +40,21 @@ class EndpointTestGenerator(
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve$idx() throws {", "}") {
                     writer.openBlock("let endpointParams = EndpointParams(", ")") {
-                        testCase.params.members.filter { endpointParamsMembers.contains(it.key.value) }
-                            .toSortedMap(compareBy { it.value }).map { (key, value) ->
-                                key to value
-                            }.forEachIndexed { idx, pair ->
-                                writer.writeInline("${pair.first.value.toCamelCase()}: ")
-                                val value = Value.fromNode(pair.second)
-                                writer.call {
-                                    generateValue(
-                                        writer, value, if (idx < testCase.params.members.values.count() - 1) "," else ""
-                                    )
+                        val applicableParams =
+                            testCase.params.members.filter { endpointParamsMembers.contains(it.key.value) }
+                                .toSortedMap(compareBy { it.value }).map { (key, value) ->
+                                    key to value
                                 }
+
+                        applicableParams.forEachIndexed { idx, pair ->
+                            writer.writeInline("${pair.first.value.toCamelCase()}: ")
+                            val value = Value.fromNode(pair.second)
+                            writer.call {
+                                generateValue(
+                                    writer, value, if (idx < applicableParams.count() - 1) "," else ""
+                                )
                             }
+                        }
                     }
                     writer.write("let resolver = DefaultEndpointResolver()").write("")
 
