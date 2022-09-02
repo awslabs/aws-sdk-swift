@@ -72,6 +72,10 @@ class EndpointResolverMiddlewareTests {
                         updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)
                     }
             
+                    if let headers = endpoint.headers {
+                        input.withHeaders(headers)
+                    }
+            
                     input.withMethod(context.getMethod())
                         .withHost(host)
                         .withPort(awsEndpoint.endpoint.port)
