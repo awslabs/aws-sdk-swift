@@ -1,4 +1,4 @@
-# Stability of the AWS SDK for Kotlin
+# Stability of the AWS SDK for Swift
 
 For information about maintenance and support of SDK major versions and their underlying dependencies, see the
 following in the AWS SDKs and Tools Shared Configuration and Credentials Reference Guide:
