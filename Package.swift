@@ -103,7 +103,7 @@ let localReleaseSwiftSDKDir = fileManager.homeDirectoryForCurrentUser.appendingP
 func setupDependencies() {
     package.dependencies += [
         .package(name: "AwsCrt", path: "\(awsCRTSwiftDir.path)"),
-        .package(name: "ClientRuntime", path: "\(smithySwiftDir.appendingPathComponent("Packages").path)")
+        .package(name: "ClientRuntime", path: "\(smithySwiftDir.path)")
     ]
     let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "\(localReleaseSwiftSDKDir.path)")
     includeTargets(sdksToIncludeInTargets)
