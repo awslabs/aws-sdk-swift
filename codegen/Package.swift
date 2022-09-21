@@ -98,7 +98,7 @@ func appendTstTarget(name: String, path: String, dependency: String) {
 if let smithySwiftDir = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR"],
    let sdkDir = ProcessInfo.processInfo.environment["AWS_SDK_SWIFT_CI_DIR"] {
     package.dependencies += [
-        .package(name: "ClientRuntime", path: "\(smithySwiftDir)"),
+        .package(name: "ClientRuntime", path: smithySwiftDir),
         .package(name: "AWSClientRuntime", path: "\(sdkDir)/AWSClientRuntime"),
     ]
 } else {

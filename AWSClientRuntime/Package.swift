@@ -41,8 +41,8 @@ let package = Package(
 if let smithySwiftDir = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR"],
    let crtDir = ProcessInfo.processInfo.environment["AWS_CRT_SWIFT_CI_DIR"] {
     package.dependencies += [
-        .package(name: "AwsCrt", path: "\(crtDir)"),
-        .package(name: "ClientRuntime", path: "\(smithySwiftDir)")
+        .package(name: "AwsCrt", path: crtDir),
+        .package(name: "ClientRuntime", path: smithySwiftDir)
     ]
 } else {
     package.dependencies += [
