@@ -74,10 +74,10 @@ private extension Package {
 
     func setupDependencies() -> Package {
         dependencies += [
-            .package(name: "AwsCrt", path: "\(awsCRTSwiftDir.path)"),
-            .package(name: "ClientRuntime", path: "\(smithySwiftDir.appendingPathComponent("Packages").path)")
+            .package(name: "AwsCrt", path: awsCRTSwiftDir.path),
+            .package(name: "ClientRuntime", path: smithySwiftDir.path)
         ]
-        let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "\(localReleaseSwiftSDKDir.path)")
+        let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKDir.path)
         includeTargets(package: self, releasedSDKs: sdksToIncludeInTargets)
         return self
     }
