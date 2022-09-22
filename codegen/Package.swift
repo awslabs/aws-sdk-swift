@@ -99,11 +99,11 @@ if let smithySwiftDir = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR
    let sdkDir = ProcessInfo.processInfo.environment["AWS_SDK_SWIFT_CI_DIR"] {
     package.dependencies += [
         .package(name: "ClientRuntime", path: smithySwiftDir),
-        .package(name: "AWSClientRuntime", path: "\(sdkDir)/AWSClientRuntime"),
+        .package(name: "AWSClientRuntime", path: sdkDir),
     ]
 } else {
     package.dependencies += [
         .package(name: "ClientRuntime", path: "~/Projects/Amplify/SwiftSDK/smithy-swift"),
-        .package(name: "AWSClientRuntime", path: "~/Projects/Amplify/SwiftSDK/aws-sdk-swift/AWSClientRuntime"),
+        .package(name: "AWSClientRuntime", path: "~/Projects/Amplify/SwiftSDK/aws-sdk-swift"),
     ]
 }
