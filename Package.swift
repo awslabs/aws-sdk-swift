@@ -68,7 +68,7 @@ let LOCAL_RELEASE_SWIFT_DIR = "\(AWS_SDK_SWIFT_DIR)/\(RELEASE)"
 let homePath = FileManager.default.homeDirectoryForCurrentUser
 let env = ProcessInfo.processInfo.environment
 let awsSDKSwiftDir, awsCRTSwiftDir, smithySwiftDir: URL
-if let awsSDKSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"], let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"], let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
+if let awsSDKSwiftCIPath = env["AWS_SDK_SWIFT_CI_DIR"], let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"], let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
     awsSDKSwiftDir = URL(fileURLWithPath: awsSDKSwiftCIPath)
     awsCRTSwiftDir = URL(fileURLWithPath: awsCRTSwiftCIPath)
     smithySwiftDir = URL(fileURLWithPath: smithySwiftCIPath)
