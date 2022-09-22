@@ -7,6 +7,7 @@
 
 import PackageDescription
 import class Foundation.FileManager
+import class Foundation.ProcessInfo
 
 /*
  This Package.swift file is used to compile against locally
@@ -73,10 +74,13 @@ let localReleaseSwiftSDKDir = fileManager.homeDirectoryForCurrentUser.appendingP
 private extension Package {
 
     func setupDependencies() -> Package {
+        let awsCRTPath = ProcessInfo.processInfo.environment["AWS_CRT_SWIFT_CI_DIR"] ?? awsCRTSwiftDir.path
+        let smithySwiftPath = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR"] ?? smithySwiftDir.path
         dependencies += [
-            .package(name: "AwsCrt", path: awsCRTSwiftDir.path),
-            .package(name: "ClientRuntime", path: smithySwiftDir.path)
+            .package(name: "AwsCrt", path: awsCRTPath),
+            .package(name: "ClientRuntime", path: smithySwiftPath)
         ]
+
         let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKDir.path)
         includeTargets(package: self, releasedSDKs: sdksToIncludeInTargets)
         return self
