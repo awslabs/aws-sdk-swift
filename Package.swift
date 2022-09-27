@@ -7,6 +7,8 @@
 
 import PackageDescription
 import class Foundation.FileManager
+import class Foundation.ProcessInfo
+import struct Foundation.URL
 
 /*
  This Package.swift file is used to compile against locally
@@ -61,14 +63,23 @@ let LOCAL_BASE_DIR = "Projects/Amplify/SwiftSDK"
 let AWS_SDK_SWIFT_DIR = "\(LOCAL_BASE_DIR)/aws-sdk-swift"
 let AWS_CRT_SWIFT_DIR = "\(LOCAL_BASE_DIR)/aws-crt-swift"
 let SMITHY_SWIFT_DIR = "\(LOCAL_BASE_DIR)/smithy-swift"
-let LOCAL_RELEASE_SWIFT_DIR = "\(AWS_SDK_SWIFT_DIR)/\(RELEASE)"
 
-let fileManager = FileManager.default
-let awsSDKSwiftDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(AWS_SDK_SWIFT_DIR)
-let awsCRTSwiftDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(AWS_CRT_SWIFT_DIR)
-let smithySwiftDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(SMITHY_SWIFT_DIR)
+let homePath = FileManager.default.homeDirectoryForCurrentUser
+let env = ProcessInfo.processInfo.environment
 
-let localReleaseSwiftSDKDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(LOCAL_RELEASE_SWIFT_DIR)
+let awsSDKSwiftDir, awsCRTSwiftDir, smithySwiftDir: URL
+if let awsSDKSwiftCIPath = env["AWS_SDK_SWIFT_CI_DIR"], let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"],
+    let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
+    awsSDKSwiftDir = URL(fileURLWithPath: awsSDKSwiftCIPath)
+    awsCRTSwiftDir = URL(fileURLWithPath: awsCRTSwiftCIPath)
+    smithySwiftDir = URL(fileURLWithPath: smithySwiftCIPath)
+} else {
+    awsSDKSwiftDir = homePath.appendingPathComponent(AWS_SDK_SWIFT_DIR)
+    awsCRTSwiftDir = homePath.appendingPathComponent(AWS_CRT_SWIFT_DIR)
+    smithySwiftDir = homePath.appendingPathComponent(SMITHY_SWIFT_DIR)
+}
+
+let localReleaseSwiftSDKDir = awsSDKSwiftDir.appendingPathComponent(RELEASE)
 
 private extension Package {
 
@@ -77,6 +88,7 @@ private extension Package {
             .package(name: "AwsCrt", path: awsCRTSwiftDir.path),
             .package(name: "ClientRuntime", path: smithySwiftDir.path)
         ]
+
         let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKDir.path)
         includeTargets(package: self, releasedSDKs: sdksToIncludeInTargets)
         return self
