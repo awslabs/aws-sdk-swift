@@ -1,28 +1,12 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
-import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.neighbor.Walker
-import software.amazon.smithy.model.shapes.AbstractShapeBuilder
-import software.amazon.smithy.model.shapes.BigDecimalShape
-import software.amazon.smithy.model.shapes.BigIntegerShape
-import software.amazon.smithy.model.shapes.BooleanShape
-import software.amazon.smithy.model.shapes.ByteShape
-import software.amazon.smithy.model.shapes.DoubleShape
-import software.amazon.smithy.model.shapes.FloatShape
-import software.amazon.smithy.model.shapes.IntegerShape
-import software.amazon.smithy.model.shapes.LongShape
-import software.amazon.smithy.model.shapes.MemberShape
-import software.amazon.smithy.model.shapes.NumberShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.model.shapes.ShortShape
-import software.amazon.smithy.model.traits.BoxTrait
+import software.amazon.smithy.model.traits.ClientOptionalTrait
 import software.amazon.smithy.model.transform.ModelTransformer
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.model.isNumberShape
-import software.amazon.smithy.utils.ToSmithyBuilder
 
 /**
  * Integration that pre-processes the model to box all unboxed primitives.
@@ -64,47 +48,12 @@ class BoxServices : SwiftIntegration {
         serviceIds.any { it == settings.service }
 
     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
-        val serviceClosure = Walker(model).walkShapes(model.expectShape(settings.service))
-
-        return ModelTransformer.create().mapShapes(model) {
-            if (it in serviceClosure && !it.id.namespace.startsWith("smithy.api")) {
-                boxPrimitives(model, it)
-            } else {
-                it
+        val updates = arrayListOf<Shape>()
+        for (struct in model.structureShapes) {
+            for (member in struct.allMembers.values) {
+                updates.add(member.toBuilder().addTrait(ClientOptionalTrait()).build())
             }
         }
-    }
-
-    private fun boxPrimitives(model: Model, shape: Shape): Shape {
-        val target = when (shape) {
-            is MemberShape -> model.expectShape(shape.target)
-            else -> shape
-        }
-
-        return when {
-            shape is MemberShape && target.isPrimitiveShape -> box(shape)
-            shape is NumberShape -> boxNumber(shape)
-            shape is BooleanShape -> box(shape)
-            else -> shape
-        }
-    }
-
-    private val Shape.isPrimitiveShape: Boolean
-        get() = isBooleanShape || isNumberShape
-
-    private fun <T> box(shape: T): Shape where T : Shape, T : ToSmithyBuilder<T> {
-        return (shape.toBuilder() as AbstractShapeBuilder<*, T>).addTrait(BoxTrait()).build()
-    }
-
-    private fun boxNumber(shape: NumberShape): Shape = when (shape) {
-        is ByteShape -> box(shape)
-        is IntegerShape -> box(shape)
-        is LongShape -> box(shape)
-        is ShortShape -> box(shape)
-        is FloatShape -> box(shape)
-        is DoubleShape -> box(shape)
-        is BigDecimalShape -> box(shape)
-        is BigIntegerShape -> box(shape)
-        else -> throw CodegenException("unhandled numeric shape: $shape")
+        return ModelTransformer.create().replaceShapes(model, updates)
     }
 }
