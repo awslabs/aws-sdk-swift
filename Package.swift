@@ -91,7 +91,7 @@ private extension Package {
 
         let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKDir.path)
             .filter { target in
-                !target.hasPrefix(".DS_Store")
+                !target.hasPrefix(".")
             }
         includeTargets(package: self, releasedSDKs: sdksToIncludeInTargets)
         return self
