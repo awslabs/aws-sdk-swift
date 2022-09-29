@@ -31,18 +31,6 @@
     "shapes": {
         "com.amazonaws.ssooidc#AWSSSOOIDCService": {
             "type": "service",
-            "version": "2019-06-10",
-            "operations": [
-                {
-                    "target": "com.amazonaws.ssooidc#CreateToken"
-                },
-                {
-                    "target": "com.amazonaws.ssooidc#RegisterClient"
-                },
-                {
-                    "target": "com.amazonaws.ssooidc#StartDeviceAuthorization"
-                }
-            ],
             "traits": {
                 "aws.api#service": {
                     "sdkId": "SSO OIDC",
@@ -57,7 +45,19 @@
                 "aws.protocols#restJson1": {},
                 "smithy.api#documentation": "<p>AWS Single Sign-On (SSO) OpenID Connect (OIDC) is a web service that enables a client\n      (such as AWS CLI or a native application) to register with AWS SSO. The service also\n      enables the client to fetch the user’s access token upon successful authentication and\n      authorization with AWS SSO. This service conforms with the OAuth 2.0 based implementation of\n      the device authorization grant standard (<a href=\"https://tools.ietf.org/html/rfc8628\">https://tools.ietf.org/html/rfc8628</a>).</p>\n    \n         <p>For general information about AWS SSO, see <a href=\"https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html\">What is AWS\n        Single Sign-On?</a> in the <i>AWS SSO User Guide</i>.</p>\n    \n         <p>This API reference guide describes the AWS SSO OIDC operations that you can call\n      programatically and includes detailed information on data types and errors.</p>\n    \n         <note>\n            <p>AWS provides SDKs that consist of libraries and sample code for various programming\n        languages and platforms such as Java, Ruby, .Net, iOS, and Android. The SDKs provide a\n        convenient way to create programmatic access to AWS SSO and other AWS services. For more\n        information about the AWS SDKs, including how to download and install them, see <a href=\"http://aws.amazon.com/tools/\">Tools for Amazon Web Services</a>.</p>\n         </note>",
                 "smithy.api#title": "AWS SSO OIDC"
-            }
+            },
+            "version": "2019-06-10",
+            "operations": [
+                {
+                    "target": "com.amazonaws.ssooidc#CreateToken"
+                },
+                {
+                    "target": "com.amazonaws.ssooidc#RegisterClient"
+                },
+                {
+                    "target": "com.amazonaws.ssooidc#StartDeviceAuthorization"
+                }
+            ]
         },
         "com.amazonaws.ssooidc#AccessDeniedException": {
             "type": "structure",
@@ -190,8 +190,7 @@
                 "deviceCode": {
                     "target": "com.amazonaws.ssooidc#DeviceCode",
                     "traits": {
-                        "smithy.api#documentation": "<p>Used only when calling this API for the device code grant type. This short-term code is\n      used to identify this authentication attempt. This should come from an in-memory reference to\n      the result of the <a>StartDeviceAuthorization</a> API.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>Used only when calling this API for the device code grant type. This short-term code is\n      used to identify this authentication attempt. This should come from an in-memory reference to\n      the result of the <a>StartDeviceAuthorization</a> API.</p>"
                     }
                 },
                 "code": {
