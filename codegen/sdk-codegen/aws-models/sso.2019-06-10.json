@@ -146,7 +146,7 @@
                 "accessToken": {
                     "target": "com.amazonaws.sso#AccessTokenType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>AWS SSO OIDC API Reference Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>IAM Identity Center OIDC API Reference Guide</i>.</p>",
                         "smithy.api#httpHeader": "x-amz-sso_bearer_token",
                         "smithy.api#required": {}
                     }
@@ -211,6 +211,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "roleList",
                     "pageSize": "maxResults"
                 }
             }
@@ -235,7 +236,7 @@
                 "accessToken": {
                     "target": "com.amazonaws.sso#AccessTokenType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>AWS SSO OIDC API Reference Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>IAM Identity Center OIDC API Reference Guide</i>.</p>",
                         "smithy.api#httpHeader": "x-amz-sso_bearer_token",
                         "smithy.api#required": {}
                     }
@@ -262,7 +263,7 @@
                 "roleList": {
                     "target": "com.amazonaws.sso#RoleListType",
                     "traits": {
-                        "smithy.api#documentation": "<p>A paginated response with the list of roles and the next token if more results are available.</p>"
+                        "smithy.api#documentation": "<p>A paginated response with the list of roles and the next token if more results are\n      available.</p>"
                     }
                 }
             }
@@ -291,7 +292,7 @@
             ],
             "traits": {
                 "smithy.api#auth": [],
-                "smithy.api#documentation": "<p>Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the\n      administrator of the account. For more information, see <a href=\"https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers\">Assign User Access</a> in the <i>AWS SSO User Guide</i>. This operation\n      returns a paginated response.</p>",
+                "smithy.api#documentation": "<p>Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the\n      administrator of the account. For more information, see <a href=\"https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers\">Assign User Access</a> in the <i>IAM Identity Center User Guide</i>. This operation\n      returns a paginated response.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/assignment/accounts",
@@ -301,6 +302,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "accountList",
                     "pageSize": "maxResults"
                 }
             }
@@ -311,7 +313,7 @@
                 "nextToken": {
                     "target": "com.amazonaws.sso#NextTokenType",
                     "traits": {
-                        "smithy.api#documentation": "<p>(Optional) When requesting subsequent pages, this is the page token from the previous response output.</p>",
+                        "smithy.api#documentation": "<p>(Optional) When requesting subsequent pages, this is the page token from the previous\n      response output.</p>",
                         "smithy.api#httpQuery": "next_token"
                     }
                 },
@@ -325,7 +327,7 @@
                 "accessToken": {
                     "target": "com.amazonaws.sso#AccessTokenType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>AWS SSO OIDC API Reference Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>IAM Identity Center OIDC API Reference Guide</i>.</p>",
                         "smithy.api#httpHeader": "x-amz-sso_bearer_token",
                         "smithy.api#required": {}
                     }
@@ -344,7 +346,7 @@
                 "accountList": {
                     "target": "com.amazonaws.sso#AccountListType",
                     "traits": {
-                        "smithy.api#documentation": "<p>A paginated response with the list of account information and the next token if more results are available.</p>"
+                        "smithy.api#documentation": "<p>A paginated response with the list of account information and the next token if more\n      results are available.</p>"
                     }
                 }
             }
@@ -353,6 +355,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.sso#LogoutRequest"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -367,7 +372,7 @@
             ],
             "traits": {
                 "smithy.api#auth": [],
-                "smithy.api#documentation": "<p>Removes the client- and server-side session that is associated with the user.</p>",
+                "smithy.api#documentation": "<p>Removes the locally stored SSO tokens from the client-side cache and sends an API call to\n      the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in\n      session.</p>\n\n         <note>\n            <p>If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is\n        used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set.\n        More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user,\n        and the corresponding temporary AWS credentials are returned to the client.</p>\n\n            <p>After user logout, any existing IAM role sessions that were created by using IAM Identity Center\n        permission sets continue based on the duration configured in the permission set.\n        For more information, see <a href=\"https://docs.aws.amazon.com/singlesignon/latest/userguide/authconcept.html\">User\n          authentications</a> in the <i>IAM Identity Center User\n        Guide</i>.</p>\n         </note>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/logout",
@@ -382,7 +387,7 @@
                 "accessToken": {
                     "target": "com.amazonaws.sso#AccessTokenType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>AWS SSO OIDC API Reference Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The token issued by the <code>CreateToken</code> API call. For more information, see\n        <a href=\"https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html\">CreateToken</a> in the <i>IAM Identity Center OIDC API Reference Guide</i>.</p>",
                         "smithy.api#httpHeader": "x-amz-sso_bearer_token",
                         "smithy.api#required": {}
                     }
@@ -478,6 +483,21 @@
         },
         "com.amazonaws.sso#SWBPortalService": {
             "type": "service",
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "SSO",
+                    "arnNamespace": "awsssoportal",
+                    "cloudFormationName": "SSO",
+                    "cloudTrailEventSource": "sso.amazonaws.com",
+                    "endpointPrefix": "portal.sso"
+                },
+                "aws.auth#sigv4": {
+                    "name": "awsssoportal"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#documentation": "<p>AWS IAM Identity Center (successor to AWS Single Sign-On) Portal is a web service that makes it easy for you to assign user access to\n      IAM Identity Center resources such as the AWS access portal. Users can get AWS account applications and roles\n      assigned to them and get federated into the application.</p>\n\n         <note>\n            <p>Although AWS Single Sign-On was renamed, the <code>sso</code> and\n          <code>identitystore</code> API namespaces will continue to retain their original name for\n        backward compatibility purposes. For more information, see <a href=\"https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html#renamed\">IAM Identity Center rename</a>.</p>\n         </note>\n\n         <p>This reference guide describes the IAM Identity Center Portal operations that you can call\n      programatically and includes detailed information on data types and errors.</p>\n\n         <note>\n            <p>AWS provides SDKs that consist of libraries and sample code for various programming\n        languages and platforms, such as Java, Ruby, .Net, iOS, or Android. The SDKs provide a\n        convenient way to create programmatic access to IAM Identity Center and other AWS services. For more\n        information about the AWS SDKs, including how to download and install them, see <a href=\"http://aws.amazon.com/tools/\">Tools for Amazon Web Services</a>.</p>\n         </note>",
+                "smithy.api#title": "AWS Single Sign-On"
+            },
             "version": "2019-06-10",
             "operations": [
                 {
@@ -492,22 +512,7 @@
                 {
                     "target": "com.amazonaws.sso#Logout"
                 }
-            ],
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "SSO",
-                    "arnNamespace": "awsssoportal",
-                    "cloudFormationName": "SSO",
-                    "cloudTrailEventSource": "sso.amazonaws.com",
-                    "endpointPrefix": "portal.sso"
-                },
-                "aws.auth#sigv4": {
-                    "name": "awsssoportal"
-                },
-                "aws.protocols#restJson1": {},
-                "smithy.api#documentation": "<p>AWS Single Sign-On Portal is a web service that makes it easy for you to assign user\n      access to AWS SSO resources such as the user portal. Users can get AWS account applications\n      and roles assigned to them and get federated into the application.</p>\n    \n         <p>For general information about AWS SSO, see <a href=\"https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html\">What is AWS\n        Single Sign-On?</a> in the <i>AWS SSO User Guide</i>.</p>\n    \n         <p>This API reference guide describes the AWS SSO Portal operations that you can call\n      programatically and includes detailed information on data types and errors.</p>\n    \n         <note>\n            <p>AWS provides SDKs that consist of libraries and sample code for various programming\n        languages and platforms, such as Java, Ruby, .Net, iOS, or Android. The SDKs provide a\n        convenient way to create programmatic access to AWS SSO and other AWS services. For more\n        information about the AWS SDKs, including how to download and install them, see <a href=\"http://aws.amazon.com/tools/\">Tools for Amazon Web Services</a>.</p>\n         </note>",
-                "smithy.api#title": "AWS Single Sign-On"
-            }
+            ]
         },
         "com.amazonaws.sso#SecretAccessKeyType": {
             "type": "string",
@@ -529,7 +534,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Indicates that the request is being made too frequently and is more than what the server can handle.</p>",
+                "smithy.api#documentation": "<p>Indicates that the request is being made too frequently and is more than what the server\n      can handle.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 429
             }
@@ -542,7 +547,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Indicates that the request is not authorized. This can happen due to an invalid access token in the request.</p>",
+                "smithy.api#documentation": "<p>Indicates that the request is not authorized. This can happen due to an invalid access\n      token in the request.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 401
             }
