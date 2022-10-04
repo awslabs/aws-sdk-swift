@@ -71,7 +71,7 @@ body:
     id: compiler-version
     attributes:
       label: Compiler and Version used
-      description: swift compiler version
+      description: Xcode version, Swift compiler version, Swift Tools version
     validations:
       required: true
 
