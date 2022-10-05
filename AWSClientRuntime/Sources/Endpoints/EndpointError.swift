@@ -5,7 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-enum EndpointError: Error {
+public enum EndpointError: Error {
     case hostnameIsNil(String)
     case partitionsEmpty(String)
+    case unresolved(String?)
 }

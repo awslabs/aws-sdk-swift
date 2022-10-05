@@ -79,7 +79,11 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 }
 
                 ENDPOINT_RESOLVER -> {
-                    writer.write("self.${it.memberName} = ${it.memberName} ?? DefaultEndpointResolver()")
+                    writer.openBlock("if let endpointResolver = endpointResolver {", "} else {") {
+                        writer.write("self.endpointResolver = endpointResolver")
+                    }
+                    writer.indent().write("self.${it.memberName} = try \$L()", AWSServiceTypes.DefaultEndpointResolver)
+                    writer.dedent().write("}")
                 }
 
                 RUNTIME_CONFIG_NAME -> {
@@ -174,7 +178,11 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 }
 
                 ENDPOINT_RESOLVER -> {
-                    writer.write("self.${it.memberName} = ${it.memberName} ?? DefaultEndpointResolver()")
+                    writer.openBlock("if let endpointResolver = endpointResolver {", "} else {") {
+                        writer.write("self.endpointResolver = endpointResolver")
+                    }
+                    writer.indent().write("self.${it.memberName} = try \$L()", AWSServiceTypes.DefaultEndpointResolver)
+                    writer.dedent().write("}")
                 }
 
                 RUNTIME_CONFIG_NAME -> {
@@ -291,6 +299,7 @@ object AWSServiceTypes {
     val EndpointResolver = symbol("EndpointResolver")
     val EndpointParams = symbol("EndpointParams")
     val EndpointResolverMiddleware = symbol("EndpointResolverMiddleware")
+    val DefaultEndpointResolver = symbol("DefaultEndpointResolver")
 
     private fun symbol(name: String): Symbol = buildSymbol {
         this.name = name

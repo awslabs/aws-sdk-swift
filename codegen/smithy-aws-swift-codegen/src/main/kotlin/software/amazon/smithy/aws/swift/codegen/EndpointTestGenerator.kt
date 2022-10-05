@@ -10,8 +10,11 @@ import software.amazon.smithy.aws.reterminus.eval.Value
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
+import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.utils.toCamelCase
 
@@ -30,16 +33,17 @@ class EndpointTestGenerator(
 
         writer.addImport(ctx.settings.moduleName, isTestable = true)
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
         writer.addImport(SwiftDependency.XCTest.target)
 
         // used to filter out test params that are not valid
         val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
 
-        writer.openBlock("class EndpointResolverTest: XCTestCase {", "}") {
+        writer.openBlock("class EndpointResolverTest: \$L {", "}", XCTestTypes.XCTestCase) {
             endpointTest.testCases.forEachIndexed { idx, testCase ->
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve$idx() throws {", "}") {
-                    writer.openBlock("let endpointParams = EndpointParams(", ")") {
+                    writer.openBlock("let endpointParams = \$L(", ")", AWSServiceTypes.EndpointParams) {
                         val applicableParams =
                             testCase.params.members.filter { endpointParamsMembers.contains(it.key.value) }
                                 .toSortedMap(compareBy { it.value }).map { (key, value) ->
@@ -56,13 +60,18 @@ class EndpointTestGenerator(
                             }
                         }
                     }
-                    writer.write("let resolver = DefaultEndpointResolver()").write("")
+                    writer.write("let resolver = try \$L()", AWSServiceTypes.DefaultEndpointResolver).write("")
 
                     testCase.expect.error.ifPresent { error ->
                         writer.openBlock(
                             "XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in", "}"
                         ) {
-                            writer.write("XCTAssertEqual(\$S, error.localizedDescription)", error)
+                            writer.openBlock("switch error {", "}") {
+                                writer.dedent().write("case EndpointError.unresolved(let message):")
+                                writer.indent().write("XCTAssertEqual(\$S, message)", error)
+                                writer.dedent().write("default:")
+                                writer.indent().write("XCTFail()")
+                            }
                         }
                     }
                     testCase.expect.endpoint.ifPresent { endpoint ->
@@ -81,7 +90,8 @@ class EndpointTestGenerator(
                             writer.write("headers.add(name: \$S, values: \$S)", name, value)
                         }
                         writer.write(
-                            "let expected = try Endpoint(urlString: \$S, headers: headers, properties: properties)",
+                            "let expected = try \$L(urlString: \$S, headers: headers, properties: properties)",
+                            ClientRuntimeTypes.Core.Endpoint,
                             endpoint.url
                         ).write("")
                         writer.write("XCTAssertEqual(expected, actual)")
@@ -129,7 +139,7 @@ class EndpointTestGenerator(
             }
 
             is Value.Array -> {
-                writer.openBlock("[", "]") {
+                writer.openBlock("[", "]$delimeter") {
                     value.values.forEachIndexed { idx, item ->
                         writer.call {
                             generateValue(writer, item, if (idx < value.values.count() - 1) "," else "")
@@ -139,7 +149,7 @@ class EndpointTestGenerator(
             }
 
             is Value.Record -> {
-                writer.openBlock("{", "}") {
+                writer.openBlock("{", "}$delimeter") {
                     value.value.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
                         writer.writeInline("\$S: ", first.name)
                         writer.call {
