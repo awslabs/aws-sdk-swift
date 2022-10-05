@@ -35,11 +35,12 @@ class EndpointTestGenerator(
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
         writer.addImport(SwiftDependency.XCTest.target)
+        writer.addImport(SwiftDependency.SMITHY_TEST_UTIL.target)
 
         // used to filter out test params that are not valid
         val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
 
-        writer.openBlock("class EndpointResolverTest: \$L {", "}", XCTestTypes.XCTestCase) {
+        writer.openBlock("class EndpointResolverTest: \$L {", "}", ClientRuntimeTypes.Test.CrtXCBaseTestCase) {
             endpointTest.testCases.forEachIndexed { idx, testCase ->
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve$idx() throws {", "}") {
