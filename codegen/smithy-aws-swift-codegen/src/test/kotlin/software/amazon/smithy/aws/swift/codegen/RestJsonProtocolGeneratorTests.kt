@@ -150,7 +150,11 @@ class RestJsonProtocolGeneratorTests {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
                         }
                         self.endpoint = endpoint
-                        self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
+                        if let endpointResolver = endpointResolver {
+                            self.endpointResolver = endpointResolver
+                        } else {
+                            self.endpointResolver = try DefaultEndpointResolver()
+                        }
                         self.frameworkMetadata = frameworkMetadata
                         self.region = region
                         self.regionResolver = regionResolver ?? DefaultRegionResolver()
@@ -210,7 +214,11 @@ class RestJsonProtocolGeneratorTests {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
                         }
                         self.endpoint = endpoint
-                        self.endpointResolver = endpointResolver ?? DefaultEndpointResolver()
+                        if let endpointResolver = endpointResolver {
+                            self.endpointResolver = endpointResolver
+                        } else {
+                            self.endpointResolver = try DefaultEndpointResolver()
+                        }
                         self.frameworkMetadata = frameworkMetadata
                         let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
                         self.region = await resolvedRegionResolver.resolveRegion()

@@ -66,44 +66,46 @@ class EndpointResolverGenerator() {
     }
 
     private fun renderResolver(writer: SwiftWriter, endpointRules: EndpointRuleset?) {
-        writer.openBlock("public struct \$L: \$L  {", "}", AWSServiceTypes.DefaultEndpointResolver, AWSServiceTypes.EndpointResolver) {
-            writer.write("")
-            writer.write("private let engine: \$L", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
-            writer.write("private let ruleSetString = \$S", Node.printJson(endpointRules?.toNode()))
-            writer.write("")
-            writer.openBlock("public init() throws {", "}") {
-                writer.write("engine = try \$L(ruleSetString: ruleSetString)", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
-            }
-            writer.write("")
-            writer.openBlock(
-                "public func resolve(params: EndpointParams) throws -> \$L {", "}", ClientRuntimeTypes.Core.Endpoint
-            ) {
-                writer.write("let context = try \$L()", AWSClientRuntimeTypes.Core.AWSEndpointsRequestContext)
-                endpointRules?.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
-                    sortedParameters.forEach { param ->
-                        val memberName = param.name.toString().toCamelCase()
-                        val paramName = param.name.toString()
-                        writer.write("try context.add(name: \$S, value: params.\$L)", paramName, memberName)
-                    }
-                    writer.write("")
+        endpointRules?.let { endpointRules ->
+            writer.openBlock("public struct \$L: \$L  {", "}", AWSServiceTypes.DefaultEndpointResolver, AWSServiceTypes.EndpointResolver) {
+                writer.write("")
+                writer.write("private let engine: \$L", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
+                writer.write("private let ruleSetString = \$S", Node.printJson(endpointRules.toNode()))
+                writer.write("")
+                writer.openBlock("public init() throws {", "}") {
+                    writer.write("engine = try \$L(ruleSetString: ruleSetString)", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
                 }
-                writer.openBlock("guard let crtResolvedEndpoint = try engine.resolve(context: context) else {", "}") {
-                    writer.write("throw EndpointError.unresolved(\"Failed to resolved endpoint\")")
-                }.write("")
+                writer.write("")
+                writer.openBlock(
+                    "public func resolve(params: EndpointParams) throws -> \$L {", "}", ClientRuntimeTypes.Core.Endpoint
+                ) {
+                    writer.write("let context = try \$L()", AWSClientRuntimeTypes.Core.AWSEndpointsRequestContext)
+                    endpointRules.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
+                        sortedParameters.forEach { param ->
+                            val memberName = param.name.toString().toCamelCase()
+                            val paramName = param.name.toString()
+                            writer.write("try context.add(name: \$S, value: params.\$L)", paramName, memberName)
+                        }
+                        writer.write("")
+                    }
+                    writer.openBlock("guard let crtResolvedEndpoint = try engine.resolve(context: context) else {", "}") {
+                        writer.write("throw EndpointError.unresolved(\"Failed to resolved endpoint\")")
+                    }.write("")
 
-                writer.openBlock("if crtResolvedEndpoint.getType() == .error {", "}") {
-                    writer.write("let error = try crtResolvedEndpoint.getError()")
-                    writer.write("throw EndpointError.unresolved(error)")
-                }.write("")
+                    writer.openBlock("if crtResolvedEndpoint.getType() == .error {", "}") {
+                        writer.write("let error = try crtResolvedEndpoint.getError()")
+                        writer.write("throw EndpointError.unresolved(error)")
+                    }.write("")
 
-                writer.openBlock("guard let url = try crtResolvedEndpoint.getURL() else {", "}") {
-                    writer.write("assertionFailure(\"This must be a bug in either CRT or the rule engine, if the endpoint is not an error, it must have a url\")")
-                    writer.write("throw EndpointError.unresolved(\"Failed to resolved endpoint\")")
-                }.write("")
+                    writer.openBlock("guard let url = try crtResolvedEndpoint.getURL() else {", "}") {
+                        writer.write("assertionFailure(\"This must be a bug in either CRT or the rule engine, if the endpoint is not an error, it must have a url\")")
+                        writer.write("throw EndpointError.unresolved(\"Failed to resolved endpoint\")")
+                    }.write("")
 
-                writer.write("let headers = try crtResolvedEndpoint.getHeaders() ?? [:]")
-                writer.write("let properties = try crtResolvedEndpoint.getProperties() ?? [:]")
-                writer.write("return try Endpoint(urlString: url, headers: Headers(headers), properties: properties)")
+                    writer.write("let headers = try crtResolvedEndpoint.getHeaders() ?? [:]")
+                    writer.write("let properties = try crtResolvedEndpoint.getProperties() ?? [:]")
+                    writer.write("return try Endpoint(urlString: url, headers: Headers(headers), properties: properties)")
+                }
             }
         }
     }
