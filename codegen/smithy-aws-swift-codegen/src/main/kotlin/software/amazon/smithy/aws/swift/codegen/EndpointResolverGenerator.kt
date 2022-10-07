@@ -66,21 +66,25 @@ class EndpointResolverGenerator() {
     }
 
     private fun renderResolver(writer: SwiftWriter, endpointRules: EndpointRuleset?) {
-        endpointRules?.let { endpointRules ->
-            writer.openBlock("public struct \$L: \$L  {", "}", AWSServiceTypes.DefaultEndpointResolver, AWSServiceTypes.EndpointResolver) {
-                writer.write("")
+        writer.openBlock("public struct \$L: \$L  {", "}", AWSServiceTypes.DefaultEndpointResolver, AWSServiceTypes.EndpointResolver) {
+            writer.write("")
+            endpointRules?.let {
                 writer.write("private let engine: \$L", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
                 writer.write("private let ruleSetString = \$S", Node.printJson(endpointRules.toNode()))
-                writer.write("")
-                writer.openBlock("public init() throws {", "}") {
+            }
+            writer.write("")
+            writer.openBlock("public init() throws {", "}") {
+                endpointRules?.let {
                     writer.write("engine = try \$L(ruleSetString: ruleSetString)", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
                 }
-                writer.write("")
-                writer.openBlock(
-                    "public func resolve(params: EndpointParams) throws -> \$L {", "}", ClientRuntimeTypes.Core.Endpoint
-                ) {
+            }
+            writer.write("")
+            writer.openBlock(
+                "public func resolve(params: EndpointParams) throws -> \$L {", "}", ClientRuntimeTypes.Core.Endpoint
+            ) {
+                endpointRules?.let {
                     writer.write("let context = try \$L()", AWSClientRuntimeTypes.Core.AWSEndpointsRequestContext)
-                    endpointRules.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
+                    endpointRules?.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
                         sortedParameters.forEach { param ->
                             val memberName = param.name.toString().toCamelCase()
                             val paramName = param.name.toString()
@@ -105,6 +109,8 @@ class EndpointResolverGenerator() {
                     writer.write("let headers = try crtResolvedEndpoint.getHeaders() ?? [:]")
                     writer.write("let properties = try crtResolvedEndpoint.getProperties() ?? [:]")
                     writer.write("return try Endpoint(urlString: url, headers: Headers(headers), properties: properties)")
+                } ?: run {
+                    writer.write("fatalError(\"EndpointResolver not implemented\")")
                 }
             }
         }
