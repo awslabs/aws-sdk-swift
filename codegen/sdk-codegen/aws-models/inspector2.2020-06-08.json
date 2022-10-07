@@ -1,5 +1,5 @@
 {
-    "smithy": "1.0",
+    "smithy": "2.0",
     "shapes": {
         "com.amazonaws.inspector2#AccessDeniedException": {
             "type": "structure",
@@ -109,7 +109,7 @@
             }
         },
         "com.amazonaws.inspector2#AccountIdSet": {
-            "type": "set",
+            "type": "list",
             "member": {
                 "target": "com.amazonaws.inspector2#AccountId"
             },
@@ -117,7 +117,8 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 100
-                }
+                },
+                "smithy.api#uniqueItems": {}
             }
         },
         "com.amazonaws.inspector2#AccountList": {
@@ -187,7 +188,10 @@
             }
         },
         "com.amazonaws.inspector2#AggCounts": {
-            "type": "long"
+            "type": "long",
+            "traits": {
+                "smithy.api#default": 0
+            }
         },
         "com.amazonaws.inspector2#AggregationFindingType": {
             "type": "string",
@@ -514,9 +518,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/members/associate",
-                    "code": 200
+                    "uri": "/members/associate"
                 }
             }
         },
@@ -857,9 +861,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/status/batch/get",
-                    "code": 200
+                    "uri": "/status/batch/get"
                 }
             }
         },
@@ -917,9 +921,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Gets free trial status for multiple Amazon Web Services accounts.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/freetrialinfo/batchget",
-                    "code": 200
+                    "uri": "/freetrialinfo/batchget"
                 }
             }
         },
@@ -986,9 +990,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Cancels the given findings report.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/reporting/cancel",
-                    "code": 200
+                    "uri": "/reporting/cancel"
                 }
             }
         },
@@ -1067,6 +1071,7 @@
                 "count": {
                     "target": "com.amazonaws.inspector2#AggCounts",
                     "traits": {
+                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The number of resources.</p>"
                     }
                 },
@@ -1123,7 +1128,7 @@
                 "resourceType": {
                     "target": "com.amazonaws.inspector2#CoverageStringFilterList",
                     "traits": {
-                        "smithy.api#documentation": "<p>An array of Amazon Web Services resource types to return coverage statistics for.</p>"
+                        "smithy.api#documentation": "<p>An array of Amazon Web Services resource types to return coverage statistics for. The values can be <code>AWS_EC2_INSTANCE</code> or <code>AWS_ECR_REPOSITORY</code>.</p>"
                     }
                 },
                 "scanType": {
@@ -1368,9 +1373,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Creates a filter resource using specified filter criteria.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/filters/create",
-                    "code": 200
+                    "uri": "/filters/create"
                 }
             }
         },
@@ -1408,6 +1413,12 @@
                     "target": "com.amazonaws.inspector2#TagMap",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of tags for the filter.</p>"
+                    }
+                },
+                "reason": {
+                    "target": "com.amazonaws.inspector2#FilterReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reason for creating the filter.</p>"
                     }
                 }
             }
@@ -1452,9 +1463,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Creates a finding report.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/reporting/create",
-                    "code": 200
+                    "uri": "/reporting/create"
                 }
             }
         },
@@ -1499,8 +1510,8 @@
             "traits": {
                 "smithy.api#enum": [
                     {
-                        "value": "USD",
-                        "name": "USD"
+                        "name": "USD",
+                        "value": "USD"
                     }
                 ]
             }
@@ -1753,9 +1764,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Deletes a filter resource.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/filters/delete",
-                    "code": 200
+                    "uri": "/filters/delete"
                 }
             }
         },
@@ -1808,9 +1819,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Describe Amazon Inspector configuration settings for an Amazon Web Services organization</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/organizationconfiguration/describe",
-                    "code": 200
+                    "uri": "/organizationconfiguration/describe"
                 }
             }
         },
@@ -1891,9 +1902,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account\n         disables the Amazon Inspector service.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/disable",
-                    "code": 200
+                    "uri": "/disable"
                 }
             }
         },
@@ -1928,9 +1939,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Disables the Amazon Inspector delegated administrator for your organization.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/delegatedadminaccounts/disable",
-                    "code": 200
+                    "uri": "/delegatedadminaccounts/disable"
                 }
             }
         },
@@ -2029,9 +2040,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Disassociates a member account from an Amazon Inspector delegated administrator.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/members/disassociate",
-                    "code": 200
+                    "uri": "/members/disassociate"
                 }
             }
         },
@@ -2222,6 +2233,35 @@
                 ]
             }
         },
+        "com.amazonaws.inspector2#EcrConfiguration": {
+            "type": "structure",
+            "members": {
+                "rescanDuration": {
+                    "target": "com.amazonaws.inspector2#EcrRescanDuration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ECR automated re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the automated re-scan duration the monitoring state of that image becomes <code>inactive</code> and all associated findings are scheduled for closure.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details about the ECR automated re-scan duration setting for your environment</p>"
+            }
+        },
+        "com.amazonaws.inspector2#EcrConfigurationState": {
+            "type": "structure",
+            "members": {
+                "rescanDurationState": {
+                    "target": "com.amazonaws.inspector2#EcrRescanDurationState",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An object that contains details about the state of the ECR automated re-scan setting.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details about the state of the ECR scans for your environment.</p>"
+            }
+        },
         "com.amazonaws.inspector2#EcrContainerImageMetadata": {
             "type": "structure",
             "members": {
@@ -2254,6 +2294,70 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Information on the Amazon ECR repository metadata associated with a finding.</p>"
+            }
+        },
+        "com.amazonaws.inspector2#EcrRescanDuration": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "LIFETIME",
+                        "name": "LIFETIME"
+                    },
+                    {
+                        "value": "DAYS_30",
+                        "name": "DAYS_30"
+                    },
+                    {
+                        "value": "DAYS_180",
+                        "name": "DAYS_180"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.inspector2#EcrRescanDurationState": {
+            "type": "structure",
+            "members": {
+                "rescanDuration": {
+                    "target": "com.amazonaws.inspector2#EcrRescanDuration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ECR automated re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the automated re-scan duration the monitoring state of that image becomes <code>inactive</code> and all associated findings are scheduled for closure.</p>"
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.inspector2#EcrRescanDurationStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of changes to the ECR automated re-scan duration.</p>"
+                    }
+                },
+                "updatedAt": {
+                    "target": "com.amazonaws.inspector2#DateTimeTimestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A timestamp representing when the last time the ECR scan duration setting was changed.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details about the state of any changes to the ECR automated re-scan duration setting.</p>"
+            }
+        },
+        "com.amazonaws.inspector2#EcrRescanDurationStatus": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "SUCCESS",
+                        "name": "SUCCESS"
+                    },
+                    {
+                        "value": "PENDING",
+                        "name": "PENDING"
+                    },
+                    {
+                        "value": "FAILED",
+                        "name": "FAILED"
+                    }
+                ]
             }
         },
         "com.amazonaws.inspector2#EcrScanFrequency": {
@@ -2303,9 +2407,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Enables Amazon Inspector scans for one or more Amazon Web Services accounts.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/enable",
-                    "code": 200
+                    "uri": "/enable"
                 }
             }
         },
@@ -2340,9 +2444,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Enables the Amazon Inspector delegated administrator for your Organizations organization.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/delegatedadminaccounts/enable",
-                    "code": 200
+                    "uri": "/delegatedadminaccounts/enable"
                 }
             }
         },
@@ -2487,6 +2591,10 @@
                     {
                         "value": "DISASSOCIATE_ALL_MEMBERS",
                         "name": "DISASSOCIATE_ALL_MEMBERS"
+                    },
+                    {
+                        "value": "ACCOUNT_IS_ISOLATED",
+                        "name": "ACCOUNT_IS_ISOLATED"
                     }
                 ]
             }
@@ -2872,6 +2980,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Details on the related vulnerabilities used to filter findings.</p>"
                     }
+                },
+                "fixAvailable": {
+                    "target": "com.amazonaws.inspector2#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details on whether a fix is available through a version update. This value can be <code>YES</code>, <code>NO</code>, or <code>PARTIAL</code>.  A <code>PARTIAL</code> fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.</p>"
+                    }
                 }
             },
             "traits": {
@@ -3018,6 +3132,12 @@
                     "target": "com.amazonaws.inspector2#PackageVulnerabilityDetails",
                     "traits": {
                         "smithy.api#documentation": "<p>An object that contains the details of a package vulnerability finding.</p>"
+                    }
+                },
+                "fixAvailable": {
+                    "target": "com.amazonaws.inspector2#FixAvailable",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details on whether a fix is available through a version update. This value can be <code>YES</code>, <code>NO</code>, or <code>PARTIAL</code>.  A <code>PARTIAL</code> fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.</p>"
                     }
                 }
             },
@@ -3168,6 +3288,25 @@
                 ]
             }
         },
+        "com.amazonaws.inspector2#FixAvailable": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "YES",
+                        "name": "YES"
+                    },
+                    {
+                        "value": "NO",
+                        "name": "NO"
+                    },
+                    {
+                        "value": "PARTIAL",
+                        "name": "PARTIAL"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.inspector2#FreeTrialAccountInfo": {
             "type": "structure",
             "members": {
@@ -3266,12 +3405,12 @@
             "traits": {
                 "smithy.api#enum": [
                     {
-                        "value": "ACCESS_DENIED",
-                        "name": "ACCESS_DENIED"
+                        "name": "ACCESS_DENIED",
+                        "value": "ACCESS_DENIED"
                     },
                     {
-                        "value": "INTERNAL_ERROR",
-                        "name": "INTERNAL_ERROR"
+                        "name": "INTERNAL_ERROR",
+                        "value": "INTERNAL_ERROR"
                     }
                 ]
             }
@@ -3293,12 +3432,12 @@
             "traits": {
                 "smithy.api#enum": [
                     {
-                        "value": "ACTIVE",
-                        "name": "ACTIVE"
+                        "name": "ACTIVE",
+                        "value": "ACTIVE"
                     },
                     {
-                        "value": "INACTIVE",
-                        "name": "INACTIVE"
+                        "name": "INACTIVE",
+                        "value": "INACTIVE"
                     }
                 ]
             }
@@ -3308,14 +3447,57 @@
             "traits": {
                 "smithy.api#enum": [
                     {
-                        "value": "EC2",
-                        "name": "EC2"
+                        "name": "EC2",
+                        "value": "EC2"
                     },
                     {
-                        "value": "ECR",
-                        "name": "ECR"
+                        "name": "ECR",
+                        "value": "ECR"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.inspector2#GetConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.inspector2#GetConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.inspector2#GetConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.inspector2#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.inspector2#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.inspector2#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Retrieves setting configurations for Inspector scans.</p>",
+                "smithy.api#http": {
+                    "code": 200,
+                    "method": "POST",
+                    "uri": "/configuration/get"
+                }
+            }
+        },
+        "com.amazonaws.inspector2#GetConfigurationRequest": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.inspector2#GetConfigurationResponse": {
+            "type": "structure",
+            "members": {
+                "ecrConfiguration": {
+                    "target": "com.amazonaws.inspector2#EcrConfigurationState",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how the ECR automated re-scan duration is currently configured for your environment.</p>"
+                    }
+                }
             }
         },
         "com.amazonaws.inspector2#GetDelegatedAdminAccount": {
@@ -3346,9 +3528,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Retrieves information about the Amazon Inspector delegated administrator for your\n         organization.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/delegatedadminaccounts/get",
-                    "code": 200
+                    "uri": "/delegatedadminaccounts/get"
                 }
             }
         },
@@ -3395,9 +3577,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Gets the status of a findings report.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/reporting/status/get",
-                    "code": 200
+                    "uri": "/reporting/status/get"
                 }
             }
         },
@@ -3481,9 +3663,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Gets member information for your organization.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/members/get",
-                    "code": 200
+                    "uri": "/members/get"
                 }
             }
         },
@@ -3654,26 +3836,6 @@
         },
         "com.amazonaws.inspector2#Inspector2": {
             "type": "service",
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "Inspector2",
-                    "arnNamespace": "inspector2",
-                    "cloudFormationName": "Inspector2",
-                    "cloudTrailEventSource": "inspector2.amazon.aws",
-                    "endpointPrefix": "inspector2"
-                },
-                "aws.auth#sigv4": {
-                    "name": "inspector2"
-                },
-                "aws.protocols#restJson1": {},
-                "smithy.api#cors": {
-                    "additionalAllowedHeaders": [
-                        "*"
-                    ]
-                },
-                "smithy.api#documentation": "<p>Amazon Inspector is a vulnerability discovery service that automates continuous scanning for\n         security vulnerabilities within your Amazon EC2 and Amazon ECR environments.</p>",
-                "smithy.api#title": "Inspector2"
-            },
             "version": "2020-06-08",
             "operations": [
                 {
@@ -3714,6 +3876,9 @@
                 },
                 {
                     "target": "com.amazonaws.inspector2#EnableDelegatedAdminAccount"
+                },
+                {
+                    "target": "com.amazonaws.inspector2#GetConfiguration"
                 },
                 {
                     "target": "com.amazonaws.inspector2#GetDelegatedAdminAccount"
@@ -3761,12 +3926,34 @@
                     "target": "com.amazonaws.inspector2#UntagResource"
                 },
                 {
+                    "target": "com.amazonaws.inspector2#UpdateConfiguration"
+                },
+                {
                     "target": "com.amazonaws.inspector2#UpdateFilter"
                 },
                 {
                     "target": "com.amazonaws.inspector2#UpdateOrganizationConfiguration"
                 }
-            ]
+            ],
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "Inspector2",
+                    "arnNamespace": "inspector2",
+                    "cloudTrailEventSource": "inspector2.amazon.aws",
+                    "cloudFormationName": "Inspector2"
+                },
+                "aws.auth#sigv4": {
+                    "name": "inspector2"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#cors": {
+                    "additionalAllowedHeaders": [
+                        "*"
+                    ]
+                },
+                "smithy.api#documentation": "<p>Amazon Inspector is a vulnerability discovery service that automates continuous scanning for\n         security vulnerabilities within your Amazon EC2 and Amazon ECR environments.</p>",
+                "smithy.api#title": "Inspector2"
+            }
         },
         "com.amazonaws.inspector2#InspectorScoreDetails": {
             "type": "structure",
@@ -3862,22 +4049,21 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists the permissions an account has to configure Amazon Inspector.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/accountpermissions/list",
-                    "code": 200
+                    "uri": "/accountpermissions/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "permissions",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "permissions"
                 }
             }
         },
         "com.amazonaws.inspector2#ListAccountPermissionsMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 1024
@@ -3947,22 +4133,21 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists coverage details for you environment.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/coverage/list",
-                    "code": 200
+                    "uri": "/coverage/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "coveredResources",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "coveredResources"
                 }
             }
         },
         "com.amazonaws.inspector2#ListCoverageMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 200
@@ -4031,9 +4216,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists Amazon Inspector coverage statistics for your environment.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/coverage/statistics/list",
-                    "code": 200
+                    "uri": "/coverage/statistics/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
@@ -4114,15 +4299,15 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists information about the Amazon Inspector delegated administrator of your\n         organization.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/delegatedadminaccounts/list",
-                    "code": 200
+                    "uri": "/delegatedadminaccounts/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "delegatedAdminAccounts",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "delegatedAdminAccounts"
                 }
             }
         },
@@ -4163,7 +4348,6 @@
         "com.amazonaws.inspector2#ListDelegatedAdminMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 5
@@ -4173,7 +4357,6 @@
         "com.amazonaws.inspector2#ListFilterMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
@@ -4205,15 +4388,15 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists the filters associated with your account.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/filters/list",
-                    "code": 200
+                    "uri": "/filters/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "filters",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "filters"
                 }
             }
         },
@@ -4286,22 +4469,21 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists aggregated finding data for your environment based on specific criteria.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/findings/aggregation/list",
-                    "code": 200
+                    "uri": "/findings/aggregation/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "responses",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "responses"
                 }
             }
         },
         "com.amazonaws.inspector2#ListFindingAggregationsMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
@@ -4390,22 +4572,21 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists findings for your environment.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/findings/list",
-                    "code": 200
+                    "uri": "/findings/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "findings",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "findings"
                 }
             }
         },
         "com.amazonaws.inspector2#ListFindingsMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
@@ -4483,22 +4664,21 @@
             "traits": {
                 "smithy.api#documentation": "<p>List members associated with the Amazon Inspector delegated administrator for your\n         organization.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/members/list",
-                    "code": 200
+                    "uri": "/members/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "members",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "members"
                 }
             }
         },
         "com.amazonaws.inspector2#ListMembersMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 50
@@ -4570,9 +4750,8 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists all tags attached to a given resource.</p>",
                 "smithy.api#http": {
-                    "method": "GET",
                     "uri": "/tags/{resourceArn}",
-                    "code": 200
+                    "method": "GET"
                 },
                 "smithy.api#readonly": {}
             }
@@ -4626,22 +4805,21 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists the Amazon Inspector usage totals over the last 30 days.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/usage/list",
-                    "code": 200
+                    "uri": "/usage/list"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
-                    "items": "totals",
-                    "pageSize": "maxResults"
+                    "pageSize": "maxResults",
+                    "items": "totals"
                 }
             }
         },
         "com.amazonaws.inspector2#ListUsageTotalsMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1,
                     "max": 500
@@ -4823,6 +5001,7 @@
         "com.amazonaws.inspector2#MonthlyCostEstimate": {
             "type": "double",
             "traits": {
+                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 0
                 }
@@ -5036,7 +5215,10 @@
             }
         },
         "com.amazonaws.inspector2#PackageEpoch": {
-            "type": "integer"
+            "type": "integer",
+            "traits": {
+                "smithy.api#default": 0
+            }
         },
         "com.amazonaws.inspector2#PackageFilter": {
             "type": "structure",
@@ -5145,6 +5327,22 @@
                     {
                         "value": "OS",
                         "name": "OS"
+                    },
+                    {
+                        "value": "PIP",
+                        "name": "PIP"
+                    },
+                    {
+                        "value": "PYTHONPKG",
+                        "name": "PYTHONPKG"
+                    },
+                    {
+                        "value": "NODEPKG",
+                        "name": "NODEPKG"
+                    },
+                    {
+                        "value": "POM",
+                        "name": "POM"
                     }
                 ]
             }
@@ -5208,8 +5406,7 @@
                 "vulnerablePackages": {
                     "target": "com.amazonaws.inspector2#VulnerablePackageList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The packages impacted by this vulnerability.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The packages impacted by this vulnerability.</p>"
                     }
                 },
                 "source": {
@@ -5312,7 +5509,6 @@
         "com.amazonaws.inspector2#Port": {
             "type": "integer",
             "traits": {
-                "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 0,
                     "max": 65535
@@ -5494,6 +5690,22 @@
                     {
                         "value": "INVALID_PERMISSIONS",
                         "name": "INVALID_PERMISSIONS"
+                    },
+                    {
+                        "value": "NO_FINDINGS_FOUND",
+                        "name": "NO_FINDINGS_FOUND"
+                    },
+                    {
+                        "value": "BUCKET_NOT_FOUND",
+                        "name": "BUCKET_NOT_FOUND"
+                    },
+                    {
+                        "value": "INCOMPATIBLE_BUCKET_REGION",
+                        "name": "INCOMPATIBLE_BUCKET_REGION"
+                    },
+                    {
+                        "value": "MALFORMED_KMS_KEY",
+                        "name": "MALFORMED_KMS_KEY"
                     }
                 ]
             }
@@ -5880,6 +6092,18 @@
                     {
                         "value": "EC2_INSTANCE_STOPPED",
                         "name": "EC2_INSTANCE_STOPPED"
+                    },
+                    {
+                        "value": "PENDING_DISABLE",
+                        "name": "PENDING_DISABLE"
+                    },
+                    {
+                        "value": "NO_INVENTORY",
+                        "name": "NO_INVENTORY"
+                    },
+                    {
+                        "value": "STALE_INVENTORY",
+                        "name": "STALE_INVENTORY"
                     }
                 ]
             }
@@ -6345,9 +6569,8 @@
             "traits": {
                 "smithy.api#documentation": "<p>Adds tags to a resource.</p>",
                 "smithy.api#http": {
-                    "method": "POST",
                     "uri": "/tags/{resourceArn}",
-                    "code": 200
+                    "method": "POST"
                 },
                 "smithy.api#idempotent": {}
             }
@@ -6507,9 +6730,8 @@
             "traits": {
                 "smithy.api#documentation": "<p>Removes tags from a resource.</p>",
                 "smithy.api#http": {
-                    "method": "DELETE",
                     "uri": "/tags/{resourceArn}",
-                    "code": 200
+                    "method": "DELETE"
                 }
             }
         },
@@ -6535,6 +6757,53 @@
             }
         },
         "com.amazonaws.inspector2#UntagResourceResponse": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.inspector2#UpdateConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.inspector2#UpdateConfigurationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.inspector2#UpdateConfigurationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.inspector2#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.inspector2#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.inspector2#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.inspector2#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.</p>",
+                "smithy.api#http": {
+                    "code": 200,
+                    "method": "POST",
+                    "uri": "/configuration/update"
+                }
+            }
+        },
+        "com.amazonaws.inspector2#UpdateConfigurationRequest": {
+            "type": "structure",
+            "members": {
+                "ecrConfiguration": {
+                    "target": "com.amazonaws.inspector2#EcrConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how the ECR automated re-scan will be updated for your environment.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.inspector2#UpdateConfigurationResponse": {
             "type": "structure",
             "members": {}
         },
@@ -6566,9 +6835,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Specifies the action that is to be applied to the findings that match the filter.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/filters/update",
-                    "code": 200
+                    "uri": "/filters/update"
                 }
             }
         },
@@ -6604,6 +6873,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Number (ARN) of the filter to update.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "reason": {
+                    "target": "com.amazonaws.inspector2#FilterReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reason the filter was updated.</p>"
                     }
                 }
             }
@@ -6645,9 +6920,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Updates the configurations for your Amazon Inspector organization.</p>",
                 "smithy.api#http": {
+                    "code": 200,
                     "method": "POST",
-                    "uri": "/organizationconfiguration/update",
-                    "code": 200
+                    "uri": "/organizationconfiguration/update"
                 }
             }
         },
@@ -6687,12 +6962,14 @@
                 "total": {
                     "target": "com.amazonaws.inspector2#UsageValue",
                     "traits": {
+                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The total of usage.</p>"
                     }
                 },
                 "estimatedMonthlyCost": {
                     "target": "com.amazonaws.inspector2#MonthlyCostEstimate",
                     "traits": {
+                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The estimated monthly cost of Amazon Inspector.</p>"
                     }
                 },
@@ -6762,16 +7039,16 @@
             "traits": {
                 "smithy.api#enum": [
                     {
-                        "value": "EC2_INSTANCE_HOURS",
-                        "name": "EC2_INSTANCE_HOURS"
+                        "name": "EC2_INSTANCE_HOURS",
+                        "value": "EC2_INSTANCE_HOURS"
                     },
                     {
-                        "value": "ECR_INITIAL_SCAN",
-                        "name": "ECR_INITIAL_SCAN"
+                        "name": "ECR_INITIAL_SCAN",
+                        "value": "ECR_INITIAL_SCAN"
                     },
                     {
-                        "value": "ECR_RESCAN",
-                        "name": "ECR_RESCAN"
+                        "name": "ECR_RESCAN",
+                        "value": "ECR_RESCAN"
                     }
                 ]
             }
@@ -6779,6 +7056,7 @@
         "com.amazonaws.inspector2#UsageValue": {
             "type": "double",
             "traits": {
+                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 0
                 }
@@ -6865,7 +7143,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
-                    "max": 64
+                    "max": 128
                 }
             }
         },
@@ -6901,6 +7179,7 @@
                 "epoch": {
                     "target": "com.amazonaws.inspector2#PackageEpoch",
                     "traits": {
+                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The epoch of the vulnerable package.</p>"
                     }
                 },
@@ -6933,6 +7212,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The version of the package that contains the vulnerability fix.</p>"
                     }
+                },
+                "remediation": {
+                    "target": "com.amazonaws.inspector2#VulnerablePackageRemediation",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The code to run in your environment to update packages with a fix available.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6943,6 +7228,15 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.inspector2#VulnerablePackage"
+            }
+        },
+        "com.amazonaws.inspector2#VulnerablePackageRemediation": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1024
+                }
             }
         }
     }

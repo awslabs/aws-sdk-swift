@@ -494,7 +494,7 @@
                 "Lifecycle": {
                     "target": "com.amazonaws.backup#Lifecycle",
                     "traits": {
-                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold. </p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold. </p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
                     }
                 },
                 "RecoveryPointTags": {
@@ -564,7 +564,7 @@
                 "Lifecycle": {
                     "target": "com.amazonaws.backup#Lifecycle",
                     "traits": {
-                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup will transition and expire backups automatically according\n         to the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold. </p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup will transition and expire backups automatically according\n         to the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold.</p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
                     }
                 },
                 "RecoveryPointTags": {
@@ -634,7 +634,7 @@
                 "ListOfTags": {
                     "target": "com.amazonaws.backup#ListOfTags",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of conditions that you define to assign resources to your backup plans using\n         tags. For example, <code>\"StringEquals\": {\"Department\": \"accounting\"</code>. Condition\n         operators are case sensitive.</p>\n         <p>\n            <code>ListOfTags</code> differs from <code>Conditions</code> as follows:</p>\n         <ul>\n            <li>\n               <p>When you specify more than one condition, you assign all resources that match AT\n               LEAST ONE condition (using OR logic).</p>\n            </li>\n            <li>\n               <p>\n                  <code>ListOfTags</code> only supports <code>StringEquals</code>.\n                  <code>Conditions</code> supports <code>StringEquals</code>,\n                  <code>StringLike</code>, <code>StringNotEquals</code>, and\n                  <code>StringNotLike</code>. </p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>A list of conditions that you define to assign resources to your backup plans using\n         tags. For example, <code>\"StringEquals\":  {\n            \"ConditionKey\": \"aws:ResourceTag/CreatedByCryo\",\n            \"ConditionValue\": \"true\"\n            },</code>. Condition\n         operators are case sensitive.</p>\n         <p>\n            <code>ListOfTags</code> differs from <code>Conditions</code> as follows:</p>\n         <ul>\n            <li>\n               <p>When you specify more than one condition, you assign all resources that match AT\n               LEAST ONE condition (using OR logic).</p>\n            </li>\n            <li>\n               <p>\n                  <code>ListOfTags</code> only supports <code>StringEquals</code>.\n                  <code>Conditions</code> supports <code>StringEquals</code>,\n                  <code>StringLike</code>, <code>StringNotEquals</code>, and\n                  <code>StringNotLike</code>. </p>\n            </li>\n         </ul>"
                     }
                 },
                 "NotResources": {
@@ -646,12 +646,12 @@
                 "Conditions": {
                     "target": "com.amazonaws.backup#Conditions",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of conditions that you define to assign resources to your backup plans using\n         tags. For example, <code>\"StringEquals\": {\"Department\": \"accounting\"</code>. Condition\n         operators are case sensitive.</p>\n         <p>\n            <code>Conditions</code> differs from <code>ListOfTags</code> as follows:</p>\n         <ul>\n            <li>\n               <p>When you specify more than one condition, you only assign the resources that match\n               ALL conditions (using AND logic).</p>\n            </li>\n            <li>\n               <p>\n                  <code>Conditions</code> supports <code>StringEquals</code>,\n                  <code>StringLike</code>, <code>StringNotEquals</code>, and\n                  <code>StringNotLike</code>. <code>ListOfTags</code> only supports\n                  <code>StringEquals</code>.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>A list of conditions that you define to assign resources to your backup plans using\n         tags. For example, <code>\"StringEquals\":  {\n            \"ConditionKey\": \"aws:ResourceTag/CreatedByCryo\",\n            \"ConditionValue\": \"true\"\n            },</code>. Condition\n         operators are case sensitive.</p>\n         <p>\n            <code>Conditions</code> differs from <code>ListOfTags</code> as follows:</p>\n         <ul>\n            <li>\n               <p>When you specify more than one condition, you only assign the resources that match\n               ALL conditions (using AND logic).</p>\n            </li>\n            <li>\n               <p>\n                  <code>Conditions</code> supports <code>StringEquals</code>,\n                  <code>StringLike</code>, <code>StringNotEquals</code>, and\n                  <code>StringNotLike</code>. <code>ListOfTags</code> only supports\n                  <code>StringEquals</code>.</p>\n            </li>\n         </ul>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Used to specify a set of resources to a backup plan.</p>"
+                "smithy.api#documentation": "<p>Used to specify a set of resources to a backup plan.</p>\n         <p>Specifying your desired <code>Conditions</code>, <code>ListOfTags</code>, <code>NotResources</code>, \n         and/or <code>Resources</code> is recommended. If none of these are specified, Backup will attempt to \n       select all supported and opted-in storage resources, which could have unintended cost implications.</p>"
             }
         },
         "com.amazonaws.backup#BackupSelectionName": {
@@ -773,6 +773,14 @@
                     {
                         "value": "BACKUP_PLAN_MODIFIED",
                         "name": "BACKUP_PLAN_MODIFIED"
+                    },
+                    {
+                        "value": "S3_BACKUP_OBJECT_FAILED",
+                        "name": "S3_BACKUP_OBJECT_FAILED"
+                    },
+                    {
+                        "value": "S3_RESTORE_OBJECT_FAILED",
+                        "name": "S3_RESTORE_OBJECT_FAILED"
                     }
                 ]
             }
@@ -813,7 +821,7 @@
                 "EncryptionKeyArn": {
                     "target": "com.amazonaws.backup#ARN",
                     "traits": {
-                        "smithy.api#documentation": "<p>The server-side encryption key that is used to protect your backups; for example,\n            <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>"
+                        "smithy.api#documentation": "<p>A server-side encryption key you can specify to encrypt your backups from services\n      that support full Backup management; for example,\n      <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.\n      If you specify a key, you must specify its ARN, not its alias. If you do not specify a key,\n      Backup creates a KMS key for you by default.</p>\n         <p>To learn which Backup services support full Backup management\n         and how Backup handles encryption for backups from services that do not yet support\n         full Backup, see <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/encryption.html\">\n            Encryption for backups in Backup</a>\n         </p>"
                     }
                 },
                 "CreatorRequestId": {
@@ -889,7 +897,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains <code>DeleteAt</code> and <code>MoveToColdStorageAt</code> timestamps, which\n         are used to specify a lifecycle for a recovery point.</p>\n         <p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define.</p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold.</p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                "smithy.api#documentation": "<p>Contains <code>DeleteAt</code> and <code>MoveToColdStorageAt</code> timestamps, which\n         are used to specify a lifecycle for a recovery point.</p>\n         <p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define.</p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold.</p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
             }
         },
         "com.amazonaws.backup#ComplianceResourceIdList": {
@@ -910,7 +918,7 @@
                 "ConditionType": {
                     "target": "com.amazonaws.backup#ConditionType",
                     "traits": {
-                        "smithy.api#documentation": "<p>An operation applied to a key-value pair used to assign resources to your backup plan.\n         Condition only supports <code>StringEquals</code>. For more flexible assignment options,\n         incluidng <code>StringLike</code> and the ability to exclude resources from your backup\n         plan, use <code>Conditions</code> (with an \"s\" on the end) for your <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BackupSelection.html\">\n               <code>BackupSelection</code>\n            </a>.</p>",
+                        "smithy.api#documentation": "<p>An operation applied to a key-value pair used to assign resources to your backup plan.\n         Condition only supports <code>StringEquals</code>. For more flexible assignment options,\n         including <code>StringLike</code> and the ability to exclude resources from your backup\n         plan, use <code>Conditions</code> (with an \"s\" on the end) for your <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BackupSelection.html\">\n               <code>BackupSelection</code>\n            </a>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1363,7 +1371,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates a JSON document that specifies a set of resources to assign to a backup plan.\n         For examples, see <a href=\"https://docs.aws.amazon.com/assigning-resources.html#assigning-resources-json\">Assigning resources\n            programmatically</a>. </p>",
+                "smithy.api#documentation": "<p>Creates a JSON document that specifies a set of resources to assign to a backup plan.\n         For examples, see <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json\">Assigning resources programmatically</a>. </p>",
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/backup/plans/{BackupPlanId}/selections",
@@ -2006,6 +2014,9 @@
             "input": {
                 "target": "com.amazonaws.backup#DeleteBackupSelectionInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -2055,6 +2066,9 @@
             "input": {
                 "target": "com.amazonaws.backup#DeleteBackupVaultInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -2085,6 +2099,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#DeleteBackupVaultAccessPolicyInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -2141,6 +2158,9 @@
             "input": {
                 "target": "com.amazonaws.backup#DeleteBackupVaultLockConfigurationInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -2186,6 +2206,9 @@
             "input": {
                 "target": "com.amazonaws.backup#DeleteBackupVaultNotificationsInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -2227,6 +2250,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#DeleteFrameworkInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -2271,6 +2297,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#DeleteRecoveryPointInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -2327,6 +2356,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#DeleteReportPlanInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -3088,7 +3120,7 @@
                 "Lifecycle": {
                     "target": "com.amazonaws.backup#Lifecycle",
                     "traits": {
-                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups that are transitioned to cold storage must be stored in cold storage for a\n         minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than\n         the “transition to cold after days” setting. The “transition to cold after days” setting\n         cannot be changed after a backup has been transitioned to cold. </p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define.</p>\n         <p>Backups that are transitioned to cold storage must be stored in cold storage for a\n         minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold. </p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
                     }
                 },
                 "EncryptionKeyArn": {
@@ -3155,7 +3187,7 @@
                 "ResourceTypeManagementPreference": {
                     "target": "com.amazonaws.backup#ResourceTypeManagementPreference",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns whether a DynamoDB recovery point was taken using \n         <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html\">\n            Backup's advanced DynamoDB backup features</a>.\n      </p>"
+                        "smithy.api#documentation": "<p>Returns whether Backup fully manages the backups for a resource type.</p>\n         <p>For the benefits of full Backup management, see <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#full-management\"> Full Backup management</a>.</p>\n         <p>For a list of resource types and whether each supports full Backup\n         management, see the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> Feature\n            availability by resource</a> table.</p>\n         <p>If <code>\"DynamoDB\":false</code>, you can enable full Backup management for\n         DynamoDB backup by enabling <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli\">\n            Backup's advanced DynamoDB backup features</a>.</p>"
                     }
                 }
             }
@@ -3403,6 +3435,9 @@
             "input": {
                 "target": "com.amazonaws.backup#DisassociateRecoveryPointInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -3577,7 +3612,7 @@
                 "ControlScope": {
                     "target": "com.amazonaws.backup#ControlScope",
                     "traits": {
-                        "smithy.api#documentation": "<p>The scope of a control. The control scope defines what the control will evaluate. Three\n         examples of control scopes are: a specific backup plan, all backup plans with a specific\n         tag, or all backup plans. For more information, see <code>ControlScope</code>.</p>"
+                        "smithy.api#documentation": "<p>The scope of a control. The control scope defines what the control will evaluate. Three\n         examples of control scopes are: a specific backup plan, all backup plans with a specific\n         tag, or all backup plans. For more information, see <a href=\"aws-backup/latest/devguide/API_ControlScope.html\">\n               <code>ControlScope</code>.</a>\n         </p>"
                     }
                 }
             },
@@ -4148,6 +4183,9 @@
         },
         "com.amazonaws.backup#GetSupportedResourceTypes": {
             "type": "operation",
+            "input": {
+                "target": "smithy.api#Unit"
+            },
             "output": {
                 "target": "com.amazonaws.backup#GetSupportedResourceTypesOutput"
             },
@@ -4171,7 +4209,7 @@
                 "ResourceTypes": {
                     "target": "com.amazonaws.backup#ResourceTypes",
                     "traits": {
-                        "smithy.api#documentation": "<p>Contains a string with the supported Amazon Web Services resource types:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSX</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Contains a string with the supported Amazon Web Services resource types:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSX</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n         </ul>"
                     }
                 }
             }
@@ -4298,7 +4336,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains an array of <code>Transition</code> objects specifying how long in days before\n         a recovery point transitions to cold storage or is deleted.</p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, on the console, the “expire after days” setting must be 90 days greater\n         than the “transition to cold after days” setting. The “transition to cold after days”\n         setting cannot be changed after a backup has been transitioned to cold.</p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                "smithy.api#documentation": "<p>Contains an array of <code>Transition</code> objects specifying how long in days before\n         a recovery point transitions to cold storage or is deleted.</p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, on the console, the “retention” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold.</p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
             }
         },
         "com.amazonaws.backup#LimitExceededException": {
@@ -4355,6 +4393,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "BackupJobs",
                     "pageSize": "MaxResults"
                 }
             }
@@ -4414,7 +4453,7 @@
                 "ByResourceType": {
                     "target": "com.amazonaws.backup#ResourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
                         "smithy.api#httpQuery": "resourceType"
                     }
                 },
@@ -4423,6 +4462,20 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The account ID to list the jobs from. Returns only backup jobs associated with the\n         specified account ID.</p>\n         <p>If used from an Organizations management account, passing <code>*</code> returns\n         all jobs across the organization.</p>",
                         "smithy.api#httpQuery": "accountId"
+                    }
+                },
+                "ByCompleteAfter": {
+                    "target": "com.amazonaws.backup#timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns only backup jobs completed after a date expressed in Unix format and Coordinated\n         Universal Time (UTC).</p>",
+                        "smithy.api#httpQuery": "completeAfter"
+                    }
+                },
+                "ByCompleteBefore": {
+                    "target": "com.amazonaws.backup#timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns only backup jobs completed before a date expressed in Unix format and\n         Coordinated Universal Time (UTC).</p>",
+                        "smithy.api#httpQuery": "completeBefore"
                     }
                 }
             }
@@ -4476,6 +4529,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "BackupPlanTemplatesList",
                     "pageSize": "MaxResults"
                 }
             }
@@ -4549,6 +4603,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "BackupPlanVersionsList",
                     "pageSize": "MaxResults"
                 }
             }
@@ -4630,6 +4685,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "BackupPlansList",
                     "pageSize": "MaxResults"
                 }
             }
@@ -4710,6 +4766,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "BackupSelectionsList",
                     "pageSize": "MaxResults"
                 }
             }
@@ -4791,6 +4848,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "BackupVaultList",
                     "pageSize": "MaxResults"
                 }
             }
@@ -4857,6 +4915,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "CopyJobs",
                     "pageSize": "MaxResults"
                 }
             }
@@ -4909,7 +4968,7 @@
                 "ByResourceType": {
                     "target": "com.amazonaws.backup#ResourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
                         "smithy.api#httpQuery": "resourceType"
                     }
                 },
@@ -4925,6 +4984,20 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The account ID to list the jobs from. Returns only copy jobs associated with the\n         specified account ID.</p>",
                         "smithy.api#httpQuery": "accountId"
+                    }
+                },
+                "ByCompleteBefore": {
+                    "target": "com.amazonaws.backup#timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns only copy jobs completed before a date expressed in Unix format and Coordinated\n         Universal Time (UTC).</p>",
+                        "smithy.api#httpQuery": "completeBefore"
+                    }
+                },
+                "ByCompleteAfter": {
+                    "target": "com.amazonaws.backup#timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns only copy jobs completed after a date expressed in Unix format and Coordinated\n         Universal Time (UTC).</p>",
+                        "smithy.api#httpQuery": "completeAfter"
                     }
                 }
             }
@@ -5045,6 +5118,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "Results",
                     "pageSize": "MaxResults"
                 }
             }
@@ -5118,6 +5192,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "RecoveryPoints",
                     "pageSize": "MaxResults"
                 }
             }
@@ -5234,6 +5309,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "RecoveryPoints",
                     "pageSize": "MaxResults"
                 }
             }
@@ -5475,6 +5551,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "RestoreJobs",
                     "pageSize": "MaxResults"
                 }
             }
@@ -5523,6 +5600,20 @@
                         "smithy.api#documentation": "<p>Returns only restore jobs associated with the specified job status.</p>",
                         "smithy.api#httpQuery": "status"
                     }
+                },
+                "ByCompleteBefore": {
+                    "target": "com.amazonaws.backup#timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns only copy jobs completed before a date expressed in Unix format and Coordinated\n         Universal Time (UTC).</p>",
+                        "smithy.api#httpQuery": "completeBefore"
+                    }
+                },
+                "ByCompleteAfter": {
+                    "target": "com.amazonaws.backup#timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns only copy jobs completed after a date expressed in Unix format and Coordinated\n         Universal Time (UTC).</p>",
+                        "smithy.api#httpQuery": "completeAfter"
+                    }
                 }
             }
         },
@@ -5566,7 +5657,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns a list of key-value pairs assigned to a target recovery point, backup plan, or\n         backup vault.</p>\n         <note>\n            <p>\n               <code>ListTags</code> are currently only supported with Amazon EFS\n            backups.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Returns a list of key-value pairs assigned to a target recovery point, backup plan, or\n         backup vault.</p>\n         <p>\n            <code>ListTags</code> only works for resource types that support full Backup\n         management of their backups. Those resource types are listed in the \"Full Backup management\" section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> Feature\n            availability by resource</a> table.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/tags/{ResourceArn}",
@@ -5741,6 +5832,9 @@
             "input": {
                 "target": "com.amazonaws.backup#PutBackupVaultAccessPolicyInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -5789,6 +5883,9 @@
             "input": {
                 "target": "com.amazonaws.backup#PutBackupVaultLockConfigurationInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -5830,13 +5927,13 @@
                 "MinRetentionDays": {
                     "target": "com.amazonaws.backup#Long",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Backup Vault Lock configuration that specifies the minimum retention\n         period that the vault retains its recovery points. This setting can be useful if, for\n         example, your organization's policies require you to retain certain data for at least seven\n         years (2555 days).</p>\n         <p>If this parameter is not specified, Vault Lock will not enforce a minimum retention\n         period.</p>\n         <p>If this parameter is specified, any backup or copy job to the vault must have a\n         lifecycle policy with a retention period equal to or longer than the minimum retention\n         period. If the job's retention period is shorter than that minimum retention period, then\n         the vault fails that backup or copy job, and you should either modify your lifecycle\n         settings or use a different vault. Recovery points already saved in the vault prior to\n         Vault Lock are not affected.</p>"
+                        "smithy.api#documentation": "<p>The Backup Vault Lock configuration that specifies the minimum retention\n         period that the vault retains its recovery points. This setting can be useful if, for\n         example, your organization's policies require you to retain certain data for at least seven\n         years (2555 days).</p>\n         <p>If this parameter is not specified, Vault Lock will not enforce a minimum retention\n         period.</p>\n         <p>If this parameter is specified, any backup or copy job to the vault must have a\n         lifecycle policy with a retention period equal to or longer than the minimum retention\n         period. If the job's retention period is shorter than that minimum retention period, then\n         the vault fails that backup or copy job, and you should either modify your lifecycle\n         settings or use a different vault. The shortest minimum retention period\n         you can specify is 1 day. Recovery points already saved in the vault prior to\n         Vault Lock are not affected.</p>"
                     }
                 },
                 "MaxRetentionDays": {
                     "target": "com.amazonaws.backup#Long",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Backup Vault Lock configuration that specifies the maximum retention\n         period that the vault retains its recovery points. This setting can be useful if, for\n         example, your organization's policies require you to destroy certain data after retaining\n         it for four years (1460 days).</p>\n         <p>If this parameter is not included, Vault Lock does not enforce a maximum retention\n         period on the recovery points in the vault. If this parameter is included without a value,\n         Vault Lock will not enforce a maximum retention period.</p>\n         <p>If this parameter is specified, any backup or copy job to the vault must have a\n         lifecycle policy with a retention period equal to or shorter than the maximum retention\n         period. If the job's retention period is longer than that maximum retention period, then\n         the vault fails the backup or copy job, and you should either modify your lifecycle\n         settings or use a different vault. Recovery points already saved in the vault prior to\n         Vault Lock are not affected.</p>"
+                        "smithy.api#documentation": "<p>The Backup Vault Lock configuration that specifies the maximum retention\n         period that the vault retains its recovery points. This setting can be useful if, for\n         example, your organization's policies require you to destroy certain data after retaining\n         it for four years (1460 days).</p>\n         <p>If this parameter is not included, Vault Lock does not enforce a maximum retention\n         period on the recovery points in the vault. If this parameter is included without a value,\n         Vault Lock will not enforce a maximum retention period.</p>\n         <p>If this parameter is specified, any backup or copy job to the vault must have a\n         lifecycle policy with a retention period equal to or shorter than the maximum retention\n         period. If the job's retention period is longer than that maximum retention period, then\n         the vault fails the backup or copy job, and you should either modify your lifecycle\n         settings or use a different vault. The longest maximum retention period\n         you can specify is 36500 days (approximately 100 years).\n         Recovery points already saved in the vault prior to\n         Vault Lock are not affected.</p>"
                     }
                 },
                 "ChangeableForDays": {
@@ -5851,6 +5948,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#PutBackupVaultNotificationsInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -5897,7 +5997,7 @@
                 "BackupVaultEvents": {
                     "target": "com.amazonaws.backup#BackupVaultEvents",
                     "traits": {
-                        "smithy.api#documentation": "<p>An array of events that indicate the status of jobs to back up resources to the backup\n         vault.</p>\n         <p>For common use cases and code samples, see <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/sns-notifications.html\">Using Amazon SNS to\n            track Backup events</a>.</p>\n         <p>The following events are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>BACKUP_JOB_STARTED</code> | <code>BACKUP_JOB_COMPLETED</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>COPY_JOB_STARTED</code> | <code>COPY_JOB_SUCCESSFUL</code> |\n                  <code>COPY_JOB_FAILED</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>RESTORE_JOB_STARTED</code> | <code>RESTORE_JOB_COMPLETED</code> |\n                  <code>RECOVERY_POINT_MODIFIED</code>\n               </p>\n            </li>\n         </ul>\n         <note>\n            <p>Ignore the list below because it includes deprecated events. Refer to the list\n            above.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>An array of events that indicate the status of jobs to back up resources to the backup\n         vault.</p>\n         <p>For common use cases and code samples, see <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/sns-notifications.html\">Using Amazon SNS to\n            track Backup events</a>.</p>\n         <p>The following events are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>BACKUP_JOB_STARTED</code> | <code>BACKUP_JOB_COMPLETED</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>COPY_JOB_STARTED</code> | <code>COPY_JOB_SUCCESSFUL</code> |\n                  <code>COPY_JOB_FAILED</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>RESTORE_JOB_STARTED</code> | <code>RESTORE_JOB_COMPLETED</code> |\n                  <code>RECOVERY_POINT_MODIFIED</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>S3_BACKUP_OBJECT_FAILED</code> | <code>S3_RESTORE_OBJECT_FAILED</code>\n               </p>\n            </li>\n         </ul>\n         <note>\n            <p>Ignore the list below because it includes deprecated events. Refer to the list\n            above.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 }
@@ -5993,7 +6093,7 @@
                 "Lifecycle": {
                     "target": "com.amazonaws.backup#Lifecycle",
                     "traits": {
-                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold. </p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold. </p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
                     }
                 },
                 "EncryptionKeyArn": {
@@ -6658,13 +6758,13 @@
                 "CompleteWindowMinutes": {
                     "target": "com.amazonaws.backup#WindowMinutes",
                     "traits": {
-                        "smithy.api#documentation": "<p>A value in minutes during which a successfully started backup must complete, or else AWS\n         Backup will cancel the job. This value is optional. This value begins counting down from\n         when the backup was scheduled. It does not add additional time for\n            <code>StartWindowMinutes</code>, or if the backup started later than scheduled.</p>"
+                        "smithy.api#documentation": "<p>A value in minutes during which a successfully started backup must complete, or else\n            Backup will cancel the job. This value is optional. This value begins\n         counting down from when the backup was scheduled. It does not add additional time for\n            <code>StartWindowMinutes</code>, or if the backup started later than scheduled.</p>"
                     }
                 },
                 "Lifecycle": {
                     "target": "com.amazonaws.backup#Lifecycle",
                     "traits": {
-                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup will transition and expire backups automatically according\n         to the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold. </p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup will transition and expire backups automatically according\n         to the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold. </p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
                     }
                 },
                 "RecoveryPointTags": {
@@ -6916,8 +7016,7 @@
                 "IamRoleArn": {
                     "target": "com.amazonaws.backup#IAMRoleArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role that Backup uses to create\n         the target recovery point; for example,\n            <code>arn:aws:iam::123456789012:role/S3Access</code>.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role that Backup uses to create\n         the target recovery point; for example,\n            <code>arn:aws:iam::123456789012:role/S3Access</code>.</p>"
                     }
                 },
                 "IdempotencyToken": {
@@ -6929,7 +7028,7 @@
                 "ResourceType": {
                     "target": "com.amazonaws.backup#ResourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Starts a job to restore a recovery point for one of the following resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Starts a job to restore a recovery point for one of the following resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>"
                     }
                 }
             }
@@ -6949,6 +7048,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#StopBackupJobInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -7025,6 +7127,9 @@
             "input": {
                 "target": "com.amazonaws.backup#TagResourceInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -7091,6 +7196,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#UntagResourceInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -7324,6 +7432,9 @@
             "input": {
                 "target": "com.amazonaws.backup#UpdateGlobalSettingsInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.backup#InvalidParameterValueException"
@@ -7384,7 +7495,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Sets the transition lifecycle of a recovery point.</p>\n         <p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define.</p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold.</p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>\n         <p>Does not support continuous backups.</p>",
+                "smithy.api#documentation": "<p>Sets the transition lifecycle of a recovery point.</p>\n         <p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define.</p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold.</p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>\n         <p>This operation does not support continuous backups.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}",
@@ -7415,7 +7526,7 @@
                 "Lifecycle": {
                     "target": "com.amazonaws.backup#Lifecycle",
                     "traits": {
-                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold. </p>"
+                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold. </p>"
                     }
                 }
             }
@@ -7438,7 +7549,7 @@
                 "Lifecycle": {
                     "target": "com.amazonaws.backup#Lifecycle",
                     "traits": {
-                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define. </p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “expire after days” setting must be 90 days greater than the\n         “transition to cold after days” setting. The “transition to cold after days” setting cannot\n         be changed after a backup has been transitioned to cold. </p>\n         <p>Only Amazon EFS file system backups can be transitioned to cold storage.</p>"
+                        "smithy.api#documentation": "<p>The lifecycle defines when a protected resource is transitioned to cold storage and when\n         it expires. Backup transitions and expires backups automatically according to\n         the lifecycle that you define.</p>\n         <p>Backups transitioned to cold storage must be stored in cold storage for a minimum of 90\n         days. Therefore, the “retention” setting must be 90 days greater than the “transition to\n         cold after days” setting. The “transition to cold after days” setting cannot be changed\n         after a backup has been transitioned to cold.</p>\n         <p>Resource types that are able to be transitioned to cold storage are listed in the \"Lifecycle to cold storage\" \n         section of the <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource\"> \n            Feature availability by resource</a> table. Backup ignores this expression for\n         other resource types.</p>"
                     }
                 },
                 "CalculatedLifecycle": {
@@ -7453,6 +7564,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.backup#UpdateRegionSettingsInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -7486,7 +7600,7 @@
                 "ResourceTypeManagementPreference": {
                     "target": "com.amazonaws.backup#ResourceTypeManagementPreference",
                     "traits": {
-                        "smithy.api#documentation": "<p>Enables or disables \n         <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html\">\n            Backup's advanced DynamoDB backup features</a> for the\n         Region.</p>"
+                        "smithy.api#documentation": "<p>Enables or disables full Backup management of backups for a resource type.\n         To enable full Backup management for DynamoDB along with <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html\">\n            Backup's advanced DynamoDB backup features</a>, follow the\n         procedure to <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli\"> enable advanced DynamoDB backup programmatically</a>.</p>"
                     }
                 }
             }

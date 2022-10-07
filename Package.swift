@@ -7,6 +7,8 @@
 
 import PackageDescription
 import class Foundation.FileManager
+import class Foundation.ProcessInfo
+import struct Foundation.URL
 
 /*
  This Package.swift file is used to compile against locally
@@ -18,16 +20,20 @@ import class Foundation.FileManager
 
 
  In order to use setup local development:
- 1. Create a folder:
+
+ 1. Install a Java 18 JDK if one is not already installed to your system.
+   The OpenJDK-based Amazon Corretto JDK is available at https://aws.amazon.com/corretto .
+
+ 2. Create a folder:
    mkdir -p ~/Projects/Amplify/SwiftSDK
    cd ~/Projects/Amplify/SwiftSDK
 
- 2. Checkout projects:
+ 3. Checkout projects:
    git clone https://github.com/awslabs/aws-sdk-swift.git
    git clone https://github.com/awslabs/smithy-swift.git
    git clone https://github.com/awslabs/aws-crt-swift.git --recursive
 
- 3.  Build
+ 4.  Build
    cd ~/Projects/Amplify/SwiftSDK/aws-sdk-swift
    echo "compositeProjects=$HOME/Projects/Amplify/SwiftSDK/smithy-swift" >> local.properties
    ./gradlew -p codegen/sdk-codegen build
@@ -57,7 +63,53 @@ let LOCAL_BASE_DIR = "Projects/Amplify/SwiftSDK"
 let AWS_SDK_SWIFT_DIR = "\(LOCAL_BASE_DIR)/aws-sdk-swift"
 let AWS_CRT_SWIFT_DIR = "\(LOCAL_BASE_DIR)/aws-crt-swift"
 let SMITHY_SWIFT_DIR = "\(LOCAL_BASE_DIR)/smithy-swift"
-let LOCAL_RELEASE_SWIFT_DIR = "\(AWS_SDK_SWIFT_DIR)/\(RELEASE)"
+
+let homePath = FileManager.default.homeDirectoryForCurrentUser
+let env = ProcessInfo.processInfo.environment
+
+let awsSDKSwiftDir, awsCRTSwiftDir, smithySwiftDir: URL
+if let awsSDKSwiftCIPath = env["AWS_SDK_SWIFT_CI_DIR"], let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"],
+    let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
+    awsSDKSwiftDir = URL(fileURLWithPath: awsSDKSwiftCIPath)
+    awsCRTSwiftDir = URL(fileURLWithPath: awsCRTSwiftCIPath)
+    smithySwiftDir = URL(fileURLWithPath: smithySwiftCIPath)
+} else {
+    awsSDKSwiftDir = homePath.appendingPathComponent(AWS_SDK_SWIFT_DIR)
+    awsCRTSwiftDir = homePath.appendingPathComponent(AWS_CRT_SWIFT_DIR)
+    smithySwiftDir = homePath.appendingPathComponent(SMITHY_SWIFT_DIR)
+}
+
+let localReleaseSwiftSDKDir = awsSDKSwiftDir.appendingPathComponent(RELEASE)
+
+private extension Package {
+
+    func setupDependencies() -> Package {
+        dependencies += [
+            .package(name: "AwsCrt", path: awsCRTSwiftDir.path),
+            .package(name: "ClientRuntime", path: smithySwiftDir.path)
+        ]
+
+        let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKDir.path)
+            .filter { target in
+                !target.hasPrefix(".")
+            }
+        includeTargets(package: self, releasedSDKs: sdksToIncludeInTargets)
+        return self
+    }
+
+    private func includeTargets(package: Package, releasedSDKs: [String]) {
+        var libs: [PackageDescription.Product] = []
+        var targets: [PackageDescription.Target] = []
+        for sdkName in releasedSDKs {
+            libs.append(.library(name: sdkName, targets: [sdkName]))
+            targets.append(.target(name: sdkName,
+                                   dependencies: [.product(name: "ClientRuntime", package: "ClientRuntime"), "AWSClientRuntime"],
+                                   path: "./\(RELEASE)/\(sdkName)"))
+        }
+        package.products += libs
+        package.targets += targets
+    }
+}
 
 let package = Package(
     name: "AWSSwiftSDK",
@@ -87,37 +139,4 @@ let package = Package(
             path: "./AWSClientRuntime/Tests"
         )
     ]
-)
-
-let fileManager = FileManager.default
-let awsSDKSwiftDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(AWS_SDK_SWIFT_DIR)
-let awsCRTSwiftDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(AWS_CRT_SWIFT_DIR)
-let smithySwiftDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(SMITHY_SWIFT_DIR)
-
-let localReleaseSwiftSDKDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(LOCAL_RELEASE_SWIFT_DIR)
-
-func setupDependencies() {
-    package.dependencies += [
-        .package(name: "AwsCrt", path: "\(awsCRTSwiftDir.path)"),
-        .package(name: "ClientRuntime", path: "\(smithySwiftDir.appendingPathComponent("Packages").path)")
-    ]
-    let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "\(localReleaseSwiftSDKDir.path)")
-    includeTargets(sdksToIncludeInTargets)
-}
-
-func includeTargets(_ releasedSDKs: [String]) {
-    var libs: [PackageDescription.Product] = []
-    var targets: [PackageDescription.Target] = []
-    for sdkName in releasedSDKs {
-        libs.append(.library(name: sdkName, targets: [sdkName]))
-        targets.append(.target(name: sdkName,
-                               dependencies: [.product(name: "ClientRuntime", package: "ClientRuntime"), "AWSClientRuntime"],
-                               path: "./\(RELEASE)/\(sdkName)"))
-    }
-    package.products += libs
-    package.targets += targets
-}
-
-setupDependencies()
-
-
+).setupDependencies()

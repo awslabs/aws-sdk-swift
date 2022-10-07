@@ -187,6 +187,85 @@
                 "smithy.api#pattern": "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:([a-z\\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$"
             }
         },
+        "com.amazonaws.outposts#AssetId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
+                },
+                "smithy.api#pattern": "^(\\w+)$"
+            }
+        },
+        "com.amazonaws.outposts#AssetInfo": {
+            "type": "structure",
+            "members": {
+                "AssetId": {
+                    "target": "com.amazonaws.outposts#AssetId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ID of the asset.\n    </p>"
+                    }
+                },
+                "RackId": {
+                    "target": "com.amazonaws.outposts#RackId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The rack ID of the asset. \n    </p>"
+                    }
+                },
+                "AssetType": {
+                    "target": "com.amazonaws.outposts#AssetType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The type of the asset.\n    </p>"
+                    }
+                },
+                "ComputeAttributes": {
+                    "target": "com.amazonaws.outposts#ComputeAttributes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Information about compute hardware assets. \n    </p>"
+                    }
+                },
+                "AssetLocation": {
+                    "target": "com.amazonaws.outposts#AssetLocation",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The position of an asset in a rack. \n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n      Information about hardware assets.\n    </p>"
+            }
+        },
+        "com.amazonaws.outposts#AssetListDefinition": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#AssetInfo"
+            }
+        },
+        "com.amazonaws.outposts#AssetLocation": {
+            "type": "structure",
+            "members": {
+                "RackElevation": {
+                    "target": "com.amazonaws.outposts#RackElevation",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The position of an asset in a rack measured in rack units.\n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n      Information about the position of the asset in a rack. \n    </p>"
+            }
+        },
+        "com.amazonaws.outposts#AssetType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "COMPUTE",
+                        "name": "COMPUTE"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.outposts#AvailabilityZone": {
             "type": "string",
             "traits": {
@@ -231,6 +310,22 @@
                     "min": 1,
                     "max": 5
                 }
+            }
+        },
+        "com.amazonaws.outposts#CIDR": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 9,
+                    "max": 18
+                },
+                "smithy.api#pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}/[0-9]{1,2}$"
+            }
+        },
+        "com.amazonaws.outposts#CIDRList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#CIDR"
             }
         },
         "com.amazonaws.outposts#CancelOrder": {
@@ -398,6 +493,26 @@
                 "smithy.api#pattern": "^\\S[\\S ]*$"
             }
         },
+        "com.amazonaws.outposts#CityList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#City"
+            }
+        },
+        "com.amazonaws.outposts#ComputeAttributes": {
+            "type": "structure",
+            "members": {
+                "HostId": {
+                    "target": "com.amazonaws.outposts#HostId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The host ID of any Dedicated Hosts on the asset.\n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n      Information about compute hardware assets.\n    </p>"
+            }
+        },
         "com.amazonaws.outposts#ConflictException": {
             "type": "structure",
             "members": {
@@ -421,6 +536,60 @@
                 "smithy.api#documentation": "<p>Updating or deleting this resource can cause an inconsistent state.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 409
+            }
+        },
+        "com.amazonaws.outposts#ConnectionDetails": {
+            "type": "structure",
+            "members": {
+                "ClientPublicKey": {
+                    "target": "com.amazonaws.outposts#WireGuardPublicKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The public key of the client.\n    </p>"
+                    }
+                },
+                "ServerPublicKey": {
+                    "target": "com.amazonaws.outposts#WireGuardPublicKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The public key of the server.\n    </p>"
+                    }
+                },
+                "ServerEndpoint": {
+                    "target": "com.amazonaws.outposts#ServerEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The endpoint for the server.\n    </p>"
+                    }
+                },
+                "ClientTunnelAddress": {
+                    "target": "com.amazonaws.outposts#CIDR",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The client tunnel address. \n    </p>"
+                    }
+                },
+                "ServerTunnelAddress": {
+                    "target": "com.amazonaws.outposts#CIDR",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The server tunnel address.\n    </p>"
+                    }
+                },
+                "AllowedIps": {
+                    "target": "com.amazonaws.outposts#CIDRList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The allowed IP addresses.\n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n    Information about a connection. \n    </p>"
+            }
+        },
+        "com.amazonaws.outposts#ConnectionId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1024
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9+/=]{1,1024}$"
             }
         },
         "com.amazonaws.outposts#ContactName": {
@@ -451,6 +620,12 @@
                     "max": 2
                 },
                 "smithy.api#pattern": "^[A-Z]{2}$"
+            }
+        },
+        "com.amazonaws.outposts#CountryCodeList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#CountryCode"
             }
         },
         "com.amazonaws.outposts#CreateOrder": {
@@ -585,7 +760,7 @@
                 "SiteId": {
                     "target": "com.amazonaws.outposts#SiteId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -743,7 +918,7 @@
                 "OutpostId": {
                     "target": "com.amazonaws.outposts#OutpostId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -794,7 +969,7 @@
                 "SiteId": {
                     "target": "com.amazonaws.outposts#SiteId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -804,6 +979,16 @@
         "com.amazonaws.outposts#DeleteSiteOutput": {
             "type": "structure",
             "members": {}
+        },
+        "com.amazonaws.outposts#DeviceSerialNumber": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
+                },
+                "smithy.api#pattern": "^(\\w+)$"
+            }
         },
         "com.amazonaws.outposts#DistrictOrCounty": {
             "type": "string",
@@ -940,6 +1125,67 @@
                 }
             }
         },
+        "com.amazonaws.outposts#GetConnection": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.outposts#GetConnectionRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.outposts#GetConnectionResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.outposts#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<note>\n            <p>\n      Amazon Web Services uses this action to install Outpost servers.</p>\n         </note>\n         <p>\n      Gets information about a specified connection.\n    </p>\n         <p>\n      Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For \n      more information, see <a href=\"https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html\">\n      Amazon Web Services managed policies for Amazon Web Services Outposts</a> and <a href=\"https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html\">\n      Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail</a> in the <i>Amazon Web Services Outposts User Guide</i>.\n      </p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/connections/{ConnectionId}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.outposts#GetConnectionRequest": {
+            "type": "structure",
+            "members": {
+                "ConnectionId": {
+                    "target": "com.amazonaws.outposts#ConnectionId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ID of the connection you request.\n    </p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.outposts#GetConnectionResponse": {
+            "type": "structure",
+            "members": {
+                "ConnectionId": {
+                    "target": "com.amazonaws.outposts#ConnectionId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ID of the connection you receive.\n    </p>"
+                    }
+                },
+                "ConnectionDetails": {
+                    "target": "com.amazonaws.outposts#ConnectionDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n     Information about a connection.\n    </p>"
+                    }
+                }
+            }
+        },
         "com.amazonaws.outposts#GetOrder": {
             "type": "operation",
             "input": {
@@ -1026,7 +1272,7 @@
                 "OutpostId": {
                     "target": "com.amazonaws.outposts#OutpostId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -1056,11 +1302,16 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Lists the instance types for the specified Outpost.</p>",
+                "smithy.api#documentation": "<p>Gets the instance types for the specified Outpost.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/outposts/{OutpostId}/instanceTypes",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -1070,7 +1321,7 @@
                 "OutpostId": {
                     "target": "com.amazonaws.outposts#OutpostId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -1101,7 +1352,7 @@
                 "OutpostId": {
                     "target": "com.amazonaws.outposts#OutpostId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID of the Outpost.\n    </p>"
+                        "smithy.api#documentation": "<p>\n      The ID of the Outpost.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>"
                     }
                 },
                 "OutpostArn": {
@@ -1185,7 +1436,7 @@
                 "SiteId": {
                     "target": "com.amazonaws.outposts#SiteId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -1226,7 +1477,7 @@
                 "SiteId": {
                     "target": "com.amazonaws.outposts#SiteId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -1239,6 +1490,22 @@
                 "Site": {
                     "target": "com.amazonaws.outposts#Site"
                 }
+            }
+        },
+        "com.amazonaws.outposts#HostId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 50
+                },
+                "smithy.api#pattern": "^[A-Za-z0-9-]*$"
+            }
+        },
+        "com.amazonaws.outposts#HostIdList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#HostId"
             }
         },
         "com.amazonaws.outposts#ISO8601Timestamp": {
@@ -1332,10 +1599,48 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The status of the line item.</p>"
                     }
+                },
+                "ShipmentInformation": {
+                    "target": "com.amazonaws.outposts#ShipmentInformation",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Information about a line item shipment.\n    </p>"
+                    }
+                },
+                "AssetInformationList": {
+                    "target": "com.amazonaws.outposts#LineItemAssetInformationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Information about assets.\n    </p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Information about a line item.</p>"
+            }
+        },
+        "com.amazonaws.outposts#LineItemAssetInformation": {
+            "type": "structure",
+            "members": {
+                "AssetId": {
+                    "target": "com.amazonaws.outposts#AssetId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ID of the asset.\n    </p>"
+                    }
+                },
+                "MacAddressList": {
+                    "target": "com.amazonaws.outposts#MacAddressList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      MAC addresses of the asset.\n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n      Information about a line item asset.\n    </p>"
+            }
+        },
+        "com.amazonaws.outposts#LineItemAssetInformationList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#LineItemAssetInformation"
             }
         },
         "com.amazonaws.outposts#LineItemId": {
@@ -1439,6 +1744,88 @@
                 "target": "com.amazonaws.outposts#LineItemQuantity"
             }
         },
+        "com.amazonaws.outposts#ListAssets": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.outposts#ListAssetsInput"
+            },
+            "output": {
+                "target": "com.amazonaws.outposts#ListAssetsOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.outposts#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>\n      Lists the hardware assets in an Outpost. If you are using Dedicated Hosts on \n      Amazon Web Services Outposts, you can filter your request by host ID to return a list of hardware\n      assets that allocate resources for Dedicated Hosts.  \n    </p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/outposts/{OutpostIdentifier}/assets",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.outposts#ListAssetsInput": {
+            "type": "structure",
+            "members": {
+                "OutpostIdentifier": {
+                    "target": "com.amazonaws.outposts#OutpostIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "HostIdFilter": {
+                    "target": "com.amazonaws.outposts#HostIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      A filter for the host ID of Dedicated Hosts on the Outpost.\n    </p>\n         <p>Filter values are case sensitive. If you specify multiple \n         values for a filter, the values are joined with an <code>OR</code>, and the request returns \n         all results that match any of the specified values.</p>",
+                        "smithy.api#httpQuery": "HostIdFilter"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.outposts#MaxResults1000",
+                    "traits": {
+                        "smithy.api#httpQuery": "MaxResults"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.outposts#Token",
+                    "traits": {
+                        "smithy.api#httpQuery": "NextToken"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.outposts#ListAssetsOutput": {
+            "type": "structure",
+            "members": {
+                "Assets": {
+                    "target": "com.amazonaws.outposts#AssetListDefinition",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Information about hardware assets. \n    </p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.outposts#Token"
+                }
+            }
+        },
         "com.amazonaws.outposts#ListCatalogItems": {
             "type": "operation",
             "input": {
@@ -1459,7 +1846,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Use to create a list of every item in the catalog. Add filters to your request to return a\n      more specific list of results. Use filters to match an item class, storage\n      option, or EC2 family. </p>\n         <p>If you specify multiple filters, the filters are joined with an <code>AND</code>, and\n      the request returns only results that match all of the specified filters.</p>",
+                "smithy.api#documentation": "<p>Lists the items in the catalog. Add filters to your request to return a\n      more specific list of results. Use filters to match an item class, storage\n      option, or EC2 family. </p>\n         <p>If you specify multiple filters, the filters are joined with an <code>AND</code>, and\n      the request returns only results that match all of the specified filters.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/catalog/items",
@@ -1547,7 +1934,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Create a list of the Outpost orders for your Amazon Web Services account. You can filter your request by Outpost to \n      return a more specific list of results. </p>",
+                "smithy.api#documentation": "<p>Lists the Outpost orders for your Amazon Web Services account. You can filter your request by Outpost to \n      return a more specific list of results. </p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/list-orders",
@@ -1618,7 +2005,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Create a list of the Outposts for your Amazon Web Services account. Add filters to your request to return\n      a more specific list of results. Use filters to match an Outpost lifecycle status,\n      Availability Zone (<code>us-east-1a</code>), and AZ ID (<code>use1-az1</code>). </p>\n    \n         <p>If you specify multiple filters, the filters are joined with an <code>AND</code>, and the request returns only \n      results that match all of the specified filters.</p>",
+                "smithy.api#documentation": "<p>Lists the Outposts for your Amazon Web Services account. Add filters to your request to return\n      a more specific list of results. Use filters to match an Outpost lifecycle status,\n      Availability Zone (<code>us-east-1a</code>), and AZ ID (<code>use1-az1</code>). </p>\n    \n         <p>If you specify multiple filters, the filters are joined with an <code>AND</code>, and the request returns only \n      results that match all of the specified filters.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/outposts",
@@ -1700,7 +2087,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Lists the sites for your Amazon Web Services account.</p>",
+                "smithy.api#documentation": "<p>Lists the Outpost sites for your Amazon Web Services account. Add operating address filters to your request to\n      return a more specific list of results. Use filters to match site city, country code, or state/region of the \n      operating address. </p>\n    \n         <p>If you specify multiple filters, the filters are joined with an <code>AND</code>, and the request returns only \n      results that match all of the specified filters.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/sites",
@@ -1726,6 +2113,27 @@
                     "target": "com.amazonaws.outposts#MaxResults1000",
                     "traits": {
                         "smithy.api#httpQuery": "MaxResults"
+                    }
+                },
+                "OperatingAddressCountryCodeFilter": {
+                    "target": "com.amazonaws.outposts#CountryCodeList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A filter for the country code of the Outpost site. </p>\n         <p>Filter values are case sensitive. If you specify multiple \n         values for a filter, the values are joined with an <code>OR</code>, and the request returns \n         all results that match any of the specified values.</p>",
+                        "smithy.api#httpQuery": "OperatingAddressCountryCodeFilter"
+                    }
+                },
+                "OperatingAddressStateOrRegionFilter": {
+                    "target": "com.amazonaws.outposts#StateOrRegionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A filter for the state/region of the Outpost site. </p>\n         <p>Filter values are case sensitive. If you specify multiple \n         values for a filter, the values are joined with an <code>OR</code>, and the request returns \n         all results that match any of the specified values.</p>",
+                        "smithy.api#httpQuery": "OperatingAddressStateOrRegionFilter"
+                    }
+                },
+                "OperatingAddressCityFilter": {
+                    "target": "com.amazonaws.outposts#CityList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      A filter for the city of the Outpost site. \n    </p>\n         <p>Filter values are case sensitive. If you specify multiple \n         values for a filter, the values are joined with an <code>OR</code>, and the request returns \n         all results that match any of the specified values.</p>",
+                        "smithy.api#httpQuery": "OperatingAddressCityFilter"
                     }
                 }
             }
@@ -1793,6 +2201,22 @@
                 }
             }
         },
+        "com.amazonaws.outposts#MacAddress": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 17,
+                    "max": 17
+                },
+                "smithy.api#pattern": "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
+            }
+        },
+        "com.amazonaws.outposts#MacAddressList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#MacAddress"
+            }
+        },
         "com.amazonaws.outposts#MaxResults1000": {
             "type": "integer",
             "traits": {
@@ -1842,6 +2266,15 @@
                     "max": 180
                 },
                 "smithy.api#pattern": "^\\S[\\S ]*$"
+            }
+        },
+        "com.amazonaws.outposts#NetworkInterfaceDeviceIndex": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 0,
+                    "max": 1
+                }
             }
         },
         "com.amazonaws.outposts#NotFoundException": {
@@ -2251,6 +2684,9 @@
                     "target": "com.amazonaws.outposts#GetCatalogItem"
                 },
                 {
+                    "target": "com.amazonaws.outposts#GetConnection"
+                },
+                {
                     "target": "com.amazonaws.outposts#GetOrder"
                 },
                 {
@@ -2266,6 +2702,9 @@
                     "target": "com.amazonaws.outposts#GetSiteAddress"
                 },
                 {
+                    "target": "com.amazonaws.outposts#ListAssets"
+                },
+                {
                     "target": "com.amazonaws.outposts#ListCatalogItems"
                 },
                 {
@@ -2279,6 +2718,9 @@
                 },
                 {
                     "target": "com.amazonaws.outposts#ListTagsForResource"
+                },
+                {
+                    "target": "com.amazonaws.outposts#StartConnection"
                 },
                 {
                     "target": "com.amazonaws.outposts#TagResource"
@@ -2426,6 +2868,26 @@
         "com.amazonaws.outposts#Quantity": {
             "type": "string"
         },
+        "com.amazonaws.outposts#RackElevation": {
+            "type": "float",
+            "traits": {
+                "smithy.api#box": {},
+                "smithy.api#range": {
+                    "min": 0,
+                    "max": 99
+                }
+            }
+        },
+        "com.amazonaws.outposts#RackId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 5,
+                    "max": 20
+                },
+                "smithy.api#pattern": "^[\\S \\n]+$"
+            }
+        },
         "com.amazonaws.outposts#RackPhysicalProperties": {
             "type": "structure",
             "members": {
@@ -2503,6 +2965,16 @@
                 ]
             }
         },
+        "com.amazonaws.outposts#ServerEndpoint": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 9,
+                    "max": 21
+                },
+                "smithy.api#pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}:[0-9]{1,5}$"
+            }
+        },
         "com.amazonaws.outposts#ServiceQuotaExceededException": {
             "type": "structure",
             "members": {
@@ -2514,6 +2986,49 @@
                 "smithy.api#documentation": "<p>You have exceeded a service quota.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 402
+            }
+        },
+        "com.amazonaws.outposts#ShipmentCarrier": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "DHL",
+                        "name": "DHL"
+                    },
+                    {
+                        "value": "DBS",
+                        "name": "DBS"
+                    },
+                    {
+                        "value": "FEDEX",
+                        "name": "FEDEX"
+                    },
+                    {
+                        "value": "UPS",
+                        "name": "UPS"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.outposts#ShipmentInformation": {
+            "type": "structure",
+            "members": {
+                "ShipmentTrackingNumber": {
+                    "target": "com.amazonaws.outposts#TrackingId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The tracking number of the shipment.\n    </p>"
+                    }
+                },
+                "ShipmentCarrier": {
+                    "target": "com.amazonaws.outposts#ShipmentCarrier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The carrier of the shipment. \n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n      Information about a line item shipment.\n    </p>"
             }
         },
         "com.amazonaws.outposts#Site": {
@@ -2639,6 +3154,87 @@
                 "smithy.api#pattern": "^OR-[A-Z0-9]{7}$"
             }
         },
+        "com.amazonaws.outposts#StartConnection": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.outposts#StartConnectionRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.outposts#StartConnectionResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.outposts#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.outposts#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<note>\n            <p>\n      Amazon Web Services uses this action to install Outpost servers.</p>\n         </note>\n         <p>\n      Starts the connection required for Outpost server installation. \n    </p>\n         <p>\n      Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For \n      more information, see <a href=\"https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html\">\n      Amazon Web Services managed policies for Amazon Web Services Outposts</a> and <a href=\"https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html\">\n      Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail</a> in the <i>Amazon Web Services Outposts User Guide</i>.\n      </p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/connections",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.outposts#StartConnectionRequest": {
+            "type": "structure",
+            "members": {
+                "DeviceSerialNumber": {
+                    "target": "com.amazonaws.outposts#DeviceSerialNumber",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The serial number of the dongle. \n    </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "AssetId": {
+                    "target": "com.amazonaws.outposts#AssetId",
+                    "traits": {
+                        "smithy.api#documentation": "<p> \n      The ID of the Outpost server. \n    </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ClientPublicKey": {
+                    "target": "com.amazonaws.outposts#WireGuardPublicKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The public key of the client.\n    </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NetworkInterfaceDeviceIndex": {
+                    "target": "com.amazonaws.outposts#NetworkInterfaceDeviceIndex",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The device index of the network interface on the Outpost server.\n    </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.outposts#StartConnectionResponse": {
+            "type": "structure",
+            "members": {
+                "ConnectionId": {
+                    "target": "com.amazonaws.outposts#ConnectionId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ID of the connection.\n    </p>"
+                    }
+                },
+                "UnderlayIpAddress": {
+                    "target": "com.amazonaws.outposts#UnderlayIpAddress",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The underlay IP address. \n    </p>"
+                    }
+                }
+            }
+        },
         "com.amazonaws.outposts#StateOrRegion": {
             "type": "string",
             "traits": {
@@ -2647,6 +3243,12 @@
                     "max": 50
                 },
                 "smithy.api#pattern": "^\\S[\\S ]*$"
+            }
+        },
+        "com.amazonaws.outposts#StateOrRegionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.outposts#StateOrRegion"
             }
         },
         "com.amazonaws.outposts#String": {
@@ -2814,6 +3416,26 @@
                 "smithy.api#pattern": "^(\\d+)##(\\S+)$"
             }
         },
+        "com.amazonaws.outposts#TrackingId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 6,
+                    "max": 42
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9]+$"
+            }
+        },
+        "com.amazonaws.outposts#UnderlayIpAddress": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 7,
+                    "max": 15
+                },
+                "smithy.api#pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}$"
+            }
+        },
         "com.amazonaws.outposts#UntagResource": {
             "type": "operation",
             "input": {
@@ -2907,7 +3529,7 @@
                 "OutpostId": {
                     "target": "com.amazonaws.outposts#OutpostId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the Outpost.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -3008,7 +3630,7 @@
                 "SiteId": {
                     "target": "com.amazonaws.outposts#SiteId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -3052,7 +3674,7 @@
                 "SiteId": {
                     "target": "com.amazonaws.outposts#SiteId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -3119,7 +3741,7 @@
                 "SiteId": {
                     "target": "com.amazonaws.outposts#SiteId",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>",
+                        "smithy.api#documentation": "<p>\n      The ID or the Amazon Resource Name (ARN) of the site.\n    </p>\n         <note>\n            <p>In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and\n      sites throughout the Outposts Query API. To address backwards compatibility, the parameter names\n      <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the parameter name, \n      you can make the request with an ARN.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -3269,6 +3891,16 @@
                 "smithy.api#documentation": "<p>A parameter is not valid.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.outposts#WireGuardPublicKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 44,
+                    "max": 44
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9/+]{43}=$"
             }
         },
         "com.amazonaws.outposts#outpostListDefinition": {
