@@ -48,12 +48,12 @@ import struct Foundation.URL
         name: "YourNameHere",
         platforms: [.macOS(.v10_15), .iOS(.v13)],
         dependencies: [
-            .package(name: "AWSSwiftSDK", path: "/Users/<YourUserName>/Projects/Amplify/SwiftSDK/aws-sdk-swift")
+            .package(path: "/Users/<YourUserName>/Projects/Amplify/SwiftSDK/aws-sdk-swift")
         ],
         targets: [
              .target(
                  name: "YourNameHere",
-                 dependencies: [.product(name: "S3", package: "AWSSwiftSDK")])
+                 dependencies: [.product(name: "AWSS3", package: "aws-sdk-swift")])
         ]
      )
 */
