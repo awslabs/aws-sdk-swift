@@ -9,6 +9,7 @@ import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.model.node.Node
+import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.swift.codegen.SwiftWriter
 
 class EndpointParamsGeneratorTests {
@@ -69,6 +70,6 @@ class EndpointParamsGeneratorTests {
 }
 
 @Language("JSON")
-fun String.toRuleset(): EndpointRuleset {
-    return EndpointRuleset.fromNode(Node.parse(this))
+fun String.toRuleset(): EndpointRuleSet {
+    return EndpointRuleSet.fromNode(Node.parse(this))
 }
