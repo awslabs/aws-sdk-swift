@@ -5,12 +5,12 @@
 
 package software.amazon.smithy.aws.swift.codegen.model
 
-import software.amazon.smithy.aws.reterminus.EndpointRuleset
-import software.amazon.smithy.aws.reterminus.lang.parameters.ParameterType
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.ShapeType
 import software.amazon.smithy.model.transform.ModelTransformer
+import software.amazon.smithy.rulesengine.language.EndpointRuleSet
+import software.amazon.smithy.rulesengine.language.syntax.parameters.ParameterType
 import software.amazon.smithy.rulesengine.traits.ClientContextParamDefinition
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
@@ -34,7 +34,7 @@ class AWSClientContextParamsTransformer : SwiftIntegration {
                         trait?.toBuilder() as ClientContextParamsTrait.Builder? ?: ClientContextParamsTrait.builder()
 
                     shape.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { ruleSet ->
-                        val endpointRuleSet = EndpointRuleset.fromNode(ruleSet)
+                        val endpointRuleSet = EndpointRuleSet.fromNode(ruleSet)
                         endpointRuleSet.parameters.toList().filter {
                             it.builtIn?.getOrNull()?.let { builtIn ->
                                 builtIn.split("::").size == 3

@@ -8,8 +8,8 @@ public class AWSEndpointsRuleEngine {
 
     let crtEngine: CRTAWSEndpointsRuleEngine
     
-    public init(ruleSetString: String) throws {
-        crtEngine = try CRTAWSEndpointsRuleEngine(ruleSetString: ruleSetString)
+    public init(partitions: String, ruleSet: String) throws {
+        crtEngine = try CRTAWSEndpointsRuleEngine(partitions: partitions, ruleSet: ruleSet)
     }
     
     public func resolve(context: AWSEndpointsRequestContext) throws -> AWSEndpointsResolvedEndpoint? {

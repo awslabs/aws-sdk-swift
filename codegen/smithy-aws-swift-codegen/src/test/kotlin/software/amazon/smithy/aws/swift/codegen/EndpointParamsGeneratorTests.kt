@@ -8,7 +8,6 @@ package software.amazon.smithy.aws.swift.codegen
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.reterminus.EndpointRuleset
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.swift.codegen.SwiftWriter
 

@@ -5,9 +5,9 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.reterminus.EndpointRuleset
 import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.ContextParamTrait
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
@@ -40,7 +40,7 @@ class OperationEndpointResolverMiddleware(
         val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         val params = mutableListOf<String>()
         ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
-            val ruleSet = EndpointRuleset.fromNode(node)
+            val ruleSet = EndpointRuleSet.fromNode(node)
             val staticContextParams = op.getTrait<StaticContextParamsTrait>()?.parameters ?: emptyMap()
             val parameters = ruleSet.parameters.toList()
             parameters.toList()

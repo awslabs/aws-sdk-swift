@@ -5,16 +5,14 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.reterminus.EndpointRuleset
-import software.amazon.smithy.aws.reterminus.eval.Value
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
+import software.amazon.smithy.rulesengine.language.EndpointRuleSet
+import software.amazon.smithy.rulesengine.language.eval.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
-import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.utils.toCamelCase
 
@@ -23,7 +21,7 @@ import software.amazon.smithy.swift.codegen.utils.toCamelCase
  */
 class EndpointTestGenerator(
     private val endpointTest: EndpointTestsTrait,
-    private val endpointRuleSet: EndpointRuleset?,
+    private val endpointRuleSet: EndpointRuleSet?,
     private val ctx: ProtocolGenerator.GenerationContext
 ) {
     fun render(writer: SwiftWriter) {
@@ -123,11 +121,11 @@ class EndpointTestGenerator(
      */
     private fun generateValue(writer: SwiftWriter, value: Value, delimeter: String) {
         when (value) {
-            is Value.Str -> {
+            is Value.String -> {
                 writer.write("\$S$delimeter", value.value())
             }
 
-            is Value.Int -> {
+            is Value.Integer -> {
                 writer.write("\$L$delimeter", value.toString())
             }
 
