@@ -85,8 +85,8 @@ private extension Package {
 
     func setupDependencies() -> Package {
         dependencies += [
-            .package(name: "AwsCrt", path: awsCRTSwiftDir.path),
-            .package(name: "ClientRuntime", path: smithySwiftDir.path)
+            .package(name: "aws-crt-swift", path: awsCRTSwiftDir.path),
+            .package(name: "smithy-swift", path: smithySwiftDir.path)
         ]
 
         let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKDir.path)
@@ -103,7 +103,7 @@ private extension Package {
         for sdkName in releasedSDKs {
             libs.append(.library(name: sdkName, targets: [sdkName]))
             targets.append(.target(name: sdkName,
-                                   dependencies: [.product(name: "ClientRuntime", package: "ClientRuntime"), "AWSClientRuntime"],
+                                   dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"],
                                    path: "./\(RELEASE)/\(sdkName)"))
         }
         package.products += libs
@@ -124,8 +124,8 @@ let package = Package(
         .target(
             name: "AWSClientRuntime",
             dependencies: [
-                .product(name: "ClientRuntime", package: "ClientRuntime"),
-                .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
+                .product(name: "ClientRuntime", package: "smithy-swift"),
+                .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift")
             ],
             path: "./AWSClientRuntime/Sources"
         ),
@@ -133,8 +133,8 @@ let package = Package(
             name: "AWSClientRuntimeTests",
             dependencies: [
                 "AWSClientRuntime",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime"),
-                .product(name: "ClientRuntime", package: "ClientRuntime")
+                .product(name: "SmithyTestUtil", package: "smithy-swift"),
+                .product(name: "ClientRuntime", package: "smithy-swift")
             ],
             path: "./AWSClientRuntime/Tests"
         )
