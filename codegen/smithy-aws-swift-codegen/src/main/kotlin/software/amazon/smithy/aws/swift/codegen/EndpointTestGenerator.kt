@@ -79,10 +79,9 @@ class EndpointTestGenerator(
                         // [String: AnyHashable] can't be constructed from a dictionary literal
                         // first create a string JSON string literal
                         // then convert to [String: AnyHashable] using JSONSerialization.jsonObject(with:)
-                        writer.openBlock("let props = \"\"\"", "\"\"\"") {
+                        writer.openBlock("let properties: [String: AnyHashable] = ", "") {
                             generateProperties(writer, endpoint.properties)
                         }
-                        writer.write("let properties = try JSONSerialization.jsonObject(with: props.data(using: .utf8)!) as! [String: AnyHashable]\n")
 
                         writer.write("let headers = Headers()")
                         endpoint.headers.forEach { (name, value) ->
@@ -105,7 +104,7 @@ class EndpointTestGenerator(
      * Recursively traverse map of properties and generate JSON string literal.
      */
     private fun generateProperties(writer: SwiftWriter, properties: Map<String, Node>) {
-        writer.openBlock("{", "}") {
+        writer.openBlock("[", "]") {
             properties.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
                 val value = Value.fromNode(second)
                 writer.writeInline("\$S: ", first)
@@ -138,7 +137,7 @@ class EndpointTestGenerator(
             }
 
             is Value.Array -> {
-                writer.openBlock("[", "]$delimeter") {
+                writer.openBlock("[", "] as [AnyHashable]$delimeter") {
                     value.values.forEachIndexed { idx, item ->
                         writer.call {
                             generateValue(writer, item, if (idx < value.values.count() - 1) "," else "")
@@ -148,7 +147,7 @@ class EndpointTestGenerator(
             }
 
             is Value.Record -> {
-                writer.openBlock("{", "}$delimeter") {
+                writer.openBlock("[", "] as [String: AnyHashable]$delimeter") {
                     value.value.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
                         writer.writeInline("\$S: ", first.name)
                         writer.call {
