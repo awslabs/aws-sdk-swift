@@ -67,33 +67,32 @@ let AWS_SDK_SWIFT_DIR = "\(LOCAL_BASE_DIR)/\(AWS_SDK_SWIFT_PACKAGE_NAME)"
 let AWS_CRT_SWIFT_DIR = "\(LOCAL_BASE_DIR)/\(AWS_CRT_SWIFT_PACKAGE_NAME)"
 let SMITHY_SWIFT_DIR = "\(LOCAL_BASE_DIR)/\(SMITHY_SWIFT_PACKAGE_NAME)"
 
-let homePath = FileManager.default.homeDirectoryForCurrentUser
+let homeDirectoryFileURL = FileManager.default.homeDirectoryForCurrentUser
 let env = ProcessInfo.processInfo.environment
 
-let awsSDKSwiftDir: URL
-let smithySwiftPath, awsCRTSwiftPath: String
+let awsSDKSwiftFileURL, smithySwiftFileURL, awsCRTSwiftFileURL: URL
 if let awsSDKSwiftCIPath = env["AWS_SDK_SWIFT_CI_DIR"], let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"],
     let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
-    awsSDKSwiftDir = URL(fileURLWithPath: awsSDKSwiftCIPath)
-    smithySwiftPath = smithySwiftCIPath
-    awsCRTSwiftPath = awsCRTSwiftCIPath
+    awsSDKSwiftFileURL = URL(fileURLWithPath: awsSDKSwiftCIPath)
+    smithySwiftFileURL = URL(fileURLWithPath: smithySwiftCIPath)
+    awsCRTSwiftFileURL = URL(fileURLWithPath: awsCRTSwiftCIPath)
 } else {
-    awsSDKSwiftDir = homePath.appendingPathComponent(AWS_SDK_SWIFT_DIR)
-    smithySwiftPath = homePath.appendingPathComponent(SMITHY_SWIFT_DIR).path
-    awsCRTSwiftPath = homePath.appendingPathComponent(AWS_CRT_SWIFT_DIR).path
+    awsSDKSwiftFileURL = homeDirectoryFileURL.appendingPathComponent(AWS_SDK_SWIFT_DIR)
+    smithySwiftFileURL = homeDirectoryFileURL.appendingPathComponent(SMITHY_SWIFT_DIR)
+    awsCRTSwiftFileURL = homeDirectoryFileURL.appendingPathComponent(AWS_CRT_SWIFT_DIR)
 }
 
-let localReleaseSwiftSDKDir = awsSDKSwiftDir.appendingPathComponent(RELEASE)
+let localReleaseSwiftSDKFileURL = awsSDKSwiftFileURL.appendingPathComponent(RELEASE)
 
 private extension Package {
 
     func setupDependencies() -> Package {
         dependencies += [
-            .package(path: smithySwiftPath),
-            .package(path: awsCRTSwiftPath)
+            .package(path: smithySwiftFileURL.path),
+            .package(path: awsCRTSwiftFileURL.path)
         ]
 
-        let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKDir.path)
+        let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: localReleaseSwiftSDKFileURL.path)
             .filter { target in
                 !target.hasPrefix(".")
             }
