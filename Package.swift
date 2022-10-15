@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "AWSSwiftSDK",
+    name: "aws-sdk-swift",
     platforms: [
         .macOS(.v10_15),
         .iOS(.v13)
