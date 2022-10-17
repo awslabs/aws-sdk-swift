@@ -26,11 +26,22 @@ jobs:
           swift-version: "5.7.0"
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
+          # Install Swift packages, and point Kotlin to the local Smithy copy.
           swift package resolve
           swift package edit smithy-swift
-          echo "$GITHUB_WORKSPACE/Packages" > local.properties
+          echo "compositeProjects=$GITHUB_WORKSPACE/Packages/smithy-swift" > local.properties
+
+          # Blow out previous code generation and regenerate.
+          rm -rf release/
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./scripts/generatePackageManifest > Package.swift
+
+          # Fail if the codegen & Package.swift were not up-to-date.
+          # if [[ $(git diff --stat) != '' ]]; then
+          #   exit(1)
+          # fi
+
+          # Run Swift tests.
           swift package test
 
