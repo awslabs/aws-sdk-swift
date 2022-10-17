@@ -24,24 +24,24 @@ jobs:
         uses: swift-actions/setup-swift@v1
         with:
           swift-version: "5.7.0"
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
+      - name: Resolve Dependencies & Configure ${{ env.PACKAGE_NAME }}
         run: |
           # Install Swift packages, and point Kotlin to the local Smithy copy.
           swift package resolve
           swift package edit smithy-swift
           echo "compositeProjects=$GITHUB_WORKSPACE/Packages/smithy-swift" > local.properties
-
+      - name: Code Generate ${{ env.PACKAGE_NAME }}
+        run: |
           # Blow out previous code generation and regenerate.
           rm -rf release/
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
-          ./scripts/generatePackageManifest > Package.swift
-
+          ./scripts/generatePackageSwift.swift > Package.swift
           # Fail if the codegen & Package.swift were not up-to-date.
           # if [[ $(git diff --stat) != '' ]]; then
           #   exit(1)
           # fi
-
+      - name: Test ${{ env.PACKAGE_NAME }}
+        run: |
           # Run Swift tests.
           swift package test
-
