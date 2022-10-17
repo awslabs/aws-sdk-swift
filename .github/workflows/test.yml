@@ -26,9 +26,11 @@ jobs:
           swift-version: "5.7.0"
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
+          swift package resolve
+          swift package edit smithy-swift
+          echo "$GITHUB_WORKSPACE/Packages" > local.properties
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./scripts/generatePackageManifest > Package.swift
-          swift package resolve
           swift package test
 

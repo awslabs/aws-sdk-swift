@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/awslabs/aws-crt-swift.git", .exact("0.2.2")),
-        .package(url: "https://github.com/awslabs/smithy-swift.git", .exact("0.3.0"))
+        .package(url: "https://github.com/awslabs/smithy-swift.git", branch: "jbe/to_be_main")
     ],
     targets: [
         .target(
