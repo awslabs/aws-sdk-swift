@@ -5,11 +5,11 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.reterminus.EndpointRuleset
-import software.amazon.smithy.aws.reterminus.lang.parameters.Parameter
-import software.amazon.smithy.aws.reterminus.lang.parameters.ParameterType
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.rulesengine.language.EndpointRuleSet
+import software.amazon.smithy.rulesengine.language.syntax.parameters.Parameter
+import software.amazon.smithy.rulesengine.language.syntax.parameters.ParameterType
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.getOrNull
@@ -20,7 +20,7 @@ import software.amazon.smithy.swift.codegen.utils.toCamelCase
 /**
  * Generates EndpointParams struct for the service
  */
-class EndpointParamsGenerator(private val endpointRules: EndpointRuleset?) {
+class EndpointParamsGenerator(private val endpointRules: EndpointRuleSet?) {
     fun render(writer: SwiftWriter) {
         writer.openBlock("public struct EndpointParams {", "}") {
             endpointRules?.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
