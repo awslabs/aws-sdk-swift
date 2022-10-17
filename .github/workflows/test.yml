@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - jbe/improved_ci
+
+env:
+  PACKAGE_NAME: aws-sdk-swift
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '18'
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: "5.7.0"
+      - name: Build and Test ${{ env.PACKAGE_NAME }}
+        run: |
+          ./gradlew -p codegen/sdk-codegen build
+          ./gradlew -p codegen/sdk-codegen stageSdks
+          ./scripts/generatePackageManifest > Package.swift
+          swift package resolve
+          swift package test
+
