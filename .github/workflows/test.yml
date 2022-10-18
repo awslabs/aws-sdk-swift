@@ -1,12 +1,9 @@
-name: CI
+name: NewRelease
 
 on:
   push:
     branches:
       - jbe/improved_ci
-
-env:
-  PACKAGE_NAME: aws-sdk-swift
 
 jobs:
   linux:
@@ -24,24 +21,25 @@ jobs:
         uses: swift-actions/setup-swift@v1
         with:
           swift-version: "5.7.0"
-      - name: Resolve Dependencies & Configure ${{ env.PACKAGE_NAME }}
+      - name: Resolve Dependencies & Configure
         run: |
           # Install Swift packages, and point Kotlin to the local Smithy copy.
           swift package resolve
           swift package edit smithy-swift
           echo "compositeProjects=$GITHUB_WORKSPACE/Packages/smithy-swift" > local.properties
-      - name: Code Generate ${{ env.PACKAGE_NAME }}
+      - name: Code Generate
         run: |
           # Blow out previous code generation and regenerate.
           rm -rf release/
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
-          ./scripts/generatePackageSwift.swift > Package.swift
-          # Fail if the codegen & Package.swift were not up-to-date.
-          # if [[ $(git diff --stat) != '' ]]; then
-          #   exit(1)
-          # fi
-      - name: Test ${{ env.PACKAGE_NAME }}
-        run: |
-          # Run Swift tests.
-          swift package test
+          ./scripts/mergeModels.sh release
+          swift ./scripts/generatePackageSwift.swift > Package.swift
+          cat Package.swift
+      - name: Commit Changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: AWS CI
+          author_email: nobody@amazonaws.com
+          message: 'aws-sdk-swift release build artifacts'
+          add: 'release Package.swift'
