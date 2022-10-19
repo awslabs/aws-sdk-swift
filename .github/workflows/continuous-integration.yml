@@ -4,21 +4,6 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  BUILDER_VERSION: v0.9.18
-  BUILDER_SOURCE: releases
-  # host owned by CRT team to host aws-crt-builder releases. Contact their on-call with any issues
-  BUILDER_HOST: https://d19elf31gohf1l.cloudfront.net
-  PACKAGE_NAME: aws-sdk-swift
-  LINUX_BASE_IMAGE: ubuntu-16-x64
-  RUN: ${{ github.run_id }}-${{ github.run_number }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_REGION: us-east-1
-  AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
-  AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
-  SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
-
 jobs:
   ios-compat:
     runs-on: macos-12
@@ -37,16 +22,14 @@ jobs:
             ${{ runner.os }}-gradle-
       - uses: actions/setup-java@v1
         with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
+          java-version: '18'
+      - name: Build and Test
         run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
+          # --target=ios-armv8
   macos-compat:
-    runs-on: macos-11
+    runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
@@ -60,12 +43,10 @@ jobs:
             ${{ runner.os }}-gradle-
       - uses: actions/setup-java@v1
         with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
+          java-version: '18'
+      - name: Build and Test
         run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+          # build here
   linux-compat:
     runs-on: ubuntu-latest
     strategy:
@@ -77,20 +58,46 @@ jobs:
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Setup Java
+        uses: actions/setup-java@v1
         with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        # todo: remove the aws credentials from the below command eventually once the CRT builder no longer requires aws credentials
+          java-version: '18'
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: "5.7.0"
+      - name: Resolve Dependencies & Configure
         run: |
-          aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
-          export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
-          docker pull $DOCKER_IMAGE
-          docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
-          --env GITHUB_REF \
-          --env GITHUB_HEAD_REF \
-          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
-          --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
-          --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
-          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
-          $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
+          # Install Swift packages
+          swift package resolve
+
+          # Checkout smithy-swift and aws-crt-swift on the same branch as aws-sdk-swift,
+          # if it exists on those repos, else stay on the resolved branch.
+          swift package edit smithy-swift
+          cd Packages/smithy-swift
+          git checkout $GITHUB_REF || true
+          cd ../..
+
+          swift package edit aws-crt-swift
+          cd Packages/aws-crt-swift
+          git checkout $GITHUB_REF || true
+          cd ../..
+
+          # Point Kotlin to the local copy of smithy-swift.
+          echo "compositeProjects=$GITHUB_WORKSPACE/Packages/smithy-swift" > local.properties
+      - name: Code Generate
+        run: |
+          # Blow out previous code generation and regenerate.
+          rm -rf release/
+          ./gradlew -p codegen/sdk-codegen build
+          ./gradlew -p codegen/sdk-codegen stageSdks
+          ./scripts/mergeModels.sh release
+          swift ./scripts/generatePackageSwift.swift > Package.swift
+          cat Package.swift
+      - name: Commit Changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: AWS CI
+          author_email: nobody@amazonaws.com
+          message: 'aws-sdk-swift release build artifacts'
+          add: 'release Package.swift'
