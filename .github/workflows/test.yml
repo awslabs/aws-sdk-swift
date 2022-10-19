@@ -23,9 +23,22 @@ jobs:
           swift-version: "5.7.0"
       - name: Resolve Dependencies & Configure
         run: |
-          # Install Swift packages, and point Kotlin to the local Smithy copy.
+          # Install Swift packages
           swift package resolve
+
+          # Checkout smithy-swift and aws-crt-swift on the same branch as aws-sdk-swift,
+          # if it exists on those repos, else stay on the resolved branch.
           swift package edit smithy-swift
+          cd Packages/smithy-swift
+          git checkout $GITHUB_REF || true
+          cd ../..
+
+          swift package edit aws-crt-swift
+          cd Packages/aws-crt-swift
+          git checkout $GITHUB_REF || true
+          cd ../..
+
+          # Point Kotlin to the local copy of smithy-swift.
           echo "compositeProjects=$GITHUB_WORKSPACE/Packages/smithy-swift" > local.properties
       - name: Code Generate
         run: |
@@ -43,3 +56,4 @@ jobs:
           author_email: nobody@amazonaws.com
           message: 'aws-sdk-swift release build artifacts'
           add: 'release Package.swift'
+
