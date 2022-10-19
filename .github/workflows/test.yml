@@ -3,7 +3,7 @@ name: NewRelease
 on:
   push:
     branches:
-      - jbe/improved_ci
+      - jbe/improved_ci_2
 
 jobs:
   linux:
