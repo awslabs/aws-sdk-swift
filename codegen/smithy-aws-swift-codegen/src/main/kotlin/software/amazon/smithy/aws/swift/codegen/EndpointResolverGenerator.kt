@@ -11,7 +11,6 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.language.stdlib.partition.DefaultPartitionDataProvider
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
-import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDependency
@@ -46,16 +45,6 @@ class EndpointResolverGenerator() {
             it.addImport(SwiftDependency.CLIENT_RUNTIME.target)
             it.write("")
             MiddlewareGenerator(it, middleware).generate()
-        }
-
-        ctx.service.getTrait<EndpointTestsTrait>()?.let { testsTrait ->
-            if (testsTrait.testCases.isEmpty()) {
-                return
-            }
-
-            ctx.delegator.useFileWriter("./${ctx.settings.moduleName}Tests/EndpointResolverTest.swift") { swiftWriter ->
-                EndpointTestGenerator(testsTrait, ruleSet, ctx).render(swiftWriter)
-            }
         }
     }
 
