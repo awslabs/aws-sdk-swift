@@ -18,9 +18,11 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      AWS_SDK_PROJECT_ROOT: ${{ $GITHUB_WORKSPACE }}
-      AWS_SDK_REF_TO_BUILD: ${{ $GITHUB_REF }}
     steps:
+      - name: Setup Environment
+        run: |
+          echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF" >> $GITHUB_ENV
       - name: Checkout Sources
         uses: actions/checkout@v2
       - name: Setup Java
