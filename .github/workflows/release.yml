@@ -33,9 +33,9 @@ jobs:
         with:
           swift-version: 5.7.0
       - name: Install Dependencies
-        run: ./install_dependencies.sh
+        run: ./scripts/install_dependencies.sh
       - name: Generate Release
-        run: ./build_for_release.sh
+        run: ./scripts/build_for_release.sh
 #      - name: Commit Changes
 #        uses: EndBug/add-and-commit@v7
 #        with:
