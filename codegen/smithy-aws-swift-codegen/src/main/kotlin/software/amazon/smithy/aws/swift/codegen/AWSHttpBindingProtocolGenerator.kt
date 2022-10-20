@@ -13,6 +13,9 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.rulesengine.language.EndpointRuleSet
+import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
+import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
@@ -24,6 +27,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructDecodeGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
+import software.amazon.smithy.swift.codegen.model.getTrait
 
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
 
@@ -55,7 +59,25 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             getProtocolHttpBindingResolver(ctx, defaultContentType),
             serdeContext,
             imports,
-        ).generateProtocolTests()
+        ).generateProtocolTests() + renderEndpointsTests(ctx)
+    }
+
+    fun renderEndpointsTests(ctx: ProtocolGenerator.GenerationContext): Int {
+        val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
+        val ruleSet = if (ruleSetNode != null) EndpointRuleSet.fromNode(ruleSetNode) else null
+        var testCount = 0
+
+        ctx.service.getTrait<EndpointTestsTrait>()?.let { testsTrait ->
+            if (testsTrait?.testCases.isEmpty()) {
+                return 0
+            }
+
+            ctx.delegator.useFileWriter("./${ctx.settings.moduleName}Tests/EndpointResolverTest.swift") { swiftWriter ->
+                testCount = + EndpointTestGenerator(testsTrait, ruleSet, ctx).render(swiftWriter)
+            }
+        }
+
+        return testCount
     }
 
     override fun renderStructEncode(

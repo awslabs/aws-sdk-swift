@@ -24,9 +24,9 @@ class EndpointTestGenerator(
     private val endpointRuleSet: EndpointRuleSet?,
     private val ctx: ProtocolGenerator.GenerationContext
 ) {
-    fun render(writer: SwiftWriter) {
+    fun render(writer: SwiftWriter): Int {
         if (endpointTest.testCases.isEmpty()) {
-            return
+            return 0
         }
 
         writer.addImport(ctx.settings.moduleName, isTestable = true)
@@ -38,10 +38,11 @@ class EndpointTestGenerator(
         // used to filter out test params that are not valid
         val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
 
+        var count = 0
         writer.openBlock("class EndpointResolverTest: \$L {", "}", ClientRuntimeTypes.Test.CrtXCBaseTestCase) {
-            endpointTest.testCases.forEachIndexed { idx, testCase ->
+            endpointTest.testCases.forEach { testCase ->
                 writer.write("/// \$L", testCase.documentation)
-                writer.openBlock("func testResolve$idx() throws {", "}") {
+                writer.openBlock("func testResolve${++count}() throws {", "}") {
                     writer.openBlock("let endpointParams = \$L(", ")", AWSServiceTypes.EndpointParams) {
                         val applicableParams =
                             testCase.params.members.filter { endpointParamsMembers.contains(it.key.value) }
@@ -83,9 +84,9 @@ class EndpointTestGenerator(
                             generateProperties(writer, endpoint.properties)
                         }
 
-                        writer.write("let headers = Headers()")
-                        endpoint.headers.forEach { (name, value) ->
-                            writer.write("headers.add(name: \$S, values: \$S)", name, value)
+                        writer.write("var headers = Headers()")
+                        endpoint.headers.forEach { (name, values) ->
+                            writer.write("headers.add(name: \$S, values: [\$S])", name, values.sorted().joinToString(","))
                         }
                         writer.write(
                             "let expected = try \$L(urlString: \$S, headers: headers, properties: properties)",
@@ -98,18 +99,24 @@ class EndpointTestGenerator(
                 writer.write("")
             }
         }
+
+        return count
     }
 
     /**
      * Recursively traverse map of properties and generate JSON string literal.
      */
     private fun generateProperties(writer: SwiftWriter, properties: Map<String, Node>) {
-        writer.openBlock("[", "]") {
-            properties.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
-                val value = Value.fromNode(second)
-                writer.writeInline("\$S: ", first)
-                writer.call {
-                    generateValue(writer, value, if (idx < properties.values.count() - 1) "," else "")
+        if (properties.isEmpty()) {
+            writer.write("[:]")
+        } else {
+            writer.openBlock("[", "]") {
+                properties.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
+                    val value = Value.fromNode(second)
+                    writer.writeInline("\$S: ", first)
+                    writer.call {
+                        generateValue(writer, value, if (idx < properties.values.count() - 1) "," else "")
+                    }
                 }
             }
         }
@@ -147,11 +154,15 @@ class EndpointTestGenerator(
             }
 
             is Value.Record -> {
-                writer.openBlock("[", "] as [String: AnyHashable]$delimeter") {
-                    value.value.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
-                        writer.writeInline("\$S: ", first.name)
-                        writer.call {
-                            generateValue(writer, second, if (idx < value.value.count() - 1) "," else "")
+                if (value.value.isEmpty()) {
+                    writer.writeInline("[:]")
+                } else {
+                    writer.openBlock("[", "] as [String: AnyHashable]$delimeter") {
+                        value.value.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
+                            writer.writeInline("\$S: ", first.name)
+                            writer.call {
+                                generateValue(writer, second, if (idx < value.value.count() - 1) "," else "")
+                            }
                         }
                     }
                 }
