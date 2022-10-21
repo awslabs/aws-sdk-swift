@@ -84,7 +84,8 @@ class EndpointTestGenerator(
                             generateProperties(writer, endpoint.properties)
                         }
 
-                        writer.write("var headers = Headers()")
+                        val reference = if (endpoint.headers.isNotEmpty()) "var" else "let"
+                        writer.write("$reference headers = Headers()")
                         endpoint.headers.forEach { (name, values) ->
                             writer.write("headers.add(name: \$S, values: [\$S])", name, values.sorted().joinToString(","))
                         }
