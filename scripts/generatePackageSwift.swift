@@ -5,7 +5,11 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
+#if os(Linux)
+import Glibc
+#else
 import Darwin
+#endif
 import class Foundation.PropertyListDecoder
 import class Foundation.ProcessInfo
 import class Foundation.FileManager
