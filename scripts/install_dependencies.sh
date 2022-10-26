@@ -20,7 +20,7 @@ then
 fi
 
 # Generate Package.swift with branches set, if needed.
-./scripts/generatePackageSwift.swift > Package.swift
+swift ./scripts/generatePackageSwift.swift > Package.swift
 
 # Install Swift packages
 swift package resolve

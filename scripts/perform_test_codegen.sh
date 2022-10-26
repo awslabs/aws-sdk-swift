@@ -17,4 +17,4 @@ set -x
 echo "AWS_SDK_PROTOCOL_CODEGEN_TESTS_BUILT=1" >> $GITHUB_ENV
 
 # Regenerate Package.swift
-AWS_SDK_PROTOCOL_CODEGEN_TESTS_BUILT=1 ./scripts/generatePackageSwift.swift > Package.swift
+AWS_SDK_PROTOCOL_CODEGEN_TESTS_BUILT=1 swift ./scripts/generatePackageSwift.swift > Package.swift
