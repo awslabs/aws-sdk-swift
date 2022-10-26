@@ -22,6 +22,7 @@ jobs:
         run: |
           echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
           echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          echo "AWS_SDK_RELEASE_IN_PROGRESS=1" >> $GITHUB_ENV
       - name: Checkout Sources
         uses: actions/checkout@v2
       - name: Setup Java
@@ -32,10 +33,16 @@ jobs:
         uses: swift-actions/setup-swift@v1
         with:
           swift-version: 5.7.0
+      - name: Set References
+        run: ./scripts/set_references.sh
       - name: Install Dependencies
         run: ./scripts/install_dependencies.sh
       - name: Generate Release
         run: ./scripts/build_for_release.sh
+      - name: Build and Test
+        run: |
+          swift build
+          swift test
 #      - name: Commit Changes
 #        uses: EndBug/add-and-commit@v7
 #        with:
