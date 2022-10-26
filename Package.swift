@@ -20,7 +20,6 @@ let package = Package(
     ],
     products: [
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
-        .library(name: "AWSS3", targets: ["AWSS3"]),
         .library(name: "AWSSTS", targets: ["AWSSTS"]),
     ],
     dependencies: [
@@ -45,7 +44,6 @@ let package = Package(
             ],
             path: "./AWSClientRuntime/Tests"
         ),
-        .target(name: "AWSS3", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSS3"),
         .target(name: "AWSSTS", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSTS"),
     ]
 )
