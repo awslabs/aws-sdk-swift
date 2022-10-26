@@ -16,7 +16,7 @@ jobs:
       - name: Setup Environment
         run: |
           echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
-          echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF" >> $GITHUB_ENV
+          echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF_NAME" >> $GITHUB_ENV
       - name: Checkout Sources
         uses: actions/checkout@v2
       - name: Setup Java
@@ -25,15 +25,11 @@ jobs:
           java-version: 18
       - name: Install Dependencies
         run: ./scripts/install_dependencies.sh
-      - name: Set Working Branches
-        run: ./scripts/set_working_branches.sh
       - name: Perform Test Codegen
         run: ./scripts/perform_test_codegen.sh
       - name: Build and Test
         run: |
           xcodebuild -scheme AWSSwiftSDK-Package -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14' test
-          ./scripts/mergeModels.sh $AWS_SDK_PROJECT_ROOT/codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models
-        cd codegen && xcodebuild -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14' test
   #macos-compat:
   #linux-compat:
   #  runs-on: ubuntu-latest
