@@ -23,13 +23,19 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 18
+      - name: Set References
+        run: ./scripts/set_references.sh
       - name: Install Dependencies
         run: ./scripts/install_dependencies.sh
       - name: Perform Test Codegen
         run: ./scripts/perform_test_codegen.sh
       - name: Build and Test
         run: |
-          xcodebuild -scheme AWSSwiftSDK-Package -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14' test
+          xcodebuild \
+            -scheme AWSSwiftSDK-Package \
+            -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14' \
+            -derivedDataPath `mktemp -d` \
+            test
   #macos-compat:
   #linux-compat:
   #  runs-on: ubuntu-latest
