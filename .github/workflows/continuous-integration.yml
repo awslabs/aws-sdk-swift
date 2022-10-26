@@ -29,15 +29,19 @@ jobs:
         run: ./scripts/install_dependencies.sh
       - name: Perform Test Codegen
         run: ./scripts/perform_test_codegen.sh
-      - name: Build and Test
+      - name: Post-Codegen Cleanup
         run: |
+          ./gradlew --stop
           swift package unedit smithy-swift
           rm -rf .build
+      - name: Build and Test
+        run: |
           xcodebuild \
             -scheme AWSSwiftSDK-Package \
             -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14' \
             -derivedDataPath `mktemp -d` \
-            test
+            build test \
+            | xcpretty && exit ${PIPESTATUS[0]}
   macos-compat:
     runs-on: macos-12
     env:
@@ -59,15 +63,19 @@ jobs:
         run: ./scripts/install_dependencies.sh
       - name: Perform Test Codegen
         run: ./scripts/perform_test_codegen.sh
-      - name: Build and Test
+      - name: Post-Codegen Cleanup
         run: |
+          ./gradlew --stop
           swift package unedit smithy-swift
           rm -rf .build
+      - name: Build and Test
+        run: |
           xcodebuild \
             -scheme AWSSwiftSDK-Package \
             -destination 'platform=macOS,arch=x86_64' \
             -derivedDataPath `mktemp -d` \
-            test
+            build test \
+            | xcpretty && exit ${PIPESTATUS[0]}
   linux-compat:
     runs-on: ubuntu-latest
     strategy:
@@ -99,6 +107,7 @@ jobs:
         run: ./scripts/perform_test_codegen.sh
       - name: Build and Test
         run: |
+          ./gradlew --stop
           swift package unedit smithy-swift
           swift build --build-tests
           swift test --skip-build

@@ -41,6 +41,8 @@ jobs:
         run: ./scripts/build_for_release.sh
       - name: Build and Test
         run: |
+          swift package unedit smithy-swift
+          ./gradlew --stop
           swift build
           swift test
 #      - name: Commit Changes
