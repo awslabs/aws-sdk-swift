@@ -1,8 +1,11 @@
 name: CI
 
 on:
-  pull_request:
-  workflow_dispatch:
+  push:
+    branches:
+      - jbe/improved_ci
+#  pull_request:
+#  workflow_dispatch:
 
 jobs:
   ios-compat:
@@ -10,43 +13,69 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app
     steps:
+      - name: Setup Environment
+        run: |
+          echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF_NAME" >> $GITHUB_ENV
       - name: Checkout Sources
         uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '18'
+          java-version: 18
+      - name: Set References
+        run: ./scripts/set_references.sh
+      - name: Install Dependencies
+        run: ./scripts/install_dependencies.sh
+      - name: Perform Test Codegen
+        run: ./scripts/perform_test_codegen.sh
+      - name: Post-Codegen Cleanup
+        run: |
+          ./gradlew --stop
+          swift package unedit smithy-swift
+          rm -rf .build
       - name: Build and Test
         run: |
-          # --target=ios-armv8
+          xcodebuild \
+            -scheme AWSSwiftSDK-Package \
+            -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14' \
+            -derivedDataPath `mktemp -d` \
+            build test \
+            | xcpretty && exit ${PIPESTATUS[0]}
   macos-compat:
     runs-on: macos-12
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app
     steps:
-      - name: Checkout sources
+      - name: Setup Environment
+        run: |
+          echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF_NAME" >> $GITHUB_ENV
+      - name: Checkout Sources
         uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '18'
+          java-version: 18
+      - name: Set References
+        run: ./scripts/set_references.sh
+      - name: Install Dependencies
+        run: ./scripts/install_dependencies.sh
+      - name: Perform Test Codegen
+        run: ./scripts/perform_test_codegen.sh
+      - name: Post-Codegen Cleanup
+        run: |
+          ./gradlew --stop
+          swift package unedit smithy-swift
+          rm -rf .build
       - name: Build and Test
         run: |
-          # build here
+          xcodebuild \
+            -scheme AWSSwiftSDK-Package \
+            -destination 'platform=macOS,arch=x86_64' \
+            -derivedDataPath `mktemp -d` \
+            build test \
+            | xcpretty && exit ${PIPESTATUS[0]}
   linux-compat:
     runs-on: ubuntu-latest
     strategy:
@@ -56,48 +85,29 @@ jobs:
           - ubuntu-x64
           - al2-x64
     steps:
+      - name: Setup Environment
+        run: |
+          echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF_NAME" >> $GITHUB_ENV
       - name: Checkout Sources
         uses: actions/checkout@v2
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: '18'
+          java-version: 18
       - name: Setup Swift
         uses: swift-actions/setup-swift@v1
         with:
-          swift-version: "5.7.0"
-      - name: Resolve Dependencies & Configure
+          swift-version: 5.7.0
+      - name: Set References
+        run: ./scripts/set_references.sh
+      - name: Install Dependencies
+        run: ./scripts/install_dependencies.sh
+      - name: Perform Test Codegen
+        run: ./scripts/perform_test_codegen.sh
+      - name: Build and Test
         run: |
-          # Install Swift packages
-          swift package resolve
-
-          # Checkout smithy-swift and aws-crt-swift on the same branch as aws-sdk-swift,
-          # if it exists on those repos, else stay on the resolved branch.
-          swift package edit smithy-swift
-          cd Packages/smithy-swift
-          git checkout $GITHUB_REF || true
-          cd ../..
-
-          swift package edit aws-crt-swift
-          cd Packages/aws-crt-swift
-          git checkout $GITHUB_REF || true
-          cd ../..
-
-          # Point Kotlin to the local copy of smithy-swift.
-          echo "compositeProjects=$GITHUB_WORKSPACE/Packages/smithy-swift" > local.properties
-      - name: Code Generate
-        run: |
-          # Blow out previous code generation and regenerate.
-          rm -rf release/
-          ./gradlew -p codegen/sdk-codegen build
-          ./gradlew -p codegen/sdk-codegen stageSdks
-          ./scripts/mergeModels.sh release
-          swift ./scripts/generatePackageSwift.swift > Package.swift
-          cat Package.swift
-      - name: Commit Changes
-        uses: EndBug/add-and-commit@v7
-        with:
-          author_name: AWS CI
-          author_email: nobody@amazonaws.com
-          message: 'aws-sdk-swift release build artifacts'
-          add: 'release Package.swift'
+          ./gradlew --stop
+          swift package unedit smithy-swift
+          swift build --build-tests
+          swift test --skip-build
