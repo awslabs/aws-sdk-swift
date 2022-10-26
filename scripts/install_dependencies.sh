@@ -25,6 +25,9 @@ else
   echo "AWS_SDK_AWS_CRT_SWIFT_BRANCH_OVERRIDE=main" >> $GITHUB_ENV
 fi
 
+# Ensure release/ is present
+mkdir -p release
+
 # Generate Package.swift with branches set, if needed.
 swift ./scripts/generatePackageSwift.swift > Package.swift
 
