@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - jbe/improved_ci_2
+      - jbe/improved_ci
 #  push:
 #    branches:
 #        - 'release/**'

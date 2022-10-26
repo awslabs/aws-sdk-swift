@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - jbe/improved_ci_2
+      - jbe/improved_ci
 #  pull_request:
 #  workflow_dispatch:
 
