@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
+import Darwin
 import class Foundation.PropertyListDecoder
 import class Foundation.ProcessInfo
 import class Foundation.FileManager
@@ -23,25 +24,25 @@ struct ProtocolTest {
     let local: Bool
 }
 
-let protocolBasePath = "./protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
-let protocolBasePathLocal = "./protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
+let protocolBasePath = "./codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
+let protocolBasePathLocal = "./codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
 
 var protocolTests: [ProtocolTest] = [
-    ProtocolTest(name: "AWSRestJsonTestSDK", path: "/aws-restjson", local: false),
-    ProtocolTest(name: "AWSJson1_0TestSDK", path: "/aws-json-10", local: false),
-    ProtocolTest(name: "AWSJson1_1TestSDK", path: "/aws-json-11", local: false),
-    ProtocolTest(name: "RestXmlTestSDK", path: "/rest-xml", local: false),
-    ProtocolTest(name: "RestXmlWithNamespaceTestSDK", path: "/rest-xml-xmlns", local: false),
-    ProtocolTest(name: "Ec2QueryTestSDK", path: "/ec2-query", local: false),
-    ProtocolTest(name: "AWSQueryTestSDK", path: "/aws-query", local: false),
+    ProtocolTest(name: "AWSRestJsonTestSDK", path: "aws-restjson", local: false),
+    ProtocolTest(name: "AWSJson1_0TestSDK", path: "aws-json-10", local: false),
+    ProtocolTest(name: "AWSJson1_1TestSDK", path: "aws-json-11", local: false),
+    ProtocolTest(name: "RestXmlTestSDK", path: "rest-xml", local: false),
+    ProtocolTest(name: "RestXmlWithNamespaceTestSDK", path: "rest-xml-xmlns", local: false),
+    ProtocolTest(name: "Ec2QueryTestSDK", path: "ec2-query", local: false),
+    ProtocolTest(name: "AWSQueryTestSDK", path: "aws-query", local: false),
     //Service specific
-    ProtocolTest(name: "APIGatewayTestSDK", path: "/apigateway", local: false),
-    ProtocolTest(name: "GlacierTestSDK", path: "/glacier", local: false),
-    ProtocolTest(name: "MachineLearningTestSDK", path: "/machinelearning", local: false),
-    ProtocolTest(name: "S3TestSDK", path: "/s3", local: false),
+    ProtocolTest(name: "APIGatewayTestSDK", path: "apigateway", local: false),
+    ProtocolTest(name: "GlacierTestSDK", path: "glacier", local: false),
+    ProtocolTest(name: "MachineLearningTestSDK", path: "machinelearning", local: false),
+    ProtocolTest(name: "S3TestSDK", path: "s3", local: false),
     //Local tests
-    ProtocolTest(name: "aws_restjson", path: "/aws-restjson", local: true),
-    ProtocolTest(name: "rest_json_extras", path: "/rest_json_extras", local: true),
+    ProtocolTest(name: "aws_restjson", path: "aws-restjson", local: true),
+    ProtocolTest(name: "rest_json_extras", path: "rest_json_extras", local: true),
 ]
 
 let plistFile = "versionDependencies.plist"
@@ -92,6 +93,11 @@ func generateProducts(_ releasedSDKs: [String]) {
     print("        .library(name: \"AWSClientRuntime\", targets: [\"AWSClientRuntime\"]),")
     for sdk in releasedSDKs {
         print("        .library(name: \"\(sdk)\", targets: [\"\(sdk)\"]),")
+    }
+    if includeProtocolTests {
+        for test in protocolTests {
+            print("        .library(name: \"\(test.name)\", targets: [\"\(test.name)\"]),")
+        }
     }
     print("    ],")
 
@@ -145,16 +151,16 @@ func generateTargets(_ releasedSDKs: [String]) {
     }
     if includeProtocolTests {
         for test in protocolTests {
-            let basePath = test.local ? baseDirLocal : baseDir
-            print("        .target(name: \"\(test.name)\", dependencies: [.product(name: \"ClientRuntime\", package: \"smithy-swift\"), \"AWSClientRuntime\"], path: \"\()\"),")
+            let basePath = test.local ? protocolBasePathLocal : protocolBasePath
+            print("        .target(name: \"\(test.name)\", dependencies: [.product(name: \"ClientRuntime\", package: \"smithy-swift\"), \"AWSClientRuntime\"], path: \"\(basePath)/\(test.path)/swift-codegen/\(test.name)\"),")
+            print("        .testTarget(name: \"\(test.name)Tests\", dependencies: [.product(name: \"SmithyTestUtil\", package: \"smithy-swift\"), \"\(test.name)\"], path: \"\(basePath)/\(test.path)/swift-codegen/\(test.name)Tests\"),")
         }
     }
     print("    ]")
-    
 }
 
 let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "release")
-let releasedSDKs = sdksToIncludeInTargets.sorted()
+let releasedSDKs = sdksToIncludeInTargets.filter { ["AWSS3", "AWSSTS"].contains($0) }.sorted()
 
 guard let versions = getVersionsOfDependencies() else {
     print("Failed to get version dependencies")
