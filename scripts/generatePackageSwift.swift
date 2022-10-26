@@ -11,9 +11,11 @@ import class Foundation.ProcessInfo
 import class Foundation.FileManager
 
 struct VersionDeps: Codable {
+    // Will always be defined in versionDependencies.plist
     var awsCRTSwiftVersion: String
     var clientRuntimeVersion: String
-
+    // These keys are not normally defined in versionDependencies.plist,
+    // but may be set on a feature branch if desired.
     var awsCRTSwiftBranch: String?
     var clientRuntimeBranch: String?
 }
@@ -70,6 +72,17 @@ let includeProtocolTests: Bool = {
 func generateHeader() {
     let header = """
     // swift-tools-version:5.5
+
+    //
+    // Copyright Amazon.com Inc. or its affiliates.
+    // All Rights Reserved.
+    //
+    // SPDX-License-Identifier: Apache-2.0
+    //
+
+    // This manifest is auto-generated.  Do not commit edits to this file;
+    // they will be overwritten.
+
     import PackageDescription
 
     """
