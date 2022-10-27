@@ -33,17 +33,15 @@ jobs:
         with:
           java-version: 18
       - name: Set References
-        run: ./scripts/set_references.sh
+        run: ./scripts/steps/set_references.sh
       - name: Install Dependencies
-        run: ./scripts/install_dependencies.sh
-      - name: Generate Release
-        run: ./scripts/build_for_release.sh
+        run: ./scripts/steps/install_dependencies.sh
+      - name: Perform Release Codegen
+        run: ./scripts/steps/perform_release_codegen.sh
+      - name: Post-Codegen Cleanup
+        run: ./scripts/steps/post_codegen_cleanup.sh
       - name: Build and Test
-        run: |
-          swift package unedit smithy-swift
-          ./gradlew --stop
-          swift build
-          swift test
+        run: ./scripts/steps/build_and_test.sh
 #      - name: Commit Changes
 #        uses: EndBug/add-and-commit@v7
 #        with:
