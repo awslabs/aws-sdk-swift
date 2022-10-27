@@ -39,7 +39,7 @@ jobs:
           xcodebuild \
             -scheme AWSSwiftSDK-Package \
             -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14' \
-            -derivedDataPath `mktemp -d` \
+            # -derivedDataPath `mktemp -d` \
             build test \
             | xcpretty && exit ${PIPESTATUS[0]}
   macos-compat:
@@ -73,7 +73,7 @@ jobs:
           xcodebuild \
             -scheme AWSSwiftSDK-Package \
             -destination 'platform=macOS,arch=x86_64' \
-            -derivedDataPath `mktemp -d` \
+            # -derivedDataPath `mktemp -d` \
             build test \
             | xcpretty && exit ${PIPESTATUS[0]}
   linux-compat:
