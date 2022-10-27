@@ -23,8 +23,7 @@ class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory
         httpProtocolCustomizable: HttpProtocolCustomizable,
         operationMiddleware: OperationMiddleware
     ): HttpProtocolClientGenerator {
-        val serviceName = ctx.symbolProvider.toSymbol(ctx.service).name
-        val config = AWSServiceConfig(writer, serviceName)
+        val config = AWSServiceConfig(writer, ctx)
         return HttpProtocolClientGenerator(ctx, writer, config, httpBindingResolver, defaultContentType, httpProtocolCustomizable, operationMiddleware)
     }
 }

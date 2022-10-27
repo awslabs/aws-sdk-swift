@@ -38,7 +38,6 @@ object AWSClientRuntimeTypes {
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
         val RetryerMiddleware = runtimeSymbol("RetryerMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
-        val EndpointResolver = runtimeSymbol("EndpointResolver")
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")
         val CredentialsProvider = runtimeSymbol("CredentialsProvider")
         val AWSCredentialsProvider = runtimeSymbol("AWSCredentialsProvider")
@@ -51,6 +50,8 @@ object AWSClientRuntimeTypes {
         val AWSHttpServiceError = runtimeSymbol("AWSHttpServiceError")
         val RegionResolver = runtimeSymbol("RegionResolver")
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
+        val AWSEndpointsRuleEngine = runtimeSymbol("AWSEndpointsRuleEngine")
+        val AWSEndpointsRequestContext = runtimeSymbol("AWSEndpointsRequestContext")
     }
 }
 
