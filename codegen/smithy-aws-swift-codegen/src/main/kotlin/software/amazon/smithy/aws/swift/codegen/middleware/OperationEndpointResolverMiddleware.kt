@@ -1,0 +1,156 @@
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0.
+ */
+
+package software.amazon.smithy.aws.swift.codegen.middleware
+
+import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
+import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.shapes.MemberShape
+import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.rulesengine.language.EndpointRuleSet
+import software.amazon.smithy.rulesengine.language.syntax.parameters.Parameter
+import software.amazon.smithy.rulesengine.language.syntax.parameters.ParameterType
+import software.amazon.smithy.rulesengine.traits.ClientContextParamDefinition
+import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
+import software.amazon.smithy.rulesengine.traits.ContextParamTrait
+import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
+import software.amazon.smithy.rulesengine.traits.StaticContextParamDefinition
+import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
+import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
+import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
+import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.utils.toCamelCase
+
+/**
+ * Generates EndpointResolverMiddleware interception code.
+ * Including creation of EndpointParams instance and pass it as middleware param along with EndpointResolver
+ */
+class OperationEndpointResolverMiddleware(
+    val ctx: ProtocolGenerator.GenerationContext,
+) : MiddlewareRenderable {
+
+    override val name = "EndpointResolverMiddleware"
+
+    override val middlewareStep = MiddlewareStep.BUILDSTEP
+
+    override val position = MiddlewarePosition.BEFORE
+
+    override fun render(writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+        val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
+        val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
+        val params = mutableListOf<String>()
+        ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
+            val ruleSet = EndpointRuleSet.fromNode(node)
+            val staticContextParams = op.getTrait<StaticContextParamsTrait>()?.parameters ?: emptyMap()
+            val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()?.parameters ?: emptyMap()
+            val parameters = ruleSet.parameters.toList()
+            parameters.toList()
+                .sortedBy { it.name.toString() }
+                .forEach { param ->
+                    val memberName = param.name.toString().toCamelCase()
+                    val contextParam = ctx.model.expectShape(op.inputShape).members()
+                        .firstOrNull { it.getTrait<ContextParamTrait>()?.name == param.name.toString() }
+                    val value = resolveParameterValue(
+                        param,
+                        staticContextParams[param.name.toString()],
+                        contextParam,
+                        clientContextParams[param.name.toString()],
+                        writer,
+                        outputError
+                    )
+                    value?.let {
+                        params.add("$memberName: $it")
+                    }
+                }
+        }
+        writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
+        val middlewareParamsString = "endpointResolver: config.endpointResolver, endpointParams: endpointParams"
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
+    }
+
+    /**
+     * Resolve the parameter value based on the following order
+     * 1. staticContextParams: direct value from the static context params
+     * 2. contextParam: value from the input shape
+     * 3. clientContextParams: value from the client config
+     * 4. Built-In Bindings: value from the client config
+     * 5. Built-in binding default values: default value from the built-in binding
+     */
+    private fun resolveParameterValue(
+        param: Parameter,
+        staticContextParam: StaticContextParamDefinition?,
+        contextParam: MemberShape?,
+        clientContextParam: ClientContextParamDefinition?,
+        writer: SwiftWriter,
+        outputError: Symbol
+    ): String? {
+        return when {
+            staticContextParam != null -> {
+                return when (param.type) {
+                    ParameterType.STRING -> {
+                        "\"${staticContextParam.value}\""
+                    }
+
+                    ParameterType.BOOLEAN -> {
+                        staticContextParam.value.toString()
+                    }
+                }
+            }
+            contextParam != null -> {
+                return "input.${contextParam.memberName.toCamelCase()}"
+            }
+            clientContextParam != null -> {
+                when {
+                    param.defaultValue.isPresent -> {
+                        "config.${param.name.toString().toCamelCase()} ?? ${param.defaultValueLiteral}"
+                    }
+                    else -> {
+                        return "config.${param.name.toString().toCamelCase()}"
+                    }
+                }
+            }
+            param.isBuiltIn -> {
+                return when {
+                    param.isRequired -> {
+                        when {
+                            param.defaultValue.isPresent -> {
+                                "config.${param.name.toString().toCamelCase()} ?? ${param.defaultValueLiteral}"
+                            }
+                            else -> {
+                                // if the parameter is required, we must unwrap the optional value
+                                writer.openBlock("guard let ${param.name.toString().toCamelCase()} = config.${param.name.toString().toCamelCase()} else {", "}") {
+                                    writer.write("throw SdkError<\$N>.client(ClientError.unknownError((\"Missing required parameter: \$L\")))", outputError, param.name.toString())
+                                }
+                                param.name.toString().toCamelCase()
+                            }
+                        }
+                    }
+                    param.defaultValue.isPresent -> {
+                        "config.${param.name.toString().toCamelCase()} ?? ${param.defaultValueLiteral}"
+                    }
+                    else -> {
+                        "config.${param.name.toString().toCamelCase()}"
+                    }
+                }
+            }
+            else -> {
+                // we can't resolve this param, skip it
+                return null
+            }
+        }
+    }
+}
+
+private val Parameter.defaultValueLiteral: String
+    get() {
+        return when (type) {
+            ParameterType.BOOLEAN -> defaultValue.get().toString()
+            ParameterType.STRING -> "\"${defaultValue.get()}\""
+        }
+    }
