@@ -85,6 +85,13 @@ jobs:
     container:
       image: swift:5.7-${{ matrix.os }}
     steps:
+      - name: Install openssl
+        run: |
+          if [ -x "$(command -v apt)" ]; then
+            apt install -y libssl-dev
+          else
+            yum install -y openssl-devel
+          fi
       - name: Setup Environment
         run: |
           echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
