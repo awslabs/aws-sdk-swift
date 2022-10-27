@@ -82,8 +82,8 @@ jobs:
         os:
           - jammy
           - amazonlinux2
-      container:
-        image: swift:5.7-${{ matrix.os }}
+    container:
+      image: swift:5.7-${{ matrix.os }}
     steps:
       - name: Setup Environment
         run: |
