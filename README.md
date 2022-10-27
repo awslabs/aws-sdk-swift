@@ -13,7 +13,6 @@ This library is licensed under the Apache 2.0 License.
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 [apache-url]: LICENSE
 
-
 ## Development
 
 You can define a `local.properties` config file at the root of the project to modify build behavior. 
