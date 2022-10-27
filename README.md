@@ -13,7 +13,72 @@ This library is licensed under the Apache 2.0 License.
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 [apache-url]: LICENSE
 
-## Development
+## Swift Package Manager Integration
+
+### Basics
+
+Integrate this SDK into your package by adding to your package's `Package.swift` dependencies:
+```swift
+    dependencies: [
+        .package(url: "https://github.com/awslabs/aws-sdk-swift", .exact("0.3.1"))
+    ],
+```
+Then, add one or more specific AWS services you want to use as dependencies of your target:
+```swift
+    targets: [
+         .target(
+             name: "YourTarget",
+             dependencies: [
+                 .product(name: "AWSS3", package: "aws-sdk-swift"),
+                 .product(name: "AWSEC2", package: "aws-sdk-swift")
+             ])
+    ]
+```
+
+Finally, use your services in your Swift code:
+```swift
+import AWSS3
+
+let client = AWSS3Client(region: "us-east-1")
+// See documentation for a full list of operations that can be performed with the S3 client.
+```
+
+### API Reference documentation
+We recommend using the documentation generation capabilities within Xcode (Option+Click on a symbol), but if you don't have Xcode available, you can view generated API reference documentation on our [github pages](https://awslabs.github.io/aws-sdk-swift/reference/0.x/).
+
+### Logging
+The AWS SDK for Swift uses SwiftLog for high performant logging.  Many of our calls are issued to the `debug` level of output, which are disabled in the console by default.  To see debug output to your console, you can add the following code to your application in a place where you know that the code will be called once and only once:
+```swift
+import ClientRuntime
+SDKLoggingSystem.initialize(logLevel: .debug)
+```
+
+Alternatively, if you need finer grain control of instances of SwiftLog, you can call `SDKLoggingSystem.add` to control specific instances of the log handler.  For example:
+```swift
+import ClientRuntime
+
+SDKLoggingSystem.add(logHandlerFactory: S3ClientLogHandlerFactory(logLevel: .debug))
+SDKLoggingSystem.add(logHandlerFactory: CRTClientEngineLogHandlerFactory(logLevel: .info))
+SDKLoggingSystem.initialize()
+```
+
+## SDK Development Environment
+
+To set up to develop this SDK, using Xcode:
+- Install latest Xcode from the Mac App Store.
+- Install a Java 18 JDK if one is not already installed to your system.
+  The OpenJDK-based Amazon Corretto JDK is available at https://aws.amazon.com/corretto .
+- `git clone` projects to a folder on your development machine:
+```bash
+$ git clone https://github.com/awslabs/aws-sdk-swift.git
+$ git clone https://github.com/awslabs/smithy-swift.git
+$ git clone https://github.com/awslabs/aws-crt-swift.git --recursive
+```
+- Create a new Xcode workspace in the same directory, open it in Xcode, and add the three projects you just cloned to the workspace.  If you want to integrate the AWS SDK for Swift into your own development package or Xcode project, add that to the workspace too.
+
+### Code Generation
+
+The latest AWS SDK for Swift code is already generated for you and is available in the `main` branch of the project, and in tagged releases.  You should only need to regenerate code
 
 You can define a `local.properties` config file at the root of the project to modify build behavior. 
 
@@ -121,22 +186,3 @@ If you’ve made it this far... congratulations! 🎉
 
 *What’s next?*
 Try some other calls?  Help us better understand what you think the most critical features are next.  Run into any bugs? Give us feedback on the call-site interface. etc...
-
-## API Reference documentation
-We recommend to use the documentation generation capabilities within Xcode (Option+Click on a symbol), but if you don't have Xcode available, you can view generated API reference documentation on our [github pages](https://awslabs.github.io/aws-sdk-swift/reference/0.x/).
-
-## Logging
-The AWS SDK for Swift uses SwiftLog for high performant logging.  Many of our calls are issued to the `debug` level of output, which are disabled in the console by default.  To see debug output to your console, you can add the following code to your application in a place where you know that the code will be called once and only once:
-```swift
-import ClientRuntime
-SDKLoggingSystem.initialize(logLevel: .debug)
-```
-
-Alternatively, if you need finer grain control of instances of SwiftLog, you can call `SDKLoggingSystem.add` to control specific instances of the log handler.  For example:
-```swift
-import ClientRuntime
-
-SDKLoggingSystem.add(logHandlerFactory: S3ClientLogHandlerFactory(logLevel: .debug))
-SDKLoggingSystem.add(logHandlerFactory: CRTClientEngineLogHandlerFactory(logLevel: .info))
-SDKLoggingSystem.initialize()
-```
