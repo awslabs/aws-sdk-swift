@@ -20,7 +20,6 @@ let package = Package(
     ],
     products: [
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
-        .library(name: "AWSSTS", targets: ["AWSSTS"]),
     ],
     dependencies: [
         .package(url: "https://github.com/awslabs/aws-crt-swift.git", .exact("0.2.2")),
@@ -44,6 +43,5 @@ let package = Package(
             ],
             path: "./AWSClientRuntime/Tests"
         ),
-        .target(name: "AWSSTS", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSTS"),
     ]
 )
