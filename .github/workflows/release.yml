@@ -15,7 +15,7 @@ on:
 jobs:
   build-and-commit-release:
     runs-on: ubuntu-latest
-    container: swift/5.7-amazonlinux2
+    container: swift:5.7-amazonlinux2
     strategy:
       fail-fast: false
     steps:
