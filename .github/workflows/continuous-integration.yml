@@ -79,9 +79,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - ubuntu-x64
-          - al2-x64
+        os:
+          - jammy
+          - amazonlinux2
+      container:
+        image: swift:5.7-${{ matrix.os }}
     steps:
       - name: Setup Environment
         run: |
@@ -93,10 +95,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 18
-      - name: Setup Swift
-        uses: swift-actions/setup-swift@v1
-        with:
-          swift-version: 5.7.0
       - name: Set References
         run: ./scripts/set_references.sh
       - name: Install Dependencies
