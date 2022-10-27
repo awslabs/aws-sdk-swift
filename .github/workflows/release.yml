@@ -40,8 +40,8 @@ jobs:
         run: ./scripts/steps/perform_release_codegen.sh
       - name: Post-Codegen Cleanup
         run: ./scripts/steps/post_codegen_cleanup.sh
-      - name: Build and Test
-        run: ./scripts/steps/build_and_test.sh
+      - name: Build and Test With Swift CLI
+        run: ./scripts/steps/build_and_test_with_swift_cli.sh
 #      - name: Commit Changes
 #        uses: EndBug/add-and-commit@v7
 #        with:
