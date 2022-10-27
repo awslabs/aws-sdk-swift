@@ -32,6 +32,10 @@ let includeProtocolTests: Bool = {
     env["AWS_SDK_PROTOCOL_CODEGEN_TESTS_BUILT"] != nil
 }()
 
+let releaseInProgress: Bool = {
+    env["AWS_SDK_RELEASE_IN_PROGRESS"] != nil
+}()
+
 struct ProtocolTest {
     let name: String
     let path: String
@@ -74,10 +78,10 @@ func getVersionsOfDependencies() -> VersionDeps? {
     deps.awsCRTSwiftBranch = deps.awsCRTSwiftBranch ?? env["AWS_SDK_AWS_CRT_SWIFT_BRANCH_OVERRIDE"]
     deps.clientRuntimeBranch = deps.clientRuntimeBranch ?? env["AWS_SDK_SMITHY_SWIFT_BRANCH_OVERRIDE"]
     // Clear all branch settings if building for release
-    if env["AWS_SDK_RELEASE_IN_PROGRESS"] != nil {
-        deps.awsCRTSwiftBranch = nil
-        deps.clientRuntimeBranch = nil
-    }
+    // if releaseInProgress {
+    //     deps.awsCRTSwiftBranch = nil
+    //     deps.clientRuntimeBranch = nil
+    // }
     return deps
 }
 
