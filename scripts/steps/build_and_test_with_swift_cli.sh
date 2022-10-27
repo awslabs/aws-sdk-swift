@@ -6,7 +6,7 @@ set -x
 # and runs tests using Swift command-line tools.
 
 # Build the Swift project and its tests.
-swift build --with-tests
+swift build --build-tests
 
 # Run Swift tests on the build that was just completed.
 swift test --skip-build

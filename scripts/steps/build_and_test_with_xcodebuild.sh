@@ -14,6 +14,6 @@ rm -rf .build
 # On build failure, fail on Xcode's status code
 xcodebuild \
   -scheme AWSSwiftSDK-Package \
-  -destination '$AWS_SDK_XCODEBUILD_DESTINATION' \
+  -destination "$AWS_SDK_XCODEBUILD_DESTINATION" \
   build test \
   | xcpretty && exit ${PIPESTATUS[0]}
