@@ -8,7 +8,7 @@ set -x
 # Code-generates the project, stages files in release position,
 # generates a new Package.swift
 
-rm -rf release/
+rm -rf release/*
 ./gradlew -p codegen/sdk-codegen build
 ./gradlew -p codegen/sdk-codegen stageSdks
 ./scripts/mergeModels.sh release

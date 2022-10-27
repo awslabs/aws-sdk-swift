@@ -179,7 +179,8 @@ func generateTargets(_ releasedSDKs: [String]) {
 }
 
 let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "release")
-let releasedSDKs = sdksToIncludeInTargets.filter { ["AWSSTS"].contains($0) }.sorted()
+let releasedSDKs = [String]()
+// let releasedSDKs = sdksToIncludeInTargets.sorted()
 
 guard let versions = getVersionsOfDependencies() else {
     print("Failed to get version dependencies")
