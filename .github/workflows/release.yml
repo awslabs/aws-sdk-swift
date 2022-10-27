@@ -15,9 +15,12 @@ on:
 jobs:
   build-and-commit-release:
     runs-on: ubuntu-latest
+    container: swift/5.7-amazonlinux2
     strategy:
       fail-fast: false
     steps:
+      - name: Install openssl
+        run: yum install -y openssl-devel
       - name: Setup Environment
         run: |
           echo "AWS_SDK_PROJECT_ROOT=$GITHUB_WORKSPACE" >> $GITHUB_ENV
@@ -29,10 +32,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 18
-      - name: Setup Swift
-        uses: swift-actions/setup-swift@v1
-        with:
-          swift-version: 5.7.0
       - name: Set References
         run: ./scripts/set_references.sh
       - name: Install Dependencies
