@@ -11,6 +11,9 @@ mkdir -p release
 # Generate Package.swift with branches set, if needed.
 swift ./scripts/generatePackageSwift.swift > Package.swift
 
+# Dump the manifest to the console
+cat Package.swift
+
 # Install Swift packages
 swift package resolve
 

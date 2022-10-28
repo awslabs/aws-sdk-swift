@@ -15,3 +15,6 @@ set -x
 
 # Regenerate Package.swift, including protocol tests
 AWS_SDK_PROTOCOL_CODEGEN_TESTS_BUILT=1 swift ./scripts/generatePackageSwift.swift > Package.swift
+
+# Dump the manifest to the console
+cat Package.swift
