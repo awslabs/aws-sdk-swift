@@ -10,10 +10,13 @@ set -x
 rm -rf .build
 
 # Perform the build using the xcodebuild CLI tool.
+# Create a temp dir for derived data (this seems to help
+# with certain spurious Xcode failures.)
 # Pipe the build logs through xcpretty.
 # On build failure, fail on Xcode's status code
 xcodebuild \
   -scheme AWSSwiftSDK-Package \
   -destination "$AWS_SDK_XCODEBUILD_DESTINATION" \
+  -derivedDataPath `mktemp -d`
   build test \
   | xcpretty && exit ${PIPESTATUS[0]}
