@@ -18,4 +18,4 @@ swift package resolve
 swift package edit smithy-swift
 
 # Write a local.properties file so Kotlin can resolve the location of smithy-swift
-echo "compositeProjects=$AWS_SDK_PROJECT_ROOT/Packages/smithy-swift" >> local.properties
+echo "compositeProjects=`pwd`/Packages/smithy-swift" >> local.properties
