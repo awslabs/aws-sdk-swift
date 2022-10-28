@@ -17,6 +17,6 @@ rm -rf .build
 xcodebuild \
   -scheme AWSSwiftSDK-Package \
   -destination "$AWS_SDK_XCODEBUILD_DESTINATION" \
-  -derivedDataPath `mktemp -d`
+  -derivedDataPath `mktemp -d` \
   build test \
   | xcpretty && exit ${PIPESTATUS[0]}
