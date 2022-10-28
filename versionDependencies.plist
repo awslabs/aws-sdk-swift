@@ -6,5 +6,15 @@
 	<string>0.3.0</string>
 	<key>awsCRTSwiftVersion</key>
 	<string>0.2.2</string>
+	<!--
+	<key>awsCRTSwiftPath</key>
+	<string>/Users/jbelkins/Projects/Amplify/SwiftSDK/aws-crt-swift</string>
+	<key>clientRuntimePath</key>
+	<string>/Users/jbelkins/Projects/Amplify/SwiftSDK/smithy-swift</string>
+	<key>awsCRTSwiftBranch</key>
+	<string>main</string>
+	<key>clientRuntimeBranch</key>
+	<string>main</string>
+	-->
 </dict>
 </plist>
