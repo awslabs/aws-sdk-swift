@@ -184,7 +184,7 @@ func generateTargets(_ releasedSDKs: [String]) {
 
 let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "release")
 // let releasedSDKs = [String]()
-let releasedSDKs = sdksToIncludeInTargets.sorted()
+let releasedSDKs = sdksToIncludeInTargets.filter { !$0.hasPrefix(".") }.sorted()
 
 guard let versions = getVersionsOfDependencies() else {
     print("Failed to get version dependencies")
