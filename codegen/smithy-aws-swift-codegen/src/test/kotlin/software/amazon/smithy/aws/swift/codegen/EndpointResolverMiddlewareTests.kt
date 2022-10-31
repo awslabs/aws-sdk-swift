@@ -79,7 +79,7 @@ class EndpointResolverMiddlewareTests {
                     input.withMethod(context.getMethod())
                         .withHost(host)
                         .withPort(awsEndpoint.endpoint.port)
-                        .withPath(context.getPath())
+                        .withPath(awsEndpoint.endpoint.path.appendingPathComponent(context.getPath()))
                         .withHeader(name: "Host", value: host)
             
                     return try await next.handle(context: updatedContext, input: input)

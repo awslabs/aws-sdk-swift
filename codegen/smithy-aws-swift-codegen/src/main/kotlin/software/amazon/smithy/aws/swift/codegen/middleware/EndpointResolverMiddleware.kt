@@ -93,7 +93,7 @@ class EndpointResolverMiddleware(
             .indent()
             .write(".withHost(host)")
             .write(".withPort(awsEndpoint.endpoint.port)")
-            .write(".withPath(context.getPath())")
+            .write(".withPath(awsEndpoint.endpoint.path.appendingPathComponent(context.getPath()))")
             .write(""".withHeader(name: "Host", value: host)""")
             .dedent()
             .write("")
