@@ -36,10 +36,11 @@ class AWSEndpointTraitTransformer : SwiftIntegration {
                                     val inputShape = model.expectShape(input)
                                     val members = inputShape.members() ?: emptyList()
                                     members.forEach { member ->
-                                        if (member.hasTrait<ContextParamTrait>()
-                                            && member.hasTrait<HostLabelTrait>()
-                                            && member.memberName == "AccountId"
-                                            && hostPrefix == "{AccountId}.") {
+                                        if (member.hasTrait<ContextParamTrait>() &&
+                                            member.hasTrait<HostLabelTrait>() &&
+                                            member.memberName == "AccountId" &&
+                                            hostPrefix == "{AccountId}."
+                                        ) {
                                             shapeBuilder.removeTrait(endpointTrait.toShapeId())
                                         }
                                     }

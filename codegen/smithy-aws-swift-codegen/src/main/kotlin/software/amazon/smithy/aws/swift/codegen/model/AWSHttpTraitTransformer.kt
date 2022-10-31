@@ -38,10 +38,11 @@ class AWSHttpTraitTransformer : SwiftIntegration {
                                     val httpTraitBuilder = httpTrait.toBuilder()
                                     val members = inputShape.members() ?: emptyList()
                                     members.forEach { member ->
-                                        if (member.hasTrait<ContextParamTrait>()
-                                            && member.hasTrait<HttpLabelTrait>()
-                                            && member.memberName == "Bucket"
-                                            && uriPattern.startsWith("/{Bucket}")) {
+                                        if (member.hasTrait<ContextParamTrait>() &&
+                                            member.hasTrait<HttpLabelTrait>() &&
+                                            member.memberName == "Bucket" &&
+                                            uriPattern.startsWith("/{Bucket}")
+                                        ) {
                                             var newPattern = uriPattern.substring("/{Bucket}".length)
                                             if (!newPattern.startsWith("/")) {
                                                 newPattern = "/$newPattern"
@@ -64,4 +65,3 @@ class AWSHttpTraitTransformer : SwiftIntegration {
         }
     }
 }
-
