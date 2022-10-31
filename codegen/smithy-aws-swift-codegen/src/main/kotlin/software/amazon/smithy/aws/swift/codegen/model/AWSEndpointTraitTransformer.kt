@@ -8,15 +8,11 @@ package software.amazon.smithy.aws.swift.codegen.model
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.traits.EndpointTrait
-import software.amazon.smithy.model.traits.HostLabelTrait
 import software.amazon.smithy.model.transform.ModelTransformer
-import software.amazon.smithy.rulesengine.traits.ContextParamTrait
 import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
 import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.model.hasTrait
 
 /**
  * This integration is responsible for removing the EndpointTrait from the operation
