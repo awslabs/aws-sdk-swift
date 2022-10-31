@@ -11,6 +11,7 @@ import software.amazon.smithy.model.traits.EndpointTrait
 import software.amazon.smithy.model.traits.HostLabelTrait
 import software.amazon.smithy.model.transform.ModelTransformer
 import software.amazon.smithy.rulesengine.traits.ContextParamTrait
+import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
@@ -30,22 +31,21 @@ class AWSEndpointTraitTransformer : SwiftIntegration {
                     when (shape) {
                         is OperationShape -> {
                             val shapeBuilder = shape.toBuilder()
-                            shape.getTrait<EndpointTrait>()?.let { endpointTrait ->
-                                val hostPrefix = endpointTrait.hostPrefix.toString()
-                                shape.input.getOrNull()?.let { input ->
-                                    val inputShape = model.expectShape(input)
-                                    val members = inputShape.members() ?: emptyList()
-                                    members.forEach { member ->
-                                        if (member.hasTrait<ContextParamTrait>() &&
-                                            member.hasTrait<HostLabelTrait>() &&
-                                            member.memberName == "AccountId" &&
-                                            hostPrefix == "{AccountId}."
-                                        ) {
+                            shape.getTrait<StaticContextParamsTrait>()?.let { staticContextParamsTrait ->
+                                val requiresAccountId =
+                                    staticContextParamsTrait.parameters["RequiresAccountId"]?.value
+                                        .toString()
+                                        .toBoolean()
+                                if (requiresAccountId) {
+                                    shape.getTrait<EndpointTrait>()?.let { endpointTrait ->
+                                        val hostPrefix = endpointTrait.hostPrefix.toString()
+                                        if (hostPrefix == "{AccountId}.") {
                                             shapeBuilder.removeTrait(endpointTrait.toShapeId())
                                         }
                                     }
                                 }
                             }
+
                             shapeBuilder.build()
                         }
 
