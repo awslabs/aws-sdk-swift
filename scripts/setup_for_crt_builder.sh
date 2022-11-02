@@ -5,6 +5,9 @@ set -x
 # Generates the Package.swift file
 # For use only as a pre-build step when using the CRT builder script on CI.
 
+# Ensure that the release/ directory is present.
+mkdir -p release
+
 # Regenerate the Package.swift file.
 # The env vars AWS_CRT_SWIFT_CI_DIR and SMITHY_SWIFT_CI_DIR will be
 # used as the paths to those dependencies.
