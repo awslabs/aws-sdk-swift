@@ -25,9 +25,15 @@ class BlobEncodeGeneratorTests {
                 public func encode(to encoder: Swift.Encoder) throws {
                     var container = encoder.container(keyedBy: ClientRuntime.Key.self)
                     if let blobList = blobList {
-                        var blobListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobList"))
-                        for (index0, blob0) in blobList.enumerated() {
-                            try blobListContainer.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                        if !blobList.isEmpty {
+                            var blobListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobList"))
+                            for (index0, blob0) in blobList.enumerated() {
+                                try blobListContainer.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                            }
+                        }
+                        else {
+                            var blobListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobList"))
+                            try blobListContainer.encode("", forKey: ClientRuntime.Key(""))
                         }
                     }
                     if let blobListFlattened = blobListFlattened {
@@ -35,6 +41,10 @@ class BlobEncodeGeneratorTests {
                             for (index0, blob0) in blobListFlattened.enumerated() {
                                 try container.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("BlobListFlattened.\(index0.advanced(by: 1))"))
                             }
+                        }
+                        else {
+                            var blobListFlattenedContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobListFlattened"))
+                            try blobListFlattenedContainer.encode("", forKey: ClientRuntime.Key(""))
                         }
                     }
                     if let blobMap = blobMap {
