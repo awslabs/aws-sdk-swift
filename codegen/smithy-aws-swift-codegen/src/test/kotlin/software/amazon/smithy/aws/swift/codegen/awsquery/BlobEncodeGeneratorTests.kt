@@ -36,6 +36,10 @@ class BlobEncodeGeneratorTests {
                                 try container.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("BlobListFlattened.\(index0.advanced(by: 1))"))
                             }
                         }
+                        else {
+                            var blobListFlattenedContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("blobListFlattened"))
+                            try blobListFlattenedContainer.encode("", forKey: ClientRuntime.Key(""))
+                        }
                     }
                     if let blobMap = blobMap {
                         var blobMapContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobMap"))

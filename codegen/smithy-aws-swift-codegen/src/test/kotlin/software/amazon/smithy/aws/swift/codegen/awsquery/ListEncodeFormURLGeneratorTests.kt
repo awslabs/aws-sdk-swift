@@ -37,6 +37,10 @@ class ListEncodeFormURLGeneratorTests {
                                 try flattenedListArgContainer0.encode(string0, forKey: ClientRuntime.Key(""))
                             }
                         }
+                        else {
+                            var flattenedListArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("flattenedListArg"))
+                            try flattenedListArgContainer.encode("", forKey: ClientRuntime.Key(""))
+                        }
                     }
                     if let flattenedListArgWithXmlName = flattenedListArgWithXmlName {
                         if !flattenedListArgWithXmlName.isEmpty {
@@ -44,6 +48,10 @@ class ListEncodeFormURLGeneratorTests {
                                 var flattenedListArgWithXmlNameContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Hi.\(index0.advanced(by: 1))"))
                                 try flattenedListArgWithXmlNameContainer0.encode(string0, forKey: ClientRuntime.Key(""))
                             }
+                        }
+                        else {
+                            var flattenedListArgWithXmlNameContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Hi"))
+                            try flattenedListArgWithXmlNameContainer.encode("", forKey: ClientRuntime.Key(""))
                         }
                     }
                     if let listArg = listArg {
@@ -64,6 +72,10 @@ class ListEncodeFormURLGeneratorTests {
                                 var flatTsListContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("flatTsList.\(index0.advanced(by: 1))"))
                                 try flatTsListContainer0.encode(TimestampWrapper(timestamp0, format: .epochSeconds), forKey: ClientRuntime.Key(""))
                             }
+                        }
+                        else {
+                            var flatTsListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("flatTsList"))
+                            try flatTsListContainer.encode("", forKey: ClientRuntime.Key(""))
                         }
                     }
                     if let tsList = tsList {
