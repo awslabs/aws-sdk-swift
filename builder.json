@@ -6,6 +6,7 @@
     "gradlew": "{source_dir}/gradlew"
   },
   "pre_build_steps": [
+    "cd {source_dir} && rm -rf release"
     "cd {source_dir} && ./scripts/setup_for_crt_builder.sh"
   ],
   "build_steps": [
