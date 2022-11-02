@@ -120,14 +120,7 @@ func generateDependencies(versions: VersionDeps) {
 }
 
 private func dependency(url: String, version: String, branch: String?, path: String?) -> String {
-    if !releaseInProgress {
-        if let path = path {
-            return ".package(path: \"\(path)\")"
-        } else if let branch = branch {
-            return ".package(url: \"\(url)\", branch: \"\(branch)\")"
-        }
-    }
-    return ".package(url: \"\(url)\", .exact(\"\(version)\"))"
+    ".package(url: \"\(url)\", branch: \"main\")"
 }
 
 func generateTargets(_ releasedSDKs: [String]) {
