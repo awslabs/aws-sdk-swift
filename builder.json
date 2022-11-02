@@ -5,9 +5,9 @@
   "variables": {
     "gradlew": "{source_dir}/gradlew"
   },
-  "pre_build_steps": {
+  "pre_build_steps": [
     "cd {source_dir} && ./scripts/setup_for_crt_builder.sh"
-  },
+  ],
   "build_steps": [
     "{gradlew} -p {source_dir}/codegen/smithy-aws-swift-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
