@@ -37,42 +37,8 @@ struct VersionDeps: Codable {
     var clientRuntimePath: String?
 }
 
-let includeProtocolTests: Bool = {
-    env["AWS_SDK_PROTOCOL_CODEGEN_TESTS_BUILT"] != nil
-}()
-
 let releaseInProgress: Bool = {
     env["AWS_SDK_RELEASE_IN_PROGRESS"] != nil
-}()
-
-struct ProtocolTest {
-    let name: String
-    let path: String
-    let local: Bool
-}
-
-let protocolBasePath = "./codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
-let protocolBasePathLocal = "./codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
-
-let protocolTests: [ProtocolTest] = {
-    guard includeProtocolTests else { return [] }
-    return [
-        ProtocolTest(name: "AWSRestJsonTestSDK", path: "aws-restjson", local: false),
-        ProtocolTest(name: "AWSJson1_0TestSDK", path: "aws-json-10", local: false),
-        ProtocolTest(name: "AWSJson1_1TestSDK", path: "aws-json-11", local: false),
-        ProtocolTest(name: "RestXmlTestSDK", path: "rest-xml", local: false),
-        ProtocolTest(name: "RestXmlWithNamespaceTestSDK", path: "rest-xml-xmlns", local: false),
-        ProtocolTest(name: "Ec2QueryTestSDK", path: "ec2-query", local: false),
-        ProtocolTest(name: "AWSQueryTestSDK", path: "aws-query", local: false),
-        //Service specific
-        ProtocolTest(name: "APIGatewayTestSDK", path: "apigateway", local: false),
-        ProtocolTest(name: "GlacierTestSDK", path: "glacier", local: false),
-        ProtocolTest(name: "MachineLearningTestSDK", path: "machinelearning", local: false),
-        ProtocolTest(name: "S3TestSDK", path: "s3", local: false),
-        //Local tests
-        ProtocolTest(name: "aws_restjson", path: "aws-restjson", local: true),
-        ProtocolTest(name: "rest_json_extras", path: "rest_json_extras", local: true),
-    ]
 }()
 
 let plistFile = "versionDependencies.plist"
@@ -134,9 +100,6 @@ func generateProducts(_ releasedSDKs: [String]) {
     for sdk in releasedSDKs {
         print("        .library(name: \"\(sdk)\", targets: [\"\(sdk)\"]),")
     }
-    for test in protocolTests {
-        print("        .library(name: \"\(test.name)\", targets: [\"\(test.name)\"]),")
-    }
     print("    ],")
 }
 
@@ -159,9 +122,7 @@ func generateDependencies(versions: VersionDeps) {
 }
 
 private func dependency(url: String, version: String, branch: String?, path: String?) -> String {
-    // Re-enable this if statement before merging
-    if true {
-    // if !releaseInProgress {
+    if !releaseInProgress {
         if let path = path {
             return ".package(path: \"\(path)\")"
         } else if let branch = branch {
@@ -195,11 +156,6 @@ func generateTargets(_ releasedSDKs: [String]) {
     print(targetsBeginning)
     for sdk in releasedSDKs {
         print("        .target(name: \"\(sdk)\", dependencies: [.product(name: \"ClientRuntime\", package: \"smithy-swift\"), \"AWSClientRuntime\"], path: \"./release/\(sdk)\"),")
-    }
-    for test in protocolTests {
-        let basePath = test.local ? protocolBasePathLocal : protocolBasePath
-        print("        .target(name: \"\(test.name)\", dependencies: [.product(name: \"ClientRuntime\", package: \"smithy-swift\"), \"AWSClientRuntime\"], path: \"\(basePath)/\(test.path)/swift-codegen/\(test.name)\"),")
-        print("        .testTarget(name: \"\(test.name)Tests\", dependencies: [.product(name: \"SmithyTestUtil\", package: \"smithy-swift\"), \"\(test.name)\"], path: \"\(basePath)/\(test.path)/swift-codegen/\(test.name)Tests\"),")
     }
     print("    ]")
 }
