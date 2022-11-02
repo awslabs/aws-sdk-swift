@@ -57,11 +57,6 @@ func getVersionsOfDependencies() -> VersionDeps? {
         deps.awsCRTSwiftPath = awsCRTSwiftCIPath
         deps.clientRuntimePath = smithySwiftCIPath
     }
-    // Set branch from env vars, if not already set in the .plist
-    // Don't override a branch name if it was explicitly set in
-    // the .plist
-    deps.awsCRTSwiftBranch = deps.awsCRTSwiftBranch ?? env["AWS_SDK_AWS_CRT_SWIFT_BRANCH_OVERRIDE"]
-    deps.clientRuntimeBranch = deps.clientRuntimeBranch ?? env["AWS_SDK_SMITHY_SWIFT_BRANCH_OVERRIDE"]
     return deps
 }
 
