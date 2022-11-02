@@ -31,12 +31,15 @@ struct VersionDeps: Codable {
     // Paths may be used to point to paths on a development machine.
     // They may be set by the developer during testing, but should
     // never be set outside a development branch.
-    // Use of paths will cause CI to fail.
+    // On CI, paths may be read from env vars and set at build time.
     // Paths are ignored when building a release.
     var awsCRTSwiftPath: String?
     var clientRuntimePath: String?
 }
 
+// When AWS_SDK_RELEASE_IN_PROGRESS is set, the manifest will require
+// exact versions of smithy-swift and aws-crt-swift no matter what
+// branches or paths are set.
 let releaseInProgress: Bool = {
     env["AWS_SDK_RELEASE_IN_PROGRESS"] != nil
 }()
