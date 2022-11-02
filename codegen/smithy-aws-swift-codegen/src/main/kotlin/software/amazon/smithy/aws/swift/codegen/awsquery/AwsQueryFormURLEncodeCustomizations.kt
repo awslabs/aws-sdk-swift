@@ -17,4 +17,8 @@ class AwsQueryFormURLEncodeCustomizations : FormURLEncodeCustomizable {
     override fun customNameTraitGenerator(memberShape: Shape, defaultName: String): String {
         return XMLNameTraitGenerator.construct(memberShape, defaultName).toString()
     }
+
+    override fun shouldSerializeEmptyLists(): Boolean {
+        return true
+    }
 }
