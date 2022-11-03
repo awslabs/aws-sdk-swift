@@ -45,12 +45,14 @@ public struct AWSUserAgentMetadata {
         return "\(sdkMetadata)"
     }
     
-    public init(sdkMetadata: SDKMetadata,
-                apiMetadata: APIMetadata,
-                osMetadata: OSMetadata,
-                languageMetadata: LanguageMetadata,
-                executionEnvMetadata: ExecutionEnvMetadata? = nil,
-                frameworkMetadata: FrameworkMetadata? = nil) {
+    public init(
+        sdkMetadata: SDKMetadata,
+        apiMetadata: APIMetadata,
+        osMetadata: OSMetadata,
+        languageMetadata: LanguageMetadata,
+        executionEnvMetadata: ExecutionEnvMetadata? = nil,
+        frameworkMetadata: FrameworkMetadata? = nil
+    ) {
         self.sdkMetadata = sdkMetadata
         self.apiMetadata = apiMetadata
         self.osMetadata = osMetadata
@@ -59,16 +61,21 @@ public struct AWSUserAgentMetadata {
         self.frameworkMetadata = frameworkMetadata
     }
     
-    public static func fromEnv(apiMetadata: APIMetadata, frameworkMetadata: FrameworkMetadata? = nil) -> AWSUserAgentMetadata {
+    public static func fromEnv(
+        apiMetadata: APIMetadata,
+        frameworkMetadata: FrameworkMetadata? = nil
+    ) -> AWSUserAgentMetadata {
         let sdkMetadata = SDKMetadata(name: "swift", version: apiMetadata.version)
         let osVersion = PlatformOperationSystemVersion.operatingSystemVersion()
         let osMetadata = OSMetadata(family: currentOS, version: osVersion)
         let langMetadata = LanguageMetadata(version: swiftVersion)
-        return AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
-                                    apiMetadata: apiMetadata,
-                                    osMetadata: osMetadata,
-                                    languageMetadata: langMetadata,
-                                    executionEnvMetadata: ExecutionEnvMetadata.detectExecEnv(),
-                                    frameworkMetadata: frameworkMetadata)
+        return AWSUserAgentMetadata(
+            sdkMetadata: sdkMetadata,
+            apiMetadata: apiMetadata,
+            osMetadata: osMetadata,
+            languageMetadata: langMetadata,
+            executionEnvMetadata: ExecutionEnvMetadata.detectExecEnv(),
+            frameworkMetadata: frameworkMetadata
+        )
     }
 }
