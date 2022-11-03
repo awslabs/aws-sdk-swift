@@ -53,6 +53,7 @@ func getVersionsOfDependencies() -> VersionDeps? {
         return nil
     }
     // If env vars are set for package paths in the AWS CRT Builder script, use them
+    // unless generating the manifest for release
     if let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"], let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
         deps.awsCRTSwiftPath = awsCRTSwiftCIPath
         deps.clientRuntimePath = smithySwiftCIPath
@@ -127,6 +128,8 @@ private func dependency(url: String, version: String, branch: String?, path: Str
             return ".package(url: \"\(url)\", branch: \"\(branch)\")"
         }
     }
+    // When generating the manifest for release or when no path/branch is set,
+    // lock dependencies to published versions
     return ".package(url: \"\(url)\", .exact(\"\(version)\"))"
 }
 
