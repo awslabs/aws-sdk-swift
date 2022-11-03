@@ -27,7 +27,7 @@ public struct RestXMLError {
                 self.message = decoded.message
                 self.requestId = decoded.requestId
             }
-        case .default:
+        default:
             errorCode = nil
             requestId = nil
             message = nil
