@@ -18,7 +18,10 @@ public struct AWSCredentialsProviderChainDefaultConfig {
 
 extension AWSCredentialsProviderChainDefaultConfig {
     func toCRTType() -> CRTCredentialsProviderChainDefaultConfig {
-        return CredentialsProviderChainDefaultConfig(bootstrap: SDKDefaultIO.shared.clientBootstrap, shutDownOptions: shutDownCallback)
+        return CredentialsProviderChainDefaultConfig(
+            bootstrap: SDKDefaultIO.shared.clientBootstrap,
+            shutDownOptions: shutDownCallback
+        )
     }
 }
 

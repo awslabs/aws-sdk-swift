@@ -25,6 +25,6 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Swift Lint ClientRuntime
-        uses: norio-nomura/action-swiftlint@3.1.0
+        uses: norio-nomura/action-swiftlint@3.2.1
         with:
-          args: --path ./AWSClientRuntime
+          args: --path ./AWSClientRuntime --config ./AWSClientRuntime/.swiftlint.yml
