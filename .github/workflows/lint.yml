@@ -20,11 +20,9 @@ jobs:
         run: |
           ./gradlew ktlint
   swiftlint:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-      - name: Swift Lint ClientRuntime
-        uses: norio-nomura/action-swiftlint@3.2.1
-        with:
-          args: --path ./AWSClientRuntime --config ./AWSClientRuntime/.swiftlint.yml
+      - name: Run swiftlint on AWSClientRuntime
+        run: swiftlint --reporter github-actions-logging --path ./AWSClientRuntime --config ./AWSClientRuntime/.swiftlint.yml
