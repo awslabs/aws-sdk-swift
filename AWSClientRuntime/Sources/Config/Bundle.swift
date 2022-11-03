@@ -9,6 +9,7 @@
 import Foundation.NSBundle
 public typealias Bundle = Foundation.Bundle
 #else
+// swiftlint:disable discouraged_direct_init
 public struct Bundle {
     func object(forInfoDictionaryKey key: String) -> Any? {
         return nil
