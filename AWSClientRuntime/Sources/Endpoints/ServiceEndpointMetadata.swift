@@ -63,13 +63,17 @@ extension ServiceEndpointMetadata {
     private func buildEndpointMetadataIfNotSet(defaults: ServiceEndpointMetadata) -> ServiceEndpointMetadata {
         let hostName = self.hostName ?? defaults.hostName
         let protocols = !self.protocols.isEmpty ? self.protocols : defaults.protocols
-        let credentialScope = CredentialScope(region: self.credentialScope?.region ?? defaults.credentialScope?.region,
-                                              serviceId: self.credentialScope?.serviceId ?? defaults.credentialScope?.serviceId)
+        let credentialScope = CredentialScope(
+            region: self.credentialScope?.region ?? defaults.credentialScope?.region,
+            serviceId: self.credentialScope?.serviceId ?? defaults.credentialScope?.serviceId
+        )
         let signatureVersions = !self.signatureVersions.isEmpty ? self.signatureVersions : defaults.signatureVersions
-        return ServiceEndpointMetadata(hostName: hostName,
-                                  protocols: protocols,
-                                  credentialScope: credentialScope,
-                                  signatureVersions: signatureVersions)
+        return ServiceEndpointMetadata(
+            hostName: hostName,
+            protocols: protocols,
+            credentialScope: credentialScope,
+            signatureVersions: signatureVersions
+        )
     }
     
     private func getProtocolByPriority(from: [String]) -> String {
