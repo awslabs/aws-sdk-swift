@@ -16,4 +16,7 @@ class Ec2QueryFormURLEncodeCustomizations : FormURLEncodeCustomizable {
     override fun customNameTraitGenerator(memberShape: Shape, defaultName: String): String {
         return Ec2QueryNameTraitGenerator.construct(memberShape, defaultName).toString()
     }
+    override fun shouldSerializeEmptyLists(): Boolean {
+        return true
+    }
 }
