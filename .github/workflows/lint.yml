@@ -25,4 +25,4 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Run swiftlint on AWSClientRuntime
-        run: swiftlint --config AWSClientRuntime/.swiftlint.yml --reporter github-actions-logging AWSClientRuntime
+        run: swiftlint --reporter github-actions-logging --path ./AWSClientRuntime --config ./AWSClientRuntime/.swiftlint.yml
