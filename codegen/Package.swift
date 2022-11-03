@@ -81,7 +81,7 @@ func appendLibTarget(name: String, path: String) {
 }
 
 func appendTstTarget(name: String, path: String, dependency: String) {
-    var dependencies: [Target.Dependency]  = [.product(name: "SmithyTestUtil", package: "ClientRuntime")]
+    var dependencies: [Target.Dependency]  = [.product(name: "SmithyTestUtil", package: "smithy-swift")]
 #if swift(>=5.5)
     dependencies.append(.byNameItem(name: dependency, condition: nil))
 #else
