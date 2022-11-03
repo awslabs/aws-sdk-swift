@@ -1,5 +1,6 @@
 excluded:
-  - Tests
+  - ./Tests/*
+  - ./AWSClientRuntime/Tests/*
   - .build
 
 analyzer_rules:
@@ -17,6 +18,8 @@ disabled_rules:
   - file_length
   - syntactic_sugar
   - unused_capture_list
+  - nesting
+  - large_tuple
 
 opt_in_rules:
   - empty_count
@@ -40,6 +43,7 @@ identifier_name:
 line_length:
   warning: 120
   error: 160
+  ignores_comments: true
 opening_brace: error
 return_arrow_whitespace: error
 statement_position:
