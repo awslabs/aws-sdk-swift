@@ -26,13 +26,13 @@ class TimestampGeneratorTests {
                 public func encode(to encoder: Swift.Encoder) throws {
                     var container = encoder.container(keyedBy: ClientRuntime.Key.self)
                     if let epochMember = epochMember {
-                        try container.encode(ClientRuntime.TimestampWrapper(epochMember, format: .epochSeconds), forKey: ClientRuntime.Key("epochMember"))
+                        try container.encodeTimestamp(epochMember, format: .epochSeconds, forKey: ClientRuntime.Key("epochMember"))
                     }
                     if let epochTarget = epochTarget {
-                        try container.encode(ClientRuntime.TimestampWrapper(epochTarget, format: .epochSeconds), forKey: ClientRuntime.Key("epochTarget"))
+                        try container.encodeTimestamp(epochTarget, format: .epochSeconds, forKey: ClientRuntime.Key("epochTarget"))
                     }
                     if let normalFormat = normalFormat {
-                        try container.encode(ClientRuntime.TimestampWrapper(normalFormat, format: .dateTime), forKey: ClientRuntime.Key("normalFormat"))
+                        try container.encodeTimestamp(normalFormat, format: .dateTime, forKey: ClientRuntime.Key("normalFormat"))
                     }
                     try container.encode("QueryTimestamps", forKey:ClientRuntime.Key("Action"))
                     try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
