@@ -67,7 +67,7 @@ func generateTargets(_ releasedSDKs: [String]) {
     let targetsBeginning = """
     targets: [
         .target(
-            name: "aws-crt-swift",
+            name: "AWSClientRuntime",
             dependencies: [
                 .product(name: "ClientRuntime", package: "smithy-swift"),
                 .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift")
