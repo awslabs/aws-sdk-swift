@@ -56,8 +56,8 @@ func generateProducts(_ releasedSDKs: [String]) {
 func generateDependencies(versions: VersionDeps) {
     let dependencies = """
     dependencies: [
-        .package(name: "AwsCrt", url: "https://github.com/awslabs/aws-crt-swift.git", .exact("\(versions.awsCRTSwiftVersion)")),
-        .package(name: "ClientRuntime", url: "https://github.com/awslabs/smithy-swift.git", .exact("\(versions.clientRuntimeVersion)"))
+        .package(url: "https://github.com/awslabs/aws-crt-swift.git", .exact("\(versions.awsCRTSwiftVersion)")),
+        .package(url: "https://github.com/awslabs/smithy-swift.git", .exact("\(versions.clientRuntimeVersion)"))
     ],
 """
     print(dependencies)
@@ -67,10 +67,10 @@ func generateTargets(_ releasedSDKs: [String]) {
     let targetsBeginning = """
     targets: [
         .target(
-            name: "AWSClientRuntime",
+            name: "aws-crt-swift",
             dependencies: [
-                .product(name: "ClientRuntime", package: "ClientRuntime"),
-                .product(name: "AwsCommonRuntimeKit", package: "AwsCrt")
+                .product(name: "ClientRuntime", package: "smithy-swift"),
+                .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift")
             ],
             path: "./AWSClientRuntime/Sources"
         ),
@@ -78,15 +78,15 @@ func generateTargets(_ releasedSDKs: [String]) {
             name: "AWSClientRuntimeTests",
             dependencies: [
                 "AWSClientRuntime",
-                .product(name: "SmithyTestUtil", package: "ClientRuntime"),
-                .product(name: "ClientRuntime", package: "ClientRuntime")
+                .product(name: "SmithyTestUtil", package: "smithy-swift"),
+                .product(name: "ClientRuntime", package: "smithy-swift")
             ],
             path: "./AWSClientRuntime/Tests"
         ),
 """
     print(targetsBeginning)
     for sdk in releasedSDKs {
-        print("        .target(name: \"\(sdk)\", dependencies: [.product(name: \"ClientRuntime\", package: \"ClientRuntime\"), \"AWSClientRuntime\"], path: \"./release/\(sdk)\"),")
+        print("        .target(name: \"\(sdk)\", dependencies: [.product(name: \"ClientRuntime\", package: \"smithy-swift\"), \"AWSClientRuntime\"], path: \"./release/\(sdk)\"),")
     }
     print("        ]")
     
