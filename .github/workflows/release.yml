@@ -4,6 +4,7 @@ on:
   push:
     branches:
         - 'release/**'
+        - 'jbe/package_rename'
   pull_request:
     branches:
         - 'release/**'
