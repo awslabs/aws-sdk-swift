@@ -48,8 +48,8 @@ class EndpointResolverMiddleware(
     }
 
     override fun generateMiddlewareClosure() {
-        writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
+        writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
             .write("")
 
