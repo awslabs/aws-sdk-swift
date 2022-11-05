@@ -18,7 +18,9 @@ public class AWSCredentialsProvider: CredentialsProvider {
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
-    public static func fromProfile(_ options: AWSCredentialsProviderProfileOptions = AWSCredentialsProviderProfileOptions()) throws -> AWSCredentialsProvider {
+    public static func fromProfile(
+        _ options: AWSCredentialsProviderProfileOptions = AWSCredentialsProviderProfileOptions()
+    ) throws -> AWSCredentialsProvider {
         let credsProvider = try CRTAWSCredentialsProvider(fromProfile: options.toCRTType())
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
@@ -29,9 +31,11 @@ public class AWSCredentialsProvider: CredentialsProvider {
     }
     
     public static func fromStatic(_ credentials: AWSCredentials) throws -> AWSCredentialsProvider {
-        let config = AWSCredentialsProviderStaticConfig(accessKey: credentials.accessKey,
-                                                        secret: credentials.secret,
-                                                        sessionToken: credentials.sessionToken)
+        let config = AWSCredentialsProviderStaticConfig(
+            accessKey: credentials.accessKey,
+            secret: credentials.secret,
+            sessionToken: credentials.sessionToken
+        )
         let credsProvider = try CRTAWSCredentialsProvider(fromStatic: config.toCRTType())
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
@@ -48,7 +52,9 @@ public class AWSCredentialsProvider: CredentialsProvider {
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
     
-    public static func fromContainer(_ config: AWSCredentialsProviderContainerConfig) throws -> AWSCredentialsProvider {
+    public static func fromContainer(
+        _ config: AWSCredentialsProviderContainerConfig
+    ) throws -> AWSCredentialsProvider {
         let containerConfig = config.toCRTType()
         let credsProvider = try CRTAWSCredentialsProvider(fromContainer: containerConfig)
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
@@ -79,9 +85,11 @@ public class AWSCredentialsProvider: CredentialsProvider {
               let secret = crtCredentials.getSecret() else {
                   throw ClientError.authError("Unable to get credentials.  Required: accessKey, secret.")
               }
-        return AWSCredentials(accessKey: accessKey,
-                              secret: secret,
-                              expirationTimeout: crtCredentials.getExpirationTimeout(),
-                              sessionToken: crtCredentials.getSessionToken())
+        return AWSCredentials(
+            accessKey: accessKey,
+            secret: secret,
+            expirationTimeout: crtCredentials.getExpirationTimeout(),
+            sessionToken: crtCredentials.getSessionToken()
+        )
     }
 }

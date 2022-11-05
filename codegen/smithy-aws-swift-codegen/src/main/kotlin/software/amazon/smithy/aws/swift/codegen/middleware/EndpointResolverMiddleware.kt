@@ -53,14 +53,9 @@ class EndpointResolverMiddleware(
         writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
             .write("")
 
-        writer.openBlock("""guard let authScheme = endpoint.authScheme(name: "sigv4") else {""", "}") {
-            writer.write(
-                "throw \$N.client(ClientError.unknownError((\"Unable to resolve endpoint. Unsupported auth scheme.\")))",
-                errorType
-            )
-        }.write("")
+        writer.write("""let authScheme = endpoint.authScheme(name: "sigv4")""")
 
-        writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme["signingName"] as? String, signingRegion: authScheme["signingRegion"] as? String)""")
+        writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme?["signingName"] as? String, signingRegion: authScheme?["signingRegion"] as? String)""")
             .write("")
 
         writer.write("""var host = """"")
