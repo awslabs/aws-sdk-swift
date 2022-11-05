@@ -1,25 +1,34 @@
+# Finder config files
 .DS_Store
+
+# Build script products
 /dist
-/ideaSDK
-/android-studio/sdk
 out/
 /tmp
-workspace.xml
-*.versionsBackup
-.gradle/
-build/
+
+# IntelliJ config & temp files
+/ideaSDK
 *.iml
 .idea/
-local.properties
+/android-studio/sdk
+workspace.xml
+
+# Maven config (do we need this?)
+*.versionsBackup
+
+# Gradle config & temp
+.gradle/
+/local.properties
+
+# Swift/SPM config & temp
 .build/
-TestLambdaSdk/.swiftpm/
 Package.resolved
 .swiftpm/
-TestLambdaSdk/Package.resolved
-AWSClientRuntime/Package.resolved
-AWSClientRuntime/AWSClientRuntime.xcodeproj
-AWSClientRuntime/AWSClientRuntime.xcodeproj/
-AWSClientRuntime/.swiftpm/xcode/xcuserdata/*
-AWSClientRuntime/.swiftpm/xcode/package.xcworkspace/xcuserdata/*
+
+# Codegen build products
+build/
 codegen/protocol-test-codegen-local/smithy-build.json
 codegen/protocol-test-codegen/smithy-build.json
+
+# vim temporary files
+*.swp
