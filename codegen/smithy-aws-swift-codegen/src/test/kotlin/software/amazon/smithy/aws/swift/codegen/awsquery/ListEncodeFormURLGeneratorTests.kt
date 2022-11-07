@@ -88,7 +88,7 @@ class ListEncodeFormURLGeneratorTests {
                         if !flatTsList.isEmpty {
                             for (index0, timestamp0) in flatTsList.enumerated() {
                                 var flatTsListContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("flatTsList.\(index0.advanced(by: 1))"))
-                                try flatTsListContainer0.encode(TimestampWrapper(timestamp0, format: .epochSeconds), forKey: ClientRuntime.Key(""))
+                                try flatTsListContainer0.encodeTimestamp(timestamp0, format: .epochSeconds, forKey: ClientRuntime.Key(""))
                             }
                         }
                         else {
@@ -100,7 +100,7 @@ class ListEncodeFormURLGeneratorTests {
                         if !tsList.isEmpty {
                             var tsListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("tsList"))
                             for (index0, timestamp0) in tsList.enumerated() {
-                                try tsListContainer.encode(TimestampWrapper(timestamp0, format: .epochSeconds), forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                                try tsListContainer.encodeTimestamp(timestamp0, format: .epochSeconds, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
                             }
                         }
                         else {

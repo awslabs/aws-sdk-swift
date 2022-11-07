@@ -24,8 +24,7 @@ class Sigv4SigningTests: XCTestCase {
 
     func testPresigner() async throws {
         let dateString = "2015-08-30T12:36:00Z"
-        let dateFormatter = DateFormatter.iso8601DateFormatterWithoutFractionalSeconds
-        guard let date = dateFormatter.date(from: dateString) else {
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
             XCTFail("Unable to parse date")
             return
         }
