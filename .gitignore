@@ -32,3 +32,6 @@ codegen/protocol-test-codegen/smithy-build.json
 
 # vim temporary files
 *.swp
+
+# VS Code config files
+.vscode/
