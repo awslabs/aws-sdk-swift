@@ -25,7 +25,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.utils.toCamelCase
+import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
  * Generates EndpointResolverMiddleware interception code.
@@ -53,7 +53,7 @@ class OperationEndpointResolverMiddleware(
             parameters.toList()
                 .sortedBy { it.name.toString() }
                 .forEach { param ->
-                    val memberName = param.name.toString().toCamelCase()
+                    val memberName = param.name.toString().toLowerCamelCase()
                     val contextParam = ctx.model.expectShape(op.inputShape).members()
                         .firstOrNull { it.getTrait<ContextParamTrait>()?.name == param.name.toString() }
                     val value = resolveParameterValue(
@@ -103,15 +103,15 @@ class OperationEndpointResolverMiddleware(
                 }
             }
             contextParam != null -> {
-                return "input.${contextParam.memberName.toCamelCase()}"
+                return "input.${contextParam.memberName.toLowerCamelCase()}"
             }
             clientContextParam != null -> {
                 when {
                     param.defaultValue.isPresent -> {
-                        "config.${param.name.toString().toCamelCase()} ?? ${param.defaultValueLiteral}"
+                        "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
-                        return "config.${param.name.toString().toCamelCase()}"
+                        return "config.${param.name.toString().toLowerCamelCase()}"
                     }
                 }
             }
@@ -120,22 +120,22 @@ class OperationEndpointResolverMiddleware(
                     param.isRequired -> {
                         when {
                             param.defaultValue.isPresent -> {
-                                "config.${param.name.toString().toCamelCase()} ?? ${param.defaultValueLiteral}"
+                                "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                             }
                             else -> {
                                 // if the parameter is required, we must unwrap the optional value
-                                writer.openBlock("guard let ${param.name.toString().toCamelCase()} = config.${param.name.toString().toCamelCase()} else {", "}") {
+                                writer.openBlock("guard let ${param.name.toString().toLowerCamelCase()} = config.${param.name.toString().toLowerCamelCase()} else {", "}") {
                                     writer.write("throw SdkError<\$N>.client(ClientError.unknownError((\"Missing required parameter: \$L\")))", outputError, param.name.toString())
                                 }
-                                param.name.toString().toCamelCase()
+                                param.name.toString().toLowerCamelCase()
                             }
                         }
                     }
                     param.defaultValue.isPresent -> {
-                        "config.${param.name.toString().toCamelCase()} ?? ${param.defaultValueLiteral}"
+                        "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
-                        "config.${param.name.toString().toCamelCase()}"
+                        "config.${param.name.toString().toLowerCamelCase()}"
                     }
                 }
             }
