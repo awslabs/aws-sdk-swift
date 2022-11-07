@@ -15,7 +15,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.model.boxed
 import software.amazon.smithy.swift.codegen.model.defaultValue
-import software.amazon.smithy.swift.codegen.utils.toCamelCase
+import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
  * Generates EndpointParams struct for the service
@@ -34,7 +34,7 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleSet?) {
     private fun renderInit(writer: SwiftWriter, parameters: List<Parameter>) {
         writer.openBlock("public init(", ")") {
             for ((index, param) in parameters.withIndex()) {
-                val memberName = param.name.toString().toCamelCase()
+                val memberName = param.name.toString().toLowerCamelCase()
                 val memberSymbol = param.toSymbol()
                 val terminator = if (index != parameters.lastIndex) "," else ""
                 writer.write("$memberName: \$D$terminator", memberSymbol)
@@ -43,7 +43,7 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleSet?) {
 
         writer.openBlock("{", "}") {
             parameters.forEach {
-                val memberName = it.name.toString().toCamelCase()
+                val memberName = it.name.toString().toLowerCamelCase()
                 writer.write("self.\$1L = \$1L", memberName)
             }
         }
@@ -51,7 +51,7 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleSet?) {
 
     private fun renderMembers(writer: SwiftWriter, parameters: List<Parameter>) {
         parameters.forEach { param ->
-            val memberName = param.name.toString().toCamelCase()
+            val memberName = param.name.toString().toLowerCamelCase()
             val memberSymbol = param.toSymbol()
             val optional = if (param.isRequired) "" else "?"
             param.documentation.getOrNull()?.let { writer.write("/// $it") }

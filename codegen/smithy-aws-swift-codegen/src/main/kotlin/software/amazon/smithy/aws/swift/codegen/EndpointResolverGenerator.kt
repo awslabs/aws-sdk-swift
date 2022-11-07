@@ -17,7 +17,7 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.utils.toCamelCase
+import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
  * Generates a per/service endpoint resolver (internal to the generated SDK) using endpoints.json
@@ -77,7 +77,7 @@ class EndpointResolverGenerator() {
                     writer.write("let context = try \$L()", AWSClientRuntimeTypes.Core.AWSEndpointsRequestContext)
                     endpointRules?.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
                         sortedParameters.forEach { param ->
-                            val memberName = param.name.toString().toCamelCase()
+                            val memberName = param.name.toString().toLowerCamelCase()
                             val paramName = param.name.toString()
                             writer.write("try context.add(name: \$S, value: params.\$L)", paramName, memberName)
                         }

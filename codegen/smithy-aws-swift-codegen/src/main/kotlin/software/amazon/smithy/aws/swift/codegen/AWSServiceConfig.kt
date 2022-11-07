@@ -16,7 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.utils.toCamelCase
+import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val ENDPOINT_RESOLVER = "endpointResolver"
@@ -281,7 +281,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
         val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()
         clientContextParams?.parameters?.forEach {
-            configs.add(ConfigField(it.key.toCamelCase(), it.value.type.toSwiftType(), "\$T"))
+            configs.add(ConfigField(it.key.toLowerCamelCase(), it.value.type.toSwiftType(), "\$T"))
         }
         return configs.sortedBy { it.memberName }
     }

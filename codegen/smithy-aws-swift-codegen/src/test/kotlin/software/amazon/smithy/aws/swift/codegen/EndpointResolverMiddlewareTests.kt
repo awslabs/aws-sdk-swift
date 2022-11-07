@@ -47,11 +47,8 @@ class EndpointResolverMiddlewareTests {
                 {
                     let endpoint = try endpointResolver.resolve(params: endpointParams)
             
-                    guard let authScheme = endpoint.authScheme(name: "sigv4") else {
-                        throw ClientRuntime.SdkError<OperationStackError>.client(ClientError.unknownError(("Unable to resolve endpoint. Unsupported auth scheme.")))
-                    }
-            
-                    let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme["signingName"] as? String, signingRegion: authScheme["signingRegion"] as? String)
+                    let authScheme = endpoint.authScheme(name: "sigv4")
+                    let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme?["signingName"] as? String, signingRegion: authScheme?["signingRegion"] as? String)
             
                     var host = ""
                     if let hostOverride = context.getHost() {
