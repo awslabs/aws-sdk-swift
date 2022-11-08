@@ -128,7 +128,7 @@ class RestJsonProtocolGeneratorTests {
                     public var regionResolver: AWSClientRuntime.RegionResolver?
                     public var signingRegion: Swift.String?
                     public var useDualStack: Swift.Bool?
-                    public var useFips: Swift.Bool?
+                    public var useFIPS: Swift.Bool?
             
                     public var endpointResolver: EndpointResolver
             
@@ -142,7 +142,7 @@ class RestJsonProtocolGeneratorTests {
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration,
                         signingRegion: Swift.String? = nil,
                         useDualStack: Swift.Bool? = nil,
-                        useFips: Swift.Bool? = nil
+                        useFIPS: Swift.Bool? = nil
                     ) throws {
                         if let credProvider = credentialsProvider {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
@@ -160,7 +160,7 @@ class RestJsonProtocolGeneratorTests {
                         self.regionResolver = regionResolver ?? DefaultRegionResolver()
                         self.signingRegion = signingRegion ?? region
                         self.useDualStack = useDualStack
-                        self.useFips = useFips
+                        self.useFIPS = useFIPS
                         self.clientLogMode = runtimeConfig.clientLogMode
                         self.decoder = runtimeConfig.decoder
                         self.encoder = runtimeConfig.encoder
@@ -180,7 +180,7 @@ class RestJsonProtocolGeneratorTests {
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
                         useDualStack: Swift.Bool? = nil,
-                        useFips: Swift.Bool? = nil
+                        useFIPS: Swift.Bool? = nil
                     ) throws {
                         let runtimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
                         try self.init(
@@ -193,7 +193,7 @@ class RestJsonProtocolGeneratorTests {
                             runtimeConfig: runtimeConfig,
                             signingRegion: signingRegion,
                             useDualStack: useDualStack,
-                            useFips: useFips
+                            useFIPS: useFIPS
                         )
                     }
             
@@ -206,7 +206,7 @@ class RestJsonProtocolGeneratorTests {
                         runtimeConfig: ClientRuntime.SDKRuntimeConfiguration,
                         signingRegion: Swift.String? = nil,
                         useDualStack: Swift.Bool? = nil,
-                        useFips: Swift.Bool? = nil
+                        useFIPS: Swift.Bool? = nil
                     ) async throws {
                         if let credProvider = credentialsProvider {
                             self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
@@ -225,7 +225,7 @@ class RestJsonProtocolGeneratorTests {
                         self.regionResolver = regionResolver ?? DefaultRegionResolver()
                         self.signingRegion = signingRegion ?? region
                         self.useDualStack = useDualStack
-                        self.useFips = useFips
+                        self.useFIPS = useFIPS
                         self.clientLogMode = runtimeConfig.clientLogMode
                         self.decoder = runtimeConfig.decoder
                         self.encoder = runtimeConfig.encoder
@@ -244,7 +244,7 @@ class RestJsonProtocolGeneratorTests {
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
                         signingRegion: Swift.String? = nil,
                         useDualStack: Swift.Bool? = nil,
-                        useFips: Swift.Bool? = nil
+                        useFIPS: Swift.Bool? = nil
                     ) async throws {
                         let runtimeConfig = try ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
                         try await self.init(
@@ -256,7 +256,7 @@ class RestJsonProtocolGeneratorTests {
                             runtimeConfig: runtimeConfig,
                             signingRegion: signingRegion,
                             useDualStack: useDualStack,
-                            useFips: useFips
+                            useFIPS: useFIPS
                         )
                     }
             
