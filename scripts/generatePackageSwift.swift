@@ -56,8 +56,8 @@ func generateProducts(_ releasedSDKs: [String]) {
 func generateDependencies(versions: VersionDeps) {
     let dependencies = """
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-crt-swift.git", branch: "jbe/package_rename")),
-        .package(url: "https://github.com/awslabs/smithy-swift.git", branch: "jbe/package_rename"))
+        .package(url: "https://github.com/awslabs/aws-crt-swift.git", branch: "jbe/package_rename"),
+        .package(url: "https://github.com/awslabs/smithy-swift.git", branch: "jbe/package_rename")
     ],
 """
     print(dependencies)
