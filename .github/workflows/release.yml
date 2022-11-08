@@ -6,7 +6,7 @@ on:
         - 'release/**'
   pull_request:
     branches:
-        - 'release/**'
+#        - 'release/**'
   workflow_dispatch:
 
 env:
@@ -55,6 +55,8 @@ jobs:
           ./scripts/mergeModels.sh release
           ./scripts/generatePackageSwift.swift > Package.swift
           cat Package.swift
+          swift build --build-tests
+          swift test --skip-build
       - name: Commit Changes
         uses: EndBug/add-and-commit@v7
         with:
