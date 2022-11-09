@@ -13,7 +13,7 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
-import software.amazon.smithy.swift.codegen.model.capitalizedName
+import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 
 /*
  * TODO: The code below is not valid for AWS Json 1.0/1.1.
@@ -21,7 +21,7 @@ import software.amazon.smithy.swift.codegen.model.capitalizedName
  */
 class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
     override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
-        val operationErrorName = "${op.capitalizedName()}OutputError"
+        val operationErrorName = "${op.toUpperCamelCase()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
             .definitionFile("./$rootNamespace/models/$operationErrorName+HttpResponseBinding.swift")

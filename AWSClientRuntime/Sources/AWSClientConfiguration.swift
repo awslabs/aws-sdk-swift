@@ -11,7 +11,7 @@ public protocol AWSRuntimeConfiguration {
     var signingRegion: String? {get set}
     var regionResolver: RegionResolver? {get set}
     var frameworkMetadata: FrameworkMetadata? {get set}
-    var useFips: Bool? {get set}
+    var useFIPS: Bool? {get set}
     var useDualStack: Bool? {get set}
 }
 

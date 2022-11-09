@@ -14,7 +14,7 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.utils.toCamelCase
+import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
  * Generates code for EndpointResolver tests.
@@ -51,7 +51,7 @@ class EndpointTestGenerator(
                                 }
 
                         applicableParams.forEachIndexed { idx, pair ->
-                            writer.writeInline("${pair.first.value.toCamelCase()}: ")
+                            writer.writeInline("${pair.first.value.toLowerCamelCase()}: ")
                             val value = Value.fromNode(pair.second)
                             writer.call {
                                 generateValue(
