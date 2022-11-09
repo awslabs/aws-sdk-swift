@@ -22,8 +22,8 @@ let package = Package(
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.5.0")),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.3.1"))
+        .package(url: "https://github.com/awslabs/smithy-swift", branch: "main"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
     ],
     targets: [
         .target(
