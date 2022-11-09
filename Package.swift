@@ -13,7 +13,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "AWSSwiftSDK",
+    name: "aws-sdk-swift",
     platforms: [
         .macOS(.v10_15),
         .iOS(.v13)
@@ -22,8 +22,8 @@ let package = Package(
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.3.0")),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.2.2"))
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.5.0")),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.3.1"))
     ],
     targets: [
         .target(

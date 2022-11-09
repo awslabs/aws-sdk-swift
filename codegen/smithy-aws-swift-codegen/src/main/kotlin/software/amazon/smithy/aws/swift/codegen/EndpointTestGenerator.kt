@@ -14,7 +14,7 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.utils.toCamelCase
+import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
  * Generates code for EndpointResolver tests.
@@ -30,8 +30,8 @@ class EndpointTestGenerator(
         }
 
         writer.addImport(ctx.settings.moduleName, isTestable = true)
-        writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
+        writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         writer.addImport(SwiftDependency.XCTest.target)
         writer.addImport(SwiftDependency.SMITHY_TEST_UTIL.target)
 
@@ -51,7 +51,7 @@ class EndpointTestGenerator(
                                 }
 
                         applicableParams.forEachIndexed { idx, pair ->
-                            writer.writeInline("${pair.first.value.toCamelCase()}: ")
+                            writer.writeInline("${pair.first.value.toLowerCamelCase()}: ")
                             val value = Value.fromNode(pair.second)
                             writer.call {
                                 generateValue(
