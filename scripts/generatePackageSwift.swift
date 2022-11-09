@@ -16,14 +16,14 @@ import class Foundation.FileManager
 
 let env = ProcessInfo.processInfo.environment
 
-// This struct is read from the .plist stored at versionDependencies.plist
-struct VersionDeps: Codable {
-    // Versions will always be defined in versionDependencies.plist
+// This struct is read from the .plist stored at packageDependencies.plist
+struct PackageDeps: Codable {
+    // Versions will always be defined in packageDependencies.plist
     // Versions are the only reference used when releasing.
     var awsCRTSwiftVersion: String
     var clientRuntimeVersion: String
-    // Branches are not normally defined in versionDependencies.plist,
-    // but may be set during development on a feature branch if desired.
+    // Branches are normally set to main in packageDependencies.plist,
+    // but may be changed during development on a feature branch if desired.
     // These values override environment vars set on CI.
     // Branches are ignored when building a release.
     var awsCRTSwiftBranch: String?
@@ -44,11 +44,11 @@ let releaseInProgress: Bool = {
     env["AWS_SDK_RELEASE_IN_PROGRESS"] != nil
 }()
 
-let plistFile = "versionDependencies.plist"
+let plistFile = "packageDependencies.plist"
 
-func getVersionsOfDependencies() -> VersionDeps? {
-    guard let versionsPlist = FileManager.default.contents(atPath: plistFile),
-          var deps = try? PropertyListDecoder().decode(VersionDeps.self, from: versionsPlist)
+func getPackageDependencies() -> PackageDeps? {
+    guard let plistData = FileManager.default.contents(atPath: plistFile),
+          var deps = try? PropertyListDecoder().decode(PackageDeps.self, from: plistData)
           else {
         return nil
     }
@@ -102,18 +102,18 @@ func generateProducts(_ releasedSDKs: [String]) {
     print("    ],")
 }
 
-func generateDependencies(versions: VersionDeps) {
+func generateDependencies(_ deps: PackageDeps) {
     let crtSwiftDependency = dependency(
         url: "https://github.com/awslabs/aws-crt-swift",
-        version: versions.awsCRTSwiftVersion,
-        branch: versions.awsCRTSwiftBranch, 
-        path: versions.awsCRTSwiftPath
+        version: deps.awsCRTSwiftVersion,
+        branch: deps.awsCRTSwiftBranch, 
+        path: deps.awsCRTSwiftPath
     )
     let clientRuntimeDependency = dependency(
         url: "https://github.com/awslabs/smithy-swift",
-        version: versions.clientRuntimeVersion,
-        branch: versions.clientRuntimeBranch,
-        path: versions.clientRuntimePath
+        version: deps.clientRuntimeVersion,
+        branch: deps.clientRuntimeBranch,
+        path: deps.clientRuntimePath
     )
     let dependencies = """
     dependencies: [
@@ -169,7 +169,7 @@ let releasedSDKs = try! FileManager.default
     .contentsOfDirectory(atPath: "release")
     .filter { !$0.hasPrefix(".") }.sorted()
 
-guard let versions = getVersionsOfDependencies() else {
+guard let deps = getPackageDependencies() else {
     print("Failed to get version dependencies")
     print("  Unable to to read: '\(plistFile)'")
     exit(1)
@@ -178,6 +178,6 @@ guard let versions = getVersionsOfDependencies() else {
 generateHeader()
 generatePackageHeader()
 generateProducts(releasedSDKs)
-generateDependencies(versions: versions)
+generateDependencies(deps)
 generateTargets(releasedSDKs)
 print(")")
