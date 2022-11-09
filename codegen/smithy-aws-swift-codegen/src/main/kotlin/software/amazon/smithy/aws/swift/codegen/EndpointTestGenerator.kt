@@ -30,8 +30,8 @@ class EndpointTestGenerator(
         }
 
         writer.addImport(ctx.settings.moduleName, isTestable = true)
-        writer.addImport(SwiftDependency.CLIENT_RUNTIME.packageName)
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.packageName)
+        writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         writer.addImport(SwiftDependency.XCTest.target)
         writer.addImport(SwiftDependency.SMITHY_TEST_UTIL.target)
 
