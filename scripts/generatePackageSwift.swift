@@ -103,14 +103,18 @@ func generateProducts(_ releasedSDKs: [String]) {
 }
 
 func generateDependencies(versions: VersionDeps) {
-    let crtSwiftDependency = dependency(url: "https://github.com/awslabs/aws-crt-swift",
-                                        version: versions.awsCRTSwiftVersion,
-                                        branch: versions.awsCRTSwiftBranch, 
-                                        path: versions.awsCRTSwiftPath)
-    let clientRuntimeDependency = dependency(url: "https://github.com/awslabs/smithy-swift",
-                                             version: versions.clientRuntimeVersion,
-                                             branch: versions.clientRuntimeBranch,
-                                             path: versions.clientRuntimePath)
+    let crtSwiftDependency = dependency(
+        url: "https://github.com/awslabs/aws-crt-swift",
+        version: versions.awsCRTSwiftVersion,
+        branch: versions.awsCRTSwiftBranch, 
+        path: versions.awsCRTSwiftPath
+    )
+    let clientRuntimeDependency = dependency(
+        url: "https://github.com/awslabs/smithy-swift",
+        version: versions.clientRuntimeVersion,
+        branch: versions.clientRuntimeBranch,
+        path: versions.clientRuntimePath
+    )
     let dependencies = """
     dependencies: [
         \(clientRuntimeDependency),
