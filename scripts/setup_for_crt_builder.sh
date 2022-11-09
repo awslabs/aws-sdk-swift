@@ -2,8 +2,8 @@
 
 set -x
 
-# Generates the Package.swift file, configured to work properly when using the
-# CRT builder script.
+# Generates the Package.swift file, configured to work properly when building
+# with the CRT builder script (see https://github.com/awslabs/aws-crt-builder).
 # For use only as a pre-build step when using the CRT builder script on CI.
 
 # Ensure that the release/ directory is present.
