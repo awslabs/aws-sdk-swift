@@ -53,7 +53,7 @@ jobs:
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./scripts/mergeModels.sh release
-          ./scripts/generatePackageSwift.swift > Package.swift
+          AWS_SDK_RELEASE_IN_PROGRESS=1 ./scripts/generatePackageSwift.swift > Package.swift
           cat Package.swift
           ./gradlew --stop
           swift build --build-tests

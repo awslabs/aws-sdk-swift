@@ -43,14 +43,14 @@ buildscript {
 
 fun <T> java.util.Optional<T>.orNull(): T? = this.orElse(null)
 
-// get a project property by name if it exists (including from local.properties)
+// get a project property by name if it exists (including from sdk.properties)
 fun getProperty(name: String): String? {
     if (project.hasProperty(name)) {
         return project.properties[name].toString()
     }
 
     val localProperties = Properties()
-    val propertiesFile: File = rootProject.file("local.properties")
+    val propertiesFile: File = rootProject.file("sdk.properties")
     if (propertiesFile.exists()) {
         propertiesFile.inputStream().use { localProperties.load(it) }
         if (localProperties.containsKey(name)) {

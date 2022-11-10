@@ -5,19 +5,58 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import Foundation
+#if os(Linux)
+import Glibc
+#else
+import Darwin
+#endif
+import class Foundation.PropertyListDecoder
+import class Foundation.ProcessInfo
+import class Foundation.FileManager
 
-struct VersionDeps: Codable {
+let env = ProcessInfo.processInfo.environment
+
+// This struct is read from the .plist stored at packageDependencies.plist
+struct PackageDeps: Codable {
+    // Versions will always be defined in packageDependencies.plist
+    // Versions are the only reference used when releasing.
     var awsCRTSwiftVersion: String
     var clientRuntimeVersion: String
+    // Branches are normally set to main in packageDependencies.plist,
+    // but may be changed during development on a feature branch if desired.
+    // These values override environment vars set on CI.
+    // Branches are ignored when building a release.
+    var awsCRTSwiftBranch: String?
+    var clientRuntimeBranch: String?
+    // Paths may be used to point to paths on a development machine.
+    // They may be set by the developer during testing, but should
+    // never be set outside a development branch.
+    // On CI, paths may be read from env vars and set at build time.
+    // Paths are ignored when building a release.
+    var awsCRTSwiftPath: String?
+    var clientRuntimePath: String?
 }
-let plistFile = "versionDependencies.plist"
 
-func getVersionsOfDependencies() -> VersionDeps? {
-    guard let versionsPlist = FileManager.default.contents(atPath: plistFile),
-          let deps = try? PropertyListDecoder().decode(VersionDeps.self, from: versionsPlist)
+// When AWS_SDK_RELEASE_IN_PROGRESS is set, the manifest will require
+// exact versions of smithy-swift and aws-crt-swift no matter what
+// branches or paths are set.
+let releaseInProgress: Bool = {
+    env["AWS_SDK_RELEASE_IN_PROGRESS"] != nil
+}()
+
+let plistFile = "packageDependencies.plist"
+
+func getPackageDependencies() -> PackageDeps? {
+    guard let plistData = FileManager.default.contents(atPath: plistFile),
+          var deps = try? PropertyListDecoder().decode(PackageDeps.self, from: plistData)
           else {
         return nil
+    }
+    // If env vars are set for package paths in the AWS CRT Builder script, use them
+    // unless generating the manifest for release
+    if let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"], let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
+        deps.awsCRTSwiftPath = awsCRTSwiftCIPath
+        deps.clientRuntimePath = smithySwiftCIPath
     }
     return deps
 }
@@ -25,13 +64,25 @@ func getVersionsOfDependencies() -> VersionDeps? {
 func generateHeader() {
     let header = """
     // swift-tools-version:5.5
+
+    //
+    // Copyright Amazon.com Inc. or its affiliates.
+    // All Rights Reserved.
+    //
+    // SPDX-License-Identifier: Apache-2.0
+    //
+
+    // This manifest is auto-generated.  Do not commit edits to this file;
+    // they will be overwritten.
+
     import PackageDescription
-    import class Foundation.FileManager
+
     """
     print(header)
 }
+
 func generatePackageHeader() {
-let packageHeader = """
+    let packageHeader = """
 let package = Package(
     name: "aws-sdk-swift",
     platforms: [
@@ -43,24 +94,47 @@ let package = Package(
 }
 
 func generateProducts(_ releasedSDKs: [String]) {
-
     print("    products: [")
     print("        .library(name: \"AWSClientRuntime\", targets: [\"AWSClientRuntime\"]),")
     for sdk in releasedSDKs {
         print("        .library(name: \"\(sdk)\", targets: [\"\(sdk)\"]),")
     }
     print("    ],")
-
 }
 
-func generateDependencies(versions: VersionDeps) {
+func generateDependencies(_ deps: PackageDeps) {
+    let crtSwiftDependency = dependency(
+        url: "https://github.com/awslabs/aws-crt-swift",
+        version: deps.awsCRTSwiftVersion,
+        branch: deps.awsCRTSwiftBranch, 
+        path: deps.awsCRTSwiftPath
+    )
+    let clientRuntimeDependency = dependency(
+        url: "https://github.com/awslabs/smithy-swift",
+        version: deps.clientRuntimeVersion,
+        branch: deps.clientRuntimeBranch,
+        path: deps.clientRuntimePath
+    )
     let dependencies = """
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-crt-swift.git", .exact("\(versions.awsCRTSwiftVersion)")),
-        .package(url: "https://github.com/awslabs/smithy-swift.git", .exact("\(versions.clientRuntimeVersion)"))
+        \(clientRuntimeDependency),
+        \(crtSwiftDependency)
     ],
 """
     print(dependencies)
+}
+
+private func dependency(url: String, version: String, branch: String?, path: String?) -> String {
+    if !releaseInProgress {
+        if let path = path {
+            return ".package(path: \"\(path)\")"
+        } else if let branch = branch {
+            return ".package(url: \"\(url)\", branch: \"\(branch)\")"
+        }
+    }
+    // When generating the manifest for release or when no path/branch is set,
+    // lock dependencies to published versions
+    return ".package(url: \"\(url)\", .exact(\"\(version)\"))"
 }
 
 func generateTargets(_ releasedSDKs: [String]) {
@@ -88,14 +162,14 @@ func generateTargets(_ releasedSDKs: [String]) {
     for sdk in releasedSDKs {
         print("        .target(name: \"\(sdk)\", dependencies: [.product(name: \"ClientRuntime\", package: \"smithy-swift\"), \"AWSClientRuntime\"], path: \"./release/\(sdk)\"),")
     }
-    print("        ]")
-    
+    print("    ]")
 }
 
-let sdksToIncludeInTargets = try! FileManager.default.contentsOfDirectory(atPath: "release")
-let releasedSDKs = sdksToIncludeInTargets.sorted()
+let releasedSDKs = try! FileManager.default
+    .contentsOfDirectory(atPath: "release")
+    .filter { !$0.hasPrefix(".") }.sorted()
 
-guard let versions = getVersionsOfDependencies() else {
+guard let deps = getPackageDependencies() else {
     print("Failed to get version dependencies")
     print("  Unable to to read: '\(plistFile)'")
     exit(1)
@@ -104,6 +178,6 @@ guard let versions = getVersionsOfDependencies() else {
 generateHeader()
 generatePackageHeader()
 generateProducts(releasedSDKs)
-generateDependencies(versions: versions)
+generateDependencies(deps)
 generateTargets(releasedSDKs)
 print(")")
