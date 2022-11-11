@@ -9,8 +9,6 @@ import software.amazon.smithy.swift.codegen.model.defaultName
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 class S3Expires : SwiftIntegration {
-    override val order: Byte
-        get() = 127
 
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
         return model.expectShape<ServiceShape>(settings.service).isS3
@@ -20,7 +18,7 @@ class S3Expires : SwiftIntegration {
         // Find all the members named "Expires" in all of the output structures
         // and change their shape from `Timestamp` to `String`
         val updates = model.structureShapes
-            .filter { it.defaultName().endsWith("OutputResponse") }
+            .filter { it.defaultName().endsWith("Output") }
             .flatMap { it.allMembers.values }
             .filter { it.memberName == "Expires" }
             .map {
