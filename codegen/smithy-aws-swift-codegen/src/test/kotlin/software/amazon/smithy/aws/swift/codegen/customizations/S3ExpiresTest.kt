@@ -7,8 +7,6 @@ import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
-import software.amazon.smithy.swift.codegen.core.GenerationContext
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class S3ExpiresTest {
 
