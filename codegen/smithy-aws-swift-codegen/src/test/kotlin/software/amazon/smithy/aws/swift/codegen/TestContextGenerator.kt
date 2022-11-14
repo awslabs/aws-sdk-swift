@@ -42,7 +42,7 @@ class TestContextGenerator {
                 .fileManifest(manifest)
                 .settings(settings)
                 .build()
-            
+
             val codegen = CodegenVisitor(pluginContext)
             codegen.execute()
             model = codegen.model
