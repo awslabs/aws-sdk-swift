@@ -36,7 +36,6 @@ class TestContextGenerator {
             val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
             val settings = buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace)
             val swiftSettings = SwiftSettings.from(model, settings)
-            model = AddOperationShapes.execute(model, swiftSettings.getService(model), swiftSettings.moduleName)
 
             val pluginContext = PluginContext.builder()
                 .model(model)
