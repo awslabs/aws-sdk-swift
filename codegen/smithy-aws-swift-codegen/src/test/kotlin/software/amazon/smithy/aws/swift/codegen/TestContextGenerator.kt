@@ -13,6 +13,7 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.validation.ValidatedResultException
+import software.amazon.smithy.swift.codegen.CodegenVisitor
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
@@ -41,7 +42,10 @@ class TestContextGenerator {
                 .fileManifest(manifest)
                 .settings(settings)
                 .build()
-            SwiftCodegenPlugin().execute(pluginContext)
+            
+            val codegen = CodegenVisitor(pluginContext)
+            codegen.execute()
+            model = codegen.model
 
             val integrations = mutableListOf<SwiftIntegration>()
             val provider = SwiftCodegenPlugin.createSymbolProvider(model, swiftSettings)

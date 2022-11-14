@@ -23,7 +23,7 @@ class S3UnwrappedXMLOutputTraitTests {
             
                 public init (from decoder: Swift.Decoder) throws {
                     var containerValues = try decoder.unkeyedContainer()
-                    let locationConstraintDecoded = try containerValues.decodeIfPresent(BucketLocationConstraint.self)
+                    let locationConstraintDecoded = try containerValues.decodeIfPresent(RestXmlClientTypes.BucketLocationConstraint.self)
                     locationConstraint = locationConstraintDecoded
                 }
             }
