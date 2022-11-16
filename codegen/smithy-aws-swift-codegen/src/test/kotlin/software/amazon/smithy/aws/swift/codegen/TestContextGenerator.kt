@@ -13,12 +13,12 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.validation.ValidatedResultException
+import software.amazon.smithy.swift.codegen.CodegenVisitor
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.model.AddOperationShapes
 import java.net.URL
 
 data class TestContext(
@@ -36,14 +36,16 @@ class TestContextGenerator {
             val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
             val settings = buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace)
             val swiftSettings = SwiftSettings.from(model, settings)
-            model = AddOperationShapes.execute(model, swiftSettings.getService(model), swiftSettings.moduleName)
 
             val pluginContext = PluginContext.builder()
                 .model(model)
                 .fileManifest(manifest)
                 .settings(settings)
                 .build()
-            SwiftCodegenPlugin().execute(pluginContext)
+
+            val codegen = CodegenVisitor(pluginContext)
+            codegen.execute()
+            model = codegen.model
 
             val integrations = mutableListOf<SwiftIntegration>()
             val provider = SwiftCodegenPlugin.createSymbolProvider(model, swiftSettings)
