@@ -141,3 +141,4 @@ SDKLoggingSystem.add(logHandlerFactory: S3ClientLogHandlerFactory(logLevel: .deb
 SDKLoggingSystem.add(logHandlerFactory: CRTClientEngineLogHandlerFactory(logLevel: .info))
 SDKLoggingSystem.initialize()
 ```
+
