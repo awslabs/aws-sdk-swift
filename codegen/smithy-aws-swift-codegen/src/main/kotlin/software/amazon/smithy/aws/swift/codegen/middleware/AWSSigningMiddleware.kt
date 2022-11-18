@@ -23,7 +23,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
-import java.util.*
+import java.util.Locale
 
 data class AWSSigningParams(
     val useSignatureTypeQueryString: Boolean = false,
@@ -71,7 +71,7 @@ open class AWSSigningMiddleware(
         val useSignedBodyHeader = (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload
 
         // Create param strings for each setting, or null for default param
-        val signatureTypeParam: String? = "signatureType: .queryString".takeIf { params.useSignatureTypeQueryString } ?: null
+        val signatureTypeParam: String? = "signatureType: .requestQueryParams".takeIf { params.useSignatureTypeQueryString } ?: null
         val useDoubleURIEncodeParam: String? = "useDoubleURIEncode: false".takeIf { serviceIsS3 } ?: null
         val shouldNormalizeURIPathParam: String? = "shouldNormalizeURIPath: false".takeIf { serviceIsS3 } ?: null
         val expirationParam: String? = "expiration: expiration".takeIf { params.useExpiration } ?: null

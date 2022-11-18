@@ -1,7 +1,5 @@
 package software.amazon.smithy.aws.swift.codegen.customization.glacier
 
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.middleware.Sha256TreeHashMiddleware
 import software.amazon.smithy.aws.swift.codegen.sdkId
 import software.amazon.smithy.model.Model
@@ -10,7 +8,6 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import java.util.Locale
