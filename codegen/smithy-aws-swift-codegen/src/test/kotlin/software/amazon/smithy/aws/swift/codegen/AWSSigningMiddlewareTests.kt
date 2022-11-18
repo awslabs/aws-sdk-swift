@@ -84,7 +84,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
-            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
+            .addTrait(exampleServiceTrait)
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val outputShape = StructureShape.builder()
@@ -105,7 +105,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
             signedBodyHeaderContentSHA256 = false,
-            setExpiration = false
+            useExpiration = false
         )
         val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
@@ -125,7 +125,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
-            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
+            .addTrait(exampleServiceTrait)
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val outputShape = StructureShape.builder()
@@ -147,7 +147,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
             signedBodyHeaderContentSHA256 = false,
-            setExpiration = false
+            useExpiration = false
         )
         val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
@@ -174,7 +174,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
-            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
+            .addTrait(exampleServiceTrait)
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val opStackName = "stack"
@@ -189,7 +189,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
             signedBodyHeaderContentSHA256 = false,
-            setExpiration = true
+            useExpiration = true
         )
         val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
@@ -209,7 +209,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
-            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
+            .addTrait(exampleServiceTrait)
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val outputShape = StructureShape.builder()
@@ -232,7 +232,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
             signedBodyHeaderContentSHA256 = false,
-            setExpiration = true
+            useExpiration = true
         )
         val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
@@ -241,4 +241,6 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
+    private val exampleServiceTrait = ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build()
 }

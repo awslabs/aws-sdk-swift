@@ -149,7 +149,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             useSignatureTypeQueryString = true,
             forceUnsignedBody = opID == "com.amazonaws.s3#PutObject" || opID == "com.amazonaws.s3#GetObject",
             signedBodyHeaderContentSHA256 = false,
-            setExpiration = true
+            useExpiration = true
         )
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params))
 

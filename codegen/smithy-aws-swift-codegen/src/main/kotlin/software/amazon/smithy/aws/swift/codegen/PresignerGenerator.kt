@@ -108,7 +108,7 @@ class PresignerGenerator : SwiftIntegration {
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
             signedBodyHeaderContentSHA256 = false,
-            setExpiration = true
+            useExpiration = true
         )
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, service, ctx.symbolProvider, params))
         return operationMiddlewareCopy

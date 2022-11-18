@@ -7,7 +7,7 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
-import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
+import software.amazon.smithy.aws.swift.codegen.sdkId
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.codegen.core.SymbolProvider
@@ -23,12 +23,13 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
+import java.util.*
 
 data class AWSSigningParams(
     val useSignatureTypeQueryString: Boolean = false,
     val forceUnsignedBody: Boolean = false,
     val signedBodyHeaderContentSHA256: Boolean = false,
-    val setExpiration: Boolean = false
+    val useExpiration: Boolean = false
 )
 
 open class AWSSigningMiddleware(
@@ -46,12 +47,12 @@ open class AWSSigningMiddleware(
 
     override fun render(
         writer: SwiftWriter,
-        op: OperationShape,
+        operationShape: OperationShape,
         operationStackName: String,
     ) {
-        renderConfigDeclaration(writer, op)
-        val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
-        val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
+        renderConfigDeclaration(writer, operationShape)
+        val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, operationShape)
+        val outputError = MiddlewareShapeUtils.outputErrorSymbol(operationShape)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>(config: sigv4Config))",
             AWSClientRuntimeTypes.Signing.SigV4Middleware, output, outputError
@@ -64,16 +65,21 @@ open class AWSSigningMiddleware(
     }
 
     private fun middlewareParamsString(op: OperationShape): String {
+        val serviceIsS3 = service.sdkId.lowercase(Locale.US) == "s3"
+        val serviceIsGlacier = service.sdkId.lowercase(Locale.US) == "glacier"
+        val useUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>() || params.useSignatureTypeQueryString || params.forceUnsignedBody
+        val useSignedBodyHeader = (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload
+
         // Create param strings for each setting, or null for default param
         val signatureTypeParam: String? = "signatureType: .queryString".takeIf { params.useSignatureTypeQueryString } ?: null
-        val useDoubleURIEncodeParam: String? = "useDoubleURIEncode: false".takeIf { service.isS3 } ?: null
-        val expirationParam: String? = "expiration: expiration".takeIf { params.setExpiration } ?: null
-        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody
-        val signedBodyHeaderParam: String? = "signedBodyHeader: .contentSha256".takeIf { params.signedBodyHeaderContentSHA256 } ?: null
-        val unsignedBodyParam: String? = "unsignedBody: true".takeIf { hasUnsignedPayload } ?: "unsignedBody: false"
+        val useDoubleURIEncodeParam: String? = "useDoubleURIEncode: false".takeIf { serviceIsS3 } ?: null
+        val shouldNormalizeURIPathParam: String? = "shouldNormalizeURIPath: false".takeIf { serviceIsS3 } ?: null
+        val expirationParam: String? = "expiration: expiration".takeIf { params.useExpiration } ?: null
+        val signedBodyHeaderParam: String? = "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader } ?: null
+        val unsignedBodyParam: String? = "unsignedBody: true".takeIf { useUnsignedPayload } ?: "unsignedBody: false"
 
         // Assemble the individual params into a comma-separated string for use in Swift init
-        val params = listOf(signatureTypeParam, useDoubleURIEncodeParam, expirationParam, signedBodyHeaderParam, unsignedBodyParam)
+        val params = listOf(signatureTypeParam, useDoubleURIEncodeParam, shouldNormalizeURIPathParam, expirationParam, signedBodyHeaderParam, unsignedBodyParam)
         return params.mapNotNull { it }.joinToString(", ")
     }
 
