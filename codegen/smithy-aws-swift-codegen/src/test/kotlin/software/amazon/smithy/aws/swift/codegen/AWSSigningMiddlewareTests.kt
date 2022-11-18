@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningParams
+import software.amazon.smithy.aws.traits.ServiceTrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.Model
@@ -82,6 +84,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
+            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val outputShape = StructureShape.builder()
@@ -98,7 +101,13 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
             .addShape(outputShape)
             .build()
         val context = model.newTestContext("com.test#Example", AwsJson1_0_ProtocolGenerator()).ctx
-        val sut = AWSSigningMiddleware({ "unsignedBody: true" }, context.model, context.symbolProvider)
+        val params = AWSSigningParams(
+            useSignatureTypeQueryString = false,
+            forceUnsignedBody = true,
+            signedBodyHeaderContentSHA256 = false,
+            setExpiration = false
+        )
+        val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
         sut.render(writer, operationShape, opStackName)
 
@@ -116,6 +125,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
+            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val outputShape = StructureShape.builder()
@@ -132,7 +142,14 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
             .addShape(outputShape)
             .build()
         val context = model.newTestContext("com.test#Example", AwsJson1_0_ProtocolGenerator()).ctx
-        val sut = AWSSigningMiddleware(null, context.model, context.symbolProvider)
+
+        val params = AWSSigningParams(
+            useSignatureTypeQueryString = false,
+            forceUnsignedBody = false,
+            signedBodyHeaderContentSHA256 = false,
+            setExpiration = false
+        )
+        val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
         sut.render(writer, operationShape, opStackName)
 
@@ -157,6 +174,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
+            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val opStackName = "stack"
@@ -166,12 +184,14 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
             .addShape(outputShape)
             .build()
         val context = model.newTestContext("com.test#Example", AwsJson1_0_ProtocolGenerator()).ctx
-        val sut = AWSSigningMiddleware(
-            {
-                "expiration: expiration, unsignedBody: true"
-            },
-            context.model, context.symbolProvider
+
+        val params = AWSSigningParams(
+            useSignatureTypeQueryString = false,
+            forceUnsignedBody = true,
+            signedBodyHeaderContentSHA256 = false,
+            setExpiration = true
         )
+        val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
         sut.render(writer, operationShape, opStackName)
 
@@ -189,6 +209,7 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         val serviceShape = ServiceShape.builder()
             .id("com.test#Example")
             .version("1.0")
+            .addTrait(ServiceTrait.builder().sdkId("ExampleService").arnNamespace("aws::example").cloudFormationName("ExampleService").cloudTrailEventSource("ExampleService").build())
             .addTrait(SigV4Trait.builder().name("ExampleService").build())
             .build()
         val outputShape = StructureShape.builder()
@@ -207,12 +228,13 @@ stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.Sig
         model = AddOperationShapes.execute(model, serviceShape, "Example")
         val context = model.newTestContext("com.test#Example", AwsJson1_0_ProtocolGenerator()).ctx
 
-        val sut = AWSSigningMiddleware(
-            {
-                "expiration: expiration, unsignedBody: false"
-            },
-            context.model, context.symbolProvider
+        val params = AWSSigningParams(
+            useSignatureTypeQueryString = false,
+            forceUnsignedBody = false,
+            signedBodyHeaderContentSHA256 = false,
+            setExpiration = true
         )
+        val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
 
         sut.render(writer, operationShape, opStackName)
 

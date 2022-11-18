@@ -5,8 +5,8 @@ import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
-import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.OperationIndex
@@ -28,7 +28,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
-import software.amazon.smithy.swift.codegen.model.hasTrait
 
 internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.polly#Parrot_v1" to setOf(
@@ -38,11 +37,6 @@ internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
         "com.amazonaws.s3#GetObject",
         "com.amazonaws.s3#PutObject"
     )
-)
-
-internal val PRESIGNABLE_URL_OPERATIONS_SIGNING_OPTIONS: Map<String, String> = mapOf(
-    "com.amazonaws.s3#GetObject" to "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true",
-    "com.amazonaws.s3#PutObject" to "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true"
 )
 
 class PresignableUrlIntegration(private val presignedOperations: Map<String, Set<String>> = PRESIGNABLE_URL_OPERATIONS) : SwiftIntegration {
@@ -150,7 +144,14 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputHeadersMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters, context.model, context.symbolProvider))
+        val opID = op.id.toString()
+        val params = AWSSigningParams(
+            useSignatureTypeQueryString = true,
+            forceUnsignedBody = opID == "com.amazonaws.s3#PutObject" || opID == "com.amazonaws.s3#GetObject",
+            signedBodyHeaderContentSHA256 = false,
+            setExpiration = true
+        )
+        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params))
 
         if (op.id.toString() != "com.amazonaws.s3#PutObject") {
             operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
@@ -158,15 +159,6 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         }
 
         return operationMiddlewareCopy
-    }
-
-    private fun customSigningParameters(op: OperationShape): String {
-        return PRESIGNABLE_URL_OPERATIONS_SIGNING_OPTIONS[op.id.toString()]?.let {
-            it
-        } ?: run {
-            val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-            "signatureType: .requestQueryParams, expiration: expiration, unsignedBody: $hasUnsignedPayload"
-        }
     }
 
     private fun renderMiddlewareClassForQueryString(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {

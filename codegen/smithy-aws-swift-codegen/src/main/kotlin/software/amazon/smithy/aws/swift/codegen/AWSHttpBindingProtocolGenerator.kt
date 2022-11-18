@@ -4,10 +4,7 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.RetryMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.*
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
@@ -108,7 +105,13 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         operationMiddleware.appendMiddleware(operation, RetryMiddleware(ctx.model, ctx.symbolProvider))
 
         if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, operation)) {
-            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(null, ctx.model, ctx.symbolProvider))
+            val params = AWSSigningParams(
+                useSignatureTypeQueryString = false,
+                forceUnsignedBody = false,
+                signedBodyHeaderContentSHA256 = false,
+                setExpiration = false
+            )
+            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(ctx.model, ctx.service, ctx.symbolProvider, params))
         }
 
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))

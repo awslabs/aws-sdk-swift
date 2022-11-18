@@ -7,6 +7,7 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.codegen.core.SymbolProvider
@@ -23,12 +24,18 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-typealias AWSSigningMiddlewareParamsCallback = (OperationShape) -> String
+data class AWSSigningParams(
+    val useSignatureTypeQueryString: Boolean = false,
+    val forceUnsignedBody: Boolean = false,
+    val signedBodyHeaderContentSHA256: Boolean = false,
+    val setExpiration: Boolean = false
+)
 
 open class AWSSigningMiddleware(
-    private val paramsCallback: AWSSigningMiddlewareParamsCallback? = null,
     val model: Model,
-    val symbolProvider: SymbolProvider
+    val service: ServiceShape,
+    val symbolProvider: SymbolProvider,
+    val params: AWSSigningParams
 ) : MiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
@@ -57,12 +64,17 @@ open class AWSSigningMiddleware(
     }
 
     private fun middlewareParamsString(op: OperationShape): String {
-        paramsCallback?.let {
-            return it(op)
-        } ?: run {
-            val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-            return "unsignedBody: $hasUnsignedPayload"
-        }
+        // Create param strings for each setting, or null for default param
+        val signatureTypeParam: String? = "signatureType: .queryString".takeIf { params.useSignatureTypeQueryString } ?: null
+        val useDoubleURIEncodeParam: String? = "useDoubleURIEncode: false".takeIf { service.isS3 } ?: null
+        val expirationParam: String? = "expiration: expiration".takeIf { params.setExpiration } ?: null
+        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody
+        val signedBodyHeaderParam: String? = "signedBodyHeader: .contentSha256".takeIf { params.signedBodyHeaderContentSHA256 } ?: null
+        val unsignedBodyParam: String? = "unsignedBody: true".takeIf { hasUnsignedPayload } ?: "unsignedBody: false"
+
+        // Assemble the individual params into a comma-separated string for use in Swift init
+        val params = listOf(signatureTypeParam, useDoubleURIEncodeParam, expirationParam, signedBodyHeaderParam, unsignedBodyParam)
+        return params.mapNotNull { it }.joinToString(", ")
     }
 
     companion object {
