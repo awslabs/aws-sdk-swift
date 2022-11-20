@@ -30,16 +30,12 @@ import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
-    "com.amazonaws.sts#AWSSecurityTokenServiceV20110615" to setOf(
-        "com.amazonaws.sts#GetCallerIdentity"
-    ),
     "com.amazonaws.polly#Parrot_v1" to setOf(
         "com.amazonaws.polly#SynthesizeSpeech"
     ),
     "com.amazonaws.s3#AmazonS3" to setOf(
         "com.amazonaws.s3#GetObject",
         "com.amazonaws.s3#PutObject",
-        "com.amazonaws.s3#UploadPart"
     )
 )
 
