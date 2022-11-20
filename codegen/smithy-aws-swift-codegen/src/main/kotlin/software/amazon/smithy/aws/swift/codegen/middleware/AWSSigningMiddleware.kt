@@ -67,7 +67,7 @@ open class AWSSigningMiddleware(
     private fun middlewareParamsString(op: OperationShape): String {
         val serviceIsS3 = service.sdkId.lowercase(Locale.US) == "s3"
         val serviceIsGlacier = service.sdkId.lowercase(Locale.US) == "glacier"
-        val useUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>() || params.useSignatureTypeQueryString || params.forceUnsignedBody
+        val useUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody
         val useSignedBodyHeader = (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload
 
         // Create param strings for each setting, or null for default param

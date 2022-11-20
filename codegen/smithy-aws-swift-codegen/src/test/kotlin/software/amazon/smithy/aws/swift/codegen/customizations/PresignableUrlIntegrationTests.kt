@@ -15,8 +15,20 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 class PresignableUrlIntegrationTests {
 
     @Test
+    fun `codesign is configured correctly for Polly SynthesizeSpeech`() {
+        val context = setupTests("presign-urls-polly.smithy", "com.amazonaws.polly#Parrot_v1")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/SynthesizeSpeechInput+Presigner.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents = """
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
+        """
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
     fun `codesign is configured correctly for S3 GetObject`() {
-        val context = setupTests("presign-urls.smithy", "com.amazonaws.s3#AmazonS3")
+        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GetObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -28,7 +40,7 @@ class PresignableUrlIntegrationTests {
 
     @Test
     fun `codesign is configured correctly for S3 PutObject`() {
-        val context = setupTests("presign-urls.smithy", "com.amazonaws.s3#AmazonS3")
+        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -48,7 +60,6 @@ class PresignableUrlIntegrationTests {
         codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
         presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
         context.ctx.delegator.flushWriters()
-        println("${context.manifest.files}")
         return context
     }
 }

@@ -182,7 +182,7 @@ class PresignerGeneratorTests {
 
     @Test
     fun `004 presignable on S3`() {
-        val context = setupTests("presign-urls.smithy", "com.amazonaws.s3#AmazonS3")
+        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =

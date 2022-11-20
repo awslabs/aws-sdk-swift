@@ -174,7 +174,7 @@ class AWSSigningMiddlewareTests {
 
         val params = AWSSigningParams(
             useSignatureTypeQueryString = true,
-            forceUnsignedBody = false,
+            forceUnsignedBody = true,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
