@@ -47,12 +47,12 @@ open class AWSSigningMiddleware(
 
     override fun render(
         writer: SwiftWriter,
-        operationShape: OperationShape,
+        op: OperationShape,
         operationStackName: String,
     ) {
-        renderConfigDeclaration(writer, operationShape)
-        val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, operationShape)
-        val outputError = MiddlewareShapeUtils.outputErrorSymbol(operationShape)
+        renderConfigDeclaration(writer, op)
+        val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
+        val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         writer.write(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>(config: sigv4Config))",
             AWSClientRuntimeTypes.Signing.SigV4Middleware, output, outputError
@@ -71,15 +71,15 @@ open class AWSSigningMiddleware(
         val useSignedBodyHeader = (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload
 
         // Create param strings for each setting, or null for default param
-        val signatureTypeParam: String? = "signatureType: .requestQueryParams".takeIf { params.useSignatureTypeQueryString } ?: null
-        val useDoubleURIEncodeParam: String? = "useDoubleURIEncode: false".takeIf { serviceIsS3 } ?: null
-        val shouldNormalizeURIPathParam: String? = "shouldNormalizeURIPath: false".takeIf { serviceIsS3 } ?: null
-        val expirationParam: String? = "expiration: expiration".takeIf { params.useExpiration } ?: null
-        val signedBodyHeaderParam: String? = "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader } ?: null
-        val unsignedBodyParam: String? = "unsignedBody: true".takeIf { useUnsignedPayload } ?: "unsignedBody: false"
-
-        // Assemble the individual params into a comma-separated string for use in Swift init
-        val params = listOf(signatureTypeParam, useDoubleURIEncodeParam, shouldNormalizeURIPathParam, expirationParam, signedBodyHeaderParam, unsignedBodyParam)
+        val params = listOf(
+            "signatureType: .requestQueryParams".takeIf { params.useSignatureTypeQueryString },
+            "useDoubleURIEncode: false".takeIf { serviceIsS3 },
+            "shouldNormalizeURIPath: false".takeIf { serviceIsS3 },
+            "expiration: expiration".takeIf { params.useExpiration },
+            "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader },
+            "unsignedBody: " + ("true".takeIf { useUnsignedPayload } ?: "false")
+        )
+        // Join the strings for use in initializing the Swift SigV4Config
         return params.mapNotNull { it }.joinToString(", ")
     }
 
