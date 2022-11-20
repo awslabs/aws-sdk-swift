@@ -101,11 +101,11 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
                 public var _retryable: Swift.Bool = false
                 public var _isThrottling: Swift.Bool = false
                 public var _type: ClientRuntime.ErrorType = .client
-                public var nested: AwsEc2ClientTypes.ComplexNestedErrorData?
+                public var nested: EC2ProtocolClientTypes.ComplexNestedErrorData?
                 public var topLevel: Swift.String?
             
                 public init (
-                    nested: AwsEc2ClientTypes.ComplexNestedErrorData? = nil,
+                    nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil,
                     topLevel: Swift.String? = nil
                 )
                 {
@@ -118,7 +118,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
     }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
-            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, Ec2QueryTrait.ID, "ec2query", "ec2query")
+            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
 
         val generator = Ec2QueryProtocolGenerator()
         generator.generateDeserializers(context.ctx)

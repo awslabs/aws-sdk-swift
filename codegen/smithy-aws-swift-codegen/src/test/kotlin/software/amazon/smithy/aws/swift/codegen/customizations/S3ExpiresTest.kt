@@ -84,7 +84,7 @@ class S3ExpiresTest {
 
     private fun setupTests(smithyFile: String, serviceShapeId: String, sdkID: String): TestContext {
         val context =
-            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID, sdkID, sdkID)
+            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
         val generator = AWSRestJson1ProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)

@@ -106,12 +106,12 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                 public var _isThrottling: Swift.Bool = false
                 public var _type: ClientRuntime.ErrorType = .client
                 public var header: Swift.String?
-                public var nested: RestXmlClientTypes.ComplexXMLNestedErrorData?
+                public var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData?
                 public var topLevel: Swift.String?
             
                 public init (
                     header: Swift.String? = nil,
-                    nested: RestXmlClientTypes.ComplexXMLNestedErrorData? = nil,
+                    nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil,
                     topLevel: Swift.String? = nil
                 )
                 {
@@ -158,7 +158,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID, "restXml", "restXml")
+        val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
         val generator = RestXmlProtocolGenerator()
         generator.generateDeserializers(context.ctx)

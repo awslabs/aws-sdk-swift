@@ -11,6 +11,7 @@ import software.amazon.smithy.build.PluginContext
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
+import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.validation.ValidatedResultException
 import software.amazon.smithy.swift.codegen.CodegenVisitor
@@ -28,13 +29,13 @@ data class TestContext(
 
 class TestContextGenerator {
     companion object {
-        fun initContextFrom(modelFile: String, serviceShapeIdWithNamespace: String, protocol: ShapeId, rootPackageNamespace: String, sdkId: String): TestContext {
+        fun initContextFrom(modelFile: String, serviceShapeIdWithNamespace: String, protocol: ShapeId): TestContext {
 
             val manifest = MockManifest()
             var model = createModelFromSmithy(modelFile)
 
             val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
-            val settings = buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace)
+            val settings = buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace, service.sdkId)
             val swiftSettings = SwiftSettings.from(model, settings)
 
             val pluginContext = PluginContext.builder()
@@ -68,11 +69,13 @@ class TestContextGenerator {
 
         fun buildDefaultSwiftSettingsObjectNode(
             serviceShapeId: String,
+            sdkId: String = "ExampleSDK",
             moduleName: String = "Example",
             moduleVersion: String = "1.0.0"
         ): ObjectNode {
             return Node.objectNodeBuilder()
                 .withMember("service", Node.from(serviceShapeId))
+                .withMember("sdkId", Node.from(sdkId))
                 .withMember("module", Node.from(moduleName))
                 .withMember("moduleVersion", Node.from(moduleVersion))
                 .withMember("homepage", Node.from("https://docs.amplify.aws/"))

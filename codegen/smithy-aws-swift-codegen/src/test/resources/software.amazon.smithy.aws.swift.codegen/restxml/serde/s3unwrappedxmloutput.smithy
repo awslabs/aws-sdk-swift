@@ -8,7 +8,7 @@ use smithy.test#httpRequestTests
 use smithy.test#httpResponseTests
 use aws.customizations#s3UnwrappedXmlOutput
 
-@service(sdkId: "s3")
+@service(sdkId: "RestXml")
 @restXml
 service RestXml {
     version: "2019-12-16",

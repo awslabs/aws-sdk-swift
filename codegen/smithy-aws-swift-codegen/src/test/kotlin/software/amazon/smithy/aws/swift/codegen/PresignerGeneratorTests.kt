@@ -182,7 +182,7 @@ class PresignerGeneratorTests {
 
     @Test
     fun `004 presignable on S3`() {
-        val context = setupTests("awsjson10/presignable.smithy", "smithy.swift.traits#S3")
+        val context = setupTests("presign-urls.smithy", "com.amazonaws.s3#AmazonS3")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
@@ -241,7 +241,7 @@ class PresignerGeneratorTests {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID, "example", "example")
+        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
         val presigner = PresignerGenerator()
         val generator = AWSRestJson1ProtocolGenerator()
 

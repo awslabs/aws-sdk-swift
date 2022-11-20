@@ -17,7 +17,7 @@ class AWSQueryOperationStackTest {
     @Test
     fun `operation stack has required middlewares`() {
         val context = setupTests("awsquery/query-empty-input-output.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/AwsQueryClient.swift")
+        val contents = getFileContents(context.manifest, "/Example/QueryProtocolClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
@@ -53,7 +53,7 @@ class AWSQueryOperationStackTest {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsQueryTrait.ID, "awsquery", "awsquery")
+        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AwsQueryProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateSerializers(context.ctx)

@@ -123,7 +123,7 @@ class MapEncodeFormURLGeneratorTests {
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
-            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsQueryTrait.ID, "awsquery", "awsquery")
+            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AwsQueryProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateSerializers(context.ctx)

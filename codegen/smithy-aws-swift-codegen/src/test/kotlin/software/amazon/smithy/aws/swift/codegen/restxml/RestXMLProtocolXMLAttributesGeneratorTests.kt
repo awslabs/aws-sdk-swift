@@ -29,7 +29,7 @@ class RestXMLProtocolXMLAttributesGeneratorTests {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID, "restXml", "restXml")
+        val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
         val generator = RestXmlProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)

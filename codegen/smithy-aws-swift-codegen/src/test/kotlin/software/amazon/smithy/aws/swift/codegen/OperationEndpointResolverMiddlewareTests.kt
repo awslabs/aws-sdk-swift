@@ -33,6 +33,6 @@ class OperationEndpointResolverMiddlewareTests {
 }
 
 fun setupGenerationContext(smithyFile: String, serviceShapeId: String): ProtocolGenerator.GenerationContext {
-    val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID, "smithy.example", "Json Protocol")
+    val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
     return ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
 }
