@@ -9,7 +9,7 @@ structure presignable { }
 
 @awsJson1_0
 @sigv4(name: "example-signing-name")
-@service(sdkId: "Example")
+@service(sdkId: "example")
 service Example {
     version: "1.0.0",
     operations: [GetFoo, PostFoo, PutFoo]

@@ -21,7 +21,7 @@ class PresignerGeneratorTests {
             
             extension GetFooInput {
                 public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
-                    let serviceName = "Example"
+                    let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
@@ -76,7 +76,7 @@ class PresignerGeneratorTests {
             
             extension PostFooInput {
                 public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
-                    let serviceName = "Example"
+                    let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
@@ -134,7 +134,7 @@ class PresignerGeneratorTests {
             
             extension PutFooInput {
                 public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
-                    let serviceName = "Example"
+                    let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
                     encoder.dateEncodingStrategy = .secondsSince1970
