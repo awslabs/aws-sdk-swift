@@ -12,10 +12,16 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
 import java.util.Locale
 
 data class AWSSigningParams(
+    // The service that the signature is being prepared for.
     val service: ServiceShape,
+    // The operation that the signature is being prepared for.
     val operation: OperationShape,
+    // When set to true, forces the AWSv4 signature to be placed in the query string.
     val useSignatureTypeQueryString: Boolean,
+    // When set to true, the AWSv4 signature does not include the body of the request.
     val forceUnsignedBody: Boolean,
+    // When set to true, the expiration is included in the params string so it may be set to a custom
+    // value named `expiration`.
     val useExpiration: Boolean
 ) {
     val serviceIsS3: Boolean =
