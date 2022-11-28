@@ -15,265 +15,256 @@ import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 
-class AWSSigningParamsTests {
+class SigV4ConfiguratorTests {
     @Test
     fun `serviceIsS3 is true when service is S3`() {
-        val subject = AWSSigningParams(
+        val params = AWSSigningParams(
             s3Service,
             operation(),
             false,
             false,
             false
         )
+        val subject = SigV4Configurator(params)
         subject.serviceIsS3.shouldBeTrue()
     }
 
     @Test
     fun `serviceIsS3 is false when service is not S3`() {
-        val subject = AWSSigningParams(
+        val params = AWSSigningParams(
             otherService,
             operation(),
             false,
             false,
             false
         )
+        val subject = SigV4Configurator(params)
         subject.serviceIsS3.shouldBeFalse()
     }
 
     @Test
-    fun `serviceIsGlacier is true when service is Glacier`() {
-        val subject = AWSSigningParams(
-            glacierService,
-            operation(),
-            false,
-            false,
-            false
-        )
-        subject.serviceIsGlacier.shouldBeTrue()
-    }
-
-    @Test
-    fun `serviceIsGlacier is false when service is not Glacier`() {
-        val subject = AWSSigningParams(
+    fun `useUnsignedPayload is false when operation has no presigned trait and forceUnsignedBody is false`() {
+        val params = AWSSigningParams(
             otherService,
             operation(),
             false,
             false,
             false
         )
-        subject.serviceIsGlacier.shouldBeFalse()
-    }
-
-    @Test
-    fun `useUnsignedPayload is false when operation has no unsigned trait and forceUnsignedBody is false`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
-            false,
-            false,
-            false
-        )
+        val subject = SigV4Configurator(params)
         subject.useUnsignedPayload.shouldBeFalse()
     }
 
     @Test
-    fun `useUnsignedPayload is true when operation has unsigned trait and forceUnsignedBody is false`() {
-        val subject = AWSSigningParams(
+    fun `useUnsignedPayload is true when operation has presigned trait and forceUnsignedBody is false`() {
+        val params = AWSSigningParams(
             otherService,
             operation(true),
             false,
             false,
             false
         )
+        val subject = SigV4Configurator(params)
         subject.useUnsignedPayload.shouldBeTrue()
     }
 
     @Test
-    fun `useUnsignedPayload is true when operation has no unsigned trait and forceUnsignedBody is true`() {
-        val subject = AWSSigningParams(
+    fun `useUnsignedPayload is true when operation has no presigned trait and forceUnsignedBody is true`() {
+        val params = AWSSigningParams(
             otherService,
             operation(),
             false,
             true,
             false
         )
+        val subject = SigV4Configurator(params)
+        subject.useUnsignedPayload.shouldBeTrue()
+    }
+
+    fun `useUnsignedPayload is true when operation has presigned trait and forceUnsignedBody is true`() {
+        val params = AWSSigningParams(
+            otherService,
+            operation(true),
+            false,
+            true,
+            false
+        )
+        val subject = SigV4Configurator(params)
         subject.useUnsignedPayload.shouldBeTrue()
     }
 
     @Test
     fun `useSignedBodyHeader is false when service is not S3 or Glacier and forceUnsignedBody is false`() {
-        val subject = AWSSigningParams(
+        val params = AWSSigningParams(
             otherService,
             operation(),
             false,
             false,
             false
         )
+        val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeFalse()
     }
 
     @Test
     fun `useSignedBodyHeader is false when service is S3 or Glacier and forceUnsignedBody is true`() {
-        val subject = AWSSigningParams(
+        val params = AWSSigningParams(
             s3Service,
             operation(),
             false,
             true,
             false
         )
+        val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeFalse()
     }
 
     @Test
     fun `useSignedBodyHeader is true when service is S3 and forceUnsignedBody is false`() {
-        val subject = AWSSigningParams(
+        val params = AWSSigningParams(
             s3Service,
             operation(),
             false,
             false,
             false
         )
+        val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeTrue()
     }
 
     @Test
     fun `useSignedBodyHeader is true when service is Glacier and forceUnsignedBody is false`() {
-        val subject = AWSSigningParams(
+        val params = AWSSigningParams(
             glacierService,
             operation(),
             false,
             false,
             false
         )
+        val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeTrue()
     }
 
     @Test
-    fun `middlewareParamsString includes signatureType when useSignatureTypeQueryString is true`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
+    fun `swiftParamsString includes signatureType when useSignatureTypeQueryString is true`() {
+        val subject = SigV4Configurator(
+            true,
+            false,
+            false,
+            false,
+            false
+        )
+        subject.swiftParamsString.shouldContain("signatureType: .requestQueryParams")
+    }
+
+    @Test
+    fun `swiftParamsString omits signatureType when useSignatureTypeQueryString is false`() {
+        val subject = SigV4Configurator(
+            false,
+            false,
+            false,
+            false,
+            false
+        )
+        subject.swiftParamsString.shouldNotContain("signatureType:")
+    }
+
+    @Test
+    fun `swiftParamsString includes useDoubleURIEncode and shouldNormalizeURIPath when service is S3`() {
+        val subject = SigV4Configurator(
+            false,
+            false,
             true,
             false,
             false
         )
-        subject.middlewareParamsString.shouldContain("signatureType: .requestQueryParams")
+        subject.swiftParamsString.shouldContain("useDoubleURIEncode: false")
+        subject.swiftParamsString.shouldContain("shouldNormalizeURIPath: false")
     }
 
     @Test
-    fun `middlewareParamsString omits signatureType when useSignatureTypeQueryString is false`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
+    fun `swiftParamsString omits useDoubleURIEncode and shouldNormalizeURIPath when service is not S3`() {
+        val subject = SigV4Configurator(
+            false,
+            false,
             false,
             false,
             false
         )
-        subject.middlewareParamsString.shouldNotContain("signatureType: .requestQueryParams")
+        subject.swiftParamsString.shouldNotContain("useDoubleURIEncode:")
+        subject.swiftParamsString.shouldNotContain("shouldNormalizeURIPath:")
     }
 
     @Test
-    fun `middlewareParamsString includes useDoubleURIEncode and shouldNormalizeURIPath when service is S3`() {
-        val subject = AWSSigningParams(
-            s3Service,
-            operation(),
+    fun `swiftParamsString includes expiration when useExpiration is true`() {
+        val subject = SigV4Configurator(
+            false,
+            true,
             false,
             false,
             false
         )
-        subject.middlewareParamsString.shouldContain("useDoubleURIEncode: false")
-        subject.middlewareParamsString.shouldContain("shouldNormalizeURIPath: false")
+        subject.swiftParamsString.shouldContain("expiration: expiration")
     }
 
     @Test
-    fun `middlewareParamsString omits useDoubleURIEncode and shouldNormalizeURIPath when service is not S3`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
+    fun `swiftParamsString omits expiration when useExpiration is false`() {
+        val subject = SigV4Configurator(
+            false,
+            false,
             false,
             false,
             false
         )
-        subject.middlewareParamsString.shouldNotContain("useDoubleURIEncode: false")
-        subject.middlewareParamsString.shouldNotContain("shouldNormalizeURIPath: false")
+        subject.swiftParamsString.shouldNotContain("expiration:")
     }
 
     @Test
-    fun `middlewareParamsString includes expiration when useExpiration is true`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
+    fun `swiftParamsString includes signedBodyHeader when useSignedBodyHeader is true`() {
+        val subject = SigV4Configurator(
+            false,
+            false,
             false,
             false,
             true
         )
-        subject.useExpiration.shouldBeTrue()
-        subject.middlewareParamsString.shouldContain("expiration: expiration")
+        subject.swiftParamsString.shouldContain("signedBodyHeader: .contentSha256")
     }
 
     @Test
-    fun `middlewareParamsString omits expiration when useExpiration is false`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
+    fun `swiftParamsString omits signedBodyHeader when useSignedBodyHeader is false`() {
+        val subject = SigV4Configurator(
+            false,
+            false,
             false,
             false,
             false
         )
-        subject.useExpiration.shouldBeFalse()
-        subject.middlewareParamsString.shouldNotContain("expiration: expiration")
+        subject.swiftParamsString.shouldNotContain("signedBodyHeader:")
     }
 
     @Test
-    fun `middlewareParamsString includes signedBodyHeader when useSignedBodyHeader is true`() {
-        val subject = AWSSigningParams(
-            s3Service,
-            operation(),
+    fun `swiftParamsString includes unsignedBody true when useUnsignedPayload is true`() {
+        val subject = SigV4Configurator(
             false,
             false,
-            false
-        )
-        subject.useSignedBodyHeader.shouldBeTrue()
-        subject.middlewareParamsString.shouldContain("signedBodyHeader: .contentSha256")
-    }
-
-    @Test
-    fun `middlewareParamsString omits signedBodyHeader when useSignedBodyHeader is false`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
-            false,
-            false,
-            false
-        )
-        subject.useSignedBodyHeader.shouldBeFalse()
-        subject.middlewareParamsString.shouldNotContain("signedBodyHeader: .contentSha256")
-    }
-
-    @Test
-    fun `middlewareParamsString includes unsignedBody true when useUnsignedPayload is true`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
             false,
             true,
             false
         )
-        subject.useUnsignedPayload.shouldBeTrue()
-        subject.middlewareParamsString.shouldContain("unsignedBody: true")
+        subject.swiftParamsString.shouldContain("unsignedBody: true")
     }
 
     @Test
-    fun `middlewareParamsString includes unsignedBody false when useUnsignedPayload is false`() {
-        val subject = AWSSigningParams(
-            otherService,
-            operation(),
+    fun `swiftParamsString includes unsignedBody false when useUnsignedPayload is false`() {
+        val subject = SigV4Configurator(
+            false,
+            false,
             false,
             false,
             false
         )
-        subject.useUnsignedPayload.shouldBeFalse()
-        subject.middlewareParamsString.shouldContain("unsignedBody: false")
+        subject.swiftParamsString.shouldContain("unsignedBody:")
     }
 
     private val s3Service: ServiceShape =

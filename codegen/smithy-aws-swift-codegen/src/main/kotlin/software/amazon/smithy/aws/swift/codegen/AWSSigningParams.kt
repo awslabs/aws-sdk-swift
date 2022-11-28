@@ -23,20 +23,25 @@ data class AWSSigningParams(
     // When set to true, the expiration is included in the params string so it may be set to a custom
     // value named `expiration`.
     val useExpiration: Boolean
+)
+
+class SigV4Configurator(
+    val useSignatureTypeQueryString: Boolean,
+    val useExpiration: Boolean,
+    val serviceIsS3: Boolean,
+    val useUnsignedPayload: Boolean,
+    val useSignedBodyHeader: Boolean
 ) {
-    val serviceIsS3: Boolean =
-        service.sdkId.lowercase(Locale.US) == "s3"
+    constructor(params: AWSSigningParams) : this(
+        params.useSignatureTypeQueryString,
+        params.useExpiration,
+        params.service.sdkId.lowercase(Locale.US) == "s3",
+        params.operation.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody,
+        listOf("s3", "glacier").contains(params.service.sdkId.lowercase(Locale.US)) &&
+            !params.operation.hasTrait<UnsignedPayloadTrait>() && !params.forceUnsignedBody
+    )
 
-    val serviceIsGlacier: Boolean =
-        service.sdkId.lowercase(Locale.US) == "glacier"
-
-    var useUnsignedPayload: Boolean =
-        operation.hasTrait<UnsignedPayloadTrait>() || forceUnsignedBody
-
-    var useSignedBodyHeader: Boolean =
-        (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload
-
-    val middlewareParamsString: String
+    val swiftParamsString: String
         get() {
             // Create param strings for each setting, or null for default param
             val params = listOf(

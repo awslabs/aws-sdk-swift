@@ -8,6 +8,7 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
 import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
+import software.amazon.smithy.aws.swift.codegen.SigV4Configurator
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
@@ -51,7 +52,7 @@ open class AWSSigningMiddleware(
 
     private fun renderConfigDeclaration(writer: SwiftWriter) {
         writer.addImport(SigV4Config)
-        val paramString = params.middlewareParamsString
+        val paramString = SigV4Configurator(params).swiftParamsString
         writer.write("let sigv4Config = \$N(\$L)", SigV4Config, paramString)
     }
 
