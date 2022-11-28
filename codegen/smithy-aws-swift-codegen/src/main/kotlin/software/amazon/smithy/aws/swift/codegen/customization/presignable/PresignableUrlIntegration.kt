@@ -2,10 +2,10 @@ package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
+import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
@@ -146,12 +146,13 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
         val opID = op.id.toString()
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = true,
             forceUnsignedBody = opID == "com.amazonaws.s3#PutObject" || opID == "com.amazonaws.s3#GetObject",
             signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
-        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params))
+        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))
 
         if (op.id.toString() != "com.amazonaws.s3#PutObject") {
             operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")

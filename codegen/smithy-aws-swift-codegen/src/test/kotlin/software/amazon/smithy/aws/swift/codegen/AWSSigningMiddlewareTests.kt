@@ -9,9 +9,9 @@ import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningParams
 import software.amazon.smithy.aws.traits.ServiceTrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
@@ -85,12 +85,13 @@ class AWSSigningMiddlewareTests {
         val context = contextForSDK("ExampleService")
 
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = false
         )
-        val subject = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
+        val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, context.model.operationShapes.first(), stack)
         val contents = writer.toString()
 
@@ -107,12 +108,13 @@ class AWSSigningMiddlewareTests {
         val context = contextForSDK("ExampleService")
 
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = false
         )
-        val subject = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
+        val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, context.model.operationShapes.first(), stack)
         val contents = writer.toString()
 
@@ -129,12 +131,13 @@ class AWSSigningMiddlewareTests {
         val context = contextForSDK("ExampleService")
 
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
-        val subject = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
+        val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, context.model.operationShapes.first(), stack)
         val contents = writer.toString()
 
@@ -151,12 +154,13 @@ class AWSSigningMiddlewareTests {
         val context = contextForSDK("ExampleService")
 
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
-        val sut = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
+        val sut = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         sut.render(writer, context.model.operationShapes.first(), stack)
         val contents = writer.toString()
 
@@ -173,12 +177,13 @@ class AWSSigningMiddlewareTests {
         val context = contextForSDK("S3")
 
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = true,
             forceUnsignedBody = true,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
-        val subject = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
+        val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, context.model.operationShapes.first(), stack)
         val contents = writer.toString()
 
@@ -195,12 +200,13 @@ class AWSSigningMiddlewareTests {
         val context = contextForSDK("S3")
 
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
-        val subject = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
+        val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, context.model.operationShapes.first(), stack)
         val contents = writer.toString()
 
@@ -217,12 +223,13 @@ class AWSSigningMiddlewareTests {
         val context = contextForSDK("Glacier")
 
         val params = AWSSigningParams(
+            context.service,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
             signedBodyHeaderContentSHA256 = false,
             useExpiration = false
         )
-        val subject = AWSSigningMiddleware(context.model, context.service, context.symbolProvider, params)
+        val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, context.model.operationShapes.first(), stack)
         val contents = writer.toString()
 

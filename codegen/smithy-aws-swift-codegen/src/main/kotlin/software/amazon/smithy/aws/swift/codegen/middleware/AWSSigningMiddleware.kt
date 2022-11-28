@@ -7,9 +7,8 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
-import software.amazon.smithy.aws.swift.codegen.sdkId
+import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
-import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.ServiceIndex
@@ -23,18 +22,9 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
-import java.util.Locale
-
-data class AWSSigningParams(
-    val useSignatureTypeQueryString: Boolean = false,
-    val forceUnsignedBody: Boolean = false,
-    val signedBodyHeaderContentSHA256: Boolean = false,
-    val useExpiration: Boolean = false
-)
 
 open class AWSSigningMiddleware(
     val model: Model,
-    val service: ServiceShape,
     val symbolProvider: SymbolProvider,
     val params: AWSSigningParams
 ) : MiddlewareRenderable {
@@ -61,26 +51,8 @@ open class AWSSigningMiddleware(
 
     private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape) {
         writer.addImport(SigV4Config)
-        writer.write("let sigv4Config = \$N(${middlewareParamsString(op)})", SigV4Config)
-    }
-
-    private fun middlewareParamsString(op: OperationShape): String {
-        val serviceIsS3 = service.sdkId.lowercase(Locale.US) == "s3"
-        val serviceIsGlacier = service.sdkId.lowercase(Locale.US) == "glacier"
-        val useUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody
-        val useSignedBodyHeader = (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload
-
-        // Create param strings for each setting, or null for default param
-        val params = listOf(
-            "signatureType: .requestQueryParams".takeIf { params.useSignatureTypeQueryString },
-            "useDoubleURIEncode: false".takeIf { serviceIsS3 },
-            "shouldNormalizeURIPath: false".takeIf { serviceIsS3 },
-            "expiration: expiration".takeIf { params.useExpiration },
-            "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader },
-            "unsignedBody: " + ("true".takeIf { useUnsignedPayload } ?: "false")
-        )
-        // Join the strings for use in initializing the Swift SigV4Config
-        return params.mapNotNull { it }.joinToString(", ")
+        val paramString = params.middlewareParamsString(op)
+        writer.write("let sigv4Config = \$N(\$L)", SigV4Config, paramString)
     }
 
     companion object {
