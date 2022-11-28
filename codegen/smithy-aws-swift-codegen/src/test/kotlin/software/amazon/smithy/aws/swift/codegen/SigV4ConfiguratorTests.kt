@@ -81,6 +81,7 @@ class SigV4ConfiguratorTests {
         subject.useUnsignedPayload.shouldBeTrue()
     }
 
+    @Test
     fun `useUnsignedPayload is true when operation has presigned trait and forceUnsignedBody is true`() {
         val params = AWSSigningParams(
             otherService,
