@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSClientConfiguration
-import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
 import software.amazon.smithy.model.shapes.OperationShape
@@ -111,9 +110,9 @@ class PresignerGenerator : SwiftIntegration {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val params = AWSSigningParams(
             service,
+            op,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))

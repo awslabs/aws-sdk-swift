@@ -40,7 +40,7 @@ open class AWSSigningMiddleware(
         op: OperationShape,
         operationStackName: String,
     ) {
-        renderConfigDeclaration(writer, op)
+        renderConfigDeclaration(writer)
         val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
         val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         writer.write(
@@ -49,9 +49,9 @@ open class AWSSigningMiddleware(
         )
     }
 
-    private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape) {
+    private fun renderConfigDeclaration(writer: SwiftWriter) {
         writer.addImport(SigV4Config)
-        val paramString = params.middlewareParamsString(op)
+        val paramString = params.middlewareParamsString
         writer.write("let sigv4Config = \$N(\$L)", SigV4Config, paramString)
     }
 

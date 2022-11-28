@@ -110,9 +110,9 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, operation)) {
             val params = AWSSigningParams(
                 ctx.service,
+                operation,
                 useSignatureTypeQueryString = false,
                 forceUnsignedBody = false,
-                signedBodyHeaderContentSHA256 = false,
                 useExpiration = false
             )
             operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))

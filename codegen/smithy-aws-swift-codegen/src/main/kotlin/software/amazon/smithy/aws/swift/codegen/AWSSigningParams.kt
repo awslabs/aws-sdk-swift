@@ -13,9 +13,9 @@ import java.util.Locale
 
 data class AWSSigningParams(
     val service: ServiceShape,
+    val operation: OperationShape,
     val useSignatureTypeQueryString: Boolean,
     val forceUnsignedBody: Boolean,
-    val signedBodyHeaderContentSHA256: Boolean,
     val useExpiration: Boolean
 ) {
     val serviceIsS3: Boolean =
@@ -24,26 +24,24 @@ data class AWSSigningParams(
     val serviceIsGlacier: Boolean =
         service.sdkId.lowercase(Locale.US) == "glacier"
 
-    fun useUnsignedPayload(operation: OperationShape): Boolean =
+    var useUnsignedPayload: Boolean =
         operation.hasTrait<UnsignedPayloadTrait>() || forceUnsignedBody
 
-    fun useSignedBodyHeader(operation: OperationShape): Boolean =
-        (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload(operation)
+    var useSignedBodyHeader: Boolean =
+        (serviceIsS3 || serviceIsGlacier) && !useUnsignedPayload
 
-    fun middlewareParamsString(operation: OperationShape): String {
-        val useUnsignedPayload = useUnsignedPayload(operation)
-        val useSignedBodyHeader = useSignedBodyHeader(operation)
-
-        // Create param strings for each setting, or null for default param
-        val params = listOf(
-            "signatureType: .requestQueryParams".takeIf { useSignatureTypeQueryString },
-            "useDoubleURIEncode: false".takeIf { serviceIsS3 },
-            "shouldNormalizeURIPath: false".takeIf { serviceIsS3 },
-            "expiration: expiration".takeIf { useExpiration },
-            "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader },
-            "unsignedBody: " + ("true".takeIf { useUnsignedPayload } ?: "false")
-        )
-        // Join the strings for use in initializing the Swift SigV4Config
-        return params.mapNotNull { it }.joinToString(", ")
-    }
+    val middlewareParamsString: String
+        get() {
+            // Create param strings for each setting, or null for default param
+            val params = listOf(
+                "signatureType: .requestQueryParams".takeIf { useSignatureTypeQueryString },
+                "useDoubleURIEncode: false".takeIf { serviceIsS3 },
+                "shouldNormalizeURIPath: false".takeIf { serviceIsS3 },
+                "expiration: expiration".takeIf { useExpiration },
+                "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader },
+                "unsignedBody: " + ("true".takeIf { useUnsignedPayload } ?: "false")
+            )
+            // Join the strings for use in initializing the Swift SigV4Config
+            return params.mapNotNull { it }.joinToString(", ")
+        }
 }

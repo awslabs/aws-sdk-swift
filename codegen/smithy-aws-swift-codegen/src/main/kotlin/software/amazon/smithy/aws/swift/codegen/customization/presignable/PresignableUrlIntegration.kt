@@ -147,9 +147,9 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val opID = op.id.toString()
         val params = AWSSigningParams(
             context.service,
+            op,
             useSignatureTypeQueryString = true,
             forceUnsignedBody = opID == "com.amazonaws.s3#PutObject" || opID == "com.amazonaws.s3#GetObject",
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))

@@ -9,7 +9,6 @@ import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.traits.ServiceTrait
@@ -83,16 +82,17 @@ class AWSSigningMiddlewareTests {
         """.trimIndent()
         val writer = SwiftWriter("testName")
         val context = contextForSDK("ExampleService")
+        val operation = context.model.operationShapes.first()
 
         val params = AWSSigningParams(
             context.service,
+            operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = false
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, context.model.operationShapes.first(), stack)
+        subject.render(writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -106,16 +106,17 @@ class AWSSigningMiddlewareTests {
         """.trimIndent()
         val writer = SwiftWriter("testName")
         val context = contextForSDK("ExampleService")
+        val operation = context.model.operationShapes.first()
 
         val params = AWSSigningParams(
             context.service,
+            operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = false
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, context.model.operationShapes.first(), stack)
+        subject.render(writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -129,16 +130,17 @@ class AWSSigningMiddlewareTests {
         """.trimIndent()
         val writer = SwiftWriter("testName")
         val context = contextForSDK("ExampleService")
+        val operation = context.model.operationShapes.first()
 
         val params = AWSSigningParams(
             context.service,
+            operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, context.model.operationShapes.first(), stack)
+        subject.render(writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -152,16 +154,17 @@ class AWSSigningMiddlewareTests {
         """.trimIndent()
         val writer = SwiftWriter("testName")
         val context = contextForSDK("ExampleService")
+        val operation = context.model.operationShapes.first()
 
         val params = AWSSigningParams(
             context.service,
+            operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
         val sut = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        sut.render(writer, context.model.operationShapes.first(), stack)
+        sut.render(writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -175,16 +178,17 @@ class AWSSigningMiddlewareTests {
         """.trimIndent()
         val writer = SwiftWriter("testName")
         val context = contextForSDK("S3")
+        val operation = context.model.operationShapes.first()
 
         val params = AWSSigningParams(
             context.service,
+            operation,
             useSignatureTypeQueryString = true,
             forceUnsignedBody = true,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, context.model.operationShapes.first(), stack)
+        subject.render(writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -198,16 +202,17 @@ class AWSSigningMiddlewareTests {
         """.trimIndent()
         val writer = SwiftWriter("testName")
         val context = contextForSDK("S3")
+        val operation = context.model.operationShapes.first()
 
         val params = AWSSigningParams(
             context.service,
+            operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = true
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, context.model.operationShapes.first(), stack)
+        subject.render(writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -221,16 +226,17 @@ class AWSSigningMiddlewareTests {
         """.trimIndent()
         val writer = SwiftWriter("testName")
         val context = contextForSDK("Glacier")
+        val operation = context.model.operationShapes.first()
 
         val params = AWSSigningParams(
             context.service,
+            operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            signedBodyHeaderContentSHA256 = false,
             useExpiration = false
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, context.model.operationShapes.first(), stack)
+        subject.render(writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
