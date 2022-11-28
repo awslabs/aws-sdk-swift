@@ -148,9 +148,11 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val params = AWSSigningParams(
             context.service,
             op,
-            useSignatureTypeQueryString = true,
-            forceUnsignedBody = opID == "com.amazonaws.s3#PutObject" || opID == "com.amazonaws.s3#GetObject",
-            useExpiration = true
+            true,
+            // The S3 presigned URLs require an unsigned body setting of true while Polly requires the opposite.
+            // If more presigned URL types are added, this logic should be refactored to scale with more presigned URLs.
+            listOf("com.amazonaws.s3#PutObject", "com.amazonaws.s3#GetObject").contains(opID),
+            true
         )
         operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))
 
