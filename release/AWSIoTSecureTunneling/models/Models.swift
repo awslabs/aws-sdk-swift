@@ -47,8 +47,10 @@ extension CloseTunnelInput: Swift.Encodable {
 
 extension CloseTunnelInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -412,8 +414,10 @@ extension ListTagsForResourceInput: Swift.Encodable {
 
 extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -527,8 +531,10 @@ extension ListTunnelsInput: Swift.Encodable {
 
 extension ListTunnelsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 

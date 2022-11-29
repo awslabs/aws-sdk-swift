@@ -4738,42 +4738,44 @@ extension ListAlarmRecommendationsOutputResponseBody: Swift.Decodable {
 
 extension ListAppAssessmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let reverseOrder = reverseOrder {
-            let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
-            items.append(reverseOrderQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let assessmentName = assessmentName {
-            let assessmentNameQueryItem = ClientRuntime.URLQueryItem(name: "assessmentName".urlPercentEncoding(), value: Swift.String(assessmentName).urlPercentEncoding())
-            items.append(assessmentNameQueryItem)
-        }
-        if let appArn = appArn {
-            let appArnQueryItem = ClientRuntime.URLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
-            items.append(appArnQueryItem)
-        }
-        if let complianceStatus = complianceStatus {
-            let complianceStatusQueryItem = ClientRuntime.URLQueryItem(name: "complianceStatus".urlPercentEncoding(), value: Swift.String(complianceStatus.rawValue).urlPercentEncoding())
-            items.append(complianceStatusQueryItem)
-        }
-        if let assessmentStatus = assessmentStatus {
-            assessmentStatus.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "assessmentStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let reverseOrder = reverseOrder {
+                let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+                items.append(reverseOrderQueryItem)
             }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let assessmentName = assessmentName {
+                let assessmentNameQueryItem = ClientRuntime.URLQueryItem(name: "assessmentName".urlPercentEncoding(), value: Swift.String(assessmentName).urlPercentEncoding())
+                items.append(assessmentNameQueryItem)
+            }
+            if let appArn = appArn {
+                let appArnQueryItem = ClientRuntime.URLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
+                items.append(appArnQueryItem)
+            }
+            if let complianceStatus = complianceStatus {
+                let complianceStatusQueryItem = ClientRuntime.URLQueryItem(name: "complianceStatus".urlPercentEncoding(), value: Swift.String(complianceStatus.rawValue).urlPercentEncoding())
+                items.append(complianceStatusQueryItem)
+            }
+            if let assessmentStatus = assessmentStatus {
+                assessmentStatus.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "assessmentStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            if let invoker = invoker {
+                let invokerQueryItem = ClientRuntime.URLQueryItem(name: "invoker".urlPercentEncoding(), value: Swift.String(invoker.rawValue).urlPercentEncoding())
+                items.append(invokerQueryItem)
+            }
+            return items
         }
-        if let invoker = invoker {
-            let invokerQueryItem = ClientRuntime.URLQueryItem(name: "invoker".urlPercentEncoding(), value: Swift.String(invoker.rawValue).urlPercentEncoding())
-            items.append(invokerQueryItem)
-        }
-        return items
     }
 }
 
@@ -5789,24 +5791,26 @@ extension ListAppVersionsOutputResponseBody: Swift.Decodable {
 
 extension ListAppsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let name = name {
+                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+                items.append(nameQueryItem)
+            }
+            if let appArn = appArn {
+                let appArnQueryItem = ClientRuntime.URLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
+                items.append(appArnQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let name = name {
-            let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-            items.append(nameQueryItem)
-        }
-        if let appArn = appArn {
-            let appArnQueryItem = ClientRuntime.URLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
-            items.append(appArnQueryItem)
-        }
-        return items
     }
 }
 
@@ -5940,38 +5944,42 @@ extension ListAppsOutputResponseBody: Swift.Decodable {
 
 extension ListRecommendationTemplatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let reverseOrder = reverseOrder {
-            let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
-            items.append(reverseOrderQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let name = name {
-            let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-            items.append(nameQueryItem)
-        }
-        if let assessmentArn = assessmentArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let reverseOrder = reverseOrder {
+                let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+                items.append(reverseOrderQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let name = name {
+                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+                items.append(nameQueryItem)
+            }
+            guard let assessmentArn = assessmentArn else {
+                let message = "Creating a URL Query Item failed. assessmentArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let assessmentArnQueryItem = ClientRuntime.URLQueryItem(name: "assessmentArn".urlPercentEncoding(), value: Swift.String(assessmentArn).urlPercentEncoding())
             items.append(assessmentArnQueryItem)
-        }
-        if let recommendationTemplateArn = recommendationTemplateArn {
-            let recommendationTemplateArnQueryItem = ClientRuntime.URLQueryItem(name: "recommendationTemplateArn".urlPercentEncoding(), value: Swift.String(recommendationTemplateArn).urlPercentEncoding())
-            items.append(recommendationTemplateArnQueryItem)
-        }
-        if let status = status {
-            status.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let recommendationTemplateArn = recommendationTemplateArn {
+                let recommendationTemplateArnQueryItem = ClientRuntime.URLQueryItem(name: "recommendationTemplateArn".urlPercentEncoding(), value: Swift.String(recommendationTemplateArn).urlPercentEncoding())
+                items.append(recommendationTemplateArnQueryItem)
             }
+            if let status = status {
+                status.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -6117,20 +6125,22 @@ extension ListRecommendationTemplatesOutputResponseBody: Swift.Decodable {
 
 extension ListResiliencyPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let policyName = policyName {
-            let policyNameQueryItem = ClientRuntime.URLQueryItem(name: "policyName".urlPercentEncoding(), value: Swift.String(policyName).urlPercentEncoding())
-            items.append(policyNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let policyName = policyName {
+                let policyNameQueryItem = ClientRuntime.URLQueryItem(name: "policyName".urlPercentEncoding(), value: Swift.String(policyName).urlPercentEncoding())
+                items.append(policyNameQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -6427,16 +6437,18 @@ extension ListSopRecommendationsOutputResponseBody: Swift.Decodable {
 
 extension ListSuggestedResiliencyPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -10075,14 +10087,18 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

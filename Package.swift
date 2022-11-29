@@ -92,6 +92,7 @@ let package = Package(
         .library(name: "AWSConfigService", targets: ["AWSConfigService"]),
         .library(name: "AWSConnect", targets: ["AWSConnect"]),
         .library(name: "AWSConnectCampaigns", targets: ["AWSConnectCampaigns"]),
+        .library(name: "AWSConnectCases", targets: ["AWSConnectCases"]),
         .library(name: "AWSConnectContactLens", targets: ["AWSConnectContactLens"]),
         .library(name: "AWSConnectParticipant", targets: ["AWSConnectParticipant"]),
         .library(name: "AWSControlTower", targets: ["AWSControlTower"]),
@@ -339,8 +340,8 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.5.0")),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.3.1"))
+        .package(url: "https://github.com/awslabs/smithy-swift", branch: "main"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
     ],
     targets: [
         .target(
@@ -432,6 +433,7 @@ let package = Package(
         .target(name: "AWSConfigService", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSConfigService"),
         .target(name: "AWSConnect", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSConnect"),
         .target(name: "AWSConnectCampaigns", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSConnectCampaigns"),
+        .target(name: "AWSConnectCases", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSConnectCases"),
         .target(name: "AWSConnectContactLens", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSConnectContactLens"),
         .target(name: "AWSConnectParticipant", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSConnectParticipant"),
         .target(name: "AWSControlTower", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSControlTower"),

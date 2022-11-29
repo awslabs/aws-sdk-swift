@@ -1027,16 +1027,18 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension ListConfigurationSetsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            return items
         }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        return items
     }
 }
 

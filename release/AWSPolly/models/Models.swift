@@ -69,24 +69,26 @@ public struct DeleteLexiconOutputResponse: Swift.Equatable {
 
 extension DescribeVoicesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let languageCode = languageCode {
-            let languageCodeQueryItem = ClientRuntime.URLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
-            items.append(languageCodeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let languageCode = languageCode {
+                let languageCodeQueryItem = ClientRuntime.URLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
+                items.append(languageCodeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let engine = engine {
+                let engineQueryItem = ClientRuntime.URLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
+                items.append(engineQueryItem)
+            }
+            if includeAdditionalLanguageCodes != false {
+                let includeAdditionalLanguageCodesQueryItem = ClientRuntime.URLQueryItem(name: "IncludeAdditionalLanguageCodes".urlPercentEncoding(), value: Swift.String(includeAdditionalLanguageCodes).urlPercentEncoding())
+                items.append(includeAdditionalLanguageCodesQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let engine = engine {
-            let engineQueryItem = ClientRuntime.URLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
-            items.append(engineQueryItem)
-        }
-        if includeAdditionalLanguageCodes != false {
-            let includeAdditionalLanguageCodesQueryItem = ClientRuntime.URLQueryItem(name: "IncludeAdditionalLanguageCodes".urlPercentEncoding(), value: Swift.String(includeAdditionalLanguageCodes).urlPercentEncoding())
-            items.append(includeAdditionalLanguageCodesQueryItem)
-        }
-        return items
     }
 }
 
@@ -1415,12 +1417,14 @@ extension LexiconSizeExceededExceptionBody: Swift.Decodable {
 
 extension ListLexiconsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1537,20 +1541,22 @@ extension ListLexiconsOutputResponseBody: Swift.Decodable {
 
 extension ListSpeechSynthesisTasksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let status = status {
-            let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-            items.append(statusQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 

@@ -2837,12 +2837,14 @@ public struct DeleteExtensionAssociationOutputResponse: Swift.Equatable {
 
 extension DeleteExtensionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let versionNumber = versionNumber {
-            let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-            items.append(versionNumberQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let versionNumber = versionNumber {
+                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+                items.append(versionNumberQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3795,16 +3797,20 @@ extension GetApplicationOutputResponseBody: Swift.Decodable {
 
 extension GetConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientId = clientId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientId = clientId else {
+                let message = "Creating a URL Query Item failed. clientId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let clientIdQueryItem = ClientRuntime.URLQueryItem(name: "client_id".urlPercentEncoding(), value: Swift.String(clientId).urlPercentEncoding())
             items.append(clientIdQueryItem)
+            if let clientConfigurationVersion = clientConfigurationVersion {
+                let clientConfigurationVersionQueryItem = ClientRuntime.URLQueryItem(name: "client_configuration_version".urlPercentEncoding(), value: Swift.String(clientConfigurationVersion).urlPercentEncoding())
+                items.append(clientConfigurationVersionQueryItem)
+            }
+            return items
         }
-        if let clientConfigurationVersion = clientConfigurationVersion {
-            let clientConfigurationVersionQueryItem = ClientRuntime.URLQueryItem(name: "client_configuration_version".urlPercentEncoding(), value: Swift.String(clientConfigurationVersion).urlPercentEncoding())
-            items.append(clientConfigurationVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -4942,12 +4948,14 @@ extension GetExtensionAssociationOutputResponseBody: Swift.Decodable {
 
 extension GetExtensionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let versionNumber = versionNumber {
-            let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version_number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-            items.append(versionNumberQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let versionNumber = versionNumber {
+                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version_number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+                items.append(versionNumberQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -5533,16 +5541,18 @@ extension AppConfigClientTypes {
 
 extension ListApplicationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -5663,20 +5673,22 @@ extension ListApplicationsOutputResponseBody: Swift.Decodable {
 
 extension ListConfigurationProfilesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let type = type {
-            let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type).urlPercentEncoding())
-            items.append(typeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let type = type {
+                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type).urlPercentEncoding())
+                items.append(typeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -5811,16 +5823,18 @@ extension ListConfigurationProfilesOutputResponseBody: Swift.Decodable {
 
 extension ListDeploymentStrategiesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -5941,16 +5955,18 @@ extension ListDeploymentStrategiesOutputResponseBody: Swift.Decodable {
 
 extension ListDeploymentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -6089,16 +6105,18 @@ extension ListDeploymentsOutputResponseBody: Swift.Decodable {
 
 extension ListEnvironmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -6229,28 +6247,30 @@ extension ListEnvironmentsOutputResponseBody: Swift.Decodable {
 
 extension ListExtensionAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceIdentifier = resourceIdentifier {
-            let resourceIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "resource_identifier".urlPercentEncoding(), value: Swift.String(resourceIdentifier).urlPercentEncoding())
-            items.append(resourceIdentifierQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let resourceIdentifier = resourceIdentifier {
+                let resourceIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "resource_identifier".urlPercentEncoding(), value: Swift.String(resourceIdentifier).urlPercentEncoding())
+                items.append(resourceIdentifierQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let extensionIdentifier = extensionIdentifier {
+                let extensionIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "extension_identifier".urlPercentEncoding(), value: Swift.String(extensionIdentifier).urlPercentEncoding())
+                items.append(extensionIdentifierQueryItem)
+            }
+            if let extensionVersionNumber = extensionVersionNumber {
+                let extensionVersionNumberQueryItem = ClientRuntime.URLQueryItem(name: "extension_version_number".urlPercentEncoding(), value: Swift.String(extensionVersionNumber).urlPercentEncoding())
+                items.append(extensionVersionNumberQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let extensionIdentifier = extensionIdentifier {
-            let extensionIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "extension_identifier".urlPercentEncoding(), value: Swift.String(extensionIdentifier).urlPercentEncoding())
-            items.append(extensionIdentifierQueryItem)
-        }
-        if let extensionVersionNumber = extensionVersionNumber {
-            let extensionVersionNumberQueryItem = ClientRuntime.URLQueryItem(name: "extension_version_number".urlPercentEncoding(), value: Swift.String(extensionVersionNumber).urlPercentEncoding())
-            items.append(extensionVersionNumberQueryItem)
-        }
-        return items
     }
 }
 
@@ -6383,20 +6403,22 @@ extension ListExtensionAssociationsOutputResponseBody: Swift.Decodable {
 
 extension ListExtensionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let name = name {
+                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+                items.append(nameQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let name = name {
-            let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-            items.append(nameQueryItem)
-        }
-        return items
     }
 }
 
@@ -6521,16 +6543,18 @@ extension ListExtensionsOutputResponseBody: Swift.Decodable {
 
 extension ListHostedConfigurationVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -7938,14 +7962,18 @@ extension AppConfigClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 
@@ -9372,12 +9400,16 @@ extension UpdateExtensionOutputResponseBody: Swift.Decodable {
 
 extension ValidateConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let configurationVersion = configurationVersion {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let configurationVersion = configurationVersion else {
+                let message = "Creating a URL Query Item failed. configurationVersion is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let configurationVersionQueryItem = ClientRuntime.URLQueryItem(name: "configuration_version".urlPercentEncoding(), value: Swift.String(configurationVersion).urlPercentEncoding())
             items.append(configurationVersionQueryItem)
+            return items
         }
-        return items
     }
 }
 

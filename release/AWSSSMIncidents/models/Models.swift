@@ -1166,12 +1166,16 @@ extension SSMIncidentsClientTypes {
 
 extension DeleteReplicationSetInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let arn = arn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let arn = arn else {
+                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
             items.append(arnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1715,12 +1719,16 @@ extension SSMIncidentsClientTypes {
 
 extension GetIncidentRecordInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let arn = arn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let arn = arn else {
+                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
             items.append(arnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1826,12 +1834,16 @@ extension GetIncidentRecordOutputResponseBody: Swift.Decodable {
 
 extension GetReplicationSetInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let arn = arn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let arn = arn else {
+                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
             items.append(arnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1954,12 +1966,16 @@ extension GetResourcePoliciesInput: Swift.Encodable {
 
 extension GetResourcePoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceArn = resourceArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
             items.append(resourceArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2103,12 +2119,16 @@ extension GetResourcePoliciesOutputResponseBody: Swift.Decodable {
 
 extension GetResponsePlanInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let arn = arn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let arn = arn else {
+                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
             items.append(arnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2294,16 +2314,22 @@ extension GetResponsePlanOutputResponseBody: Swift.Decodable {
 
 extension GetTimelineEventInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let eventId = eventId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let eventId = eventId else {
+                let message = "Creating a URL Query Item failed. eventId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let eventIdQueryItem = ClientRuntime.URLQueryItem(name: "eventId".urlPercentEncoding(), value: Swift.String(eventId).urlPercentEncoding())
             items.append(eventIdQueryItem)
-        }
-        if let incidentRecordArn = incidentRecordArn {
+            guard let incidentRecordArn = incidentRecordArn else {
+                let message = "Creating a URL Query Item failed. incidentRecordArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let incidentRecordArnQueryItem = ClientRuntime.URLQueryItem(name: "incidentRecordArn".urlPercentEncoding(), value: Swift.String(incidentRecordArn).urlPercentEncoding())
             items.append(incidentRecordArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -5803,14 +5829,18 @@ extension SSMIncidentsClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

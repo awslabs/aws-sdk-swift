@@ -17928,8 +17928,10 @@ extension GetContainerLogInput: Swift.Encodable {
 
 extension GetContainerLogInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -18222,8 +18224,10 @@ extension GetContainerServiceMetricDataInput: Swift.Encodable {
 
 extension GetContainerServiceMetricDataInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -18502,8 +18506,10 @@ extension GetContainerServicesInput: Swift.Encodable {
 
 extension GetContainerServicesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 

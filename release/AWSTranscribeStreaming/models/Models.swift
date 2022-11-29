@@ -1692,9 +1692,12 @@ public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.
                 let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
                 input.builder.withBody(audioStreambody)
             } else {
-                let audioStreamdata = try encoder.encode(input.operationInput)
-                let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                input.builder.withBody(audioStreambody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let audioStreamdata = "{}".data(using: .utf8)!
+                    let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
+                    input.builder.withBody(audioStreambody)
+                }
             }
         } catch let err {
             throw SdkError<StartMedicalStreamTranscriptionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -2046,9 +2049,12 @@ public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middlew
                 let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
                 input.builder.withBody(audioStreambody)
             } else {
-                let audioStreamdata = try encoder.encode(input.operationInput)
-                let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                input.builder.withBody(audioStreambody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let audioStreamdata = "{}".data(using: .utf8)!
+                    let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
+                    input.builder.withBody(audioStreambody)
+                }
             }
         } catch let err {
             throw SdkError<StartStreamTranscriptionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))

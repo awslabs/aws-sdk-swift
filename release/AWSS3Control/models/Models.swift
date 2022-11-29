@@ -1432,9 +1432,12 @@ public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
                 let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
                 input.builder.withBody(createBucketConfigurationbody)
             } else {
-                let createBucketConfigurationdata = try encoder.encode(input.operationInput)
-                let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
-                input.builder.withBody(createBucketConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let createBucketConfigurationdata = "{}".data(using: .utf8)!
+                    let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
+                    input.builder.withBody(createBucketConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateBucketOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -8331,16 +8334,18 @@ extension ListAccessPointsForObjectLambdaInput: ClientRuntime.HeaderProvider {
 
 extension ListAccessPointsForObjectLambdaInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8479,20 +8484,22 @@ extension ListAccessPointsInput: ClientRuntime.HeaderProvider {
 
 extension ListAccessPointsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let bucket = bucket {
+                let bucketQueryItem = ClientRuntime.URLQueryItem(name: "bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
+                items.append(bucketQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let bucket = bucket {
-            let bucketQueryItem = ClientRuntime.URLQueryItem(name: "bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
-            items.append(bucketQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8635,22 +8642,24 @@ extension ListJobsInput: ClientRuntime.HeaderProvider {
 
 extension ListJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let jobStatuses = jobStatuses {
-            jobStatuses.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "jobStatuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
+            if let jobStatuses = jobStatuses {
+                jobStatuses.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "jobStatuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8799,16 +8808,18 @@ extension ListMultiRegionAccessPointsInput: ClientRuntime.HeaderProvider {
 
 extension ListMultiRegionAccessPointsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8950,16 +8961,18 @@ extension ListRegionalBucketsInput: ClientRuntime.HeaderProvider {
 
 extension ListRegionalBucketsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9187,12 +9200,14 @@ extension ListStorageLensConfigurationsInput: ClientRuntime.HeaderProvider {
 
 extension ListStorageLensConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11149,9 +11164,12 @@ public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.
                 let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
                 input.builder.withBody(lifecycleConfigurationbody)
             } else {
-                let lifecycleConfigurationdata = try encoder.encode(input.operationInput)
-                let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
-                input.builder.withBody(lifecycleConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let lifecycleConfigurationdata = "{}".data(using: .utf8)!
+                    let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
+                    input.builder.withBody(lifecycleConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketLifecycleConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -11424,9 +11442,12 @@ public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
                 let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
                 input.builder.withBody(taggingbody)
             } else {
-                let taggingdata = try encoder.encode(input.operationInput)
-                let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                input.builder.withBody(taggingbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let taggingdata = "{}".data(using: .utf8)!
+                    let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
+                    input.builder.withBody(taggingbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketTaggingOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -11576,9 +11597,12 @@ public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
                 let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
                 input.builder.withBody(versioningConfigurationbody)
             } else {
-                let versioningConfigurationdata = try encoder.encode(input.operationInput)
-                let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
-                input.builder.withBody(versioningConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let versioningConfigurationdata = "{}".data(using: .utf8)!
+                    let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
+                    input.builder.withBody(versioningConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketVersioningOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -12097,9 +12121,12 @@ public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware 
                 let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
                 input.builder.withBody(publicAccessBlockConfigurationbody)
             } else {
-                let publicAccessBlockConfigurationdata = try encoder.encode(input.operationInput)
-                let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
-                input.builder.withBody(publicAccessBlockConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let publicAccessBlockConfigurationdata = "{}".data(using: .utf8)!
+                    let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
+                    input.builder.withBody(publicAccessBlockConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutPublicAccessBlockOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -15721,10 +15748,12 @@ extension UpdateJobPriorityInput: ClientRuntime.HeaderProvider {
 
 extension UpdateJobPriorityInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        let priorityQueryItem = ClientRuntime.URLQueryItem(name: "priority".urlPercentEncoding(), value: Swift.String(priority).urlPercentEncoding())
-        items.append(priorityQueryItem)
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            let priorityQueryItem = ClientRuntime.URLQueryItem(name: "priority".urlPercentEncoding(), value: Swift.String(priority).urlPercentEncoding())
+            items.append(priorityQueryItem)
+            return items
+        }
     }
 }
 
@@ -15861,16 +15890,20 @@ extension UpdateJobStatusInput: ClientRuntime.HeaderProvider {
 
 extension UpdateJobStatusInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let statusUpdateReason = statusUpdateReason {
-            let statusUpdateReasonQueryItem = ClientRuntime.URLQueryItem(name: "statusUpdateReason".urlPercentEncoding(), value: Swift.String(statusUpdateReason).urlPercentEncoding())
-            items.append(statusUpdateReasonQueryItem)
-        }
-        if let requestedJobStatus = requestedJobStatus {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let statusUpdateReason = statusUpdateReason {
+                let statusUpdateReasonQueryItem = ClientRuntime.URLQueryItem(name: "statusUpdateReason".urlPercentEncoding(), value: Swift.String(statusUpdateReason).urlPercentEncoding())
+                items.append(statusUpdateReasonQueryItem)
+            }
+            guard let requestedJobStatus = requestedJobStatus else {
+                let message = "Creating a URL Query Item failed. requestedJobStatus is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let requestedJobStatusQueryItem = ClientRuntime.URLQueryItem(name: "requestedJobStatus".urlPercentEncoding(), value: Swift.String(requestedJobStatus.rawValue).urlPercentEncoding())
             items.append(requestedJobStatusQueryItem)
+            return items
         }
-        return items
     }
 }
 

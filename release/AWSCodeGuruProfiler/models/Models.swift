@@ -580,24 +580,26 @@ extension BatchGetFrameMetricDataInput: Swift.Encodable {
 
 extension BatchGetFrameMetricDataInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let period = period {
-            let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
-            items.append(periodQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let period = period {
+                let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
+                items.append(periodQueryItem)
+            }
+            if let startTime = startTime {
+                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+                items.append(startTimeQueryItem)
+            }
+            if let endTime = endTime {
+                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+                items.append(endTimeQueryItem)
+            }
+            if let targetResolution = targetResolution {
+                let targetResolutionQueryItem = ClientRuntime.URLQueryItem(name: "targetResolution".urlPercentEncoding(), value: Swift.String(targetResolution.rawValue).urlPercentEncoding())
+                items.append(targetResolutionQueryItem)
+            }
+            return items
         }
-        if let startTime = startTime {
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-        }
-        if let endTime = endTime {
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
-        }
-        if let targetResolution = targetResolution {
-            let targetResolutionQueryItem = ClientRuntime.URLQueryItem(name: "targetResolution".urlPercentEncoding(), value: Swift.String(targetResolution.rawValue).urlPercentEncoding())
-            items.append(targetResolutionQueryItem)
-        }
-        return items
     }
 }
 
@@ -1199,12 +1201,16 @@ extension CreateProfilingGroupInput: Swift.Encodable {
 
 extension CreateProfilingGroupInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientToken = clientToken {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientToken = clientToken else {
+                let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1807,20 +1813,22 @@ extension CodeGuruProfilerClientTypes {
 
 extension GetFindingsReportAccountSummaryInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let dailyReportsOnly = dailyReportsOnly {
+                let dailyReportsOnlyQueryItem = ClientRuntime.URLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
+                items.append(dailyReportsOnlyQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let dailyReportsOnly = dailyReportsOnly {
-            let dailyReportsOnlyQueryItem = ClientRuntime.URLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
-            items.append(dailyReportsOnlyQueryItem)
-        }
-        return items
     }
 }
 
@@ -2175,24 +2183,26 @@ extension GetProfileInput: ClientRuntime.HeaderProvider {
 
 extension GetProfileInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let maxDepth = maxDepth {
-            let maxDepthQueryItem = ClientRuntime.URLQueryItem(name: "maxDepth".urlPercentEncoding(), value: Swift.String(maxDepth).urlPercentEncoding())
-            items.append(maxDepthQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxDepth = maxDepth {
+                let maxDepthQueryItem = ClientRuntime.URLQueryItem(name: "maxDepth".urlPercentEncoding(), value: Swift.String(maxDepth).urlPercentEncoding())
+                items.append(maxDepthQueryItem)
+            }
+            if let period = period {
+                let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
+                items.append(periodQueryItem)
+            }
+            if let startTime = startTime {
+                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+                items.append(startTimeQueryItem)
+            }
+            if let endTime = endTime {
+                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+                items.append(endTimeQueryItem)
+            }
+            return items
         }
-        if let period = period {
-            let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
-            items.append(periodQueryItem)
-        }
-        if let startTime = startTime {
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-        }
-        if let endTime = endTime {
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
-        }
-        return items
     }
 }
 
@@ -2342,20 +2352,26 @@ extension GetProfileOutputResponseBody: Swift.Decodable {
 
 extension GetRecommendationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let startTime = startTime {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let startTime = startTime else {
+                let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
-        }
-        if let endTime = endTime {
+            guard let endTime = endTime else {
+                let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
+            if let locale = locale {
+                let localeQueryItem = ClientRuntime.URLQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale).urlPercentEncoding())
+                items.append(localeQueryItem)
+            }
+            return items
         }
-        if let locale = locale {
-            let localeQueryItem = ClientRuntime.URLQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale).urlPercentEncoding())
-            items.append(localeQueryItem)
-        }
-        return items
     }
 }
 
@@ -2615,28 +2631,34 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListFindingsReportsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let dailyReportsOnly = dailyReportsOnly {
-            let dailyReportsOnlyQueryItem = ClientRuntime.URLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
-            items.append(dailyReportsOnlyQueryItem)
-        }
-        if let startTime = startTime {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let dailyReportsOnly = dailyReportsOnly {
+                let dailyReportsOnlyQueryItem = ClientRuntime.URLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
+                items.append(dailyReportsOnlyQueryItem)
+            }
+            guard let startTime = startTime else {
+                let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
-        }
-        if let endTime = endTime {
+            guard let endTime = endTime else {
+                let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2786,32 +2808,40 @@ extension ListFindingsReportsOutputResponseBody: Swift.Decodable {
 
 extension ListProfileTimesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let period = period {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let period = period else {
+                let message = "Creating a URL Query Item failed. period is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period.rawValue).urlPercentEncoding())
             items.append(periodQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let orderBy = orderBy {
-            let orderByQueryItem = ClientRuntime.URLQueryItem(name: "orderBy".urlPercentEncoding(), value: Swift.String(orderBy.rawValue).urlPercentEncoding())
-            items.append(orderByQueryItem)
-        }
-        if let startTime = startTime {
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let orderBy = orderBy {
+                let orderByQueryItem = ClientRuntime.URLQueryItem(name: "orderBy".urlPercentEncoding(), value: Swift.String(orderBy.rawValue).urlPercentEncoding())
+                items.append(orderByQueryItem)
+            }
+            guard let startTime = startTime else {
+                let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
-        }
-        if let endTime = endTime {
+            guard let endTime = endTime else {
+                let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2972,20 +3002,22 @@ extension ListProfileTimesOutputResponseBody: Swift.Decodable {
 
 extension ListProfilingGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let includeDescription = includeDescription {
+                let includeDescriptionQueryItem = ClientRuntime.URLQueryItem(name: "includeDescription".urlPercentEncoding(), value: Swift.String(includeDescription).urlPercentEncoding())
+                items.append(includeDescriptionQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let includeDescription = includeDescription {
-            let includeDescriptionQueryItem = ClientRuntime.URLQueryItem(name: "includeDescription".urlPercentEncoding(), value: Swift.String(includeDescription).urlPercentEncoding())
-            items.append(includeDescriptionQueryItem)
-        }
-        return items
     }
 }
 
@@ -3717,12 +3749,14 @@ extension PostAgentProfileInput: ClientRuntime.HeaderProvider {
 
 extension PostAgentProfileInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let profileToken = profileToken {
-            let profileTokenQueryItem = ClientRuntime.URLQueryItem(name: "profileToken".urlPercentEncoding(), value: Swift.String(profileToken).urlPercentEncoding())
-            items.append(profileTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let profileToken = profileToken {
+                let profileTokenQueryItem = ClientRuntime.URLQueryItem(name: "profileToken".urlPercentEncoding(), value: Swift.String(profileToken).urlPercentEncoding())
+                items.append(profileTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -4417,12 +4451,16 @@ extension RemoveNotificationChannelOutputResponseBody: Swift.Decodable {
 
 extension RemovePermissionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let revisionId = revisionId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let revisionId = revisionId else {
+                let message = "Creating a URL Query Item failed. revisionId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let revisionIdQueryItem = ClientRuntime.URLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
             items.append(revisionIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4972,14 +5010,18 @@ extension CodeGuruProfilerClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

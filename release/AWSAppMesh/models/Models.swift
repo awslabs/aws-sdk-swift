@@ -531,12 +531,14 @@ extension CreateGatewayRouteInput: Swift.Encodable {
 
 extension CreateGatewayRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -919,12 +921,14 @@ extension CreateRouteInput: Swift.Encodable {
 
 extension CreateRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1130,12 +1134,14 @@ extension CreateVirtualGatewayInput: Swift.Encodable {
 
 extension CreateVirtualGatewayInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1331,12 +1337,14 @@ extension CreateVirtualNodeInput: Swift.Encodable {
 
 extension CreateVirtualNodeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1534,12 +1542,14 @@ extension CreateVirtualRouterInput: Swift.Encodable {
 
 extension CreateVirtualRouterInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1737,12 +1747,14 @@ extension CreateVirtualServiceInput: Swift.Encodable {
 
 extension CreateVirtualServiceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1944,12 +1956,14 @@ extension AppMeshClientTypes {
 
 extension DeleteGatewayRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2197,12 +2211,14 @@ extension DeleteMeshOutputResponseBody: Swift.Decodable {
 
 extension DeleteRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2340,12 +2356,14 @@ extension DeleteRouteOutputResponseBody: Swift.Decodable {
 
 extension DeleteVirtualGatewayInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2473,12 +2491,14 @@ extension DeleteVirtualGatewayOutputResponseBody: Swift.Decodable {
 
 extension DeleteVirtualNodeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2608,12 +2628,14 @@ extension DeleteVirtualNodeOutputResponseBody: Swift.Decodable {
 
 extension DeleteVirtualRouterInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2743,12 +2765,14 @@ extension DeleteVirtualRouterOutputResponseBody: Swift.Decodable {
 
 extension DeleteVirtualServiceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2878,12 +2902,14 @@ extension DeleteVirtualServiceOutputResponseBody: Swift.Decodable {
 
 extension DescribeGatewayRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3017,12 +3043,14 @@ extension DescribeGatewayRouteOutputResponseBody: Swift.Decodable {
 
 extension DescribeMeshInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3142,12 +3170,14 @@ extension DescribeMeshOutputResponseBody: Swift.Decodable {
 
 extension DescribeRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3283,12 +3313,14 @@ extension DescribeRouteOutputResponseBody: Swift.Decodable {
 
 extension DescribeVirtualGatewayInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3414,12 +3446,14 @@ extension DescribeVirtualGatewayOutputResponseBody: Swift.Decodable {
 
 extension DescribeVirtualNodeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3547,12 +3581,14 @@ extension DescribeVirtualNodeOutputResponseBody: Swift.Decodable {
 
 extension DescribeVirtualRouterInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3680,12 +3716,14 @@ extension DescribeVirtualRouterOutputResponseBody: Swift.Decodable {
 
 extension DescribeVirtualServiceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -6906,20 +6944,22 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension ListGatewayRoutesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
-        }
-        return items
     }
 }
 
@@ -7069,16 +7109,18 @@ extension ListGatewayRoutesOutputResponseBody: Swift.Decodable {
 
 extension ListMeshesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -7210,20 +7252,22 @@ extension ListMeshesOutputResponseBody: Swift.Decodable {
 
 extension ListRoutesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
-        }
-        return items
     }
 }
 
@@ -7375,20 +7419,24 @@ extension ListRoutesOutputResponseBody: Swift.Decodable {
 
 extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let resourceArn = resourceArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
             items.append(resourceArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -7525,20 +7573,22 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 
 extension ListVirtualGatewaysInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
-        }
-        return items
     }
 }
 
@@ -7680,20 +7730,22 @@ extension ListVirtualGatewaysOutputResponseBody: Swift.Decodable {
 
 extension ListVirtualNodesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
-        }
-        return items
     }
 }
 
@@ -7837,20 +7889,22 @@ extension ListVirtualNodesOutputResponseBody: Swift.Decodable {
 
 extension ListVirtualRoutersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
-        }
-        return items
     }
 }
 
@@ -7994,20 +8048,22 @@ extension ListVirtualRoutersOutputResponseBody: Swift.Decodable {
 
 extension ListVirtualServicesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
-        }
-        return items
     }
 }
 
@@ -10135,12 +10191,16 @@ extension TagResourceInput: Swift.Encodable {
 
 extension TagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceArn = resourceArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
             items.append(resourceArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -10787,12 +10847,16 @@ extension UntagResourceInput: Swift.Encodable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceArn = resourceArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
             items.append(resourceArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -10908,12 +10972,14 @@ extension UpdateGatewayRouteInput: Swift.Encodable {
 
 extension UpdateGatewayRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11236,12 +11302,14 @@ extension UpdateRouteInput: Swift.Encodable {
 
 extension UpdateRouteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11418,12 +11486,14 @@ extension UpdateVirtualGatewayInput: Swift.Encodable {
 
 extension UpdateVirtualGatewayInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11590,12 +11660,14 @@ extension UpdateVirtualNodeInput: Swift.Encodable {
 
 extension UpdateVirtualNodeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11764,12 +11836,14 @@ extension UpdateVirtualRouterInput: Swift.Encodable {
 
 extension UpdateVirtualRouterInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11938,12 +12012,14 @@ extension UpdateVirtualServiceInput: Swift.Encodable {
 
 extension UpdateVirtualServiceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let meshOwner = meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-            items.append(meshOwnerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let meshOwner = meshOwner {
+                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+                items.append(meshOwnerQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
