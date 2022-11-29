@@ -1,9 +1,13 @@
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0.
+ */
+
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSClientConfiguration
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
-import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpRequest
@@ -19,7 +23,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
-import software.amazon.smithy.swift.codegen.model.hasTrait
 
 data class PresignableOperation(
     val serviceId: String,
@@ -90,7 +93,6 @@ class PresignerGenerator : SwiftIntegration {
                 generator.render(op) { writer, _ ->
                     writer.write("return nil")
                 }
-
                 val requestBuilderName = "presignedRequestBuilder"
                 val builtRequestName = "builtRequest"
                 writer.write("let $requestBuilderName = try await $operationStackName.presignedRequest(context: context.build(), input: input, next: \$N())", NoopHandler)
@@ -105,12 +107,15 @@ class PresignerGenerator : SwiftIntegration {
     private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, op: OperationShape, ctx: CodegenContext): OperationMiddleware {
         val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(::customSigningParameters, ctx.model, ctx.symbolProvider))
+        val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
+        val params = AWSSigningParams(
+            service,
+            op,
+            useSignatureTypeQueryString = false,
+            forceUnsignedBody = false,
+            useExpiration = true
+        )
+        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
         return operationMiddlewareCopy
-    }
-
-    private fun customSigningParameters(op: OperationShape): String {
-        val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-        return "expiration: expiration, unsignedBody: $hasUnsignedPayload"
     }
 }

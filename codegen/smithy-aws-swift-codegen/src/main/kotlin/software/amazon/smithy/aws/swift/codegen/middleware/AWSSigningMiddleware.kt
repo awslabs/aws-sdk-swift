@@ -7,8 +7,9 @@ package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
+import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
+import software.amazon.smithy.aws.swift.codegen.SigV4Configurator
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
-import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.ServiceIndex
@@ -23,12 +24,10 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-typealias AWSSigningMiddlewareParamsCallback = (OperationShape) -> String
-
 open class AWSSigningMiddleware(
-    private val paramsCallback: AWSSigningMiddlewareParamsCallback? = null,
     val model: Model,
-    val symbolProvider: SymbolProvider
+    val symbolProvider: SymbolProvider,
+    val params: AWSSigningParams
 ) : MiddlewareRenderable {
 
     override val name = "AWSSigningMiddleware"
@@ -42,7 +41,7 @@ open class AWSSigningMiddleware(
         op: OperationShape,
         operationStackName: String,
     ) {
-        renderConfigDeclaration(writer, op)
+        renderConfigDeclaration(writer)
         val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
         val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         writer.write(
@@ -51,18 +50,10 @@ open class AWSSigningMiddleware(
         )
     }
 
-    private fun renderConfigDeclaration(writer: SwiftWriter, op: OperationShape) {
+    private fun renderConfigDeclaration(writer: SwiftWriter) {
         writer.addImport(SigV4Config)
-        writer.write("let sigv4Config = \$N(${middlewareParamsString(op)})", SigV4Config)
-    }
-
-    private fun middlewareParamsString(op: OperationShape): String {
-        paramsCallback?.let {
-            return it(op)
-        } ?: run {
-            val hasUnsignedPayload = op.hasTrait<UnsignedPayloadTrait>()
-            return "unsignedBody: $hasUnsignedPayload"
-        }
+        val paramString = SigV4Configurator(params).swiftParamsString
+        writer.write("let sigv4Config = \$N(\$L)", SigV4Config, paramString)
     }
 
     companion object {

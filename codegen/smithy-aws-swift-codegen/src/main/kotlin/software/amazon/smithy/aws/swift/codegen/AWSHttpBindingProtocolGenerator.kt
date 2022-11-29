@@ -108,7 +108,14 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         operationMiddleware.appendMiddleware(operation, RetryMiddleware(ctx.model, ctx.symbolProvider))
 
         if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, operation)) {
-            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(null, ctx.model, ctx.symbolProvider))
+            val params = AWSSigningParams(
+                ctx.service,
+                operation,
+                useSignatureTypeQueryString = false,
+                forceUnsignedBody = false,
+                useExpiration = false
+            )
+            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
         }
 
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))

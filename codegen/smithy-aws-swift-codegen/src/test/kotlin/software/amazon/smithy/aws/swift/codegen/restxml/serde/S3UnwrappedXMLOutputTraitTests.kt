@@ -23,7 +23,7 @@ class S3UnwrappedXMLOutputTraitTests {
             
                 public init (from decoder: Swift.Decoder) throws {
                     var containerValues = try decoder.unkeyedContainer()
-                    let locationConstraintDecoded = try containerValues.decodeIfPresent(RestXmlClientTypes.BucketLocationConstraint.self)
+                    let locationConstraintDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLocationConstraint.self)
                     locationConstraint = locationConstraintDecoded
                 }
             }
@@ -33,7 +33,7 @@ class S3UnwrappedXMLOutputTraitTests {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID, "RestXml", "RestXml")
+        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
         val generator = RestXmlProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateDeserializers(context.ctx)
