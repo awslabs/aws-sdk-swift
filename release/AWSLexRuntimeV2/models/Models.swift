@@ -3660,9 +3660,12 @@ public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
                 let requestEventStreambody = ClientRuntime.HttpBody.data(requestEventStreamdata)
                 input.builder.withBody(requestEventStreambody)
             } else {
-                let requestEventStreamdata = try encoder.encode(input.operationInput)
-                let requestEventStreambody = ClientRuntime.HttpBody.data(requestEventStreamdata)
-                input.builder.withBody(requestEventStreambody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let requestEventStreamdata = "{}".data(using: .utf8)!
+                    let requestEventStreambody = ClientRuntime.HttpBody.data(requestEventStreamdata)
+                    input.builder.withBody(requestEventStreambody)
+                }
             }
         } catch let err {
             throw SdkError<StartConversationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))

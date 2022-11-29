@@ -56,16 +56,22 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 
 extension CancelChangeSetInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let changeSetId = changeSetId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let changeSetId = changeSetId else {
+                let message = "Creating a URL Query Item failed. changeSetId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let changeSetIdQueryItem = ClientRuntime.URLQueryItem(name: "changeSetId".urlPercentEncoding(), value: Swift.String(changeSetId).urlPercentEncoding())
             items.append(changeSetIdQueryItem)
-        }
-        if let catalog = catalog {
+            guard let catalog = catalog else {
+                let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let catalogQueryItem = ClientRuntime.URLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
             items.append(catalogQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -500,16 +506,22 @@ extension MarketplaceCatalogClientTypes {
 
 extension DescribeChangeSetInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let changeSetId = changeSetId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let changeSetId = changeSetId else {
+                let message = "Creating a URL Query Item failed. changeSetId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let changeSetIdQueryItem = ClientRuntime.URLQueryItem(name: "changeSetId".urlPercentEncoding(), value: Swift.String(changeSetId).urlPercentEncoding())
             items.append(changeSetIdQueryItem)
-        }
-        if let catalog = catalog {
+            guard let catalog = catalog else {
+                let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let catalogQueryItem = ClientRuntime.URLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
             items.append(catalogQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -708,16 +720,22 @@ extension DescribeChangeSetOutputResponseBody: Swift.Decodable {
 
 extension DescribeEntityInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let entityId = entityId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let entityId = entityId else {
+                let message = "Creating a URL Query Item failed. entityId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let entityIdQueryItem = ClientRuntime.URLQueryItem(name: "entityId".urlPercentEncoding(), value: Swift.String(entityId).urlPercentEncoding())
             items.append(entityIdQueryItem)
-        }
-        if let catalog = catalog {
+            guard let catalog = catalog else {
+                let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let catalogQueryItem = ClientRuntime.URLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
             items.append(catalogQueryItem)
+            return items
         }
-        return items
     }
 }
 

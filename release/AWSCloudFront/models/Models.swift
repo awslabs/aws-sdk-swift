@@ -505,12 +505,16 @@ extension CloudFrontClientTypes {
 
 extension AssociateAliasInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let alias = alias {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let alias = alias else {
+                let message = "Creating a URL Query Item failed. alias is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let aliasQueryItem = ClientRuntime.URLQueryItem(name: "Alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
             items.append(aliasQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -3028,9 +3032,12 @@ public struct CreateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
                 let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
                 input.builder.withBody(cachePolicyConfigbody)
             } else {
-                let cachePolicyConfigdata = try encoder.encode(input.operationInput)
-                let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
-                input.builder.withBody(cachePolicyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let cachePolicyConfigdata = "{}".data(using: .utf8)!
+                    let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
+                    input.builder.withBody(cachePolicyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateCachePolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -3225,9 +3232,12 @@ public struct CreateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
                 let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
                 input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
             } else {
-                let cloudFrontOriginAccessIdentityConfigdata = try encoder.encode(input.operationInput)
-                let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
-                input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let cloudFrontOriginAccessIdentityConfigdata = "{}".data(using: .utf8)!
+                    let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
+                    input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateCloudFrontOriginAccessIdentityOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -3418,9 +3428,12 @@ public struct CreateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
                 let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
                 input.builder.withBody(distributionConfigbody)
             } else {
-                let distributionConfigdata = try encoder.encode(input.operationInput)
-                let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
-                input.builder.withBody(distributionConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let distributionConfigdata = "{}".data(using: .utf8)!
+                    let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
+                    input.builder.withBody(distributionConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateDistributionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -3727,9 +3740,12 @@ public struct CreateDistributionWithTagsInputBodyMiddleware: ClientRuntime.Middl
                 let distributionConfigWithTagsbody = ClientRuntime.HttpBody.data(distributionConfigWithTagsdata)
                 input.builder.withBody(distributionConfigWithTagsbody)
             } else {
-                let distributionConfigWithTagsdata = try encoder.encode(input.operationInput)
-                let distributionConfigWithTagsbody = ClientRuntime.HttpBody.data(distributionConfigWithTagsdata)
-                input.builder.withBody(distributionConfigWithTagsbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let distributionConfigWithTagsdata = "{}".data(using: .utf8)!
+                    let distributionConfigWithTagsbody = ClientRuntime.HttpBody.data(distributionConfigWithTagsdata)
+                    input.builder.withBody(distributionConfigWithTagsbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateDistributionWithTagsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -3774,9 +3790,11 @@ extension CreateDistributionWithTagsInput: Swift.Encodable {
 
 extension CreateDistributionWithTagsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "WithTags", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "WithTags", value: nil))
+            return items
+        }
     }
 }
 
@@ -4042,9 +4060,12 @@ public struct CreateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
                 let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
                 input.builder.withBody(fieldLevelEncryptionConfigbody)
             } else {
-                let fieldLevelEncryptionConfigdata = try encoder.encode(input.operationInput)
-                let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
-                input.builder.withBody(fieldLevelEncryptionConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let fieldLevelEncryptionConfigdata = "{}".data(using: .utf8)!
+                    let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
+                    input.builder.withBody(fieldLevelEncryptionConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateFieldLevelEncryptionConfigOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -4239,9 +4260,12 @@ public struct CreateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
                 let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
                 input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
             } else {
-                let fieldLevelEncryptionProfileConfigdata = try encoder.encode(input.operationInput)
-                let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
-                input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let fieldLevelEncryptionProfileConfigdata = "{}".data(using: .utf8)!
+                    let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
+                    input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateFieldLevelEncryptionProfileOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -4631,9 +4655,12 @@ public struct CreateInvalidationInputBodyMiddleware: ClientRuntime.Middleware {
                 let invalidationBatchbody = ClientRuntime.HttpBody.data(invalidationBatchdata)
                 input.builder.withBody(invalidationBatchbody)
             } else {
-                let invalidationBatchdata = try encoder.encode(input.operationInput)
-                let invalidationBatchbody = ClientRuntime.HttpBody.data(invalidationBatchdata)
-                input.builder.withBody(invalidationBatchbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let invalidationBatchdata = "{}".data(using: .utf8)!
+                    let invalidationBatchbody = ClientRuntime.HttpBody.data(invalidationBatchdata)
+                    input.builder.withBody(invalidationBatchbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateInvalidationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -4827,9 +4854,12 @@ public struct CreateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
                 let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
                 input.builder.withBody(keyGroupConfigbody)
             } else {
-                let keyGroupConfigdata = try encoder.encode(input.operationInput)
-                let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
-                input.builder.withBody(keyGroupConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let keyGroupConfigdata = "{}".data(using: .utf8)!
+                    let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
+                    input.builder.withBody(keyGroupConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateKeyGroupOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5016,9 +5046,12 @@ public struct CreateMonitoringSubscriptionInputBodyMiddleware: ClientRuntime.Mid
                 let monitoringSubscriptionbody = ClientRuntime.HttpBody.data(monitoringSubscriptiondata)
                 input.builder.withBody(monitoringSubscriptionbody)
             } else {
-                let monitoringSubscriptiondata = try encoder.encode(input.operationInput)
-                let monitoringSubscriptionbody = ClientRuntime.HttpBody.data(monitoringSubscriptiondata)
-                input.builder.withBody(monitoringSubscriptionbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let monitoringSubscriptiondata = "{}".data(using: .utf8)!
+                    let monitoringSubscriptionbody = ClientRuntime.HttpBody.data(monitoringSubscriptiondata)
+                    input.builder.withBody(monitoringSubscriptionbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateMonitoringSubscriptionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5195,9 +5228,12 @@ public struct CreateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
                 let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
                 input.builder.withBody(originAccessControlConfigbody)
             } else {
-                let originAccessControlConfigdata = try encoder.encode(input.operationInput)
-                let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
-                input.builder.withBody(originAccessControlConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let originAccessControlConfigdata = "{}".data(using: .utf8)!
+                    let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
+                    input.builder.withBody(originAccessControlConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateOriginAccessControlOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5382,9 +5418,12 @@ public struct CreateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
                 let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
                 input.builder.withBody(originRequestPolicyConfigbody)
             } else {
-                let originRequestPolicyConfigdata = try encoder.encode(input.operationInput)
-                let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
-                input.builder.withBody(originRequestPolicyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let originRequestPolicyConfigdata = "{}".data(using: .utf8)!
+                    let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
+                    input.builder.withBody(originRequestPolicyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateOriginRequestPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5579,9 +5618,12 @@ public struct CreatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
                 let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
                 input.builder.withBody(publicKeyConfigbody)
             } else {
-                let publicKeyConfigdata = try encoder.encode(input.operationInput)
-                let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
-                input.builder.withBody(publicKeyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let publicKeyConfigdata = "{}".data(using: .utf8)!
+                    let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
+                    input.builder.withBody(publicKeyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreatePublicKeyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5978,9 +6020,12 @@ public struct CreateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
                 let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
                 input.builder.withBody(responseHeadersPolicyConfigbody)
             } else {
-                let responseHeadersPolicyConfigdata = try encoder.encode(input.operationInput)
-                let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
-                input.builder.withBody(responseHeadersPolicyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let responseHeadersPolicyConfigdata = "{}".data(using: .utf8)!
+                    let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
+                    input.builder.withBody(responseHeadersPolicyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateResponseHeadersPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6173,9 +6218,12 @@ public struct CreateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
                 let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
                 input.builder.withBody(streamingDistributionConfigbody)
             } else {
-                let streamingDistributionConfigdata = try encoder.encode(input.operationInput)
-                let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
-                input.builder.withBody(streamingDistributionConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let streamingDistributionConfigdata = "{}".data(using: .utf8)!
+                    let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
+                    input.builder.withBody(streamingDistributionConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateStreamingDistributionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6382,9 +6430,12 @@ public struct CreateStreamingDistributionWithTagsInputBodyMiddleware: ClientRunt
                 let streamingDistributionConfigWithTagsbody = ClientRuntime.HttpBody.data(streamingDistributionConfigWithTagsdata)
                 input.builder.withBody(streamingDistributionConfigWithTagsbody)
             } else {
-                let streamingDistributionConfigWithTagsdata = try encoder.encode(input.operationInput)
-                let streamingDistributionConfigWithTagsbody = ClientRuntime.HttpBody.data(streamingDistributionConfigWithTagsdata)
-                input.builder.withBody(streamingDistributionConfigWithTagsbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let streamingDistributionConfigWithTagsdata = "{}".data(using: .utf8)!
+                    let streamingDistributionConfigWithTagsbody = ClientRuntime.HttpBody.data(streamingDistributionConfigWithTagsdata)
+                    input.builder.withBody(streamingDistributionConfigWithTagsbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateStreamingDistributionWithTagsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6429,9 +6480,11 @@ extension CreateStreamingDistributionWithTagsInput: Swift.Encodable {
 
 extension CreateStreamingDistributionWithTagsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "WithTags", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "WithTags", value: nil))
+            return items
+        }
     }
 }
 
@@ -8435,12 +8488,14 @@ public struct DeleteStreamingDistributionOutputResponse: Swift.Equatable {
 
 extension DescribeFunctionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stage = stage {
-            let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
-            items.append(stageQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let stage = stage {
+                let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+                items.append(stageQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -13039,12 +13094,14 @@ extension GetFieldLevelEncryptionProfileOutputResponseBody: Swift.Decodable {
 
 extension GetFunctionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stage = stage {
-            let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
-            items.append(stageQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let stage = stage {
+                let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+                items.append(stageQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -17722,20 +17779,22 @@ extension CloudFrontClientTypes {
 
 extension ListCachePoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let type = type {
-            let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-            items.append(typeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let type = type {
+                let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+                items.append(typeQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -17849,16 +17908,18 @@ extension ListCachePoliciesOutputResponseBody: Swift.Decodable {
 
 extension ListCloudFrontOriginAccessIdentitiesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -17962,24 +18023,30 @@ extension ListCloudFrontOriginAccessIdentitiesOutputResponseBody: Swift.Decodabl
 
 extension ListConflictingAliasesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let alias = alias {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let alias = alias else {
+                let message = "Creating a URL Query Item failed. alias is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let aliasQueryItem = ClientRuntime.URLQueryItem(name: "Alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
             items.append(aliasQueryItem)
-        }
-        if let distributionId = distributionId {
+            guard let distributionId = distributionId else {
+                let message = "Creating a URL Query Item failed. distributionId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let distributionIdQueryItem = ClientRuntime.URLQueryItem(name: "DistributionId".urlPercentEncoding(), value: Swift.String(distributionId).urlPercentEncoding())
             items.append(distributionIdQueryItem)
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -18093,16 +18160,18 @@ extension ListConflictingAliasesOutputResponseBody: Swift.Decodable {
 
 extension ListDistributionsByCachePolicyIdInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -18216,16 +18285,18 @@ extension ListDistributionsByCachePolicyIdOutputResponseBody: Swift.Decodable {
 
 extension ListDistributionsByKeyGroupInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -18337,16 +18408,18 @@ extension ListDistributionsByKeyGroupOutputResponseBody: Swift.Decodable {
 
 extension ListDistributionsByOriginRequestPolicyIdInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -18625,16 +18698,18 @@ extension ListDistributionsByRealtimeLogConfigOutputResponseBody: Swift.Decodabl
 
 extension ListDistributionsByResponseHeadersPolicyIdInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -18748,16 +18823,18 @@ extension ListDistributionsByResponseHeadersPolicyIdOutputResponseBody: Swift.De
 
 extension ListDistributionsByWebACLIdInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -18871,16 +18948,18 @@ extension ListDistributionsByWebACLIdOutputResponseBody: Swift.Decodable {
 
 extension ListDistributionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -18984,16 +19063,18 @@ extension ListDistributionsOutputResponseBody: Swift.Decodable {
 
 extension ListFieldLevelEncryptionConfigsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19095,16 +19176,18 @@ extension ListFieldLevelEncryptionConfigsOutputResponseBody: Swift.Decodable {
 
 extension ListFieldLevelEncryptionProfilesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19206,20 +19289,22 @@ extension ListFieldLevelEncryptionProfilesOutputResponseBody: Swift.Decodable {
 
 extension ListFunctionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stage = stage {
-            let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
-            items.append(stageQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let stage = stage {
+                let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+                items.append(stageQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19327,16 +19412,18 @@ extension ListFunctionsOutputResponseBody: Swift.Decodable {
 
 extension ListInvalidationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19452,16 +19539,18 @@ extension ListInvalidationsOutputResponseBody: Swift.Decodable {
 
 extension ListKeyGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19563,16 +19652,18 @@ extension ListKeyGroupsOutputResponseBody: Swift.Decodable {
 
 extension ListOriginAccessControlsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19674,20 +19765,22 @@ extension ListOriginAccessControlsOutputResponseBody: Swift.Decodable {
 
 extension ListOriginRequestPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let type = type {
-            let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-            items.append(typeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let type = type {
+                let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+                items.append(typeQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19801,16 +19894,18 @@ extension ListOriginRequestPoliciesOutputResponseBody: Swift.Decodable {
 
 extension ListPublicKeysInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -19912,16 +20007,18 @@ extension ListPublicKeysOutputResponseBody: Swift.Decodable {
 
 extension ListRealtimeLogConfigsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        return items
     }
 }
 
@@ -20027,20 +20124,22 @@ extension ListRealtimeLogConfigsOutputResponseBody: Swift.Decodable {
 
 extension ListResponseHeadersPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let type = type {
-            let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-            items.append(typeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let type = type {
+                let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+                items.append(typeQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -20154,16 +20253,18 @@ extension ListResponseHeadersPoliciesOutputResponseBody: Swift.Decodable {
 
 extension ListStreamingDistributionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -20267,12 +20368,16 @@ extension ListStreamingDistributionsOutputResponseBody: Swift.Decodable {
 
 extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resource = resource {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resource = resource else {
+                let message = "Creating a URL Query Item failed. resource is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceQueryItem = ClientRuntime.URLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
             items.append(resourceQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -28775,9 +28880,12 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
                 let tagsbody = ClientRuntime.HttpBody.data(tagsdata)
                 input.builder.withBody(tagsbody)
             } else {
-                let tagsdata = try encoder.encode(input.operationInput)
-                let tagsbody = ClientRuntime.HttpBody.data(tagsdata)
-                input.builder.withBody(tagsbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let tagsdata = "{}".data(using: .utf8)!
+                    let tagsbody = ClientRuntime.HttpBody.data(tagsdata)
+                    input.builder.withBody(tagsbody)
+                }
             }
         } catch let err {
             throw SdkError<TagResourceOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -28822,13 +28930,17 @@ extension TagResourceInput: Swift.Encodable {
 
 extension TagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "Operation", value: "Tag"))
-        if let resource = resource {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "Operation", value: "Tag"))
+            guard let resource = resource else {
+                let message = "Creating a URL Query Item failed. resource is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceQueryItem = ClientRuntime.URLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
             items.append(resourceQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -32301,9 +32413,12 @@ public struct UntagResourceInputBodyMiddleware: ClientRuntime.Middleware {
                 let tagKeysbody = ClientRuntime.HttpBody.data(tagKeysdata)
                 input.builder.withBody(tagKeysbody)
             } else {
-                let tagKeysdata = try encoder.encode(input.operationInput)
-                let tagKeysbody = ClientRuntime.HttpBody.data(tagKeysdata)
-                input.builder.withBody(tagKeysbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let tagKeysdata = "{}".data(using: .utf8)!
+                    let tagKeysbody = ClientRuntime.HttpBody.data(tagKeysdata)
+                    input.builder.withBody(tagKeysbody)
+                }
             }
         } catch let err {
             throw SdkError<UntagResourceOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32348,13 +32463,17 @@ extension UntagResourceInput: Swift.Encodable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "Operation", value: "Untag"))
-        if let resource = resource {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "Operation", value: "Untag"))
+            guard let resource = resource else {
+                let message = "Creating a URL Query Item failed. resource is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceQueryItem = ClientRuntime.URLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
             items.append(resourceQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -32456,9 +32575,12 @@ public struct UpdateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
                 let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
                 input.builder.withBody(cachePolicyConfigbody)
             } else {
-                let cachePolicyConfigdata = try encoder.encode(input.operationInput)
-                let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
-                input.builder.withBody(cachePolicyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let cachePolicyConfigdata = "{}".data(using: .utf8)!
+                    let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
+                    input.builder.withBody(cachePolicyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateCachePolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32672,9 +32794,12 @@ public struct UpdateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
                 let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
                 input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
             } else {
-                let cloudFrontOriginAccessIdentityConfigdata = try encoder.encode(input.operationInput)
-                let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
-                input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let cloudFrontOriginAccessIdentityConfigdata = "{}".data(using: .utf8)!
+                    let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
+                    input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateCloudFrontOriginAccessIdentityOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32884,9 +33009,12 @@ public struct UpdateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
                 let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
                 input.builder.withBody(distributionConfigbody)
             } else {
-                let distributionConfigdata = try encoder.encode(input.operationInput)
-                let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
-                input.builder.withBody(distributionConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let distributionConfigdata = "{}".data(using: .utf8)!
+                    let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
+                    input.builder.withBody(distributionConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateDistributionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -33204,9 +33332,12 @@ public struct UpdateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
                 let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
                 input.builder.withBody(fieldLevelEncryptionConfigbody)
             } else {
-                let fieldLevelEncryptionConfigdata = try encoder.encode(input.operationInput)
-                let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
-                input.builder.withBody(fieldLevelEncryptionConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let fieldLevelEncryptionConfigdata = "{}".data(using: .utf8)!
+                    let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
+                    input.builder.withBody(fieldLevelEncryptionConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateFieldLevelEncryptionConfigOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -33420,9 +33551,12 @@ public struct UpdateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
                 let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
                 input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
             } else {
-                let fieldLevelEncryptionProfileConfigdata = try encoder.encode(input.operationInput)
-                let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
-                input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let fieldLevelEncryptionProfileConfigdata = "{}".data(using: .utf8)!
+                    let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
+                    input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateFieldLevelEncryptionProfileOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -33836,9 +33970,12 @@ public struct UpdateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
                 let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
                 input.builder.withBody(keyGroupConfigbody)
             } else {
-                let keyGroupConfigdata = try encoder.encode(input.operationInput)
-                let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
-                input.builder.withBody(keyGroupConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let keyGroupConfigdata = "{}".data(using: .utf8)!
+                    let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
+                    input.builder.withBody(keyGroupConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateKeyGroupOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34042,9 +34179,12 @@ public struct UpdateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
                 let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
                 input.builder.withBody(originAccessControlConfigbody)
             } else {
-                let originAccessControlConfigdata = try encoder.encode(input.operationInput)
-                let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
-                input.builder.withBody(originAccessControlConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let originAccessControlConfigdata = "{}".data(using: .utf8)!
+                    let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
+                    input.builder.withBody(originAccessControlConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateOriginAccessControlOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34250,9 +34390,12 @@ public struct UpdateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
                 let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
                 input.builder.withBody(originRequestPolicyConfigbody)
             } else {
-                let originRequestPolicyConfigdata = try encoder.encode(input.operationInput)
-                let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
-                input.builder.withBody(originRequestPolicyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let originRequestPolicyConfigdata = "{}".data(using: .utf8)!
+                    let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
+                    input.builder.withBody(originRequestPolicyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateOriginRequestPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34466,9 +34609,12 @@ public struct UpdatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
                 let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
                 input.builder.withBody(publicKeyConfigbody)
             } else {
-                let publicKeyConfigdata = try encoder.encode(input.operationInput)
-                let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
-                input.builder.withBody(publicKeyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let publicKeyConfigdata = "{}".data(using: .utf8)!
+                    let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
+                    input.builder.withBody(publicKeyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdatePublicKeyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34892,9 +35038,12 @@ public struct UpdateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
                 let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
                 input.builder.withBody(responseHeadersPolicyConfigbody)
             } else {
-                let responseHeadersPolicyConfigdata = try encoder.encode(input.operationInput)
-                let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
-                input.builder.withBody(responseHeadersPolicyConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let responseHeadersPolicyConfigdata = "{}".data(using: .utf8)!
+                    let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
+                    input.builder.withBody(responseHeadersPolicyConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateResponseHeadersPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -35106,9 +35255,12 @@ public struct UpdateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
                 let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
                 input.builder.withBody(streamingDistributionConfigbody)
             } else {
-                let streamingDistributionConfigdata = try encoder.encode(input.operationInput)
-                let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
-                input.builder.withBody(streamingDistributionConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let streamingDistributionConfigdata = "{}".data(using: .utf8)!
+                    let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
+                    input.builder.withBody(streamingDistributionConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateStreamingDistributionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))

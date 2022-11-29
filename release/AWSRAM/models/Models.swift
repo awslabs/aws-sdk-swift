@@ -834,16 +834,20 @@ extension CreateResourceShareOutputResponseBody: Swift.Decodable {
 
 extension DeleteResourceShareInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceShareArn = resourceShareArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceShareArn = resourceShareArn else {
+                let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceShareArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
             items.append(resourceShareArnQueryItem)
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
-        if let clientToken = clientToken {
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -4417,12 +4421,16 @@ extension RAMClientTypes {
 
 extension PromoteResourceShareCreatedFromPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceShareArn = resourceShareArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceShareArn = resourceShareArn else {
+                let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceShareArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
             items.append(resourceShareArnQueryItem)
+            return items
         }
-        return items
     }
 }
 

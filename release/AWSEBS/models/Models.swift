@@ -507,12 +507,16 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension GetSnapshotBlockInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let blockToken = blockToken {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let blockToken = blockToken else {
+                let message = "Creating a URL Query Item failed. blockToken is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let blockTokenQueryItem = ClientRuntime.URLQueryItem(name: "blockToken".urlPercentEncoding(), value: Swift.String(blockToken).urlPercentEncoding())
             items.append(blockTokenQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -717,24 +721,26 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListChangedBlocksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let firstSnapshotId = firstSnapshotId {
-            let firstSnapshotIdQueryItem = ClientRuntime.URLQueryItem(name: "firstSnapshotId".urlPercentEncoding(), value: Swift.String(firstSnapshotId).urlPercentEncoding())
-            items.append(firstSnapshotIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let firstSnapshotId = firstSnapshotId {
+                let firstSnapshotIdQueryItem = ClientRuntime.URLQueryItem(name: "firstSnapshotId".urlPercentEncoding(), value: Swift.String(firstSnapshotId).urlPercentEncoding())
+                items.append(firstSnapshotIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let startingBlockIndex = startingBlockIndex {
+                let startingBlockIndexQueryItem = ClientRuntime.URLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
+                items.append(startingBlockIndexQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let startingBlockIndex = startingBlockIndex {
-            let startingBlockIndexQueryItem = ClientRuntime.URLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
-            items.append(startingBlockIndexQueryItem)
-        }
-        return items
     }
 }
 
@@ -909,20 +915,22 @@ extension ListChangedBlocksOutputResponseBody: Swift.Decodable {
 
 extension ListSnapshotBlocksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let startingBlockIndex = startingBlockIndex {
+                let startingBlockIndexQueryItem = ClientRuntime.URLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
+                items.append(startingBlockIndexQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let startingBlockIndex = startingBlockIndex {
-            let startingBlockIndexQueryItem = ClientRuntime.URLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
-            items.append(startingBlockIndexQueryItem)
-        }
-        return items
     }
 }
 

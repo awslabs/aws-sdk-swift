@@ -805,16 +805,18 @@ extension KMSInvalidKeyUsageExceptionBody: Swift.Decodable {
 
 extension ListChunksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -960,32 +962,34 @@ extension ListChunksOutputResponseBody: Swift.Decodable {
 
 extension ListObjectsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let startingObjectName = startingObjectName {
-            let startingObjectNameQueryItem = ClientRuntime.URLQueryItem(name: "starting-object-name".urlPercentEncoding(), value: Swift.String(startingObjectName).urlPercentEncoding())
-            items.append(startingObjectNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let startingObjectName = startingObjectName {
+                let startingObjectNameQueryItem = ClientRuntime.URLQueryItem(name: "starting-object-name".urlPercentEncoding(), value: Swift.String(startingObjectName).urlPercentEncoding())
+                items.append(startingObjectNameQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let createdAfter = createdAfter {
+                let createdAfterQueryItem = ClientRuntime.URLQueryItem(name: "created-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+                items.append(createdAfterQueryItem)
+            }
+            if let startingObjectPrefix = startingObjectPrefix {
+                let startingObjectPrefixQueryItem = ClientRuntime.URLQueryItem(name: "starting-object-prefix".urlPercentEncoding(), value: Swift.String(startingObjectPrefix).urlPercentEncoding())
+                items.append(startingObjectPrefixQueryItem)
+            }
+            if let createdBefore = createdBefore {
+                let createdBeforeQueryItem = ClientRuntime.URLQueryItem(name: "created-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+                items.append(createdBeforeQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let createdAfter = createdAfter {
-            let createdAfterQueryItem = ClientRuntime.URLQueryItem(name: "created-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
-            items.append(createdAfterQueryItem)
-        }
-        if let startingObjectPrefix = startingObjectPrefix {
-            let startingObjectPrefixQueryItem = ClientRuntime.URLQueryItem(name: "starting-object-prefix".urlPercentEncoding(), value: Swift.String(startingObjectPrefix).urlPercentEncoding())
-            items.append(startingObjectPrefixQueryItem)
-        }
-        if let createdBefore = createdBefore {
-            let createdBeforeQueryItem = ClientRuntime.URLQueryItem(name: "created-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
-            items.append(createdBeforeQueryItem)
-        }
-        return items
     }
 }
 
@@ -1234,32 +1238,38 @@ extension NotifyObjectCompleteInput: Swift.Encodable {
 
 extension NotifyObjectCompleteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let objectChecksum = objectChecksum {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let objectChecksum = objectChecksum else {
+                let message = "Creating a URL Query Item failed. objectChecksum is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let objectChecksumQueryItem = ClientRuntime.URLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
             items.append(objectChecksumQueryItem)
-        }
-        if let objectChecksumAlgorithm = objectChecksumAlgorithm {
+            guard let objectChecksumAlgorithm = objectChecksumAlgorithm else {
+                let message = "Creating a URL Query Item failed. objectChecksumAlgorithm is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let objectChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
             items.append(objectChecksumAlgorithmQueryItem)
+            if metadataBlobLength != 0 {
+                let metadataBlobLengthQueryItem = ClientRuntime.URLQueryItem(name: "metadata-blob-length".urlPercentEncoding(), value: Swift.String(metadataBlobLength).urlPercentEncoding())
+                items.append(metadataBlobLengthQueryItem)
+            }
+            if let metadataBlobChecksum = metadataBlobChecksum {
+                let metadataBlobChecksumQueryItem = ClientRuntime.URLQueryItem(name: "metadata-checksum".urlPercentEncoding(), value: Swift.String(metadataBlobChecksum).urlPercentEncoding())
+                items.append(metadataBlobChecksumQueryItem)
+            }
+            if let metadataBlobChecksumAlgorithm = metadataBlobChecksumAlgorithm {
+                let metadataBlobChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "metadata-checksum-algorithm".urlPercentEncoding(), value: Swift.String(metadataBlobChecksumAlgorithm.rawValue).urlPercentEncoding())
+                items.append(metadataBlobChecksumAlgorithmQueryItem)
+            }
+            if let metadataString = metadataString {
+                let metadataStringQueryItem = ClientRuntime.URLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
+                items.append(metadataStringQueryItem)
+            }
+            return items
         }
-        if metadataBlobLength != 0 {
-            let metadataBlobLengthQueryItem = ClientRuntime.URLQueryItem(name: "metadata-blob-length".urlPercentEncoding(), value: Swift.String(metadataBlobLength).urlPercentEncoding())
-            items.append(metadataBlobLengthQueryItem)
-        }
-        if let metadataBlobChecksum = metadataBlobChecksum {
-            let metadataBlobChecksumQueryItem = ClientRuntime.URLQueryItem(name: "metadata-checksum".urlPercentEncoding(), value: Swift.String(metadataBlobChecksum).urlPercentEncoding())
-            items.append(metadataBlobChecksumQueryItem)
-        }
-        if let metadataBlobChecksumAlgorithm = metadataBlobChecksumAlgorithm {
-            let metadataBlobChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "metadata-checksum-algorithm".urlPercentEncoding(), value: Swift.String(metadataBlobChecksumAlgorithm.rawValue).urlPercentEncoding())
-            items.append(metadataBlobChecksumAlgorithmQueryItem)
-        }
-        if let metadataString = metadataString {
-            let metadataStringQueryItem = ClientRuntime.URLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
-            items.append(metadataStringQueryItem)
-        }
-        return items
     }
 }
 
@@ -1469,18 +1479,24 @@ extension PutChunkInput: Swift.Encodable {
 
 extension PutChunkInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        let lengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(length).urlPercentEncoding())
-        items.append(lengthQueryItem)
-        if let checksum = checksum {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            let lengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(length).urlPercentEncoding())
+            items.append(lengthQueryItem)
+            guard let checksum = checksum else {
+                let message = "Creating a URL Query Item failed. checksum is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let checksumQueryItem = ClientRuntime.URLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(checksum).urlPercentEncoding())
             items.append(checksumQueryItem)
-        }
-        if let checksumAlgorithm = checksumAlgorithm {
+            guard let checksumAlgorithm = checksumAlgorithm else {
+                let message = "Creating a URL Query Item failed. checksumAlgorithm is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let checksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(checksumAlgorithm.rawValue).urlPercentEncoding())
             items.append(checksumAlgorithmQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1685,36 +1701,38 @@ extension PutObjectInput: Swift.Encodable {
 
 extension PutObjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let inlineChunkChecksum = inlineChunkChecksum {
-            let inlineChunkChecksumQueryItem = ClientRuntime.URLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(inlineChunkChecksum).urlPercentEncoding())
-            items.append(inlineChunkChecksumQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let inlineChunkChecksum = inlineChunkChecksum {
+                let inlineChunkChecksumQueryItem = ClientRuntime.URLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(inlineChunkChecksum).urlPercentEncoding())
+                items.append(inlineChunkChecksumQueryItem)
+            }
+            if let objectChecksum = objectChecksum {
+                let objectChecksumQueryItem = ClientRuntime.URLQueryItem(name: "object-checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
+                items.append(objectChecksumQueryItem)
+            }
+            if let objectChecksumAlgorithm = objectChecksumAlgorithm {
+                let objectChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "object-checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
+                items.append(objectChecksumAlgorithmQueryItem)
+            }
+            if inlineChunkLength != 0 {
+                let inlineChunkLengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(inlineChunkLength).urlPercentEncoding())
+                items.append(inlineChunkLengthQueryItem)
+            }
+            if let inlineChunkChecksumAlgorithm = inlineChunkChecksumAlgorithm {
+                let inlineChunkChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(inlineChunkChecksumAlgorithm).urlPercentEncoding())
+                items.append(inlineChunkChecksumAlgorithmQueryItem)
+            }
+            if let metadataString = metadataString {
+                let metadataStringQueryItem = ClientRuntime.URLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
+                items.append(metadataStringQueryItem)
+            }
+            if throwOnDuplicate != false {
+                let throwOnDuplicateQueryItem = ClientRuntime.URLQueryItem(name: "throwOnDuplicate".urlPercentEncoding(), value: Swift.String(throwOnDuplicate).urlPercentEncoding())
+                items.append(throwOnDuplicateQueryItem)
+            }
+            return items
         }
-        if let objectChecksum = objectChecksum {
-            let objectChecksumQueryItem = ClientRuntime.URLQueryItem(name: "object-checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
-            items.append(objectChecksumQueryItem)
-        }
-        if let objectChecksumAlgorithm = objectChecksumAlgorithm {
-            let objectChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "object-checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
-            items.append(objectChecksumAlgorithmQueryItem)
-        }
-        if inlineChunkLength != 0 {
-            let inlineChunkLengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(inlineChunkLength).urlPercentEncoding())
-            items.append(inlineChunkLengthQueryItem)
-        }
-        if let inlineChunkChecksumAlgorithm = inlineChunkChecksumAlgorithm {
-            let inlineChunkChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(inlineChunkChecksumAlgorithm).urlPercentEncoding())
-            items.append(inlineChunkChecksumAlgorithmQueryItem)
-        }
-        if let metadataString = metadataString {
-            let metadataStringQueryItem = ClientRuntime.URLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
-            items.append(metadataStringQueryItem)
-        }
-        if throwOnDuplicate != false {
-            let throwOnDuplicateQueryItem = ClientRuntime.URLQueryItem(name: "throwOnDuplicate".urlPercentEncoding(), value: Swift.String(throwOnDuplicate).urlPercentEncoding())
-            items.append(throwOnDuplicateQueryItem)
-        }
-        return items
     }
 }
 

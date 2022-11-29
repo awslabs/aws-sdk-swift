@@ -2390,24 +2390,26 @@ extension DependencyTimeoutBody: Swift.Decodable {
 
 extension DescribeAccessPointsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let accessPointId = accessPointId {
+                let accessPointIdQueryItem = ClientRuntime.URLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
+                items.append(accessPointIdQueryItem)
+            }
+            if let fileSystemId = fileSystemId {
+                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+                items.append(fileSystemIdQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let accessPointId = accessPointId {
-            let accessPointIdQueryItem = ClientRuntime.URLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
-            items.append(accessPointIdQueryItem)
-        }
-        if let fileSystemId = fileSystemId {
-            let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-            items.append(fileSystemIdQueryItem)
-        }
-        return items
     }
 }
 
@@ -2884,24 +2886,26 @@ extension DescribeFileSystemPolicyOutputResponseBody: Swift.Decodable {
 
 extension DescribeFileSystemsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let creationToken = creationToken {
-            let creationTokenQueryItem = ClientRuntime.URLQueryItem(name: "CreationToken".urlPercentEncoding(), value: Swift.String(creationToken).urlPercentEncoding())
-            items.append(creationTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let creationToken = creationToken {
+                let creationTokenQueryItem = ClientRuntime.URLQueryItem(name: "CreationToken".urlPercentEncoding(), value: Swift.String(creationToken).urlPercentEncoding())
+                items.append(creationTokenQueryItem)
+            }
+            if let fileSystemId = fileSystemId {
+                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+                items.append(fileSystemIdQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            return items
         }
-        if let fileSystemId = fileSystemId {
-            let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-            items.append(fileSystemIdQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        return items
     }
 }
 
@@ -3261,28 +3265,30 @@ extension DescribeMountTargetSecurityGroupsOutputResponseBody: Swift.Decodable {
 
 extension DescribeMountTargetsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let accessPointId = accessPointId {
-            let accessPointIdQueryItem = ClientRuntime.URLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
-            items.append(accessPointIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let accessPointId = accessPointId {
+                let accessPointIdQueryItem = ClientRuntime.URLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
+                items.append(accessPointIdQueryItem)
+            }
+            if let fileSystemId = fileSystemId {
+                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+                items.append(fileSystemIdQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let mountTargetId = mountTargetId {
+                let mountTargetIdQueryItem = ClientRuntime.URLQueryItem(name: "MountTargetId".urlPercentEncoding(), value: Swift.String(mountTargetId).urlPercentEncoding())
+                items.append(mountTargetIdQueryItem)
+            }
+            return items
         }
-        if let fileSystemId = fileSystemId {
-            let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-            items.append(fileSystemIdQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let mountTargetId = mountTargetId {
-            let mountTargetIdQueryItem = ClientRuntime.URLQueryItem(name: "MountTargetId".urlPercentEncoding(), value: Swift.String(mountTargetId).urlPercentEncoding())
-            items.append(mountTargetIdQueryItem)
-        }
-        return items
     }
 }
 
@@ -3433,20 +3439,22 @@ extension DescribeMountTargetsOutputResponseBody: Swift.Decodable {
 
 extension DescribeReplicationConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let fileSystemId = fileSystemId {
+                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+                items.append(fileSystemIdQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let fileSystemId = fileSystemId {
-            let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-            items.append(fileSystemIdQueryItem)
-        }
-        return items
     }
 }
 
@@ -3577,16 +3585,18 @@ extension DescribeReplicationConfigurationsOutputResponseBody: Swift.Decodable {
 
 extension DescribeTagsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        return items
     }
 }
 
@@ -4881,16 +4891,18 @@ extension EFSClientTypes {
 
 extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -7335,14 +7347,18 @@ extension UnsupportedAvailabilityZoneBody: Swift.Decodable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

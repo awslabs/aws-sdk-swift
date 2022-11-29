@@ -6858,12 +6858,14 @@ extension GetMapTileOutputResponseBody: Swift.Decodable {
 
 extension GetPlaceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let language = language {
-            let languageQueryItem = ClientRuntime.URLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
-            items.append(languageQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let language = language {
+                let languageQueryItem = ClientRuntime.URLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
+                items.append(languageQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11861,14 +11863,18 @@ extension LocationClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

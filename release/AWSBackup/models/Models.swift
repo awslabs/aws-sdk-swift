@@ -6406,12 +6406,14 @@ extension GetBackupPlanFromTemplateOutputResponseBody: Swift.Decodable {
 
 extension GetBackupPlanInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -7640,52 +7642,54 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let byCreatedBefore = byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-            items.append(byCreatedBeforeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let byResourceType = byResourceType {
+                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+                items.append(byResourceTypeQueryItem)
+            }
+            if let byBackupVaultName = byBackupVaultName {
+                let byBackupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
+                items.append(byBackupVaultNameQueryItem)
+            }
+            if let byCompleteAfter = byCompleteAfter {
+                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+                items.append(byCompleteAfterQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let byResourceArn = byResourceArn {
+                let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+                items.append(byResourceArnQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let byState = byState {
+                let byStateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
+                items.append(byStateQueryItem)
+            }
+            if let byAccountId = byAccountId {
+                let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+                items.append(byAccountIdQueryItem)
+            }
+            if let byCompleteBefore = byCompleteBefore {
+                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+                items.append(byCompleteBeforeQueryItem)
+            }
+            if let byCreatedAfter = byCreatedAfter {
+                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+                items.append(byCreatedAfterQueryItem)
+            }
+            return items
         }
-        if let byResourceType = byResourceType {
-            let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-            items.append(byResourceTypeQueryItem)
-        }
-        if let byBackupVaultName = byBackupVaultName {
-            let byBackupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
-            items.append(byBackupVaultNameQueryItem)
-        }
-        if let byCompleteAfter = byCompleteAfter {
-            let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-            items.append(byCompleteAfterQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let byResourceArn = byResourceArn {
-            let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
-            items.append(byResourceArnQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let byState = byState {
-            let byStateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
-            items.append(byStateQueryItem)
-        }
-        if let byAccountId = byAccountId {
-            let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
-            items.append(byAccountIdQueryItem)
-        }
-        if let byCompleteBefore = byCompleteBefore {
-            let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-            items.append(byCompleteBeforeQueryItem)
-        }
-        if let byCreatedAfter = byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-            items.append(byCreatedAfterQueryItem)
-        }
-        return items
     }
 }
 
@@ -7866,16 +7870,18 @@ extension ListBackupJobsOutputResponseBody: Swift.Decodable {
 
 extension ListBackupPlanTemplatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8000,16 +8006,18 @@ extension ListBackupPlanTemplatesOutputResponseBody: Swift.Decodable {
 
 extension ListBackupPlanVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8142,20 +8150,22 @@ extension ListBackupPlanVersionsOutputResponseBody: Swift.Decodable {
 
 extension ListBackupPlansInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let includeDeleted = includeDeleted {
+                let includeDeletedQueryItem = ClientRuntime.URLQueryItem(name: "includeDeleted".urlPercentEncoding(), value: Swift.String(includeDeleted).urlPercentEncoding())
+                items.append(includeDeletedQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let includeDeleted = includeDeleted {
-            let includeDeletedQueryItem = ClientRuntime.URLQueryItem(name: "includeDeleted".urlPercentEncoding(), value: Swift.String(includeDeleted).urlPercentEncoding())
-            items.append(includeDeletedQueryItem)
-        }
-        return items
     }
 }
 
@@ -8284,16 +8294,18 @@ extension ListBackupPlansOutputResponseBody: Swift.Decodable {
 
 extension ListBackupSelectionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8426,16 +8438,18 @@ extension ListBackupSelectionsOutputResponseBody: Swift.Decodable {
 
 extension ListBackupVaultsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8560,52 +8574,54 @@ extension ListBackupVaultsOutputResponseBody: Swift.Decodable {
 
 extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let byCreatedBefore = byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-            items.append(byCreatedBeforeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let byResourceType = byResourceType {
+                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+                items.append(byResourceTypeQueryItem)
+            }
+            if let byCompleteAfter = byCompleteAfter {
+                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+                items.append(byCompleteAfterQueryItem)
+            }
+            if let byDestinationVaultArn = byDestinationVaultArn {
+                let byDestinationVaultArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
+                items.append(byDestinationVaultArnQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let byResourceArn = byResourceArn {
+                let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+                items.append(byResourceArnQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let byState = byState {
+                let byStateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
+                items.append(byStateQueryItem)
+            }
+            if let byAccountId = byAccountId {
+                let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+                items.append(byAccountIdQueryItem)
+            }
+            if let byCompleteBefore = byCompleteBefore {
+                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+                items.append(byCompleteBeforeQueryItem)
+            }
+            if let byCreatedAfter = byCreatedAfter {
+                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+                items.append(byCreatedAfterQueryItem)
+            }
+            return items
         }
-        if let byResourceType = byResourceType {
-            let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-            items.append(byResourceTypeQueryItem)
-        }
-        if let byCompleteAfter = byCompleteAfter {
-            let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-            items.append(byCompleteAfterQueryItem)
-        }
-        if let byDestinationVaultArn = byDestinationVaultArn {
-            let byDestinationVaultArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
-            items.append(byDestinationVaultArnQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let byResourceArn = byResourceArn {
-            let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
-            items.append(byResourceArnQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let byState = byState {
-            let byStateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
-            items.append(byStateQueryItem)
-        }
-        if let byAccountId = byAccountId {
-            let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
-            items.append(byAccountIdQueryItem)
-        }
-        if let byCompleteBefore = byCompleteBefore {
-            let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-            items.append(byCompleteBeforeQueryItem)
-        }
-        if let byCreatedAfter = byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-            items.append(byCreatedAfterQueryItem)
-        }
-        return items
     }
 }
 
@@ -8786,16 +8802,18 @@ extension ListCopyJobsOutputResponseBody: Swift.Decodable {
 
 extension ListFrameworksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8916,16 +8934,18 @@ extension ListFrameworksOutputResponseBody: Swift.Decodable {
 
 extension ListProtectedResourcesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9046,36 +9066,38 @@ extension ListProtectedResourcesOutputResponseBody: Swift.Decodable {
 
 extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let byResourceType = byResourceType {
-            let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-            items.append(byResourceTypeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let byResourceType = byResourceType {
+                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+                items.append(byResourceTypeQueryItem)
+            }
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let byResourceArn = byResourceArn {
+                let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+                items.append(byResourceArnQueryItem)
+            }
+            if let byBackupPlanId = byBackupPlanId {
+                let byBackupPlanIdQueryItem = ClientRuntime.URLQueryItem(name: "backupPlanId".urlPercentEncoding(), value: Swift.String(byBackupPlanId).urlPercentEncoding())
+                items.append(byBackupPlanIdQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let byCreatedAfter = byCreatedAfter {
+                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+                items.append(byCreatedAfterQueryItem)
+            }
+            return items
         }
-        if let byCreatedBefore = byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-            items.append(byCreatedBeforeQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let byResourceArn = byResourceArn {
-            let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
-            items.append(byResourceArnQueryItem)
-        }
-        if let byBackupPlanId = byBackupPlanId {
-            let byBackupPlanIdQueryItem = ClientRuntime.URLQueryItem(name: "backupPlanId".urlPercentEncoding(), value: Swift.String(byBackupPlanId).urlPercentEncoding())
-            items.append(byBackupPlanIdQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let byCreatedAfter = byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-            items.append(byCreatedAfterQueryItem)
-        }
-        return items
     }
 }
 
@@ -9228,16 +9250,18 @@ extension ListRecoveryPointsByBackupVaultOutputResponseBody: Swift.Decodable {
 
 extension ListRecoveryPointsByResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9370,32 +9394,34 @@ extension ListRecoveryPointsByResourceOutputResponseBody: Swift.Decodable {
 
 extension ListReportJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let byReportPlanName = byReportPlanName {
-            let byReportPlanNameQueryItem = ClientRuntime.URLQueryItem(name: "ReportPlanName".urlPercentEncoding(), value: Swift.String(byReportPlanName).urlPercentEncoding())
-            items.append(byReportPlanNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let byReportPlanName = byReportPlanName {
+                let byReportPlanNameQueryItem = ClientRuntime.URLQueryItem(name: "ReportPlanName".urlPercentEncoding(), value: Swift.String(byReportPlanName).urlPercentEncoding())
+                items.append(byReportPlanNameQueryItem)
+            }
+            if let byCreationAfter = byCreationAfter {
+                let byCreationAfterQueryItem = ClientRuntime.URLQueryItem(name: "CreationAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationAfter)).urlPercentEncoding())
+                items.append(byCreationAfterQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let byStatus = byStatus {
+                let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(byStatus).urlPercentEncoding())
+                items.append(byStatusQueryItem)
+            }
+            if let byCreationBefore = byCreationBefore {
+                let byCreationBeforeQueryItem = ClientRuntime.URLQueryItem(name: "CreationBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationBefore)).urlPercentEncoding())
+                items.append(byCreationBeforeQueryItem)
+            }
+            return items
         }
-        if let byCreationAfter = byCreationAfter {
-            let byCreationAfterQueryItem = ClientRuntime.URLQueryItem(name: "CreationAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationAfter)).urlPercentEncoding())
-            items.append(byCreationAfterQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let byStatus = byStatus {
-            let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(byStatus).urlPercentEncoding())
-            items.append(byStatusQueryItem)
-        }
-        if let byCreationBefore = byCreationBefore {
-            let byCreationBeforeQueryItem = ClientRuntime.URLQueryItem(name: "CreationBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationBefore)).urlPercentEncoding())
-            items.append(byCreationBeforeQueryItem)
-        }
-        return items
     }
 }
 
@@ -9532,16 +9558,18 @@ extension ListReportJobsOutputResponseBody: Swift.Decodable {
 
 extension ListReportPlansInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9662,40 +9690,42 @@ extension ListReportPlansOutputResponseBody: Swift.Decodable {
 
 extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let byCreatedBefore = byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-            items.append(byCreatedBeforeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let byCompleteAfter = byCompleteAfter {
+                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+                items.append(byCompleteAfterQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let byAccountId = byAccountId {
+                let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+                items.append(byAccountIdQueryItem)
+            }
+            if let byCompleteBefore = byCompleteBefore {
+                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+                items.append(byCompleteBeforeQueryItem)
+            }
+            if let byCreatedAfter = byCreatedAfter {
+                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+                items.append(byCreatedAfterQueryItem)
+            }
+            if let byStatus = byStatus {
+                let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
+                items.append(byStatusQueryItem)
+            }
+            return items
         }
-        if let byCompleteAfter = byCompleteAfter {
-            let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-            items.append(byCompleteAfterQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let byAccountId = byAccountId {
-            let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
-            items.append(byAccountIdQueryItem)
-        }
-        if let byCompleteBefore = byCompleteBefore {
-            let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-            items.append(byCompleteBeforeQueryItem)
-        }
-        if let byCreatedAfter = byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-            items.append(byCreatedAfterQueryItem)
-        }
-        if let byStatus = byStatus {
-            let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
-            items.append(byStatusQueryItem)
-        }
-        return items
     }
 }
 
@@ -9844,16 +9874,18 @@ extension ListRestoreJobsOutputResponseBody: Swift.Decodable {
 
 extension ListTagsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 

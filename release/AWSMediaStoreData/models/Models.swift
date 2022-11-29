@@ -583,20 +583,22 @@ extension MediaStoreDataClientTypes {
 
 extension ListItemsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let path = path {
-            let pathQueryItem = ClientRuntime.URLQueryItem(name: "Path".urlPercentEncoding(), value: Swift.String(path).urlPercentEncoding())
-            items.append(pathQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let path = path {
+                let pathQueryItem = ClientRuntime.URLQueryItem(name: "Path".urlPercentEncoding(), value: Swift.String(path).urlPercentEncoding())
+                items.append(pathQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 

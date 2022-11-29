@@ -796,22 +796,28 @@ extension RUMClientTypes {
 
 extension BatchDeleteRumMetricDefinitionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let destination = destination {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let destination = destination else {
+                let message = "Creating a URL Query Item failed. destination is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let destinationQueryItem = ClientRuntime.URLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
             items.append(destinationQueryItem)
-        }
-        if let metricDefinitionIds = metricDefinitionIds {
+            guard let metricDefinitionIds = metricDefinitionIds else {
+                let message = "Creating a URL Query Item failed. metricDefinitionIds is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             metricDefinitionIds.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "metricDefinitionIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            if let destinationArn = destinationArn {
+                let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
+                items.append(destinationArnQueryItem)
+            }
+            return items
         }
-        if let destinationArn = destinationArn {
-            let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
-            items.append(destinationArnQueryItem)
-        }
-        return items
     }
 }
 
@@ -964,24 +970,28 @@ extension BatchDeleteRumMetricDefinitionsOutputResponseBody: Swift.Decodable {
 
 extension BatchGetRumMetricDefinitionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let destination = destination {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let destination = destination else {
+                let message = "Creating a URL Query Item failed. destination is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let destinationQueryItem = ClientRuntime.URLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
             items.append(destinationQueryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let destinationArn = destinationArn {
+                let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
+                items.append(destinationArnQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let destinationArn = destinationArn {
-            let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
-            items.append(destinationArnQueryItem)
-        }
-        return items
     }
 }
 
@@ -1534,16 +1544,20 @@ public struct DeleteAppMonitorOutputResponse: Swift.Equatable {
 
 extension DeleteRumMetricsDestinationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let destination = destination {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let destination = destination else {
+                let message = "Creating a URL Query Item failed. destination is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let destinationQueryItem = ClientRuntime.URLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
             items.append(destinationQueryItem)
+            if let destinationArn = destinationArn {
+                let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
+                items.append(destinationArnQueryItem)
+            }
+            return items
         }
-        if let destinationArn = destinationArn {
-            let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
-            items.append(destinationArnQueryItem)
-        }
-        return items
     }
 }
 
@@ -1989,16 +2003,18 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListAppMonitorsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -2123,16 +2139,18 @@ extension ListAppMonitorsOutputResponseBody: Swift.Decodable {
 
 extension ListRumMetricsDestinationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -3563,14 +3581,18 @@ extension RUMClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

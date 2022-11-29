@@ -246,20 +246,22 @@ extension CreateProjectInput: Swift.Encodable {
 
 extension CreateProjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let snapshotId = snapshotId {
-            let snapshotIdQueryItem = ClientRuntime.URLQueryItem(name: "snapshotId".urlPercentEncoding(), value: Swift.String(snapshotId).urlPercentEncoding())
-            items.append(snapshotIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let snapshotId = snapshotId {
+                let snapshotIdQueryItem = ClientRuntime.URLQueryItem(name: "snapshotId".urlPercentEncoding(), value: Swift.String(snapshotId).urlPercentEncoding())
+                items.append(snapshotIdQueryItem)
+            }
+            if let name = name {
+                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+                items.append(nameQueryItem)
+            }
+            if let region = region {
+                let regionQueryItem = ClientRuntime.URLQueryItem(name: "region".urlPercentEncoding(), value: Swift.String(region).urlPercentEncoding())
+                items.append(regionQueryItem)
+            }
+            return items
         }
-        if let name = name {
-            let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-            items.append(nameQueryItem)
-        }
-        if let region = region {
-            let regionQueryItem = ClientRuntime.URLQueryItem(name: "region".urlPercentEncoding(), value: Swift.String(region).urlPercentEncoding())
-            items.append(regionQueryItem)
-        }
-        return items
     }
 }
 
@@ -626,16 +628,20 @@ extension DescribeBundleOutputResponseBody: Swift.Decodable {
 
 extension DescribeProjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if syncFromResources != false {
-            let syncFromResourcesQueryItem = ClientRuntime.URLQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
-            items.append(syncFromResourcesQueryItem)
-        }
-        if let projectId = projectId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if syncFromResources != false {
+                let syncFromResourcesQueryItem = ClientRuntime.URLQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
+                items.append(syncFromResourcesQueryItem)
+            }
+            guard let projectId = projectId else {
+                let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let projectIdQueryItem = ClientRuntime.URLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
             items.append(projectIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -748,16 +754,18 @@ extension DescribeProjectOutputResponseBody: Swift.Decodable {
 
 extension ExportBundleInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let projectId = projectId {
-            let projectIdQueryItem = ClientRuntime.URLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
-            items.append(projectIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let projectId = projectId {
+                let projectIdQueryItem = ClientRuntime.URLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
+                items.append(projectIdQueryItem)
+            }
+            if let platform = platform {
+                let platformQueryItem = ClientRuntime.URLQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform.rawValue).urlPercentEncoding())
+                items.append(platformQueryItem)
+            }
+            return items
         }
-        if let platform = platform {
-            let platformQueryItem = ClientRuntime.URLQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform.rawValue).urlPercentEncoding())
-            items.append(platformQueryItem)
-        }
-        return items
     }
 }
 
@@ -1118,16 +1126,18 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension ListBundlesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -1256,16 +1266,18 @@ extension ListBundlesOutputResponseBody: Swift.Decodable {
 
 extension ListProjectsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -1996,12 +2008,16 @@ extension UpdateProjectInput: Swift.Encodable {
 
 extension UpdateProjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let projectId = projectId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let projectId = projectId else {
+                let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let projectIdQueryItem = ClientRuntime.URLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
             items.append(projectIdQueryItem)
+            return items
         }
-        return items
     }
 }
 

@@ -4063,8 +4063,10 @@ extension ListCallAnalyticsCategoriesInput: Swift.Encodable {
 
 extension ListCallAnalyticsCategoriesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -4195,8 +4197,10 @@ extension ListCallAnalyticsJobsInput: Swift.Encodable {
 
 extension ListCallAnalyticsJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -4345,8 +4349,10 @@ extension ListLanguageModelsInput: Swift.Encodable {
 
 extension ListLanguageModelsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -4485,8 +4491,10 @@ extension ListMedicalTranscriptionJobsInput: Swift.Encodable {
 
 extension ListMedicalTranscriptionJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -4635,8 +4643,10 @@ extension ListMedicalVocabulariesInput: Swift.Encodable {
 
 extension ListMedicalVocabulariesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -4909,8 +4919,10 @@ extension ListTranscriptionJobsInput: Swift.Encodable {
 
 extension ListTranscriptionJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -5059,8 +5071,10 @@ extension ListVocabulariesInput: Swift.Encodable {
 
 extension ListVocabulariesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -5209,8 +5223,10 @@ extension ListVocabularyFiltersInput: Swift.Encodable {
 
 extension ListVocabularyFiltersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 

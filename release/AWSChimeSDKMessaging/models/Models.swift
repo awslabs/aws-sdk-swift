@@ -448,9 +448,11 @@ extension BatchCreateChannelMembershipInput: ClientRuntime.HeaderProvider {
 
 extension BatchCreateChannelMembershipInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-create"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-create"))
+            return items
+        }
     }
 }
 
@@ -1058,9 +1060,11 @@ extension ChannelFlowCallbackInput: Swift.Encodable {
 
 extension ChannelFlowCallbackInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "channel-flow-callback"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "channel-flow-callback"))
+            return items
+        }
     }
 }
 
@@ -3659,12 +3663,14 @@ extension DeleteChannelInput: ClientRuntime.HeaderProvider {
 
 extension DeleteChannelInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3720,12 +3726,14 @@ extension DeleteChannelMembershipInput: ClientRuntime.HeaderProvider {
 
 extension DeleteChannelMembershipInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3833,12 +3841,14 @@ extension DeleteChannelMessageInput: ClientRuntime.HeaderProvider {
 
 extension DeleteChannelMessageInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -4361,13 +4371,17 @@ extension DescribeChannelMembershipForAppInstanceUserInput: ClientRuntime.Header
 
 extension DescribeChannelMembershipForAppInstanceUserInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-membership"))
-        if let appInstanceUserArn = appInstanceUserArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-membership"))
+            guard let appInstanceUserArn = appInstanceUserArn else {
+                let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
             items.append(appInstanceUserArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4497,12 +4511,14 @@ extension DescribeChannelMembershipInput: ClientRuntime.HeaderProvider {
 
 extension DescribeChannelMembershipInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -4641,13 +4657,17 @@ extension DescribeChannelModeratedByAppInstanceUserInput: ClientRuntime.HeaderPr
 
 extension DescribeChannelModeratedByAppInstanceUserInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-moderated-channel"))
-        if let appInstanceUserArn = appInstanceUserArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-moderated-channel"))
+            guard let appInstanceUserArn = appInstanceUserArn else {
+                let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
             items.append(appInstanceUserArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -5448,12 +5468,14 @@ extension GetChannelMessageInput: ClientRuntime.HeaderProvider {
 
 extension GetChannelMessageInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -5592,13 +5614,15 @@ extension GetChannelMessageStatusInput: ClientRuntime.HeaderProvider {
 
 extension GetChannelMessageStatusInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "scope", value: "message-status"))
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "message-status"))
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -5957,16 +5981,18 @@ extension ListChannelBansInput: ClientRuntime.HeaderProvider {
 
 extension ListChannelBansInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -6128,20 +6154,24 @@ extension ListChannelFlowsInput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelFlowsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let appInstanceArn = appInstanceArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            guard let appInstanceArn = appInstanceArn else {
+                let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
             items.append(appInstanceArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6295,21 +6325,23 @@ extension ListChannelMembershipsForAppInstanceUserInput: ClientRuntime.HeaderPro
 
 extension ListChannelMembershipsForAppInstanceUserInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-memberships"))
-        if let appInstanceUserArn = appInstanceUserArn {
-            let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
-            items.append(appInstanceUserArnQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-memberships"))
+            if let appInstanceUserArn = appInstanceUserArn {
+                let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+                items.append(appInstanceUserArnQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -6467,24 +6499,26 @@ extension ListChannelMembershipsInput: ClientRuntime.HeaderProvider {
 
 extension ListChannelMembershipsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            if let type = type {
+                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+                items.append(typeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let type = type {
-            let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-            items.append(typeQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -6664,32 +6698,34 @@ extension ListChannelMessagesInput: ClientRuntime.HeaderProvider {
 
 extension ListChannelMessagesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let subChannelId = subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-            items.append(subChannelIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let subChannelId = subChannelId {
+                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+                items.append(subChannelIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let sortOrder = sortOrder {
+                let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "sort-order".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+                items.append(sortOrderQueryItem)
+            }
+            if let notBefore = notBefore {
+                let notBeforeQueryItem = ClientRuntime.URLQueryItem(name: "not-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notBefore)).urlPercentEncoding())
+                items.append(notBeforeQueryItem)
+            }
+            if let notAfter = notAfter {
+                let notAfterQueryItem = ClientRuntime.URLQueryItem(name: "not-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notAfter)).urlPercentEncoding())
+                items.append(notAfterQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let sortOrder = sortOrder {
-            let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "sort-order".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
-            items.append(sortOrderQueryItem)
-        }
-        if let notBefore = notBefore {
-            let notBeforeQueryItem = ClientRuntime.URLQueryItem(name: "not-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notBefore)).urlPercentEncoding())
-            items.append(notBeforeQueryItem)
-        }
-        if let notAfter = notAfter {
-            let notAfterQueryItem = ClientRuntime.URLQueryItem(name: "not-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notAfter)).urlPercentEncoding())
-            items.append(notAfterQueryItem)
-        }
-        return items
     }
 }
 
@@ -6887,16 +6923,18 @@ extension ListChannelModeratorsInput: ClientRuntime.HeaderProvider {
 
 extension ListChannelModeratorsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -7058,21 +7096,25 @@ extension ListChannelsAssociatedWithChannelFlowInput: Swift.CustomDebugStringCon
 
 extension ListChannelsAssociatedWithChannelFlowInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "scope", value: "channel-flow-associations"))
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let channelFlowArn = channelFlowArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "channel-flow-associations"))
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let channelFlowArn = channelFlowArn else {
+                let message = "Creating a URL Query Item failed. channelFlowArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let channelFlowArnQueryItem = ClientRuntime.URLQueryItem(name: "channel-flow-arn".urlPercentEncoding(), value: Swift.String(channelFlowArn).urlPercentEncoding())
             items.append(channelFlowArnQueryItem)
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -7226,24 +7268,28 @@ extension ListChannelsInput: ClientRuntime.HeaderProvider {
 
 extension ListChannelsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let privacy = privacy {
-            let privacyQueryItem = ClientRuntime.URLQueryItem(name: "privacy".urlPercentEncoding(), value: Swift.String(privacy.rawValue).urlPercentEncoding())
-            items.append(privacyQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let appInstanceArn = appInstanceArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let privacy = privacy {
+                let privacyQueryItem = ClientRuntime.URLQueryItem(name: "privacy".urlPercentEncoding(), value: Swift.String(privacy.rawValue).urlPercentEncoding())
+                items.append(privacyQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            guard let appInstanceArn = appInstanceArn else {
+                let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
             items.append(appInstanceArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -7309,21 +7355,23 @@ extension ListChannelsModeratedByAppInstanceUserInput: ClientRuntime.HeaderProvi
 
 extension ListChannelsModeratedByAppInstanceUserInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-moderated-channels"))
-        if let appInstanceUserArn = appInstanceUserArn {
-            let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
-            items.append(appInstanceUserArnQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-moderated-channels"))
+            if let appInstanceUserArn = appInstanceUserArn {
+                let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+                items.append(appInstanceUserArnQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -7578,16 +7626,18 @@ extension ListSubChannelsInput: ClientRuntime.HeaderProvider {
 
 extension ListSubChannelsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -7744,12 +7794,16 @@ extension ListSubChannelsOutputResponseBody: Swift.Decodable {
 
 extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceARN = resourceARN {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceARN = resourceARN else {
+                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
             items.append(resourceARNQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -8458,9 +8512,11 @@ extension RedactChannelMessageInput: ClientRuntime.HeaderProvider {
 
 extension RedactChannelMessageInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "redact"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "redact"))
+            return items
+        }
     }
 }
 
@@ -8708,17 +8764,19 @@ extension SearchChannelsInput: ClientRuntime.HeaderProvider {
 
 extension SearchChannelsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "search"))
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "search"))
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9559,9 +9617,11 @@ extension TagResourceInput: Swift.Encodable {
 
 extension TagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "tag-resource"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "tag-resource"))
+            return items
+        }
     }
 }
 
@@ -9806,9 +9866,11 @@ extension UntagResourceInput: Swift.Encodable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "untag-resource"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "untag-resource"))
+            return items
+        }
     }
 }
 

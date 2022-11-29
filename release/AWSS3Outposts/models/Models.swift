@@ -277,16 +277,22 @@ extension CreateEndpointOutputResponseBody: Swift.Decodable {
 
 extension DeleteEndpointInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let outpostId = outpostId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let outpostId = outpostId else {
+                let message = "Creating a URL Query Item failed. outpostId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let outpostIdQueryItem = ClientRuntime.URLQueryItem(name: "outpostId".urlPercentEncoding(), value: Swift.String(outpostId).urlPercentEncoding())
             items.append(outpostIdQueryItem)
-        }
-        if let endpointId = endpointId {
+            guard let endpointId = endpointId else {
+                let message = "Creating a URL Query Item failed. endpointId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let endpointIdQueryItem = ClientRuntime.URLQueryItem(name: "endpointId".urlPercentEncoding(), value: Swift.String(endpointId).urlPercentEncoding())
             items.append(endpointIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -629,16 +635,18 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListEndpointsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -763,20 +771,24 @@ extension ListEndpointsOutputResponseBody: Swift.Decodable {
 
 extension ListSharedEndpointsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let outpostId = outpostId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let outpostId = outpostId else {
+                let message = "Creating a URL Query Item failed. outpostId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let outpostIdQueryItem = ClientRuntime.URLQueryItem(name: "outpostId".urlPercentEncoding(), value: Swift.String(outpostId).urlPercentEncoding())
             items.append(outpostIdQueryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 

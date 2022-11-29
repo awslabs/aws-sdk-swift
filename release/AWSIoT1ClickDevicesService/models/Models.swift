@@ -1160,24 +1160,30 @@ extension InvokeDeviceMethodOutputResponseBody: Swift.Decodable {
 
 extension ListDeviceEventsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let toTimeStamp = toTimeStamp {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let toTimeStamp = toTimeStamp else {
+                let message = "Creating a URL Query Item failed. toTimeStamp is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let toTimeStampQueryItem = ClientRuntime.URLQueryItem(name: "toTimeStamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: toTimeStamp)).urlPercentEncoding())
             items.append(toTimeStampQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let fromTimeStamp = fromTimeStamp {
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            guard let fromTimeStamp = fromTimeStamp else {
+                let message = "Creating a URL Query Item failed. fromTimeStamp is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let fromTimeStampQueryItem = ClientRuntime.URLQueryItem(name: "fromTimeStamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: fromTimeStamp)).urlPercentEncoding())
             items.append(fromTimeStampQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1320,20 +1326,22 @@ extension ListDeviceEventsOutputResponseBody: Swift.Decodable {
 
 extension ListDevicesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let deviceType = deviceType {
-            let deviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "deviceType".urlPercentEncoding(), value: Swift.String(deviceType).urlPercentEncoding())
-            items.append(deviceTypeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let deviceType = deviceType {
+                let deviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "deviceType".urlPercentEncoding(), value: Swift.String(deviceType).urlPercentEncoding())
+                items.append(deviceTypeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -2015,14 +2023,18 @@ extension UnclaimDeviceOutputResponseBody: Swift.Decodable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

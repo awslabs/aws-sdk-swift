@@ -620,32 +620,36 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListHumanLoopsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let flowDefinitionArn = flowDefinitionArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let flowDefinitionArn = flowDefinitionArn else {
+                let message = "Creating a URL Query Item failed. flowDefinitionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let flowDefinitionArnQueryItem = ClientRuntime.URLQueryItem(name: "FlowDefinitionArn".urlPercentEncoding(), value: Swift.String(flowDefinitionArn).urlPercentEncoding())
             items.append(flowDefinitionArnQueryItem)
+            if let creationTimeBefore = creationTimeBefore {
+                let creationTimeBeforeQueryItem = ClientRuntime.URLQueryItem(name: "CreationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+                items.append(creationTimeBeforeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let sortOrder = sortOrder {
+                let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "SortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+                items.append(sortOrderQueryItem)
+            }
+            if let creationTimeAfter = creationTimeAfter {
+                let creationTimeAfterQueryItem = ClientRuntime.URLQueryItem(name: "CreationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+                items.append(creationTimeAfterQueryItem)
+            }
+            return items
         }
-        if let creationTimeBefore = creationTimeBefore {
-            let creationTimeBeforeQueryItem = ClientRuntime.URLQueryItem(name: "CreationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
-            items.append(creationTimeBeforeQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let sortOrder = sortOrder {
-            let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "SortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
-            items.append(sortOrderQueryItem)
-        }
-        if let creationTimeAfter = creationTimeAfter {
-            let creationTimeAfterQueryItem = ClientRuntime.URLQueryItem(name: "CreationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
-            items.append(creationTimeAfterQueryItem)
-        }
-        return items
     }
 }
 

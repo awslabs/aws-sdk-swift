@@ -1849,12 +1849,14 @@ extension DescribeAccountOverviewOutputResponseBody: Swift.Decodable {
 
 extension DescribeAnomalyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let accountId = accountId {
-            let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-            items.append(accountIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2183,12 +2185,14 @@ extension DescribeFeedbackOutputResponseBody: Swift.Decodable {
 
 extension DescribeInsightInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let accountId = accountId {
-            let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-            items.append(accountIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2957,12 +2961,14 @@ extension DescribeOrganizationResourceCollectionHealthOutputResponseBody: Swift.
 
 extension DescribeResourceCollectionHealthInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3631,12 +3637,14 @@ extension DevOpsGuruClientTypes {
 
 extension GetCostEstimationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3799,12 +3807,14 @@ extension GetCostEstimationOutputResponseBody: Swift.Decodable {
 
 extension GetResourceCollectionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
