@@ -28,16 +28,18 @@ data class AWSSigningParams(
 class SigV4Configurator(
     val useSignatureTypeQueryString: Boolean,
     val useExpiration: Boolean,
-    val serviceIsS3: Boolean,
+    val useDoubleURIEncode: Boolean,
+    val useURLPathNormalization: Boolean,
     val useUnsignedPayload: Boolean,
     val useSignedBodyHeader: Boolean
 ) {
     constructor(params: AWSSigningParams) : this(
-        params.useSignatureTypeQueryString,
-        params.useExpiration,
-        params.service.sdkId.lowercase(Locale.US) == "s3",
-        params.operation.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody,
-        listOf("s3", "glacier").contains(params.service.sdkId.lowercase(Locale.US)) &&
+        useSignatureTypeQueryString = params.useSignatureTypeQueryString,
+        useExpiration = params.useExpiration,
+        useDoubleURIEncode = params.service.sdkId.lowercase(Locale.US) != "s3",
+        useURLPathNormalization = params.service.sdkId.lowercase(Locale.US) != "s3",
+        useUnsignedPayload = params.operation.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody,
+        useSignedBodyHeader = listOf("s3", "glacier").contains(params.service.sdkId.lowercase(Locale.US)) &&
             !params.operation.hasTrait<UnsignedPayloadTrait>() && !params.forceUnsignedBody
     )
 
@@ -46,8 +48,8 @@ class SigV4Configurator(
             // Create param strings for each setting, or null for default param
             val params = listOf(
                 "signatureType: .requestQueryParams".takeIf { useSignatureTypeQueryString },
-                "useDoubleURIEncode: false".takeIf { serviceIsS3 },
-                "shouldNormalizeURIPath: false".takeIf { serviceIsS3 },
+                "useDoubleURIEncode: false".takeIf { !useDoubleURIEncode },
+                "shouldNormalizeURIPath: false".takeIf { !useURLPathNormalization },
                 "expiration: expiration".takeIf { useExpiration },
                 "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader },
                 "unsignedBody: " + ("true".takeIf { useUnsignedPayload } ?: "false")
