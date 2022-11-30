@@ -141,8 +141,12 @@ structure EnumQueryInput {
     enum: StringEnum
 }
 
-
-/// A REST JSON service that sends JSON requests and responses.
+// A service which has a GET operation with a waiter defined upon it.
+// The acceptors in the waiter serve as subjects for unit testing,
+// to ensure that the logic in code-generated acceptors works as
+// expected.
+// The service also has a protocol test defined on it but that test
+// is unused.`
 @service(sdkId: "Waiters Protocol")
 @restJson1
 service Waiters {

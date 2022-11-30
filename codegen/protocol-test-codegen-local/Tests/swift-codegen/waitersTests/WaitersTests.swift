@@ -4,13 +4,13 @@ import XCTest
 
 class WaitersTests: XCTestCase {
 
-    func test_existsWaiter_hasSuccessWaiterAtPosition0() async throws {
+    func test_existsWaiterConfig_hasSuccessWaiterAtPosition0() async throws {
         let waiterConfig = try WaitersClient.existsWaiterConfig()
         let subject = waiterConfig.acceptors[0]
         XCTAssertEqual(subject.state, .success)
     }
 
-    func test_existsWaiter_waiterAtPosition0MatchesOnOutput() async throws {
+    func test_existsWaiterConfig_acceptorAtPosition0MatchesOnOutput() async throws {
         let input = GetWidgetInput(payload: "abc")
         let output = GetWidgetOutputResponse(payload: "def")
         let waiterConfig = try WaitersClient.existsWaiterConfig()
@@ -19,7 +19,7 @@ class WaitersTests: XCTestCase {
         XCTAssertEqual(match, .success(.success(output)))
     }
 
-    func test_existsWaiter_waiterAtPosition0FailsToMatchOnError() async throws {
+    func test_existsWaiterConfig_acceptorAtPosition0FailsToMatchOnError() async throws {
         let input = GetWidgetInput(payload: "abc")
         let waiterConfig = try WaitersClient.existsWaiterConfig()
         let subject = waiterConfig.acceptors[0]
@@ -27,6 +27,8 @@ class WaitersTests: XCTestCase {
         XCTAssertNil(match)
     }
 }
+
+// Convenience test-helper methods for testing acceptor matches
 
 extension WaiterConfiguration.Acceptor.Match: Equatable where Input: Equatable, Output: Equatable {
 
