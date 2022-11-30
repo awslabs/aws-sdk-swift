@@ -1,6 +1,4 @@
 version: 1
-external_links:
-  documentation: 'https://aws.amazon.com/sdk-for-swift'
 builder:
   configs:
   - platform: macosXcodebuild
