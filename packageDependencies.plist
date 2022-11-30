@@ -7,7 +7,7 @@
 	<key>awsCRTSwiftVersion</key>
 	<string>0.3.1</string>
 	<key>clientRuntimeBranch</key>
-	<string>main</string>
+	<string>jbe/acceptors</string>
 	<key>awsCRTSwiftBranch</key>
 	<string>main</string>
 </dict>
