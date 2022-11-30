@@ -59,6 +59,8 @@ appendLibTarget(name: "aws_restjson", path: "\(baseDirLocal)/aws-restjson")
 appendTstTarget(name: "aws_restjsonTests", path: "\(baseDirLocal)/aws-restjson", dependency: "aws_restjson")
 appendLibTarget(name: "rest_json_extras", path: "\(baseDirLocal)/rest_json_extras")
 appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_extras", dependency: "rest_json_extras")
+appendLibTarget(name: "waiters", path: "\(baseDirLocal)/waiters")
+appendTstTarget(name: "waitersTests", path: "./protocol-test-codegen-local/Tests", dependency: "waiters")
 
 func appendLibTarget(name: String, path: String) {
     package.targets.append(

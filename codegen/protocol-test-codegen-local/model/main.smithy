@@ -2,6 +2,7 @@ $version: "1.0"
 
 namespace aws.protocoltests.restjson
 
+use smithy.waiters#waitable
 use aws.protocols#restJson1
 use aws.api#service
 use smithy.test#httpRequestTests
@@ -139,3 +140,53 @@ structure EnumQueryInput {
     @required
     enum: StringEnum
 }
+
+
+/// A REST JSON service that sends JSON requests and responses.
+@service(sdkId: "Waiters Protocol")
+@restJson1
+service Waiters {
+    version: "2022-11-30",
+    operations: [GetWidget]
+}
+
+@http(uri: "/widget", method: "GET")
+@readonly
+@httpRequestTests([
+    {
+        id: "Widget",
+        uri: "/widget",
+        method: "GET",
+        queryParams: ["payload=queryInput"]
+        protocol: "aws.protocols#restJson1"
+    }
+])
+@waitable(
+    Exists: {
+        documentation: "Waits until the widget exists"
+        acceptors: [
+            // Acceptor 0 matches on success, and transitions waiting to the success state.
+            {
+                state: "success"
+                matcher: {
+                    success: true
+                }
+            }
+        ]
+    }
+)
+operation GetWidget {
+    input: WidgetInput,
+    output: WidgetOutput
+}
+
+structure WidgetInput {
+    @httpQuery("payload")
+    payload: String
+}
+
+structure WidgetOutput {
+    @httpPayload
+    payload: String
+}
+
