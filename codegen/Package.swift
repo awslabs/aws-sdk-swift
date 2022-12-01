@@ -59,8 +59,8 @@ appendLibTarget(name: "aws_restjson", path: "\(baseDirLocal)/aws-restjson")
 appendTstTarget(name: "aws_restjsonTests", path: "\(baseDirLocal)/aws-restjson", dependency: "aws_restjson")
 appendLibTarget(name: "rest_json_extras", path: "\(baseDirLocal)/rest_json_extras")
 appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_extras", dependency: "rest_json_extras")
-appendLibTarget(name: "waiters", path: "\(baseDirLocal)/waiters")
-appendTstTarget(name: "waitersTests", path: "./protocol-test-codegen-local/Tests", dependency: "waiters")
+appendLibTarget(name: "Waiters", path: "\(baseDirLocal)/Waiters")
+appendTstTarget(name: "WaitersTests", path: "./protocol-test-codegen-local/Tests", dependency: "Waiters")
 
 func appendLibTarget(name: String, path: String) {
     package.targets.append(
@@ -105,7 +105,7 @@ if let smithySwiftDir = ProcessInfo.processInfo.environment["SMITHY_SWIFT_CI_DIR
     ]
 } else {
     package.dependencies += [
-        .package(path: "~/Projects/Amplify/SwiftSDK/smithy-swift"),
-        .package(path: "~/Projects/Amplify/SwiftSDK/aws-sdk-swift"),
+        .package(path: "../../smithy-swift"),
+        .package(path: "../../aws-sdk-swift"),
     ]
 }

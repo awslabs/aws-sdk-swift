@@ -141,39 +141,67 @@ structure EnumQueryInput {
     enum: StringEnum
 }
 
-// A service which has a GET operation with a waiter defined upon it.
-// The acceptors in the waiter serve as subjects for unit testing,
+// A service which has a GET operation with waiters defined upon it.
+// The acceptor in each waiter serves as subject for unit testing,
 // to ensure that the logic in code-generated acceptors works as
 // expected.
-// The service also has a protocol test defined on it but that test
-// is unused.`
-@service(sdkId: "Waiters Protocol")
+@service(sdkId: "Waiters")
 @restJson1
 service Waiters {
     version: "2022-11-30",
     operations: [GetWidget]
 }
 
-@http(uri: "/widget", method: "GET")
-@readonly
-@httpRequestTests([
-    {
-        id: "Widget",
-        uri: "/widget",
-        method: "GET",
-        queryParams: ["payload=queryInput"]
-        protocol: "aws.protocols#restJson1"
-    }
-])
+@http(uri: "/widget", method: "POST")
 @waitable(
-    Exists: {
-        documentation: "Waits until the widget exists"
+    SuccessTrueMatcher: {
+        documentation: "Acceptor matches on successful request"
         acceptors: [
-            // Acceptor 0 matches on success, and transitions waiting to the success state.
             {
                 state: "success"
                 matcher: {
                     success: true
+                }
+            }
+        ]
+    }
+    SuccessFalseMatcher: {
+        documentation: "Acceptor matches on unsuccessful request"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    success: false
+                }
+            }
+        ]
+    }
+    OutputStringPropertyMatcher: {
+        documentation: "Acceptor matches on output payload property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "stringProperty"
+                        expected: "payload property contents"
+                        comparator: "stringEquals"
+                    }
+                }
+            }
+        ]
+    }
+    OutputBooleanPropertyMatcher: {
+        documentation: "Acceptor matches on output payload property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "booleanProperty"
+                        expected: "false"
+                        comparator: "booleanEquals"
+                    }
                 }
             }
         ]
@@ -185,12 +213,11 @@ operation GetWidget {
 }
 
 structure WidgetInput {
-    @httpQuery("payload")
-    payload: String
+    stringProperty: String
 }
 
 structure WidgetOutput {
-    @httpPayload
-    payload: String
+    stringProperty: String
+    booleanProperty: Boolean
 }
 
