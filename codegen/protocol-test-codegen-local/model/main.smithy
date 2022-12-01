@@ -191,6 +191,36 @@ service Waiters {
             }
         ]
     }
+    OutputStringArrayAllPropertyMatcher: {
+        documentation: "Acceptor matches on output payload property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "stringArrayProperty"
+                        expected: "payload property contents"
+                        comparator: "allStringEquals"
+                    }
+                }
+            }
+        ]
+    }
+    OutputStringArrayAnyPropertyMatcher: {
+        documentation: "Acceptor matches on output payload property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "stringArrayProperty"
+                        expected: "payload property contents"
+                        comparator: "anyStringEquals"
+                    }
+                }
+            }
+        ]
+    }
     OutputBooleanPropertyMatcher: {
         documentation: "Acceptor matches on output payload property"
         acceptors: [
@@ -200,6 +230,21 @@ service Waiters {
                     output: {
                         path: "booleanProperty"
                         expected: "false"
+                        comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
+    InputOutputPropertyMatcher: {
+        documentation: "Acceptor matches on input property equaling output property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    inputOutput: {
+                        path: "input.stringProperty == output.stringProperty"
+                        expected: "true"
                         comparator: "booleanEquals"
                     }
                 }
@@ -218,6 +263,15 @@ structure WidgetInput {
 
 structure WidgetOutput {
     stringProperty: String
+    stringArrayProperty: StringArrayProperty
     booleanProperty: Boolean
+    booleanArrayProperty: BooleanArrayProperty
 }
 
+list StringArrayProperty {
+    member: String
+}
+
+list BooleanArrayProperty {
+    member: Boolean
+}
