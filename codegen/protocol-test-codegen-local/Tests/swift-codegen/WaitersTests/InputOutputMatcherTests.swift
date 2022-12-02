@@ -12,6 +12,13 @@ import XCTest
 #if swift(>=5.7)
 class InputOutputMatcherTests: XCTestCase {
 
+    // JMESPath expression: input.stringProperty == output.stringProperty
+    // JMESPath comparator: booleanEquals
+    // JMESPath expected value: true
+
+    // inputOutput tests are just on the input & output properties, because all the other logic
+    // in them is shared with output matchers, which are tested more comprehensively.
+
     func test_inputOutput_acceptorMatchesWhenInputAndOutputPropertiesMatch() async throws {
         let value = UUID().uuidString
         let input = GetWidgetInput(stringProperty: value)
