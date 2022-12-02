@@ -191,36 +191,43 @@ class WaitersTests: XCTestCase {
         XCTAssertNil(match)
     }
 
-    func test_flattenLength1_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
+    func test_flattenLength_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
         let unexpected = "not the expected name"
         let output = outputTree(embeddedName: unexpected)
-        let subject = try WaitersClient.flattenLengthMatcher1WaiterConfig().acceptors[0]
+        let subject = try WaitersClient.flattenLengthMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
     }
 
-    func test_flattenLength2_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
-        let unexpected = "not the expected name"
-        let output = outputTree(embeddedName: unexpected)
-        let subject = try WaitersClient.flattenLengthMatcher2WaiterConfig().acceptors[0]
-        let match = subject.evaluate(input: anInput, result: .success(output))
-        XCTAssertEqual(match, .success(.success(output)))
+    // MARK: - Projections
+
+    func test_projectedLength_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
+        let output1 = outputTree()
+        let subject = try WaitersClient.projectedLengthMatcherWaiterConfig().acceptors[0]
+        let match1 = subject.evaluate(input: anInput, result: .success(output1))
+        XCTAssertNil(match1)
+        let output2 = outputTree(appendBonusKid: true)
+        let match2 = subject.evaluate(input: anInput, result: .success(output2))
+        XCTAssertEqual(match2, .success(.success(output2)))
+
     }
 
     // MARK: - Helper methods
 
     private var anInput: GetWidgetInput { GetWidgetInput() }
 
-    private func outputTree(globalName: String? = nil, embeddedName: String? = "c") -> GetWidgetOutputResponse {
-        GetWidgetOutputResponse(children: [
+    private func outputTree(globalName: String? = nil, embeddedName: String? = "c", appendBonusKid: Bool = false) -> GetWidgetOutputResponse {
+        var grandchildren2: [WaitersClientTypes.Grandchild] = [
+            .init(name: embeddedName ?? globalName),
+            .init(name: globalName ?? "d")
+        ]
+        if appendBonusKid { grandchildren2.append(.init(name: "bonus kid"))}
+        return GetWidgetOutputResponse(children: [
             .init(grandchildren: [
                 .init(name: globalName ?? "a"),
                 .init(name: globalName ?? "b")
             ]),
-            .init(grandchildren: [
-                .init(name: embeddedName ?? globalName),
-                .init(name: globalName ?? "d")
-            ]),
+            .init(grandchildren: grandchildren2),
             .init(grandchildren: [
                 .init(name: globalName ?? "e"),
                 .init(name: globalName ?? "f")

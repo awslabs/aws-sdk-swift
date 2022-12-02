@@ -258,7 +258,7 @@ service Waiters {
                 state: "success"
                 matcher: {
                     output: {
-                        path: "children[*].grandchildren[*].name"
+                        path: "children[].grandchildren[].name"
                         expected: "expected name"
                         comparator: "anyStringEquals"
                     }
@@ -266,7 +266,7 @@ service Waiters {
             }
         ]
     }
-    FlattenLengthMatcher1: {
+    FlattenLengthMatcher: {
         documentation: "Acceptor matches on flattened output property"
         acceptors: [
             {
@@ -281,14 +281,14 @@ service Waiters {
             }
         ]
     }
-    FlattenLengthMatcher2: {
-        documentation: "Acceptor matches on flattened output property"
+    ProjectedLengthMatcher: {
+        documentation: "Acceptor matches on exactly one child with 3 grandchildren"
         acceptors: [
             {
                 state: "success"
                 matcher: {
                     output: {
-                        path: "length(children[*].grandchildren[*]) == `3`"
+                        path: "length(children[?length(grandchildren) == `3`]) == `1`"
                         expected: "true"
                         comparator: "booleanEquals"
                     }
