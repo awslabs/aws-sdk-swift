@@ -9,6 +9,7 @@ import XCTest
 @testable import Waiters
 @testable import ClientRuntime
 
+#if swift(>=5.7)
 class ErrorTypeMatcherTests: XCTestCase {
 
     // MARK: - errorType matcher
@@ -20,3 +21,4 @@ class ErrorTypeMatcherTests: XCTestCase {
     }
 
 }
+#endif

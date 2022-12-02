@@ -9,6 +9,7 @@ import XCTest
 @testable import Waiters
 @testable import ClientRuntime
 
+#if swift(>=5.7)
 class InputOutputMatcherTests: XCTestCase {
 
     func test_inputOutput_acceptorMatchesWhenInputAndOutputPropertiesMatch() async throws {
@@ -29,3 +30,4 @@ class InputOutputMatcherTests: XCTestCase {
         XCTAssertNil(match)
     }
 }
+#endif

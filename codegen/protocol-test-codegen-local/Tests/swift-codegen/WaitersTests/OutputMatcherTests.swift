@@ -9,6 +9,7 @@ import XCTest
 @testable import Waiters
 @testable import ClientRuntime
 
+#if swift(>=5.7)
 class OutputMatcherTests: XCTestCase {
 
     // MARK: properties & stringEquals comparator
@@ -200,3 +201,4 @@ class OutputMatcherTests: XCTestCase {
         ])
     }
 }
+#endif
