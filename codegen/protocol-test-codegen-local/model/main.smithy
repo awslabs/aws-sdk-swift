@@ -176,6 +176,17 @@ service Waiters {
             }
         ]
     }
+    ErrorTypeMatcher: {
+        documentation: "Acceptor matches on receipt of specified error"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    errorType: "MyError"
+                }
+            }
+        ]
+    }
     OutputStringPropertyMatcher: {
         documentation: "Acceptor matches on output payload property"
         acceptors: [
@@ -252,7 +263,7 @@ service Waiters {
         ]
     }
     FlattenMatcher: {
-        documentation: "Acceptor matches on flattened output property"
+        documentation: "Matches when any grandchild has name 'expected name'"
         acceptors: [
             {
                 state: "success"
@@ -267,7 +278,7 @@ service Waiters {
         ]
     }
     FlattenLengthMatcher: {
-        documentation: "Acceptor matches on flattened output property"
+        documentation: "Matches when there are 6 grandchildren total"
         acceptors: [
             {
                 state: "success"
@@ -282,7 +293,7 @@ service Waiters {
         ]
     }
     ProjectedLengthMatcher: {
-        documentation: "Acceptor matches on exactly one child with 3 grandchildren"
+        documentation: "Matches when exactly one child has 3 grandchildren"
         acceptors: [
             {
                 state: "success"
@@ -296,10 +307,26 @@ service Waiters {
             }
         ]
     }
+    FilterMatcher: {
+        documentation: "Matches when exactly 3 grandchildren have numbers above 4"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "length((children[].grandchildren[])[?number > `4`]) == `3`"
+                        expected: "true"
+                        comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
 )
 operation GetWidget {
     input: WidgetInput,
     output: WidgetOutput
+    errors: [MyError]
 }
 
 structure WidgetInput {
@@ -320,6 +347,7 @@ structure Child {
 
 structure Grandchild {
     name: String
+    number: Integer
 }
 
 list StringArray{
@@ -336,4 +364,9 @@ list ChildArray {
 
 list GrandchildArray {
     member: Grandchild
+}
+
+@error("client")
+structure MyError {
+    message: String
 }

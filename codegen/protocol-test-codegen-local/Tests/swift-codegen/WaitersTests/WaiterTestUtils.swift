@@ -6,6 +6,7 @@
 //
 
 import ClientRuntime
+import Waiters
 
 // Convenience test-helper methods for testing acceptor matches
 
@@ -43,3 +44,5 @@ extension WaiterConfiguration.Acceptor.Match: Equatable where Input: Equatable, 
 extension String: Error {
     var localizedString: String? { self }
 }
+
+var anInput = GetWidgetInput()

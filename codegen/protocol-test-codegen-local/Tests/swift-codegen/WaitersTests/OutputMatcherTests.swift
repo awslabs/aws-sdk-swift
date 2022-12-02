@@ -9,48 +9,9 @@ import XCTest
 @testable import Waiters
 @testable import ClientRuntime
 
-class WaitersTests: XCTestCase {
+class OutputMatcherTests: XCTestCase {
 
-    // MARK: - success matcher
-
-    func test_successTrue_hasSuccessStateWaiter() async throws {
-        let waiterConfig = try WaitersClient.successTrueMatcherWaiterConfig()
-        let subject = waiterConfig.acceptors[0]
-        XCTAssertEqual(subject.state, .success)
-    }
-
-    func test_successTrue_acceptorMatchesOnOutput() async throws {
-        let output = GetWidgetOutputResponse()
-        let subject = try WaitersClient.successTrueMatcherWaiterConfig().acceptors[0]
-        let match = subject.evaluate(input: anInput, result: .success(output))
-        XCTAssertEqual(match, .success(.success(output)))
-    }
-
-    func test_successTrue_acceptorFailsToMatchOnError() async throws {
-        let subject = try WaitersClient.successTrueMatcherWaiterConfig().acceptors[0]
-        let match = subject.evaluate(input: anInput, result: .failure("boom"))
-        XCTAssertNil(match)
-    }
-
-    func test_successFalse_acceptorFailsToMatchOnOutput() async throws {
-        let output = GetWidgetOutputResponse()
-        let subject = try WaitersClient.successFalseMatcherWaiterConfig().acceptors[0]
-        let match = subject.evaluate(input: anInput, result: .success(output))
-        XCTAssertNil(match)
-    }
-
-    func test_successFalse_acceptorMatchesOnError() async throws {
-        let error = "boom"
-        let subject = try WaitersClient.successFalseMatcherWaiterConfig().acceptors[0]
-        let match = subject.evaluate(input: anInput, result: .failure(error))
-        XCTAssertEqual(match, .success(.failure(error)))
-    }
-
-    // MARK: - errorType matcher
-
-    // none yet, will fill this when errorType is properly implemented
-
-    // MARK: - output matcher
+    // MARK: properties & stringEquals comparator
 
     func test_outputStringProperty_acceptorMatchesOnPropertyMatch() async throws {
         let output = GetWidgetOutputResponse(stringProperty: "payload property contents")
@@ -73,6 +34,8 @@ class WaitersTests: XCTestCase {
         XCTAssertNil(match)
     }
 
+    // MARK: properties & booleanEquals comparator
+
     func test_outputBooleanProperty_acceptorMatchesOnPropertyMatch() async throws {
         let output = GetWidgetOutputResponse(booleanProperty: false)
         let subject = try WaitersClient.outputBooleanPropertyMatcherWaiterConfig().acceptors[0]
@@ -93,6 +56,8 @@ class WaitersTests: XCTestCase {
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
+
+    // MARK: properties & allStringEquals comparator
 
     func test_arrayPropertyAll_acceptorMatchesWhenArrayElementsAllMatch() async throws {
         let expected = "payload property contents"
@@ -123,6 +88,8 @@ class WaitersTests: XCTestCase {
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
+
+    // MARK: properties & anyStringEquals comparator
 
     func test_arrayPropertyAny_acceptorMatchesWhenArrayElementsAllMatch() async throws {
         let expected = "payload property contents"
@@ -162,17 +129,6 @@ class WaitersTests: XCTestCase {
         XCTAssertNil(match)
     }
 
-    // MARK: - inputOutput matcher
-
-    func test_inputOutput_acceptorMatchesWhenInputAndOutputPropertiesMatch() async throws {
-        let value = UUID().uuidString
-        let input = GetWidgetInput(stringProperty: value)
-        let output = GetWidgetOutputResponse(stringProperty: value)
-        let subject = try WaitersClient.inputOutputPropertyMatcherWaiterConfig().acceptors[0]
-        let match = subject.evaluate(input: input, result: .success(output))
-        XCTAssertEqual(match, .success(.success(output)))
-    }
-
     // MARK: - Flatten operator
 
     func test_flatten_acceptorMatchesWhenFlattenedValueMatches() async throws {
@@ -199,6 +155,18 @@ class WaitersTests: XCTestCase {
         XCTAssertEqual(match, .success(.success(output)))
     }
 
+    // MARK: - Filter
+
+    func test_filter_acceptorMatchesWhenFilterMatches() async throws {
+        let output1 = outputTree()
+        let subject = try WaitersClient.filterMatcherWaiterConfig().acceptors[0]
+        let match1 = subject.evaluate(input: anInput, result: .success(output1))
+        XCTAssertNil(match1)
+        let output2 = outputTree(appendBonusKid: true)
+        let match2 = subject.evaluate(input: anInput, result: .success(output2))
+        XCTAssertEqual(match2, .success(.success(output2)))
+    }
+
     // MARK: - Projections
 
     func test_projectedLength_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
@@ -209,28 +177,25 @@ class WaitersTests: XCTestCase {
         let output2 = outputTree(appendBonusKid: true)
         let match2 = subject.evaluate(input: anInput, result: .success(output2))
         XCTAssertEqual(match2, .success(.success(output2)))
-
     }
 
     // MARK: - Helper methods
 
-    private var anInput: GetWidgetInput { GetWidgetInput() }
-
     private func outputTree(globalName: String? = nil, embeddedName: String? = "c", appendBonusKid: Bool = false) -> GetWidgetOutputResponse {
         var grandchildren2: [WaitersClientTypes.Grandchild] = [
-            .init(name: embeddedName ?? globalName),
-            .init(name: globalName ?? "d")
+            .init(name: embeddedName ?? globalName, number: 1),
+            .init(name: globalName ?? "d", number: 2)
         ]
-        if appendBonusKid { grandchildren2.append(.init(name: "bonus kid"))}
+        if appendBonusKid { grandchildren2.append(.init(name: "bonus kid", number: 7))}
         return GetWidgetOutputResponse(children: [
             .init(grandchildren: [
-                .init(name: globalName ?? "a"),
-                .init(name: globalName ?? "b")
+                .init(name: globalName ?? "a", number: 3),
+                .init(name: globalName ?? "b", number: 4)
             ]),
             .init(grandchildren: grandchildren2),
             .init(grandchildren: [
-                .init(name: globalName ?? "e"),
-                .init(name: globalName ?? "f")
+                .init(name: globalName ?? "e", number: 5),
+                .init(name: globalName ?? "f", number: 6)
             ])
         ])
     }
