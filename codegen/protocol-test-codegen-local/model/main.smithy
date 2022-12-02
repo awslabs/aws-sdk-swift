@@ -251,6 +251,51 @@ service Waiters {
             }
         ]
     }
+    FlattenMatcher: {
+        documentation: "Acceptor matches on flattened output property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "children[*].grandchildren[*].name"
+                        expected: "expected name"
+                        comparator: "anyStringEquals"
+                    }
+                }
+            }
+        ]
+    }
+    FlattenLengthMatcher1: {
+        documentation: "Acceptor matches on flattened output property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "length(children[].grandchildren[]) == `6`"
+                        expected: "true"
+                        comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
+    FlattenLengthMatcher2: {
+        documentation: "Acceptor matches on flattened output property"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "length(children[*].grandchildren[*]) == `3`"
+                        expected: "true"
+                        comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
 )
 operation GetWidget {
     input: WidgetInput,
@@ -263,15 +308,32 @@ structure WidgetInput {
 
 structure WidgetOutput {
     stringProperty: String
-    stringArrayProperty: StringArrayProperty
+    stringArrayProperty: StringArray
     booleanProperty: Boolean
-    booleanArrayProperty: BooleanArrayProperty
+    booleanArrayProperty: BooleanArray
+    children: ChildArray
 }
 
-list StringArrayProperty {
+structure Child {
+    grandchildren: GrandchildArray
+}
+
+structure Grandchild {
+    name: String
+}
+
+list StringArray{
     member: String
 }
 
-list BooleanArrayProperty {
+list BooleanArray{
     member: Boolean
+}
+
+list ChildArray {
+    member: Child
+}
+
+list GrandchildArray {
+    member: Grandchild
 }

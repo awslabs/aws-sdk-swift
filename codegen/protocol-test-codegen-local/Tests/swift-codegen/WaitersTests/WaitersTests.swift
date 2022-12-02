@@ -173,7 +173,58 @@ class WaitersTests: XCTestCase {
         XCTAssertEqual(match, .success(.success(output)))
     }
 
+    // MARK: - Flatten operator
+
+    func test_flatten_acceptorMatchesWhenFlattenedValueMatches() async throws {
+        let expected = "expected name"
+        let output = outputTree(embeddedName: expected)
+        let subject = try WaitersClient.flattenMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
+    func test_flatten_acceptorDoesNotMatchWhenNoFlattenedValueMatches() async throws {
+        let unexpected = "not the expected name"
+        let output = outputTree(embeddedName: unexpected)
+        let subject = try WaitersClient.flattenMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
+    func test_flattenLength1_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
+        let unexpected = "not the expected name"
+        let output = outputTree(embeddedName: unexpected)
+        let subject = try WaitersClient.flattenLengthMatcher1WaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
+    func test_flattenLength2_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
+        let unexpected = "not the expected name"
+        let output = outputTree(embeddedName: unexpected)
+        let subject = try WaitersClient.flattenLengthMatcher2WaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
     // MARK: - Helper methods
 
     private var anInput: GetWidgetInput { GetWidgetInput() }
+
+    private func outputTree(globalName: String? = nil, embeddedName: String? = "c") -> GetWidgetOutputResponse {
+        GetWidgetOutputResponse(children: [
+            .init(grandchildren: [
+                .init(name: globalName ?? "a"),
+                .init(name: globalName ?? "b")
+            ]),
+            .init(grandchildren: [
+                .init(name: embeddedName ?? globalName),
+                .init(name: globalName ?? "d")
+            ]),
+            .init(grandchildren: [
+                .init(name: globalName ?? "e"),
+                .init(name: globalName ?? "f")
+            ])
+        ])
+    }
 }
