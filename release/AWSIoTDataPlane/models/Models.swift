@@ -57,12 +57,14 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension DeleteThingShadowInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let shadowName = shadowName {
-            let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
-            items.append(shadowNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let shadowName = shadowName {
+                let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+                items.append(shadowNameQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -319,12 +321,14 @@ extension GetRetainedMessageOutputResponseBody: Swift.Decodable {
 
 extension GetThingShadowInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let shadowName = shadowName {
-            let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
-            items.append(shadowNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let shadowName = shadowName {
+                let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+                items.append(shadowNameQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -548,16 +552,18 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
 
 extension ListNamedShadowsForThingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            return items
         }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        return items
     }
 }
 
@@ -706,16 +712,18 @@ extension ListNamedShadowsForThingOutputResponseBody: Swift.Decodable {
 
 extension ListRetainedMessagesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -936,16 +944,18 @@ extension PublishInput: Swift.Encodable {
 
 extension PublishInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if qos != 0 {
-            let qosQueryItem = ClientRuntime.URLQueryItem(name: "qos".urlPercentEncoding(), value: Swift.String(qos).urlPercentEncoding())
-            items.append(qosQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if qos != 0 {
+                let qosQueryItem = ClientRuntime.URLQueryItem(name: "qos".urlPercentEncoding(), value: Swift.String(qos).urlPercentEncoding())
+                items.append(qosQueryItem)
+            }
+            if retain != false {
+                let retainQueryItem = ClientRuntime.URLQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
+                items.append(retainQueryItem)
+            }
+            return items
         }
-        if retain != false {
-            let retainQueryItem = ClientRuntime.URLQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
-            items.append(retainQueryItem)
-        }
-        return items
     }
 }
 
@@ -1462,12 +1472,14 @@ extension UpdateThingShadowInput: Swift.Encodable {
 
 extension UpdateThingShadowInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let shadowName = shadowName {
-            let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
-            items.append(shadowNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let shadowName = shadowName {
+                let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+                items.append(shadowNameQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 

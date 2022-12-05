@@ -7034,20 +7034,22 @@ extension GetDNSSECOutputResponseBody: Swift.Decodable {
 
 extension GetGeoLocationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let continentCode = continentCode {
-            let continentCodeQueryItem = ClientRuntime.URLQueryItem(name: "continentcode".urlPercentEncoding(), value: Swift.String(continentCode).urlPercentEncoding())
-            items.append(continentCodeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let continentCode = continentCode {
+                let continentCodeQueryItem = ClientRuntime.URLQueryItem(name: "continentcode".urlPercentEncoding(), value: Swift.String(continentCode).urlPercentEncoding())
+                items.append(continentCodeQueryItem)
+            }
+            if let countryCode = countryCode {
+                let countryCodeQueryItem = ClientRuntime.URLQueryItem(name: "countrycode".urlPercentEncoding(), value: Swift.String(countryCode).urlPercentEncoding())
+                items.append(countryCodeQueryItem)
+            }
+            if let subdivisionCode = subdivisionCode {
+                let subdivisionCodeQueryItem = ClientRuntime.URLQueryItem(name: "subdivisioncode".urlPercentEncoding(), value: Swift.String(subdivisionCode).urlPercentEncoding())
+                items.append(subdivisionCodeQueryItem)
+            }
+            return items
         }
-        if let countryCode = countryCode {
-            let countryCodeQueryItem = ClientRuntime.URLQueryItem(name: "countrycode".urlPercentEncoding(), value: Swift.String(countryCode).urlPercentEncoding())
-            items.append(countryCodeQueryItem)
-        }
-        if let subdivisionCode = subdivisionCode {
-            let subdivisionCodeQueryItem = ClientRuntime.URLQueryItem(name: "subdivisioncode".urlPercentEncoding(), value: Swift.String(subdivisionCode).urlPercentEncoding())
-            items.append(subdivisionCodeQueryItem)
-        }
-        return items
     }
 }
 
@@ -11330,20 +11332,22 @@ extension Route53ClientTypes {
 
 extension ListCidrBlocksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let locationName = locationName {
+                let locationNameQueryItem = ClientRuntime.URLQueryItem(name: "location".urlPercentEncoding(), value: Swift.String(locationName).urlPercentEncoding())
+                items.append(locationNameQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let locationName = locationName {
-            let locationNameQueryItem = ClientRuntime.URLQueryItem(name: "location".urlPercentEncoding(), value: Swift.String(locationName).urlPercentEncoding())
-            items.append(locationNameQueryItem)
-        }
-        return items
     }
 }
 
@@ -11485,16 +11489,18 @@ extension ListCidrBlocksOutputResponseBody: Swift.Decodable {
 
 extension ListCidrCollectionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -11620,16 +11626,18 @@ extension ListCidrCollectionsOutputResponseBody: Swift.Decodable {
 
 extension ListCidrLocationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -11765,24 +11773,26 @@ extension ListCidrLocationsOutputResponseBody: Swift.Decodable {
 
 extension ListGeoLocationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let startContinentCode = startContinentCode {
-            let startContinentCodeQueryItem = ClientRuntime.URLQueryItem(name: "startcontinentcode".urlPercentEncoding(), value: Swift.String(startContinentCode).urlPercentEncoding())
-            items.append(startContinentCodeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let startContinentCode = startContinentCode {
+                let startContinentCodeQueryItem = ClientRuntime.URLQueryItem(name: "startcontinentcode".urlPercentEncoding(), value: Swift.String(startContinentCode).urlPercentEncoding())
+                items.append(startContinentCodeQueryItem)
+            }
+            if let startCountryCode = startCountryCode {
+                let startCountryCodeQueryItem = ClientRuntime.URLQueryItem(name: "startcountrycode".urlPercentEncoding(), value: Swift.String(startCountryCode).urlPercentEncoding())
+                items.append(startCountryCodeQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            if let startSubdivisionCode = startSubdivisionCode {
+                let startSubdivisionCodeQueryItem = ClientRuntime.URLQueryItem(name: "startsubdivisioncode".urlPercentEncoding(), value: Swift.String(startSubdivisionCode).urlPercentEncoding())
+                items.append(startSubdivisionCodeQueryItem)
+            }
+            return items
         }
-        if let startCountryCode = startCountryCode {
-            let startCountryCodeQueryItem = ClientRuntime.URLQueryItem(name: "startcountrycode".urlPercentEncoding(), value: Swift.String(startCountryCode).urlPercentEncoding())
-            items.append(startCountryCodeQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        if let startSubdivisionCode = startSubdivisionCode {
-            let startSubdivisionCodeQueryItem = ClientRuntime.URLQueryItem(name: "startsubdivisioncode".urlPercentEncoding(), value: Swift.String(startSubdivisionCode).urlPercentEncoding())
-            items.append(startSubdivisionCodeQueryItem)
-        }
-        return items
     }
 }
 
@@ -11961,16 +11971,18 @@ extension ListGeoLocationsOutputResponseBody: Swift.Decodable {
 
 extension ListHealthChecksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -12134,20 +12146,22 @@ extension ListHealthChecksOutputResponseBody: Swift.Decodable {
 
 extension ListHostedZonesByNameInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let hostedZoneId = hostedZoneId {
-            let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
-            items.append(hostedZoneIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let hostedZoneId = hostedZoneId {
+                let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+                items.append(hostedZoneIdQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            if let dnsName = dnsName {
+                let dnsNameQueryItem = ClientRuntime.URLQueryItem(name: "dnsname".urlPercentEncoding(), value: Swift.String(dnsName).urlPercentEncoding())
+                items.append(dnsNameQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        if let dnsName = dnsName {
-            let dnsNameQueryItem = ClientRuntime.URLQueryItem(name: "dnsname".urlPercentEncoding(), value: Swift.String(dnsName).urlPercentEncoding())
-            items.append(dnsNameQueryItem)
-        }
-        return items
     }
 }
 
@@ -12334,24 +12348,30 @@ extension ListHostedZonesByNameOutputResponseBody: Swift.Decodable {
 
 extension ListHostedZonesByVPCInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let vpcRegion = vpcRegion {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let vpcRegion = vpcRegion else {
+                let message = "Creating a URL Query Item failed. vpcRegion is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let vpcRegionQueryItem = ClientRuntime.URLQueryItem(name: "vpcregion".urlPercentEncoding(), value: Swift.String(vpcRegion.rawValue).urlPercentEncoding())
             items.append(vpcRegionQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let vpcId = vpcId {
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let vpcId = vpcId else {
+                let message = "Creating a URL Query Item failed. vpcId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let vpcIdQueryItem = ClientRuntime.URLQueryItem(name: "vpcid".urlPercentEncoding(), value: Swift.String(vpcId).urlPercentEncoding())
             items.append(vpcIdQueryItem)
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -12502,20 +12522,22 @@ extension ListHostedZonesByVPCOutputResponseBody: Swift.Decodable {
 
 extension ListHostedZonesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let delegationSetId = delegationSetId {
-            let delegationSetIdQueryItem = ClientRuntime.URLQueryItem(name: "delegationsetid".urlPercentEncoding(), value: Swift.String(delegationSetId).urlPercentEncoding())
-            items.append(delegationSetIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let delegationSetId = delegationSetId {
+                let delegationSetIdQueryItem = ClientRuntime.URLQueryItem(name: "delegationsetid".urlPercentEncoding(), value: Swift.String(delegationSetId).urlPercentEncoding())
+                items.append(delegationSetIdQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -12684,20 +12706,22 @@ extension ListHostedZonesOutputResponseBody: Swift.Decodable {
 
 extension ListQueryLoggingConfigsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let hostedZoneId = hostedZoneId {
+                let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+                items.append(hostedZoneIdQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let hostedZoneId = hostedZoneId {
-            let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
-            items.append(hostedZoneIdQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -12832,24 +12856,26 @@ extension ListQueryLoggingConfigsOutputResponseBody: Swift.Decodable {
 
 extension ListResourceRecordSetsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let startRecordType = startRecordType {
-            let startRecordTypeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(startRecordType.rawValue).urlPercentEncoding())
-            items.append(startRecordTypeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let startRecordType = startRecordType {
+                let startRecordTypeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(startRecordType.rawValue).urlPercentEncoding())
+                items.append(startRecordTypeQueryItem)
+            }
+            if let startRecordIdentifier = startRecordIdentifier {
+                let startRecordIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "identifier".urlPercentEncoding(), value: Swift.String(startRecordIdentifier).urlPercentEncoding())
+                items.append(startRecordIdentifierQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            if let startRecordName = startRecordName {
+                let startRecordNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(startRecordName).urlPercentEncoding())
+                items.append(startRecordNameQueryItem)
+            }
+            return items
         }
-        if let startRecordIdentifier = startRecordIdentifier {
-            let startRecordIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "identifier".urlPercentEncoding(), value: Swift.String(startRecordIdentifier).urlPercentEncoding())
-            items.append(startRecordIdentifierQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        if let startRecordName = startRecordName {
-            let startRecordNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(startRecordName).urlPercentEncoding())
-            items.append(startRecordNameQueryItem)
-        }
-        return items
     }
 }
 
@@ -13080,16 +13106,18 @@ extension ListResourceRecordSetsOutputResponseBody: Swift.Decodable {
 
 extension ListReusableDelegationSetsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -13554,16 +13582,18 @@ extension ListTagsForResourcesOutputResponseBody: Swift.Decodable {
 
 extension ListTrafficPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let trafficPolicyIdMarker = trafficPolicyIdMarker {
-            let trafficPolicyIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyid".urlPercentEncoding(), value: Swift.String(trafficPolicyIdMarker).urlPercentEncoding())
-            items.append(trafficPolicyIdMarkerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let trafficPolicyIdMarker = trafficPolicyIdMarker {
+                let trafficPolicyIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyid".urlPercentEncoding(), value: Swift.String(trafficPolicyIdMarker).urlPercentEncoding())
+                items.append(trafficPolicyIdMarkerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -13715,24 +13745,28 @@ extension ListTrafficPoliciesOutputResponseBody: Swift.Decodable {
 
 extension ListTrafficPolicyInstancesByHostedZoneInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
-            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
-            items.append(trafficPolicyInstanceNameMarkerQueryItem)
-        }
-        if let hostedZoneId = hostedZoneId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
+                let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+                items.append(trafficPolicyInstanceNameMarkerQueryItem)
+            }
+            guard let hostedZoneId = hostedZoneId else {
+                let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
             items.append(hostedZoneIdQueryItem)
+            if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
+                let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+                items.append(trafficPolicyInstanceTypeMarkerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
-            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
-            items.append(trafficPolicyInstanceTypeMarkerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -13906,32 +13940,38 @@ extension ListTrafficPolicyInstancesByHostedZoneOutputResponseBody: Swift.Decoda
 
 extension ListTrafficPolicyInstancesByPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
-            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
-            items.append(trafficPolicyInstanceNameMarkerQueryItem)
-        }
-        if let trafficPolicyId = trafficPolicyId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
+                let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+                items.append(trafficPolicyInstanceNameMarkerQueryItem)
+            }
+            guard let trafficPolicyId = trafficPolicyId else {
+                let message = "Creating a URL Query Item failed. trafficPolicyId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let trafficPolicyIdQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(trafficPolicyId).urlPercentEncoding())
             items.append(trafficPolicyIdQueryItem)
-        }
-        if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
-            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
-            items.append(trafficPolicyInstanceTypeMarkerQueryItem)
-        }
-        if let hostedZoneIdMarker = hostedZoneIdMarker {
-            let hostedZoneIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
-            items.append(hostedZoneIdMarkerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        if let trafficPolicyVersion = trafficPolicyVersion {
+            if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
+                let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+                items.append(trafficPolicyInstanceTypeMarkerQueryItem)
+            }
+            if let hostedZoneIdMarker = hostedZoneIdMarker {
+                let hostedZoneIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
+                items.append(hostedZoneIdMarkerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            guard let trafficPolicyVersion = trafficPolicyVersion else {
+                let message = "Creating a URL Query Item failed. trafficPolicyVersion is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let trafficPolicyVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(trafficPolicyVersion).urlPercentEncoding())
             items.append(trafficPolicyVersionQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -14124,24 +14164,26 @@ extension ListTrafficPolicyInstancesByPolicyOutputResponseBody: Swift.Decodable 
 
 extension ListTrafficPolicyInstancesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
-            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
-            items.append(trafficPolicyInstanceNameMarkerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
+                let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+                items.append(trafficPolicyInstanceNameMarkerQueryItem)
+            }
+            if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
+                let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+                items.append(trafficPolicyInstanceTypeMarkerQueryItem)
+            }
+            if let hostedZoneIdMarker = hostedZoneIdMarker {
+                let hostedZoneIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
+                items.append(hostedZoneIdMarkerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
-            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
-            items.append(trafficPolicyInstanceTypeMarkerQueryItem)
-        }
-        if let hostedZoneIdMarker = hostedZoneIdMarker {
-            let hostedZoneIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
-            items.append(hostedZoneIdMarkerQueryItem)
-        }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -14322,16 +14364,18 @@ extension ListTrafficPolicyInstancesOutputResponseBody: Swift.Decodable {
 
 extension ListTrafficPolicyVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let trafficPolicyVersionMarker = trafficPolicyVersionMarker {
-            let trafficPolicyVersionMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyversion".urlPercentEncoding(), value: Swift.String(trafficPolicyVersionMarker).urlPercentEncoding())
-            items.append(trafficPolicyVersionMarkerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let trafficPolicyVersionMarker = trafficPolicyVersionMarker {
+                let trafficPolicyVersionMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyversion".urlPercentEncoding(), value: Swift.String(trafficPolicyVersionMarker).urlPercentEncoding())
+                items.append(trafficPolicyVersionMarkerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
         }
-        if let maxItems = maxItems {
-            let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-            items.append(maxItemsQueryItem)
-        }
-        return items
     }
 }
 
@@ -14493,16 +14537,18 @@ extension ListTrafficPolicyVersionsOutputResponseBody: Swift.Decodable {
 
 extension ListVPCAssociationAuthorizationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -16670,32 +16716,40 @@ extension Route53ClientTypes {
 
 extension TestDNSAnswerInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let recordName = recordName {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let recordName = recordName else {
+                let message = "Creating a URL Query Item failed. recordName is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let recordNameQueryItem = ClientRuntime.URLQueryItem(name: "recordname".urlPercentEncoding(), value: Swift.String(recordName).urlPercentEncoding())
             items.append(recordNameQueryItem)
-        }
-        if let edns0ClientSubnetIP = edns0ClientSubnetIP {
-            let edns0ClientSubnetIPQueryItem = ClientRuntime.URLQueryItem(name: "edns0clientsubnetip".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetIP).urlPercentEncoding())
-            items.append(edns0ClientSubnetIPQueryItem)
-        }
-        if let recordType = recordType {
+            if let edns0ClientSubnetIP = edns0ClientSubnetIP {
+                let edns0ClientSubnetIPQueryItem = ClientRuntime.URLQueryItem(name: "edns0clientsubnetip".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetIP).urlPercentEncoding())
+                items.append(edns0ClientSubnetIPQueryItem)
+            }
+            guard let recordType = recordType else {
+                let message = "Creating a URL Query Item failed. recordType is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let recordTypeQueryItem = ClientRuntime.URLQueryItem(name: "recordtype".urlPercentEncoding(), value: Swift.String(recordType.rawValue).urlPercentEncoding())
             items.append(recordTypeQueryItem)
-        }
-        if let hostedZoneId = hostedZoneId {
+            guard let hostedZoneId = hostedZoneId else {
+                let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
             items.append(hostedZoneIdQueryItem)
+            if let resolverIP = resolverIP {
+                let resolverIPQueryItem = ClientRuntime.URLQueryItem(name: "resolverip".urlPercentEncoding(), value: Swift.String(resolverIP).urlPercentEncoding())
+                items.append(resolverIPQueryItem)
+            }
+            if let edns0ClientSubnetMask = edns0ClientSubnetMask {
+                let edns0ClientSubnetMaskQueryItem = ClientRuntime.URLQueryItem(name: "edns0clientsubnetmask".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetMask).urlPercentEncoding())
+                items.append(edns0ClientSubnetMaskQueryItem)
+            }
+            return items
         }
-        if let resolverIP = resolverIP {
-            let resolverIPQueryItem = ClientRuntime.URLQueryItem(name: "resolverip".urlPercentEncoding(), value: Swift.String(resolverIP).urlPercentEncoding())
-            items.append(resolverIPQueryItem)
-        }
-        if let edns0ClientSubnetMask = edns0ClientSubnetMask {
-            let edns0ClientSubnetMaskQueryItem = ClientRuntime.URLQueryItem(name: "edns0clientsubnetmask".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetMask).urlPercentEncoding())
-            items.append(edns0ClientSubnetMaskQueryItem)
-        }
-        return items
     }
 }
 

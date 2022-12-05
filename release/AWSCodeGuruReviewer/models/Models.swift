@@ -1242,16 +1242,20 @@ extension DescribeCodeReviewOutputResponseBody: Swift.Decodable {
 
 extension DescribeRecommendationFeedbackInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let userId = userId {
-            let userIdQueryItem = ClientRuntime.URLQueryItem(name: "UserId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
-            items.append(userIdQueryItem)
-        }
-        if let recommendationId = recommendationId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let userId = userId {
+                let userIdQueryItem = ClientRuntime.URLQueryItem(name: "UserId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+                items.append(userIdQueryItem)
+            }
+            guard let recommendationId = recommendationId else {
+                let message = "Creating a URL Query Item failed. recommendationId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let recommendationIdQueryItem = ClientRuntime.URLQueryItem(name: "RecommendationId".urlPercentEncoding(), value: Swift.String(recommendationId).urlPercentEncoding())
             items.append(recommendationIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1836,38 +1840,42 @@ extension CodeGuruReviewerClientTypes {
 
 extension ListCodeReviewsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let states = states {
-            states.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "States".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let states = states {
+                states.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "States".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
-        }
-        if let repositoryNames = repositoryNames {
-            repositoryNames.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "RepositoryNames".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let repositoryNames = repositoryNames {
+                repositoryNames.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "RepositoryNames".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
-        }
-        if let type = type {
+            guard let type = type else {
+                let message = "Creating a URL Query Item failed. type is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let providerTypes = providerTypes {
-            providerTypes.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "ProviderTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
+            if let providerTypes = providerTypes {
+                providerTypes.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "ProviderTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -2017,28 +2025,30 @@ extension ListCodeReviewsOutputResponseBody: Swift.Decodable {
 
 extension ListRecommendationFeedbackInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let recommendationIds = recommendationIds {
-            recommendationIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "RecommendationIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let recommendationIds = recommendationIds {
+                recommendationIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "RecommendationIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let userIds = userIds {
-            userIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "UserIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let userIds = userIds {
+                userIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "UserIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2181,16 +2191,18 @@ extension ListRecommendationFeedbackOutputResponseBody: Swift.Decodable {
 
 extension ListRecommendationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -2325,40 +2337,42 @@ extension ListRecommendationsOutputResponseBody: Swift.Decodable {
 
 extension ListRepositoryAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let states = states {
-            states.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let states = states {
+                states.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
-        }
-        if let names = names {
-            names.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "Name".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let names = names {
+                names.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "Name".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let providerTypes = providerTypes {
-            providerTypes.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "ProviderType".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let owners = owners {
-            owners.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "Owner".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let providerTypes = providerTypes {
+                providerTypes.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "ProviderType".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let owners = owners {
+                owners.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "Owner".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -4497,14 +4511,18 @@ extension CodeGuruReviewerClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

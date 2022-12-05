@@ -219,9 +219,11 @@ extension AddTagsToVaultInput: Swift.Encodable {
 
 extension AddTagsToVaultInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "add"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "add"))
+            return items
+        }
     }
 }
 
@@ -3041,9 +3043,12 @@ public struct InitiateJobInputBodyMiddleware: ClientRuntime.Middleware {
                 let jobParametersbody = ClientRuntime.HttpBody.data(jobParametersdata)
                 input.builder.withBody(jobParametersbody)
             } else {
-                let jobParametersdata = try encoder.encode(input.operationInput)
-                let jobParametersbody = ClientRuntime.HttpBody.data(jobParametersdata)
-                input.builder.withBody(jobParametersbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let jobParametersdata = "{}".data(using: .utf8)!
+                    let jobParametersbody = ClientRuntime.HttpBody.data(jobParametersdata)
+                    input.builder.withBody(jobParametersbody)
+                }
             }
         } catch let err {
             throw SdkError<InitiateJobOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -3334,9 +3339,12 @@ public struct InitiateVaultLockInputBodyMiddleware: ClientRuntime.Middleware {
                 let policybody = ClientRuntime.HttpBody.data(policydata)
                 input.builder.withBody(policybody)
             } else {
-                let policydata = try encoder.encode(input.operationInput)
-                let policybody = ClientRuntime.HttpBody.data(policydata)
-                input.builder.withBody(policybody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let policydata = "{}".data(using: .utf8)!
+                    let policybody = ClientRuntime.HttpBody.data(policydata)
+                    input.builder.withBody(policybody)
+                }
             }
         } catch let err {
             throw SdkError<InitiateVaultLockOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -3982,24 +3990,26 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension ListJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let statuscode = statuscode {
-            let statuscodeQueryItem = ClientRuntime.URLQueryItem(name: "statuscode".urlPercentEncoding(), value: Swift.String(statuscode).urlPercentEncoding())
-            items.append(statuscodeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let statuscode = statuscode {
+                let statuscodeQueryItem = ClientRuntime.URLQueryItem(name: "statuscode".urlPercentEncoding(), value: Swift.String(statuscode).urlPercentEncoding())
+                items.append(statuscodeQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            if let completed = completed {
+                let completedQueryItem = ClientRuntime.URLQueryItem(name: "completed".urlPercentEncoding(), value: Swift.String(completed).urlPercentEncoding())
+                items.append(completedQueryItem)
+            }
+            return items
         }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        if let completed = completed {
-            let completedQueryItem = ClientRuntime.URLQueryItem(name: "completed".urlPercentEncoding(), value: Swift.String(completed).urlPercentEncoding())
-            items.append(completedQueryItem)
-        }
-        return items
     }
 }
 
@@ -4150,16 +4160,18 @@ extension ListJobsOutputResponseBody: Swift.Decodable {
 
 extension ListMultipartUploadsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -4302,16 +4314,18 @@ extension ListMultipartUploadsOutputResponseBody: Swift.Decodable {
 
 extension ListPartsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -4738,16 +4752,18 @@ extension ListTagsForVaultOutputResponseBody: Swift.Decodable {
 
 extension ListVaultsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -5368,9 +5384,11 @@ extension RemoveTagsFromVaultInput: Swift.Encodable {
 
 extension RemoveTagsFromVaultInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "operation", value: "remove"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "remove"))
+            return items
+        }
     }
 }
 
@@ -6009,9 +6027,12 @@ public struct SetVaultAccessPolicyInputBodyMiddleware: ClientRuntime.Middleware 
                 let policybody = ClientRuntime.HttpBody.data(policydata)
                 input.builder.withBody(policybody)
             } else {
-                let policydata = try encoder.encode(input.operationInput)
-                let policybody = ClientRuntime.HttpBody.data(policydata)
-                input.builder.withBody(policybody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let policydata = "{}".data(using: .utf8)!
+                    let policybody = ClientRuntime.HttpBody.data(policydata)
+                    input.builder.withBody(policybody)
+                }
             }
         } catch let err {
             throw SdkError<SetVaultAccessPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6146,9 +6167,12 @@ public struct SetVaultNotificationsInputBodyMiddleware: ClientRuntime.Middleware
                 let vaultNotificationConfigbody = ClientRuntime.HttpBody.data(vaultNotificationConfigdata)
                 input.builder.withBody(vaultNotificationConfigbody)
             } else {
-                let vaultNotificationConfigdata = try encoder.encode(input.operationInput)
-                let vaultNotificationConfigbody = ClientRuntime.HttpBody.data(vaultNotificationConfigdata)
-                input.builder.withBody(vaultNotificationConfigbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let vaultNotificationConfigdata = "{}".data(using: .utf8)!
+                    let vaultNotificationConfigbody = ClientRuntime.HttpBody.data(vaultNotificationConfigdata)
+                    input.builder.withBody(vaultNotificationConfigbody)
+                }
             }
         } catch let err {
             throw SdkError<SetVaultNotificationsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))

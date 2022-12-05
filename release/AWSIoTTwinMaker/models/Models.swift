@@ -2131,12 +2131,14 @@ extension DeleteComponentTypeOutputResponseBody: Swift.Decodable {
 
 extension DeleteEntityInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let isRecursive = isRecursive {
-            let isRecursiveQueryItem = ClientRuntime.URLQueryItem(name: "isRecursive".urlPercentEncoding(), value: Swift.String(isRecursive).urlPercentEncoding())
-            items.append(isRecursiveQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let isRecursive = isRecursive {
+                let isRecursiveQueryItem = ClientRuntime.URLQueryItem(name: "isRecursive".urlPercentEncoding(), value: Swift.String(isRecursive).urlPercentEncoding())
+                items.append(isRecursiveQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -6759,18 +6761,24 @@ extension IoTTwinMakerClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
-        }
-        if let resourceARN = resourceARN {
+            guard let resourceARN = resourceARN else {
+                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "resourceARN".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
             items.append(resourceARNQueryItem)
+            return items
         }
-        return items
     }
 }
 

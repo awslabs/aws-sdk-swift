@@ -3996,12 +3996,16 @@ extension CreateInfrastructureConfigurationOutputResponseBody: Swift.Decodable {
 
 extension DeleteComponentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let componentBuildVersionArn = componentBuildVersionArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let componentBuildVersionArn = componentBuildVersionArn else {
+                let message = "Creating a URL Query Item failed. componentBuildVersionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let componentBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "componentBuildVersionArn".urlPercentEncoding(), value: Swift.String(componentBuildVersionArn).urlPercentEncoding())
             items.append(componentBuildVersionArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4120,12 +4124,16 @@ extension DeleteComponentOutputResponseBody: Swift.Decodable {
 
 extension DeleteContainerRecipeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let containerRecipeArn = containerRecipeArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let containerRecipeArn = containerRecipeArn else {
+                let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let containerRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
             items.append(containerRecipeArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4244,12 +4252,16 @@ extension DeleteContainerRecipeOutputResponseBody: Swift.Decodable {
 
 extension DeleteDistributionConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let distributionConfigurationArn = distributionConfigurationArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let distributionConfigurationArn = distributionConfigurationArn else {
+                let message = "Creating a URL Query Item failed. distributionConfigurationArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let distributionConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "distributionConfigurationArn".urlPercentEncoding(), value: Swift.String(distributionConfigurationArn).urlPercentEncoding())
             items.append(distributionConfigurationArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4368,12 +4380,16 @@ extension DeleteDistributionConfigurationOutputResponseBody: Swift.Decodable {
 
 extension DeleteImageInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imageBuildVersionArn = imageBuildVersionArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imageBuildVersionArn = imageBuildVersionArn else {
+                let message = "Creating a URL Query Item failed. imageBuildVersionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imageBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "imageBuildVersionArn".urlPercentEncoding(), value: Swift.String(imageBuildVersionArn).urlPercentEncoding())
             items.append(imageBuildVersionArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4492,12 +4508,16 @@ extension DeleteImageOutputResponseBody: Swift.Decodable {
 
 extension DeleteImagePipelineInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imagePipelineArn = imagePipelineArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imagePipelineArn = imagePipelineArn else {
+                let message = "Creating a URL Query Item failed. imagePipelineArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imagePipelineArnQueryItem = ClientRuntime.URLQueryItem(name: "imagePipelineArn".urlPercentEncoding(), value: Swift.String(imagePipelineArn).urlPercentEncoding())
             items.append(imagePipelineArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4616,12 +4636,16 @@ extension DeleteImagePipelineOutputResponseBody: Swift.Decodable {
 
 extension DeleteImageRecipeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imageRecipeArn = imageRecipeArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imageRecipeArn = imageRecipeArn else {
+                let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imageRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
             items.append(imageRecipeArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4740,12 +4764,16 @@ extension DeleteImageRecipeOutputResponseBody: Swift.Decodable {
 
 extension DeleteInfrastructureConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let infrastructureConfigurationArn = infrastructureConfigurationArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let infrastructureConfigurationArn = infrastructureConfigurationArn else {
+                let message = "Creating a URL Query Item failed. infrastructureConfigurationArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let infrastructureConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "infrastructureConfigurationArn".urlPercentEncoding(), value: Swift.String(infrastructureConfigurationArn).urlPercentEncoding())
             items.append(infrastructureConfigurationArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -5707,12 +5735,16 @@ extension ForbiddenExceptionBody: Swift.Decodable {
 
 extension GetComponentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let componentBuildVersionArn = componentBuildVersionArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let componentBuildVersionArn = componentBuildVersionArn else {
+                let message = "Creating a URL Query Item failed. componentBuildVersionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let componentBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "componentBuildVersionArn".urlPercentEncoding(), value: Swift.String(componentBuildVersionArn).urlPercentEncoding())
             items.append(componentBuildVersionArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -5829,12 +5861,16 @@ extension GetComponentOutputResponseBody: Swift.Decodable {
 
 extension GetComponentPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let componentArn = componentArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let componentArn = componentArn else {
+                let message = "Creating a URL Query Item failed. componentArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let componentArnQueryItem = ClientRuntime.URLQueryItem(name: "componentArn".urlPercentEncoding(), value: Swift.String(componentArn).urlPercentEncoding())
             items.append(componentArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -5951,12 +5987,16 @@ extension GetComponentPolicyOutputResponseBody: Swift.Decodable {
 
 extension GetContainerRecipeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let containerRecipeArn = containerRecipeArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let containerRecipeArn = containerRecipeArn else {
+                let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let containerRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
             items.append(containerRecipeArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6073,12 +6113,16 @@ extension GetContainerRecipeOutputResponseBody: Swift.Decodable {
 
 extension GetContainerRecipePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let containerRecipeArn = containerRecipeArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let containerRecipeArn = containerRecipeArn else {
+                let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let containerRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
             items.append(containerRecipeArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6195,12 +6239,16 @@ extension GetContainerRecipePolicyOutputResponseBody: Swift.Decodable {
 
 extension GetDistributionConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let distributionConfigurationArn = distributionConfigurationArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let distributionConfigurationArn = distributionConfigurationArn else {
+                let message = "Creating a URL Query Item failed. distributionConfigurationArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let distributionConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "distributionConfigurationArn".urlPercentEncoding(), value: Swift.String(distributionConfigurationArn).urlPercentEncoding())
             items.append(distributionConfigurationArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6317,12 +6365,16 @@ extension GetDistributionConfigurationOutputResponseBody: Swift.Decodable {
 
 extension GetImageInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imageBuildVersionArn = imageBuildVersionArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imageBuildVersionArn = imageBuildVersionArn else {
+                let message = "Creating a URL Query Item failed. imageBuildVersionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imageBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "imageBuildVersionArn".urlPercentEncoding(), value: Swift.String(imageBuildVersionArn).urlPercentEncoding())
             items.append(imageBuildVersionArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6439,12 +6491,16 @@ extension GetImageOutputResponseBody: Swift.Decodable {
 
 extension GetImagePipelineInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imagePipelineArn = imagePipelineArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imagePipelineArn = imagePipelineArn else {
+                let message = "Creating a URL Query Item failed. imagePipelineArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imagePipelineArnQueryItem = ClientRuntime.URLQueryItem(name: "imagePipelineArn".urlPercentEncoding(), value: Swift.String(imagePipelineArn).urlPercentEncoding())
             items.append(imagePipelineArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6561,12 +6617,16 @@ extension GetImagePipelineOutputResponseBody: Swift.Decodable {
 
 extension GetImagePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imageArn = imageArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imageArn = imageArn else {
+                let message = "Creating a URL Query Item failed. imageArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imageArnQueryItem = ClientRuntime.URLQueryItem(name: "imageArn".urlPercentEncoding(), value: Swift.String(imageArn).urlPercentEncoding())
             items.append(imageArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6683,12 +6743,16 @@ extension GetImagePolicyOutputResponseBody: Swift.Decodable {
 
 extension GetImageRecipeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imageRecipeArn = imageRecipeArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imageRecipeArn = imageRecipeArn else {
+                let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imageRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
             items.append(imageRecipeArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6805,12 +6869,16 @@ extension GetImageRecipeOutputResponseBody: Swift.Decodable {
 
 extension GetImageRecipePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let imageRecipeArn = imageRecipeArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let imageRecipeArn = imageRecipeArn else {
+                let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let imageRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
             items.append(imageRecipeArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6927,12 +6995,16 @@ extension GetImageRecipePolicyOutputResponseBody: Swift.Decodable {
 
 extension GetInfrastructureConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let infrastructureConfigurationArn = infrastructureConfigurationArn {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let infrastructureConfigurationArn = infrastructureConfigurationArn else {
+                let message = "Creating a URL Query Item failed. infrastructureConfigurationArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let infrastructureConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "infrastructureConfigurationArn".urlPercentEncoding(), value: Swift.String(infrastructureConfigurationArn).urlPercentEncoding())
             items.append(infrastructureConfigurationArnQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -13974,14 +14046,18 @@ extension ImagebuilderClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

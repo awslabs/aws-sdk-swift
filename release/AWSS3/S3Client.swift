@@ -4792,7 +4792,7 @@ extension S3Client: S3ClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: WriteGetObjectResponseInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<WriteGetObjectResponseOutputResponse, WriteGetObjectResponseOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: true)
+        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, unsignedBody: true)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<WriteGetObjectResponseOutputResponse, WriteGetObjectResponseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<WriteGetObjectResponseOutputResponse, WriteGetObjectResponseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<WriteGetObjectResponseOutputResponse, WriteGetObjectResponseOutputError>())

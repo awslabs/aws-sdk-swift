@@ -455,16 +455,22 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 extension DeleteRecordInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let recordIdentifierValueAsString = recordIdentifierValueAsString {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let recordIdentifierValueAsString = recordIdentifierValueAsString else {
+                let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
             items.append(recordIdentifierValueAsStringQueryItem)
-        }
-        if let eventTime = eventTime {
+            guard let eventTime = eventTime else {
+                let message = "Creating a URL Query Item failed. eventTime is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let eventTimeQueryItem = ClientRuntime.URLQueryItem(name: "EventTime".urlPercentEncoding(), value: Swift.String(eventTime).urlPercentEncoding())
             items.append(eventTimeQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -596,18 +602,22 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 extension GetRecordInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let recordIdentifierValueAsString = recordIdentifierValueAsString {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let recordIdentifierValueAsString = recordIdentifierValueAsString else {
+                let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
             items.append(recordIdentifierValueAsStringQueryItem)
-        }
-        if let featureNames = featureNames {
-            featureNames.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "FeatureName".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let featureNames = featureNames {
+                featureNames.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "FeatureName".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
+            return items
         }
-        return items
     }
 }
 

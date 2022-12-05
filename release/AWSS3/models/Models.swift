@@ -69,13 +69,17 @@ extension AbortMultipartUploadInput: ClientRuntime.HeaderProvider {
 
 extension AbortMultipartUploadInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "AbortMultipartUpload"))
-        if let uploadId = uploadId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "AbortMultipartUpload"))
+            guard let uploadId = uploadId else {
+                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
             items.append(uploadIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1982,9 +1986,12 @@ public struct CompleteMultipartUploadInputBodyMiddleware: ClientRuntime.Middlewa
                 let multipartUploadbody = ClientRuntime.HttpBody.data(multipartUploaddata)
                 input.builder.withBody(multipartUploadbody)
             } else {
-                let multipartUploaddata = try encoder.encode(input.operationInput)
-                let multipartUploadbody = ClientRuntime.HttpBody.data(multipartUploaddata)
-                input.builder.withBody(multipartUploadbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let multipartUploaddata = "{}".data(using: .utf8)!
+                    let multipartUploadbody = ClientRuntime.HttpBody.data(multipartUploaddata)
+                    input.builder.withBody(multipartUploadbody)
+                }
             }
         } catch let err {
             throw SdkError<CompleteMultipartUploadOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -2068,13 +2075,17 @@ extension CompleteMultipartUploadInput: ClientRuntime.HeaderProvider {
 
 extension CompleteMultipartUploadInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CompleteMultipartUpload"))
-        if let uploadId = uploadId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CompleteMultipartUpload"))
+            guard let uploadId = uploadId else {
+                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
             items.append(uploadIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2800,9 +2811,11 @@ extension CopyObjectInput: ClientRuntime.HeaderProvider {
 
 extension CopyObjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CopyObject"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CopyObject"))
+            return items
+        }
     }
 }
 
@@ -3461,9 +3474,12 @@ public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
                 let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
                 input.builder.withBody(createBucketConfigurationbody)
             } else {
-                let createBucketConfigurationdata = try encoder.encode(input.operationInput)
-                let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
-                input.builder.withBody(createBucketConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let createBucketConfigurationdata = "{}".data(using: .utf8)!
+                    let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
+                    input.builder.withBody(createBucketConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateBucketOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -3772,10 +3788,12 @@ extension CreateMultipartUploadInput: ClientRuntime.HeaderProvider {
 
 extension CreateMultipartUploadInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CreateMultipartUpload"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CreateMultipartUpload"))
+            return items
+        }
     }
 }
 
@@ -4296,13 +4314,17 @@ extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider 
 
 extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4403,9 +4425,11 @@ extension DeleteBucketCorsInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketCorsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
+            return items
+        }
     }
 }
 
@@ -4501,9 +4525,11 @@ extension DeleteBucketEncryptionInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketEncryptionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
+            return items
+        }
     }
 }
 
@@ -4631,13 +4657,17 @@ extension DeleteBucketInputBody: Swift.Decodable {
 
 extension DeleteBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4734,13 +4764,17 @@ extension DeleteBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider 
 
 extension DeleteBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -4841,9 +4875,11 @@ extension DeleteBucketLifecycleInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketLifecycleInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
+            return items
+        }
     }
 }
 
@@ -4939,13 +4975,17 @@ extension DeleteBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -5094,9 +5134,11 @@ extension DeleteBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
+            return items
+        }
     }
 }
 
@@ -5192,9 +5234,11 @@ extension DeleteBucketPolicyInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
+            return items
+        }
     }
 }
 
@@ -5290,9 +5334,11 @@ extension DeleteBucketReplicationInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketReplicationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
+            return items
+        }
     }
 }
 
@@ -5388,9 +5434,11 @@ extension DeleteBucketTaggingInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketTaggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            return items
+        }
     }
 }
 
@@ -5486,9 +5534,11 @@ extension DeleteBucketWebsiteInput: ClientRuntime.HeaderProvider {
 
 extension DeleteBucketWebsiteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
+            return items
+        }
     }
 }
 
@@ -5769,13 +5819,15 @@ extension DeleteObjectInput: ClientRuntime.HeaderProvider {
 
 extension DeleteObjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "DeleteObject"))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "DeleteObject"))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -5925,13 +5977,15 @@ extension DeleteObjectTaggingInput: ClientRuntime.HeaderProvider {
 
 extension DeleteObjectTaggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -6059,9 +6113,12 @@ public struct DeleteObjectsInputBodyMiddleware: ClientRuntime.Middleware {
                 let deletebody = ClientRuntime.HttpBody.data(deletedata)
                 input.builder.withBody(deletebody)
             } else {
-                let deletedata = try encoder.encode(input.operationInput)
-                let deletebody = ClientRuntime.HttpBody.data(deletedata)
-                input.builder.withBody(deletebody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let deletedata = "{}".data(using: .utf8)!
+                    let deletebody = ClientRuntime.HttpBody.data(deletedata)
+                    input.builder.withBody(deletebody)
+                }
             }
         } catch let err {
             throw SdkError<DeleteObjectsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6128,10 +6185,12 @@ extension DeleteObjectsInput: ClientRuntime.HeaderProvider {
 
 extension DeleteObjectsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "delete", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "DeleteObjects"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "delete", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "DeleteObjects"))
+            return items
+        }
     }
 }
 
@@ -6337,9 +6396,11 @@ extension DeletePublicAccessBlockInput: ClientRuntime.HeaderProvider {
 
 extension DeletePublicAccessBlockInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
+            return items
+        }
     }
 }
 
@@ -8397,9 +8458,11 @@ extension GetBucketAccelerateConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketAccelerateConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "accelerate", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "accelerate", value: nil))
+            return items
+        }
     }
 }
 
@@ -8526,9 +8589,11 @@ extension GetBucketAclInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketAclInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
+            return items
+        }
     }
 }
 
@@ -8682,14 +8747,18 @@ extension GetBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketAnalyticsConfiguration"))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketAnalyticsConfiguration"))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -8824,9 +8893,11 @@ extension GetBucketCorsInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketCorsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
+            return items
+        }
     }
 }
 
@@ -8969,9 +9040,11 @@ extension GetBucketEncryptionInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketEncryptionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
+            return items
+        }
     }
 }
 
@@ -9091,14 +9164,18 @@ extension GetBucketEncryptionOutputResponseBody: Swift.Decodable {
 
 extension GetBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketIntelligentTieringConfiguration"))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketIntelligentTieringConfiguration"))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -9229,14 +9306,18 @@ extension GetBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketInventoryConfiguration"))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketInventoryConfiguration"))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -9371,9 +9452,11 @@ extension GetBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketLifecycleConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
+            return items
+        }
     }
 }
 
@@ -9516,9 +9599,11 @@ extension GetBucketLocationInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketLocationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "location", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "location", value: nil))
+            return items
+        }
     }
 }
 
@@ -9645,9 +9730,11 @@ extension GetBucketLoggingInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketLoggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "logging", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "logging", value: nil))
+            return items
+        }
     }
 }
 
@@ -9774,14 +9861,18 @@ extension GetBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketMetricsConfiguration"))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketMetricsConfiguration"))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -9916,9 +10007,11 @@ extension GetBucketNotificationConfigurationInput: ClientRuntime.HeaderProvider 
 
 extension GetBucketNotificationConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "notification", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "notification", value: nil))
+            return items
+        }
     }
 }
 
@@ -10124,9 +10217,11 @@ extension GetBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
+            return items
+        }
     }
 }
 
@@ -10256,9 +10351,11 @@ extension GetBucketPolicyInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
+            return items
+        }
     }
 }
 
@@ -10387,9 +10484,11 @@ extension GetBucketPolicyStatusInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketPolicyStatusInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "policyStatus", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "policyStatus", value: nil))
+            return items
+        }
     }
 }
 
@@ -10519,9 +10618,11 @@ extension GetBucketReplicationInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketReplicationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
+            return items
+        }
     }
 }
 
@@ -10651,9 +10752,11 @@ extension GetBucketRequestPaymentInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketRequestPaymentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "requestPayment", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "requestPayment", value: nil))
+            return items
+        }
     }
 }
 
@@ -10780,9 +10883,11 @@ extension GetBucketTaggingInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketTaggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            return items
+        }
     }
 }
 
@@ -10927,9 +11032,11 @@ extension GetBucketVersioningInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketVersioningInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "versioning", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "versioning", value: nil))
+            return items
+        }
     }
 }
 
@@ -11066,9 +11173,11 @@ extension GetBucketWebsiteInput: ClientRuntime.HeaderProvider {
 
 extension GetBucketWebsiteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
+            return items
+        }
     }
 }
 
@@ -11245,13 +11354,15 @@ extension GetObjectAclInput: ClientRuntime.HeaderProvider {
 
 extension GetObjectAclInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11460,13 +11571,15 @@ extension GetObjectAttributesInput: ClientRuntime.HeaderProvider {
 
 extension GetObjectAttributesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "attributes", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "attributes", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11900,7 +12013,7 @@ extension GetObjectInput {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutputResponse, GetObjectOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: GetObjectInputGETQueryItemMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true)
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
@@ -11944,7 +12057,7 @@ extension GetObjectInput {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
@@ -12047,41 +12160,43 @@ public struct GetObjectInputGETQueryItemMiddleware: ClientRuntime.Middleware {
 
 extension GetObjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetObject"))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetObject"))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            if let responseContentDisposition = responseContentDisposition {
+                let responseContentDispositionQueryItem = ClientRuntime.URLQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+                items.append(responseContentDispositionQueryItem)
+            }
+            if partNumber != 0 {
+                let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+                items.append(partNumberQueryItem)
+            }
+            if let responseContentType = responseContentType {
+                let responseContentTypeQueryItem = ClientRuntime.URLQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+                items.append(responseContentTypeQueryItem)
+            }
+            if let responseExpires = responseExpires {
+                let responseExpiresQueryItem = ClientRuntime.URLQueryItem(name: "response-expires".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .httpDate).string(from: responseExpires)).urlPercentEncoding())
+                items.append(responseExpiresQueryItem)
+            }
+            if let responseContentEncoding = responseContentEncoding {
+                let responseContentEncodingQueryItem = ClientRuntime.URLQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+                items.append(responseContentEncodingQueryItem)
+            }
+            if let responseCacheControl = responseCacheControl {
+                let responseCacheControlQueryItem = ClientRuntime.URLQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+                items.append(responseCacheControlQueryItem)
+            }
+            if let responseContentLanguage = responseContentLanguage {
+                let responseContentLanguageQueryItem = ClientRuntime.URLQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+                items.append(responseContentLanguageQueryItem)
+            }
+            return items
         }
-        if let responseContentDisposition = responseContentDisposition {
-            let responseContentDispositionQueryItem = ClientRuntime.URLQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
-            items.append(responseContentDispositionQueryItem)
-        }
-        if partNumber != 0 {
-            let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-            items.append(partNumberQueryItem)
-        }
-        if let responseContentType = responseContentType {
-            let responseContentTypeQueryItem = ClientRuntime.URLQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
-            items.append(responseContentTypeQueryItem)
-        }
-        if let responseExpires = responseExpires {
-            let responseExpiresQueryItem = ClientRuntime.URLQueryItem(name: "response-expires".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .httpDate).string(from: responseExpires)).urlPercentEncoding())
-            items.append(responseExpiresQueryItem)
-        }
-        if let responseContentEncoding = responseContentEncoding {
-            let responseContentEncodingQueryItem = ClientRuntime.URLQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
-            items.append(responseContentEncodingQueryItem)
-        }
-        if let responseCacheControl = responseCacheControl {
-            let responseCacheControlQueryItem = ClientRuntime.URLQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
-            items.append(responseCacheControlQueryItem)
-        }
-        if let responseContentLanguage = responseContentLanguage {
-            let responseContentLanguageQueryItem = ClientRuntime.URLQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
-            items.append(responseContentLanguageQueryItem)
-        }
-        return items
     }
 }
 
@@ -12212,13 +12327,15 @@ extension GetObjectLegalHoldInput: ClientRuntime.HeaderProvider {
 
 extension GetObjectLegalHoldInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "legal-hold", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "legal-hold", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -12364,9 +12481,11 @@ extension GetObjectLockConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension GetObjectLockConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "object-lock", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "object-lock", value: nil))
+            return items
+        }
     }
 }
 
@@ -12614,7 +12733,7 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
             self.expiration = nil
         }
         if let expiresHeaderValue = httpResponse.headers.value(for: "Expires") {
-            self.expires = TimestampFormatter(format: .httpDate).date(from: expiresHeaderValue)
+            self.expires = expiresHeaderValue
         } else {
             self.expires = nil
         }
@@ -12760,7 +12879,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL-encoded.
     public var expiration: Swift.String?
     /// The date and time at which the object is no longer cacheable.
-    public var expires: ClientRuntime.Date?
+    public var expires: Swift.String?
     /// Creation date of the object.
     public var lastModified: ClientRuntime.Date?
     /// A map of metadata to store with the object in S3.
@@ -12816,7 +12935,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
         deleteMarker: Swift.Bool = false,
         eTag: Swift.String? = nil,
         expiration: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
+        expires: Swift.String? = nil,
         lastModified: ClientRuntime.Date? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
         missingMeta: Swift.Int = 0,
@@ -12915,13 +13034,15 @@ extension GetObjectRetentionInput: ClientRuntime.HeaderProvider {
 
 extension GetObjectRetentionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "retention", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "retention", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -13070,13 +13191,15 @@ extension GetObjectTaggingInput: ClientRuntime.HeaderProvider {
 
 extension GetObjectTaggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -13249,9 +13372,11 @@ extension GetObjectTorrentInput: ClientRuntime.HeaderProvider {
 
 extension GetObjectTorrentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "torrent", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "torrent", value: nil))
+            return items
+        }
     }
 }
 
@@ -13405,9 +13530,11 @@ extension GetPublicAccessBlockInput: ClientRuntime.HeaderProvider {
 
 extension GetPublicAccessBlockInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
+            return items
+        }
     }
 }
 
@@ -13902,16 +14029,18 @@ extension HeadObjectInput: ClientRuntime.HeaderProvider {
 
 extension HeadObjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            if partNumber != 0 {
+                let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+                items.append(partNumberQueryItem)
+            }
+            return items
         }
-        if partNumber != 0 {
-            let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-            items.append(partNumberQueryItem)
-        }
-        return items
     }
 }
 
@@ -14131,7 +14260,7 @@ extension HeadObjectOutputResponse: ClientRuntime.HttpResponseBinding {
             self.expiration = nil
         }
         if let expiresHeaderValue = httpResponse.headers.value(for: "Expires") {
-            self.expires = TimestampFormatter(format: .httpDate).date(from: expiresHeaderValue)
+            self.expires = expiresHeaderValue
         } else {
             self.expires = nil
         }
@@ -14264,7 +14393,7 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
     /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL-encoded.
     public var expiration: Swift.String?
     /// The date and time at which the object is no longer cacheable.
-    public var expires: ClientRuntime.Date?
+    public var expires: Swift.String?
     /// Creation date of the object.
     public var lastModified: ClientRuntime.Date?
     /// A map of metadata to store with the object in S3.
@@ -14326,7 +14455,7 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
         deleteMarker: Swift.Bool = false,
         eTag: Swift.String? = nil,
         expiration: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
+        expires: Swift.String? = nil,
         lastModified: ClientRuntime.Date? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
         missingMeta: Swift.Int = 0,
@@ -16277,14 +16406,16 @@ extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.HeaderProvider {
 
 extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketAnalyticsConfigurations"))
-        if let continuationToken = continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-            items.append(continuationTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketAnalyticsConfigurations"))
+            if let continuationToken = continuationToken {
+                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+                items.append(continuationTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -16451,14 +16582,16 @@ extension ListBucketAnalyticsConfigurationsOutputResponseBody: Swift.Decodable {
 
 extension ListBucketIntelligentTieringConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketIntelligentTieringConfigurations"))
-        if let continuationToken = continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-            items.append(continuationTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketIntelligentTieringConfigurations"))
+            if let continuationToken = continuationToken {
+                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+                items.append(continuationTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -16631,14 +16764,16 @@ extension ListBucketInventoryConfigurationsInput: ClientRuntime.HeaderProvider {
 
 extension ListBucketInventoryConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketInventoryConfigurations"))
-        if let continuationToken = continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-            items.append(continuationTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketInventoryConfigurations"))
+            if let continuationToken = continuationToken {
+                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+                items.append(continuationTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -16815,14 +16950,16 @@ extension ListBucketMetricsConfigurationsInput: ClientRuntime.HeaderProvider {
 
 extension ListBucketMetricsConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketMetricsConfigurations"))
-        if let continuationToken = continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-            items.append(continuationTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketMetricsConfigurations"))
+            if let continuationToken = continuationToken {
+                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+                items.append(continuationTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -17125,33 +17262,35 @@ extension ListMultipartUploadsInput: ClientRuntime.HeaderProvider {
 
 extension ListMultipartUploadsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
-        if let uploadIdMarker = uploadIdMarker {
-            let uploadIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "upload-id-marker".urlPercentEncoding(), value: Swift.String(uploadIdMarker).urlPercentEncoding())
-            items.append(uploadIdMarkerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
+            if let uploadIdMarker = uploadIdMarker {
+                let uploadIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "upload-id-marker".urlPercentEncoding(), value: Swift.String(uploadIdMarker).urlPercentEncoding())
+                items.append(uploadIdMarkerQueryItem)
+            }
+            if let delimiter = delimiter {
+                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+                items.append(delimiterQueryItem)
+            }
+            if maxUploads != 0 {
+                let maxUploadsQueryItem = ClientRuntime.URLQueryItem(name: "max-uploads".urlPercentEncoding(), value: Swift.String(maxUploads).urlPercentEncoding())
+                items.append(maxUploadsQueryItem)
+            }
+            if let encodingType = encodingType {
+                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+                items.append(encodingTypeQueryItem)
+            }
+            if let `prefix` = `prefix` {
+                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+                items.append(prefixQueryItem)
+            }
+            if let keyMarker = keyMarker {
+                let keyMarkerQueryItem = ClientRuntime.URLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
+                items.append(keyMarkerQueryItem)
+            }
+            return items
         }
-        if let delimiter = delimiter {
-            let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-            items.append(delimiterQueryItem)
-        }
-        if maxUploads != 0 {
-            let maxUploadsQueryItem = ClientRuntime.URLQueryItem(name: "max-uploads".urlPercentEncoding(), value: Swift.String(maxUploads).urlPercentEncoding())
-            items.append(maxUploadsQueryItem)
-        }
-        if let encodingType = encodingType {
-            let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-            items.append(encodingTypeQueryItem)
-        }
-        if let `prefix` = `prefix` {
-            let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-            items.append(prefixQueryItem)
-        }
-        if let keyMarker = keyMarker {
-            let keyMarkerQueryItem = ClientRuntime.URLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
-            items.append(keyMarkerQueryItem)
-        }
-        return items
     }
 }
 
@@ -17444,33 +17583,35 @@ extension ListObjectVersionsInput: ClientRuntime.HeaderProvider {
 
 extension ListObjectVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "versions", value: nil))
-        if let versionIdMarker = versionIdMarker {
-            let versionIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "version-id-marker".urlPercentEncoding(), value: Swift.String(versionIdMarker).urlPercentEncoding())
-            items.append(versionIdMarkerQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "versions", value: nil))
+            if let versionIdMarker = versionIdMarker {
+                let versionIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "version-id-marker".urlPercentEncoding(), value: Swift.String(versionIdMarker).urlPercentEncoding())
+                items.append(versionIdMarkerQueryItem)
+            }
+            if let delimiter = delimiter {
+                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+                items.append(delimiterQueryItem)
+            }
+            if let encodingType = encodingType {
+                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+                items.append(encodingTypeQueryItem)
+            }
+            if let `prefix` = `prefix` {
+                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+                items.append(prefixQueryItem)
+            }
+            if maxKeys != 0 {
+                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+                items.append(maxKeysQueryItem)
+            }
+            if let keyMarker = keyMarker {
+                let keyMarkerQueryItem = ClientRuntime.URLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
+                items.append(keyMarkerQueryItem)
+            }
+            return items
         }
-        if let delimiter = delimiter {
-            let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-            items.append(delimiterQueryItem)
-        }
-        if let encodingType = encodingType {
-            let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-            items.append(encodingTypeQueryItem)
-        }
-        if let `prefix` = `prefix` {
-            let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-            items.append(prefixQueryItem)
-        }
-        if maxKeys != 0 {
-            let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-            items.append(maxKeysQueryItem)
-        }
-        if let keyMarker = keyMarker {
-            let keyMarkerQueryItem = ClientRuntime.URLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
-            items.append(keyMarkerQueryItem)
-        }
-        return items
     }
 }
 
@@ -17792,28 +17933,30 @@ extension ListObjectsInput: ClientRuntime.HeaderProvider {
 
 extension ListObjectsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let delimiter = delimiter {
-            let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-            items.append(delimiterQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let delimiter = delimiter {
+                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+                items.append(delimiterQueryItem)
+            }
+            if let encodingType = encodingType {
+                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+                items.append(encodingTypeQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let `prefix` = `prefix` {
+                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+                items.append(prefixQueryItem)
+            }
+            if maxKeys != 0 {
+                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+                items.append(maxKeysQueryItem)
+            }
+            return items
         }
-        if let encodingType = encodingType {
-            let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-            items.append(encodingTypeQueryItem)
-        }
-        if let marker = marker {
-            let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-            items.append(markerQueryItem)
-        }
-        if let `prefix` = `prefix` {
-            let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-            items.append(prefixQueryItem)
-        }
-        if maxKeys != 0 {
-            let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-            items.append(maxKeysQueryItem)
-        }
-        return items
     }
 }
 
@@ -18091,37 +18234,39 @@ extension ListObjectsV2Input: ClientRuntime.HeaderProvider {
 
 extension ListObjectsV2Input: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "list-type", value: "2"))
-        if let continuationToken = continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-            items.append(continuationTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "list-type", value: "2"))
+            if let continuationToken = continuationToken {
+                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+                items.append(continuationTokenQueryItem)
+            }
+            if let delimiter = delimiter {
+                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+                items.append(delimiterQueryItem)
+            }
+            if fetchOwner != false {
+                let fetchOwnerQueryItem = ClientRuntime.URLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
+                items.append(fetchOwnerQueryItem)
+            }
+            if let encodingType = encodingType {
+                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+                items.append(encodingTypeQueryItem)
+            }
+            if let startAfter = startAfter {
+                let startAfterQueryItem = ClientRuntime.URLQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
+                items.append(startAfterQueryItem)
+            }
+            if let `prefix` = `prefix` {
+                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+                items.append(prefixQueryItem)
+            }
+            if maxKeys != 0 {
+                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+                items.append(maxKeysQueryItem)
+            }
+            return items
         }
-        if let delimiter = delimiter {
-            let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-            items.append(delimiterQueryItem)
-        }
-        if fetchOwner != false {
-            let fetchOwnerQueryItem = ClientRuntime.URLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
-            items.append(fetchOwnerQueryItem)
-        }
-        if let encodingType = encodingType {
-            let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-            items.append(encodingTypeQueryItem)
-        }
-        if let startAfter = startAfter {
-            let startAfterQueryItem = ClientRuntime.URLQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
-            items.append(startAfterQueryItem)
-        }
-        if let `prefix` = `prefix` {
-            let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-            items.append(prefixQueryItem)
-        }
-        if maxKeys != 0 {
-            let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-            items.append(maxKeysQueryItem)
-        }
-        return items
     }
 }
 
@@ -18441,21 +18586,25 @@ extension ListPartsInput: ClientRuntime.HeaderProvider {
 
 extension ListPartsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListParts"))
-        if let partNumberMarker = partNumberMarker {
-            let partNumberMarkerQueryItem = ClientRuntime.URLQueryItem(name: "part-number-marker".urlPercentEncoding(), value: Swift.String(partNumberMarker).urlPercentEncoding())
-            items.append(partNumberMarkerQueryItem)
-        }
-        if maxParts != 0 {
-            let maxPartsQueryItem = ClientRuntime.URLQueryItem(name: "max-parts".urlPercentEncoding(), value: Swift.String(maxParts).urlPercentEncoding())
-            items.append(maxPartsQueryItem)
-        }
-        if let uploadId = uploadId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListParts"))
+            if let partNumberMarker = partNumberMarker {
+                let partNumberMarkerQueryItem = ClientRuntime.URLQueryItem(name: "part-number-marker".urlPercentEncoding(), value: Swift.String(partNumberMarker).urlPercentEncoding())
+                items.append(partNumberMarkerQueryItem)
+            }
+            if maxParts != 0 {
+                let maxPartsQueryItem = ClientRuntime.URLQueryItem(name: "max-parts".urlPercentEncoding(), value: Swift.String(maxParts).urlPercentEncoding())
+                items.append(maxPartsQueryItem)
+            }
+            guard let uploadId = uploadId else {
+                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
             items.append(uploadIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -21814,9 +21963,12 @@ public struct PutBucketAccelerateConfigurationInputBodyMiddleware: ClientRuntime
                 let accelerateConfigurationbody = ClientRuntime.HttpBody.data(accelerateConfigurationdata)
                 input.builder.withBody(accelerateConfigurationbody)
             } else {
-                let accelerateConfigurationdata = try encoder.encode(input.operationInput)
-                let accelerateConfigurationbody = ClientRuntime.HttpBody.data(accelerateConfigurationdata)
-                input.builder.withBody(accelerateConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let accelerateConfigurationdata = "{}".data(using: .utf8)!
+                    let accelerateConfigurationbody = ClientRuntime.HttpBody.data(accelerateConfigurationdata)
+                    input.builder.withBody(accelerateConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketAccelerateConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -21874,9 +22026,11 @@ extension PutBucketAccelerateConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketAccelerateConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "accelerate", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "accelerate", value: nil))
+            return items
+        }
     }
 }
 
@@ -21996,9 +22150,12 @@ public struct PutBucketAclInputBodyMiddleware: ClientRuntime.Middleware {
                 let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
                 input.builder.withBody(accessControlPolicybody)
             } else {
-                let accessControlPolicydata = try encoder.encode(input.operationInput)
-                let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
-                input.builder.withBody(accessControlPolicybody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let accessControlPolicydata = "{}".data(using: .utf8)!
+                    let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
+                    input.builder.withBody(accessControlPolicybody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketAclOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -22077,9 +22234,11 @@ extension PutBucketAclInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketAclInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
+            return items
+        }
     }
 }
 
@@ -22226,9 +22385,12 @@ public struct PutBucketAnalyticsConfigurationInputBodyMiddleware: ClientRuntime.
                 let analyticsConfigurationbody = ClientRuntime.HttpBody.data(analyticsConfigurationdata)
                 input.builder.withBody(analyticsConfigurationbody)
             } else {
-                let analyticsConfigurationdata = try encoder.encode(input.operationInput)
-                let analyticsConfigurationbody = ClientRuntime.HttpBody.data(analyticsConfigurationdata)
-                input.builder.withBody(analyticsConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let analyticsConfigurationdata = "{}".data(using: .utf8)!
+                    let analyticsConfigurationbody = ClientRuntime.HttpBody.data(analyticsConfigurationdata)
+                    input.builder.withBody(analyticsConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketAnalyticsConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -22283,13 +22445,17 @@ extension PutBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -22410,9 +22576,12 @@ public struct PutBucketCorsInputBodyMiddleware: ClientRuntime.Middleware {
                 let corsConfigurationbody = ClientRuntime.HttpBody.data(corsConfigurationdata)
                 input.builder.withBody(corsConfigurationbody)
             } else {
-                let corsConfigurationdata = try encoder.encode(input.operationInput)
-                let corsConfigurationbody = ClientRuntime.HttpBody.data(corsConfigurationdata)
-                input.builder.withBody(corsConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let corsConfigurationdata = "{}".data(using: .utf8)!
+                    let corsConfigurationbody = ClientRuntime.HttpBody.data(corsConfigurationdata)
+                    input.builder.withBody(corsConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketCorsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -22473,9 +22642,11 @@ extension PutBucketCorsInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketCorsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
+            return items
+        }
     }
 }
 
@@ -22599,9 +22770,12 @@ public struct PutBucketEncryptionInputBodyMiddleware: ClientRuntime.Middleware {
                 let serverSideEncryptionConfigurationbody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationdata)
                 input.builder.withBody(serverSideEncryptionConfigurationbody)
             } else {
-                let serverSideEncryptionConfigurationdata = try encoder.encode(input.operationInput)
-                let serverSideEncryptionConfigurationbody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationdata)
-                input.builder.withBody(serverSideEncryptionConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let serverSideEncryptionConfigurationdata = "{}".data(using: .utf8)!
+                    let serverSideEncryptionConfigurationbody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationdata)
+                    input.builder.withBody(serverSideEncryptionConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketEncryptionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -22662,9 +22836,11 @@ extension PutBucketEncryptionInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketEncryptionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
+            return items
+        }
     }
 }
 
@@ -22788,9 +22964,12 @@ public struct PutBucketIntelligentTieringConfigurationInputBodyMiddleware: Clien
                 let intelligentTieringConfigurationbody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationdata)
                 input.builder.withBody(intelligentTieringConfigurationbody)
             } else {
-                let intelligentTieringConfigurationdata = try encoder.encode(input.operationInput)
-                let intelligentTieringConfigurationbody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationdata)
-                input.builder.withBody(intelligentTieringConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let intelligentTieringConfigurationdata = "{}".data(using: .utf8)!
+                    let intelligentTieringConfigurationbody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationdata)
+                    input.builder.withBody(intelligentTieringConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketIntelligentTieringConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -22835,13 +23014,17 @@ extension PutBucketIntelligentTieringConfigurationInput: Swift.Encodable {
 
 extension PutBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -22958,9 +23141,12 @@ public struct PutBucketInventoryConfigurationInputBodyMiddleware: ClientRuntime.
                 let inventoryConfigurationbody = ClientRuntime.HttpBody.data(inventoryConfigurationdata)
                 input.builder.withBody(inventoryConfigurationbody)
             } else {
-                let inventoryConfigurationdata = try encoder.encode(input.operationInput)
-                let inventoryConfigurationbody = ClientRuntime.HttpBody.data(inventoryConfigurationdata)
-                input.builder.withBody(inventoryConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let inventoryConfigurationdata = "{}".data(using: .utf8)!
+                    let inventoryConfigurationbody = ClientRuntime.HttpBody.data(inventoryConfigurationdata)
+                    input.builder.withBody(inventoryConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketInventoryConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -23015,13 +23201,17 @@ extension PutBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -23142,9 +23332,12 @@ public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.
                 let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
                 input.builder.withBody(lifecycleConfigurationbody)
             } else {
-                let lifecycleConfigurationdata = try encoder.encode(input.operationInput)
-                let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
-                input.builder.withBody(lifecycleConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let lifecycleConfigurationdata = "{}".data(using: .utf8)!
+                    let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
+                    input.builder.withBody(lifecycleConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketLifecycleConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -23202,9 +23395,11 @@ extension PutBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketLifecycleConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
+            return items
+        }
     }
 }
 
@@ -23323,9 +23518,12 @@ public struct PutBucketLoggingInputBodyMiddleware: ClientRuntime.Middleware {
                 let bucketLoggingStatusbody = ClientRuntime.HttpBody.data(bucketLoggingStatusdata)
                 input.builder.withBody(bucketLoggingStatusbody)
             } else {
-                let bucketLoggingStatusdata = try encoder.encode(input.operationInput)
-                let bucketLoggingStatusbody = ClientRuntime.HttpBody.data(bucketLoggingStatusdata)
-                input.builder.withBody(bucketLoggingStatusbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let bucketLoggingStatusdata = "{}".data(using: .utf8)!
+                    let bucketLoggingStatusbody = ClientRuntime.HttpBody.data(bucketLoggingStatusdata)
+                    input.builder.withBody(bucketLoggingStatusbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketLoggingOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -23386,9 +23584,11 @@ extension PutBucketLoggingInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketLoggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "logging", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "logging", value: nil))
+            return items
+        }
     }
 }
 
@@ -23512,9 +23712,12 @@ public struct PutBucketMetricsConfigurationInputBodyMiddleware: ClientRuntime.Mi
                 let metricsConfigurationbody = ClientRuntime.HttpBody.data(metricsConfigurationdata)
                 input.builder.withBody(metricsConfigurationbody)
             } else {
-                let metricsConfigurationdata = try encoder.encode(input.operationInput)
-                let metricsConfigurationbody = ClientRuntime.HttpBody.data(metricsConfigurationdata)
-                input.builder.withBody(metricsConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let metricsConfigurationdata = "{}".data(using: .utf8)!
+                    let metricsConfigurationbody = ClientRuntime.HttpBody.data(metricsConfigurationdata)
+                    input.builder.withBody(metricsConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketMetricsConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -23569,13 +23772,17 @@ extension PutBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-        if let id = id {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
             items.append(idQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -23696,9 +23903,12 @@ public struct PutBucketNotificationConfigurationInputBodyMiddleware: ClientRunti
                 let notificationConfigurationbody = ClientRuntime.HttpBody.data(notificationConfigurationdata)
                 input.builder.withBody(notificationConfigurationbody)
             } else {
-                let notificationConfigurationdata = try encoder.encode(input.operationInput)
-                let notificationConfigurationbody = ClientRuntime.HttpBody.data(notificationConfigurationdata)
-                input.builder.withBody(notificationConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let notificationConfigurationdata = "{}".data(using: .utf8)!
+                    let notificationConfigurationbody = ClientRuntime.HttpBody.data(notificationConfigurationdata)
+                    input.builder.withBody(notificationConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketNotificationConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -23756,9 +23966,11 @@ extension PutBucketNotificationConfigurationInput: ClientRuntime.HeaderProvider 
 
 extension PutBucketNotificationConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "notification", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "notification", value: nil))
+            return items
+        }
     }
 }
 
@@ -23878,9 +24090,12 @@ public struct PutBucketOwnershipControlsInputBodyMiddleware: ClientRuntime.Middl
                 let ownershipControlsbody = ClientRuntime.HttpBody.data(ownershipControlsdata)
                 input.builder.withBody(ownershipControlsbody)
             } else {
-                let ownershipControlsdata = try encoder.encode(input.operationInput)
-                let ownershipControlsbody = ClientRuntime.HttpBody.data(ownershipControlsdata)
-                input.builder.withBody(ownershipControlsbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let ownershipControlsdata = "{}".data(using: .utf8)!
+                    let ownershipControlsbody = ClientRuntime.HttpBody.data(ownershipControlsdata)
+                    input.builder.withBody(ownershipControlsbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketOwnershipControlsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -23938,9 +24153,11 @@ extension PutBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
+            return items
+        }
     }
 }
 
@@ -24117,9 +24334,11 @@ extension PutBucketPolicyInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
+            return items
+        }
     }
 }
 
@@ -24247,9 +24466,12 @@ public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware 
                 let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
                 input.builder.withBody(replicationConfigurationbody)
             } else {
-                let replicationConfigurationdata = try encoder.encode(input.operationInput)
-                let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
-                input.builder.withBody(replicationConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let replicationConfigurationdata = "{}".data(using: .utf8)!
+                    let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
+                    input.builder.withBody(replicationConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketReplicationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -24313,9 +24535,11 @@ extension PutBucketReplicationInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketReplicationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
+            return items
+        }
     }
 }
 
@@ -24443,9 +24667,12 @@ public struct PutBucketRequestPaymentInputBodyMiddleware: ClientRuntime.Middlewa
                 let requestPaymentConfigurationbody = ClientRuntime.HttpBody.data(requestPaymentConfigurationdata)
                 input.builder.withBody(requestPaymentConfigurationbody)
             } else {
-                let requestPaymentConfigurationdata = try encoder.encode(input.operationInput)
-                let requestPaymentConfigurationbody = ClientRuntime.HttpBody.data(requestPaymentConfigurationdata)
-                input.builder.withBody(requestPaymentConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let requestPaymentConfigurationdata = "{}".data(using: .utf8)!
+                    let requestPaymentConfigurationbody = ClientRuntime.HttpBody.data(requestPaymentConfigurationdata)
+                    input.builder.withBody(requestPaymentConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketRequestPaymentOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -24506,9 +24733,11 @@ extension PutBucketRequestPaymentInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketRequestPaymentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "requestPayment", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "requestPayment", value: nil))
+            return items
+        }
     }
 }
 
@@ -24632,9 +24861,12 @@ public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
                 let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
                 input.builder.withBody(taggingbody)
             } else {
-                let taggingdata = try encoder.encode(input.operationInput)
-                let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                input.builder.withBody(taggingbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let taggingdata = "{}".data(using: .utf8)!
+                    let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
+                    input.builder.withBody(taggingbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketTaggingOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -24695,9 +24927,11 @@ extension PutBucketTaggingInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketTaggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            return items
+        }
     }
 }
 
@@ -24821,9 +25055,12 @@ public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
                 let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
                 input.builder.withBody(versioningConfigurationbody)
             } else {
-                let versioningConfigurationdata = try encoder.encode(input.operationInput)
-                let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
-                input.builder.withBody(versioningConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let versioningConfigurationdata = "{}".data(using: .utf8)!
+                    let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
+                    input.builder.withBody(versioningConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketVersioningOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -24887,9 +25124,11 @@ extension PutBucketVersioningInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketVersioningInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "versioning", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "versioning", value: nil))
+            return items
+        }
     }
 }
 
@@ -25017,9 +25256,12 @@ public struct PutBucketWebsiteInputBodyMiddleware: ClientRuntime.Middleware {
                 let websiteConfigurationbody = ClientRuntime.HttpBody.data(websiteConfigurationdata)
                 input.builder.withBody(websiteConfigurationbody)
             } else {
-                let websiteConfigurationdata = try encoder.encode(input.operationInput)
-                let websiteConfigurationbody = ClientRuntime.HttpBody.data(websiteConfigurationdata)
-                input.builder.withBody(websiteConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let websiteConfigurationdata = "{}".data(using: .utf8)!
+                    let websiteConfigurationbody = ClientRuntime.HttpBody.data(websiteConfigurationdata)
+                    input.builder.withBody(websiteConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutBucketWebsiteOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -25080,9 +25322,11 @@ extension PutBucketWebsiteInput: ClientRuntime.HeaderProvider {
 
 extension PutBucketWebsiteInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
+            return items
+        }
     }
 }
 
@@ -25206,9 +25450,12 @@ public struct PutObjectAclInputBodyMiddleware: ClientRuntime.Middleware {
                 let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
                 input.builder.withBody(accessControlPolicybody)
             } else {
-                let accessControlPolicydata = try encoder.encode(input.operationInput)
-                let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
-                input.builder.withBody(accessControlPolicybody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let accessControlPolicydata = "{}".data(using: .utf8)!
+                    let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
+                    input.builder.withBody(accessControlPolicybody)
+                }
             }
         } catch let err {
             throw SdkError<PutObjectAclOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -25290,13 +25537,15 @@ extension PutObjectAclInput: ClientRuntime.HeaderProvider {
 
 extension PutObjectAclInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -25654,7 +25903,7 @@ extension PutObjectInput {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: PutObjectInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: true)
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
@@ -25701,7 +25950,7 @@ extension PutObjectInput {
         operation.serializeStep.intercept(position: .after, middleware: PutObjectInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
@@ -25715,9 +25964,11 @@ extension PutObjectInput {
 
 extension PutObjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "PutObject"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "PutObject"))
+            return items
+        }
     }
 }
 
@@ -25932,9 +26183,12 @@ public struct PutObjectLegalHoldInputBodyMiddleware: ClientRuntime.Middleware {
                 let legalHoldbody = ClientRuntime.HttpBody.data(legalHolddata)
                 input.builder.withBody(legalHoldbody)
             } else {
-                let legalHolddata = try encoder.encode(input.operationInput)
-                let legalHoldbody = ClientRuntime.HttpBody.data(legalHolddata)
-                input.builder.withBody(legalHoldbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let legalHolddata = "{}".data(using: .utf8)!
+                    let legalHoldbody = ClientRuntime.HttpBody.data(legalHolddata)
+                    input.builder.withBody(legalHoldbody)
+                }
             }
         } catch let err {
             throw SdkError<PutObjectLegalHoldOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -25998,13 +26252,15 @@ extension PutObjectLegalHoldInput: ClientRuntime.HeaderProvider {
 
 extension PutObjectLegalHoldInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "legal-hold", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "legal-hold", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -26155,9 +26411,12 @@ public struct PutObjectLockConfigurationInputBodyMiddleware: ClientRuntime.Middl
                 let objectLockConfigurationbody = ClientRuntime.HttpBody.data(objectLockConfigurationdata)
                 input.builder.withBody(objectLockConfigurationbody)
             } else {
-                let objectLockConfigurationdata = try encoder.encode(input.operationInput)
-                let objectLockConfigurationbody = ClientRuntime.HttpBody.data(objectLockConfigurationdata)
-                input.builder.withBody(objectLockConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let objectLockConfigurationdata = "{}".data(using: .utf8)!
+                    let objectLockConfigurationbody = ClientRuntime.HttpBody.data(objectLockConfigurationdata)
+                    input.builder.withBody(objectLockConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutObjectLockConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -26224,9 +26483,11 @@ extension PutObjectLockConfigurationInput: ClientRuntime.HeaderProvider {
 
 extension PutObjectLockConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "object-lock", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "object-lock", value: nil))
+            return items
+        }
     }
 }
 
@@ -26551,9 +26812,12 @@ public struct PutObjectRetentionInputBodyMiddleware: ClientRuntime.Middleware {
                 let retentionbody = ClientRuntime.HttpBody.data(retentiondata)
                 input.builder.withBody(retentionbody)
             } else {
-                let retentiondata = try encoder.encode(input.operationInput)
-                let retentionbody = ClientRuntime.HttpBody.data(retentiondata)
-                input.builder.withBody(retentionbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let retentiondata = "{}".data(using: .utf8)!
+                    let retentionbody = ClientRuntime.HttpBody.data(retentiondata)
+                    input.builder.withBody(retentionbody)
+                }
             }
         } catch let err {
             throw SdkError<PutObjectRetentionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -26620,13 +26884,15 @@ extension PutObjectRetentionInput: ClientRuntime.HeaderProvider {
 
 extension PutObjectRetentionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "retention", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "retention", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -26781,9 +27047,12 @@ public struct PutObjectTaggingInputBodyMiddleware: ClientRuntime.Middleware {
                 let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
                 input.builder.withBody(taggingbody)
             } else {
-                let taggingdata = try encoder.encode(input.operationInput)
-                let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                input.builder.withBody(taggingbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let taggingdata = "{}".data(using: .utf8)!
+                    let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
+                    input.builder.withBody(taggingbody)
+                }
             }
         } catch let err {
             throw SdkError<PutObjectTaggingOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -26847,13 +27116,15 @@ extension PutObjectTaggingInput: ClientRuntime.HeaderProvider {
 
 extension PutObjectTaggingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -27005,9 +27276,12 @@ public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware 
                 let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
                 input.builder.withBody(publicAccessBlockConfigurationbody)
             } else {
-                let publicAccessBlockConfigurationdata = try encoder.encode(input.operationInput)
-                let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
-                input.builder.withBody(publicAccessBlockConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let publicAccessBlockConfigurationdata = "{}".data(using: .utf8)!
+                    let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
+                    input.builder.withBody(publicAccessBlockConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<PutPublicAccessBlockOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -27068,9 +27342,11 @@ extension PutPublicAccessBlockInput: ClientRuntime.HeaderProvider {
 
 extension PutPublicAccessBlockInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
+            return items
+        }
     }
 }
 
@@ -28389,9 +28665,12 @@ public struct RestoreObjectInputBodyMiddleware: ClientRuntime.Middleware {
                 let restoreRequestbody = ClientRuntime.HttpBody.data(restoreRequestdata)
                 input.builder.withBody(restoreRequestbody)
             } else {
-                let restoreRequestdata = try encoder.encode(input.operationInput)
-                let restoreRequestbody = ClientRuntime.HttpBody.data(restoreRequestdata)
-                input.builder.withBody(restoreRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let restoreRequestdata = "{}".data(using: .utf8)!
+                    let restoreRequestbody = ClientRuntime.HttpBody.data(restoreRequestdata)
+                    input.builder.withBody(restoreRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<RestoreObjectOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -28452,14 +28731,16 @@ extension RestoreObjectInput: ClientRuntime.HeaderProvider {
 
 extension RestoreObjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "restore", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "RestoreObject"))
-        if let versionId = versionId {
-            let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            items.append(versionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "restore", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "RestoreObject"))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -29326,11 +29607,13 @@ extension SelectObjectContentInput: ClientRuntime.HeaderProvider {
 
 extension SelectObjectContentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "select", value: nil))
-        items.append(ClientRuntime.URLQueryItem(name: "select-type", value: "2"))
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "SelectObjectContent"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "select", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "select-type", value: "2"))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "SelectObjectContent"))
+            return items
+        }
     }
 }
 
@@ -30982,15 +31265,19 @@ extension UploadPartCopyInput: ClientRuntime.HeaderProvider {
 
 extension UploadPartCopyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPartCopy"))
-        let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-        items.append(partNumberQueryItem)
-        if let uploadId = uploadId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPartCopy"))
+            let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            items.append(partNumberQueryItem)
+            guard let uploadId = uploadId else {
+                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
             items.append(uploadIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -31397,7 +31684,7 @@ extension UploadPartInput {
         operation.serializeStep.intercept(position: .after, middleware: UploadPartInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<UploadPartOutputResponse, UploadPartOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutputResponse, UploadPartOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutputResponse, UploadPartOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutputResponse, UploadPartOutputError>())
@@ -31411,15 +31698,19 @@ extension UploadPartInput {
 
 extension UploadPartInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPart"))
-        let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-        items.append(partNumberQueryItem)
-        if let uploadId = uploadId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPart"))
+            let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            items.append(partNumberQueryItem)
+            guard let uploadId = uploadId else {
+                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
             items.append(uploadIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -32044,9 +32335,11 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
 
 extension WriteGetObjectResponseInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "WriteGetObjectResponse"))
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "WriteGetObjectResponse"))
+            return items
+        }
     }
 }
 

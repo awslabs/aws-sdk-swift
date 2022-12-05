@@ -1648,9 +1648,12 @@ public struct CreateComponentInputBodyMiddleware: ClientRuntime.Middleware {
                 let componentToCreatebody = ClientRuntime.HttpBody.data(componentToCreatedata)
                 input.builder.withBody(componentToCreatebody)
             } else {
-                let componentToCreatedata = try encoder.encode(input.operationInput)
-                let componentToCreatebody = ClientRuntime.HttpBody.data(componentToCreatedata)
-                input.builder.withBody(componentToCreatebody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let componentToCreatedata = "{}".data(using: .utf8)!
+                    let componentToCreatebody = ClientRuntime.HttpBody.data(componentToCreatedata)
+                    input.builder.withBody(componentToCreatebody)
+                }
             }
         } catch let err {
             throw SdkError<CreateComponentOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -1678,12 +1681,14 @@ extension CreateComponentInput: Swift.Encodable {
 
 extension CreateComponentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientToken = clientToken {
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1992,9 +1997,12 @@ public struct CreateFormInputBodyMiddleware: ClientRuntime.Middleware {
                 let formToCreatebody = ClientRuntime.HttpBody.data(formToCreatedata)
                 input.builder.withBody(formToCreatebody)
             } else {
-                let formToCreatedata = try encoder.encode(input.operationInput)
-                let formToCreatebody = ClientRuntime.HttpBody.data(formToCreatedata)
-                input.builder.withBody(formToCreatebody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let formToCreatedata = "{}".data(using: .utf8)!
+                    let formToCreatebody = ClientRuntime.HttpBody.data(formToCreatedata)
+                    input.builder.withBody(formToCreatebody)
+                }
             }
         } catch let err {
             throw SdkError<CreateFormOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -2022,12 +2030,14 @@ extension CreateFormInput: Swift.Encodable {
 
 extension CreateFormInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientToken = clientToken {
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2281,9 +2291,12 @@ public struct CreateThemeInputBodyMiddleware: ClientRuntime.Middleware {
                 let themeToCreatebody = ClientRuntime.HttpBody.data(themeToCreatedata)
                 input.builder.withBody(themeToCreatebody)
             } else {
-                let themeToCreatedata = try encoder.encode(input.operationInput)
-                let themeToCreatebody = ClientRuntime.HttpBody.data(themeToCreatedata)
-                input.builder.withBody(themeToCreatebody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let themeToCreatedata = "{}".data(using: .utf8)!
+                    let themeToCreatebody = ClientRuntime.HttpBody.data(themeToCreatedata)
+                    input.builder.withBody(themeToCreatebody)
+                }
             }
         } catch let err {
             throw SdkError<CreateThemeOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -2311,12 +2324,14 @@ extension CreateThemeInput: Swift.Encodable {
 
 extension CreateThemeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientToken = clientToken {
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2716,9 +2731,12 @@ public struct ExchangeCodeForTokenInputBodyMiddleware: ClientRuntime.Middleware 
                 let requestbody = ClientRuntime.HttpBody.data(requestdata)
                 input.builder.withBody(requestbody)
             } else {
-                let requestdata = try encoder.encode(input.operationInput)
-                let requestbody = ClientRuntime.HttpBody.data(requestdata)
-                input.builder.withBody(requestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let requestdata = "{}".data(using: .utf8)!
+                    let requestbody = ClientRuntime.HttpBody.data(requestdata)
+                    input.builder.withBody(requestbody)
+                }
             }
         } catch let err {
             throw SdkError<ExchangeCodeForTokenOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -2932,12 +2950,14 @@ extension AmplifyUIBuilderClientTypes {
 
 extension ExportComponentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3071,12 +3091,14 @@ extension ExportComponentsOutputResponseBody: Swift.Decodable {
 
 extension ExportFormsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3210,12 +3232,14 @@ extension ExportFormsOutputResponseBody: Swift.Decodable {
 
 extension ExportThemesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -5091,16 +5115,18 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 
 extension ListComponentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -5238,16 +5264,18 @@ extension ListComponentsOutputResponseBody: Swift.Decodable {
 
 extension ListFormsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -5385,16 +5413,18 @@ extension ListFormsOutputResponseBody: Swift.Decodable {
 
 extension ListThemesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -5743,9 +5773,12 @@ public struct PutMetadataFlagInputBodyMiddleware: ClientRuntime.Middleware {
                 let bodybody = ClientRuntime.HttpBody.data(bodydata)
                 input.builder.withBody(bodybody)
             } else {
-                let bodydata = try encoder.encode(input.operationInput)
-                let bodybody = ClientRuntime.HttpBody.data(bodydata)
-                input.builder.withBody(bodybody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let bodydata = "{}".data(using: .utf8)!
+                    let bodybody = ClientRuntime.HttpBody.data(bodydata)
+                    input.builder.withBody(bodybody)
+                }
             }
         } catch let err {
             throw SdkError<PutMetadataFlagOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5884,9 +5917,12 @@ public struct RefreshTokenInputBodyMiddleware: ClientRuntime.Middleware {
                 let refreshTokenBodybody = ClientRuntime.HttpBody.data(refreshTokenBodydata)
                 input.builder.withBody(refreshTokenBodybody)
             } else {
-                let refreshTokenBodydata = try encoder.encode(input.operationInput)
-                let refreshTokenBodybody = ClientRuntime.HttpBody.data(refreshTokenBodydata)
-                input.builder.withBody(refreshTokenBodybody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let refreshTokenBodydata = "{}".data(using: .utf8)!
+                    let refreshTokenBodybody = ClientRuntime.HttpBody.data(refreshTokenBodydata)
+                    input.builder.withBody(refreshTokenBodybody)
+                }
             }
         } catch let err {
             throw SdkError<RefreshTokenOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -7053,9 +7089,12 @@ public struct UpdateComponentInputBodyMiddleware: ClientRuntime.Middleware {
                 let updatedComponentbody = ClientRuntime.HttpBody.data(updatedComponentdata)
                 input.builder.withBody(updatedComponentbody)
             } else {
-                let updatedComponentdata = try encoder.encode(input.operationInput)
-                let updatedComponentbody = ClientRuntime.HttpBody.data(updatedComponentdata)
-                input.builder.withBody(updatedComponentbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let updatedComponentdata = "{}".data(using: .utf8)!
+                    let updatedComponentbody = ClientRuntime.HttpBody.data(updatedComponentdata)
+                    input.builder.withBody(updatedComponentbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateComponentOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -7083,12 +7122,14 @@ extension UpdateComponentInput: Swift.Encodable {
 
 extension UpdateComponentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientToken = clientToken {
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -7374,9 +7415,12 @@ public struct UpdateFormInputBodyMiddleware: ClientRuntime.Middleware {
                 let updatedFormbody = ClientRuntime.HttpBody.data(updatedFormdata)
                 input.builder.withBody(updatedFormbody)
             } else {
-                let updatedFormdata = try encoder.encode(input.operationInput)
-                let updatedFormbody = ClientRuntime.HttpBody.data(updatedFormdata)
-                input.builder.withBody(updatedFormbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let updatedFormdata = "{}".data(using: .utf8)!
+                    let updatedFormbody = ClientRuntime.HttpBody.data(updatedFormdata)
+                    input.builder.withBody(updatedFormbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateFormOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -7404,12 +7448,14 @@ extension UpdateFormInput: Swift.Encodable {
 
 extension UpdateFormInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientToken = clientToken {
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -7656,9 +7702,12 @@ public struct UpdateThemeInputBodyMiddleware: ClientRuntime.Middleware {
                 let updatedThemebody = ClientRuntime.HttpBody.data(updatedThemedata)
                 input.builder.withBody(updatedThemebody)
             } else {
-                let updatedThemedata = try encoder.encode(input.operationInput)
-                let updatedThemebody = ClientRuntime.HttpBody.data(updatedThemedata)
-                input.builder.withBody(updatedThemebody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let updatedThemedata = "{}".data(using: .utf8)!
+                    let updatedThemebody = ClientRuntime.HttpBody.data(updatedThemedata)
+                    input.builder.withBody(updatedThemebody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateThemeOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -7686,12 +7735,14 @@ extension UpdateThemeInput: Swift.Encodable {
 
 extension UpdateThemeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientToken = clientToken {
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 

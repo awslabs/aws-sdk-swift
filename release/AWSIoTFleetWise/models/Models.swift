@@ -5511,8 +5511,10 @@ extension GetVehicleStatusInput: Swift.Encodable {
 
 extension GetVehicleStatusInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -6487,8 +6489,10 @@ extension ListCampaignsInput: Swift.Encodable {
 
 extension ListCampaignsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -6623,8 +6627,10 @@ extension ListDecoderManifestNetworkInterfacesInput: Swift.Encodable {
 
 extension ListDecoderManifestNetworkInterfacesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -6764,8 +6770,10 @@ extension ListDecoderManifestSignalsInput: Swift.Encodable {
 
 extension ListDecoderManifestSignalsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -6905,8 +6913,10 @@ extension ListDecoderManifestsInput: Swift.Encodable {
 
 extension ListDecoderManifestsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -7043,8 +7053,10 @@ extension ListFleetsForVehicleInput: Swift.Encodable {
 
 extension ListFleetsForVehicleInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -7184,8 +7196,10 @@ extension ListFleetsInput: Swift.Encodable {
 
 extension ListFleetsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -7320,8 +7334,10 @@ extension ListModelManifestNodesInput: Swift.Encodable {
 
 extension ListModelManifestNodesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -7463,8 +7479,10 @@ extension ListModelManifestsInput: Swift.Encodable {
 
 extension ListModelManifestsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -7601,8 +7619,10 @@ extension ListSignalCatalogNodesInput: Swift.Encodable {
 
 extension ListSignalCatalogNodesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -7744,8 +7764,10 @@ extension ListSignalCatalogsInput: Swift.Encodable {
 
 extension ListSignalCatalogsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -7878,8 +7900,10 @@ extension ListTagsForResourceInput: Swift.Encodable {
 
 extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -8001,8 +8025,10 @@ extension ListVehiclesInFleetInput: Swift.Encodable {
 
 extension ListVehiclesInFleetInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -8142,8 +8168,10 @@ extension ListVehiclesInput: Swift.Encodable {
 
 extension ListVehiclesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -9946,8 +9974,10 @@ extension TagResourceInput: Swift.Encodable {
 
 extension TagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 
@@ -10335,8 +10365,10 @@ extension UntagResourceInput: Swift.Encodable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        return items
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            return items
+        }
     }
 }
 

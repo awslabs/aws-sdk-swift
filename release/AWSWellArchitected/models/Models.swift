@@ -2688,16 +2688,22 @@ extension CreateWorkloadShareOutputResponseBody: Swift.Decodable {
 
 extension DeleteLensInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientRequestToken = clientRequestToken {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
             items.append(clientRequestTokenQueryItem)
-        }
-        if let lensStatus = lensStatus {
+            guard let lensStatus = lensStatus else {
+                let message = "Creating a URL Query Item failed. lensStatus is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let lensStatusQueryItem = ClientRuntime.URLQueryItem(name: "LensStatus".urlPercentEncoding(), value: Swift.String(lensStatus.rawValue).urlPercentEncoding())
             items.append(lensStatusQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2786,12 +2792,16 @@ public struct DeleteLensOutputResponse: Swift.Equatable {
 
 extension DeleteLensShareInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientRequestToken = clientRequestToken {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
             items.append(clientRequestTokenQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2883,12 +2893,16 @@ public struct DeleteLensShareOutputResponse: Swift.Equatable {
 
 extension DeleteWorkloadInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientRequestToken = clientRequestToken {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
             items.append(clientRequestTokenQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2973,12 +2987,16 @@ public struct DeleteWorkloadOutputResponse: Swift.Equatable {
 
 extension DeleteWorkloadShareInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let clientRequestToken = clientRequestToken {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
             items.append(clientRequestTokenQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -3217,12 +3235,14 @@ public struct DisassociateLensesOutputResponse: Swift.Equatable {
 
 extension ExportLensInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let lensVersion = lensVersion {
-            let lensVersionQueryItem = ClientRuntime.URLQueryItem(name: "LensVersion".urlPercentEncoding(), value: Swift.String(lensVersion).urlPercentEncoding())
-            items.append(lensVersionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let lensVersion = lensVersion {
+                let lensVersionQueryItem = ClientRuntime.URLQueryItem(name: "LensVersion".urlPercentEncoding(), value: Swift.String(lensVersion).urlPercentEncoding())
+                items.append(lensVersionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3334,12 +3354,14 @@ extension ExportLensOutputResponseBody: Swift.Decodable {
 
 extension GetAnswerInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if milestoneNumber != 0 {
-            let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
-            items.append(milestoneNumberQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if milestoneNumber != 0 {
+                let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
+                items.append(milestoneNumberQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3509,12 +3531,14 @@ extension GetAnswerOutputResponseBody: Swift.Decodable {
 
 extension GetLensInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let lensVersion = lensVersion {
-            let lensVersionQueryItem = ClientRuntime.URLQueryItem(name: "LensVersion".urlPercentEncoding(), value: Swift.String(lensVersion).urlPercentEncoding())
-            items.append(lensVersionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let lensVersion = lensVersion {
+                let lensVersionQueryItem = ClientRuntime.URLQueryItem(name: "LensVersion".urlPercentEncoding(), value: Swift.String(lensVersion).urlPercentEncoding())
+                items.append(lensVersionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3626,12 +3650,14 @@ extension GetLensOutputResponseBody: Swift.Decodable {
 
 extension GetLensReviewInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if milestoneNumber != 0 {
-            let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
-            items.append(milestoneNumberQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if milestoneNumber != 0 {
+                let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
+                items.append(milestoneNumberQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3773,12 +3799,14 @@ extension GetLensReviewOutputResponseBody: Swift.Decodable {
 
 extension GetLensReviewReportInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if milestoneNumber != 0 {
-            let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
-            items.append(milestoneNumberQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if milestoneNumber != 0 {
+                let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
+                items.append(milestoneNumberQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3920,16 +3948,18 @@ extension GetLensReviewReportOutputResponseBody: Swift.Decodable {
 
 extension GetLensVersionDifferenceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let baseLensVersion = baseLensVersion {
-            let baseLensVersionQueryItem = ClientRuntime.URLQueryItem(name: "BaseLensVersion".urlPercentEncoding(), value: Swift.String(baseLensVersion).urlPercentEncoding())
-            items.append(baseLensVersionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let baseLensVersion = baseLensVersion {
+                let baseLensVersionQueryItem = ClientRuntime.URLQueryItem(name: "BaseLensVersion".urlPercentEncoding(), value: Swift.String(baseLensVersion).urlPercentEncoding())
+                items.append(baseLensVersionQueryItem)
+            }
+            if let targetLensVersion = targetLensVersion {
+                let targetLensVersionQueryItem = ClientRuntime.URLQueryItem(name: "TargetLensVersion".urlPercentEncoding(), value: Swift.String(targetLensVersion).urlPercentEncoding())
+                items.append(targetLensVersionQueryItem)
+            }
+            return items
         }
-        if let targetLensVersion = targetLensVersion {
-            let targetLensVersionQueryItem = ClientRuntime.URLQueryItem(name: "TargetLensVersion".urlPercentEncoding(), value: Swift.String(targetLensVersion).urlPercentEncoding())
-            items.append(targetLensVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -5490,24 +5520,26 @@ extension WellArchitectedClientTypes {
 
 extension ListAnswersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pillarId = pillarId {
-            let pillarIdQueryItem = ClientRuntime.URLQueryItem(name: "PillarId".urlPercentEncoding(), value: Swift.String(pillarId).urlPercentEncoding())
-            items.append(pillarIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pillarId = pillarId {
+                let pillarIdQueryItem = ClientRuntime.URLQueryItem(name: "PillarId".urlPercentEncoding(), value: Swift.String(pillarId).urlPercentEncoding())
+                items.append(pillarIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if milestoneNumber != 0 {
+                let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
+                items.append(milestoneNumberQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if milestoneNumber != 0 {
-            let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
-            items.append(milestoneNumberQueryItem)
-        }
-        return items
     }
 }
 
@@ -6118,24 +6150,26 @@ extension ListCheckSummariesOutputResponseBody: Swift.Decodable {
 
 extension ListLensReviewImprovementsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pillarId = pillarId {
-            let pillarIdQueryItem = ClientRuntime.URLQueryItem(name: "PillarId".urlPercentEncoding(), value: Swift.String(pillarId).urlPercentEncoding())
-            items.append(pillarIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pillarId = pillarId {
+                let pillarIdQueryItem = ClientRuntime.URLQueryItem(name: "PillarId".urlPercentEncoding(), value: Swift.String(pillarId).urlPercentEncoding())
+                items.append(pillarIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if milestoneNumber != 0 {
+                let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
+                items.append(milestoneNumberQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if milestoneNumber != 0 {
-            let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
-            items.append(milestoneNumberQueryItem)
-        }
-        return items
     }
 }
 
@@ -6328,20 +6362,22 @@ extension ListLensReviewImprovementsOutputResponseBody: Swift.Decodable {
 
 extension ListLensReviewsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if milestoneNumber != 0 {
+                let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
+                items.append(milestoneNumberQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if milestoneNumber != 0 {
-            let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
-            items.append(milestoneNumberQueryItem)
-        }
-        return items
     }
 }
 
@@ -6502,24 +6538,26 @@ extension ListLensReviewsOutputResponseBody: Swift.Decodable {
 
 extension ListLensSharesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let sharedWithPrefix = sharedWithPrefix {
-            let sharedWithPrefixQueryItem = ClientRuntime.URLQueryItem(name: "SharedWithPrefix".urlPercentEncoding(), value: Swift.String(sharedWithPrefix).urlPercentEncoding())
-            items.append(sharedWithPrefixQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let sharedWithPrefix = sharedWithPrefix {
+                let sharedWithPrefixQueryItem = ClientRuntime.URLQueryItem(name: "SharedWithPrefix".urlPercentEncoding(), value: Swift.String(sharedWithPrefix).urlPercentEncoding())
+                items.append(sharedWithPrefixQueryItem)
+            }
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let status = status {
-            let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-            items.append(statusQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -6662,28 +6700,30 @@ extension ListLensSharesOutputResponseBody: Swift.Decodable {
 
 extension ListLensesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let lensName = lensName {
+                let lensNameQueryItem = ClientRuntime.URLQueryItem(name: "LensName".urlPercentEncoding(), value: Swift.String(lensName).urlPercentEncoding())
+                items.append(lensNameQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let lensType = lensType {
+                let lensTypeQueryItem = ClientRuntime.URLQueryItem(name: "LensType".urlPercentEncoding(), value: Swift.String(lensType.rawValue).urlPercentEncoding())
+                items.append(lensTypeQueryItem)
+            }
+            if let lensStatus = lensStatus {
+                let lensStatusQueryItem = ClientRuntime.URLQueryItem(name: "LensStatus".urlPercentEncoding(), value: Swift.String(lensStatus.rawValue).urlPercentEncoding())
+                items.append(lensStatusQueryItem)
+            }
+            return items
         }
-        if let lensName = lensName {
-            let lensNameQueryItem = ClientRuntime.URLQueryItem(name: "LensName".urlPercentEncoding(), value: Swift.String(lensName).urlPercentEncoding())
-            items.append(lensNameQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let lensType = lensType {
-            let lensTypeQueryItem = ClientRuntime.URLQueryItem(name: "LensType".urlPercentEncoding(), value: Swift.String(lensType.rawValue).urlPercentEncoding())
-            items.append(lensTypeQueryItem)
-        }
-        if let lensStatus = lensStatus {
-            let lensStatusQueryItem = ClientRuntime.URLQueryItem(name: "LensStatus".urlPercentEncoding(), value: Swift.String(lensStatus.rawValue).urlPercentEncoding())
-            items.append(lensStatusQueryItem)
-        }
-        return items
     }
 }
 
@@ -7150,28 +7190,30 @@ extension ListNotificationsOutputResponseBody: Swift.Decodable {
 
 extension ListShareInvitationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let lensNamePrefix = lensNamePrefix {
-            let lensNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "LensNamePrefix".urlPercentEncoding(), value: Swift.String(lensNamePrefix).urlPercentEncoding())
-            items.append(lensNamePrefixQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let lensNamePrefix = lensNamePrefix {
+                let lensNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "LensNamePrefix".urlPercentEncoding(), value: Swift.String(lensNamePrefix).urlPercentEncoding())
+                items.append(lensNamePrefixQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let shareResourceType = shareResourceType {
+                let shareResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ShareResourceType".urlPercentEncoding(), value: Swift.String(shareResourceType.rawValue).urlPercentEncoding())
+                items.append(shareResourceTypeQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let workloadNamePrefix = workloadNamePrefix {
+                let workloadNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "WorkloadNamePrefix".urlPercentEncoding(), value: Swift.String(workloadNamePrefix).urlPercentEncoding())
+                items.append(workloadNamePrefixQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let shareResourceType = shareResourceType {
-            let shareResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ShareResourceType".urlPercentEncoding(), value: Swift.String(shareResourceType.rawValue).urlPercentEncoding())
-            items.append(shareResourceTypeQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let workloadNamePrefix = workloadNamePrefix {
-            let workloadNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "WorkloadNamePrefix".urlPercentEncoding(), value: Swift.String(workloadNamePrefix).urlPercentEncoding())
-            items.append(workloadNamePrefixQueryItem)
-        }
-        return items
     }
 }
 
@@ -7415,24 +7457,26 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 
 extension ListWorkloadSharesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let sharedWithPrefix = sharedWithPrefix {
-            let sharedWithPrefixQueryItem = ClientRuntime.URLQueryItem(name: "SharedWithPrefix".urlPercentEncoding(), value: Swift.String(sharedWithPrefix).urlPercentEncoding())
-            items.append(sharedWithPrefixQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let sharedWithPrefix = sharedWithPrefix {
+                let sharedWithPrefixQueryItem = ClientRuntime.URLQueryItem(name: "SharedWithPrefix".urlPercentEncoding(), value: Swift.String(sharedWithPrefix).urlPercentEncoding())
+                items.append(sharedWithPrefixQueryItem)
+            }
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let status = status {
-            let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-            items.append(statusQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8957,14 +9001,18 @@ extension WellArchitectedClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

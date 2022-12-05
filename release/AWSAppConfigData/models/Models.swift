@@ -155,12 +155,16 @@ extension AppConfigDataClientTypes {
 
 extension GetLatestConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let configurationToken = configurationToken {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let configurationToken = configurationToken else {
+                let message = "Creating a URL Query Item failed. configurationToken is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let configurationTokenQueryItem = ClientRuntime.URLQueryItem(name: "configuration_token".urlPercentEncoding(), value: Swift.String(configurationToken).urlPercentEncoding())
             items.append(configurationTokenQueryItem)
+            return items
         }
-        return items
     }
 }
 

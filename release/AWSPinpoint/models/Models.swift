@@ -5146,9 +5146,12 @@ public struct CreateAppInputBodyMiddleware: ClientRuntime.Middleware {
                 let createApplicationRequestbody = ClientRuntime.HttpBody.data(createApplicationRequestdata)
                 input.builder.withBody(createApplicationRequestbody)
             } else {
-                let createApplicationRequestdata = try encoder.encode(input.operationInput)
-                let createApplicationRequestbody = ClientRuntime.HttpBody.data(createApplicationRequestdata)
-                input.builder.withBody(createApplicationRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let createApplicationRequestdata = "{}".data(using: .utf8)!
+                    let createApplicationRequestbody = ClientRuntime.HttpBody.data(createApplicationRequestdata)
+                    input.builder.withBody(createApplicationRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateAppOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5366,9 +5369,12 @@ public struct CreateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
                 let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
                 input.builder.withBody(writeCampaignRequestbody)
             } else {
-                let writeCampaignRequestdata = try encoder.encode(input.operationInput)
-                let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
-                input.builder.withBody(writeCampaignRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeCampaignRequestdata = "{}".data(using: .utf8)!
+                    let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
+                    input.builder.withBody(writeCampaignRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateCampaignOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5536,9 +5542,12 @@ public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
                 input.builder.withBody(emailTemplateRequestbody)
             } else {
-                let emailTemplateRequestdata = try encoder.encode(input.operationInput)
-                let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
-                input.builder.withBody(emailTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let emailTemplateRequestdata = "{}".data(using: .utf8)!
+                    let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
+                    input.builder.withBody(emailTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateEmailTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5702,9 +5711,12 @@ public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
                 let exportJobRequestbody = ClientRuntime.HttpBody.data(exportJobRequestdata)
                 input.builder.withBody(exportJobRequestbody)
             } else {
-                let exportJobRequestdata = try encoder.encode(input.operationInput)
-                let exportJobRequestbody = ClientRuntime.HttpBody.data(exportJobRequestdata)
-                input.builder.withBody(exportJobRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let exportJobRequestdata = "{}".data(using: .utf8)!
+                    let exportJobRequestbody = ClientRuntime.HttpBody.data(exportJobRequestdata)
+                    input.builder.withBody(exportJobRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateExportJobOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -5872,9 +5884,12 @@ public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
                 let importJobRequestbody = ClientRuntime.HttpBody.data(importJobRequestdata)
                 input.builder.withBody(importJobRequestbody)
             } else {
-                let importJobRequestdata = try encoder.encode(input.operationInput)
-                let importJobRequestbody = ClientRuntime.HttpBody.data(importJobRequestdata)
-                input.builder.withBody(importJobRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let importJobRequestdata = "{}".data(using: .utf8)!
+                    let importJobRequestbody = ClientRuntime.HttpBody.data(importJobRequestdata)
+                    input.builder.withBody(importJobRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateImportJobOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6042,9 +6057,12 @@ public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
                 input.builder.withBody(inAppTemplateRequestbody)
             } else {
-                let inAppTemplateRequestdata = try encoder.encode(input.operationInput)
-                let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
-                input.builder.withBody(inAppTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let inAppTemplateRequestdata = "{}".data(using: .utf8)!
+                    let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
+                    input.builder.withBody(inAppTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateInAppTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6208,9 +6226,12 @@ public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
                 let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
                 input.builder.withBody(writeJourneyRequestbody)
             } else {
-                let writeJourneyRequestdata = try encoder.encode(input.operationInput)
-                let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
-                input.builder.withBody(writeJourneyRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeJourneyRequestdata = "{}".data(using: .utf8)!
+                    let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
+                    input.builder.withBody(writeJourneyRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateJourneyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6378,9 +6399,12 @@ public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
                 input.builder.withBody(pushNotificationTemplateRequestbody)
             } else {
-                let pushNotificationTemplateRequestdata = try encoder.encode(input.operationInput)
-                let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
-                input.builder.withBody(pushNotificationTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let pushNotificationTemplateRequestdata = "{}".data(using: .utf8)!
+                    let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
+                    input.builder.withBody(pushNotificationTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreatePushTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6544,9 +6568,12 @@ public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
                 let createRecommenderConfigurationbody = ClientRuntime.HttpBody.data(createRecommenderConfigurationdata)
                 input.builder.withBody(createRecommenderConfigurationbody)
             } else {
-                let createRecommenderConfigurationdata = try encoder.encode(input.operationInput)
-                let createRecommenderConfigurationbody = ClientRuntime.HttpBody.data(createRecommenderConfigurationdata)
-                input.builder.withBody(createRecommenderConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let createRecommenderConfigurationdata = "{}".data(using: .utf8)!
+                    let createRecommenderConfigurationbody = ClientRuntime.HttpBody.data(createRecommenderConfigurationdata)
+                    input.builder.withBody(createRecommenderConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateRecommenderConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -6846,9 +6873,12 @@ public struct CreateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
                 let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
                 input.builder.withBody(writeSegmentRequestbody)
             } else {
-                let writeSegmentRequestdata = try encoder.encode(input.operationInput)
-                let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
-                input.builder.withBody(writeSegmentRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeSegmentRequestdata = "{}".data(using: .utf8)!
+                    let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
+                    input.builder.withBody(writeSegmentRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateSegmentOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -7016,9 +7046,12 @@ public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
                 input.builder.withBody(smsTemplateRequestbody)
             } else {
-                let smsTemplateRequestdata = try encoder.encode(input.operationInput)
-                let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
-                input.builder.withBody(smsTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let smsTemplateRequestdata = "{}".data(using: .utf8)!
+                    let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
+                    input.builder.withBody(smsTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateSmsTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -7237,9 +7270,12 @@ public struct CreateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
                 input.builder.withBody(voiceTemplateRequestbody)
             } else {
-                let voiceTemplateRequestdata = try encoder.encode(input.operationInput)
-                let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
-                input.builder.withBody(voiceTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let voiceTemplateRequestdata = "{}".data(using: .utf8)!
+                    let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
+                    input.builder.withBody(voiceTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<CreateVoiceTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -8957,12 +8993,14 @@ extension DeleteEmailChannelOutputResponseBody: Swift.Decodable {
 
 extension DeleteEmailTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -9426,12 +9464,14 @@ extension DeleteGcmChannelOutputResponseBody: Swift.Decodable {
 
 extension DeleteInAppTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -9675,12 +9715,14 @@ extension DeleteJourneyOutputResponseBody: Swift.Decodable {
 
 extension DeletePushTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -10144,12 +10186,14 @@ extension DeleteSmsChannelOutputResponseBody: Swift.Decodable {
 
 extension DeleteSmsTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -10503,12 +10547,14 @@ extension DeleteVoiceChannelOutputResponseBody: Swift.Decodable {
 
 extension DeleteVoiceTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -15102,24 +15148,26 @@ extension GetAppOutputResponseBody: Swift.Decodable {
 
 extension GetApplicationDateRangeKpiInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let endTime = endTime {
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "end-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let endTime = endTime {
+                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "end-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+                items.append(endTimeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let startTime = startTime {
+                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "start-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+                items.append(startTimeQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        if let startTime = startTime {
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "start-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-        }
-        return items
     }
 }
 
@@ -15369,16 +15417,18 @@ extension GetApplicationSettingsOutputResponseBody: Swift.Decodable {
 
 extension GetAppsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -15604,16 +15654,18 @@ extension GetBaiduChannelOutputResponseBody: Swift.Decodable {
 
 extension GetCampaignActivitiesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -15745,24 +15797,26 @@ extension GetCampaignActivitiesOutputResponseBody: Swift.Decodable {
 
 extension GetCampaignDateRangeKpiInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let endTime = endTime {
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "end-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let endTime = endTime {
+                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "end-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+                items.append(endTimeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let startTime = startTime {
+                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "start-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+                items.append(startTimeQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        if let startTime = startTime {
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "start-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-        }
-        return items
     }
 }
 
@@ -16154,16 +16208,18 @@ extension GetCampaignVersionOutputResponseBody: Swift.Decodable {
 
 extension GetCampaignVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -16295,16 +16351,18 @@ extension GetCampaignVersionsOutputResponseBody: Swift.Decodable {
 
 extension GetCampaignsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -16648,12 +16706,14 @@ extension GetEmailChannelOutputResponseBody: Swift.Decodable {
 
 extension GetEmailTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -17125,16 +17185,18 @@ extension GetExportJobOutputResponseBody: Swift.Decodable {
 
 extension GetExportJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -17486,16 +17548,18 @@ extension GetImportJobOutputResponseBody: Swift.Decodable {
 
 extension GetImportJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -17737,12 +17801,14 @@ extension GetInAppMessagesOutputResponseBody: Swift.Decodable {
 
 extension GetInAppTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -17868,24 +17934,26 @@ extension GetInAppTemplateOutputResponseBody: Swift.Decodable {
 
 extension GetJourneyDateRangeKpiInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let endTime = endTime {
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "end-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let endTime = endTime {
+                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "end-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+                items.append(endTimeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let startTime = startTime {
+                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "start-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+                items.append(startTimeQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        if let startTime = startTime {
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "start-time".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-        }
-        return items
     }
 }
 
@@ -18033,16 +18101,18 @@ extension GetJourneyDateRangeKpiOutputResponseBody: Swift.Decodable {
 
 extension GetJourneyExecutionActivityMetricsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            return items
         }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        return items
     }
 }
 
@@ -18182,16 +18252,18 @@ extension GetJourneyExecutionActivityMetricsOutputResponseBody: Swift.Decodable 
 
 extension GetJourneyExecutionMetricsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            return items
         }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        return items
     }
 }
 
@@ -18441,12 +18513,14 @@ extension GetJourneyOutputResponseBody: Swift.Decodable {
 
 extension GetPushTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -18682,16 +18756,18 @@ extension GetRecommenderConfigurationOutputResponseBody: Swift.Decodable {
 
 extension GetRecommenderConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -18807,16 +18883,18 @@ extension GetRecommenderConfigurationsOutputResponseBody: Swift.Decodable {
 
 extension GetSegmentExportJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -18948,16 +19026,18 @@ extension GetSegmentExportJobsOutputResponseBody: Swift.Decodable {
 
 extension GetSegmentImportJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -19333,16 +19413,18 @@ extension GetSegmentVersionOutputResponseBody: Swift.Decodable {
 
 extension GetSegmentVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -19474,16 +19556,18 @@ extension GetSegmentVersionsOutputResponseBody: Swift.Decodable {
 
 extension GetSegmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -19717,12 +19801,14 @@ extension GetSmsChannelOutputResponseBody: Swift.Decodable {
 
 extension GetSmsTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -20076,12 +20162,14 @@ extension GetVoiceChannelOutputResponseBody: Swift.Decodable {
 
 extension GetVoiceTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -22806,16 +22894,18 @@ extension PinpointClientTypes {
 
 extension ListJourneysInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
         }
-        if let token = token {
-            let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
-            items.append(tokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -23093,16 +23183,18 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 
 extension ListTemplateVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            return items
         }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        return items
     }
 }
 
@@ -23234,24 +23326,26 @@ extension ListTemplateVersionsOutputResponseBody: Swift.Decodable {
 
 extension ListTemplatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let `prefix` = `prefix` {
+                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+                items.append(prefixQueryItem)
+            }
+            if let templateType = templateType {
+                let templateTypeQueryItem = ClientRuntime.URLQueryItem(name: "template-type".urlPercentEncoding(), value: Swift.String(templateType).urlPercentEncoding())
+                items.append(templateTypeQueryItem)
+            }
+            return items
         }
-        if let pageSize = pageSize {
-            let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        if let `prefix` = `prefix` {
-            let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-            items.append(prefixQueryItem)
-        }
-        if let templateType = templateType {
-            let templateTypeQueryItem = ClientRuntime.URLQueryItem(name: "template-type".urlPercentEncoding(), value: Swift.String(templateType).urlPercentEncoding())
-            items.append(templateTypeQueryItem)
-        }
-        return items
     }
 }
 
@@ -24920,9 +25014,12 @@ public struct PhoneNumberValidateInputBodyMiddleware: ClientRuntime.Middleware {
                 let numberValidateRequestbody = ClientRuntime.HttpBody.data(numberValidateRequestdata)
                 input.builder.withBody(numberValidateRequestbody)
             } else {
-                let numberValidateRequestdata = try encoder.encode(input.operationInput)
-                let numberValidateRequestbody = ClientRuntime.HttpBody.data(numberValidateRequestdata)
-                input.builder.withBody(numberValidateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let numberValidateRequestdata = "{}".data(using: .utf8)!
+                    let numberValidateRequestbody = ClientRuntime.HttpBody.data(numberValidateRequestdata)
+                    input.builder.withBody(numberValidateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<PhoneNumberValidateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -25631,9 +25728,12 @@ public struct PutEventStreamInputBodyMiddleware: ClientRuntime.Middleware {
                 let writeEventStreambody = ClientRuntime.HttpBody.data(writeEventStreamdata)
                 input.builder.withBody(writeEventStreambody)
             } else {
-                let writeEventStreamdata = try encoder.encode(input.operationInput)
-                let writeEventStreambody = ClientRuntime.HttpBody.data(writeEventStreamdata)
-                input.builder.withBody(writeEventStreambody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeEventStreamdata = "{}".data(using: .utf8)!
+                    let writeEventStreambody = ClientRuntime.HttpBody.data(writeEventStreamdata)
+                    input.builder.withBody(writeEventStreambody)
+                }
             }
         } catch let err {
             throw SdkError<PutEventStreamOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -25801,9 +25901,12 @@ public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
                 let eventsRequestbody = ClientRuntime.HttpBody.data(eventsRequestdata)
                 input.builder.withBody(eventsRequestbody)
             } else {
-                let eventsRequestdata = try encoder.encode(input.operationInput)
-                let eventsRequestbody = ClientRuntime.HttpBody.data(eventsRequestdata)
-                input.builder.withBody(eventsRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let eventsRequestdata = "{}".data(using: .utf8)!
+                    let eventsRequestbody = ClientRuntime.HttpBody.data(eventsRequestdata)
+                    input.builder.withBody(eventsRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<PutEventsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -26388,9 +26491,12 @@ public struct RemoveAttributesInputBodyMiddleware: ClientRuntime.Middleware {
                 let updateAttributesRequestbody = ClientRuntime.HttpBody.data(updateAttributesRequestdata)
                 input.builder.withBody(updateAttributesRequestbody)
             } else {
-                let updateAttributesRequestdata = try encoder.encode(input.operationInput)
-                let updateAttributesRequestbody = ClientRuntime.HttpBody.data(updateAttributesRequestdata)
-                input.builder.withBody(updateAttributesRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let updateAttributesRequestdata = "{}".data(using: .utf8)!
+                    let updateAttributesRequestbody = ClientRuntime.HttpBody.data(updateAttributesRequestdata)
+                    input.builder.withBody(updateAttributesRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<RemoveAttributesOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -28336,9 +28442,12 @@ public struct SendMessagesInputBodyMiddleware: ClientRuntime.Middleware {
                 let messageRequestbody = ClientRuntime.HttpBody.data(messageRequestdata)
                 input.builder.withBody(messageRequestbody)
             } else {
-                let messageRequestdata = try encoder.encode(input.operationInput)
-                let messageRequestbody = ClientRuntime.HttpBody.data(messageRequestdata)
-                input.builder.withBody(messageRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let messageRequestdata = "{}".data(using: .utf8)!
+                    let messageRequestbody = ClientRuntime.HttpBody.data(messageRequestdata)
+                    input.builder.withBody(messageRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<SendMessagesOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -28506,9 +28615,12 @@ public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
                 let sendOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersdata)
                 input.builder.withBody(sendOTPMessageRequestParametersbody)
             } else {
-                let sendOTPMessageRequestParametersdata = try encoder.encode(input.operationInput)
-                let sendOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersdata)
-                input.builder.withBody(sendOTPMessageRequestParametersbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let sendOTPMessageRequestParametersdata = "{}".data(using: .utf8)!
+                    let sendOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersdata)
+                    input.builder.withBody(sendOTPMessageRequestParametersbody)
+                }
             }
         } catch let err {
             throw SdkError<SendOTPMessageOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -28992,9 +29104,12 @@ public struct SendUsersMessagesInputBodyMiddleware: ClientRuntime.Middleware {
                 let sendUsersMessageRequestbody = ClientRuntime.HttpBody.data(sendUsersMessageRequestdata)
                 input.builder.withBody(sendUsersMessageRequestbody)
             } else {
-                let sendUsersMessageRequestdata = try encoder.encode(input.operationInput)
-                let sendUsersMessageRequestbody = ClientRuntime.HttpBody.data(sendUsersMessageRequestdata)
-                input.builder.withBody(sendUsersMessageRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let sendUsersMessageRequestdata = "{}".data(using: .utf8)!
+                    let sendUsersMessageRequestbody = ClientRuntime.HttpBody.data(sendUsersMessageRequestdata)
+                    input.builder.withBody(sendUsersMessageRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<SendUsersMessagesOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -29576,9 +29691,12 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
                 let tagsModelbody = ClientRuntime.HttpBody.data(tagsModeldata)
                 input.builder.withBody(tagsModelbody)
             } else {
-                let tagsModeldata = try encoder.encode(input.operationInput)
-                let tagsModelbody = ClientRuntime.HttpBody.data(tagsModeldata)
-                input.builder.withBody(tagsModelbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let tagsModeldata = "{}".data(using: .utf8)!
+                    let tagsModelbody = ClientRuntime.HttpBody.data(tagsModeldata)
+                    input.builder.withBody(tagsModelbody)
+                }
             }
         } catch let err {
             throw SdkError<TagResourceOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -30549,14 +30667,18 @@ extension PinpointClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 
@@ -30646,9 +30768,12 @@ public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
                 let admChannelRequestbody = ClientRuntime.HttpBody.data(admChannelRequestdata)
                 input.builder.withBody(admChannelRequestbody)
             } else {
-                let admChannelRequestdata = try encoder.encode(input.operationInput)
-                let admChannelRequestbody = ClientRuntime.HttpBody.data(admChannelRequestdata)
-                input.builder.withBody(admChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let admChannelRequestdata = "{}".data(using: .utf8)!
+                    let admChannelRequestbody = ClientRuntime.HttpBody.data(admChannelRequestdata)
+                    input.builder.withBody(admChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateAdmChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -30816,9 +30941,12 @@ public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
                 let apnsChannelRequestbody = ClientRuntime.HttpBody.data(apnsChannelRequestdata)
                 input.builder.withBody(apnsChannelRequestbody)
             } else {
-                let apnsChannelRequestdata = try encoder.encode(input.operationInput)
-                let apnsChannelRequestbody = ClientRuntime.HttpBody.data(apnsChannelRequestdata)
-                input.builder.withBody(apnsChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsChannelRequestdata = "{}".data(using: .utf8)!
+                    let apnsChannelRequestbody = ClientRuntime.HttpBody.data(apnsChannelRequestdata)
+                    input.builder.withBody(apnsChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateApnsChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -30986,9 +31114,12 @@ public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middlew
                 let apnsSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestdata)
                 input.builder.withBody(apnsSandboxChannelRequestbody)
             } else {
-                let apnsSandboxChannelRequestdata = try encoder.encode(input.operationInput)
-                let apnsSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestdata)
-                input.builder.withBody(apnsSandboxChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsSandboxChannelRequestdata = "{}".data(using: .utf8)!
+                    let apnsSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestdata)
+                    input.builder.withBody(apnsSandboxChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateApnsSandboxChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -31156,9 +31287,12 @@ public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware
                 let apnsVoipChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestdata)
                 input.builder.withBody(apnsVoipChannelRequestbody)
             } else {
-                let apnsVoipChannelRequestdata = try encoder.encode(input.operationInput)
-                let apnsVoipChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestdata)
-                input.builder.withBody(apnsVoipChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsVoipChannelRequestdata = "{}".data(using: .utf8)!
+                    let apnsVoipChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestdata)
+                    input.builder.withBody(apnsVoipChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateApnsVoipChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -31326,9 +31460,12 @@ public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Mid
                 let apnsVoipSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestdata)
                 input.builder.withBody(apnsVoipSandboxChannelRequestbody)
             } else {
-                let apnsVoipSandboxChannelRequestdata = try encoder.encode(input.operationInput)
-                let apnsVoipSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestdata)
-                input.builder.withBody(apnsVoipSandboxChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsVoipSandboxChannelRequestdata = "{}".data(using: .utf8)!
+                    let apnsVoipSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestdata)
+                    input.builder.withBody(apnsVoipSandboxChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateApnsVoipSandboxChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -31496,9 +31633,12 @@ public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middle
                 let writeApplicationSettingsRequestbody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestdata)
                 input.builder.withBody(writeApplicationSettingsRequestbody)
             } else {
-                let writeApplicationSettingsRequestdata = try encoder.encode(input.operationInput)
-                let writeApplicationSettingsRequestbody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestdata)
-                input.builder.withBody(writeApplicationSettingsRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeApplicationSettingsRequestdata = "{}".data(using: .utf8)!
+                    let writeApplicationSettingsRequestbody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestdata)
+                    input.builder.withBody(writeApplicationSettingsRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateApplicationSettingsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -31713,9 +31853,12 @@ public struct UpdateBaiduChannelInputBodyMiddleware: ClientRuntime.Middleware {
                 let baiduChannelRequestbody = ClientRuntime.HttpBody.data(baiduChannelRequestdata)
                 input.builder.withBody(baiduChannelRequestbody)
             } else {
-                let baiduChannelRequestdata = try encoder.encode(input.operationInput)
-                let baiduChannelRequestbody = ClientRuntime.HttpBody.data(baiduChannelRequestdata)
-                input.builder.withBody(baiduChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let baiduChannelRequestdata = "{}".data(using: .utf8)!
+                    let baiduChannelRequestbody = ClientRuntime.HttpBody.data(baiduChannelRequestdata)
+                    input.builder.withBody(baiduChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateBaiduChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -31883,9 +32026,12 @@ public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
                 let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
                 input.builder.withBody(writeCampaignRequestbody)
             } else {
-                let writeCampaignRequestdata = try encoder.encode(input.operationInput)
-                let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
-                input.builder.withBody(writeCampaignRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeCampaignRequestdata = "{}".data(using: .utf8)!
+                    let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
+                    input.builder.withBody(writeCampaignRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateCampaignOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32061,9 +32207,12 @@ public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
                 let emailChannelRequestbody = ClientRuntime.HttpBody.data(emailChannelRequestdata)
                 input.builder.withBody(emailChannelRequestbody)
             } else {
-                let emailChannelRequestdata = try encoder.encode(input.operationInput)
-                let emailChannelRequestbody = ClientRuntime.HttpBody.data(emailChannelRequestdata)
-                input.builder.withBody(emailChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let emailChannelRequestdata = "{}".data(using: .utf8)!
+                    let emailChannelRequestbody = ClientRuntime.HttpBody.data(emailChannelRequestdata)
+                    input.builder.withBody(emailChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateEmailChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32231,9 +32380,12 @@ public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
                 input.builder.withBody(emailTemplateRequestbody)
             } else {
-                let emailTemplateRequestdata = try encoder.encode(input.operationInput)
-                let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
-                input.builder.withBody(emailTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let emailTemplateRequestdata = "{}".data(using: .utf8)!
+                    let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
+                    input.builder.withBody(emailTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateEmailTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32261,16 +32413,18 @@ extension UpdateEmailTemplateInput: Swift.Encodable {
 
 extension UpdateEmailTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            if let createNewVersion = createNewVersion {
+                let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
+                items.append(createNewVersionQueryItem)
+            }
+            return items
         }
-        if let createNewVersion = createNewVersion {
-            let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
-            items.append(createNewVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -32430,9 +32584,12 @@ public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
                 let endpointRequestbody = ClientRuntime.HttpBody.data(endpointRequestdata)
                 input.builder.withBody(endpointRequestbody)
             } else {
-                let endpointRequestdata = try encoder.encode(input.operationInput)
-                let endpointRequestbody = ClientRuntime.HttpBody.data(endpointRequestdata)
-                input.builder.withBody(endpointRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let endpointRequestdata = "{}".data(using: .utf8)!
+                    let endpointRequestbody = ClientRuntime.HttpBody.data(endpointRequestdata)
+                    input.builder.withBody(endpointRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateEndpointOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32608,9 +32765,12 @@ public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware 
                 let endpointBatchRequestbody = ClientRuntime.HttpBody.data(endpointBatchRequestdata)
                 input.builder.withBody(endpointBatchRequestbody)
             } else {
-                let endpointBatchRequestdata = try encoder.encode(input.operationInput)
-                let endpointBatchRequestbody = ClientRuntime.HttpBody.data(endpointBatchRequestdata)
-                input.builder.withBody(endpointBatchRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let endpointBatchRequestdata = "{}".data(using: .utf8)!
+                    let endpointBatchRequestbody = ClientRuntime.HttpBody.data(endpointBatchRequestdata)
+                    input.builder.withBody(endpointBatchRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateEndpointsBatchOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32778,9 +32938,12 @@ public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
                 let gcmChannelRequestbody = ClientRuntime.HttpBody.data(gcmChannelRequestdata)
                 input.builder.withBody(gcmChannelRequestbody)
             } else {
-                let gcmChannelRequestdata = try encoder.encode(input.operationInput)
-                let gcmChannelRequestbody = ClientRuntime.HttpBody.data(gcmChannelRequestdata)
-                input.builder.withBody(gcmChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let gcmChannelRequestdata = "{}".data(using: .utf8)!
+                    let gcmChannelRequestbody = ClientRuntime.HttpBody.data(gcmChannelRequestdata)
+                    input.builder.withBody(gcmChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateGcmChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32948,9 +33111,12 @@ public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
                 input.builder.withBody(inAppTemplateRequestbody)
             } else {
-                let inAppTemplateRequestdata = try encoder.encode(input.operationInput)
-                let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
-                input.builder.withBody(inAppTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let inAppTemplateRequestdata = "{}".data(using: .utf8)!
+                    let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
+                    input.builder.withBody(inAppTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateInAppTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -32978,16 +33144,18 @@ extension UpdateInAppTemplateInput: Swift.Encodable {
 
 extension UpdateInAppTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            if let createNewVersion = createNewVersion {
+                let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
+                items.append(createNewVersionQueryItem)
+            }
+            return items
         }
-        if let createNewVersion = createNewVersion {
-            let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
-            items.append(createNewVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -33147,9 +33315,12 @@ public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
                 let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
                 input.builder.withBody(writeJourneyRequestbody)
             } else {
-                let writeJourneyRequestdata = try encoder.encode(input.operationInput)
-                let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
-                input.builder.withBody(writeJourneyRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeJourneyRequestdata = "{}".data(using: .utf8)!
+                    let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
+                    input.builder.withBody(writeJourneyRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateJourneyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -33327,9 +33498,12 @@ public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
                 let journeyStateRequestbody = ClientRuntime.HttpBody.data(journeyStateRequestdata)
                 input.builder.withBody(journeyStateRequestbody)
             } else {
-                let journeyStateRequestdata = try encoder.encode(input.operationInput)
-                let journeyStateRequestbody = ClientRuntime.HttpBody.data(journeyStateRequestdata)
-                input.builder.withBody(journeyStateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let journeyStateRequestdata = "{}".data(using: .utf8)!
+                    let journeyStateRequestbody = ClientRuntime.HttpBody.data(journeyStateRequestdata)
+                    input.builder.withBody(journeyStateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateJourneyStateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -33505,9 +33679,12 @@ public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
                 input.builder.withBody(pushNotificationTemplateRequestbody)
             } else {
-                let pushNotificationTemplateRequestdata = try encoder.encode(input.operationInput)
-                let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
-                input.builder.withBody(pushNotificationTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let pushNotificationTemplateRequestdata = "{}".data(using: .utf8)!
+                    let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
+                    input.builder.withBody(pushNotificationTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdatePushTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -33535,16 +33712,18 @@ extension UpdatePushTemplateInput: Swift.Encodable {
 
 extension UpdatePushTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            if let createNewVersion = createNewVersion {
+                let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
+                items.append(createNewVersionQueryItem)
+            }
+            return items
         }
-        if let createNewVersion = createNewVersion {
-            let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
-            items.append(createNewVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -33704,9 +33883,12 @@ public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
                 let updateRecommenderConfigurationbody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationdata)
                 input.builder.withBody(updateRecommenderConfigurationbody)
             } else {
-                let updateRecommenderConfigurationdata = try encoder.encode(input.operationInput)
-                let updateRecommenderConfigurationbody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationdata)
-                input.builder.withBody(updateRecommenderConfigurationbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let updateRecommenderConfigurationdata = "{}".data(using: .utf8)!
+                    let updateRecommenderConfigurationbody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationdata)
+                    input.builder.withBody(updateRecommenderConfigurationbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateRecommenderConfigurationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34014,9 +34196,12 @@ public struct UpdateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
                 let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
                 input.builder.withBody(writeSegmentRequestbody)
             } else {
-                let writeSegmentRequestdata = try encoder.encode(input.operationInput)
-                let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
-                input.builder.withBody(writeSegmentRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeSegmentRequestdata = "{}".data(using: .utf8)!
+                    let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
+                    input.builder.withBody(writeSegmentRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateSegmentOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34192,9 +34377,12 @@ public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
                 let smsChannelRequestbody = ClientRuntime.HttpBody.data(smsChannelRequestdata)
                 input.builder.withBody(smsChannelRequestbody)
             } else {
-                let smsChannelRequestdata = try encoder.encode(input.operationInput)
-                let smsChannelRequestbody = ClientRuntime.HttpBody.data(smsChannelRequestdata)
-                input.builder.withBody(smsChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let smsChannelRequestdata = "{}".data(using: .utf8)!
+                    let smsChannelRequestbody = ClientRuntime.HttpBody.data(smsChannelRequestdata)
+                    input.builder.withBody(smsChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateSmsChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34362,9 +34550,12 @@ public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
                 input.builder.withBody(smsTemplateRequestbody)
             } else {
-                let smsTemplateRequestdata = try encoder.encode(input.operationInput)
-                let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
-                input.builder.withBody(smsTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let smsTemplateRequestdata = "{}".data(using: .utf8)!
+                    let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
+                    input.builder.withBody(smsTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateSmsTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34392,16 +34583,18 @@ extension UpdateSmsTemplateInput: Swift.Encodable {
 
 extension UpdateSmsTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            if let createNewVersion = createNewVersion {
+                let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
+                items.append(createNewVersionQueryItem)
+            }
+            return items
         }
-        if let createNewVersion = createNewVersion {
-            let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
-            items.append(createNewVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -34561,9 +34754,12 @@ public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Midd
                 let templateActiveVersionRequestbody = ClientRuntime.HttpBody.data(templateActiveVersionRequestdata)
                 input.builder.withBody(templateActiveVersionRequestbody)
             } else {
-                let templateActiveVersionRequestdata = try encoder.encode(input.operationInput)
-                let templateActiveVersionRequestbody = ClientRuntime.HttpBody.data(templateActiveVersionRequestdata)
-                input.builder.withBody(templateActiveVersionRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let templateActiveVersionRequestdata = "{}".data(using: .utf8)!
+                    let templateActiveVersionRequestbody = ClientRuntime.HttpBody.data(templateActiveVersionRequestdata)
+                    input.builder.withBody(templateActiveVersionRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateTemplateActiveVersionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34739,9 +34935,12 @@ public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
                 let voiceChannelRequestbody = ClientRuntime.HttpBody.data(voiceChannelRequestdata)
                 input.builder.withBody(voiceChannelRequestbody)
             } else {
-                let voiceChannelRequestdata = try encoder.encode(input.operationInput)
-                let voiceChannelRequestbody = ClientRuntime.HttpBody.data(voiceChannelRequestdata)
-                input.builder.withBody(voiceChannelRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let voiceChannelRequestdata = "{}".data(using: .utf8)!
+                    let voiceChannelRequestbody = ClientRuntime.HttpBody.data(voiceChannelRequestdata)
+                    input.builder.withBody(voiceChannelRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateVoiceChannelOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34909,9 +35108,12 @@ public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
                 let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
                 input.builder.withBody(voiceTemplateRequestbody)
             } else {
-                let voiceTemplateRequestdata = try encoder.encode(input.operationInput)
-                let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
-                input.builder.withBody(voiceTemplateRequestbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let voiceTemplateRequestdata = "{}".data(using: .utf8)!
+                    let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
+                    input.builder.withBody(voiceTemplateRequestbody)
+                }
             }
         } catch let err {
             throw SdkError<UpdateVoiceTemplateOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
@@ -34939,16 +35141,18 @@ extension UpdateVoiceTemplateInput: Swift.Encodable {
 
 extension UpdateVoiceTemplateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let version = version {
-            let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
-            items.append(versionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let version = version {
+                let versionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+                items.append(versionQueryItem)
+            }
+            if let createNewVersion = createNewVersion {
+                let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
+                items.append(createNewVersionQueryItem)
+            }
+            return items
         }
-        if let createNewVersion = createNewVersion {
-            let createNewVersionQueryItem = ClientRuntime.URLQueryItem(name: "create-new-version".urlPercentEncoding(), value: Swift.String(createNewVersion).urlPercentEncoding())
-            items.append(createNewVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -35143,9 +35347,12 @@ public struct VerifyOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
                 let verifyOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersdata)
                 input.builder.withBody(verifyOTPMessageRequestParametersbody)
             } else {
-                let verifyOTPMessageRequestParametersdata = try encoder.encode(input.operationInput)
-                let verifyOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersdata)
-                input.builder.withBody(verifyOTPMessageRequestParametersbody)
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let verifyOTPMessageRequestParametersdata = "{}".data(using: .utf8)!
+                    let verifyOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersdata)
+                    input.builder.withBody(verifyOTPMessageRequestParametersbody)
+                }
             }
         } catch let err {
             throw SdkError<VerifyOTPMessageOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))

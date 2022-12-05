@@ -1175,12 +1175,16 @@ extension DeleteWorkflowOutputResponseBody: Swift.Decodable {
 
 extension DeleteWorkflowStepGroupInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let workflowId = workflowId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let workflowId = workflowId else {
+                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
             items.append(workflowIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1262,16 +1266,22 @@ public struct DeleteWorkflowStepGroupOutputResponse: Swift.Equatable {
 
 extension DeleteWorkflowStepInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stepGroupId = stepGroupId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let stepGroupId = stepGroupId else {
+                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
             items.append(stepGroupIdQueryItem)
-        }
-        if let workflowId = workflowId {
+            guard let workflowId = workflowId else {
+                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
             items.append(workflowIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -1763,16 +1773,22 @@ extension GetTemplateStepGroupOutputResponseBody: Swift.Decodable {
 
 extension GetTemplateStepInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stepGroupId = stepGroupId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let stepGroupId = stepGroupId else {
+                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
             items.append(stepGroupIdQueryItem)
-        }
-        if let templateId = templateId {
+            guard let templateId = templateId else {
+                let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let templateIdQueryItem = ClientRuntime.URLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
             items.append(templateIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2341,12 +2357,16 @@ extension GetWorkflowOutputResponseBody: Swift.Decodable {
 
 extension GetWorkflowStepGroupInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let workflowId = workflowId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let workflowId = workflowId else {
+                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
             items.append(workflowIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -2596,16 +2616,22 @@ extension GetWorkflowStepGroupOutputResponseBody: Swift.Decodable {
 
 extension GetWorkflowStepInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stepGroupId = stepGroupId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let stepGroupId = stepGroupId else {
+                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
             items.append(stepGroupIdQueryItem)
-        }
-        if let workflowId = workflowId {
+            guard let workflowId = workflowId else {
+                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
             items.append(workflowIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -3010,16 +3036,18 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListPluginsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -3247,16 +3275,18 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 
 extension ListTemplateStepGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        return items
     }
 }
 
@@ -3390,24 +3420,30 @@ extension ListTemplateStepGroupsOutputResponseBody: Swift.Decodable {
 
 extension ListTemplateStepsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stepGroupId = stepGroupId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let stepGroupId = stepGroupId else {
+                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
             items.append(stepGroupIdQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let templateId = templateId {
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let templateId = templateId else {
+                let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let templateIdQueryItem = ClientRuntime.URLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
             items.append(templateIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -3544,20 +3580,22 @@ extension ListTemplateStepsOutputResponseBody: Swift.Decodable {
 
 extension ListTemplatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let name = name {
+                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+                items.append(nameQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let name = name {
-            let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-            items.append(nameQueryItem)
-        }
-        return items
     }
 }
 
@@ -3685,20 +3723,24 @@ extension ListTemplatesOutputResponseBody: Swift.Decodable {
 
 extension ListWorkflowStepGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let workflowId = workflowId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            guard let workflowId = workflowId else {
+                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
             items.append(workflowIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -3831,16 +3873,18 @@ extension ListWorkflowStepGroupsOutputResponseBody: Swift.Decodable {
 
 extension ListWorkflowStepsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -3982,32 +4026,34 @@ extension ListWorkflowStepsOutputResponseBody: Swift.Decodable {
 
 extension ListWorkflowsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let adsApplicationConfigurationName = adsApplicationConfigurationName {
-            let adsApplicationConfigurationNameQueryItem = ClientRuntime.URLQueryItem(name: "adsApplicationConfigurationName".urlPercentEncoding(), value: Swift.String(adsApplicationConfigurationName).urlPercentEncoding())
-            items.append(adsApplicationConfigurationNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let adsApplicationConfigurationName = adsApplicationConfigurationName {
+                let adsApplicationConfigurationNameQueryItem = ClientRuntime.URLQueryItem(name: "adsApplicationConfigurationName".urlPercentEncoding(), value: Swift.String(adsApplicationConfigurationName).urlPercentEncoding())
+                items.append(adsApplicationConfigurationNameQueryItem)
+            }
+            if maxResults != 0 {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let name = name {
+                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+                items.append(nameQueryItem)
+            }
+            if let templateId = templateId {
+                let templateIdQueryItem = ClientRuntime.URLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
+                items.append(templateIdQueryItem)
+            }
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            return items
         }
-        if maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let name = name {
-            let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-            items.append(nameQueryItem)
-        }
-        if let templateId = templateId {
-            let templateIdQueryItem = ClientRuntime.URLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
-            items.append(templateIdQueryItem)
-        }
-        if let status = status {
-            let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-            items.append(statusQueryItem)
-        }
-        return items
     }
 }
 
@@ -4636,16 +4682,22 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension RetryWorkflowStepInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let stepGroupId = stepGroupId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let stepGroupId = stepGroupId else {
+                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
             items.append(stepGroupIdQueryItem)
-        }
-        if let workflowId = workflowId {
+            guard let workflowId = workflowId else {
+                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
             items.append(workflowIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -6069,14 +6121,18 @@ extension MigrationHubOrchestratorClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 
@@ -6516,12 +6572,16 @@ extension UpdateWorkflowStepGroupInput: Swift.Encodable {
 
 extension UpdateWorkflowStepGroupInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let workflowId = workflowId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let workflowId = workflowId else {
+                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
             items.append(workflowIdQueryItem)
+            return items
         }
-        return items
     }
 }
 

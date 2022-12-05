@@ -7276,22 +7276,24 @@ extension DeregisterTransitGatewayOutputResponseBody: Swift.Decodable {
 
 extension DescribeGlobalNetworksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let globalNetworkIds = globalNetworkIds {
-            globalNetworkIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "globalNetworkIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let globalNetworkIds = globalNetworkIds {
+                globalNetworkIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "globalNetworkIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -7866,16 +7868,22 @@ extension DisassociateCustomerGatewayOutputResponseBody: Swift.Decodable {
 
 extension DisassociateLinkInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let deviceId = deviceId {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let deviceId = deviceId else {
+                let message = "Creating a URL Query Item failed. deviceId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let deviceIdQueryItem = ClientRuntime.URLQueryItem(name: "deviceId".urlPercentEncoding(), value: Swift.String(deviceId).urlPercentEncoding())
             items.append(deviceIdQueryItem)
-        }
-        if let linkId = linkId {
+            guard let linkId = linkId else {
+                let message = "Creating a URL Query Item failed. linkId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let linkIdQueryItem = ClientRuntime.URLQueryItem(name: "linkId".urlPercentEncoding(), value: Swift.String(linkId).urlPercentEncoding())
             items.append(linkIdQueryItem)
+            return items
         }
-        return items
     }
 }
 
@@ -8290,22 +8298,24 @@ extension GetConnectAttachmentOutputResponseBody: Swift.Decodable {
 
 extension GetConnectPeerAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let connectPeerIds = connectPeerIds {
-            connectPeerIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "connectPeerIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let connectPeerIds = connectPeerIds {
+                connectPeerIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "connectPeerIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8548,26 +8558,28 @@ extension GetConnectPeerOutputResponseBody: Swift.Decodable {
 
 extension GetConnectionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let deviceId = deviceId {
-            let deviceIdQueryItem = ClientRuntime.URLQueryItem(name: "deviceId".urlPercentEncoding(), value: Swift.String(deviceId).urlPercentEncoding())
-            items.append(deviceIdQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let connectionIds = connectionIds {
-            connectionIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "connectionIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
+            if let deviceId = deviceId {
+                let deviceIdQueryItem = ClientRuntime.URLQueryItem(name: "deviceId".urlPercentEncoding(), value: Swift.String(deviceId).urlPercentEncoding())
+                items.append(deviceIdQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let connectionIds = connectionIds {
+                connectionIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "connectionIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -8710,16 +8722,18 @@ extension GetConnectionsOutputResponseBody: Swift.Decodable {
 
 extension GetCoreNetworkChangeEventsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -8862,16 +8876,18 @@ extension GetCoreNetworkChangeEventsOutputResponseBody: Swift.Decodable {
 
 extension GetCoreNetworkChangeSetInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9116,16 +9132,18 @@ extension GetCoreNetworkOutputResponseBody: Swift.Decodable {
 
 extension GetCoreNetworkPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let alias = alias {
-            let aliasQueryItem = ClientRuntime.URLQueryItem(name: "alias".urlPercentEncoding(), value: Swift.String(alias.rawValue).urlPercentEncoding())
-            items.append(aliasQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let alias = alias {
+                let aliasQueryItem = ClientRuntime.URLQueryItem(name: "alias".urlPercentEncoding(), value: Swift.String(alias.rawValue).urlPercentEncoding())
+                items.append(aliasQueryItem)
+            }
+            if let policyVersionId = policyVersionId {
+                let policyVersionIdQueryItem = ClientRuntime.URLQueryItem(name: "policyVersionId".urlPercentEncoding(), value: Swift.String(policyVersionId).urlPercentEncoding())
+                items.append(policyVersionIdQueryItem)
+            }
+            return items
         }
-        if let policyVersionId = policyVersionId {
-            let policyVersionIdQueryItem = ClientRuntime.URLQueryItem(name: "policyVersionId".urlPercentEncoding(), value: Swift.String(policyVersionId).urlPercentEncoding())
-            items.append(policyVersionIdQueryItem)
-        }
-        return items
     }
 }
 
@@ -9241,22 +9259,24 @@ extension GetCoreNetworkPolicyOutputResponseBody: Swift.Decodable {
 
 extension GetCustomerGatewayAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let customerGatewayArns = customerGatewayArns {
-            customerGatewayArns.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "customerGatewayArns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let customerGatewayArns = customerGatewayArns {
+                customerGatewayArns.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "customerGatewayArns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9397,26 +9417,28 @@ extension GetCustomerGatewayAssociationsOutputResponseBody: Swift.Decodable {
 
 extension GetDevicesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let deviceIds = deviceIds {
-            deviceIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "deviceIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let deviceIds = deviceIds {
+                deviceIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "deviceIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
+            if let siteId = siteId {
+                let siteIdQueryItem = ClientRuntime.URLQueryItem(name: "siteId".urlPercentEncoding(), value: Swift.String(siteId).urlPercentEncoding())
+                items.append(siteIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let siteId = siteId {
-            let siteIdQueryItem = ClientRuntime.URLQueryItem(name: "siteId".urlPercentEncoding(), value: Swift.String(siteId).urlPercentEncoding())
-            items.append(siteIdQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -9559,24 +9581,26 @@ extension GetDevicesOutputResponseBody: Swift.Decodable {
 
 extension GetLinkAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let deviceId = deviceId {
+                let deviceIdQueryItem = ClientRuntime.URLQueryItem(name: "deviceId".urlPercentEncoding(), value: Swift.String(deviceId).urlPercentEncoding())
+                items.append(deviceIdQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let linkId = linkId {
+                let linkIdQueryItem = ClientRuntime.URLQueryItem(name: "linkId".urlPercentEncoding(), value: Swift.String(linkId).urlPercentEncoding())
+                items.append(linkIdQueryItem)
+            }
+            return items
         }
-        if let deviceId = deviceId {
-            let deviceIdQueryItem = ClientRuntime.URLQueryItem(name: "deviceId".urlPercentEncoding(), value: Swift.String(deviceId).urlPercentEncoding())
-            items.append(deviceIdQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let linkId = linkId {
-            let linkIdQueryItem = ClientRuntime.URLQueryItem(name: "linkId".urlPercentEncoding(), value: Swift.String(linkId).urlPercentEncoding())
-            items.append(linkIdQueryItem)
-        }
-        return items
     }
 }
 
@@ -9719,34 +9743,36 @@ extension GetLinkAssociationsOutputResponseBody: Swift.Decodable {
 
 extension GetLinksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let siteId = siteId {
-            let siteIdQueryItem = ClientRuntime.URLQueryItem(name: "siteId".urlPercentEncoding(), value: Swift.String(siteId).urlPercentEncoding())
-            items.append(siteIdQueryItem)
-        }
-        if let type = type {
-            let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type).urlPercentEncoding())
-            items.append(typeQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let linkIds = linkIds {
-            linkIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "linkIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let siteId = siteId {
+                let siteIdQueryItem = ClientRuntime.URLQueryItem(name: "siteId".urlPercentEncoding(), value: Swift.String(siteId).urlPercentEncoding())
+                items.append(siteIdQueryItem)
             }
+            if let type = type {
+                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type).urlPercentEncoding())
+                items.append(typeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let linkIds = linkIds {
+                linkIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "linkIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            if let provider = provider {
+                let providerQueryItem = ClientRuntime.URLQueryItem(name: "provider".urlPercentEncoding(), value: Swift.String(provider).urlPercentEncoding())
+                items.append(providerQueryItem)
+            }
+            return items
         }
-        if let provider = provider {
-            let providerQueryItem = ClientRuntime.URLQueryItem(name: "provider".urlPercentEncoding(), value: Swift.String(provider).urlPercentEncoding())
-            items.append(providerQueryItem)
-        }
-        return items
     }
 }
 
@@ -9897,20 +9923,22 @@ extension GetLinksOutputResponseBody: Swift.Decodable {
 
 extension GetNetworkResourceCountsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let resourceType = resourceType {
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-        }
-        return items
     }
 }
 
@@ -10079,40 +10107,42 @@ extension GetNetworkResourceCountsOutputResponseBody: Swift.Decodable {
 
 extension GetNetworkResourceRelationshipsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceArn = resourceArn {
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let resourceArn = resourceArn {
+                let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+                items.append(resourceArnQueryItem)
+            }
+            if let coreNetworkId = coreNetworkId {
+                let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
+                items.append(coreNetworkIdQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let registeredGatewayArn = registeredGatewayArn {
+                let registeredGatewayArnQueryItem = ClientRuntime.URLQueryItem(name: "registeredGatewayArn".urlPercentEncoding(), value: Swift.String(registeredGatewayArn).urlPercentEncoding())
+                items.append(registeredGatewayArnQueryItem)
+            }
+            if let awsRegion = awsRegion {
+                let awsRegionQueryItem = ClientRuntime.URLQueryItem(name: "awsRegion".urlPercentEncoding(), value: Swift.String(awsRegion).urlPercentEncoding())
+                items.append(awsRegionQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            return items
         }
-        if let coreNetworkId = coreNetworkId {
-            let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
-            items.append(coreNetworkIdQueryItem)
-        }
-        if let accountId = accountId {
-            let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-            items.append(accountIdQueryItem)
-        }
-        if let registeredGatewayArn = registeredGatewayArn {
-            let registeredGatewayArnQueryItem = ClientRuntime.URLQueryItem(name: "registeredGatewayArn".urlPercentEncoding(), value: Swift.String(registeredGatewayArn).urlPercentEncoding())
-            items.append(registeredGatewayArnQueryItem)
-        }
-        if let awsRegion = awsRegion {
-            let awsRegionQueryItem = ClientRuntime.URLQueryItem(name: "awsRegion".urlPercentEncoding(), value: Swift.String(awsRegion).urlPercentEncoding())
-            items.append(awsRegionQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let resourceType = resourceType {
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-        }
-        return items
     }
 }
 
@@ -10303,40 +10333,42 @@ extension GetNetworkResourceRelationshipsOutputResponseBody: Swift.Decodable {
 
 extension GetNetworkResourcesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceArn = resourceArn {
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let resourceArn = resourceArn {
+                let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+                items.append(resourceArnQueryItem)
+            }
+            if let coreNetworkId = coreNetworkId {
+                let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
+                items.append(coreNetworkIdQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let registeredGatewayArn = registeredGatewayArn {
+                let registeredGatewayArnQueryItem = ClientRuntime.URLQueryItem(name: "registeredGatewayArn".urlPercentEncoding(), value: Swift.String(registeredGatewayArn).urlPercentEncoding())
+                items.append(registeredGatewayArnQueryItem)
+            }
+            if let awsRegion = awsRegion {
+                let awsRegionQueryItem = ClientRuntime.URLQueryItem(name: "awsRegion".urlPercentEncoding(), value: Swift.String(awsRegion).urlPercentEncoding())
+                items.append(awsRegionQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            return items
         }
-        if let coreNetworkId = coreNetworkId {
-            let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
-            items.append(coreNetworkIdQueryItem)
-        }
-        if let accountId = accountId {
-            let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-            items.append(accountIdQueryItem)
-        }
-        if let registeredGatewayArn = registeredGatewayArn {
-            let registeredGatewayArnQueryItem = ClientRuntime.URLQueryItem(name: "registeredGatewayArn".urlPercentEncoding(), value: Swift.String(registeredGatewayArn).urlPercentEncoding())
-            items.append(registeredGatewayArnQueryItem)
-        }
-        if let awsRegion = awsRegion {
-            let awsRegionQueryItem = ClientRuntime.URLQueryItem(name: "awsRegion".urlPercentEncoding(), value: Swift.String(awsRegion).urlPercentEncoding())
-            items.append(awsRegionQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let resourceType = resourceType {
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-        }
-        return items
     }
 }
 
@@ -10902,40 +10934,42 @@ extension GetNetworkRoutesOutputResponseBody: Swift.Decodable {
 
 extension GetNetworkTelemetryInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceArn = resourceArn {
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let resourceArn = resourceArn {
+                let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+                items.append(resourceArnQueryItem)
+            }
+            if let coreNetworkId = coreNetworkId {
+                let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
+                items.append(coreNetworkIdQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let registeredGatewayArn = registeredGatewayArn {
+                let registeredGatewayArnQueryItem = ClientRuntime.URLQueryItem(name: "registeredGatewayArn".urlPercentEncoding(), value: Swift.String(registeredGatewayArn).urlPercentEncoding())
+                items.append(registeredGatewayArnQueryItem)
+            }
+            if let awsRegion = awsRegion {
+                let awsRegionQueryItem = ClientRuntime.URLQueryItem(name: "awsRegion".urlPercentEncoding(), value: Swift.String(awsRegion).urlPercentEncoding())
+                items.append(awsRegionQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            return items
         }
-        if let coreNetworkId = coreNetworkId {
-            let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
-            items.append(coreNetworkIdQueryItem)
-        }
-        if let accountId = accountId {
-            let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-            items.append(accountIdQueryItem)
-        }
-        if let registeredGatewayArn = registeredGatewayArn {
-            let registeredGatewayArnQueryItem = ClientRuntime.URLQueryItem(name: "registeredGatewayArn".urlPercentEncoding(), value: Swift.String(registeredGatewayArn).urlPercentEncoding())
-            items.append(registeredGatewayArnQueryItem)
-        }
-        if let awsRegion = awsRegion {
-            let awsRegionQueryItem = ClientRuntime.URLQueryItem(name: "awsRegion".urlPercentEncoding(), value: Swift.String(awsRegion).urlPercentEncoding())
-            items.append(awsRegionQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let resourceType = resourceType {
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-        }
-        return items
     }
 }
 
@@ -11438,22 +11472,24 @@ extension GetSiteToSiteVpnAttachmentOutputResponseBody: Swift.Decodable {
 
 extension GetSitesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let siteIds = siteIds {
-            siteIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "siteIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let siteIds = siteIds {
+                siteIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "siteIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -11592,22 +11628,24 @@ extension GetSitesOutputResponseBody: Swift.Decodable {
 
 extension GetTransitGatewayConnectPeerAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let transitGatewayConnectPeerArns = transitGatewayConnectPeerArns {
-            transitGatewayConnectPeerArns.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "transitGatewayConnectPeerArns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let transitGatewayConnectPeerArns = transitGatewayConnectPeerArns {
+                transitGatewayConnectPeerArns.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "transitGatewayConnectPeerArns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -11850,22 +11888,24 @@ extension GetTransitGatewayPeeringOutputResponseBody: Swift.Decodable {
 
 extension GetTransitGatewayRegistrationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let transitGatewayArns = transitGatewayArns {
-            transitGatewayArns.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "transitGatewayArns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
             }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let transitGatewayArns = transitGatewayArns {
+                transitGatewayArns.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "transitGatewayArns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -12693,32 +12733,34 @@ extension NetworkManagerClientTypes {
 
 extension ListAttachmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let coreNetworkId = coreNetworkId {
-            let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
-            items.append(coreNetworkIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let coreNetworkId = coreNetworkId {
+                let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
+                items.append(coreNetworkIdQueryItem)
+            }
+            if let attachmentType = attachmentType {
+                let attachmentTypeQueryItem = ClientRuntime.URLQueryItem(name: "attachmentType".urlPercentEncoding(), value: Swift.String(attachmentType.rawValue).urlPercentEncoding())
+                items.append(attachmentTypeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let edgeLocation = edgeLocation {
+                let edgeLocationQueryItem = ClientRuntime.URLQueryItem(name: "edgeLocation".urlPercentEncoding(), value: Swift.String(edgeLocation).urlPercentEncoding())
+                items.append(edgeLocationQueryItem)
+            }
+            return items
         }
-        if let attachmentType = attachmentType {
-            let attachmentTypeQueryItem = ClientRuntime.URLQueryItem(name: "attachmentType".urlPercentEncoding(), value: Swift.String(attachmentType.rawValue).urlPercentEncoding())
-            items.append(attachmentTypeQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let state = state {
-            let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-            items.append(stateQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let edgeLocation = edgeLocation {
-            let edgeLocationQueryItem = ClientRuntime.URLQueryItem(name: "edgeLocation".urlPercentEncoding(), value: Swift.String(edgeLocation).urlPercentEncoding())
-            items.append(edgeLocationQueryItem)
-        }
-        return items
     }
 }
 
@@ -12859,24 +12901,26 @@ extension ListAttachmentsOutputResponseBody: Swift.Decodable {
 
 extension ListConnectPeersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let connectAttachmentId = connectAttachmentId {
-            let connectAttachmentIdQueryItem = ClientRuntime.URLQueryItem(name: "connectAttachmentId".urlPercentEncoding(), value: Swift.String(connectAttachmentId).urlPercentEncoding())
-            items.append(connectAttachmentIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let connectAttachmentId = connectAttachmentId {
+                let connectAttachmentIdQueryItem = ClientRuntime.URLQueryItem(name: "connectAttachmentId".urlPercentEncoding(), value: Swift.String(connectAttachmentId).urlPercentEncoding())
+                items.append(connectAttachmentIdQueryItem)
+            }
+            if let coreNetworkId = coreNetworkId {
+                let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
+                items.append(coreNetworkIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let coreNetworkId = coreNetworkId {
-            let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
-            items.append(coreNetworkIdQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -13009,16 +13053,18 @@ extension ListConnectPeersOutputResponseBody: Swift.Decodable {
 
 extension ListCoreNetworkPolicyVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -13153,16 +13199,18 @@ extension ListCoreNetworkPolicyVersionsOutputResponseBody: Swift.Decodable {
 
 extension ListCoreNetworksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -13287,16 +13335,18 @@ extension ListCoreNetworksOutputResponseBody: Swift.Decodable {
 
 extension ListOrganizationServiceAccessStatusInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
     }
 }
 
@@ -13404,32 +13454,34 @@ extension ListOrganizationServiceAccessStatusOutputResponseBody: Swift.Decodable
 
 extension ListPeeringsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let coreNetworkId = coreNetworkId {
-            let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
-            items.append(coreNetworkIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let coreNetworkId = coreNetworkId {
+                let coreNetworkIdQueryItem = ClientRuntime.URLQueryItem(name: "coreNetworkId".urlPercentEncoding(), value: Swift.String(coreNetworkId).urlPercentEncoding())
+                items.append(coreNetworkIdQueryItem)
+            }
+            if let peeringType = peeringType {
+                let peeringTypeQueryItem = ClientRuntime.URLQueryItem(name: "peeringType".urlPercentEncoding(), value: Swift.String(peeringType.rawValue).urlPercentEncoding())
+                items.append(peeringTypeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let edgeLocation = edgeLocation {
+                let edgeLocationQueryItem = ClientRuntime.URLQueryItem(name: "edgeLocation".urlPercentEncoding(), value: Swift.String(edgeLocation).urlPercentEncoding())
+                items.append(edgeLocationQueryItem)
+            }
+            return items
         }
-        if let peeringType = peeringType {
-            let peeringTypeQueryItem = ClientRuntime.URLQueryItem(name: "peeringType".urlPercentEncoding(), value: Swift.String(peeringType.rawValue).urlPercentEncoding())
-            items.append(peeringTypeQueryItem)
-        }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let state = state {
-            let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-            items.append(stateQueryItem)
-        }
-        if let maxResults = maxResults {
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let edgeLocation = edgeLocation {
-            let edgeLocationQueryItem = ClientRuntime.URLQueryItem(name: "edgeLocation".urlPercentEncoding(), value: Swift.String(edgeLocation).urlPercentEncoding())
-            items.append(edgeLocationQueryItem)
-        }
-        return items
     }
 }
 
@@ -17346,14 +17398,18 @@ extension NetworkManagerClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

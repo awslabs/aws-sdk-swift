@@ -1,0 +1,20 @@
+version: 1
+builder:
+  configs:
+  - platform: macosXcodebuild
+    target: AWSSTS
+  - platform: ios
+    target: AWSSTS
+  - platform: linux
+    swift_version: '5.5'
+    image: registry.gitlab.com/finestructure/spi-images:basic-5.5-latest
+    target: AWSSTS
+  - platform: linux
+    swift_version: '5.6'
+    image: registry.gitlab.com/finestructure/spi-images:basic-5.6-latest
+    target: AWSSTS
+  - platform: linux
+    swift_version: '5.7'
+    image: registry.gitlab.com/finestructure/spi-images:basic-5.7-latest
+    target: AWSSTS
+

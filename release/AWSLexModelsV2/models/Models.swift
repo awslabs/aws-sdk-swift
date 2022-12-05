@@ -5923,12 +5923,14 @@ extension CreateResourcePolicyStatementInput: Swift.Encodable {
 
 extension CreateResourcePolicyStatementInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let expectedRevisionId = expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-            items.append(expectedRevisionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let expectedRevisionId = expectedRevisionId {
+                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+                items.append(expectedRevisionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -7430,12 +7432,14 @@ extension LexModelsV2ClientTypes {
 
 extension DeleteBotAliasInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if skipResourceInUseCheck != false {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-            items.append(skipResourceInUseCheckQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if skipResourceInUseCheck != false {
+                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+                items.append(skipResourceInUseCheckQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -7577,12 +7581,14 @@ extension DeleteBotAliasOutputResponseBody: Swift.Decodable {
 
 extension DeleteBotInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if skipResourceInUseCheck != false {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-            items.append(skipResourceInUseCheckQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if skipResourceInUseCheck != false {
+                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+                items.append(skipResourceInUseCheckQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -7856,12 +7862,14 @@ extension DeleteBotOutputResponseBody: Swift.Decodable {
 
 extension DeleteBotVersionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if skipResourceInUseCheck != false {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-            items.append(skipResourceInUseCheckQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if skipResourceInUseCheck != false {
+                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+                items.append(skipResourceInUseCheckQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -8474,12 +8482,14 @@ public struct DeleteIntentOutputResponse: Swift.Equatable {
 
 extension DeleteResourcePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let expectedRevisionId = expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-            items.append(expectedRevisionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let expectedRevisionId = expectedRevisionId {
+                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+                items.append(expectedRevisionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -8599,12 +8609,14 @@ extension DeleteResourcePolicyOutputResponseBody: Swift.Decodable {
 
 extension DeleteResourcePolicyStatementInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let expectedRevisionId = expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-            items.append(expectedRevisionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let expectedRevisionId = expectedRevisionId {
+                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+                items.append(expectedRevisionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -8837,12 +8849,14 @@ public struct DeleteSlotOutputResponse: Swift.Equatable {
 
 extension DeleteSlotTypeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if skipResourceInUseCheck != false {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-            items.append(skipResourceInUseCheckQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if skipResourceInUseCheck != false {
+                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+                items.append(skipResourceInUseCheckQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -8949,16 +8963,18 @@ public struct DeleteSlotTypeOutputResponse: Swift.Equatable {
 
 extension DeleteUtterancesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let sessionId = sessionId {
-            let sessionIdQueryItem = ClientRuntime.URLQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
-            items.append(sessionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let sessionId = sessionId {
+                let sessionIdQueryItem = ClientRuntime.URLQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
+                items.append(sessionIdQueryItem)
+            }
+            if let localeId = localeId {
+                let localeIdQueryItem = ClientRuntime.URLQueryItem(name: "localeId".urlPercentEncoding(), value: Swift.String(localeId).urlPercentEncoding())
+                items.append(localeIdQueryItem)
+            }
+            return items
         }
-        if let localeId = localeId {
-            let localeIdQueryItem = ClientRuntime.URLQueryItem(name: "localeId".urlPercentEncoding(), value: Swift.String(localeId).urlPercentEncoding())
-            items.append(localeIdQueryItem)
-        }
-        return items
     }
 }
 
@@ -22501,14 +22517,18 @@ extension LexModelsV2ClientTypes {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 
@@ -24455,12 +24475,14 @@ extension UpdateResourcePolicyInput: Swift.Encodable {
 
 extension UpdateResourcePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let expectedRevisionId = expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-            items.append(expectedRevisionIdQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let expectedRevisionId = expectedRevisionId {
+                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+                items.append(expectedRevisionIdQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 

@@ -1003,12 +1003,14 @@ public struct DeleteRegistryOutputResponse: Swift.Equatable {
 
 extension DeleteResourcePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let registryName = registryName {
-            let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
-            items.append(registryNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let registryName = registryName {
+                let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
+                items.append(registryNameQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1253,12 +1255,14 @@ public struct DeleteSchemaVersionOutputResponse: Swift.Equatable {
 
 extension DescribeCodeBindingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let schemaVersion = schemaVersion {
-            let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-            items.append(schemaVersionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let schemaVersion = schemaVersion {
+                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+                items.append(schemaVersionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -1734,12 +1738,14 @@ extension DescribeRegistryOutputResponseBody: Swift.Decodable {
 
 extension DescribeSchemaInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let schemaVersion = schemaVersion {
-            let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-            items.append(schemaVersionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let schemaVersion = schemaVersion {
+                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+                items.append(schemaVersionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2078,16 +2084,20 @@ extension SchemasClientTypes {
 
 extension ExportSchemaInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let type = type {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let type = type else {
+                let message = "Creating a URL Query Item failed. type is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type).urlPercentEncoding())
             items.append(typeQueryItem)
+            if let schemaVersion = schemaVersion {
+                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+                items.append(schemaVersionQueryItem)
+            }
+            return items
         }
-        if let schemaVersion = schemaVersion {
-            let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-            items.append(schemaVersionQueryItem)
-        }
-        return items
     }
 }
 
@@ -2314,12 +2324,14 @@ extension ForbiddenExceptionBody: Swift.Decodable {
 
 extension GetCodeBindingSourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let schemaVersion = schemaVersion {
-            let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-            items.append(schemaVersionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let schemaVersion = schemaVersion {
+                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+                items.append(schemaVersionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2590,12 +2602,14 @@ extension GetDiscoveredSchemaOutputResponseBody: Swift.Decodable {
 
 extension GetResourcePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let registryName = registryName {
-            let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
-            items.append(registryNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let registryName = registryName {
+                let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
+                items.append(registryNameQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2839,24 +2853,26 @@ extension InternalServerErrorExceptionBody: Swift.Decodable {
 
 extension ListDiscoverersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let sourceArnPrefix = sourceArnPrefix {
+                let sourceArnPrefixQueryItem = ClientRuntime.URLQueryItem(name: "sourceArnPrefix".urlPercentEncoding(), value: Swift.String(sourceArnPrefix).urlPercentEncoding())
+                items.append(sourceArnPrefixQueryItem)
+            }
+            if let discovererIdPrefix = discovererIdPrefix {
+                let discovererIdPrefixQueryItem = ClientRuntime.URLQueryItem(name: "discovererIdPrefix".urlPercentEncoding(), value: Swift.String(discovererIdPrefix).urlPercentEncoding())
+                items.append(discovererIdPrefixQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let sourceArnPrefix = sourceArnPrefix {
-            let sourceArnPrefixQueryItem = ClientRuntime.URLQueryItem(name: "sourceArnPrefix".urlPercentEncoding(), value: Swift.String(sourceArnPrefix).urlPercentEncoding())
-            items.append(sourceArnPrefixQueryItem)
-        }
-        if let discovererIdPrefix = discovererIdPrefix {
-            let discovererIdPrefixQueryItem = ClientRuntime.URLQueryItem(name: "discovererIdPrefix".urlPercentEncoding(), value: Swift.String(discovererIdPrefix).urlPercentEncoding())
-            items.append(discovererIdPrefixQueryItem)
-        }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -2990,24 +3006,26 @@ extension ListDiscoverersOutputResponseBody: Swift.Decodable {
 
 extension ListRegistriesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let scope = scope {
+                let scopeQueryItem = ClientRuntime.URLQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope).urlPercentEncoding())
+                items.append(scopeQueryItem)
+            }
+            if let registryNamePrefix = registryNamePrefix {
+                let registryNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "registryNamePrefix".urlPercentEncoding(), value: Swift.String(registryNamePrefix).urlPercentEncoding())
+                items.append(registryNamePrefixQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let scope = scope {
-            let scopeQueryItem = ClientRuntime.URLQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope).urlPercentEncoding())
-            items.append(scopeQueryItem)
-        }
-        if let registryNamePrefix = registryNamePrefix {
-            let registryNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "registryNamePrefix".urlPercentEncoding(), value: Swift.String(registryNamePrefix).urlPercentEncoding())
-            items.append(registryNamePrefixQueryItem)
-        }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -3141,16 +3159,18 @@ extension ListRegistriesOutputResponseBody: Swift.Decodable {
 
 extension ListSchemaVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -3294,20 +3314,22 @@ extension ListSchemaVersionsOutputResponseBody: Swift.Decodable {
 
 extension ListSchemasInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let schemaNamePrefix = schemaNamePrefix {
+                let schemaNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "schemaNamePrefix".urlPercentEncoding(), value: Swift.String(schemaNamePrefix).urlPercentEncoding())
+                items.append(schemaNamePrefixQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let schemaNamePrefix = schemaNamePrefix {
-            let schemaNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "schemaNamePrefix".urlPercentEncoding(), value: Swift.String(schemaNamePrefix).urlPercentEncoding())
-            items.append(schemaNamePrefixQueryItem)
-        }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -3682,12 +3704,14 @@ extension PreconditionFailedExceptionBody: Swift.Decodable {
 
 extension PutCodeBindingInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let schemaVersion = schemaVersion {
-            let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-            items.append(schemaVersionQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let schemaVersion = schemaVersion {
+                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+                items.append(schemaVersionQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -3866,12 +3890,14 @@ extension PutResourcePolicyInput: Swift.Encodable {
 
 extension PutResourcePolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let registryName = registryName {
-            let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
-            items.append(registryNameQueryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let registryName = registryName {
+                let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
+                items.append(registryNameQueryItem)
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -4357,20 +4383,24 @@ extension SchemasClientTypes {
 
 extension SearchSchemasInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let keywords = keywords {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let keywords = keywords else {
+                let message = "Creating a URL Query Item failed. keywords is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let keywordsQueryItem = ClientRuntime.URLQueryItem(name: "keywords".urlPercentEncoding(), value: Swift.String(keywords).urlPercentEncoding())
             items.append(keywordsQueryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let limit = limit {
+                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+                items.append(limitQueryItem)
+            }
+            return items
         }
-        if let nextToken = nextToken {
-            let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let limit = limit {
-            let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-            items.append(limitQueryItem)
-        }
-        return items
     }
 }
 
@@ -5068,14 +5098,18 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 

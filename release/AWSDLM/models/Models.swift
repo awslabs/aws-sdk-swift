@@ -1067,36 +1067,38 @@ extension DLMClientTypes {
 
 extension GetLifecyclePoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let resourceTypes = resourceTypes {
-            resourceTypes.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "resourceTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                items.append(queryItem)
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let resourceTypes = resourceTypes {
+                resourceTypes.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "resourceTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
-        }
-        if let tagsToAdd = tagsToAdd {
-            tagsToAdd.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagsToAdd".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let tagsToAdd = tagsToAdd {
+                tagsToAdd.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "tagsToAdd".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
-        }
-        if let state = state {
-            let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-            items.append(stateQueryItem)
-        }
-        if let policyIds = policyIds {
-            policyIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "policyIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
             }
-        }
-        if let targetTags = targetTags {
-            targetTags.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "targetTags".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
+            if let policyIds = policyIds {
+                policyIds.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "policyIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
+            if let targetTags = targetTags {
+                targetTags.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "targetTags".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
         }
-        return items
     }
 }
 
@@ -2986,14 +2988,18 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
-        var items = [ClientRuntime.URLQueryItem]()
-        if let tagKeys = tagKeys {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+            return items
         }
-        return items
     }
 }
 
