@@ -3352,7 +3352,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails: Swif
 }
 
 extension SecurityHubClientTypes {
-    /// An array of CopyAction objects, which contains the details of the copy operation.
+    /// An array of CopyAction objects, each of which contains details of the copy operation.
     public struct AwsBackupBackupPlanRuleCopyActionsDetails: Swift.Equatable {
         /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup.
         public var destinationBackupVaultArn: Swift.String?
@@ -3455,7 +3455,7 @@ extension SecurityHubClientTypes {
     public struct AwsBackupBackupPlanRuleDetails: Swift.Equatable {
         /// A value in minutes after a backup job is successfully started before it must be completed, or it is canceled by Backup.
         public var completionWindowMinutes: Swift.Int
-        /// An array of CopyAction objects, which contains the details of the copy operation.
+        /// An array of CopyAction objects, each of which contains details of the copy operation.
         public var copyActions: [SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails]?
         /// Specifies whether Backup creates continuous backups capable of point-in-time restore (PITR).
         public var enableContinuousBackup: Swift.Bool
@@ -20797,6 +20797,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architectures = "Architectures"
         case code = "Code"
         case codeSha256 = "CodeSha256"
         case deadLetterConfig = "DeadLetterConfig"
@@ -20808,6 +20809,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         case layers = "Layers"
         case masterArn = "MasterArn"
         case memorySize = "MemorySize"
+        case packageType = "PackageType"
         case revisionId = "RevisionId"
         case role = "Role"
         case runtime = "Runtime"
@@ -20819,6 +20821,12 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let architectures = architectures {
+            var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
+            for nonemptystringlist0 in architectures {
+                try architecturesContainer.encode(nonemptystringlist0)
+            }
+        }
         if let code = self.code {
             try encodeContainer.encode(code, forKey: .code)
         }
@@ -20854,6 +20862,9 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         }
         if memorySize != 0 {
             try encodeContainer.encode(memorySize, forKey: .memorySize)
+        }
+        if let packageType = self.packageType {
+            try encodeContainer.encode(packageType, forKey: .packageType)
         }
         if let revisionId = self.revisionId {
             try encodeContainer.encode(revisionId, forKey: .revisionId)
@@ -20925,12 +20936,27 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         vpcConfig = vpcConfigDecoded
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
+        let architecturesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .architectures)
+        var architecturesDecoded0:[Swift.String]? = nil
+        if let architecturesContainer = architecturesContainer {
+            architecturesDecoded0 = [Swift.String]()
+            for string0 in architecturesContainer {
+                if let string0 = string0 {
+                    architecturesDecoded0?.append(string0)
+                }
+            }
+        }
+        architectures = architecturesDecoded0
+        let packageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageType)
+        packageType = packageTypeDecoded
     }
 }
 
 extension SecurityHubClientTypes {
-    /// Details about a function's configuration.
+    /// Details about an Lambda function's configuration.
     public struct AwsLambdaFunctionDetails: Swift.Equatable {
+        /// The instruction set architecture that the function uses. Valid values are x86_64 or arm64.
+        public var architectures: [Swift.String]?
         /// An AwsLambdaFunctionCode object.
         public var code: SecurityHubClientTypes.AwsLambdaFunctionCode?
         /// The SHA256 hash of the function's deployment package.
@@ -20953,6 +20979,8 @@ extension SecurityHubClientTypes {
         public var masterArn: Swift.String?
         /// The memory that is allocated to the function.
         public var memorySize: Swift.Int
+        /// The type of deployment package that's used to deploy the function code to Lambda. Set to Image for a container image and Zip for a .zip file archive.
+        public var packageType: Swift.String?
         /// The latest updated revision of the function or alias.
         public var revisionId: Swift.String?
         /// The function's execution role.
@@ -20969,6 +20997,7 @@ extension SecurityHubClientTypes {
         public var vpcConfig: SecurityHubClientTypes.AwsLambdaFunctionVpcConfig?
 
         public init (
+            architectures: [Swift.String]? = nil,
             code: SecurityHubClientTypes.AwsLambdaFunctionCode? = nil,
             codeSha256: Swift.String? = nil,
             deadLetterConfig: SecurityHubClientTypes.AwsLambdaFunctionDeadLetterConfig? = nil,
@@ -20980,6 +21009,7 @@ extension SecurityHubClientTypes {
             layers: [SecurityHubClientTypes.AwsLambdaFunctionLayer]? = nil,
             masterArn: Swift.String? = nil,
             memorySize: Swift.Int = 0,
+            packageType: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             role: Swift.String? = nil,
             runtime: Swift.String? = nil,
@@ -20989,6 +21019,7 @@ extension SecurityHubClientTypes {
             vpcConfig: SecurityHubClientTypes.AwsLambdaFunctionVpcConfig? = nil
         )
         {
+            self.architectures = architectures
             self.code = code
             self.codeSha256 = codeSha256
             self.deadLetterConfig = deadLetterConfig
@@ -21000,6 +21031,7 @@ extension SecurityHubClientTypes {
             self.layers = layers
             self.masterArn = masterArn
             self.memorySize = memorySize
+            self.packageType = packageType
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
@@ -35556,7 +35588,7 @@ public struct CreateFindingAggregatorInput: Swift.Equatable {
     /// * SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
     /// This member is required.
     public var regionLinkingMode: Swift.String?
-    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a comma-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions that do aggregate findings to the aggregation Region.
+    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.
     public var regions: [Swift.String]?
 
     public init (
@@ -43985,9 +44017,9 @@ extension SecurityHubClientTypes.Product: Swift.Codable {
         var integrationTypesDecoded0:[SecurityHubClientTypes.IntegrationType]? = nil
         if let integrationTypesContainer = integrationTypesContainer {
             integrationTypesDecoded0 = [SecurityHubClientTypes.IntegrationType]()
-            for string0 in integrationTypesContainer {
-                if let string0 = string0 {
-                    integrationTypesDecoded0?.append(string0)
+            for enum0 in integrationTypesContainer {
+                if let enum0 = enum0 {
+                    integrationTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -46967,6 +46999,8 @@ extension SecurityHubClientTypes.SoftwarePackage: Swift.Codable {
         case packageManager = "PackageManager"
         case release = "Release"
         case remediation = "Remediation"
+        case sourceLayerArn = "SourceLayerArn"
+        case sourceLayerHash = "SourceLayerHash"
         case version = "Version"
     }
 
@@ -46996,6 +47030,12 @@ extension SecurityHubClientTypes.SoftwarePackage: Swift.Codable {
         if let remediation = self.remediation {
             try encodeContainer.encode(remediation, forKey: .remediation)
         }
+        if let sourceLayerArn = self.sourceLayerArn {
+            try encodeContainer.encode(sourceLayerArn, forKey: .sourceLayerArn)
+        }
+        if let sourceLayerHash = self.sourceLayerHash {
+            try encodeContainer.encode(sourceLayerHash, forKey: .sourceLayerHash)
+        }
         if let version = self.version {
             try encodeContainer.encode(version, forKey: .version)
         }
@@ -47021,6 +47061,10 @@ extension SecurityHubClientTypes.SoftwarePackage: Swift.Codable {
         fixedInVersion = fixedInVersionDecoded
         let remediationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediation)
         remediation = remediationDecoded
+        let sourceLayerHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLayerHash)
+        sourceLayerHash = sourceLayerHashDecoded
+        let sourceLayerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLayerArn)
+        sourceLayerArn = sourceLayerArnDecoded
     }
 }
 
@@ -47043,6 +47087,10 @@ extension SecurityHubClientTypes {
         public var release: Swift.String?
         /// Describes the actions a customer can take to resolve the vulnerability in the software package.
         public var remediation: Swift.String?
+        /// The Amazon Resource Name (ARN) of the source layer.
+        public var sourceLayerArn: Swift.String?
+        /// The source layer hash of the vulnerable package.
+        public var sourceLayerHash: Swift.String?
         /// The version of the software package.
         public var version: Swift.String?
 
@@ -47055,6 +47103,8 @@ extension SecurityHubClientTypes {
             packageManager: Swift.String? = nil,
             release: Swift.String? = nil,
             remediation: Swift.String? = nil,
+            sourceLayerArn: Swift.String? = nil,
+            sourceLayerHash: Swift.String? = nil,
             version: Swift.String? = nil
         )
         {
@@ -47066,6 +47116,8 @@ extension SecurityHubClientTypes {
             self.packageManager = packageManager
             self.release = release
             self.remediation = remediation
+            self.sourceLayerArn = sourceLayerArn
+            self.sourceLayerHash = sourceLayerHash
             self.version = version
         }
     }
@@ -47155,6 +47207,7 @@ extension SecurityHubClientTypes.Standard: Swift.Codable {
         case enabledByDefault = "EnabledByDefault"
         case name = "Name"
         case standardsArn = "StandardsArn"
+        case standardsManagedBy = "StandardsManagedBy"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -47171,6 +47224,9 @@ extension SecurityHubClientTypes.Standard: Swift.Codable {
         if let standardsArn = self.standardsArn {
             try encodeContainer.encode(standardsArn, forKey: .standardsArn)
         }
+        if let standardsManagedBy = self.standardsManagedBy {
+            try encodeContainer.encode(standardsManagedBy, forKey: .standardsManagedBy)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -47183,11 +47239,13 @@ extension SecurityHubClientTypes.Standard: Swift.Codable {
         description = descriptionDecoded
         let enabledByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabledByDefault) ?? false
         enabledByDefault = enabledByDefaultDecoded
+        let standardsManagedByDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.StandardsManagedBy.self, forKey: .standardsManagedBy)
+        standardsManagedBy = standardsManagedByDecoded
     }
 }
 
 extension SecurityHubClientTypes {
-    /// Provides information about a specific standard.
+    /// Provides information about a specific security standard.
     public struct Standard: Swift.Equatable {
         /// A description of the standard.
         public var description: Swift.String?
@@ -47197,18 +47255,22 @@ extension SecurityHubClientTypes {
         public var name: Swift.String?
         /// The ARN of a standard.
         public var standardsArn: Swift.String?
+        /// Provides details about the management of a standard.
+        public var standardsManagedBy: SecurityHubClientTypes.StandardsManagedBy?
 
         public init (
             description: Swift.String? = nil,
             enabledByDefault: Swift.Bool = false,
             name: Swift.String? = nil,
-            standardsArn: Swift.String? = nil
+            standardsArn: Swift.String? = nil,
+            standardsManagedBy: SecurityHubClientTypes.StandardsManagedBy? = nil
         )
         {
             self.description = description
             self.enabledByDefault = enabledByDefault
             self.name = name
             self.standardsArn = standardsArn
+            self.standardsManagedBy = standardsManagedBy
         }
     }
 
@@ -47346,6 +47408,51 @@ extension SecurityHubClientTypes {
             self.severityRating = severityRating
             self.standardsControlArn = standardsControlArn
             self.title = title
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.StandardsManagedBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case company = "Company"
+        case product = "Product"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let company = self.company {
+            try encodeContainer.encode(company, forKey: .company)
+        }
+        if let product = self.product {
+            try encodeContainer.encode(product, forKey: .product)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let companyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .company)
+        company = companyDecoded
+        let productDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .product)
+        product = productDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the management of a security standard.
+    public struct StandardsManagedBy: Swift.Equatable {
+        /// An identifier for the company that manages a specific security standard. For existing standards, the value is equal to Amazon Web Services.
+        public var company: Swift.String?
+        /// An identifier for the product that manages a specific security standard. For existing standards, the value is equal to the Amazon Web Services service that manages the standard.
+        public var product: Swift.String?
+
+        public init (
+            company: Swift.String? = nil,
+            product: Swift.String? = nil
+        )
+        {
+            self.company = company
+            self.product = product
         }
     }
 
@@ -48493,7 +48600,7 @@ public struct UpdateFindingAggregatorInput: Swift.Equatable {
     /// * SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
     /// This member is required.
     public var regionLinkingMode: Swift.String?
-    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a comma-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions that do aggregate findings to the aggregation Region.
+    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.
     public var regions: [Swift.String]?
 
     public init (

@@ -931,6 +931,8 @@ public struct CreateNodeInput: Swift.Equatable {
     ///
     /// * n-ethereum-mainnet
     ///
+    /// * n-ethereum-goerli
+    ///
     /// * n-ethereum-rinkeby
     ///
     /// * n-ethereum-ropsten
@@ -1450,6 +1452,8 @@ public struct DeleteNodeInput: Swift.Equatable {
     /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:
     ///
     /// * n-ethereum-mainnet
+    ///
+    /// * n-ethereum-goerli
     ///
     /// * n-ethereum-rinkeby
     ///
@@ -4517,6 +4521,8 @@ extension ManagedBlockchainClientTypes {
         ///
         /// * mainnet = 1
         ///
+        /// * goerli = 5
+        ///
         /// * rinkeby = 4
         ///
         /// * ropsten = 3
@@ -5120,7 +5126,7 @@ extension ManagedBlockchainClientTypes {
     public struct NodeEthereumAttributes: Swift.Equatable {
         /// The endpoint on which the Ethereum node listens to run Ethereum API methods over HTTP connections from a client. Use this endpoint in client code for smart contracts when using an HTTP connection. Connections to this endpoint are authenticated using [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
         public var httpEndpoint: Swift.String?
-        /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSockets connections from a client. Use this endpoint in client code for smart contracts when using a WebSockets connection. Connections to this endpoint are authenticated using [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+        /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSocket connections from a client. Use this endpoint in client code for smart contracts when using a WebSocket connection. Connections to this endpoint are authenticated using [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
         public var webSocketEndpoint: Swift.String?
 
         public init (

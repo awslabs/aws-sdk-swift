@@ -72,7 +72,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Mono (Audio Description), Mono, Stereo, or 5.1 channel layout. Valid values depend on rate control mode and profile. "1.0 - Audio Description (Receiver Mix)" setting receives a stereo description plus control track and emits a mono AAC encode of the description track, with control data emitted in the PES header as per ETSI TS 101 154 Annex E.
+    /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Five channels, C, L, R, Ls, Rs, LFE.
     public enum AacCodingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case adReceiverMix
         case codingMode10
@@ -255,13 +255,13 @@ extension MediaConvertClientTypes {
         public var bitrate: Swift.Int?
         /// AAC Profile.
         public var codecProfile: MediaConvertClientTypes.AacCodecProfile?
-        /// Mono (Audio Description), Mono, Stereo, or 5.1 channel layout. Valid values depend on rate control mode and profile. "1.0 - Audio Description (Receiver Mix)" setting receives a stereo description plus control track and emits a mono AAC encode of the description track, with control data emitted in the PES header as per ETSI TS 101 154 Annex E.
+        /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Five channels, C, L, R, Ls, Rs, LFE.
         public var codingMode: MediaConvertClientTypes.AacCodingMode?
         /// Rate Control Mode.
         public var rateControlMode: MediaConvertClientTypes.AacRateControlMode?
         /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an output, you must choose "No container" for the output container.
         public var rawFormat: MediaConvertClientTypes.AacRawFormat?
-        /// Sample rate in Hz. Valid values depend on rate control mode and profile.
+        /// Specify the Sample rate in Hz. Valid sample rates depend on the Profile and Coding mode that you select. The following list shows valid sample rates for each Profile and Coding mode. * LC Profile, Coding mode 1.0, 2.0, and Receiver Mix: 8000, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 88200, 96000. * LC Profile, Coding mode 5.1: 32000, 44100, 48000, 96000. * HEV1 Profile, Coding mode 1.0 and Receiver Mix: 22050, 24000, 32000, 44100, 48000. * HEV1 Profile, Coding mode 2.0 and 5.1: 32000, 44100, 48000, 96000. * HEV2 Profile, Coding mode 2.0: 22050, 24000, 32000, 44100, 48000.
         public var sampleRate: Swift.Int?
         /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport Stream containers.
         public var specification: MediaConvertClientTypes.AacSpecification?
@@ -5117,6 +5117,7 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         case manifestDurationFormat = "manifestDurationFormat"
         case minBufferTime = "minBufferTime"
         case minFinalSegmentLength = "minFinalSegmentLength"
+        case mpdManifestBandwidthType = "mpdManifestBandwidthType"
         case mpdProfile = "mpdProfile"
         case ptsOffsetHandlingForBFrames = "ptsOffsetHandlingForBFrames"
         case segmentControl = "segmentControl"
@@ -5124,6 +5125,7 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         case segmentLengthControl = "segmentLengthControl"
         case streamInfResolution = "streamInfResolution"
         case targetDurationCompatibilityMode = "targetDurationCompatibilityMode"
+        case videoCompositionOffsets = "videoCompositionOffsets"
         case writeDashManifest = "writeDashManifest"
         case writeHlsManifest = "writeHlsManifest"
         case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
@@ -5176,6 +5178,9 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         if let minFinalSegmentLength = self.minFinalSegmentLength {
             try encodeContainer.encode(minFinalSegmentLength, forKey: .minFinalSegmentLength)
         }
+        if let mpdManifestBandwidthType = self.mpdManifestBandwidthType {
+            try encodeContainer.encode(mpdManifestBandwidthType.rawValue, forKey: .mpdManifestBandwidthType)
+        }
         if let mpdProfile = self.mpdProfile {
             try encodeContainer.encode(mpdProfile.rawValue, forKey: .mpdProfile)
         }
@@ -5196,6 +5201,9 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         }
         if let targetDurationCompatibilityMode = self.targetDurationCompatibilityMode {
             try encodeContainer.encode(targetDurationCompatibilityMode.rawValue, forKey: .targetDurationCompatibilityMode)
+        }
+        if let videoCompositionOffsets = self.videoCompositionOffsets {
+            try encodeContainer.encode(videoCompositionOffsets.rawValue, forKey: .videoCompositionOffsets)
         }
         if let writeDashManifest = self.writeDashManifest {
             try encodeContainer.encode(writeDashManifest.rawValue, forKey: .writeDashManifest)
@@ -5247,6 +5255,8 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         minBufferTime = minBufferTimeDecoded
         let minFinalSegmentLengthDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .minFinalSegmentLength)
         minFinalSegmentLength = minFinalSegmentLengthDecoded
+        let mpdManifestBandwidthTypeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafMpdManifestBandwidthType.self, forKey: .mpdManifestBandwidthType)
+        mpdManifestBandwidthType = mpdManifestBandwidthTypeDecoded
         let mpdProfileDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafMpdProfile.self, forKey: .mpdProfile)
         mpdProfile = mpdProfileDecoded
         let ptsOffsetHandlingForBFramesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafPtsOffsetHandlingForBFrames.self, forKey: .ptsOffsetHandlingForBFrames)
@@ -5261,6 +5271,8 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         streamInfResolution = streamInfResolutionDecoded
         let targetDurationCompatibilityModeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafTargetDurationCompatibilityMode.self, forKey: .targetDurationCompatibilityMode)
         targetDurationCompatibilityMode = targetDurationCompatibilityModeDecoded
+        let videoCompositionOffsetsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafVideoCompositionOffsets.self, forKey: .videoCompositionOffsets)
+        videoCompositionOffsets = videoCompositionOffsetsDecoded
         let writeDashManifestDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafWriteDASHManifest.self, forKey: .writeDashManifest)
         writeDashManifest = writeDashManifestDecoded
         let writeHlsManifestDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafWriteHLSManifest.self, forKey: .writeHlsManifest)
@@ -5301,6 +5313,8 @@ extension MediaConvertClientTypes {
         public var minBufferTime: Swift.Int?
         /// Keep this setting at the default value of 0, unless you are troubleshooting a problem with how devices play back the end of your video asset. If you know that player devices are hanging on the final segment of your video because the length of your final segment is too short, use this setting to specify a minimum final segment length, in seconds. Choose a value that is greater than or equal to 1 and less than your segment length. When you specify a value for this setting, the encoder will combine any final segment that is shorter than the length that you specify with the previous segment. For example, your segment length is 3 seconds and your final segment is .5 seconds without a minimum final segment length; when you set the minimum final segment length to 1, your final segment is 3.5 seconds.
         public var minFinalSegmentLength: Swift.Double?
+        /// Specify how the value for bandwidth is determined for each video Representation in your output MPD manifest. We recommend that you choose a MPD manifest bandwidth type that is compatible with your downstream player configuration. Max: Use the same value that you specify for Max bitrate in the video output, in bits per second. Average: Use the calculated average bitrate of the encoded video output, in bits per second.
+        public var mpdManifestBandwidthType: MediaConvertClientTypes.CmafMpdManifestBandwidthType?
         /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
         public var mpdProfile: MediaConvertClientTypes.CmafMpdProfile?
         /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
@@ -5315,6 +5329,8 @@ extension MediaConvertClientTypes {
         public var streamInfResolution: MediaConvertClientTypes.CmafStreamInfResolution?
         /// When set to LEGACY, the segment target duration is always rounded up to the nearest integer value above its current value in seconds. When set to SPEC\_COMPLIANT, the segment target duration is rounded up to the nearest integer value if fraction seconds are greater than or equal to 0.5 (>= 0.5) and rounded down if less than 0.5 (< 0.5). You may need to use LEGACY if your client needs to ensure that the target duration is always longer than the actual duration of the segment. Some older players may experience interrupted playback when the actual duration of a track in a segment is longer than the target duration.
         public var targetDurationCompatibilityMode: MediaConvertClientTypes.CmafTargetDurationCompatibilityMode?
+        /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
+        public var videoCompositionOffsets: MediaConvertClientTypes.CmafVideoCompositionOffsets?
         /// When set to ENABLED, a DASH MPD manifest will be generated for this output.
         public var writeDashManifest: MediaConvertClientTypes.CmafWriteDASHManifest?
         /// When set to ENABLED, an Apple HLS manifest will be generated for this output.
@@ -5337,6 +5353,7 @@ extension MediaConvertClientTypes {
             manifestDurationFormat: MediaConvertClientTypes.CmafManifestDurationFormat? = nil,
             minBufferTime: Swift.Int? = nil,
             minFinalSegmentLength: Swift.Double? = nil,
+            mpdManifestBandwidthType: MediaConvertClientTypes.CmafMpdManifestBandwidthType? = nil,
             mpdProfile: MediaConvertClientTypes.CmafMpdProfile? = nil,
             ptsOffsetHandlingForBFrames: MediaConvertClientTypes.CmafPtsOffsetHandlingForBFrames? = nil,
             segmentControl: MediaConvertClientTypes.CmafSegmentControl? = nil,
@@ -5344,6 +5361,7 @@ extension MediaConvertClientTypes {
             segmentLengthControl: MediaConvertClientTypes.CmafSegmentLengthControl? = nil,
             streamInfResolution: MediaConvertClientTypes.CmafStreamInfResolution? = nil,
             targetDurationCompatibilityMode: MediaConvertClientTypes.CmafTargetDurationCompatibilityMode? = nil,
+            videoCompositionOffsets: MediaConvertClientTypes.CmafVideoCompositionOffsets? = nil,
             writeDashManifest: MediaConvertClientTypes.CmafWriteDASHManifest? = nil,
             writeHlsManifest: MediaConvertClientTypes.CmafWriteHLSManifest? = nil,
             writeSegmentTimelineInRepresentation: MediaConvertClientTypes.CmafWriteSegmentTimelineInRepresentation? = nil
@@ -5363,6 +5381,7 @@ extension MediaConvertClientTypes {
             self.manifestDurationFormat = manifestDurationFormat
             self.minBufferTime = minBufferTime
             self.minFinalSegmentLength = minFinalSegmentLength
+            self.mpdManifestBandwidthType = mpdManifestBandwidthType
             self.mpdProfile = mpdProfile
             self.ptsOffsetHandlingForBFrames = ptsOffsetHandlingForBFrames
             self.segmentControl = segmentControl
@@ -5370,6 +5389,7 @@ extension MediaConvertClientTypes {
             self.segmentLengthControl = segmentLengthControl
             self.streamInfResolution = streamInfResolution
             self.targetDurationCompatibilityMode = targetDurationCompatibilityMode
+            self.videoCompositionOffsets = videoCompositionOffsets
             self.writeDashManifest = writeDashManifest
             self.writeHlsManifest = writeHlsManifest
             self.writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentation
@@ -5668,6 +5688,39 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
+    /// Specify how the value for bandwidth is determined for each video Representation in your output MPD manifest. We recommend that you choose a MPD manifest bandwidth type that is compatible with your downstream player configuration. Max: Use the same value that you specify for Max bitrate in the video output, in bits per second. Average: Use the calculated average bitrate of the encoded video output, in bits per second.
+    public enum CmafMpdManifestBandwidthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case max
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafMpdManifestBandwidthType] {
+            return [
+                .average,
+                .max,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .max: return "MAX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CmafMpdManifestBandwidthType(rawValue: rawValue) ?? CmafMpdManifestBandwidthType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
     /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
     public enum CmafMpdProfile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case mainProfile
@@ -5861,6 +5914,39 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = CmafTargetDurationCompatibilityMode(rawValue: rawValue) ?? CmafTargetDurationCompatibilityMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
+    public enum CmafVideoCompositionOffsets: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case signed
+        case unsigned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafVideoCompositionOffsets] {
+            return [
+                .signed,
+                .unsigned,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .signed: return "SIGNED"
+            case .unsigned: return "UNSIGNED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CmafVideoCompositionOffsets(rawValue: rawValue) ?? CmafVideoCompositionOffsets.sdkUnknown(rawValue)
         }
     }
 }
@@ -6133,6 +6219,39 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
+    /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+    public enum CmfcManifestMetadataSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmfcManifestMetadataSignaling] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CmfcManifestMetadataSignaling(rawValue: rawValue) ?? CmfcManifestMetadataSignaling.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
     /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
     public enum CmfcScte35Esam: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case insert
@@ -6207,9 +6326,13 @@ extension MediaConvertClientTypes.CmfcSettings: Swift.Codable {
         case descriptiveVideoServiceFlag = "descriptiveVideoServiceFlag"
         case iFrameOnlyManifest = "iFrameOnlyManifest"
         case klvMetadata = "klvMetadata"
+        case manifestMetadataSignaling = "manifestMetadataSignaling"
         case scte35Esam = "scte35Esam"
         case scte35Source = "scte35Source"
         case timedMetadata = "timedMetadata"
+        case timedMetadataBoxVersion = "timedMetadataBoxVersion"
+        case timedMetadataSchemeIdUri = "timedMetadataSchemeIdUri"
+        case timedMetadataValue = "timedMetadataValue"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6235,6 +6358,9 @@ extension MediaConvertClientTypes.CmfcSettings: Swift.Codable {
         if let klvMetadata = self.klvMetadata {
             try encodeContainer.encode(klvMetadata.rawValue, forKey: .klvMetadata)
         }
+        if let manifestMetadataSignaling = self.manifestMetadataSignaling {
+            try encodeContainer.encode(manifestMetadataSignaling.rawValue, forKey: .manifestMetadataSignaling)
+        }
         if let scte35Esam = self.scte35Esam {
             try encodeContainer.encode(scte35Esam.rawValue, forKey: .scte35Esam)
         }
@@ -6243,6 +6369,15 @@ extension MediaConvertClientTypes.CmfcSettings: Swift.Codable {
         }
         if let timedMetadata = self.timedMetadata {
             try encodeContainer.encode(timedMetadata.rawValue, forKey: .timedMetadata)
+        }
+        if let timedMetadataBoxVersion = self.timedMetadataBoxVersion {
+            try encodeContainer.encode(timedMetadataBoxVersion.rawValue, forKey: .timedMetadataBoxVersion)
+        }
+        if let timedMetadataSchemeIdUri = self.timedMetadataSchemeIdUri {
+            try encodeContainer.encode(timedMetadataSchemeIdUri, forKey: .timedMetadataSchemeIdUri)
+        }
+        if let timedMetadataValue = self.timedMetadataValue {
+            try encodeContainer.encode(timedMetadataValue, forKey: .timedMetadataValue)
         }
     }
 
@@ -6262,12 +6397,20 @@ extension MediaConvertClientTypes.CmfcSettings: Swift.Codable {
         iFrameOnlyManifest = iFrameOnlyManifestDecoded
         let klvMetadataDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmfcKlvMetadata.self, forKey: .klvMetadata)
         klvMetadata = klvMetadataDecoded
+        let manifestMetadataSignalingDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmfcManifestMetadataSignaling.self, forKey: .manifestMetadataSignaling)
+        manifestMetadataSignaling = manifestMetadataSignalingDecoded
         let scte35EsamDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmfcScte35Esam.self, forKey: .scte35Esam)
         scte35Esam = scte35EsamDecoded
         let scte35SourceDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmfcScte35Source.self, forKey: .scte35Source)
         scte35Source = scte35SourceDecoded
         let timedMetadataDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmfcTimedMetadata.self, forKey: .timedMetadata)
         timedMetadata = timedMetadataDecoded
+        let timedMetadataBoxVersionDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmfcTimedMetadataBoxVersion.self, forKey: .timedMetadataBoxVersion)
+        timedMetadataBoxVersion = timedMetadataBoxVersionDecoded
+        let timedMetadataSchemeIdUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timedMetadataSchemeIdUri)
+        timedMetadataSchemeIdUri = timedMetadataSchemeIdUriDecoded
+        let timedMetadataValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timedMetadataValue)
+        timedMetadataValue = timedMetadataValueDecoded
     }
 }
 
@@ -6288,12 +6431,20 @@ extension MediaConvertClientTypes {
         public var iFrameOnlyManifest: MediaConvertClientTypes.CmfcIFrameOnlyManifest?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public var klvMetadata: MediaConvertClientTypes.CmfcKlvMetadata?
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+        public var manifestMetadataSignaling: MediaConvertClientTypes.CmfcManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public var scte35Esam: MediaConvertClientTypes.CmfcScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
         public var scte35Source: MediaConvertClientTypes.CmfcScte35Source?
         /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None (NONE) or leave blank.
         public var timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata?
+        /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        public var timedMetadataBoxVersion: MediaConvertClientTypes.CmfcTimedMetadataBoxVersion?
+        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        public var timedMetadataSchemeIdUri: Swift.String?
+        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        public var timedMetadataValue: Swift.String?
 
         public init (
             audioDuration: MediaConvertClientTypes.CmfcAudioDuration? = nil,
@@ -6303,9 +6454,13 @@ extension MediaConvertClientTypes {
             descriptiveVideoServiceFlag: MediaConvertClientTypes.CmfcDescriptiveVideoServiceFlag? = nil,
             iFrameOnlyManifest: MediaConvertClientTypes.CmfcIFrameOnlyManifest? = nil,
             klvMetadata: MediaConvertClientTypes.CmfcKlvMetadata? = nil,
+            manifestMetadataSignaling: MediaConvertClientTypes.CmfcManifestMetadataSignaling? = nil,
             scte35Esam: MediaConvertClientTypes.CmfcScte35Esam? = nil,
             scte35Source: MediaConvertClientTypes.CmfcScte35Source? = nil,
-            timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata? = nil
+            timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata? = nil,
+            timedMetadataBoxVersion: MediaConvertClientTypes.CmfcTimedMetadataBoxVersion? = nil,
+            timedMetadataSchemeIdUri: Swift.String? = nil,
+            timedMetadataValue: Swift.String? = nil
         )
         {
             self.audioDuration = audioDuration
@@ -6315,9 +6470,13 @@ extension MediaConvertClientTypes {
             self.descriptiveVideoServiceFlag = descriptiveVideoServiceFlag
             self.iFrameOnlyManifest = iFrameOnlyManifest
             self.klvMetadata = klvMetadata
+            self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
             self.timedMetadata = timedMetadata
+            self.timedMetadataBoxVersion = timedMetadataBoxVersion
+            self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
+            self.timedMetadataValue = timedMetadataValue
         }
     }
 
@@ -6352,6 +6511,39 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = CmfcTimedMetadata(rawValue: rawValue) ?? CmfcTimedMetadata.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
+    public enum CmfcTimedMetadataBoxVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case version0
+        case version1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmfcTimedMetadataBoxVersion] {
+            return [
+                .version0,
+                .version1,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .version0: return "VERSION_0"
+            case .version1: return "VERSION_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CmfcTimedMetadataBoxVersion(rawValue: rawValue) ?? CmfcTimedMetadataBoxVersion.sdkUnknown(rawValue)
         }
     }
 }
@@ -7999,11 +8191,13 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         case imageBasedTrickPlaySettings = "imageBasedTrickPlaySettings"
         case minBufferTime = "minBufferTime"
         case minFinalSegmentLength = "minFinalSegmentLength"
+        case mpdManifestBandwidthType = "mpdManifestBandwidthType"
         case mpdProfile = "mpdProfile"
         case ptsOffsetHandlingForBFrames = "ptsOffsetHandlingForBFrames"
         case segmentControl = "segmentControl"
         case segmentLength = "segmentLength"
         case segmentLengthControl = "segmentLengthControl"
+        case videoCompositionOffsets = "videoCompositionOffsets"
         case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
     }
 
@@ -8048,6 +8242,9 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         if let minFinalSegmentLength = self.minFinalSegmentLength {
             try encodeContainer.encode(minFinalSegmentLength, forKey: .minFinalSegmentLength)
         }
+        if let mpdManifestBandwidthType = self.mpdManifestBandwidthType {
+            try encodeContainer.encode(mpdManifestBandwidthType.rawValue, forKey: .mpdManifestBandwidthType)
+        }
         if let mpdProfile = self.mpdProfile {
             try encodeContainer.encode(mpdProfile.rawValue, forKey: .mpdProfile)
         }
@@ -8062,6 +8259,9 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         }
         if let segmentLengthControl = self.segmentLengthControl {
             try encodeContainer.encode(segmentLengthControl.rawValue, forKey: .segmentLengthControl)
+        }
+        if let videoCompositionOffsets = self.videoCompositionOffsets {
+            try encodeContainer.encode(videoCompositionOffsets.rawValue, forKey: .videoCompositionOffsets)
         }
         if let writeSegmentTimelineInRepresentation = self.writeSegmentTimelineInRepresentation {
             try encodeContainer.encode(writeSegmentTimelineInRepresentation.rawValue, forKey: .writeSegmentTimelineInRepresentation)
@@ -8103,6 +8303,8 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         minBufferTime = minBufferTimeDecoded
         let minFinalSegmentLengthDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .minFinalSegmentLength)
         minFinalSegmentLength = minFinalSegmentLengthDecoded
+        let mpdManifestBandwidthTypeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashIsoMpdManifestBandwidthType.self, forKey: .mpdManifestBandwidthType)
+        mpdManifestBandwidthType = mpdManifestBandwidthTypeDecoded
         let mpdProfileDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashIsoMpdProfile.self, forKey: .mpdProfile)
         mpdProfile = mpdProfileDecoded
         let ptsOffsetHandlingForBFramesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashIsoPtsOffsetHandlingForBFrames.self, forKey: .ptsOffsetHandlingForBFrames)
@@ -8113,6 +8315,8 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         segmentLength = segmentLengthDecoded
         let segmentLengthControlDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashIsoSegmentLengthControl.self, forKey: .segmentLengthControl)
         segmentLengthControl = segmentLengthControlDecoded
+        let videoCompositionOffsetsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashIsoVideoCompositionOffsets.self, forKey: .videoCompositionOffsets)
+        videoCompositionOffsets = videoCompositionOffsetsDecoded
         let writeSegmentTimelineInRepresentationDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashIsoWriteSegmentTimelineInRepresentation.self, forKey: .writeSegmentTimelineInRepresentation)
         writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentationDecoded
     }
@@ -8145,6 +8349,8 @@ extension MediaConvertClientTypes {
         public var minBufferTime: Swift.Int?
         /// Keep this setting at the default value of 0, unless you are troubleshooting a problem with how devices play back the end of your video asset. If you know that player devices are hanging on the final segment of your video because the length of your final segment is too short, use this setting to specify a minimum final segment length, in seconds. Choose a value that is greater than or equal to 1 and less than your segment length. When you specify a value for this setting, the encoder will combine any final segment that is shorter than the length that you specify with the previous segment. For example, your segment length is 3 seconds and your final segment is .5 seconds without a minimum final segment length; when you set the minimum final segment length to 1, your final segment is 3.5 seconds.
         public var minFinalSegmentLength: Swift.Double?
+        /// Specify how the value for bandwidth is determined for each video Representation in your output MPD manifest. We recommend that you choose a MPD manifest bandwidth type that is compatible with your downstream player configuration. Max: Use the same value that you specify for Max bitrate in the video output, in bits per second. Average: Use the calculated average bitrate of the encoded video output, in bits per second.
+        public var mpdManifestBandwidthType: MediaConvertClientTypes.DashIsoMpdManifestBandwidthType?
         /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
         public var mpdProfile: MediaConvertClientTypes.DashIsoMpdProfile?
         /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
@@ -8155,6 +8361,8 @@ extension MediaConvertClientTypes {
         public var segmentLength: Swift.Int?
         /// Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
         public var segmentLengthControl: MediaConvertClientTypes.DashIsoSegmentLengthControl?
+        /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
+        public var videoCompositionOffsets: MediaConvertClientTypes.DashIsoVideoCompositionOffsets?
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public var writeSegmentTimelineInRepresentation: MediaConvertClientTypes.DashIsoWriteSegmentTimelineInRepresentation?
 
@@ -8171,11 +8379,13 @@ extension MediaConvertClientTypes {
             imageBasedTrickPlaySettings: MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings? = nil,
             minBufferTime: Swift.Int? = nil,
             minFinalSegmentLength: Swift.Double? = nil,
+            mpdManifestBandwidthType: MediaConvertClientTypes.DashIsoMpdManifestBandwidthType? = nil,
             mpdProfile: MediaConvertClientTypes.DashIsoMpdProfile? = nil,
             ptsOffsetHandlingForBFrames: MediaConvertClientTypes.DashIsoPtsOffsetHandlingForBFrames? = nil,
             segmentControl: MediaConvertClientTypes.DashIsoSegmentControl? = nil,
             segmentLength: Swift.Int? = nil,
             segmentLengthControl: MediaConvertClientTypes.DashIsoSegmentLengthControl? = nil,
+            videoCompositionOffsets: MediaConvertClientTypes.DashIsoVideoCompositionOffsets? = nil,
             writeSegmentTimelineInRepresentation: MediaConvertClientTypes.DashIsoWriteSegmentTimelineInRepresentation? = nil
         )
         {
@@ -8191,11 +8401,13 @@ extension MediaConvertClientTypes {
             self.imageBasedTrickPlaySettings = imageBasedTrickPlaySettings
             self.minBufferTime = minBufferTime
             self.minFinalSegmentLength = minFinalSegmentLength
+            self.mpdManifestBandwidthType = mpdManifestBandwidthType
             self.mpdProfile = mpdProfile
             self.ptsOffsetHandlingForBFrames = ptsOffsetHandlingForBFrames
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.segmentLengthControl = segmentLengthControl
+            self.videoCompositionOffsets = videoCompositionOffsets
             self.writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentation
         }
     }
@@ -8393,6 +8605,39 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
+    /// Specify how the value for bandwidth is determined for each video Representation in your output MPD manifest. We recommend that you choose a MPD manifest bandwidth type that is compatible with your downstream player configuration. Max: Use the same value that you specify for Max bitrate in the video output, in bits per second. Average: Use the calculated average bitrate of the encoded video output, in bits per second.
+    public enum DashIsoMpdManifestBandwidthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case max
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashIsoMpdManifestBandwidthType] {
+            return [
+                .average,
+                .max,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .max: return "MAX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashIsoMpdManifestBandwidthType(rawValue: rawValue) ?? DashIsoMpdManifestBandwidthType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
     /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
     public enum DashIsoMpdProfile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case mainProfile
@@ -8553,6 +8798,39 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DashIsoSegmentLengthControl(rawValue: rawValue) ?? DashIsoSegmentLengthControl.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
+    public enum DashIsoVideoCompositionOffsets: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case signed
+        case unsigned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashIsoVideoCompositionOffsets] {
+            return [
+                .signed,
+                .unsigned,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .signed: return "SIGNED"
+            case .unsigned: return "UNSIGNED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashIsoVideoCompositionOffsets(rawValue: rawValue) ?? DashIsoVideoCompositionOffsets.sdkUnknown(rawValue)
         }
     }
 }
@@ -24330,6 +24608,39 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
+    /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+    public enum MpdManifestMetadataSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MpdManifestMetadataSignaling] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MpdManifestMetadataSignaling(rawValue: rawValue) ?? MpdManifestMetadataSignaling.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
     /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
     public enum MpdScte35Esam: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case insert
@@ -24401,9 +24712,13 @@ extension MediaConvertClientTypes.MpdSettings: Swift.Codable {
         case audioDuration = "audioDuration"
         case captionContainerType = "captionContainerType"
         case klvMetadata = "klvMetadata"
+        case manifestMetadataSignaling = "manifestMetadataSignaling"
         case scte35Esam = "scte35Esam"
         case scte35Source = "scte35Source"
         case timedMetadata = "timedMetadata"
+        case timedMetadataBoxVersion = "timedMetadataBoxVersion"
+        case timedMetadataSchemeIdUri = "timedMetadataSchemeIdUri"
+        case timedMetadataValue = "timedMetadataValue"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -24420,6 +24735,9 @@ extension MediaConvertClientTypes.MpdSettings: Swift.Codable {
         if let klvMetadata = self.klvMetadata {
             try encodeContainer.encode(klvMetadata.rawValue, forKey: .klvMetadata)
         }
+        if let manifestMetadataSignaling = self.manifestMetadataSignaling {
+            try encodeContainer.encode(manifestMetadataSignaling.rawValue, forKey: .manifestMetadataSignaling)
+        }
         if let scte35Esam = self.scte35Esam {
             try encodeContainer.encode(scte35Esam.rawValue, forKey: .scte35Esam)
         }
@@ -24428,6 +24746,15 @@ extension MediaConvertClientTypes.MpdSettings: Swift.Codable {
         }
         if let timedMetadata = self.timedMetadata {
             try encodeContainer.encode(timedMetadata.rawValue, forKey: .timedMetadata)
+        }
+        if let timedMetadataBoxVersion = self.timedMetadataBoxVersion {
+            try encodeContainer.encode(timedMetadataBoxVersion.rawValue, forKey: .timedMetadataBoxVersion)
+        }
+        if let timedMetadataSchemeIdUri = self.timedMetadataSchemeIdUri {
+            try encodeContainer.encode(timedMetadataSchemeIdUri, forKey: .timedMetadataSchemeIdUri)
+        }
+        if let timedMetadataValue = self.timedMetadataValue {
+            try encodeContainer.encode(timedMetadataValue, forKey: .timedMetadataValue)
         }
     }
 
@@ -24441,12 +24768,20 @@ extension MediaConvertClientTypes.MpdSettings: Swift.Codable {
         captionContainerType = captionContainerTypeDecoded
         let klvMetadataDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.MpdKlvMetadata.self, forKey: .klvMetadata)
         klvMetadata = klvMetadataDecoded
+        let manifestMetadataSignalingDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.MpdManifestMetadataSignaling.self, forKey: .manifestMetadataSignaling)
+        manifestMetadataSignaling = manifestMetadataSignalingDecoded
         let scte35EsamDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.MpdScte35Esam.self, forKey: .scte35Esam)
         scte35Esam = scte35EsamDecoded
         let scte35SourceDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.MpdScte35Source.self, forKey: .scte35Source)
         scte35Source = scte35SourceDecoded
         let timedMetadataDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.MpdTimedMetadata.self, forKey: .timedMetadata)
         timedMetadata = timedMetadataDecoded
+        let timedMetadataBoxVersionDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.MpdTimedMetadataBoxVersion.self, forKey: .timedMetadataBoxVersion)
+        timedMetadataBoxVersion = timedMetadataBoxVersionDecoded
+        let timedMetadataSchemeIdUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timedMetadataSchemeIdUri)
+        timedMetadataSchemeIdUri = timedMetadataSchemeIdUriDecoded
+        let timedMetadataValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timedMetadataValue)
+        timedMetadataValue = timedMetadataValueDecoded
     }
 }
 
@@ -24461,30 +24796,46 @@ extension MediaConvertClientTypes {
         public var captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public var klvMetadata: MediaConvertClientTypes.MpdKlvMetadata?
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+        public var manifestMetadataSignaling: MediaConvertClientTypes.MpdManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public var scte35Esam: MediaConvertClientTypes.MpdScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
         public var scte35Source: MediaConvertClientTypes.MpdScte35Source?
         /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None (NONE) or leave blank.
         public var timedMetadata: MediaConvertClientTypes.MpdTimedMetadata?
+        /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        public var timedMetadataBoxVersion: MediaConvertClientTypes.MpdTimedMetadataBoxVersion?
+        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        public var timedMetadataSchemeIdUri: Swift.String?
+        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        public var timedMetadataValue: Swift.String?
 
         public init (
             accessibilityCaptionHints: MediaConvertClientTypes.MpdAccessibilityCaptionHints? = nil,
             audioDuration: MediaConvertClientTypes.MpdAudioDuration? = nil,
             captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType? = nil,
             klvMetadata: MediaConvertClientTypes.MpdKlvMetadata? = nil,
+            manifestMetadataSignaling: MediaConvertClientTypes.MpdManifestMetadataSignaling? = nil,
             scte35Esam: MediaConvertClientTypes.MpdScte35Esam? = nil,
             scte35Source: MediaConvertClientTypes.MpdScte35Source? = nil,
-            timedMetadata: MediaConvertClientTypes.MpdTimedMetadata? = nil
+            timedMetadata: MediaConvertClientTypes.MpdTimedMetadata? = nil,
+            timedMetadataBoxVersion: MediaConvertClientTypes.MpdTimedMetadataBoxVersion? = nil,
+            timedMetadataSchemeIdUri: Swift.String? = nil,
+            timedMetadataValue: Swift.String? = nil
         )
         {
             self.accessibilityCaptionHints = accessibilityCaptionHints
             self.audioDuration = audioDuration
             self.captionContainerType = captionContainerType
             self.klvMetadata = klvMetadata
+            self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
             self.timedMetadata = timedMetadata
+            self.timedMetadataBoxVersion = timedMetadataBoxVersion
+            self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
+            self.timedMetadataValue = timedMetadataValue
         }
     }
 
@@ -24519,6 +24870,39 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = MpdTimedMetadata(rawValue: rawValue) ?? MpdTimedMetadata.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
+    public enum MpdTimedMetadataBoxVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case version0
+        case version1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MpdTimedMetadataBoxVersion] {
+            return [
+                .version0,
+                .version1,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .version0: return "VERSION_0"
+            case .version1: return "VERSION_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MpdTimedMetadataBoxVersion(rawValue: rawValue) ?? MpdTimedMetadataBoxVersion.sdkUnknown(rawValue)
         }
     }
 }
@@ -25295,7 +25679,7 @@ extension MediaConvertClientTypes {
         public var softness: Swift.Int?
         /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (adaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
         public var spatialAdaptiveQuantization: MediaConvertClientTypes.Mpeg2SpatialAdaptiveQuantization?
-        /// Specify whether this output's video uses the D10 syntax. Keep the default value to not use the syntax. Related settings: When you choose D10 (D_10) for your MXF profile (profile), you must also set this value to to D10 (D_10).
+        /// Specify whether this output's video uses the D10 syntax. Keep the default value to not use the syntax. Related settings: When you choose D10 (D_10) for your MXF profile (profile), you must also set this value to D10 (D_10).
         public var syntax: MediaConvertClientTypes.Mpeg2Syntax?
         /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard or soft telecine to create a smoother picture. Hard telecine (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output with a 23.976 output that signals to the video player device to do the conversion during play back. When you keep the default value, None (NONE), MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
         public var telecine: MediaConvertClientTypes.Mpeg2Telecine?
@@ -25443,7 +25827,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify whether this output's video uses the D10 syntax. Keep the default value to not use the syntax. Related settings: When you choose D10 (D_10) for your MXF profile (profile), you must also set this value to to D10 (D_10).
+    /// Specify whether this output's video uses the D10 syntax. Keep the default value to not use the syntax. Related settings: When you choose D10 (D_10) for your MXF profile (profile), you must also set this value to D10 (D_10).
     public enum Mpeg2Syntax: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
         case d10

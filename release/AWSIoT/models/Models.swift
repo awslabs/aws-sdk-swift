@@ -8307,6 +8307,7 @@ extension CreateJobInput: Swift.Encodable {
         case jobTemplateArn
         case namespaceId
         case presignedUrlConfig
+        case schedulingConfig
         case tags
         case targetSelection
         case targets
@@ -8347,6 +8348,9 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let presignedUrlConfig = self.presignedUrlConfig {
             try encodeContainer.encode(presignedUrlConfig, forKey: .presignedUrlConfig)
+        }
+        if let schedulingConfig = self.schedulingConfig {
+            try encodeContainer.encode(schedulingConfig, forKey: .schedulingConfig)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -8402,6 +8406,8 @@ public struct CreateJobInput: Swift.Equatable {
     public var namespaceId: Swift.String?
     /// Configuration information for pre-signed S3 URLs.
     public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
+    /// The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
+    public var schedulingConfig: IoTClientTypes.SchedulingConfig?
     /// Metadata which can be used to manage the job.
     public var tags: [IoTClientTypes.Tag]?
     /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group. We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
@@ -8424,6 +8430,7 @@ public struct CreateJobInput: Swift.Equatable {
         jobTemplateArn: Swift.String? = nil,
         namespaceId: Swift.String? = nil,
         presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
+        schedulingConfig: IoTClientTypes.SchedulingConfig? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         targetSelection: IoTClientTypes.TargetSelection? = nil,
         targets: [Swift.String]? = nil,
@@ -8441,6 +8448,7 @@ public struct CreateJobInput: Swift.Equatable {
         self.jobTemplateArn = jobTemplateArn
         self.namespaceId = namespaceId
         self.presignedUrlConfig = presignedUrlConfig
+        self.schedulingConfig = schedulingConfig
         self.tags = tags
         self.targetSelection = targetSelection
         self.targets = targets
@@ -8463,6 +8471,7 @@ struct CreateJobInputBody: Swift.Equatable {
     let jobTemplateArn: Swift.String?
     let jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
     let documentParameters: [Swift.String:Swift.String]?
+    let schedulingConfig: IoTClientTypes.SchedulingConfig?
 }
 
 extension CreateJobInputBody: Swift.Decodable {
@@ -8477,6 +8486,7 @@ extension CreateJobInputBody: Swift.Decodable {
         case jobTemplateArn
         case namespaceId
         case presignedUrlConfig
+        case schedulingConfig
         case tags
         case targetSelection
         case targets
@@ -8540,6 +8550,8 @@ extension CreateJobInputBody: Swift.Decodable {
             }
         }
         documentParameters = documentParametersDecoded0
+        let schedulingConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.SchedulingConfig.self, forKey: .schedulingConfig)
+        schedulingConfig = schedulingConfigDecoded
     }
 }
 
@@ -25650,6 +25662,61 @@ extension IoTClientTypes {
 
 }
 
+extension IoTClientTypes.IssuerCertificateIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case issuerCertificateSerialNumber
+        case issuerCertificateSubject
+        case issuerId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let issuerCertificateSerialNumber = self.issuerCertificateSerialNumber {
+            try encodeContainer.encode(issuerCertificateSerialNumber, forKey: .issuerCertificateSerialNumber)
+        }
+        if let issuerCertificateSubject = self.issuerCertificateSubject {
+            try encodeContainer.encode(issuerCertificateSubject, forKey: .issuerCertificateSubject)
+        }
+        if let issuerId = self.issuerId {
+            try encodeContainer.encode(issuerId, forKey: .issuerId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issuerCertificateSubjectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuerCertificateSubject)
+        issuerCertificateSubject = issuerCertificateSubjectDecoded
+        let issuerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuerId)
+        issuerId = issuerIdDecoded
+        let issuerCertificateSerialNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuerCertificateSerialNumber)
+        issuerCertificateSerialNumber = issuerCertificateSerialNumberDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// The certificate issuer indentifier.
+    public struct IssuerCertificateIdentifier: Swift.Equatable {
+        /// The issuer certificate serial number.
+        public var issuerCertificateSerialNumber: Swift.String?
+        /// The subject of the issuer certificate.
+        public var issuerCertificateSubject: Swift.String?
+        /// The issuer ID.
+        public var issuerId: Swift.String?
+
+        public init (
+            issuerCertificateSerialNumber: Swift.String? = nil,
+            issuerCertificateSubject: Swift.String? = nil,
+            issuerId: Swift.String? = nil
+        )
+        {
+            self.issuerCertificateSerialNumber = issuerCertificateSerialNumber
+            self.issuerCertificateSubject = issuerCertificateSubject
+            self.issuerId = issuerId
+        }
+    }
+
+}
+
 extension IoTClientTypes.Job: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case abortConfig
@@ -25670,6 +25737,7 @@ extension IoTClientTypes.Job: Swift.Codable {
         case namespaceId
         case presignedUrlConfig
         case reasonCode
+        case schedulingConfig
         case status
         case targetSelection
         case targets
@@ -25734,6 +25802,9 @@ extension IoTClientTypes.Job: Swift.Codable {
         }
         if let reasonCode = self.reasonCode {
             try encodeContainer.encode(reasonCode, forKey: .reasonCode)
+        }
+        if let schedulingConfig = self.schedulingConfig {
+            try encodeContainer.encode(schedulingConfig, forKey: .schedulingConfig)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -25816,6 +25887,8 @@ extension IoTClientTypes.Job: Swift.Codable {
         documentParameters = documentParametersDecoded0
         let isConcurrentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isConcurrent)
         isConcurrent = isConcurrentDecoded
+        let schedulingConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.SchedulingConfig.self, forKey: .schedulingConfig)
+        schedulingConfig = schedulingConfigDecoded
     }
 }
 
@@ -25858,6 +25931,8 @@ extension IoTClientTypes {
         public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
         /// If the job was updated, provides the reason code for the update.
         public var reasonCode: Swift.String?
+        /// The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
+        public var schedulingConfig: IoTClientTypes.SchedulingConfig?
         /// The status of the job, one of IN_PROGRESS, CANCELED, DELETION_IN_PROGRESS or COMPLETED.
         public var status: IoTClientTypes.JobStatus?
         /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a device when the thing representing the device is added to a target group, even after the job was completed by all things originally in the group. We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
@@ -25886,6 +25961,7 @@ extension IoTClientTypes {
             namespaceId: Swift.String? = nil,
             presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
             reasonCode: Swift.String? = nil,
+            schedulingConfig: IoTClientTypes.SchedulingConfig? = nil,
             status: IoTClientTypes.JobStatus? = nil,
             targetSelection: IoTClientTypes.TargetSelection? = nil,
             targets: [Swift.String]? = nil,
@@ -25910,6 +25986,7 @@ extension IoTClientTypes {
             self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.reasonCode = reasonCode
+            self.schedulingConfig = schedulingConfig
             self.status = status
             self.targetSelection = targetSelection
             self.targets = targets
@@ -25917,6 +25994,41 @@ extension IoTClientTypes {
         }
     }
 
+}
+
+extension IoTClientTypes {
+    public enum JobEndBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancel
+        case forceCancel
+        case stopRollout
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobEndBehavior] {
+            return [
+                .cancel,
+                .forceCancel,
+                .stopRollout,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancel: return "CANCEL"
+            case .forceCancel: return "FORCE_CANCEL"
+            case .stopRollout: return "STOP_ROLLOUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JobEndBehavior(rawValue: rawValue) ?? JobEndBehavior.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTClientTypes.JobExecution: Swift.Codable {
@@ -26590,6 +26702,7 @@ extension IoTClientTypes {
         case completed
         case deletionInProgress
         case inProgress
+        case scheduled
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobStatus] {
@@ -26598,6 +26711,7 @@ extension IoTClientTypes {
                 .completed,
                 .deletionInProgress,
                 .inProgress,
+                .scheduled,
                 .sdkUnknown("")
             ]
         }
@@ -26611,6 +26725,7 @@ extension IoTClientTypes {
             case .completed: return "COMPLETED"
             case .deletionInProgress: return "DELETION_IN_PROGRESS"
             case .inProgress: return "IN_PROGRESS"
+            case .scheduled: return "SCHEDULED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -32552,6 +32667,153 @@ extension ListProvisioningTemplatesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListRelatedResourcesForAuditFindingInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            guard let findingId = findingId else {
+                let message = "Creating a URL Query Item failed. findingId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let findingIdQueryItem = ClientRuntime.URLQueryItem(name: "findingId".urlPercentEncoding(), value: Swift.String(findingId).urlPercentEncoding())
+            items.append(findingIdQueryItem)
+            return items
+        }
+    }
+}
+
+extension ListRelatedResourcesForAuditFindingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/audit/relatedResources"
+    }
+}
+
+public struct ListRelatedResourcesForAuditFindingInput: Swift.Equatable {
+    /// The finding Id.
+    /// This member is required.
+    public var findingId: Swift.String?
+    /// The maximum number of results to return at one time.
+    public var maxResults: Swift.Int?
+    /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init (
+        findingId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.findingId = findingId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListRelatedResourcesForAuditFindingInputBody: Swift.Equatable {
+}
+
+extension ListRelatedResourcesForAuditFindingInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRelatedResourcesForAuditFindingOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListRelatedResourcesForAuditFindingOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListRelatedResourcesForAuditFindingOutputError: Swift.Error, Swift.Equatable {
+    case internalFailureException(InternalFailureException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRelatedResourcesForAuditFindingOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListRelatedResourcesForAuditFindingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.relatedResources = output.relatedResources
+        } else {
+            self.nextToken = nil
+            self.relatedResources = nil
+        }
+    }
+}
+
+public struct ListRelatedResourcesForAuditFindingOutputResponse: Swift.Equatable {
+    /// A token that can be used to retrieve the next set of results, or null for the first API call.
+    public var nextToken: Swift.String?
+    /// The related resources.
+    public var relatedResources: [IoTClientTypes.RelatedResource]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        relatedResources: [IoTClientTypes.RelatedResource]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.relatedResources = relatedResources
+    }
+}
+
+struct ListRelatedResourcesForAuditFindingOutputResponseBody: Swift.Equatable {
+    let relatedResources: [IoTClientTypes.RelatedResource]?
+    let nextToken: Swift.String?
+}
+
+extension ListRelatedResourcesForAuditFindingOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case relatedResources
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let relatedResourcesContainer = try containerValues.decodeIfPresent([IoTClientTypes.RelatedResource?].self, forKey: .relatedResources)
+        var relatedResourcesDecoded0:[IoTClientTypes.RelatedResource]? = nil
+        if let relatedResourcesContainer = relatedResourcesContainer {
+            relatedResourcesDecoded0 = [IoTClientTypes.RelatedResource]()
+            for structure0 in relatedResourcesContainer {
+                if let structure0 = structure0 {
+                    relatedResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        relatedResources = relatedResourcesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListRoleAliasesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -36897,6 +37159,103 @@ extension IoTClientTypes {
 
 }
 
+extension IoTClientTypes.MqttHeaders: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contentType
+        case correlationData
+        case messageExpiry
+        case payloadFormatIndicator
+        case responseTopic
+        case userProperties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let correlationData = self.correlationData {
+            try encodeContainer.encode(correlationData, forKey: .correlationData)
+        }
+        if let messageExpiry = self.messageExpiry {
+            try encodeContainer.encode(messageExpiry, forKey: .messageExpiry)
+        }
+        if let payloadFormatIndicator = self.payloadFormatIndicator {
+            try encodeContainer.encode(payloadFormatIndicator, forKey: .payloadFormatIndicator)
+        }
+        if let responseTopic = self.responseTopic {
+            try encodeContainer.encode(responseTopic, forKey: .responseTopic)
+        }
+        if let userProperties = userProperties {
+            var userPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userProperties)
+            for userproperties0 in userProperties {
+                try userPropertiesContainer.encode(userproperties0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadFormatIndicatorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payloadFormatIndicator)
+        payloadFormatIndicator = payloadFormatIndicatorDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let responseTopicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .responseTopic)
+        responseTopic = responseTopicDecoded
+        let correlationDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .correlationData)
+        correlationData = correlationDataDecoded
+        let messageExpiryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageExpiry)
+        messageExpiry = messageExpiryDecoded
+        let userPropertiesContainer = try containerValues.decodeIfPresent([IoTClientTypes.UserProperty?].self, forKey: .userProperties)
+        var userPropertiesDecoded0:[IoTClientTypes.UserProperty]? = nil
+        if let userPropertiesContainer = userPropertiesContainer {
+            userPropertiesDecoded0 = [IoTClientTypes.UserProperty]()
+            for structure0 in userPropertiesContainer {
+                if let structure0 = structure0 {
+                    userPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        userProperties = userPropertiesDecoded0
+    }
+}
+
+extension IoTClientTypes {
+    /// Specifies MQTT Version 5.0 headers information. For more information, see [ MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) from Amazon Web Services IoT Core Developer Guide.
+    public struct MqttHeaders: Swift.Equatable {
+        /// A UTF-8 encoded string that describes the content of the publishing message. For more information, see [ Content Type](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901118) from the MQTT Version 5.0 specification. Supports [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
+        public var contentType: Swift.String?
+        /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. For more information, see [ Correlation Data](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901115) from the MQTT Version 5.0 specification. This binary data must be based64-encoded. Supports [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
+        public var correlationData: Swift.String?
+        /// A user-defined integer value that will persist a message at the message broker for a specified amount of time to ensure that the message will expire if it's no longer relevant to the subscriber. The value of messageExpiry represents the number of seconds before it expires. For more information about the limits of messageExpiry, see [Amazon Web Services IoT Core message broker and protocol limits and quotas ](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) from the Amazon Web Services Reference Guide. Supports [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
+        public var messageExpiry: Swift.String?
+        /// An Enum string value that indicates whether the payload is formatted as UTF-8. Valid values are UNSPECIFIED_BYTES and UTF8_DATA. For more information, see [ Payload Format Indicator](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901111) from the MQTT Version 5.0 specification. Supports [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
+        public var payloadFormatIndicator: Swift.String?
+        /// A UTF-8 encoded string that's used as the topic name for a response message. The response topic is used to describe the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard characters. For more information, see [ Response Topic](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901114) from the MQTT Version 5.0 specification. Supports [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
+        public var responseTopic: Swift.String?
+        /// An array of key-value pairs that you define in the MQTT5 header.
+        public var userProperties: [IoTClientTypes.UserProperty]?
+
+        public init (
+            contentType: Swift.String? = nil,
+            correlationData: Swift.String? = nil,
+            messageExpiry: Swift.String? = nil,
+            payloadFormatIndicator: Swift.String? = nil,
+            responseTopic: Swift.String? = nil,
+            userProperties: [IoTClientTypes.UserProperty]? = nil
+        )
+        {
+            self.contentType = contentType
+            self.correlationData = correlationData
+            self.messageExpiry = messageExpiry
+            self.payloadFormatIndicator = payloadFormatIndicator
+            self.responseTopic = responseTopic
+            self.userProperties = userProperties
+        }
+    }
+
+}
+
 extension IoTClientTypes {
     public enum NamedShadowIndexingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case off
@@ -39882,6 +40241,7 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.RepublishAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case headers
         case qos
         case roleArn
         case topic
@@ -39889,6 +40249,9 @@ extension IoTClientTypes.RepublishAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let headers = self.headers {
+            try encodeContainer.encode(headers, forKey: .headers)
+        }
         if let qos = self.qos {
             try encodeContainer.encode(qos, forKey: .qos)
         }
@@ -39908,12 +40271,16 @@ extension IoTClientTypes.RepublishAction: Swift.Codable {
         topic = topicDecoded
         let qosDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .qos)
         qos = qosDecoded
+        let headersDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MqttHeaders.self, forKey: .headers)
+        headers = headersDecoded
     }
 }
 
 extension IoTClientTypes {
     /// Describes an action to republish to another topic.
     public struct RepublishAction: Swift.Equatable {
+        /// MQTT Version 5.0 headers information. For more information, see [ MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) from the Amazon Web Services IoT Core Developer Guide.
+        public var headers: IoTClientTypes.MqttHeaders?
         /// The Quality of Service (QoS) level to use when republishing messages. The default value is 0.
         public var qos: Swift.Int?
         /// The ARN of the IAM role that grants access.
@@ -39924,11 +40291,13 @@ extension IoTClientTypes {
         public var topic: Swift.String?
 
         public init (
+            headers: IoTClientTypes.MqttHeaders? = nil,
             qos: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             topic: Swift.String? = nil
         )
         {
+            self.headers = headers
             self.qos = qos
             self.roleArn = roleArn
             self.topic = topic
@@ -40016,8 +40385,10 @@ extension IoTClientTypes.ResourceIdentifier: Swift.Codable {
         case caCertificateId
         case clientId
         case cognitoIdentityPoolId
+        case deviceCertificateArn
         case deviceCertificateId
         case iamRoleArn
+        case issuerCertificateIdentifier
         case policyVersionIdentifier
         case roleAliasArn
     }
@@ -40036,11 +40407,17 @@ extension IoTClientTypes.ResourceIdentifier: Swift.Codable {
         if let cognitoIdentityPoolId = self.cognitoIdentityPoolId {
             try encodeContainer.encode(cognitoIdentityPoolId, forKey: .cognitoIdentityPoolId)
         }
+        if let deviceCertificateArn = self.deviceCertificateArn {
+            try encodeContainer.encode(deviceCertificateArn, forKey: .deviceCertificateArn)
+        }
         if let deviceCertificateId = self.deviceCertificateId {
             try encodeContainer.encode(deviceCertificateId, forKey: .deviceCertificateId)
         }
         if let iamRoleArn = self.iamRoleArn {
             try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let issuerCertificateIdentifier = self.issuerCertificateIdentifier {
+            try encodeContainer.encode(issuerCertificateIdentifier, forKey: .issuerCertificateIdentifier)
         }
         if let policyVersionIdentifier = self.policyVersionIdentifier {
             try encodeContainer.encode(policyVersionIdentifier, forKey: .policyVersionIdentifier)
@@ -40068,6 +40445,10 @@ extension IoTClientTypes.ResourceIdentifier: Swift.Codable {
         iamRoleArn = iamRoleArnDecoded
         let roleAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleAliasArn)
         roleAliasArn = roleAliasArnDecoded
+        let issuerCertificateIdentifierDecoded = try containerValues.decodeIfPresent(IoTClientTypes.IssuerCertificateIdentifier.self, forKey: .issuerCertificateIdentifier)
+        issuerCertificateIdentifier = issuerCertificateIdentifierDecoded
+        let deviceCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceCertificateArn)
+        deviceCertificateArn = deviceCertificateArnDecoded
     }
 }
 
@@ -40082,10 +40463,14 @@ extension IoTClientTypes {
         public var clientId: Swift.String?
         /// The ID of the Amazon Cognito identity pool.
         public var cognitoIdentityPoolId: Swift.String?
+        /// The ARN of the identified device certificate.
+        public var deviceCertificateArn: Swift.String?
         /// The ID of the certificate attached to the resource.
         public var deviceCertificateId: Swift.String?
         /// The ARN of the IAM role that has overly permissive actions.
         public var iamRoleArn: Swift.String?
+        /// The issuer certificate identifier.
+        public var issuerCertificateIdentifier: IoTClientTypes.IssuerCertificateIdentifier?
         /// The version of the policy associated with the resource.
         public var policyVersionIdentifier: IoTClientTypes.PolicyVersionIdentifier?
         /// The ARN of the role alias that has overly permissive actions.
@@ -40096,8 +40481,10 @@ extension IoTClientTypes {
             caCertificateId: Swift.String? = nil,
             clientId: Swift.String? = nil,
             cognitoIdentityPoolId: Swift.String? = nil,
+            deviceCertificateArn: Swift.String? = nil,
             deviceCertificateId: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
+            issuerCertificateIdentifier: IoTClientTypes.IssuerCertificateIdentifier? = nil,
             policyVersionIdentifier: IoTClientTypes.PolicyVersionIdentifier? = nil,
             roleAliasArn: Swift.String? = nil
         )
@@ -40106,8 +40493,10 @@ extension IoTClientTypes {
             self.caCertificateId = caCertificateId
             self.clientId = clientId
             self.cognitoIdentityPoolId = cognitoIdentityPoolId
+            self.deviceCertificateArn = deviceCertificateArn
             self.deviceCertificateId = deviceCertificateId
             self.iamRoleArn = iamRoleArn
+            self.issuerCertificateIdentifier = issuerCertificateIdentifier
             self.policyVersionIdentifier = policyVersionIdentifier
             self.roleAliasArn = roleAliasArn
         }
@@ -40230,6 +40619,7 @@ extension IoTClientTypes {
         case deviceCertificate
         case iamRole
         case iotPolicy
+        case issuerCertificate
         case roleAlias
         case sdkUnknown(Swift.String)
 
@@ -40242,6 +40632,7 @@ extension IoTClientTypes {
                 .deviceCertificate,
                 .iamRole,
                 .iotPolicy,
+                .issuerCertificate,
                 .roleAlias,
                 .sdkUnknown("")
             ]
@@ -40259,6 +40650,7 @@ extension IoTClientTypes {
             case .deviceCertificate: return "DEVICE_CERTIFICATE"
             case .iamRole: return "IAM_ROLE"
             case .iotPolicy: return "IOT_POLICY"
+            case .issuerCertificate: return "ISSUER_CERTIFICATE"
             case .roleAlias: return "ROLE_ALIAS"
             case let .sdkUnknown(s): return s
             }
@@ -40733,6 +41125,61 @@ extension IoTClientTypes {
             self.frequency = frequency
             self.scheduledAuditArn = scheduledAuditArn
             self.scheduledAuditName = scheduledAuditName
+        }
+    }
+
+}
+
+extension IoTClientTypes.SchedulingConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endBehavior
+        case endTime
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endBehavior = self.endBehavior {
+            try encodeContainer.encode(endBehavior.rawValue, forKey: .endBehavior)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encode(endTime, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
+        endTime = endTimeDecoded
+        let endBehaviorDecoded = try containerValues.decodeIfPresent(IoTClientTypes.JobEndBehavior.self, forKey: .endBehavior)
+        endBehavior = endBehaviorDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// Specifies the date and time that a job will begin the rollout of the job document to all devices in the target group. Additionally, you can specify the end behavior for each job execution when it reaches the scheduled end time.
+    public struct SchedulingConfig: Swift.Equatable {
+        /// Specifies the end behavior for all job executions after a job reaches the selected endTime. If endTime is not selected when creating the job, then endBehavior does not apply.
+        public var endBehavior: IoTClientTypes.JobEndBehavior?
+        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years.
+        public var endTime: Swift.String?
+        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time.
+        public var startTime: Swift.String?
+
+        public init (
+            endBehavior: IoTClientTypes.JobEndBehavior? = nil,
+            endTime: Swift.String? = nil,
+            startTime: Swift.String? = nil
+        )
+        {
+            self.endBehavior = endBehavior
+            self.endTime = endTime
+            self.startTime = startTime
         }
     }
 
@@ -44774,7 +45221,7 @@ extension IoTClientTypes {
     public struct ThingGroupIndexingConfiguration: Swift.Equatable {
         /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
         public var customFields: [IoTClientTypes.Field]?
-        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide.
         public var managedFields: [IoTClientTypes.Field]?
         /// Thing group indexing mode.
         /// This member is required.
@@ -50594,6 +51041,53 @@ extension UpdateTopicRuleDestinationOutputResponse: ClientRuntime.HttpResponseBi
 public struct UpdateTopicRuleDestinationOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension IoTClientTypes.UserProperty: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// A key-value pair that you define in the header. Both the key and the value are either literal strings or valid [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
+    public struct UserProperty: Swift.Equatable {
+        /// A key to be specified in UserProperty.
+        /// This member is required.
+        public var key: Swift.String?
+        /// A value to be specified in UserProperty.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init (
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
 }
 
 extension ValidateSecurityProfileBehaviorsInput: Swift.Encodable {

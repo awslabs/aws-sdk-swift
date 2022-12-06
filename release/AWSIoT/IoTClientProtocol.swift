@@ -29,7 +29,7 @@ public protocol IoTClientProtocol {
     func attachPrincipalPolicy(input: AttachPrincipalPolicyInput) async throws -> AttachPrincipalPolicyOutputResponse
     /// Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it. Requires permission to access the [AttachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     func attachSecurityProfile(input: AttachSecurityProfileInput) async throws -> AttachSecurityProfileOutputResponse
-    /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [AttachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the [AttachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     func attachThingPrincipal(input: AttachThingPrincipalInput) async throws -> AttachThingPrincipalOutputResponse
     /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the [CancelAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     func cancelAuditMitigationActionsTask(input: CancelAuditMitigationActionsTaskInput) async throws -> CancelAuditMitigationActionsTaskOutputResponse
@@ -350,6 +350,29 @@ public protocol IoTClientProtocol {
     func listProvisioningTemplates(input: ListProvisioningTemplatesInput) async throws -> ListProvisioningTemplatesOutputResponse
     /// A list of provisioning template versions. Requires permission to access the [ListProvisioningTemplateVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     func listProvisioningTemplateVersions(input: ListProvisioningTemplateVersionsInput) async throws -> ListProvisioningTemplateVersionsOutputResponse
+    /// The related resources of an Audit finding. The following resources can be returned from calling this API:
+    ///
+    /// * DEVICE_CERTIFICATE
+    ///
+    /// * CA_CERTIFICATE
+    ///
+    /// * IOT_POLICY
+    ///
+    /// * COGNITO_IDENTITY_POOL
+    ///
+    /// * CLIENT_ID
+    ///
+    /// * ACCOUNT_SETTINGS
+    ///
+    /// * ROLE_ALIAS
+    ///
+    /// * IAM_ROLE
+    ///
+    /// * ISSUER_CERTIFICATE
+    ///
+    ///
+    /// This API is similar to DescribeAuditFinding's [RelatedResources](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html) but provides pagination and is not limited to 10 resources. When calling [DescribeAuditFinding](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html) for the intermediate CA revoked for active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
+    func listRelatedResourcesForAuditFinding(input: ListRelatedResourcesForAuditFindingInput) async throws -> ListRelatedResourcesForAuditFindingOutputResponse
     /// Lists the role aliases registered in your account. Requires permission to access the [ListRoleAliases](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     func listRoleAliases(input: ListRoleAliasesInput) async throws -> ListRoleAliasesOutputResponse
     /// Lists all of your scheduled audits. Requires permission to access the [ListScheduledAudits](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -376,7 +399,7 @@ public protocol IoTClientProtocol {
     func listThingRegistrationTaskReports(input: ListThingRegistrationTaskReportsInput) async throws -> ListThingRegistrationTaskReportsOutputResponse
     /// List bulk thing provisioning tasks. Requires permission to access the [ListThingRegistrationTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     func listThingRegistrationTasks(input: ListThingRegistrationTasksInput) async throws -> ListThingRegistrationTasksOutputResponse
-    /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. Requires permission to access the [ListThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
+    /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. For more information, see [List Things](https://docs.aws.amazon.com/iot/latest/developerguide/thing-registry.html#list-things) from the Amazon Web Services IoT Core Developer Guide. Requires permission to access the [ListThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     func listThings(input: ListThingsInput) async throws -> ListThingsOutputResponse
     /// Lists the things you have added to the given billing group. Requires permission to access the [ListThingsInBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     func listThingsInBillingGroup(input: ListThingsInBillingGroupInput) async throws -> ListThingsInBillingGroupOutputResponse

@@ -184,12 +184,16 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 
 extension ProtonClientTypes.AccountSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineCodebuildRoleArn
         case pipelineProvisioningRepository
         case pipelineServiceRoleArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pipelineCodebuildRoleArn = self.pipelineCodebuildRoleArn {
+            try encodeContainer.encode(pipelineCodebuildRoleArn, forKey: .pipelineCodebuildRoleArn)
+        }
         if let pipelineProvisioningRepository = self.pipelineProvisioningRepository {
             try encodeContainer.encode(pipelineProvisioningRepository, forKey: .pipelineProvisioningRepository)
         }
@@ -204,22 +208,28 @@ extension ProtonClientTypes.AccountSettings: Swift.Codable {
         pipelineServiceRoleArn = pipelineServiceRoleArnDecoded
         let pipelineProvisioningRepositoryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.RepositoryBranch.self, forKey: .pipelineProvisioningRepository)
         pipelineProvisioningRepository = pipelineProvisioningRepositoryDecoded
+        let pipelineCodebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineCodebuildRoleArn)
+        pipelineCodebuildRoleArn = pipelineCodebuildRoleArnDecoded
     }
 }
 
 extension ProtonClientTypes {
     /// Proton settings that are used for multiple services in the Amazon Web Services account.
     public struct AccountSettings: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the service role that Proton uses for provisioning pipelines. Proton assumes this role for CodeBuild-based provisioning.
+        public var pipelineCodebuildRoleArn: Swift.String?
         /// The linked repository for pipeline provisioning. Required if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
         public var pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranch?
         /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning.
         public var pipelineServiceRoleArn: Swift.String?
 
         public init (
+            pipelineCodebuildRoleArn: Swift.String? = nil,
             pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranch? = nil,
             pipelineServiceRoleArn: Swift.String? = nil
         )
         {
+            self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
             self.pipelineProvisioningRepository = pipelineProvisioningRepository
             self.pipelineServiceRoleArn = pipelineServiceRoleArn
         }
@@ -1466,6 +1476,7 @@ extension CreateComponentOutputResponseBody: Swift.Decodable {
 extension CreateEnvironmentAccountConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case codebuildRoleArn
         case componentRoleArn
         case environmentName
         case managementAccountId
@@ -1477,6 +1488,9 @@ extension CreateEnvironmentAccountConnectionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let codebuildRoleArn = self.codebuildRoleArn {
+            try encodeContainer.encode(codebuildRoleArn, forKey: .codebuildRoleArn)
         }
         if let componentRoleArn = self.componentRoleArn {
             try encodeContainer.encode(componentRoleArn, forKey: .componentRoleArn)
@@ -1508,6 +1522,8 @@ extension CreateEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider
 public struct CreateEnvironmentAccountConnectionInput: Swift.Equatable {
     /// When included, if two identical requests are made with the same client token, Proton returns the environment account connection that the first request created.
     public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
+    public var codebuildRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. You must specify componentRoleArn to allow directly defined components to be associated with any environments running in this account. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     public var componentRoleArn: Swift.String?
     /// The name of the Proton environment that's created in the associated management account.
@@ -1517,13 +1533,13 @@ public struct CreateEnvironmentAccountConnectionInput: Swift.Equatable {
     /// This member is required.
     public var managementAccountId: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that's created in the environment account. Proton uses this role to provision infrastructure resources in the associated environment account.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     public var tags: [ProtonClientTypes.Tag]?
 
     public init (
         clientToken: Swift.String? = nil,
+        codebuildRoleArn: Swift.String? = nil,
         componentRoleArn: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         managementAccountId: Swift.String? = nil,
@@ -1532,6 +1548,7 @@ public struct CreateEnvironmentAccountConnectionInput: Swift.Equatable {
     )
     {
         self.clientToken = clientToken
+        self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
         self.environmentName = environmentName
         self.managementAccountId = managementAccountId
@@ -1547,11 +1564,13 @@ struct CreateEnvironmentAccountConnectionInputBody: Swift.Equatable {
     let environmentName: Swift.String?
     let tags: [ProtonClientTypes.Tag]?
     let componentRoleArn: Swift.String?
+    let codebuildRoleArn: Swift.String?
 }
 
 extension CreateEnvironmentAccountConnectionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case codebuildRoleArn
         case componentRoleArn
         case environmentName
         case managementAccountId
@@ -1582,6 +1601,8 @@ extension CreateEnvironmentAccountConnectionInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let componentRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentRoleArn)
         componentRoleArn = componentRoleArnDecoded
+        let codebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codebuildRoleArn)
+        codebuildRoleArn = codebuildRoleArnDecoded
     }
 }
 
@@ -1661,11 +1682,12 @@ extension CreateEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable 
 
 extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentInput(componentRoleArn: \(Swift.String(describing: componentRoleArn)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), tags: \(Swift.String(describing: tags)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentInput(codebuildRoleArn: \(Swift.String(describing: codebuildRoleArn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), tags: \(Swift.String(describing: tags)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateEnvironmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codebuildRoleArn
         case componentRoleArn
         case description
         case environmentAccountConnectionId
@@ -1681,6 +1703,9 @@ extension CreateEnvironmentInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codebuildRoleArn = self.codebuildRoleArn {
+            try encodeContainer.encode(codebuildRoleArn, forKey: .codebuildRoleArn)
+        }
         if let componentRoleArn = self.componentRoleArn {
             try encodeContainer.encode(componentRoleArn, forKey: .componentRoleArn)
         }
@@ -1727,6 +1752,8 @@ extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateEnvironmentInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf. To use CodeBuild-based provisioning for the environment or for any service instance running in the environment, specify either the environmentAccountConnectionId or codebuildRoleArn parameter.
+    public var codebuildRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. You must specify componentRoleArn to allow directly defined components to be associated with this environment. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     public var componentRoleArn: Swift.String?
     /// A description of the environment that's being created and deployed.
@@ -1755,6 +1782,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     public var templateName: Swift.String?
 
     public init (
+        codebuildRoleArn: Swift.String? = nil,
         componentRoleArn: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentAccountConnectionId: Swift.String? = nil,
@@ -1768,6 +1796,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
         templateName: Swift.String? = nil
     )
     {
+        self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
         self.description = description
         self.environmentAccountConnectionId = environmentAccountConnectionId
@@ -1794,10 +1823,12 @@ struct CreateEnvironmentInputBody: Swift.Equatable {
     let tags: [ProtonClientTypes.Tag]?
     let provisioningRepository: ProtonClientTypes.RepositoryBranchInput?
     let componentRoleArn: Swift.String?
+    let codebuildRoleArn: Swift.String?
 }
 
 extension CreateEnvironmentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codebuildRoleArn
         case componentRoleArn
         case description
         case environmentAccountConnectionId
@@ -1844,6 +1875,8 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         provisioningRepository = provisioningRepositoryDecoded
         let componentRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentRoleArn)
         componentRoleArn = componentRoleArnDecoded
+        let codebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codebuildRoleArn)
+        codebuildRoleArn = codebuildRoleArnDecoded
     }
 }
 
@@ -4774,6 +4807,7 @@ extension ProtonClientTypes {
 extension ProtonClientTypes.Environment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case codebuildRoleArn
         case componentRoleArn
         case createdAt
         case deploymentStatus
@@ -4797,6 +4831,9 @@ extension ProtonClientTypes.Environment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let codebuildRoleArn = self.codebuildRoleArn {
+            try encodeContainer.encode(codebuildRoleArn, forKey: .codebuildRoleArn)
         }
         if let componentRoleArn = self.componentRoleArn {
             try encodeContainer.encode(componentRoleArn, forKey: .componentRoleArn)
@@ -4889,12 +4926,14 @@ extension ProtonClientTypes.Environment: Swift.Codable {
         provisioningRepository = provisioningRepositoryDecoded
         let componentRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentRoleArn)
         componentRoleArn = componentRoleArnDecoded
+        let codebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codebuildRoleArn)
+        codebuildRoleArn = codebuildRoleArnDecoded
     }
 }
 
 extension ProtonClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(arn: \(Swift.String(describing: arn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), environmentAccountId: \(Swift.String(describing: environmentAccountId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioning: \(Swift.String(describing: provisioning)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
+        "Environment(arn: \(Swift.String(describing: arn)), codebuildRoleArn: \(Swift.String(describing: codebuildRoleArn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), environmentAccountId: \(Swift.String(describing: environmentAccountId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioning: \(Swift.String(describing: provisioning)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -4903,6 +4942,8 @@ extension ProtonClientTypes {
         /// The Amazon Resource Name (ARN) of the environment.
         /// This member is required.
         public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf.
+        public var codebuildRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
         public var componentRoleArn: Swift.String?
         /// The time when the environment was created.
@@ -4948,6 +4989,7 @@ extension ProtonClientTypes {
 
         public init (
             arn: Swift.String? = nil,
+            codebuildRoleArn: Swift.String? = nil,
             componentRoleArn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
@@ -4968,6 +5010,7 @@ extension ProtonClientTypes {
         )
         {
             self.arn = arn
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -4993,6 +5036,7 @@ extension ProtonClientTypes {
 extension ProtonClientTypes.EnvironmentAccountConnection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case codebuildRoleArn
         case componentRoleArn
         case environmentAccountId
         case environmentName
@@ -5008,6 +5052,9 @@ extension ProtonClientTypes.EnvironmentAccountConnection: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let codebuildRoleArn = self.codebuildRoleArn {
+            try encodeContainer.encode(codebuildRoleArn, forKey: .codebuildRoleArn)
         }
         if let componentRoleArn = self.componentRoleArn {
             try encodeContainer.encode(componentRoleArn, forKey: .componentRoleArn)
@@ -5060,6 +5107,8 @@ extension ProtonClientTypes.EnvironmentAccountConnection: Swift.Codable {
         status = statusDecoded
         let componentRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentRoleArn)
         componentRoleArn = componentRoleArnDecoded
+        let codebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codebuildRoleArn)
+        codebuildRoleArn = codebuildRoleArnDecoded
     }
 }
 
@@ -5069,6 +5118,8 @@ extension ProtonClientTypes {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         /// This member is required.
         public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
+        public var codebuildRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
         public var componentRoleArn: Swift.String?
         /// The environment account that's connected to the environment account connection.
@@ -5098,6 +5149,7 @@ extension ProtonClientTypes {
 
         public init (
             arn: Swift.String? = nil,
+            codebuildRoleArn: Swift.String? = nil,
             componentRoleArn: Swift.String? = nil,
             environmentAccountId: Swift.String? = nil,
             environmentName: Swift.String? = nil,
@@ -5110,6 +5162,7 @@ extension ProtonClientTypes {
         )
         {
             self.arn = arn
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.environmentAccountId = environmentAccountId
             self.environmentName = environmentName
@@ -10116,15 +10169,125 @@ extension ListServiceInstanceProvisionedResourcesOutputResponseBody: Swift.Decod
     }
 }
 
-extension ListServiceInstancesInput: Swift.Encodable {
+extension ProtonClientTypes.ListServiceInstancesFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case maxResults
-        case nextToken
-        case serviceName
+        case key
+        case value
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key.rawValue, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ListServiceInstancesFilterBy.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ProtonClientTypes {
+    /// A filtering criterion to scope down the result list of the [ListServiceInstances] action.
+    public struct ListServiceInstancesFilter: Swift.Equatable {
+        /// The name of a filtering criterion.
+        public var key: ProtonClientTypes.ListServiceInstancesFilterBy?
+        /// A value to filter by. With the date/time keys (*At{Before,After}), the value is a valid [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339.html) string with no UTC offset and with an optional fractional precision (for example, 1985-04-12T23:20:50.52Z).
+        public var value: Swift.String?
+
+        public init (
+            key: ProtonClientTypes.ListServiceInstancesFilterBy? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension ProtonClientTypes {
+    public enum ListServiceInstancesFilterBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdAtAfter
+        case createdAtBefore
+        case deployedTemplateVersionStatus
+        case deploymentStatus
+        case environmentName
+        case lastDeploymentAttemptedAtAfter
+        case lastDeploymentAttemptedAtBefore
+        case name
+        case serviceName
+        case templateName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListServiceInstancesFilterBy] {
+            return [
+                .createdAtAfter,
+                .createdAtBefore,
+                .deployedTemplateVersionStatus,
+                .deploymentStatus,
+                .environmentName,
+                .lastDeploymentAttemptedAtAfter,
+                .lastDeploymentAttemptedAtBefore,
+                .name,
+                .serviceName,
+                .templateName,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdAtAfter: return "createdAtAfter"
+            case .createdAtBefore: return "createdAtBefore"
+            case .deployedTemplateVersionStatus: return "deployedTemplateVersionStatus"
+            case .deploymentStatus: return "deploymentStatus"
+            case .environmentName: return "environmentName"
+            case .lastDeploymentAttemptedAtAfter: return "lastDeploymentAttemptedAtAfter"
+            case .lastDeploymentAttemptedAtBefore: return "lastDeploymentAttemptedAtBefore"
+            case .name: return "name"
+            case .serviceName: return "serviceName"
+            case .templateName: return "templateName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListServiceInstancesFilterBy(rawValue: rawValue) ?? ListServiceInstancesFilterBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ListServiceInstancesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+        case serviceName
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for listserviceinstancesfilterlist0 in filters {
+                try filtersContainer.encode(listserviceinstancesfilterlist0)
+            }
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -10133,6 +10296,12 @@ extension ListServiceInstancesInput: Swift.Encodable {
         }
         if let serviceName = self.serviceName {
             try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
         }
     }
 }
@@ -10144,22 +10313,34 @@ extension ListServiceInstancesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListServiceInstancesInput: Swift.Equatable {
+    /// An array of filtering criteria that scope down the result list. By default, all service instances in the Amazon Web Services account are returned.
+    public var filters: [ProtonClientTypes.ListServiceInstancesFilter]?
     /// The maximum number of service instances to list.
     public var maxResults: Swift.Int?
     /// A token that indicates the location of the next service in the array of service instances, after the list of service instances that was previously requested.
     public var nextToken: Swift.String?
     /// The name of the service that the service instance belongs to.
     public var serviceName: Swift.String?
+    /// The field that the result list is sorted by. When you choose to sort by serviceName, service instances within each service are sorted by service instance name. Default: serviceName
+    public var sortBy: ProtonClientTypes.ListServiceInstancesSortBy?
+    /// Result list sort order. Default: ASCENDING
+    public var sortOrder: ProtonClientTypes.SortOrder?
 
     public init (
+        filters: [ProtonClientTypes.ListServiceInstancesFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        serviceName: Swift.String? = nil
+        serviceName: Swift.String? = nil,
+        sortBy: ProtonClientTypes.ListServiceInstancesSortBy? = nil,
+        sortOrder: ProtonClientTypes.SortOrder? = nil
     )
     {
+        self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceName = serviceName
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
     }
 }
 
@@ -10167,13 +10348,19 @@ struct ListServiceInstancesInputBody: Swift.Equatable {
     let serviceName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let filters: [ProtonClientTypes.ListServiceInstancesFilter]?
+    let sortBy: ProtonClientTypes.ListServiceInstancesSortBy?
+    let sortOrder: ProtonClientTypes.SortOrder?
 }
 
 extension ListServiceInstancesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
         case maxResults
         case nextToken
         case serviceName
+        case sortBy
+        case sortOrder
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -10184,6 +10371,21 @@ extension ListServiceInstancesInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([ProtonClientTypes.ListServiceInstancesFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ProtonClientTypes.ListServiceInstancesFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ProtonClientTypes.ListServiceInstancesFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let sortByDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ListServiceInstancesSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
     }
 }
 
@@ -10275,6 +10477,53 @@ extension ListServiceInstancesOutputResponseBody: Swift.Decodable {
             }
         }
         serviceInstances = serviceInstancesDecoded0
+    }
+}
+
+extension ProtonClientTypes {
+    public enum ListServiceInstancesSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdAt
+        case deploymentStatus
+        case environmentName
+        case lastDeploymentAttemptedAt
+        case name
+        case serviceName
+        case templateName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListServiceInstancesSortBy] {
+            return [
+                .createdAt,
+                .deploymentStatus,
+                .environmentName,
+                .lastDeploymentAttemptedAt,
+                .name,
+                .serviceName,
+                .templateName,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdAt: return "createdAt"
+            case .deploymentStatus: return "deploymentStatus"
+            case .environmentName: return "environmentName"
+            case .lastDeploymentAttemptedAt: return "lastDeploymentAttemptedAt"
+            case .name: return "name"
+            case .serviceName: return "serviceName"
+            case .templateName: return "templateName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListServiceInstancesSortBy(rawValue: rawValue) ?? ListServiceInstancesSortBy.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -11238,7 +11487,6 @@ public struct NotifyResourceDeploymentStatusChangeInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The status of your provisioned resource.
-    /// This member is required.
     public var status: ProtonClientTypes.ResourceDeploymentStatus?
     /// The deployment status message for your provisioned resource.
     public var statusMessage: Swift.String?
@@ -14096,6 +14344,38 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes {
+    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ProtonClientTypes {
     public enum SyncType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case templateSync
         case sdkUnknown(Swift.String)
@@ -14643,6 +14923,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 extension UpdateAccountSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletePipelineProvisioningRepository
+        case pipelineCodebuildRoleArn
         case pipelineProvisioningRepository
         case pipelineServiceRoleArn
     }
@@ -14651,6 +14932,9 @@ extension UpdateAccountSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deletePipelineProvisioningRepository = self.deletePipelineProvisioningRepository {
             try encodeContainer.encode(deletePipelineProvisioningRepository, forKey: .deletePipelineProvisioningRepository)
+        }
+        if let pipelineCodebuildRoleArn = self.pipelineCodebuildRoleArn {
+            try encodeContainer.encode(pipelineCodebuildRoleArn, forKey: .pipelineCodebuildRoleArn)
         }
         if let pipelineProvisioningRepository = self.pipelineProvisioningRepository {
             try encodeContainer.encode(pipelineProvisioningRepository, forKey: .pipelineProvisioningRepository)
@@ -14670,6 +14954,8 @@ extension UpdateAccountSettingsInput: ClientRuntime.URLPathProvider {
 public struct UpdateAccountSettingsInput: Swift.Equatable {
     /// Set to true to remove a configured pipeline repository from the account settings. Don't set this field if you are updating the configured pipeline repository.
     public var deletePipelineProvisioningRepository: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Proton assumes this role for CodeBuild-based provisioning.
+    public var pipelineCodebuildRoleArn: Swift.String?
     /// A linked repository for pipeline provisioning. Specify it if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository]. To remove a previously configured repository, set deletePipelineProvisioningRepository to true, and don't set pipelineProvisioningRepository.
     public var pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranchInput?
     /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning. To remove a previously configured ARN, specify an empty string.
@@ -14677,11 +14963,13 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
 
     public init (
         deletePipelineProvisioningRepository: Swift.Bool? = nil,
+        pipelineCodebuildRoleArn: Swift.String? = nil,
         pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranchInput? = nil,
         pipelineServiceRoleArn: Swift.String? = nil
     )
     {
         self.deletePipelineProvisioningRepository = deletePipelineProvisioningRepository
+        self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
         self.pipelineProvisioningRepository = pipelineProvisioningRepository
         self.pipelineServiceRoleArn = pipelineServiceRoleArn
     }
@@ -14691,11 +14979,13 @@ struct UpdateAccountSettingsInputBody: Swift.Equatable {
     let pipelineServiceRoleArn: Swift.String?
     let pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranchInput?
     let deletePipelineProvisioningRepository: Swift.Bool?
+    let pipelineCodebuildRoleArn: Swift.String?
 }
 
 extension UpdateAccountSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletePipelineProvisioningRepository
+        case pipelineCodebuildRoleArn
         case pipelineProvisioningRepository
         case pipelineServiceRoleArn
     }
@@ -14708,6 +14998,8 @@ extension UpdateAccountSettingsInputBody: Swift.Decodable {
         pipelineProvisioningRepository = pipelineProvisioningRepositoryDecoded
         let deletePipelineProvisioningRepositoryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletePipelineProvisioningRepository)
         deletePipelineProvisioningRepository = deletePipelineProvisioningRepositoryDecoded
+        let pipelineCodebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineCodebuildRoleArn)
+        pipelineCodebuildRoleArn = pipelineCodebuildRoleArnDecoded
     }
 }
 
@@ -14987,6 +15279,7 @@ extension UpdateComponentOutputResponseBody: Swift.Decodable {
 
 extension UpdateEnvironmentAccountConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codebuildRoleArn
         case componentRoleArn
         case id
         case roleArn
@@ -14994,6 +15287,9 @@ extension UpdateEnvironmentAccountConnectionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codebuildRoleArn = self.codebuildRoleArn {
+            try encodeContainer.encode(codebuildRoleArn, forKey: .codebuildRoleArn)
+        }
         if let componentRoleArn = self.componentRoleArn {
             try encodeContainer.encode(componentRoleArn, forKey: .componentRoleArn)
         }
@@ -15013,6 +15309,8 @@ extension UpdateEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider
 }
 
 public struct UpdateEnvironmentAccountConnectionInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
+    public var codebuildRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     public var componentRoleArn: Swift.String?
     /// The ID of the environment account connection to update.
@@ -15022,11 +15320,13 @@ public struct UpdateEnvironmentAccountConnectionInput: Swift.Equatable {
     public var roleArn: Swift.String?
 
     public init (
+        codebuildRoleArn: Swift.String? = nil,
         componentRoleArn: Swift.String? = nil,
         id: Swift.String? = nil,
         roleArn: Swift.String? = nil
     )
     {
+        self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
         self.id = id
         self.roleArn = roleArn
@@ -15037,10 +15337,12 @@ struct UpdateEnvironmentAccountConnectionInputBody: Swift.Equatable {
     let id: Swift.String?
     let roleArn: Swift.String?
     let componentRoleArn: Swift.String?
+    let codebuildRoleArn: Swift.String?
 }
 
 extension UpdateEnvironmentAccountConnectionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codebuildRoleArn
         case componentRoleArn
         case id
         case roleArn
@@ -15054,6 +15356,8 @@ extension UpdateEnvironmentAccountConnectionInputBody: Swift.Decodable {
         roleArn = roleArnDecoded
         let componentRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentRoleArn)
         componentRoleArn = componentRoleArnDecoded
+        let codebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codebuildRoleArn)
+        codebuildRoleArn = codebuildRoleArnDecoded
     }
 }
 
@@ -15133,11 +15437,12 @@ extension UpdateEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable 
 
 extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentInput(componentRoleArn: \(Swift.String(describing: componentRoleArn)), deploymentType: \(Swift.String(describing: deploymentType)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentInput(codebuildRoleArn: \(Swift.String(describing: codebuildRoleArn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), deploymentType: \(Swift.String(describing: deploymentType)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateEnvironmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codebuildRoleArn
         case componentRoleArn
         case deploymentType
         case description
@@ -15152,6 +15457,9 @@ extension UpdateEnvironmentInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codebuildRoleArn = self.codebuildRoleArn {
+            try encodeContainer.encode(codebuildRoleArn, forKey: .codebuildRoleArn)
+        }
         if let componentRoleArn = self.componentRoleArn {
             try encodeContainer.encode(componentRoleArn, forKey: .componentRoleArn)
         }
@@ -15192,6 +15500,8 @@ extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateEnvironmentInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf.
+    public var codebuildRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     public var componentRoleArn: Swift.String?
     /// There are four modes for updating an environment. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
@@ -15216,6 +15526,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     public var templateMinorVersion: Swift.String?
 
     public init (
+        codebuildRoleArn: Swift.String? = nil,
         componentRoleArn: Swift.String? = nil,
         deploymentType: ProtonClientTypes.DeploymentUpdateType? = nil,
         description: Swift.String? = nil,
@@ -15228,6 +15539,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
         templateMinorVersion: Swift.String? = nil
     )
     {
+        self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
         self.deploymentType = deploymentType
         self.description = description
@@ -15252,10 +15564,12 @@ struct UpdateEnvironmentInputBody: Swift.Equatable {
     let environmentAccountConnectionId: Swift.String?
     let provisioningRepository: ProtonClientTypes.RepositoryBranchInput?
     let componentRoleArn: Swift.String?
+    let codebuildRoleArn: Swift.String?
 }
 
 extension UpdateEnvironmentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codebuildRoleArn
         case componentRoleArn
         case deploymentType
         case description
@@ -15290,6 +15604,8 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
         provisioningRepository = provisioningRepositoryDecoded
         let componentRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentRoleArn)
         componentRoleArn = componentRoleArnDecoded
+        let codebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codebuildRoleArn)
+        codebuildRoleArn = codebuildRoleArnDecoded
     }
 }
 

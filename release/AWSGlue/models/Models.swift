@@ -2267,6 +2267,162 @@ extension BatchGetCustomEntityTypesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension BatchGetDataQualityResultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultIds = "ResultIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resultIds = resultIds {
+            var resultIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resultIds)
+            for dataqualityresultids0 in resultIds {
+                try resultIdsContainer.encode(dataqualityresultids0)
+            }
+        }
+    }
+}
+
+extension BatchGetDataQualityResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchGetDataQualityResultInput: Swift.Equatable {
+    /// A list of unique result IDs for the data quality results.
+    /// This member is required.
+    public var resultIds: [Swift.String]?
+
+    public init (
+        resultIds: [Swift.String]? = nil
+    )
+    {
+        self.resultIds = resultIds
+    }
+}
+
+struct BatchGetDataQualityResultInputBody: Swift.Equatable {
+    let resultIds: [Swift.String]?
+}
+
+extension BatchGetDataQualityResultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultIds = "ResultIds"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resultIds)
+        var resultIdsDecoded0:[Swift.String]? = nil
+        if let resultIdsContainer = resultIdsContainer {
+            resultIdsDecoded0 = [Swift.String]()
+            for string0 in resultIdsContainer {
+                if let string0 = string0 {
+                    resultIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resultIds = resultIdsDecoded0
+    }
+}
+
+extension BatchGetDataQualityResultOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchGetDataQualityResultOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum BatchGetDataQualityResultOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchGetDataQualityResultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: BatchGetDataQualityResultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.results = output.results
+            self.resultsNotFound = output.resultsNotFound
+        } else {
+            self.results = nil
+            self.resultsNotFound = nil
+        }
+    }
+}
+
+public struct BatchGetDataQualityResultOutputResponse: Swift.Equatable {
+    /// A list of DataQualityResult objects representing the data quality results.
+    /// This member is required.
+    public var results: [GlueClientTypes.DataQualityResult]?
+    /// A list of result IDs for which results were not found.
+    public var resultsNotFound: [Swift.String]?
+
+    public init (
+        results: [GlueClientTypes.DataQualityResult]? = nil,
+        resultsNotFound: [Swift.String]? = nil
+    )
+    {
+        self.results = results
+        self.resultsNotFound = resultsNotFound
+    }
+}
+
+struct BatchGetDataQualityResultOutputResponseBody: Swift.Equatable {
+    let results: [GlueClientTypes.DataQualityResult]?
+    let resultsNotFound: [Swift.String]?
+}
+
+extension BatchGetDataQualityResultOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results = "Results"
+        case resultsNotFound = "ResultsNotFound"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityResult?].self, forKey: .results)
+        var resultsDecoded0:[GlueClientTypes.DataQualityResult]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [GlueClientTypes.DataQualityResult]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let resultsNotFoundContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resultsNotFound)
+        var resultsNotFoundDecoded0:[Swift.String]? = nil
+        if let resultsNotFoundContainer = resultsNotFoundContainer {
+            resultsNotFoundDecoded0 = [Swift.String]()
+            for string0 in resultsNotFoundContainer {
+                if let string0 = string0 {
+                    resultsNotFoundDecoded0?.append(string0)
+                }
+            }
+        }
+        resultsNotFound = resultsNotFoundDecoded0
+    }
+}
+
 extension BatchGetDevEndpointsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case devEndpointNames = "DevEndpointNames"
@@ -4165,6 +4321,178 @@ extension GlueClientTypes {
 
 }
 
+extension CancelDataQualityRuleRecommendationRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+    }
+}
+
+extension CancelDataQualityRuleRecommendationRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CancelDataQualityRuleRecommendationRunInput: Swift.Equatable {
+    /// The unique run identifier associated with this run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init (
+        runId: Swift.String? = nil
+    )
+    {
+        self.runId = runId
+    }
+}
+
+struct CancelDataQualityRuleRecommendationRunInputBody: Swift.Equatable {
+    let runId: Swift.String?
+}
+
+extension CancelDataQualityRuleRecommendationRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
+extension CancelDataQualityRuleRecommendationRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CancelDataQualityRuleRecommendationRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CancelDataQualityRuleRecommendationRunOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelDataQualityRuleRecommendationRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct CancelDataQualityRuleRecommendationRunOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension CancelDataQualityRulesetEvaluationRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+    }
+}
+
+extension CancelDataQualityRulesetEvaluationRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CancelDataQualityRulesetEvaluationRunInput: Swift.Equatable {
+    /// The unique run identifier associated with this run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init (
+        runId: Swift.String? = nil
+    )
+    {
+        self.runId = runId
+    }
+}
+
+struct CancelDataQualityRulesetEvaluationRunInputBody: Swift.Equatable {
+    let runId: Swift.String?
+}
+
+extension CancelDataQualityRulesetEvaluationRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
+extension CancelDataQualityRulesetEvaluationRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CancelDataQualityRulesetEvaluationRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CancelDataQualityRulesetEvaluationRunOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelDataQualityRulesetEvaluationRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct CancelDataQualityRulesetEvaluationRunOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension CancelMLTaskRunInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case taskRunId = "TaskRunId"
@@ -5247,7 +5575,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case dropDuplicates = "DropDuplicates"
         case dropFields = "DropFields"
         case dropNullFields = "DropNullFields"
+        case dynamicTransform = "DynamicTransform"
         case dynamoDBCatalogSource = "DynamoDBCatalogSource"
+        case evaluateDataQuality = "EvaluateDataQuality"
         case fillMissingValues = "FillMissingValues"
         case filter = "Filter"
         case governedCatalogSource = "GovernedCatalogSource"
@@ -5327,8 +5657,14 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         if let dropNullFields = self.dropNullFields {
             try encodeContainer.encode(dropNullFields, forKey: .dropNullFields)
         }
+        if let dynamicTransform = self.dynamicTransform {
+            try encodeContainer.encode(dynamicTransform, forKey: .dynamicTransform)
+        }
         if let dynamoDBCatalogSource = self.dynamoDBCatalogSource {
             try encodeContainer.encode(dynamoDBCatalogSource, forKey: .dynamoDBCatalogSource)
+        }
+        if let evaluateDataQuality = self.evaluateDataQuality {
+            try encodeContainer.encode(evaluateDataQuality, forKey: .evaluateDataQuality)
         }
         if let fillMissingValues = self.fillMissingValues {
             try encodeContainer.encode(fillMissingValues, forKey: .fillMissingValues)
@@ -5542,6 +5878,10 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         oracleSQLCatalogTarget = oracleSQLCatalogTargetDecoded
         let postgreSQLCatalogTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.PostgreSQLCatalogTarget.self, forKey: .postgreSQLCatalogTarget)
         postgreSQLCatalogTarget = postgreSQLCatalogTargetDecoded
+        let dynamicTransformDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DynamicTransform.self, forKey: .dynamicTransform)
+        dynamicTransform = dynamicTransformDecoded
+        let evaluateDataQualityDecoded = try containerValues.decodeIfPresent(GlueClientTypes.EvaluateDataQuality.self, forKey: .evaluateDataQuality)
+        evaluateDataQuality = evaluateDataQualityDecoded
     }
 }
 
@@ -5574,8 +5914,12 @@ extension GlueClientTypes {
         public var dropFields: GlueClientTypes.DropFields?
         /// Specifies a transform that removes columns from the dataset if all values in the column are 'null'. By default, Glue Studio will recognize null objects, but some values such as empty strings, strings that are "null", -1 integers or other placeholders such as zeros, are not automatically recognized as nulls.
         public var dropNullFields: GlueClientTypes.DropNullFields?
+        /// Specifies a custom visual transform created by a user.
+        public var dynamicTransform: GlueClientTypes.DynamicTransform?
         /// Specifies a DynamoDB data source in the Glue Data Catalog.
         public var dynamoDBCatalogSource: GlueClientTypes.DynamoDBCatalogSource?
+        /// Specifies your data quality evaluation criteria.
+        public var evaluateDataQuality: GlueClientTypes.EvaluateDataQuality?
         /// Specifies a transform that locates records in the dataset that have missing values and adds a new field with a value determined by imputation. The input data set is used to train the machine learning model that determines what the missing value should be.
         public var fillMissingValues: GlueClientTypes.FillMissingValues?
         /// Specifies a transform that splits a dataset into two, based on a filter condition.
@@ -5663,7 +6007,9 @@ extension GlueClientTypes {
             dropDuplicates: GlueClientTypes.DropDuplicates? = nil,
             dropFields: GlueClientTypes.DropFields? = nil,
             dropNullFields: GlueClientTypes.DropNullFields? = nil,
+            dynamicTransform: GlueClientTypes.DynamicTransform? = nil,
             dynamoDBCatalogSource: GlueClientTypes.DynamoDBCatalogSource? = nil,
+            evaluateDataQuality: GlueClientTypes.EvaluateDataQuality? = nil,
             fillMissingValues: GlueClientTypes.FillMissingValues? = nil,
             filter: GlueClientTypes.Filter? = nil,
             governedCatalogSource: GlueClientTypes.GovernedCatalogSource? = nil,
@@ -5715,7 +6061,9 @@ extension GlueClientTypes {
             self.dropDuplicates = dropDuplicates
             self.dropFields = dropFields
             self.dropNullFields = dropNullFields
+            self.dynamicTransform = dynamicTransform
             self.dynamoDBCatalogSource = dynamoDBCatalogSource
+            self.evaluateDataQuality = evaluateDataQuality
             self.fillMissingValues = fillMissingValues
             self.filter = filter
             self.governedCatalogSource = governedCatalogSource
@@ -7780,7 +8128,7 @@ extension GlueClientTypes {
     public struct Crawler: Swift.Equatable {
         /// A list of UTF-8 strings that specify the custom classifiers that are associated with the crawler.
         public var classifiers: [Swift.String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Include and Exclude Patterns](https://docs.aws.amazon.com/glue/latest/dg/define-crawler.html#crawler-data-stores-exclude).
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
         public var configuration: Swift.String?
         /// If the crawler is running, contains the total time elapsed since the last crawl began.
         public var crawlElapsedTime: Swift.Int
@@ -9135,7 +9483,7 @@ extension CreateCrawlerInput: ClientRuntime.URLPathProvider {
 public struct CreateCrawlerInput: Swift.Equatable {
     /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     public var classifiers: [Swift.String]?
-    /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Configuring a Crawler](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
+    /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
     public var configuration: Swift.String?
     /// The name of the SecurityConfiguration structure to be used by this crawler.
     public var crawlerSecurityConfiguration: Swift.String?
@@ -9620,6 +9968,198 @@ struct CreateCustomEntityTypeOutputResponseBody: Swift.Equatable {
 }
 
 extension CreateCustomEntityTypeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension CreateDataQualityRulesetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case name = "Name"
+        case ruleset = "Ruleset"
+        case tags = "Tags"
+        case targetTable = "TargetTable"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let ruleset = self.ruleset {
+            try encodeContainer.encode(ruleset, forKey: .ruleset)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsmap0) in tags {
+                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetTable = self.targetTable {
+            try encodeContainer.encode(targetTable, forKey: .targetTable)
+        }
+    }
+}
+
+extension CreateDataQualityRulesetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateDataQualityRulesetInput: Swift.Equatable {
+    /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
+    public var clientToken: Swift.String?
+    /// A description of the data quality ruleset.
+    public var description: Swift.String?
+    /// A unique name for the data quality ruleset.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+    /// This member is required.
+    public var ruleset: Swift.String?
+    /// A list of tags applied to the data quality ruleset.
+    public var tags: [Swift.String:Swift.String]?
+    /// A target table associated with the data quality ruleset.
+    public var targetTable: GlueClientTypes.DataQualityTargetTable?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        ruleset: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetTable: GlueClientTypes.DataQualityTargetTable? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.ruleset = ruleset
+        self.tags = tags
+        self.targetTable = targetTable
+    }
+}
+
+struct CreateDataQualityRulesetInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let ruleset: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let targetTable: GlueClientTypes.DataQualityTargetTable?
+    let clientToken: Swift.String?
+}
+
+extension CreateDataQualityRulesetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case name = "Name"
+        case ruleset = "Ruleset"
+        case tags = "Tags"
+        case targetTable = "TargetTable"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let rulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleset)
+        ruleset = rulesetDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let targetTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityTargetTable.self, forKey: .targetTable)
+        targetTable = targetTableDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateDataQualityRulesetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateDataQualityRulesetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNumberLimitExceededException" : self = .resourceNumberLimitExceededException(try ResourceNumberLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateDataQualityRulesetOutputError: Swift.Error, Swift.Equatable {
+    case alreadyExistsException(AlreadyExistsException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case resourceNumberLimitExceededException(ResourceNumberLimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDataQualityRulesetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateDataQualityRulesetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.name = output.name
+        } else {
+            self.name = nil
+        }
+    }
+}
+
+public struct CreateDataQualityRulesetOutputResponse: Swift.Equatable {
+    /// A unique name for the data quality ruleset.
+    public var name: Swift.String?
+
+    public init (
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct CreateDataQualityRulesetOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension CreateDataQualityRulesetOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
     }
@@ -10126,7 +10666,7 @@ public struct CreateDevEndpointOutputResponse: Swift.Equatable {
     ///
     /// You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
     public var arguments: [Swift.String:Swift.String]?
-    /// The AWS Availability Zone where this DevEndpoint is located.
+    /// The Amazon Web Services Availability Zone where this DevEndpoint is located.
     public var availabilityZone: Swift.String?
     /// The point in time at which this DevEndpoint was created.
     public var createdTimestamp: ClientRuntime.Date?
@@ -13821,6 +14361,170 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.DQResultsPublishingOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+        case evaluationContext = "EvaluationContext"
+        case resultsPublishingEnabled = "ResultsPublishingEnabled"
+        case resultsS3Prefix = "ResultsS3Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudWatchMetricsEnabled = self.cloudWatchMetricsEnabled {
+            try encodeContainer.encode(cloudWatchMetricsEnabled, forKey: .cloudWatchMetricsEnabled)
+        }
+        if let evaluationContext = self.evaluationContext {
+            try encodeContainer.encode(evaluationContext, forKey: .evaluationContext)
+        }
+        if let resultsPublishingEnabled = self.resultsPublishingEnabled {
+            try encodeContainer.encode(resultsPublishingEnabled, forKey: .resultsPublishingEnabled)
+        }
+        if let resultsS3Prefix = self.resultsS3Prefix {
+            try encodeContainer.encode(resultsS3Prefix, forKey: .resultsS3Prefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationContextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationContext)
+        evaluationContext = evaluationContextDecoded
+        let resultsS3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultsS3Prefix)
+        resultsS3Prefix = resultsS3PrefixDecoded
+        let cloudWatchMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudWatchMetricsEnabled)
+        cloudWatchMetricsEnabled = cloudWatchMetricsEnabledDecoded
+        let resultsPublishingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resultsPublishingEnabled)
+        resultsPublishingEnabled = resultsPublishingEnabledDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Options to configure how your data quality evaluation results are published.
+    public struct DQResultsPublishingOptions: Swift.Equatable {
+        /// Enable metrics for your data quality results.
+        public var cloudWatchMetricsEnabled: Swift.Bool?
+        /// The context of the evaluation.
+        public var evaluationContext: Swift.String?
+        /// Enable publishing for your data quality results.
+        public var resultsPublishingEnabled: Swift.Bool?
+        /// The Amazon S3 prefix prepended to the results.
+        public var resultsS3Prefix: Swift.String?
+
+        public init (
+            cloudWatchMetricsEnabled: Swift.Bool? = nil,
+            evaluationContext: Swift.String? = nil,
+            resultsPublishingEnabled: Swift.Bool? = nil,
+            resultsS3Prefix: Swift.String? = nil
+        )
+        {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.evaluationContext = evaluationContext
+            self.resultsPublishingEnabled = resultsPublishingEnabled
+            self.resultsS3Prefix = resultsS3Prefix
+        }
+    }
+
+}
+
+extension GlueClientTypes.DQStopJobOnFailureOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stopJobOnFailureTiming = "StopJobOnFailureTiming"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stopJobOnFailureTiming = self.stopJobOnFailureTiming {
+            try encodeContainer.encode(stopJobOnFailureTiming.rawValue, forKey: .stopJobOnFailureTiming)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stopJobOnFailureTimingDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DQStopJobOnFailureTiming.self, forKey: .stopJobOnFailureTiming)
+        stopJobOnFailureTiming = stopJobOnFailureTimingDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Options to configure how your job will stop if your data quality evaluation fails.
+    public struct DQStopJobOnFailureOptions: Swift.Equatable {
+        /// When to stop job if your data quality evaluation fails. Options are Immediate or AfterDataLoad.
+        public var stopJobOnFailureTiming: GlueClientTypes.DQStopJobOnFailureTiming?
+
+        public init (
+            stopJobOnFailureTiming: GlueClientTypes.DQStopJobOnFailureTiming? = nil
+        )
+        {
+            self.stopJobOnFailureTiming = stopJobOnFailureTiming
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    public enum DQStopJobOnFailureTiming: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case afterdataload
+        case immediate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DQStopJobOnFailureTiming] {
+            return [
+                .afterdataload,
+                .immediate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .afterdataload: return "AfterDataLoad"
+            case .immediate: return "Immediate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DQStopJobOnFailureTiming(rawValue: rawValue) ?? DQStopJobOnFailureTiming.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GlueClientTypes {
+    public enum DQTransformOutput: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case evaluationresults
+        case primaryinput
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DQTransformOutput] {
+            return [
+                .evaluationresults,
+                .primaryinput,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .evaluationresults: return "EvaluationResults"
+            case .primaryinput: return "PrimaryInput"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DQTransformOutput(rawValue: rawValue) ?? DQTransformOutput.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GlueClientTypes.DataCatalogEncryptionSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionPasswordEncryption = "ConnectionPasswordEncryption"
@@ -13931,6 +14635,963 @@ extension GlueClientTypes {
         )
         {
             self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+        case resultsS3Prefix = "ResultsS3Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudWatchMetricsEnabled = self.cloudWatchMetricsEnabled {
+            try encodeContainer.encode(cloudWatchMetricsEnabled, forKey: .cloudWatchMetricsEnabled)
+        }
+        if let resultsS3Prefix = self.resultsS3Prefix {
+            try encodeContainer.encode(resultsS3Prefix, forKey: .resultsS3Prefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudWatchMetricsEnabled)
+        cloudWatchMetricsEnabled = cloudWatchMetricsEnabledDecoded
+        let resultsS3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultsS3Prefix)
+        resultsS3Prefix = resultsS3PrefixDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Additional run options you can specify for an evaluation run.
+    public struct DataQualityEvaluationRunAdditionalRunOptions: Swift.Equatable {
+        /// Whether or not to enable CloudWatch metrics.
+        public var cloudWatchMetricsEnabled: Swift.Bool?
+        /// Prefix for Amazon S3 to store results.
+        public var resultsS3Prefix: Swift.String?
+
+        public init (
+            cloudWatchMetricsEnabled: Swift.Bool? = nil,
+            resultsS3Prefix: Swift.String? = nil
+        )
+        {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.resultsS3Prefix = resultsS3Prefix
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case completedOn = "CompletedOn"
+        case dataSource = "DataSource"
+        case evaluationContext = "EvaluationContext"
+        case jobName = "JobName"
+        case jobRunId = "JobRunId"
+        case resultId = "ResultId"
+        case ruleResults = "RuleResults"
+        case rulesetEvaluationRunId = "RulesetEvaluationRunId"
+        case rulesetName = "RulesetName"
+        case score = "Score"
+        case startedOn = "StartedOn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let completedOn = self.completedOn {
+            try encodeContainer.encodeTimestamp(completedOn, format: .epochSeconds, forKey: .completedOn)
+        }
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let evaluationContext = self.evaluationContext {
+            try encodeContainer.encode(evaluationContext, forKey: .evaluationContext)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let jobRunId = self.jobRunId {
+            try encodeContainer.encode(jobRunId, forKey: .jobRunId)
+        }
+        if let resultId = self.resultId {
+            try encodeContainer.encode(resultId, forKey: .resultId)
+        }
+        if let ruleResults = ruleResults {
+            var ruleResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleResults)
+            for dataqualityruleresults0 in ruleResults {
+                try ruleResultsContainer.encode(dataqualityruleresults0)
+            }
+        }
+        if let rulesetEvaluationRunId = self.rulesetEvaluationRunId {
+            try encodeContainer.encode(rulesetEvaluationRunId, forKey: .rulesetEvaluationRunId)
+        }
+        if let rulesetName = self.rulesetName {
+            try encodeContainer.encode(rulesetName, forKey: .rulesetName)
+        }
+        if let score = self.score {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+        if let startedOn = self.startedOn {
+            try encodeContainer.encodeTimestamp(startedOn, format: .epochSeconds, forKey: .startedOn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultId)
+        resultId = resultIdDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score)
+        score = scoreDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let rulesetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rulesetName)
+        rulesetName = rulesetNameDecoded
+        let evaluationContextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationContext)
+        evaluationContext = evaluationContextDecoded
+        let startedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedOn)
+        startedOn = startedOnDecoded
+        let completedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedOn)
+        completedOn = completedOnDecoded
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let jobRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobRunId)
+        jobRunId = jobRunIdDecoded
+        let rulesetEvaluationRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rulesetEvaluationRunId)
+        rulesetEvaluationRunId = rulesetEvaluationRunIdDecoded
+        let ruleResultsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityRuleResult?].self, forKey: .ruleResults)
+        var ruleResultsDecoded0:[GlueClientTypes.DataQualityRuleResult]? = nil
+        if let ruleResultsContainer = ruleResultsContainer {
+            ruleResultsDecoded0 = [GlueClientTypes.DataQualityRuleResult]()
+            for structure0 in ruleResultsContainer {
+                if let structure0 = structure0 {
+                    ruleResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ruleResults = ruleResultsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes a data quality result.
+    public struct DataQualityResult: Swift.Equatable {
+        /// The date and time when this data quality run completed.
+        public var completedOn: ClientRuntime.Date?
+        /// The table associated with the data quality result, if any.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
+        public var evaluationContext: Swift.String?
+        /// The job name associated with the data quality result, if any.
+        public var jobName: Swift.String?
+        /// The job run ID associated with the data quality result, if any.
+        public var jobRunId: Swift.String?
+        /// A unique result ID for the data quality result.
+        public var resultId: Swift.String?
+        /// A list of DataQualityRuleResult objects representing the results for each rule.
+        public var ruleResults: [GlueClientTypes.DataQualityRuleResult]?
+        /// The unique run ID for the ruleset evaluation for this data quality result.
+        public var rulesetEvaluationRunId: Swift.String?
+        /// The name of the ruleset associated with the data quality result.
+        public var rulesetName: Swift.String?
+        /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+        public var score: Swift.Double?
+        /// The date and time when this data quality run started.
+        public var startedOn: ClientRuntime.Date?
+
+        public init (
+            completedOn: ClientRuntime.Date? = nil,
+            dataSource: GlueClientTypes.DataSource? = nil,
+            evaluationContext: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobRunId: Swift.String? = nil,
+            resultId: Swift.String? = nil,
+            ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
+            rulesetEvaluationRunId: Swift.String? = nil,
+            rulesetName: Swift.String? = nil,
+            score: Swift.Double? = nil,
+            startedOn: ClientRuntime.Date? = nil
+        )
+        {
+            self.completedOn = completedOn
+            self.dataSource = dataSource
+            self.evaluationContext = evaluationContext
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.resultId = resultId
+            self.ruleResults = ruleResults
+            self.rulesetEvaluationRunId = rulesetEvaluationRunId
+            self.rulesetName = rulesetName
+            self.score = score
+            self.startedOn = startedOn
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityResultDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource = "DataSource"
+        case jobName = "JobName"
+        case jobRunId = "JobRunId"
+        case resultId = "ResultId"
+        case startedOn = "StartedOn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let jobRunId = self.jobRunId {
+            try encodeContainer.encode(jobRunId, forKey: .jobRunId)
+        }
+        if let resultId = self.resultId {
+            try encodeContainer.encode(resultId, forKey: .resultId)
+        }
+        if let startedOn = self.startedOn {
+            try encodeContainer.encodeTimestamp(startedOn, format: .epochSeconds, forKey: .startedOn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultId)
+        resultId = resultIdDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let jobRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobRunId)
+        jobRunId = jobRunIdDecoded
+        let startedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedOn)
+        startedOn = startedOnDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes a data quality result.
+    public struct DataQualityResultDescription: Swift.Equatable {
+        /// The table name associated with the data quality result.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// The job name associated with the data quality result.
+        public var jobName: Swift.String?
+        /// The job run ID associated with the data quality result.
+        public var jobRunId: Swift.String?
+        /// The unique result ID for this data quality result.
+        public var resultId: Swift.String?
+        /// The time that the run started for this data quality result.
+        public var startedOn: ClientRuntime.Date?
+
+        public init (
+            dataSource: GlueClientTypes.DataSource? = nil,
+            jobName: Swift.String? = nil,
+            jobRunId: Swift.String? = nil,
+            resultId: Swift.String? = nil,
+            startedOn: ClientRuntime.Date? = nil
+        )
+        {
+            self.dataSource = dataSource
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.resultId = resultId
+            self.startedOn = startedOn
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityResultFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource = "DataSource"
+        case jobName = "JobName"
+        case jobRunId = "JobRunId"
+        case startedAfter = "StartedAfter"
+        case startedBefore = "StartedBefore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let jobRunId = self.jobRunId {
+            try encodeContainer.encode(jobRunId, forKey: .jobRunId)
+        }
+        if let startedAfter = self.startedAfter {
+            try encodeContainer.encodeTimestamp(startedAfter, format: .epochSeconds, forKey: .startedAfter)
+        }
+        if let startedBefore = self.startedBefore {
+            try encodeContainer.encodeTimestamp(startedBefore, format: .epochSeconds, forKey: .startedBefore)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let jobRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobRunId)
+        jobRunId = jobRunIdDecoded
+        let startedAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedAfter)
+        startedAfter = startedAfterDecoded
+        let startedBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedBefore)
+        startedBefore = startedBeforeDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Criteria used to return data quality results.
+    public struct DataQualityResultFilterCriteria: Swift.Equatable {
+        /// Filter results by the specified data source. For example, retrieving all results for an Glue table.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// Filter results by the specified job name.
+        public var jobName: Swift.String?
+        /// Filter results by the specified job run ID.
+        public var jobRunId: Swift.String?
+        /// Filter results by runs that started after this time.
+        public var startedAfter: ClientRuntime.Date?
+        /// Filter results by runs that started before this time.
+        public var startedBefore: ClientRuntime.Date?
+
+        public init (
+            dataSource: GlueClientTypes.DataSource? = nil,
+            jobName: Swift.String? = nil,
+            jobRunId: Swift.String? = nil,
+            startedAfter: ClientRuntime.Date? = nil,
+            startedBefore: ClientRuntime.Date? = nil
+        )
+        {
+            self.dataSource = dataSource
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityRuleRecommendationRunDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource = "DataSource"
+        case runId = "RunId"
+        case startedOn = "StartedOn"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+        if let startedOn = self.startedOn {
+            try encodeContainer.encodeTimestamp(startedOn, format: .epochSeconds, forKey: .startedOn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TaskStatusType.self, forKey: .status)
+        status = statusDecoded
+        let startedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedOn)
+        startedOn = startedOnDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes the result of a data quality rule recommendation run.
+    public struct DataQualityRuleRecommendationRunDescription: Swift.Equatable {
+        /// The data source (Glue table) associated with the recommendation run.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// The unique run identifier associated with this run.
+        public var runId: Swift.String?
+        /// The date and time when this run started.
+        public var startedOn: ClientRuntime.Date?
+        /// The status for this run.
+        public var status: GlueClientTypes.TaskStatusType?
+
+        public init (
+            dataSource: GlueClientTypes.DataSource? = nil,
+            runId: Swift.String? = nil,
+            startedOn: ClientRuntime.Date? = nil,
+            status: GlueClientTypes.TaskStatusType? = nil
+        )
+        {
+            self.dataSource = dataSource
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityRuleRecommendationRunFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource = "DataSource"
+        case startedAfter = "StartedAfter"
+        case startedBefore = "StartedBefore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let startedAfter = self.startedAfter {
+            try encodeContainer.encodeTimestamp(startedAfter, format: .epochSeconds, forKey: .startedAfter)
+        }
+        if let startedBefore = self.startedBefore {
+            try encodeContainer.encodeTimestamp(startedBefore, format: .epochSeconds, forKey: .startedBefore)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let startedBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedBefore)
+        startedBefore = startedBeforeDecoded
+        let startedAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedAfter)
+        startedAfter = startedAfterDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A filter for listing data quality recommendation runs.
+    public struct DataQualityRuleRecommendationRunFilter: Swift.Equatable {
+        /// Filter based on a specified data source (Glue table).
+        /// This member is required.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// Filter based on time for results started after provided time.
+        public var startedAfter: ClientRuntime.Date?
+        /// Filter based on time for results started before provided time.
+        public var startedBefore: ClientRuntime.Date?
+
+        public init (
+            dataSource: GlueClientTypes.DataSource? = nil,
+            startedAfter: ClientRuntime.Date? = nil,
+            startedBefore: ClientRuntime.Date? = nil
+        )
+        {
+            self.dataSource = dataSource
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityRuleResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case evaluationMessage = "EvaluationMessage"
+        case name = "Name"
+        case result = "Result"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationMessage = self.evaluationMessage {
+            try encodeContainer.encode(evaluationMessage, forKey: .evaluationMessage)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let result = self.result {
+            try encodeContainer.encode(result.rawValue, forKey: .result)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationMessage)
+        evaluationMessage = evaluationMessageDecoded
+        let resultDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityRuleResultStatus.self, forKey: .result)
+        result = resultDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes the result of the evaluation of a data quality rule.
+    public struct DataQualityRuleResult: Swift.Equatable {
+        /// A description of the data quality rule.
+        public var description: Swift.String?
+        /// An evaluation message.
+        public var evaluationMessage: Swift.String?
+        /// The name of the data quality rule.
+        public var name: Swift.String?
+        /// A pass or fail status for the rule.
+        public var result: GlueClientTypes.DataQualityRuleResultStatus?
+
+        public init (
+            description: Swift.String? = nil,
+            evaluationMessage: Swift.String? = nil,
+            name: Swift.String? = nil,
+            result: GlueClientTypes.DataQualityRuleResultStatus? = nil
+        )
+        {
+            self.description = description
+            self.evaluationMessage = evaluationMessage
+            self.name = name
+            self.result = result
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    public enum DataQualityRuleResultStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case error
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityRuleResultStatus] {
+            return [
+                .error,
+                .fail,
+                .pass,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataQualityRuleResultStatus(rawValue: rawValue) ?? DataQualityRuleResultStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GlueClientTypes.DataQualityRulesetEvaluationRunDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource = "DataSource"
+        case runId = "RunId"
+        case startedOn = "StartedOn"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+        if let startedOn = self.startedOn {
+            try encodeContainer.encodeTimestamp(startedOn, format: .epochSeconds, forKey: .startedOn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TaskStatusType.self, forKey: .status)
+        status = statusDecoded
+        let startedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedOn)
+        startedOn = startedOnDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes the result of a data quality ruleset evaluation run.
+    public struct DataQualityRulesetEvaluationRunDescription: Swift.Equatable {
+        /// The data source (an Glue table) associated with the run.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// The unique run identifier associated with this run.
+        public var runId: Swift.String?
+        /// The date and time when the run started.
+        public var startedOn: ClientRuntime.Date?
+        /// The status for this run.
+        public var status: GlueClientTypes.TaskStatusType?
+
+        public init (
+            dataSource: GlueClientTypes.DataSource? = nil,
+            runId: Swift.String? = nil,
+            startedOn: ClientRuntime.Date? = nil,
+            status: GlueClientTypes.TaskStatusType? = nil
+        )
+        {
+            self.dataSource = dataSource
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityRulesetEvaluationRunFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource = "DataSource"
+        case startedAfter = "StartedAfter"
+        case startedBefore = "StartedBefore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let startedAfter = self.startedAfter {
+            try encodeContainer.encodeTimestamp(startedAfter, format: .epochSeconds, forKey: .startedAfter)
+        }
+        if let startedBefore = self.startedBefore {
+            try encodeContainer.encodeTimestamp(startedBefore, format: .epochSeconds, forKey: .startedBefore)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let startedBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedBefore)
+        startedBefore = startedBeforeDecoded
+        let startedAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedAfter)
+        startedAfter = startedAfterDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// The filter criteria.
+    public struct DataQualityRulesetEvaluationRunFilter: Swift.Equatable {
+        /// Filter based on a data source (an Glue table) associated with the run.
+        /// This member is required.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// Filter results by runs that started after this time.
+        public var startedAfter: ClientRuntime.Date?
+        /// Filter results by runs that started before this time.
+        public var startedBefore: ClientRuntime.Date?
+
+        public init (
+            dataSource: GlueClientTypes.DataSource? = nil,
+            startedAfter: ClientRuntime.Date? = nil,
+            startedBefore: ClientRuntime.Date? = nil
+        )
+        {
+            self.dataSource = dataSource
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityRulesetFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAfter = "CreatedAfter"
+        case createdBefore = "CreatedBefore"
+        case description = "Description"
+        case lastModifiedAfter = "LastModifiedAfter"
+        case lastModifiedBefore = "LastModifiedBefore"
+        case name = "Name"
+        case targetTable = "TargetTable"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAfter = self.createdAfter {
+            try encodeContainer.encodeTimestamp(createdAfter, format: .epochSeconds, forKey: .createdAfter)
+        }
+        if let createdBefore = self.createdBefore {
+            try encodeContainer.encodeTimestamp(createdBefore, format: .epochSeconds, forKey: .createdBefore)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastModifiedAfter = self.lastModifiedAfter {
+            try encodeContainer.encodeTimestamp(lastModifiedAfter, format: .epochSeconds, forKey: .lastModifiedAfter)
+        }
+        if let lastModifiedBefore = self.lastModifiedBefore {
+            try encodeContainer.encodeTimestamp(lastModifiedBefore, format: .epochSeconds, forKey: .lastModifiedBefore)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let targetTable = self.targetTable {
+            try encodeContainer.encode(targetTable, forKey: .targetTable)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdBefore)
+        createdBefore = createdBeforeDecoded
+        let createdAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAfter)
+        createdAfter = createdAfterDecoded
+        let lastModifiedBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedBefore)
+        lastModifiedBefore = lastModifiedBeforeDecoded
+        let lastModifiedAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAfter)
+        lastModifiedAfter = lastModifiedAfterDecoded
+        let targetTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityTargetTable.self, forKey: .targetTable)
+        targetTable = targetTableDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// The criteria used to filter data quality rulesets.
+    public struct DataQualityRulesetFilterCriteria: Swift.Equatable {
+        /// Filter on rulesets created after this date.
+        public var createdAfter: ClientRuntime.Date?
+        /// Filter on rulesets created before this date.
+        public var createdBefore: ClientRuntime.Date?
+        /// The description of the ruleset filter criteria.
+        public var description: Swift.String?
+        /// Filter on rulesets last modified after this date.
+        public var lastModifiedAfter: ClientRuntime.Date?
+        /// Filter on rulesets last modified before this date.
+        public var lastModifiedBefore: ClientRuntime.Date?
+        /// The name of the ruleset filter criteria.
+        public var name: Swift.String?
+        /// The name and database name of the target table.
+        public var targetTable: GlueClientTypes.DataQualityTargetTable?
+
+        public init (
+            createdAfter: ClientRuntime.Date? = nil,
+            createdBefore: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            lastModifiedAfter: ClientRuntime.Date? = nil,
+            lastModifiedBefore: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            targetTable: GlueClientTypes.DataQualityTargetTable? = nil
+        )
+        {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.description = description
+            self.lastModifiedAfter = lastModifiedAfter
+            self.lastModifiedBefore = lastModifiedBefore
+            self.name = name
+            self.targetTable = targetTable
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityRulesetListDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdOn = "CreatedOn"
+        case description = "Description"
+        case lastModifiedOn = "LastModifiedOn"
+        case name = "Name"
+        case recommendationRunId = "RecommendationRunId"
+        case ruleCount = "RuleCount"
+        case targetTable = "TargetTable"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdOn = self.createdOn {
+            try encodeContainer.encodeTimestamp(createdOn, format: .epochSeconds, forKey: .createdOn)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastModifiedOn = self.lastModifiedOn {
+            try encodeContainer.encodeTimestamp(lastModifiedOn, format: .epochSeconds, forKey: .lastModifiedOn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let recommendationRunId = self.recommendationRunId {
+            try encodeContainer.encode(recommendationRunId, forKey: .recommendationRunId)
+        }
+        if let ruleCount = self.ruleCount {
+            try encodeContainer.encode(ruleCount, forKey: .ruleCount)
+        }
+        if let targetTable = self.targetTable {
+            try encodeContainer.encode(targetTable, forKey: .targetTable)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdOn)
+        createdOn = createdOnDecoded
+        let lastModifiedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedOn)
+        lastModifiedOn = lastModifiedOnDecoded
+        let targetTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityTargetTable.self, forKey: .targetTable)
+        targetTable = targetTableDecoded
+        let recommendationRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationRunId)
+        recommendationRunId = recommendationRunIdDecoded
+        let ruleCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleCount)
+        ruleCount = ruleCountDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes a data quality ruleset returned by GetDataQualityRuleset.
+    public struct DataQualityRulesetListDetails: Swift.Equatable {
+        /// The date and time the data quality ruleset was created.
+        public var createdOn: ClientRuntime.Date?
+        /// A description of the data quality ruleset.
+        public var description: Swift.String?
+        /// The date and time the data quality ruleset was last modified.
+        public var lastModifiedOn: ClientRuntime.Date?
+        /// The name of the data quality ruleset.
+        public var name: Swift.String?
+        /// When a ruleset was created from a recommendation run, this run ID is generated to link the two together.
+        public var recommendationRunId: Swift.String?
+        /// The number of rules in the ruleset.
+        public var ruleCount: Swift.Int?
+        /// An object representing an Glue table.
+        public var targetTable: GlueClientTypes.DataQualityTargetTable?
+
+        public init (
+            createdOn: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            lastModifiedOn: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            recommendationRunId: Swift.String? = nil,
+            ruleCount: Swift.Int? = nil,
+            targetTable: GlueClientTypes.DataQualityTargetTable? = nil
+        )
+        {
+            self.createdOn = createdOn
+            self.description = description
+            self.lastModifiedOn = lastModifiedOn
+            self.name = name
+            self.recommendationRunId = recommendationRunId
+            self.ruleCount = ruleCount
+            self.targetTable = targetTable
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityTargetTable: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// An object representing an Glue table.
+    public struct DataQualityTargetTable: Swift.Equatable {
+        /// The name of the database where the Glue table exists.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The name of the Glue table.
+        /// This member is required.
+        public var tableName: Swift.String?
+
+        public init (
+            databaseName: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        )
+        {
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case glueTable = "GlueTable"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let glueTable = self.glueTable {
+            try encodeContainer.encode(glueTable, forKey: .glueTable)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let glueTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.GlueTable.self, forKey: .glueTable)
+        glueTable = glueTableDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A data source (an Glue table) for which you want data quality results.
+    public struct DataSource: Swift.Equatable {
+        /// An Glue table.
+        /// This member is required.
+        public var glueTable: GlueClientTypes.GlueTable?
+
+        public init (
+            glueTable: GlueClientTypes.GlueTable? = nil
+        )
+        {
+            self.glueTable = glueTable
         }
     }
 
@@ -15255,6 +16916,92 @@ extension DeleteCustomEntityTypeOutputResponseBody: Swift.Decodable {
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
+}
+
+extension DeleteDataQualityRulesetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DeleteDataQualityRulesetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDataQualityRulesetInput: Swift.Equatable {
+    /// A name for the data quality ruleset.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteDataQualityRulesetInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension DeleteDataQualityRulesetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DeleteDataQualityRulesetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteDataQualityRulesetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteDataQualityRulesetOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDataQualityRulesetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteDataQualityRulesetOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension DeleteDatabaseInput: Swift.Encodable {
@@ -17546,7 +19293,7 @@ extension GlueClientTypes {
         ///
         /// You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public var arguments: [Swift.String:Swift.String]?
-        /// The AWS Availability Zone where this DevEndpoint is located.
+        /// The Amazon Web Services Availability Zone where this DevEndpoint is located.
         public var availabilityZone: Swift.String?
         /// The point in time at which this DevEndpoint was created.
         public var createdTimestamp: ClientRuntime.Date?
@@ -18269,6 +20016,130 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.DynamicTransform: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case functionName = "FunctionName"
+        case inputs = "Inputs"
+        case name = "Name"
+        case parameters = "Parameters"
+        case path = "Path"
+        case transformName = "TransformName"
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let functionName = self.functionName {
+            try encodeContainer.encode(functionName, forKey: .functionName)
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for oneinput0 in inputs {
+                try inputsContainer.encode(oneinput0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for transformconfigparameterlist0 in parameters {
+                try parametersContainer.encode(transformconfigparameterlist0)
+            }
+        }
+        if let path = self.path {
+            try encodeContainer.encode(path, forKey: .path)
+        }
+        if let transformName = self.transformName {
+            try encodeContainer.encode(transformName, forKey: .transformName)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let transformNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transformName)
+        transformName = transformNameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let parametersContainer = try containerValues.decodeIfPresent([GlueClientTypes.TransformConfigParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[GlueClientTypes.TransformConfigParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [GlueClientTypes.TransformConfigParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
+        functionName = functionNameDecoded
+        let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
+        path = pathDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies the set of parameters needed to perform the dynamic transform.
+    public struct DynamicTransform: Swift.Equatable {
+        /// Specifies the name of the function of the dynamic transform.
+        /// This member is required.
+        public var functionName: Swift.String?
+        /// Specifies the inputs for the dynamic transform that are required.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// Specifies the name of the dynamic transform.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the parameters of the dynamic transform.
+        public var parameters: [GlueClientTypes.TransformConfigParameter]?
+        /// Specifies the path of the dynamic transform source and config files.
+        /// This member is required.
+        public var path: Swift.String?
+        /// Specifies the name of the dynamic transform as it appears in the Glue Studio visual editor.
+        /// This member is required.
+        public var transformName: Swift.String?
+        /// This field is not used and will be deprecated in future release.
+        public var version: Swift.String?
+
+        public init (
+            functionName: Swift.String? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            parameters: [GlueClientTypes.TransformConfigParameter]? = nil,
+            path: Swift.String? = nil,
+            transformName: Swift.String? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.functionName = functionName
+            self.inputs = inputs
+            self.name = name
+            self.parameters = parameters
+            self.path = path
+            self.transformName = transformName
+            self.version = version
+        }
+    }
+
+}
+
 extension GlueClientTypes.DynamoDBCatalogSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case database = "Database"
@@ -18710,6 +20581,106 @@ extension GlueClientTypes {
         {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
+        }
+    }
+
+}
+
+extension GlueClientTypes.EvaluateDataQuality: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputs = "Inputs"
+        case name = "Name"
+        case output = "Output"
+        case publishingOptions = "PublishingOptions"
+        case ruleset = "Ruleset"
+        case stopJobOnFailureOptions = "StopJobOnFailureOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for oneinput0 in inputs {
+                try inputsContainer.encode(oneinput0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let output = self.output {
+            try encodeContainer.encode(output.rawValue, forKey: .output)
+        }
+        if let publishingOptions = self.publishingOptions {
+            try encodeContainer.encode(publishingOptions, forKey: .publishingOptions)
+        }
+        if let ruleset = self.ruleset {
+            try encodeContainer.encode(ruleset, forKey: .ruleset)
+        }
+        if let stopJobOnFailureOptions = self.stopJobOnFailureOptions {
+            try encodeContainer.encode(stopJobOnFailureOptions, forKey: .stopJobOnFailureOptions)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let rulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleset)
+        ruleset = rulesetDecoded
+        let outputDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DQTransformOutput.self, forKey: .output)
+        output = outputDecoded
+        let publishingOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DQResultsPublishingOptions.self, forKey: .publishingOptions)
+        publishingOptions = publishingOptionsDecoded
+        let stopJobOnFailureOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DQStopJobOnFailureOptions.self, forKey: .stopJobOnFailureOptions)
+        stopJobOnFailureOptions = stopJobOnFailureOptionsDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies your data quality evaluation criteria.
+    public struct EvaluateDataQuality: Swift.Equatable {
+        /// The inputs of your data quality evaluation.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The name of the data quality evaluation.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The output of your data quality evaluation.
+        public var output: GlueClientTypes.DQTransformOutput?
+        /// Options to configure how your results are published.
+        public var publishingOptions: GlueClientTypes.DQResultsPublishingOptions?
+        /// The ruleset for your data quality evaluation.
+        /// This member is required.
+        public var ruleset: Swift.String?
+        /// Options to configure how your job will stop if your data quality evaluation fails.
+        public var stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions?
+
+        public init (
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            output: GlueClientTypes.DQTransformOutput? = nil,
+            publishingOptions: GlueClientTypes.DQResultsPublishingOptions? = nil,
+            ruleset: Swift.String? = nil,
+            stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions? = nil
+        )
+        {
+            self.inputs = inputs
+            self.name = name
+            self.output = output
+            self.publishingOptions = publishingOptions
+            self.ruleset = ruleset
+            self.stopJobOnFailureOptions = stopJobOnFailureOptions
         }
     }
 
@@ -21931,6 +23902,911 @@ extension GetDataCatalogEncryptionSettingsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataCatalogEncryptionSettingsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataCatalogEncryptionSettings.self, forKey: .dataCatalogEncryptionSettings)
         dataCatalogEncryptionSettings = dataCatalogEncryptionSettingsDecoded
+    }
+}
+
+extension GetDataQualityResultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultId = "ResultId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resultId = self.resultId {
+            try encodeContainer.encode(resultId, forKey: .resultId)
+        }
+    }
+}
+
+extension GetDataQualityResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDataQualityResultInput: Swift.Equatable {
+    /// A unique result ID for the data quality result.
+    /// This member is required.
+    public var resultId: Swift.String?
+
+    public init (
+        resultId: Swift.String? = nil
+    )
+    {
+        self.resultId = resultId
+    }
+}
+
+struct GetDataQualityResultInputBody: Swift.Equatable {
+    let resultId: Swift.String?
+}
+
+extension GetDataQualityResultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultId = "ResultId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultId)
+        resultId = resultIdDecoded
+    }
+}
+
+extension GetDataQualityResultOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetDataQualityResultOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetDataQualityResultOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDataQualityResultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetDataQualityResultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.completedOn = output.completedOn
+            self.dataSource = output.dataSource
+            self.evaluationContext = output.evaluationContext
+            self.jobName = output.jobName
+            self.jobRunId = output.jobRunId
+            self.resultId = output.resultId
+            self.ruleResults = output.ruleResults
+            self.rulesetEvaluationRunId = output.rulesetEvaluationRunId
+            self.rulesetName = output.rulesetName
+            self.score = output.score
+            self.startedOn = output.startedOn
+        } else {
+            self.completedOn = nil
+            self.dataSource = nil
+            self.evaluationContext = nil
+            self.jobName = nil
+            self.jobRunId = nil
+            self.resultId = nil
+            self.ruleResults = nil
+            self.rulesetEvaluationRunId = nil
+            self.rulesetName = nil
+            self.score = nil
+            self.startedOn = nil
+        }
+    }
+}
+
+public struct GetDataQualityResultOutputResponse: Swift.Equatable {
+    /// The date and time when the run for this data quality result was completed.
+    public var completedOn: ClientRuntime.Date?
+    /// The table associated with the data quality result, if any.
+    public var dataSource: GlueClientTypes.DataSource?
+    /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
+    public var evaluationContext: Swift.String?
+    /// The job name associated with the data quality result, if any.
+    public var jobName: Swift.String?
+    /// The job run ID associated with the data quality result, if any.
+    public var jobRunId: Swift.String?
+    /// A unique result ID for the data quality result.
+    public var resultId: Swift.String?
+    /// A list of DataQualityRuleResult objects representing the results for each rule.
+    public var ruleResults: [GlueClientTypes.DataQualityRuleResult]?
+    /// The unique run ID associated with the ruleset evaluation.
+    public var rulesetEvaluationRunId: Swift.String?
+    /// The name of the ruleset associated with the data quality result.
+    public var rulesetName: Swift.String?
+    /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+    public var score: Swift.Double?
+    /// The date and time when the run for this data quality result started.
+    public var startedOn: ClientRuntime.Date?
+
+    public init (
+        completedOn: ClientRuntime.Date? = nil,
+        dataSource: GlueClientTypes.DataSource? = nil,
+        evaluationContext: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobRunId: Swift.String? = nil,
+        resultId: Swift.String? = nil,
+        ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
+        rulesetEvaluationRunId: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        score: Swift.Double? = nil,
+        startedOn: ClientRuntime.Date? = nil
+    )
+    {
+        self.completedOn = completedOn
+        self.dataSource = dataSource
+        self.evaluationContext = evaluationContext
+        self.jobName = jobName
+        self.jobRunId = jobRunId
+        self.resultId = resultId
+        self.ruleResults = ruleResults
+        self.rulesetEvaluationRunId = rulesetEvaluationRunId
+        self.rulesetName = rulesetName
+        self.score = score
+        self.startedOn = startedOn
+    }
+}
+
+struct GetDataQualityResultOutputResponseBody: Swift.Equatable {
+    let resultId: Swift.String?
+    let score: Swift.Double?
+    let dataSource: GlueClientTypes.DataSource?
+    let rulesetName: Swift.String?
+    let evaluationContext: Swift.String?
+    let startedOn: ClientRuntime.Date?
+    let completedOn: ClientRuntime.Date?
+    let jobName: Swift.String?
+    let jobRunId: Swift.String?
+    let rulesetEvaluationRunId: Swift.String?
+    let ruleResults: [GlueClientTypes.DataQualityRuleResult]?
+}
+
+extension GetDataQualityResultOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case completedOn = "CompletedOn"
+        case dataSource = "DataSource"
+        case evaluationContext = "EvaluationContext"
+        case jobName = "JobName"
+        case jobRunId = "JobRunId"
+        case resultId = "ResultId"
+        case ruleResults = "RuleResults"
+        case rulesetEvaluationRunId = "RulesetEvaluationRunId"
+        case rulesetName = "RulesetName"
+        case score = "Score"
+        case startedOn = "StartedOn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultId)
+        resultId = resultIdDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score)
+        score = scoreDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let rulesetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rulesetName)
+        rulesetName = rulesetNameDecoded
+        let evaluationContextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationContext)
+        evaluationContext = evaluationContextDecoded
+        let startedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedOn)
+        startedOn = startedOnDecoded
+        let completedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedOn)
+        completedOn = completedOnDecoded
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let jobRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobRunId)
+        jobRunId = jobRunIdDecoded
+        let rulesetEvaluationRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rulesetEvaluationRunId)
+        rulesetEvaluationRunId = rulesetEvaluationRunIdDecoded
+        let ruleResultsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityRuleResult?].self, forKey: .ruleResults)
+        var ruleResultsDecoded0:[GlueClientTypes.DataQualityRuleResult]? = nil
+        if let ruleResultsContainer = ruleResultsContainer {
+            ruleResultsDecoded0 = [GlueClientTypes.DataQualityRuleResult]()
+            for structure0 in ruleResultsContainer {
+                if let structure0 = structure0 {
+                    ruleResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ruleResults = ruleResultsDecoded0
+    }
+}
+
+extension GetDataQualityRuleRecommendationRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+    }
+}
+
+extension GetDataQualityRuleRecommendationRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDataQualityRuleRecommendationRunInput: Swift.Equatable {
+    /// The unique run identifier associated with this run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init (
+        runId: Swift.String? = nil
+    )
+    {
+        self.runId = runId
+    }
+}
+
+struct GetDataQualityRuleRecommendationRunInputBody: Swift.Equatable {
+    let runId: Swift.String?
+}
+
+extension GetDataQualityRuleRecommendationRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
+extension GetDataQualityRuleRecommendationRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetDataQualityRuleRecommendationRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetDataQualityRuleRecommendationRunOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDataQualityRuleRecommendationRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetDataQualityRuleRecommendationRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.completedOn = output.completedOn
+            self.createdRulesetName = output.createdRulesetName
+            self.dataSource = output.dataSource
+            self.errorString = output.errorString
+            self.executionTime = output.executionTime
+            self.lastModifiedOn = output.lastModifiedOn
+            self.numberOfWorkers = output.numberOfWorkers
+            self.recommendedRuleset = output.recommendedRuleset
+            self.role = output.role
+            self.runId = output.runId
+            self.startedOn = output.startedOn
+            self.status = output.status
+            self.timeout = output.timeout
+        } else {
+            self.completedOn = nil
+            self.createdRulesetName = nil
+            self.dataSource = nil
+            self.errorString = nil
+            self.executionTime = 0
+            self.lastModifiedOn = nil
+            self.numberOfWorkers = nil
+            self.recommendedRuleset = nil
+            self.role = nil
+            self.runId = nil
+            self.startedOn = nil
+            self.status = nil
+            self.timeout = nil
+        }
+    }
+}
+
+public struct GetDataQualityRuleRecommendationRunOutputResponse: Swift.Equatable {
+    /// The date and time when this run was completed.
+    public var completedOn: ClientRuntime.Date?
+    /// The name of the ruleset that was created by the run.
+    public var createdRulesetName: Swift.String?
+    /// The data source (an Glue table) associated with this run.
+    public var dataSource: GlueClientTypes.DataSource?
+    /// The error strings that are associated with the run.
+    public var errorString: Swift.String?
+    /// The amount of time (in seconds) that the run consumed resources.
+    public var executionTime: Swift.Int
+    /// A timestamp. The last point in time when this data quality rule recommendation run was modified.
+    public var lastModifiedOn: ClientRuntime.Date?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// When a start rule recommendation run completes, it creates a recommended ruleset (a set of rules). This member has those rules in Data Quality Definition Language (DQDL) format.
+    public var recommendedRuleset: Swift.String?
+    /// An IAM role supplied to encrypt the results of the run.
+    public var role: Swift.String?
+    /// The unique run identifier associated with this run.
+    public var runId: Swift.String?
+    /// The date and time when this run started.
+    public var startedOn: ClientRuntime.Date?
+    /// The status for this run.
+    public var status: GlueClientTypes.TaskStatusType?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+
+    public init (
+        completedOn: ClientRuntime.Date? = nil,
+        createdRulesetName: Swift.String? = nil,
+        dataSource: GlueClientTypes.DataSource? = nil,
+        errorString: Swift.String? = nil,
+        executionTime: Swift.Int = 0,
+        lastModifiedOn: ClientRuntime.Date? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        recommendedRuleset: Swift.String? = nil,
+        role: Swift.String? = nil,
+        runId: Swift.String? = nil,
+        startedOn: ClientRuntime.Date? = nil,
+        status: GlueClientTypes.TaskStatusType? = nil,
+        timeout: Swift.Int? = nil
+    )
+    {
+        self.completedOn = completedOn
+        self.createdRulesetName = createdRulesetName
+        self.dataSource = dataSource
+        self.errorString = errorString
+        self.executionTime = executionTime
+        self.lastModifiedOn = lastModifiedOn
+        self.numberOfWorkers = numberOfWorkers
+        self.recommendedRuleset = recommendedRuleset
+        self.role = role
+        self.runId = runId
+        self.startedOn = startedOn
+        self.status = status
+        self.timeout = timeout
+    }
+}
+
+struct GetDataQualityRuleRecommendationRunOutputResponseBody: Swift.Equatable {
+    let runId: Swift.String?
+    let dataSource: GlueClientTypes.DataSource?
+    let role: Swift.String?
+    let numberOfWorkers: Swift.Int?
+    let timeout: Swift.Int?
+    let status: GlueClientTypes.TaskStatusType?
+    let errorString: Swift.String?
+    let startedOn: ClientRuntime.Date?
+    let lastModifiedOn: ClientRuntime.Date?
+    let completedOn: ClientRuntime.Date?
+    let executionTime: Swift.Int
+    let recommendedRuleset: Swift.String?
+    let createdRulesetName: Swift.String?
+}
+
+extension GetDataQualityRuleRecommendationRunOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case completedOn = "CompletedOn"
+        case createdRulesetName = "CreatedRulesetName"
+        case dataSource = "DataSource"
+        case errorString = "ErrorString"
+        case executionTime = "ExecutionTime"
+        case lastModifiedOn = "LastModifiedOn"
+        case numberOfWorkers = "NumberOfWorkers"
+        case recommendedRuleset = "RecommendedRuleset"
+        case role = "Role"
+        case runId = "RunId"
+        case startedOn = "StartedOn"
+        case status = "Status"
+        case timeout = "Timeout"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        let numberOfWorkersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfWorkers)
+        numberOfWorkers = numberOfWorkersDecoded
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
+        timeout = timeoutDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TaskStatusType.self, forKey: .status)
+        status = statusDecoded
+        let errorStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorString)
+        errorString = errorStringDecoded
+        let startedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedOn)
+        startedOn = startedOnDecoded
+        let lastModifiedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedOn)
+        lastModifiedOn = lastModifiedOnDecoded
+        let completedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedOn)
+        completedOn = completedOnDecoded
+        let executionTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .executionTime) ?? 0
+        executionTime = executionTimeDecoded
+        let recommendedRulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendedRuleset)
+        recommendedRuleset = recommendedRulesetDecoded
+        let createdRulesetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdRulesetName)
+        createdRulesetName = createdRulesetNameDecoded
+    }
+}
+
+extension GetDataQualityRulesetEvaluationRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+    }
+}
+
+extension GetDataQualityRulesetEvaluationRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDataQualityRulesetEvaluationRunInput: Swift.Equatable {
+    /// The unique run identifier associated with this run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init (
+        runId: Swift.String? = nil
+    )
+    {
+        self.runId = runId
+    }
+}
+
+struct GetDataQualityRulesetEvaluationRunInputBody: Swift.Equatable {
+    let runId: Swift.String?
+}
+
+extension GetDataQualityRulesetEvaluationRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
+extension GetDataQualityRulesetEvaluationRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetDataQualityRulesetEvaluationRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetDataQualityRulesetEvaluationRunOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDataQualityRulesetEvaluationRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetDataQualityRulesetEvaluationRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.additionalRunOptions = output.additionalRunOptions
+            self.completedOn = output.completedOn
+            self.dataSource = output.dataSource
+            self.errorString = output.errorString
+            self.executionTime = output.executionTime
+            self.lastModifiedOn = output.lastModifiedOn
+            self.numberOfWorkers = output.numberOfWorkers
+            self.resultIds = output.resultIds
+            self.role = output.role
+            self.rulesetNames = output.rulesetNames
+            self.runId = output.runId
+            self.startedOn = output.startedOn
+            self.status = output.status
+            self.timeout = output.timeout
+        } else {
+            self.additionalRunOptions = nil
+            self.completedOn = nil
+            self.dataSource = nil
+            self.errorString = nil
+            self.executionTime = 0
+            self.lastModifiedOn = nil
+            self.numberOfWorkers = nil
+            self.resultIds = nil
+            self.role = nil
+            self.rulesetNames = nil
+            self.runId = nil
+            self.startedOn = nil
+            self.status = nil
+            self.timeout = nil
+        }
+    }
+}
+
+public struct GetDataQualityRulesetEvaluationRunOutputResponse: Swift.Equatable {
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
+    /// The date and time when this run was completed.
+    public var completedOn: ClientRuntime.Date?
+    /// The data source (an Glue table) associated with this evaluation run.
+    public var dataSource: GlueClientTypes.DataSource?
+    /// The error strings that are associated with the run.
+    public var errorString: Swift.String?
+    /// The amount of time (in seconds) that the run consumed resources.
+    public var executionTime: Swift.Int
+    /// A timestamp. The last point in time when this data quality rule recommendation run was modified.
+    public var lastModifiedOn: ClientRuntime.Date?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// A list of result IDs for the data quality results for the run.
+    public var resultIds: [Swift.String]?
+    /// An IAM role supplied to encrypt the results of the run.
+    public var role: Swift.String?
+    /// A list of ruleset names for the run.
+    public var rulesetNames: [Swift.String]?
+    /// The unique run identifier associated with this run.
+    public var runId: Swift.String?
+    /// The date and time when this run started.
+    public var startedOn: ClientRuntime.Date?
+    /// The status for this run.
+    public var status: GlueClientTypes.TaskStatusType?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+
+    public init (
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions? = nil,
+        completedOn: ClientRuntime.Date? = nil,
+        dataSource: GlueClientTypes.DataSource? = nil,
+        errorString: Swift.String? = nil,
+        executionTime: Swift.Int = 0,
+        lastModifiedOn: ClientRuntime.Date? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        resultIds: [Swift.String]? = nil,
+        role: Swift.String? = nil,
+        rulesetNames: [Swift.String]? = nil,
+        runId: Swift.String? = nil,
+        startedOn: ClientRuntime.Date? = nil,
+        status: GlueClientTypes.TaskStatusType? = nil,
+        timeout: Swift.Int? = nil
+    )
+    {
+        self.additionalRunOptions = additionalRunOptions
+        self.completedOn = completedOn
+        self.dataSource = dataSource
+        self.errorString = errorString
+        self.executionTime = executionTime
+        self.lastModifiedOn = lastModifiedOn
+        self.numberOfWorkers = numberOfWorkers
+        self.resultIds = resultIds
+        self.role = role
+        self.rulesetNames = rulesetNames
+        self.runId = runId
+        self.startedOn = startedOn
+        self.status = status
+        self.timeout = timeout
+    }
+}
+
+struct GetDataQualityRulesetEvaluationRunOutputResponseBody: Swift.Equatable {
+    let runId: Swift.String?
+    let dataSource: GlueClientTypes.DataSource?
+    let role: Swift.String?
+    let numberOfWorkers: Swift.Int?
+    let timeout: Swift.Int?
+    let additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
+    let status: GlueClientTypes.TaskStatusType?
+    let errorString: Swift.String?
+    let startedOn: ClientRuntime.Date?
+    let lastModifiedOn: ClientRuntime.Date?
+    let completedOn: ClientRuntime.Date?
+    let executionTime: Swift.Int
+    let rulesetNames: [Swift.String]?
+    let resultIds: [Swift.String]?
+}
+
+extension GetDataQualityRulesetEvaluationRunOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalRunOptions = "AdditionalRunOptions"
+        case completedOn = "CompletedOn"
+        case dataSource = "DataSource"
+        case errorString = "ErrorString"
+        case executionTime = "ExecutionTime"
+        case lastModifiedOn = "LastModifiedOn"
+        case numberOfWorkers = "NumberOfWorkers"
+        case resultIds = "ResultIds"
+        case role = "Role"
+        case rulesetNames = "RulesetNames"
+        case runId = "RunId"
+        case startedOn = "StartedOn"
+        case status = "Status"
+        case timeout = "Timeout"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        let numberOfWorkersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfWorkers)
+        numberOfWorkers = numberOfWorkersDecoded
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
+        timeout = timeoutDecoded
+        let additionalRunOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions.self, forKey: .additionalRunOptions)
+        additionalRunOptions = additionalRunOptionsDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TaskStatusType.self, forKey: .status)
+        status = statusDecoded
+        let errorStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorString)
+        errorString = errorStringDecoded
+        let startedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedOn)
+        startedOn = startedOnDecoded
+        let lastModifiedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedOn)
+        lastModifiedOn = lastModifiedOnDecoded
+        let completedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedOn)
+        completedOn = completedOnDecoded
+        let executionTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .executionTime) ?? 0
+        executionTime = executionTimeDecoded
+        let rulesetNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rulesetNames)
+        var rulesetNamesDecoded0:[Swift.String]? = nil
+        if let rulesetNamesContainer = rulesetNamesContainer {
+            rulesetNamesDecoded0 = [Swift.String]()
+            for string0 in rulesetNamesContainer {
+                if let string0 = string0 {
+                    rulesetNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        rulesetNames = rulesetNamesDecoded0
+        let resultIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resultIds)
+        var resultIdsDecoded0:[Swift.String]? = nil
+        if let resultIdsContainer = resultIdsContainer {
+            resultIdsDecoded0 = [Swift.String]()
+            for string0 in resultIdsContainer {
+                if let string0 = string0 {
+                    resultIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resultIds = resultIdsDecoded0
+    }
+}
+
+extension GetDataQualityRulesetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension GetDataQualityRulesetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDataQualityRulesetInput: Swift.Equatable {
+    /// The name of the ruleset.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct GetDataQualityRulesetInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension GetDataQualityRulesetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension GetDataQualityRulesetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetDataQualityRulesetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetDataQualityRulesetOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDataQualityRulesetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetDataQualityRulesetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createdOn = output.createdOn
+            self.description = output.description
+            self.lastModifiedOn = output.lastModifiedOn
+            self.name = output.name
+            self.recommendationRunId = output.recommendationRunId
+            self.ruleset = output.ruleset
+            self.targetTable = output.targetTable
+        } else {
+            self.createdOn = nil
+            self.description = nil
+            self.lastModifiedOn = nil
+            self.name = nil
+            self.recommendationRunId = nil
+            self.ruleset = nil
+            self.targetTable = nil
+        }
+    }
+}
+
+public struct GetDataQualityRulesetOutputResponse: Swift.Equatable {
+    /// A timestamp. The time and date that this data quality ruleset was created.
+    public var createdOn: ClientRuntime.Date?
+    /// A description of the ruleset.
+    public var description: Swift.String?
+    /// A timestamp. The last point in time when this data quality ruleset was modified.
+    public var lastModifiedOn: ClientRuntime.Date?
+    /// The name of the ruleset.
+    public var name: Swift.String?
+    /// When a ruleset was created from a recommendation run, this run ID is generated to link the two together.
+    public var recommendationRunId: Swift.String?
+    /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+    public var ruleset: Swift.String?
+    /// The name and database name of the target table.
+    public var targetTable: GlueClientTypes.DataQualityTargetTable?
+
+    public init (
+        createdOn: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        lastModifiedOn: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        recommendationRunId: Swift.String? = nil,
+        ruleset: Swift.String? = nil,
+        targetTable: GlueClientTypes.DataQualityTargetTable? = nil
+    )
+    {
+        self.createdOn = createdOn
+        self.description = description
+        self.lastModifiedOn = lastModifiedOn
+        self.name = name
+        self.recommendationRunId = recommendationRunId
+        self.ruleset = ruleset
+        self.targetTable = targetTable
+    }
+}
+
+struct GetDataQualityRulesetOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let ruleset: Swift.String?
+    let targetTable: GlueClientTypes.DataQualityTargetTable?
+    let createdOn: ClientRuntime.Date?
+    let lastModifiedOn: ClientRuntime.Date?
+    let recommendationRunId: Swift.String?
+}
+
+extension GetDataQualityRulesetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdOn = "CreatedOn"
+        case description = "Description"
+        case lastModifiedOn = "LastModifiedOn"
+        case name = "Name"
+        case recommendationRunId = "RecommendationRunId"
+        case ruleset = "Ruleset"
+        case targetTable = "TargetTable"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let rulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleset)
+        ruleset = rulesetDecoded
+        let targetTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityTargetTable.self, forKey: .targetTable)
+        targetTable = targetTableDecoded
+        let createdOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdOn)
+        createdOn = createdOnDecoded
+        let lastModifiedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedOn)
+        lastModifiedOn = lastModifiedOnDecoded
+        let recommendationRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationRunId)
+        recommendationRunId = recommendationRunIdDecoded
     }
 }
 
@@ -29965,7 +32841,7 @@ extension GlueClientTypes.GlueSchema: Swift.Codable {
 }
 
 extension GlueClientTypes {
-    /// Specifies a user-defined schema when a schema cannot be determined by AWS Glue.
+    /// Specifies a user-defined schema when a schema cannot be determined by Glue.
     public struct GlueSchema: Swift.Equatable {
         /// Specifies the column definitions that make up a Glue schema.
         public var columns: [GlueClientTypes.GlueStudioSchemaColumn]?
@@ -30028,6 +32904,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.GlueTable: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalOptions = "AdditionalOptions"
         case catalogId = "CatalogId"
         case connectionName = "ConnectionName"
         case databaseName = "DatabaseName"
@@ -30036,6 +32913,12 @@ extension GlueClientTypes.GlueTable: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalOptions = additionalOptions {
+            var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
+            for (dictKey0, gluetableadditionaloptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(gluetableadditionaloptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let catalogId = self.catalogId {
             try encodeContainer.encode(catalogId, forKey: .catalogId)
         }
@@ -30060,12 +32943,29 @@ extension GlueClientTypes.GlueTable: Swift.Codable {
         catalogId = catalogIdDecoded
         let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
         connectionName = connectionNameDecoded
+        let additionalOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalOptions)
+        var additionalOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalOptionsContainer = additionalOptionsContainer {
+            additionalOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, descriptionstring0) in additionalOptionsContainer {
+                if let descriptionstring0 = descriptionstring0 {
+                    additionalOptionsDecoded0?[key0] = descriptionstring0
+                }
+            }
+        }
+        additionalOptions = additionalOptionsDecoded0
     }
 }
 
 extension GlueClientTypes {
     /// The database and table in the Glue Data Catalog that is used for input or output data.
     public struct GlueTable: Swift.Equatable {
+        /// Additional options for the table. Currently there are two keys supported:
+        ///
+        /// * pushDownPredicate: to filter on partitions without having to list and read all the files in your dataset.
+        ///
+        /// * catalogPartitionPredicate: to use server-side partition pruning using partition indexes in the Glue Data Catalog.
+        public var additionalOptions: [Swift.String:Swift.String]?
         /// A unique identifier for the Glue Data Catalog.
         public var catalogId: Swift.String?
         /// The name of the connection to the Glue Data Catalog.
@@ -30078,12 +32978,14 @@ extension GlueClientTypes {
         public var tableName: Swift.String?
 
         public init (
+            additionalOptions: [Swift.String:Swift.String]? = nil,
             catalogId: Swift.String? = nil,
             connectionName: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
         )
         {
+            self.additionalOptions = additionalOptions
             self.catalogId = catalogId
             self.connectionName = connectionName
             self.databaseName = databaseName
@@ -31431,9 +34333,42 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes {
+    public enum JdbcMetadataEntry: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case comments
+        case rawtypes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JdbcMetadataEntry] {
+            return [
+                .comments,
+                .rawtypes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .comments: return "COMMENTS"
+            case .rawtypes: return "RAWTYPES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JdbcMetadataEntry(rawValue: rawValue) ?? JdbcMetadataEntry.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GlueClientTypes.JdbcTarget: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionName = "ConnectionName"
+        case enableAdditionalMetadata = "EnableAdditionalMetadata"
         case exclusions = "Exclusions"
         case path = "Path"
     }
@@ -31442,6 +34377,12 @@ extension GlueClientTypes.JdbcTarget: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectionName = self.connectionName {
             try encodeContainer.encode(connectionName, forKey: .connectionName)
+        }
+        if let enableAdditionalMetadata = enableAdditionalMetadata {
+            var enableAdditionalMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enableAdditionalMetadata)
+            for enableadditionalmetadata0 in enableAdditionalMetadata {
+                try enableAdditionalMetadataContainer.encode(enableadditionalmetadata0.rawValue)
+            }
         }
         if let exclusions = exclusions {
             var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
@@ -31471,6 +34412,17 @@ extension GlueClientTypes.JdbcTarget: Swift.Codable {
             }
         }
         exclusions = exclusionsDecoded0
+        let enableAdditionalMetadataContainer = try containerValues.decodeIfPresent([GlueClientTypes.JdbcMetadataEntry?].self, forKey: .enableAdditionalMetadata)
+        var enableAdditionalMetadataDecoded0:[GlueClientTypes.JdbcMetadataEntry]? = nil
+        if let enableAdditionalMetadataContainer = enableAdditionalMetadataContainer {
+            enableAdditionalMetadataDecoded0 = [GlueClientTypes.JdbcMetadataEntry]()
+            for enum0 in enableAdditionalMetadataContainer {
+                if let enum0 = enum0 {
+                    enableAdditionalMetadataDecoded0?.append(enum0)
+                }
+            }
+        }
+        enableAdditionalMetadata = enableAdditionalMetadataDecoded0
     }
 }
 
@@ -31479,6 +34431,8 @@ extension GlueClientTypes {
     public struct JdbcTarget: Swift.Equatable {
         /// The name of the connection to use to connect to the JDBC target.
         public var connectionName: Swift.String?
+        /// Specify a value of RAWTYPES or COMMENTS to enable additional metadata in table responses. RAWTYPES provides the native-level datatype. COMMENTS provides comments associated with a column or table in the database. If you do not need additional metadata, keep the field empty.
+        public var enableAdditionalMetadata: [GlueClientTypes.JdbcMetadataEntry]?
         /// A list of glob patterns used to exclude from the crawl. For more information, see [Catalog Tables with a Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html).
         public var exclusions: [Swift.String]?
         /// The path of the JDBC target.
@@ -31486,11 +34440,13 @@ extension GlueClientTypes {
 
         public init (
             connectionName: Swift.String? = nil,
+            enableAdditionalMetadata: [GlueClientTypes.JdbcMetadataEntry]? = nil,
             exclusions: [Swift.String]? = nil,
             path: Swift.String? = nil
         )
         {
             self.connectionName = connectionName
+            self.enableAdditionalMetadata = enableAdditionalMetadata
             self.exclusions = exclusions
             self.path = path
         }
@@ -34435,6 +37391,661 @@ extension ListCustomEntityTypesOutputResponseBody: Swift.Decodable {
             }
         }
         customEntityTypes = customEntityTypesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDataQualityResultsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListDataQualityResultsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDataQualityResultsInput: Swift.Equatable {
+    /// The filter criteria.
+    public var filter: GlueClientTypes.DataQualityResultFilterCriteria?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A paginated token to offset the results.
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: GlueClientTypes.DataQualityResultFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDataQualityResultsInputBody: Swift.Equatable {
+    let filter: GlueClientTypes.DataQualityResultFilterCriteria?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListDataQualityResultsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityResultFilterCriteria.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListDataQualityResultsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDataQualityResultsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListDataQualityResultsOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDataQualityResultsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListDataQualityResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct ListDataQualityResultsOutputResponse: Swift.Equatable {
+    /// A pagination token, if more results are available.
+    public var nextToken: Swift.String?
+    /// A list of DataQualityResultDescription objects.
+    /// This member is required.
+    public var results: [GlueClientTypes.DataQualityResultDescription]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        results: [GlueClientTypes.DataQualityResultDescription]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct ListDataQualityResultsOutputResponseBody: Swift.Equatable {
+    let results: [GlueClientTypes.DataQualityResultDescription]?
+    let nextToken: Swift.String?
+}
+
+extension ListDataQualityResultsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case results = "Results"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityResultDescription?].self, forKey: .results)
+        var resultsDecoded0:[GlueClientTypes.DataQualityResultDescription]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [GlueClientTypes.DataQualityResultDescription]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDataQualityRuleRecommendationRunsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListDataQualityRuleRecommendationRunsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDataQualityRuleRecommendationRunsInput: Swift.Equatable {
+    /// The filter criteria.
+    public var filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A paginated token to offset the results.
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDataQualityRuleRecommendationRunsInputBody: Swift.Equatable {
+    let filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListDataQualityRuleRecommendationRunsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityRuleRecommendationRunFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListDataQualityRuleRecommendationRunsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDataQualityRuleRecommendationRunsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListDataQualityRuleRecommendationRunsOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDataQualityRuleRecommendationRunsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListDataQualityRuleRecommendationRunsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.runs = output.runs
+        } else {
+            self.nextToken = nil
+            self.runs = nil
+        }
+    }
+}
+
+public struct ListDataQualityRuleRecommendationRunsOutputResponse: Swift.Equatable {
+    /// A pagination token, if more results are available.
+    public var nextToken: Swift.String?
+    /// A list of DataQualityRuleRecommendationRunDescription objects.
+    public var runs: [GlueClientTypes.DataQualityRuleRecommendationRunDescription]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        runs: [GlueClientTypes.DataQualityRuleRecommendationRunDescription]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.runs = runs
+    }
+}
+
+struct ListDataQualityRuleRecommendationRunsOutputResponseBody: Swift.Equatable {
+    let runs: [GlueClientTypes.DataQualityRuleRecommendationRunDescription]?
+    let nextToken: Swift.String?
+}
+
+extension ListDataQualityRuleRecommendationRunsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case runs = "Runs"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityRuleRecommendationRunDescription?].self, forKey: .runs)
+        var runsDecoded0:[GlueClientTypes.DataQualityRuleRecommendationRunDescription]? = nil
+        if let runsContainer = runsContainer {
+            runsDecoded0 = [GlueClientTypes.DataQualityRuleRecommendationRunDescription]()
+            for structure0 in runsContainer {
+                if let structure0 = structure0 {
+                    runsDecoded0?.append(structure0)
+                }
+            }
+        }
+        runs = runsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDataQualityRulesetEvaluationRunsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListDataQualityRulesetEvaluationRunsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDataQualityRulesetEvaluationRunsInput: Swift.Equatable {
+    /// The filter criteria.
+    public var filter: GlueClientTypes.DataQualityRulesetEvaluationRunFilter?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A paginated token to offset the results.
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: GlueClientTypes.DataQualityRulesetEvaluationRunFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDataQualityRulesetEvaluationRunsInputBody: Swift.Equatable {
+    let filter: GlueClientTypes.DataQualityRulesetEvaluationRunFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListDataQualityRulesetEvaluationRunsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityRulesetEvaluationRunFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListDataQualityRulesetEvaluationRunsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDataQualityRulesetEvaluationRunsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListDataQualityRulesetEvaluationRunsOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDataQualityRulesetEvaluationRunsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListDataQualityRulesetEvaluationRunsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.runs = output.runs
+        } else {
+            self.nextToken = nil
+            self.runs = nil
+        }
+    }
+}
+
+public struct ListDataQualityRulesetEvaluationRunsOutputResponse: Swift.Equatable {
+    /// A pagination token, if more results are available.
+    public var nextToken: Swift.String?
+    /// A list of DataQualityRulesetEvaluationRunDescription objects representing data quality ruleset runs.
+    public var runs: [GlueClientTypes.DataQualityRulesetEvaluationRunDescription]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        runs: [GlueClientTypes.DataQualityRulesetEvaluationRunDescription]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.runs = runs
+    }
+}
+
+struct ListDataQualityRulesetEvaluationRunsOutputResponseBody: Swift.Equatable {
+    let runs: [GlueClientTypes.DataQualityRulesetEvaluationRunDescription]?
+    let nextToken: Swift.String?
+}
+
+extension ListDataQualityRulesetEvaluationRunsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case runs = "Runs"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityRulesetEvaluationRunDescription?].self, forKey: .runs)
+        var runsDecoded0:[GlueClientTypes.DataQualityRulesetEvaluationRunDescription]? = nil
+        if let runsContainer = runsContainer {
+            runsDecoded0 = [GlueClientTypes.DataQualityRulesetEvaluationRunDescription]()
+            for structure0 in runsContainer {
+                if let structure0 = structure0 {
+                    runsDecoded0?.append(structure0)
+                }
+            }
+        }
+        runs = runsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDataQualityRulesetsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsmap0) in tags {
+                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension ListDataQualityRulesetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDataQualityRulesetsInput: Swift.Equatable {
+    /// The filter criteria.
+    public var filter: GlueClientTypes.DataQualityRulesetFilterCriteria?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A paginated token to offset the results.
+    public var nextToken: Swift.String?
+    /// A list of key-value pair tags.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        filter: GlueClientTypes.DataQualityRulesetFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.tags = tags
+    }
+}
+
+struct ListDataQualityRulesetsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let filter: GlueClientTypes.DataQualityRulesetFilterCriteria?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension ListDataQualityRulesetsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityRulesetFilterCriteria.self, forKey: .filter)
+        filter = filterDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ListDataQualityRulesetsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDataQualityRulesetsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListDataQualityRulesetsOutputError: Swift.Error, Swift.Equatable {
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDataQualityRulesetsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListDataQualityRulesetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.rulesets = output.rulesets
+        } else {
+            self.nextToken = nil
+            self.rulesets = nil
+        }
+    }
+}
+
+public struct ListDataQualityRulesetsOutputResponse: Swift.Equatable {
+    /// A pagination token, if more results are available.
+    public var nextToken: Swift.String?
+    /// A paginated list of rulesets for the specified list of Glue tables.
+    public var rulesets: [GlueClientTypes.DataQualityRulesetListDetails]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        rulesets: [GlueClientTypes.DataQualityRulesetListDetails]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.rulesets = rulesets
+    }
+}
+
+struct ListDataQualityRulesetsOutputResponseBody: Swift.Equatable {
+    let rulesets: [GlueClientTypes.DataQualityRulesetListDetails]?
+    let nextToken: Swift.String?
+}
+
+extension ListDataQualityRulesetsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case rulesets = "Rulesets"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rulesetsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityRulesetListDetails?].self, forKey: .rulesets)
+        var rulesetsDecoded0:[GlueClientTypes.DataQualityRulesetListDetails]? = nil
+        if let rulesetsContainer = rulesetsContainer {
+            rulesetsDecoded0 = [GlueClientTypes.DataQualityRulesetListDetails]()
+            for structure0 in rulesetsContainer {
+                if let structure0 = structure0 {
+                    rulesetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rulesets = rulesetsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -38234,6 +41845,53 @@ extension GlueClientTypes {
         }
     }
 
+}
+
+extension GlueClientTypes {
+    public enum ParamType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bool
+        case complex
+        case float
+        case int
+        case list
+        case null
+        case str
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParamType] {
+            return [
+                .bool,
+                .complex,
+                .float,
+                .int,
+                .list,
+                .null,
+                .str,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bool: return "bool"
+            case .complex: return "complex"
+            case .float: return "float"
+            case .int: return "int"
+            case .list: return "list"
+            case .null: return "null"
+            case .str: return "str"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ParamType(rawValue: rawValue) ?? ParamType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GlueClientTypes {
@@ -46278,6 +49936,389 @@ public struct StartCrawlerScheduleOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension StartDataQualityRuleRecommendationRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case createdRulesetName = "CreatedRulesetName"
+        case dataSource = "DataSource"
+        case numberOfWorkers = "NumberOfWorkers"
+        case role = "Role"
+        case timeout = "Timeout"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let createdRulesetName = self.createdRulesetName {
+            try encodeContainer.encode(createdRulesetName, forKey: .createdRulesetName)
+        }
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let numberOfWorkers = self.numberOfWorkers {
+            try encodeContainer.encode(numberOfWorkers, forKey: .numberOfWorkers)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role, forKey: .role)
+        }
+        if let timeout = self.timeout {
+            try encodeContainer.encode(timeout, forKey: .timeout)
+        }
+    }
+}
+
+extension StartDataQualityRuleRecommendationRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartDataQualityRuleRecommendationRunInput: Swift.Equatable {
+    /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
+    public var clientToken: Swift.String?
+    /// A name for the ruleset.
+    public var createdRulesetName: Swift.String?
+    /// The data source (Glue table) associated with this run.
+    /// This member is required.
+    public var dataSource: GlueClientTypes.DataSource?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// An IAM role supplied to encrypt the results of the run.
+    /// This member is required.
+    public var role: Swift.String?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        createdRulesetName: Swift.String? = nil,
+        dataSource: GlueClientTypes.DataSource? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        role: Swift.String? = nil,
+        timeout: Swift.Int? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.createdRulesetName = createdRulesetName
+        self.dataSource = dataSource
+        self.numberOfWorkers = numberOfWorkers
+        self.role = role
+        self.timeout = timeout
+    }
+}
+
+struct StartDataQualityRuleRecommendationRunInputBody: Swift.Equatable {
+    let dataSource: GlueClientTypes.DataSource?
+    let role: Swift.String?
+    let numberOfWorkers: Swift.Int?
+    let timeout: Swift.Int?
+    let createdRulesetName: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension StartDataQualityRuleRecommendationRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case createdRulesetName = "CreatedRulesetName"
+        case dataSource = "DataSource"
+        case numberOfWorkers = "NumberOfWorkers"
+        case role = "Role"
+        case timeout = "Timeout"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        let numberOfWorkersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfWorkers)
+        numberOfWorkers = numberOfWorkersDecoded
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
+        timeout = timeoutDecoded
+        let createdRulesetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdRulesetName)
+        createdRulesetName = createdRulesetNameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension StartDataQualityRuleRecommendationRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartDataQualityRuleRecommendationRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartDataQualityRuleRecommendationRunOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartDataQualityRuleRecommendationRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartDataQualityRuleRecommendationRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.runId = output.runId
+        } else {
+            self.runId = nil
+        }
+    }
+}
+
+public struct StartDataQualityRuleRecommendationRunOutputResponse: Swift.Equatable {
+    /// The unique run identifier associated with this run.
+    public var runId: Swift.String?
+
+    public init (
+        runId: Swift.String? = nil
+    )
+    {
+        self.runId = runId
+    }
+}
+
+struct StartDataQualityRuleRecommendationRunOutputResponseBody: Swift.Equatable {
+    let runId: Swift.String?
+}
+
+extension StartDataQualityRuleRecommendationRunOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
+extension StartDataQualityRulesetEvaluationRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalRunOptions = "AdditionalRunOptions"
+        case clientToken = "ClientToken"
+        case dataSource = "DataSource"
+        case numberOfWorkers = "NumberOfWorkers"
+        case role = "Role"
+        case rulesetNames = "RulesetNames"
+        case timeout = "Timeout"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalRunOptions = self.additionalRunOptions {
+            try encodeContainer.encode(additionalRunOptions, forKey: .additionalRunOptions)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let numberOfWorkers = self.numberOfWorkers {
+            try encodeContainer.encode(numberOfWorkers, forKey: .numberOfWorkers)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role, forKey: .role)
+        }
+        if let rulesetNames = rulesetNames {
+            var rulesetNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesetNames)
+            for rulesetnames0 in rulesetNames {
+                try rulesetNamesContainer.encode(rulesetnames0)
+            }
+        }
+        if let timeout = self.timeout {
+            try encodeContainer.encode(timeout, forKey: .timeout)
+        }
+    }
+}
+
+extension StartDataQualityRulesetEvaluationRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartDataQualityRulesetEvaluationRunInput: Swift.Equatable {
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
+    /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
+    public var clientToken: Swift.String?
+    /// The data source (Glue table) associated with this run.
+    /// This member is required.
+    public var dataSource: GlueClientTypes.DataSource?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// An IAM role supplied to encrypt the results of the run.
+    /// This member is required.
+    public var role: Swift.String?
+    /// A list of ruleset names.
+    /// This member is required.
+    public var rulesetNames: [Swift.String]?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+
+    public init (
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions? = nil,
+        clientToken: Swift.String? = nil,
+        dataSource: GlueClientTypes.DataSource? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        role: Swift.String? = nil,
+        rulesetNames: [Swift.String]? = nil,
+        timeout: Swift.Int? = nil
+    )
+    {
+        self.additionalRunOptions = additionalRunOptions
+        self.clientToken = clientToken
+        self.dataSource = dataSource
+        self.numberOfWorkers = numberOfWorkers
+        self.role = role
+        self.rulesetNames = rulesetNames
+        self.timeout = timeout
+    }
+}
+
+struct StartDataQualityRulesetEvaluationRunInputBody: Swift.Equatable {
+    let dataSource: GlueClientTypes.DataSource?
+    let role: Swift.String?
+    let numberOfWorkers: Swift.Int?
+    let timeout: Swift.Int?
+    let clientToken: Swift.String?
+    let additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
+    let rulesetNames: [Swift.String]?
+}
+
+extension StartDataQualityRulesetEvaluationRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalRunOptions = "AdditionalRunOptions"
+        case clientToken = "ClientToken"
+        case dataSource = "DataSource"
+        case numberOfWorkers = "NumberOfWorkers"
+        case role = "Role"
+        case rulesetNames = "RulesetNames"
+        case timeout = "Timeout"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        let numberOfWorkersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfWorkers)
+        numberOfWorkers = numberOfWorkersDecoded
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
+        timeout = timeoutDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let additionalRunOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions.self, forKey: .additionalRunOptions)
+        additionalRunOptions = additionalRunOptionsDecoded
+        let rulesetNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rulesetNames)
+        var rulesetNamesDecoded0:[Swift.String]? = nil
+        if let rulesetNamesContainer = rulesetNamesContainer {
+            rulesetNamesDecoded0 = [Swift.String]()
+            for string0 in rulesetNamesContainer {
+                if let string0 = string0 {
+                    rulesetNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        rulesetNames = rulesetNamesDecoded0
+    }
+}
+
+extension StartDataQualityRulesetEvaluationRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartDataQualityRulesetEvaluationRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartDataQualityRulesetEvaluationRunOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartDataQualityRulesetEvaluationRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartDataQualityRulesetEvaluationRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.runId = output.runId
+        } else {
+            self.runId = nil
+        }
+    }
+}
+
+public struct StartDataQualityRulesetEvaluationRunOutputResponse: Swift.Equatable {
+    /// The unique run identifier associated with this run.
+    public var runId: Swift.String?
+
+    public init (
+        runId: Swift.String? = nil
+    )
+    {
+        self.runId = runId
+    }
+}
+
+struct StartDataQualityRulesetEvaluationRunOutputResponseBody: Swift.Equatable {
+    let runId: Swift.String?
+}
+
+extension StartDataQualityRulesetEvaluationRunOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runId = "RunId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
 extension StartExportLabelsTaskRunInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case outputS3Path = "OutputS3Path"
@@ -49769,6 +53810,115 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes.TransformConfigParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isOptional = "IsOptional"
+        case listType = "ListType"
+        case name = "Name"
+        case type = "Type"
+        case validationMessage = "ValidationMessage"
+        case validationRule = "ValidationRule"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isOptional = self.isOptional {
+            try encodeContainer.encode(isOptional, forKey: .isOptional)
+        }
+        if let listType = self.listType {
+            try encodeContainer.encode(listType.rawValue, forKey: .listType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let validationMessage = self.validationMessage {
+            try encodeContainer.encode(validationMessage, forKey: .validationMessage)
+        }
+        if let validationRule = self.validationRule {
+            try encodeContainer.encode(validationRule, forKey: .validationRule)
+        }
+        if let value = value {
+            var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
+            for enclosedinstringproperties0 in value {
+                try valueContainer.encode(enclosedinstringproperties0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ParamType.self, forKey: .type)
+        type = typeDecoded
+        let validationRuleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationRule)
+        validationRule = validationRuleDecoded
+        let validationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationMessage)
+        validationMessage = validationMessageDecoded
+        let valueContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .value)
+        var valueDecoded0:[Swift.String]? = nil
+        if let valueContainer = valueContainer {
+            valueDecoded0 = [Swift.String]()
+            for string0 in valueContainer {
+                if let string0 = string0 {
+                    valueDecoded0?.append(string0)
+                }
+            }
+        }
+        value = valueDecoded0
+        let listTypeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ParamType.self, forKey: .listType)
+        listType = listTypeDecoded
+        let isOptionalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isOptional)
+        isOptional = isOptionalDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies the parameters in the config file of the dynamic transform.
+    public struct TransformConfigParameter: Swift.Equatable {
+        /// Specifies whether the parameter is optional or not in the config file of the dynamic transform.
+        public var isOptional: Swift.Bool?
+        /// Specifies the list type of the parameter in the config file of the dynamic transform.
+        public var listType: GlueClientTypes.ParamType?
+        /// Specifies the name of the parameter in the config file of the dynamic transform.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the parameter type in the config file of the dynamic transform.
+        /// This member is required.
+        public var type: GlueClientTypes.ParamType?
+        /// Specifies the validation message in the config file of the dynamic transform.
+        public var validationMessage: Swift.String?
+        /// Specifies the validation rule in the config file of the dynamic transform.
+        public var validationRule: Swift.String?
+        /// Specifies the value of the parameter in the config file of the dynamic transform.
+        public var value: [Swift.String]?
+
+        public init (
+            isOptional: Swift.Bool? = nil,
+            listType: GlueClientTypes.ParamType? = nil,
+            name: Swift.String? = nil,
+            type: GlueClientTypes.ParamType? = nil,
+            validationMessage: Swift.String? = nil,
+            validationRule: Swift.String? = nil,
+            value: [Swift.String]? = nil
+        )
+        {
+            self.isOptional = isOptional
+            self.listType = listType
+            self.name = name
+            self.type = type
+            self.validationMessage = validationMessage
+            self.validationRule = validationRule
+            self.value = value
+        }
+    }
+
+}
+
 extension GlueClientTypes.TransformEncryption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mlUserDataEncryption = "MlUserDataEncryption"
@@ -51673,7 +55823,7 @@ extension UpdateCrawlerInput: ClientRuntime.URLPathProvider {
 public struct UpdateCrawlerInput: Swift.Equatable {
     /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     public var classifiers: [Swift.String]?
-    /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Configuring a Crawler](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
+    /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
     public var configuration: Swift.String?
     /// The name of the SecurityConfiguration structure to be used by this crawler.
     public var crawlerSecurityConfiguration: Swift.String?
@@ -52090,6 +56240,185 @@ extension GlueClientTypes {
         }
     }
 
+}
+
+extension UpdateDataQualityRulesetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case ruleset = "Ruleset"
+        case updatedName = "UpdatedName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let ruleset = self.ruleset {
+            try encodeContainer.encode(ruleset, forKey: .ruleset)
+        }
+        if let updatedName = self.updatedName {
+            try encodeContainer.encode(updatedName, forKey: .updatedName)
+        }
+    }
+}
+
+extension UpdateDataQualityRulesetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateDataQualityRulesetInput: Swift.Equatable {
+    /// A description of the ruleset.
+    public var description: Swift.String?
+    /// The name of the data quality ruleset.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+    public var ruleset: Swift.String?
+    /// The new name of the ruleset, if you are renaming it.
+    public var updatedName: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        ruleset: Swift.String? = nil,
+        updatedName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.ruleset = ruleset
+        self.updatedName = updatedName
+    }
+}
+
+struct UpdateDataQualityRulesetInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let updatedName: Swift.String?
+    let description: Swift.String?
+    let ruleset: Swift.String?
+}
+
+extension UpdateDataQualityRulesetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case ruleset = "Ruleset"
+        case updatedName = "UpdatedName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let updatedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedName)
+        updatedName = updatedNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let rulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleset)
+        ruleset = rulesetDecoded
+    }
+}
+
+extension UpdateDataQualityRulesetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateDataQualityRulesetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "IdempotentParameterMismatchException" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNumberLimitExceededException" : self = .resourceNumberLimitExceededException(try ResourceNumberLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateDataQualityRulesetOutputError: Swift.Error, Swift.Equatable {
+    case alreadyExistsException(AlreadyExistsException)
+    case entityNotFoundException(EntityNotFoundException)
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case resourceNumberLimitExceededException(ResourceNumberLimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDataQualityRulesetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateDataQualityRulesetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.name = output.name
+            self.ruleset = output.ruleset
+        } else {
+            self.description = nil
+            self.name = nil
+            self.ruleset = nil
+        }
+    }
+}
+
+public struct UpdateDataQualityRulesetOutputResponse: Swift.Equatable {
+    /// A description of the ruleset.
+    public var description: Swift.String?
+    /// The name of the data quality ruleset.
+    public var name: Swift.String?
+    /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+    public var ruleset: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        ruleset: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.ruleset = ruleset
+    }
+}
+
+struct UpdateDataQualityRulesetOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let ruleset: Swift.String?
+}
+
+extension UpdateDataQualityRulesetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case ruleset = "Ruleset"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let rulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleset)
+        ruleset = rulesetDecoded
+    }
 }
 
 extension UpdateDatabaseInput: Swift.Encodable {

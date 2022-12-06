@@ -59,6 +59,7 @@ extension S3ControlClientTypes.AccessPoint: Swift.Codable {
         case accessPointArn = "AccessPointArn"
         case alias = "Alias"
         case bucket = "Bucket"
+        case bucketAccountId = "BucketAccountId"
         case name = "Name"
         case networkOrigin = "NetworkOrigin"
         case vpcConfiguration = "VpcConfiguration"
@@ -77,6 +78,9 @@ extension S3ControlClientTypes.AccessPoint: Swift.Codable {
         }
         if let bucket = bucket {
             try container.encode(bucket, forKey: ClientRuntime.Key("Bucket"))
+        }
+        if let bucketAccountId = bucketAccountId {
+            try container.encode(bucketAccountId, forKey: ClientRuntime.Key("BucketAccountId"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
@@ -103,6 +107,8 @@ extension S3ControlClientTypes.AccessPoint: Swift.Codable {
         accessPointArn = accessPointArnDecoded
         let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
         alias = aliasDecoded
+        let bucketAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccountId)
+        bucketAccountId = bucketAccountIdDecoded
     }
 }
 
@@ -130,6 +136,8 @@ extension S3ControlClientTypes {
         /// The name of the bucket associated with this access point.
         /// This member is required.
         public var bucket: Swift.String?
+        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+        public var bucketAccountId: Swift.String?
         /// The name of this access point.
         /// This member is required.
         public var name: Swift.String?
@@ -143,6 +151,7 @@ extension S3ControlClientTypes {
             accessPointArn: Swift.String? = nil,
             alias: Swift.String? = nil,
             bucket: Swift.String? = nil,
+            bucketAccountId: Swift.String? = nil,
             name: Swift.String? = nil,
             networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
             vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
@@ -151,6 +160,7 @@ extension S3ControlClientTypes {
             self.accessPointArn = accessPointArn
             self.alias = alias
             self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
             self.name = name
             self.networkOrigin = networkOrigin
             self.vpcConfiguration = vpcConfiguration
@@ -162,7 +172,10 @@ extension S3ControlClientTypes {
 extension S3ControlClientTypes.AccountLevel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activityMetrics = "ActivityMetrics"
+        case advancedCostOptimizationMetrics = "AdvancedCostOptimizationMetrics"
+        case advancedDataProtectionMetrics = "AdvancedDataProtectionMetrics"
         case bucketLevel = "BucketLevel"
+        case detailedStatusCodesMetrics = "DetailedStatusCodesMetrics"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -173,8 +186,17 @@ extension S3ControlClientTypes.AccountLevel: Swift.Codable {
         if let activityMetrics = activityMetrics {
             try container.encode(activityMetrics, forKey: ClientRuntime.Key("ActivityMetrics"))
         }
+        if let advancedCostOptimizationMetrics = advancedCostOptimizationMetrics {
+            try container.encode(advancedCostOptimizationMetrics, forKey: ClientRuntime.Key("AdvancedCostOptimizationMetrics"))
+        }
+        if let advancedDataProtectionMetrics = advancedDataProtectionMetrics {
+            try container.encode(advancedDataProtectionMetrics, forKey: ClientRuntime.Key("AdvancedDataProtectionMetrics"))
+        }
         if let bucketLevel = bucketLevel {
             try container.encode(bucketLevel, forKey: ClientRuntime.Key("BucketLevel"))
+        }
+        if let detailedStatusCodesMetrics = detailedStatusCodesMetrics {
+            try container.encode(detailedStatusCodesMetrics, forKey: ClientRuntime.Key("DetailedStatusCodesMetrics"))
         }
     }
 
@@ -184,6 +206,12 @@ extension S3ControlClientTypes.AccountLevel: Swift.Codable {
         activityMetrics = activityMetricsDecoded
         let bucketLevelDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.BucketLevel.self, forKey: .bucketLevel)
         bucketLevel = bucketLevelDecoded
+        let advancedCostOptimizationMetricsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.AdvancedCostOptimizationMetrics.self, forKey: .advancedCostOptimizationMetrics)
+        advancedCostOptimizationMetrics = advancedCostOptimizationMetricsDecoded
+        let advancedDataProtectionMetricsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.AdvancedDataProtectionMetrics.self, forKey: .advancedDataProtectionMetrics)
+        advancedDataProtectionMetrics = advancedDataProtectionMetricsDecoded
+        let detailedStatusCodesMetricsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.DetailedStatusCodesMetrics.self, forKey: .detailedStatusCodesMetrics)
+        detailedStatusCodesMetrics = detailedStatusCodesMetricsDecoded
     }
 }
 
@@ -202,21 +230,33 @@ extension S3ControlClientTypes.AccountLevel: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ControlClientTypes {
-    /// A container for the account level Amazon S3 Storage Lens configuration.
+    /// A container for the account-level Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
     public struct AccountLevel: Swift.Equatable {
-        /// A container for the S3 Storage Lens activity metrics.
+        /// A container for S3 Storage Lens activity metrics.
         public var activityMetrics: S3ControlClientTypes.ActivityMetrics?
+        /// A container for S3 Storage Lens advanced cost-optimization metrics.
+        public var advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics?
+        /// A container for S3 Storage Lens advanced data-protection metrics.
+        public var advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics?
         /// A container for the S3 Storage Lens bucket-level configuration.
         /// This member is required.
         public var bucketLevel: S3ControlClientTypes.BucketLevel?
+        /// A container for detailed status code metrics.
+        public var detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics?
 
         public init (
             activityMetrics: S3ControlClientTypes.ActivityMetrics? = nil,
-            bucketLevel: S3ControlClientTypes.BucketLevel? = nil
+            advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics? = nil,
+            advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics? = nil,
+            bucketLevel: S3ControlClientTypes.BucketLevel? = nil,
+            detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics? = nil
         )
         {
             self.activityMetrics = activityMetrics
+            self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
+            self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
             self.bucketLevel = bucketLevel
+            self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
         }
     }
 
@@ -259,9 +299,113 @@ extension S3ControlClientTypes.ActivityMetrics: ClientRuntime.DynamicNodeEncodin
 }
 
 extension S3ControlClientTypes {
-    /// A container for the activity metrics.
+    /// The container element for Amazon S3 Storage Lens activity metrics. Activity metrics show details about how your storage is requested, such as requests (for example, All requests, Get requests, Put requests), bytes uploaded or downloaded, and errors. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
     public struct ActivityMetrics: Swift.Equatable {
-        /// A container for whether the activity metrics are enabled.
+        /// A container that indicates whether activity metrics are enabled.
+        public var isEnabled: Swift.Bool
+
+        public init (
+            isEnabled: Swift.Bool = false
+        )
+        {
+            self.isEnabled = isEnabled
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.AdvancedCostOptimizationMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isEnabled = "IsEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if isEnabled != false {
+            try container.encode(isEnabled, forKey: ClientRuntime.Key("IsEnabled"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isEnabled)
+        isEnabled = isEnabledDecoded
+    }
+}
+
+extension S3ControlClientTypes.AdvancedCostOptimizationMetrics: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// The container element for Amazon S3 Storage Lens advanced cost-optimization metrics. Advanced cost-optimization metrics provide insights that you can use to manage and optimize your storage costs, for example, lifecycle rule counts for transitions, expirations, and incomplete multipart uploads. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
+    public struct AdvancedCostOptimizationMetrics: Swift.Equatable {
+        /// A container that indicates whether advanced cost-optimization metrics are enabled.
+        public var isEnabled: Swift.Bool
+
+        public init (
+            isEnabled: Swift.Bool = false
+        )
+        {
+            self.isEnabled = isEnabled
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.AdvancedDataProtectionMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isEnabled = "IsEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if isEnabled != false {
+            try container.encode(isEnabled, forKey: ClientRuntime.Key("IsEnabled"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isEnabled)
+        isEnabled = isEnabledDecoded
+    }
+}
+
+extension S3ControlClientTypes.AdvancedDataProtectionMetrics: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// The container element for Amazon S3 Storage Lens advanced data-protection metrics. Advanced data-protection metrics provide insights that you can use to perform audits and protect your data, for example replication rule counts within and across Regions. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
+    public struct AdvancedDataProtectionMetrics: Swift.Equatable {
+        /// A container that indicates whether advanced data-protection metrics are enabled.
         public var isEnabled: Swift.Bool
 
         public init (
@@ -827,6 +971,9 @@ extension S3ControlClientTypes {
 extension S3ControlClientTypes.BucketLevel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activityMetrics = "ActivityMetrics"
+        case advancedCostOptimizationMetrics = "AdvancedCostOptimizationMetrics"
+        case advancedDataProtectionMetrics = "AdvancedDataProtectionMetrics"
+        case detailedStatusCodesMetrics = "DetailedStatusCodesMetrics"
         case prefixLevel = "PrefixLevel"
     }
 
@@ -837,6 +984,15 @@ extension S3ControlClientTypes.BucketLevel: Swift.Codable {
         }
         if let activityMetrics = activityMetrics {
             try container.encode(activityMetrics, forKey: ClientRuntime.Key("ActivityMetrics"))
+        }
+        if let advancedCostOptimizationMetrics = advancedCostOptimizationMetrics {
+            try container.encode(advancedCostOptimizationMetrics, forKey: ClientRuntime.Key("AdvancedCostOptimizationMetrics"))
+        }
+        if let advancedDataProtectionMetrics = advancedDataProtectionMetrics {
+            try container.encode(advancedDataProtectionMetrics, forKey: ClientRuntime.Key("AdvancedDataProtectionMetrics"))
+        }
+        if let detailedStatusCodesMetrics = detailedStatusCodesMetrics {
+            try container.encode(detailedStatusCodesMetrics, forKey: ClientRuntime.Key("DetailedStatusCodesMetrics"))
         }
         if let prefixLevel = prefixLevel {
             try container.encode(prefixLevel, forKey: ClientRuntime.Key("PrefixLevel"))
@@ -849,6 +1005,12 @@ extension S3ControlClientTypes.BucketLevel: Swift.Codable {
         activityMetrics = activityMetricsDecoded
         let prefixLevelDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.PrefixLevel.self, forKey: .prefixLevel)
         prefixLevel = prefixLevelDecoded
+        let advancedCostOptimizationMetricsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.AdvancedCostOptimizationMetrics.self, forKey: .advancedCostOptimizationMetrics)
+        advancedCostOptimizationMetrics = advancedCostOptimizationMetricsDecoded
+        let advancedDataProtectionMetricsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.AdvancedDataProtectionMetrics.self, forKey: .advancedDataProtectionMetrics)
+        advancedDataProtectionMetrics = advancedDataProtectionMetricsDecoded
+        let detailedStatusCodesMetricsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.DetailedStatusCodesMetrics.self, forKey: .detailedStatusCodesMetrics)
+        detailedStatusCodesMetrics = detailedStatusCodesMetricsDecoded
     }
 }
 
@@ -867,19 +1029,31 @@ extension S3ControlClientTypes.BucketLevel: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ControlClientTypes {
-    /// A container for the bucket-level configuration.
+    /// A container for the bucket-level configuration for Amazon S3 Storage Lens. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide.
     public struct BucketLevel: Swift.Equatable {
-        /// A container for the bucket-level activity metrics for Amazon S3 Storage Lens
+        /// A container for the bucket-level activity metrics for S3 Storage Lens.
         public var activityMetrics: S3ControlClientTypes.ActivityMetrics?
-        /// A container for the bucket-level prefix-level metrics for S3 Storage Lens
+        /// A container for bucket-level advanced cost-optimization metrics for S3 Storage Lens.
+        public var advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics?
+        /// A container for bucket-level advanced data-protection metrics for S3 Storage Lens.
+        public var advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics?
+        /// A container for bucket-level detailed status code metrics for S3 Storage Lens.
+        public var detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics?
+        /// A container for the prefix-level metrics for S3 Storage Lens.
         public var prefixLevel: S3ControlClientTypes.PrefixLevel?
 
         public init (
             activityMetrics: S3ControlClientTypes.ActivityMetrics? = nil,
+            advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics? = nil,
+            advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics? = nil,
+            detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics? = nil,
             prefixLevel: S3ControlClientTypes.PrefixLevel? = nil
         )
         {
             self.activityMetrics = activityMetrics
+            self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
+            self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
+            self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
             self.prefixLevel = prefixLevel
         }
     }
@@ -1195,6 +1369,7 @@ extension CreateAccessPointInput: ClientRuntime.DynamicNodeEncoding {
 extension CreateAccessPointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket = "Bucket"
+        case bucketAccountId = "BucketAccountId"
         case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
         case vpcConfiguration = "VpcConfiguration"
     }
@@ -1206,6 +1381,9 @@ extension CreateAccessPointInput: Swift.Encodable {
         }
         if let bucket = bucket {
             try container.encode(bucket, forKey: ClientRuntime.Key("Bucket"))
+        }
+        if let bucketAccountId = bucketAccountId {
+            try container.encode(bucketAccountId, forKey: ClientRuntime.Key("BucketAccountId"))
         }
         if let publicAccessBlockConfiguration = publicAccessBlockConfiguration {
             try container.encode(publicAccessBlockConfiguration, forKey: ClientRuntime.Key("PublicAccessBlockConfiguration"))
@@ -1236,12 +1414,14 @@ extension CreateAccessPointInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAccessPointInput: Swift.Equatable {
-    /// The Amazon Web Services account ID for the owner of the bucket for which you want to create an access point.
+    /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
+    /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+    public var bucketAccountId: Swift.String?
     /// The name you want to assign to this access point.
     /// This member is required.
     public var name: Swift.String?
@@ -1253,6 +1433,7 @@ public struct CreateAccessPointInput: Swift.Equatable {
     public init (
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
+        bucketAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
         vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
@@ -1260,6 +1441,7 @@ public struct CreateAccessPointInput: Swift.Equatable {
     {
         self.accountId = accountId
         self.bucket = bucket
+        self.bucketAccountId = bucketAccountId
         self.name = name
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         self.vpcConfiguration = vpcConfiguration
@@ -1270,11 +1452,13 @@ struct CreateAccessPointInputBody: Swift.Equatable {
     let bucket: Swift.String?
     let vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
     let publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
+    let bucketAccountId: Swift.String?
 }
 
 extension CreateAccessPointInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket = "Bucket"
+        case bucketAccountId = "BucketAccountId"
         case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
         case vpcConfiguration = "VpcConfiguration"
     }
@@ -1287,6 +1471,8 @@ extension CreateAccessPointInputBody: Swift.Decodable {
         vpcConfiguration = vpcConfigurationDecoded
         let publicAccessBlockConfigurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.PublicAccessBlockConfiguration.self, forKey: .publicAccessBlockConfiguration)
         publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
+        let bucketAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccountId)
+        bucketAccountId = bucketAccountIdDecoded
     }
 }
 
@@ -2062,7 +2248,7 @@ extension S3ControlClientTypes {
         /// The name of the Multi-Region Access Point associated with this request.
         /// This member is required.
         public var name: Swift.String?
-        /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This is not supported for Amazon S3 on Outposts.
+        /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This data type is not supported for Amazon S3 on Outposts.
         public var publicAccessBlock: S3ControlClientTypes.PublicAccessBlockConfiguration?
         /// The buckets in different Regions that are associated with the Multi-Region Access Point.
         /// This member is required.
@@ -2280,7 +2466,7 @@ extension DeleteAccessPointInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAccessPointInput: Swift.Equatable {
-    /// The account ID for the account that owns the specified access point.
+    /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the access point you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
@@ -3509,6 +3695,58 @@ extension DescribeMultiRegionAccessPointOperationOutputResponseBody: Swift.Decod
     }
 }
 
+extension S3ControlClientTypes.DetailedStatusCodesMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isEnabled = "IsEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if isEnabled != false {
+            try container.encode(isEnabled, forKey: ClientRuntime.Key("IsEnabled"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isEnabled)
+        isEnabled = isEnabledDecoded
+    }
+}
+
+extension S3ControlClientTypes.DetailedStatusCodesMetrics: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// The container element for Amazon S3 Storage Lens detailed status code metrics. Detailed status code metrics generate metrics for HTTP status codes, such as 200 OK, 403 Forbidden, 503 Service Unavailable and others. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
+    public struct DetailedStatusCodesMetrics: Swift.Equatable {
+        /// A container that indicates whether detailed status code metrics are enabled.
+        public var isEnabled: Swift.Bool
+
+        public init (
+            isEnabled: Swift.Bool = false
+        )
+        {
+            self.isEnabled = isEnabled
+        }
+    }
+
+}
+
 extension S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
@@ -4070,7 +4308,7 @@ extension GetAccessPointInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetAccessPointInput: Swift.Equatable {
-    /// The account ID for the account that owns the specified access point.
+    /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the access point whose configuration information you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
@@ -4124,6 +4362,7 @@ extension GetAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
             self.accessPointArn = output.accessPointArn
             self.alias = output.alias
             self.bucket = output.bucket
+            self.bucketAccountId = output.bucketAccountId
             self.creationDate = output.creationDate
             self.endpoints = output.endpoints
             self.name = output.name
@@ -4134,6 +4373,7 @@ extension GetAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
             self.accessPointArn = nil
             self.alias = nil
             self.bucket = nil
+            self.bucketAccountId = nil
             self.creationDate = nil
             self.endpoints = nil
             self.name = nil
@@ -4151,6 +4391,8 @@ public struct GetAccessPointOutputResponse: Swift.Equatable {
     public var alias: Swift.String?
     /// The name of the bucket associated with the specified access point.
     public var bucket: Swift.String?
+    /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+    public var bucketAccountId: Swift.String?
     /// The date and time when the specified access point was created.
     public var creationDate: ClientRuntime.Date?
     /// The VPC endpoint for the access point.
@@ -4159,7 +4401,7 @@ public struct GetAccessPointOutputResponse: Swift.Equatable {
     public var name: Swift.String?
     /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies. This will always be true for an Amazon S3 on Outposts access point
     public var networkOrigin: S3ControlClientTypes.NetworkOrigin?
-    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This is not supported for Amazon S3 on Outposts.
+    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This data type is not supported for Amazon S3 on Outposts.
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
     /// Contains the virtual private cloud (VPC) configuration for the specified access point. This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Services.
     public var vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
@@ -4168,6 +4410,7 @@ public struct GetAccessPointOutputResponse: Swift.Equatable {
         accessPointArn: Swift.String? = nil,
         alias: Swift.String? = nil,
         bucket: Swift.String? = nil,
+        bucketAccountId: Swift.String? = nil,
         creationDate: ClientRuntime.Date? = nil,
         endpoints: [Swift.String:Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -4179,6 +4422,7 @@ public struct GetAccessPointOutputResponse: Swift.Equatable {
         self.accessPointArn = accessPointArn
         self.alias = alias
         self.bucket = bucket
+        self.bucketAccountId = bucketAccountId
         self.creationDate = creationDate
         self.endpoints = endpoints
         self.name = name
@@ -4198,6 +4442,7 @@ struct GetAccessPointOutputResponseBody: Swift.Equatable {
     let alias: Swift.String?
     let accessPointArn: Swift.String?
     let endpoints: [Swift.String:Swift.String]?
+    let bucketAccountId: Swift.String?
 }
 
 extension GetAccessPointOutputResponseBody: Swift.Decodable {
@@ -4205,6 +4450,7 @@ extension GetAccessPointOutputResponseBody: Swift.Decodable {
         case accessPointArn = "AccessPointArn"
         case alias = "Alias"
         case bucket = "Bucket"
+        case bucketAccountId = "BucketAccountId"
         case creationDate = "CreationDate"
         case endpoints = "Endpoints"
         case name = "Name"
@@ -4250,6 +4496,8 @@ extension GetAccessPointOutputResponseBody: Swift.Decodable {
         } else {
             endpoints = nil
         }
+        let bucketAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccountId)
+        bucketAccountId = bucketAccountIdDecoded
     }
 }
 
@@ -5416,7 +5664,7 @@ extension GetMultiRegionAccessPointInput: ClientRuntime.URLPathProvider {
         guard let name = name else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(name.urlPercentEncoding())"
+        return "/v20180820/mrap/instances/\(name)"
     }
 }
 
@@ -5522,7 +5770,7 @@ extension GetMultiRegionAccessPointPolicyInput: ClientRuntime.URLPathProvider {
         guard let name = name else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(name.urlPercentEncoding())/policy"
+        return "/v20180820/mrap/instances/\(name)/policy"
     }
 }
 
@@ -5628,7 +5876,7 @@ extension GetMultiRegionAccessPointPolicyStatusInput: ClientRuntime.URLPathProvi
         guard let name = name else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(name.urlPercentEncoding())/policystatus"
+        return "/v20180820/mrap/instances/\(name)/policystatus"
     }
 }
 
@@ -5716,6 +5964,139 @@ extension GetMultiRegionAccessPointPolicyStatusOutputResponseBody: Swift.Decodab
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let establishedDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.PolicyStatus.self, forKey: .established)
         established = establishedDecoded
+    }
+}
+
+extension GetMultiRegionAccessPointRoutesInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let accountId = accountId {
+            items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension GetMultiRegionAccessPointRoutesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let mrap = mrap else {
+            return nil
+        }
+        return "/v20180820/mrap/instances/\(mrap)/routes"
+    }
+}
+
+public struct GetMultiRegionAccessPointRoutesInput: Swift.Equatable {
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The Multi-Region Access Point ARN.
+    /// This member is required.
+    public var mrap: Swift.String?
+
+    public init (
+        accountId: Swift.String? = nil,
+        mrap: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.mrap = mrap
+    }
+}
+
+struct GetMultiRegionAccessPointRoutesInputBody: Swift.Equatable {
+}
+
+extension GetMultiRegionAccessPointRoutesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension GetMultiRegionAccessPointRoutesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetMultiRegionAccessPointRoutesOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMultiRegionAccessPointRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetMultiRegionAccessPointRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.mrap = output.mrap
+            self.routes = output.routes
+        } else {
+            self.mrap = nil
+            self.routes = nil
+        }
+    }
+}
+
+public struct GetMultiRegionAccessPointRoutesOutputResponse: Swift.Equatable {
+    /// The Multi-Region Access Point ARN.
+    public var mrap: Swift.String?
+    /// The different routes that make up the route configuration. Active routes return a value of 100, and passive routes return a value of 0.
+    public var routes: [S3ControlClientTypes.MultiRegionAccessPointRoute]?
+
+    public init (
+        mrap: Swift.String? = nil,
+        routes: [S3ControlClientTypes.MultiRegionAccessPointRoute]? = nil
+    )
+    {
+        self.mrap = mrap
+        self.routes = routes
+    }
+}
+
+struct GetMultiRegionAccessPointRoutesOutputResponseBody: Swift.Equatable {
+    let mrap: Swift.String?
+    let routes: [S3ControlClientTypes.MultiRegionAccessPointRoute]?
+}
+
+extension GetMultiRegionAccessPointRoutesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mrap = "Mrap"
+        case routes = "Routes"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mrapDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mrap)
+        mrap = mrapDecoded
+        if containerValues.contains(.routes) {
+            struct KeyVal0{struct Route{}}
+            let routesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Route>.CodingKeys.self, forKey: .routes)
+            if let routesWrappedContainer = routesWrappedContainer {
+                let routesContainer = try routesWrappedContainer.decodeIfPresent([S3ControlClientTypes.MultiRegionAccessPointRoute].self, forKey: .member)
+                var routesBuffer:[S3ControlClientTypes.MultiRegionAccessPointRoute]? = nil
+                if let routesContainer = routesContainer {
+                    routesBuffer = [S3ControlClientTypes.MultiRegionAccessPointRoute]()
+                    for structureContainer0 in routesContainer {
+                        routesBuffer?.append(structureContainer0)
+                    }
+                }
+                routes = routesBuffer
+            } else {
+                routes = []
+            }
+        } else {
+            routes = nil
+        }
     }
 }
 
@@ -7325,7 +7706,7 @@ extension S3ControlClientTypes {
         public var s3DeleteObjectTagging: S3ControlClientTypes.S3DeleteObjectTaggingOperation?
         /// Directs the specified job to initiate restore requests for every archived object in the manifest.
         public var s3InitiateRestoreObject: S3ControlClientTypes.S3InitiateRestoreObjectOperation?
-        /// Directs the specified job to run a PUT Object acl call on every object in the manifest.
+        /// Directs the specified job to run a PutObjectAcl call on every object in the manifest.
         public var s3PutObjectAcl: S3ControlClientTypes.S3SetObjectAclOperation?
         /// Directs the specified job to run a PUT Copy object call on every object in the manifest.
         public var s3PutObjectCopy: S3ControlClientTypes.S3CopyObjectOperation?
@@ -8301,7 +8682,7 @@ extension S3ControlClientTypes {
         public var objectSizeLessThan: Swift.Int?
         /// Prefix identifying one or more objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
         public var `prefix`: Swift.String?
-        ///
+        /// A container for a key-value name pair.
         public var tag: S3ControlClientTypes.S3Tag?
 
         public init (
@@ -8510,7 +8891,7 @@ extension ListAccessPointsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAccessPointsInput: Swift.Equatable {
-    /// The Amazon Web Services account ID for owner of the bucket whose access points you want to list.
+    /// The Amazon Web Services account ID for the account that owns the specified access points.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -9612,7 +9993,7 @@ extension S3ControlClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The name of the Multi-Region Access Point.
         public var name: Swift.String?
-        /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This is not supported for Amazon S3 on Outposts.
+        /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This data type is not supported for Amazon S3 on Outposts.
         public var publicAccessBlock: S3ControlClientTypes.PublicAccessBlockConfiguration?
         /// A collection of the Regions and buckets associated with the Multi-Region Access Point.
         public var regions: [S3ControlClientTypes.RegionReport]?
@@ -9634,6 +10015,79 @@ extension S3ControlClientTypes {
             self.publicAccessBlock = publicAccessBlock
             self.regions = regions
             self.status = status
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.MultiRegionAccessPointRoute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case region = "Region"
+        case trafficDialPercentage = "TrafficDialPercentage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let bucket = bucket {
+            try container.encode(bucket, forKey: ClientRuntime.Key("Bucket"))
+        }
+        if let region = region {
+            try container.encode(region, forKey: ClientRuntime.Key("Region"))
+        }
+        if let trafficDialPercentage = trafficDialPercentage {
+            try container.encode(trafficDialPercentage, forKey: ClientRuntime.Key("TrafficDialPercentage"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let trafficDialPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficDialPercentage)
+        trafficDialPercentage = trafficDialPercentageDecoded
+    }
+}
+
+extension S3ControlClientTypes.MultiRegionAccessPointRoute: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A structure for a Multi-Region Access Point that indicates where Amazon S3 traffic can be routed. Routes can be either active or passive. Active routes can process Amazon S3 requests through the Multi-Region Access Point, but passive routes are not eligible to process Amazon S3 requests. Each route contains the Amazon S3 bucket name and the Amazon Web Services Region that the bucket is located in. The route also includes the TrafficDialPercentage value, which shows whether the bucket and Region are active (indicated by a value of 100) or passive (indicated by a value of 0).
+    public struct MultiRegionAccessPointRoute: Swift.Equatable {
+        /// The name of the Amazon S3 bucket for which you'll submit a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region.
+        public var bucket: Swift.String?
+        /// The Amazon Web Services Region to which you'll be submitting a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region.
+        public var region: Swift.String?
+        /// The traffic state for the specified bucket or Amazon Web Services Region. A value of 0 indicates a passive state, which means that no new traffic will be routed to the Region. A value of 100 indicates an active state, which means that traffic will be routed to the specified Region. When the routing configuration for a Region is changed from active to passive, any in-progress operations (uploads, copies, deletes, and so on) to the formerly active Region will continue to run to until a final success or failure status is reached. If all Regions in the routing configuration are designated as passive, you'll receive an InvalidRequest error.
+        /// This member is required.
+        public var trafficDialPercentage: Swift.Int?
+
+        public init (
+            bucket: Swift.String? = nil,
+            region: Swift.String? = nil,
+            trafficDialPercentage: Swift.Int? = nil
+        )
+        {
+            self.bucket = bucket
+            self.region = region
+            self.trafficDialPercentage = trafficDialPercentage
         }
     }
 
@@ -10757,24 +11211,24 @@ extension S3ControlClientTypes.PublicAccessBlockConfiguration: ClientRuntime.Dyn
 }
 
 extension S3ControlClientTypes {
-    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This is not supported for Amazon S3 on Outposts.
+    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This data type is not supported for Amazon S3 on Outposts.
     public struct PublicAccessBlockConfiguration: Swift.Equatable {
         /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:
         ///
-        /// * PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.
+        /// * PutBucketAcl and PutObjectAcl calls fail if the specified ACL is public.
         ///
         /// * PUT Object calls fail if the request includes a public ACL.
         ///
         /// * PUT Bucket calls fail if the request includes a public ACL.
         ///
         ///
-        /// Enabling this setting doesn't affect existing policies or ACLs. This is not supported for Amazon S3 on Outposts.
+        /// Enabling this setting doesn't affect existing policies or ACLs. This property is not supported for Amazon S3 on Outposts.
         public var blockPublicAcls: Swift.Bool
-        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket policies. This is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket policies. This property is not supported for Amazon S3 on Outposts.
         public var blockPublicPolicy: Swift.Bool
-        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts.
         public var ignorePublicAcls: Swift.Bool
-        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts.
         public var restrictPublicBuckets: Swift.Bool
 
         public init (
@@ -13363,7 +13817,7 @@ extension S3ControlClientTypes {
         public var storageClass: S3ControlClientTypes.S3StorageClass?
         /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix to Folder1.
         public var targetKeyPrefix: Swift.String?
-        /// Specifies the destination bucket ARN for the batch copy operation. For example, to copy objects to a bucket named "destinationBucket", set the TargetResource to "arn:aws:s3:::destinationBucket".
+        /// Specifies the destination bucket ARN for the batch copy operation. For example, to copy objects to a bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.
         public var targetResource: Swift.String?
         ///
         public var unModifiedSinceConstraint: ClientRuntime.Date?
@@ -14552,7 +15006,7 @@ extension S3ControlClientTypes.S3SetObjectAclOperation: ClientRuntime.DynamicNod
 }
 
 extension S3ControlClientTypes {
-    /// Contains the configuration parameters for a Set Object ACL operation. S3 Batch Operations passes every object to the underlying PUT Object acl API. For more information about the parameters for this operation, see [PUT Object acl](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html).
+    /// Contains the configuration parameters for a Set Object ACL operation. S3 Batch Operations passes every object to the underlying PutObjectAcl API. For more information about the parameters for this operation, see [PutObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html).
     public struct S3SetObjectAclOperation: Swift.Equatable {
         ///
         public var accessControlPolicy: S3ControlClientTypes.S3AccessControlPolicy?
@@ -14845,12 +15299,12 @@ extension S3ControlClientTypes.S3Tag: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ControlClientTypes {
-    ///
+    /// A container for a key-value name pair.
     public struct S3Tag: Swift.Equatable {
-        ///
+        /// Key of the tag
         /// This member is required.
         public var key: Swift.String?
-        ///
+        /// Value of the tag
         /// This member is required.
         public var value: Swift.String?
 
@@ -15444,6 +15898,143 @@ extension S3ControlClientTypes {
         }
     }
 
+}
+
+extension SubmitMultiRegionAccessPointRoutesInput: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension SubmitMultiRegionAccessPointRoutesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case routeUpdates = "RouteUpdates"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let routeUpdates = routeUpdates {
+            var routeUpdatesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RouteUpdates"))
+            for multiregionaccesspointroute0 in routeUpdates {
+                try routeUpdatesContainer.encode(multiregionaccesspointroute0, forKey: ClientRuntime.Key("Route"))
+            }
+        }
+    }
+}
+
+extension SubmitMultiRegionAccessPointRoutesInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let accountId = accountId {
+            items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension SubmitMultiRegionAccessPointRoutesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let mrap = mrap else {
+            return nil
+        }
+        return "/v20180820/mrap/instances/\(mrap)/routes"
+    }
+}
+
+public struct SubmitMultiRegionAccessPointRoutesInput: Swift.Equatable {
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The Multi-Region Access Point ARN.
+    /// This member is required.
+    public var mrap: Swift.String?
+    /// The different routes that make up the new route configuration. Active routes return a value of 100, and passive routes return a value of 0.
+    /// This member is required.
+    public var routeUpdates: [S3ControlClientTypes.MultiRegionAccessPointRoute]?
+
+    public init (
+        accountId: Swift.String? = nil,
+        mrap: Swift.String? = nil,
+        routeUpdates: [S3ControlClientTypes.MultiRegionAccessPointRoute]? = nil
+    )
+    {
+        self.accountId = accountId
+        self.mrap = mrap
+        self.routeUpdates = routeUpdates
+    }
+}
+
+struct SubmitMultiRegionAccessPointRoutesInputBody: Swift.Equatable {
+    let routeUpdates: [S3ControlClientTypes.MultiRegionAccessPointRoute]?
+}
+
+extension SubmitMultiRegionAccessPointRoutesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case routeUpdates = "RouteUpdates"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.routeUpdates) {
+            struct KeyVal0{struct Route{}}
+            let routeUpdatesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Route>.CodingKeys.self, forKey: .routeUpdates)
+            if let routeUpdatesWrappedContainer = routeUpdatesWrappedContainer {
+                let routeUpdatesContainer = try routeUpdatesWrappedContainer.decodeIfPresent([S3ControlClientTypes.MultiRegionAccessPointRoute].self, forKey: .member)
+                var routeUpdatesBuffer:[S3ControlClientTypes.MultiRegionAccessPointRoute]? = nil
+                if let routeUpdatesContainer = routeUpdatesContainer {
+                    routeUpdatesBuffer = [S3ControlClientTypes.MultiRegionAccessPointRoute]()
+                    for structureContainer0 in routeUpdatesContainer {
+                        routeUpdatesBuffer?.append(structureContainer0)
+                    }
+                }
+                routeUpdates = routeUpdatesBuffer
+            } else {
+                routeUpdates = []
+            }
+        } else {
+            routeUpdates = nil
+        }
+    }
+}
+
+extension SubmitMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension SubmitMultiRegionAccessPointRoutesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum SubmitMultiRegionAccessPointRoutesOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SubmitMultiRegionAccessPointRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct SubmitMultiRegionAccessPointRoutesOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension S3ControlClientTypes.Tagging: Swift.Codable {

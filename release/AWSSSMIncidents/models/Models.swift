@@ -623,6 +623,7 @@ extension CreateResponsePlanInput: Swift.Encodable {
         case displayName
         case engagements
         case incidentTemplate
+        case integrations
         case name
         case tags
     }
@@ -652,6 +653,12 @@ extension CreateResponsePlanInput: Swift.Encodable {
         }
         if let incidentTemplate = self.incidentTemplate {
             try encodeContainer.encode(incidentTemplate, forKey: .incidentTemplate)
+        }
+        if let integrations = integrations {
+            var integrationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integrations)
+            for integrations0 in integrations {
+                try integrationsContainer.encode(integrations0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -685,6 +692,8 @@ public struct CreateResponsePlanInput: Swift.Equatable {
     /// Details used to create an incident when using this response plan.
     /// This member is required.
     public var incidentTemplate: SSMIncidentsClientTypes.IncidentTemplate?
+    /// Information about third-party services integrated into the response plan.
+    public var integrations: [SSMIncidentsClientTypes.Integration]?
     /// The short format name of the response plan. Can't include spaces.
     /// This member is required.
     public var name: Swift.String?
@@ -698,6 +707,7 @@ public struct CreateResponsePlanInput: Swift.Equatable {
         displayName: Swift.String? = nil,
         engagements: [Swift.String]? = nil,
         incidentTemplate: SSMIncidentsClientTypes.IncidentTemplate? = nil,
+        integrations: [SSMIncidentsClientTypes.Integration]? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -708,6 +718,7 @@ public struct CreateResponsePlanInput: Swift.Equatable {
         self.displayName = displayName
         self.engagements = engagements
         self.incidentTemplate = incidentTemplate
+        self.integrations = integrations
         self.name = name
         self.tags = tags
     }
@@ -722,6 +733,7 @@ struct CreateResponsePlanInputBody: Swift.Equatable {
     let engagements: [Swift.String]?
     let actions: [SSMIncidentsClientTypes.Action]?
     let tags: [Swift.String:Swift.String]?
+    let integrations: [SSMIncidentsClientTypes.Integration]?
 }
 
 extension CreateResponsePlanInputBody: Swift.Decodable {
@@ -732,6 +744,7 @@ extension CreateResponsePlanInputBody: Swift.Decodable {
         case displayName
         case engagements
         case incidentTemplate
+        case integrations
         case name
         case tags
     }
@@ -781,6 +794,17 @@ extension CreateResponsePlanInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let integrationsContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.Integration?].self, forKey: .integrations)
+        var integrationsDecoded0:[SSMIncidentsClientTypes.Integration]? = nil
+        if let integrationsContainer = integrationsContainer {
+            integrationsDecoded0 = [SSMIncidentsClientTypes.Integration]()
+            for union0 in integrationsContainer {
+                if let union0 = union0 {
+                    integrationsDecoded0?.append(union0)
+                }
+            }
+        }
+        integrations = integrationsDecoded0
     }
 }
 
@@ -862,6 +886,7 @@ extension CreateTimelineEventInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case eventData
+        case eventReferences
         case eventTime
         case eventType
         case incidentRecordArn
@@ -874,6 +899,12 @@ extension CreateTimelineEventInput: Swift.Encodable {
         }
         if let eventData = self.eventData {
             try encodeContainer.encode(eventData, forKey: .eventData)
+        }
+        if let eventReferences = eventReferences {
+            var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
+            for eventreferencelist0 in eventReferences {
+                try eventReferencesContainer.encode(eventreferencelist0)
+            }
         }
         if let eventTime = self.eventTime {
             try encodeContainer.encodeTimestamp(eventTime, format: .epochSeconds, forKey: .eventTime)
@@ -899,6 +930,8 @@ public struct CreateTimelineEventInput: Swift.Equatable {
     /// A short description of the event.
     /// This member is required.
     public var eventData: Swift.String?
+    /// Adds one or more references to the TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item.
+    public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
     /// The time that the event occurred.
     /// This member is required.
     public var eventTime: ClientRuntime.Date?
@@ -912,6 +945,7 @@ public struct CreateTimelineEventInput: Swift.Equatable {
     public init (
         clientToken: Swift.String? = nil,
         eventData: Swift.String? = nil,
+        eventReferences: [SSMIncidentsClientTypes.EventReference]? = nil,
         eventTime: ClientRuntime.Date? = nil,
         eventType: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil
@@ -919,6 +953,7 @@ public struct CreateTimelineEventInput: Swift.Equatable {
     {
         self.clientToken = clientToken
         self.eventData = eventData
+        self.eventReferences = eventReferences
         self.eventTime = eventTime
         self.eventType = eventType
         self.incidentRecordArn = incidentRecordArn
@@ -931,12 +966,14 @@ struct CreateTimelineEventInputBody: Swift.Equatable {
     let eventTime: ClientRuntime.Date?
     let eventType: Swift.String?
     let eventData: Swift.String?
+    let eventReferences: [SSMIncidentsClientTypes.EventReference]?
 }
 
 extension CreateTimelineEventInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case eventData
+        case eventReferences
         case eventTime
         case eventType
         case incidentRecordArn
@@ -954,6 +991,17 @@ extension CreateTimelineEventInputBody: Swift.Decodable {
         eventType = eventTypeDecoded
         let eventDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventData)
         eventData = eventDataDecoded
+        let eventReferencesContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.EventReference?].self, forKey: .eventReferences)
+        var eventReferencesDecoded0:[SSMIncidentsClientTypes.EventReference]? = nil
+        if let eventReferencesContainer = eventReferencesContainer {
+            eventReferencesDecoded0 = [SSMIncidentsClientTypes.EventReference]()
+            for union0 in eventReferencesContainer {
+                if let union0 = union0 {
+                    eventReferencesDecoded0?.append(union0)
+                }
+            }
+        }
+        eventReferences = eventReferencesDecoded0
     }
 }
 
@@ -1590,9 +1638,57 @@ extension SSMIncidentsClientTypes {
 
 }
 
+extension SSMIncidentsClientTypes.EventReference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case relateditemid = "relatedItemId"
+        case resource
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .relateditemid(relateditemid):
+                try container.encode(relateditemid, forKey: .relateditemid)
+            case let .resource(resource):
+                try container.encode(resource, forKey: .resource)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .resource)
+        if let resource = resourceDecoded {
+            self = .resource(resource)
+            return
+        }
+        let relateditemidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .relateditemid)
+        if let relateditemid = relateditemidDecoded {
+            self = .relateditemid(relateditemid)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a RelatedItem ID.
+    public enum EventReference: Swift.Equatable, Swift.Hashable {
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced in a TimelineEvent.
+        case resource(Swift.String)
+        /// The ID of a RelatedItem referenced in a TimelineEvent.
+        case relateditemid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension SSMIncidentsClientTypes.EventSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventId
+        case eventReferences
         case eventTime
         case eventType
         case eventUpdatedTime
@@ -1603,6 +1699,12 @@ extension SSMIncidentsClientTypes.EventSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventId = self.eventId {
             try encodeContainer.encode(eventId, forKey: .eventId)
+        }
+        if let eventReferences = eventReferences {
+            var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
+            for eventreferencelist0 in eventReferences {
+                try eventReferencesContainer.encode(eventreferencelist0)
+            }
         }
         if let eventTime = self.eventTime {
             try encodeContainer.encodeTimestamp(eventTime, format: .epochSeconds, forKey: .eventTime)
@@ -1630,6 +1732,17 @@ extension SSMIncidentsClientTypes.EventSummary: Swift.Codable {
         eventUpdatedTime = eventUpdatedTimeDecoded
         let eventTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventType)
         eventType = eventTypeDecoded
+        let eventReferencesContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.EventReference?].self, forKey: .eventReferences)
+        var eventReferencesDecoded0:[SSMIncidentsClientTypes.EventReference]? = nil
+        if let eventReferencesContainer = eventReferencesContainer {
+            eventReferencesDecoded0 = [SSMIncidentsClientTypes.EventReference]()
+            for union0 in eventReferencesContainer {
+                if let union0 = union0 {
+                    eventReferencesDecoded0?.append(union0)
+                }
+            }
+        }
+        eventReferences = eventReferencesDecoded0
     }
 }
 
@@ -1639,6 +1752,8 @@ extension SSMIncidentsClientTypes {
         /// The timeline event ID.
         /// This member is required.
         public var eventId: Swift.String?
+        /// A list of references in a TimelineEvent.
+        public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
         /// The time that the event occurred.
         /// This member is required.
         public var eventTime: ClientRuntime.Date?
@@ -1654,6 +1769,7 @@ extension SSMIncidentsClientTypes {
 
         public init (
             eventId: Swift.String? = nil,
+            eventReferences: [SSMIncidentsClientTypes.EventReference]? = nil,
             eventTime: ClientRuntime.Date? = nil,
             eventType: Swift.String? = nil,
             eventUpdatedTime: ClientRuntime.Date? = nil,
@@ -1661,6 +1777,7 @@ extension SSMIncidentsClientTypes {
         )
         {
             self.eventId = eventId
+            self.eventReferences = eventReferences
             self.eventTime = eventTime
             self.eventType = eventType
             self.eventUpdatedTime = eventUpdatedTime
@@ -2202,6 +2319,7 @@ extension GetResponsePlanOutputResponse: ClientRuntime.HttpResponseBinding {
             self.displayName = output.displayName
             self.engagements = output.engagements
             self.incidentTemplate = output.incidentTemplate
+            self.integrations = output.integrations
             self.name = output.name
         } else {
             self.actions = nil
@@ -2210,6 +2328,7 @@ extension GetResponsePlanOutputResponse: ClientRuntime.HttpResponseBinding {
             self.displayName = nil
             self.engagements = nil
             self.incidentTemplate = nil
+            self.integrations = nil
             self.name = nil
         }
     }
@@ -2230,6 +2349,8 @@ public struct GetResponsePlanOutputResponse: Swift.Equatable {
     /// Details used to create the incident when using this response plan.
     /// This member is required.
     public var incidentTemplate: SSMIncidentsClientTypes.IncidentTemplate?
+    /// Information about third-party services integrated into the Incident Manager response plan.
+    public var integrations: [SSMIncidentsClientTypes.Integration]?
     /// The short format name of the response plan. The name can't contain spaces.
     /// This member is required.
     public var name: Swift.String?
@@ -2241,6 +2362,7 @@ public struct GetResponsePlanOutputResponse: Swift.Equatable {
         displayName: Swift.String? = nil,
         engagements: [Swift.String]? = nil,
         incidentTemplate: SSMIncidentsClientTypes.IncidentTemplate? = nil,
+        integrations: [SSMIncidentsClientTypes.Integration]? = nil,
         name: Swift.String? = nil
     )
     {
@@ -2250,6 +2372,7 @@ public struct GetResponsePlanOutputResponse: Swift.Equatable {
         self.displayName = displayName
         self.engagements = engagements
         self.incidentTemplate = incidentTemplate
+        self.integrations = integrations
         self.name = name
     }
 }
@@ -2262,6 +2385,7 @@ struct GetResponsePlanOutputResponseBody: Swift.Equatable {
     let chatChannel: SSMIncidentsClientTypes.ChatChannel?
     let engagements: [Swift.String]?
     let actions: [SSMIncidentsClientTypes.Action]?
+    let integrations: [SSMIncidentsClientTypes.Integration]?
 }
 
 extension GetResponsePlanOutputResponseBody: Swift.Decodable {
@@ -2272,6 +2396,7 @@ extension GetResponsePlanOutputResponseBody: Swift.Decodable {
         case displayName
         case engagements
         case incidentTemplate
+        case integrations
         case name
     }
 
@@ -2309,6 +2434,17 @@ extension GetResponsePlanOutputResponseBody: Swift.Decodable {
             }
         }
         actions = actionsDecoded0
+        let integrationsContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.Integration?].self, forKey: .integrations)
+        var integrationsDecoded0:[SSMIncidentsClientTypes.Integration]? = nil
+        if let integrationsContainer = integrationsContainer {
+            integrationsDecoded0 = [SSMIncidentsClientTypes.Integration]()
+            for union0 in integrationsContainer {
+                if let union0 = union0 {
+                    integrationsDecoded0?.append(union0)
+                }
+            }
+        }
+        integrations = integrationsDecoded0
     }
 }
 
@@ -2947,6 +3083,43 @@ extension SSMIncidentsClientTypes {
 
 }
 
+extension SSMIncidentsClientTypes.Integration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pagerdutyconfiguration = "pagerDutyConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .pagerdutyconfiguration(pagerdutyconfiguration):
+                try container.encode(pagerdutyconfiguration, forKey: .pagerdutyconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let pagerdutyconfigurationDecoded = try values.decodeIfPresent(SSMIncidentsClientTypes.PagerDutyConfiguration.self, forKey: .pagerdutyconfiguration)
+        if let pagerdutyconfiguration = pagerdutyconfigurationDecoded {
+            self = .pagerdutyconfiguration(pagerdutyconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Information about third-party services integrated into a response plan.
+    public enum Integration: Swift.Equatable {
+        /// Information about the PagerDuty service where the response plan creates an incident.
+        case pagerdutyconfiguration(SSMIncidentsClientTypes.PagerDutyConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3104,6 +3277,7 @@ extension SSMIncidentsClientTypes.ItemValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case metricdefinition = "metricDefinition"
+        case pagerdutyincidentdetail = "pagerDutyIncidentDetail"
         case sdkUnknown
         case url
     }
@@ -3115,6 +3289,8 @@ extension SSMIncidentsClientTypes.ItemValue: Swift.Codable {
                 try container.encode(arn, forKey: .arn)
             case let .metricdefinition(metricdefinition):
                 try container.encode(metricdefinition, forKey: .metricdefinition)
+            case let .pagerdutyincidentdetail(pagerdutyincidentdetail):
+                try container.encode(pagerdutyincidentdetail, forKey: .pagerdutyincidentdetail)
             case let .url(url):
                 try container.encode(url, forKey: .url)
             case let .sdkUnknown(sdkUnknown):
@@ -3139,19 +3315,26 @@ extension SSMIncidentsClientTypes.ItemValue: Swift.Codable {
             self = .metricdefinition(metricdefinition)
             return
         }
+        let pagerdutyincidentdetailDecoded = try values.decodeIfPresent(SSMIncidentsClientTypes.PagerDutyIncidentDetail.self, forKey: .pagerdutyincidentdetail)
+        if let pagerdutyincidentdetail = pagerdutyincidentdetailDecoded {
+            self = .pagerdutyincidentdetail(pagerdutyincidentdetail)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
 
 extension SSMIncidentsClientTypes {
     /// Describes a related item.
-    public enum ItemValue: Swift.Equatable, Swift.Hashable {
+    public enum ItemValue: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource.
         case arn(Swift.String)
         /// The URL, if the related item is a non-Amazon Web Services resource.
         case url(Swift.String)
         /// The metric definition, if the related item is a metric in Amazon CloudWatch.
         case metricdefinition(Swift.String)
+        /// Details about an incident that is associated with a PagerDuty incident.
+        case pagerdutyincidentdetail(SSMIncidentsClientTypes.PagerDutyIncidentDetail)
         case sdkUnknown(Swift.String)
     }
 
@@ -4174,6 +4357,156 @@ extension SSMIncidentsClientTypes {
 
 }
 
+extension SSMIncidentsClientTypes.PagerDutyConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case pagerDutyIncidentConfiguration
+        case secretId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let pagerDutyIncidentConfiguration = self.pagerDutyIncidentConfiguration {
+            try encodeContainer.encode(pagerDutyIncidentConfiguration, forKey: .pagerDutyIncidentConfiguration)
+        }
+        if let secretId = self.secretId {
+            try encodeContainer.encode(secretId, forKey: .secretId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let secretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretId)
+        secretId = secretIdDecoded
+        let pagerDutyIncidentConfigurationDecoded = try containerValues.decodeIfPresent(SSMIncidentsClientTypes.PagerDutyIncidentConfiguration.self, forKey: .pagerDutyIncidentConfiguration)
+        pagerDutyIncidentConfiguration = pagerDutyIncidentConfigurationDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Details about the PagerDuty configuration for a response plan.
+    public struct PagerDutyConfiguration: Swift.Equatable {
+        /// The name of the PagerDuty configuration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Details about the PagerDuty service associated with the configuration.
+        /// This member is required.
+        public var pagerDutyIncidentConfiguration: SSMIncidentsClientTypes.PagerDutyIncidentConfiguration?
+        /// The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials.
+        /// This member is required.
+        public var secretId: Swift.String?
+
+        public init (
+            name: Swift.String? = nil,
+            pagerDutyIncidentConfiguration: SSMIncidentsClientTypes.PagerDutyIncidentConfiguration? = nil,
+            secretId: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.pagerDutyIncidentConfiguration = pagerDutyIncidentConfiguration
+            self.secretId = secretId
+        }
+    }
+
+}
+
+extension SSMIncidentsClientTypes.PagerDutyIncidentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceId = self.serviceId {
+            try encodeContainer.encode(serviceId, forKey: .serviceId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceId)
+        serviceId = serviceIdDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Details about the PagerDuty service where the response plan creates an incident.
+    public struct PagerDutyIncidentConfiguration: Swift.Equatable {
+        /// The ID of the PagerDuty service that the response plan associates with an incident when it launches.
+        /// This member is required.
+        public var serviceId: Swift.String?
+
+        public init (
+            serviceId: Swift.String? = nil
+        )
+        {
+            self.serviceId = serviceId
+        }
+    }
+
+}
+
+extension SSMIncidentsClientTypes.PagerDutyIncidentDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoResolve
+        case id
+        case secretId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoResolve = self.autoResolve {
+            try encodeContainer.encode(autoResolve, forKey: .autoResolve)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let secretId = self.secretId {
+            try encodeContainer.encode(secretId, forKey: .secretId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let autoResolveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoResolve)
+        autoResolve = autoResolveDecoded
+        let secretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretId)
+        secretId = secretIdDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Details about the PagerDuty incident associated with an incident created by an Incident Manager response plan.
+    public struct PagerDutyIncidentDetail: Swift.Equatable {
+        /// Indicates whether to resolve the PagerDuty incident when you resolve the associated Incident Manager incident.
+        public var autoResolve: Swift.Bool?
+        /// The ID of the incident associated with the PagerDuty service for the response plan.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials.
+        public var secretId: Swift.String?
+
+        public init (
+            autoResolve: Swift.Bool? = nil,
+            id: Swift.String? = nil,
+            secretId: Swift.String? = nil
+        )
+        {
+            self.autoResolve = autoResolve
+            self.id = id
+            self.secretId = secretId
+        }
+    }
+
+}
+
 extension PutResourcePolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
@@ -4453,12 +4786,16 @@ extension SSMIncidentsClientTypes {
 
 extension SSMIncidentsClientTypes.RelatedItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generatedId
         case identifier
         case title
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let generatedId = self.generatedId {
+            try encodeContainer.encode(generatedId, forKey: .generatedId)
+        }
         if let identifier = self.identifier {
             try encodeContainer.encode(identifier, forKey: .identifier)
         }
@@ -4473,12 +4810,16 @@ extension SSMIncidentsClientTypes.RelatedItem: Swift.Codable {
         identifier = identifierDecoded
         let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
         title = titleDecoded
+        let generatedIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedId)
+        generatedId = generatedIdDecoded
     }
 }
 
 extension SSMIncidentsClientTypes {
     /// Resources that responders use to triage and mitigate the incident.
     public struct RelatedItem: Swift.Equatable {
+        /// A unique ID for a RelatedItem. Don't specify this parameter when you add a RelatedItem by using the [UpdateRelatedItems] API action.
+        public var generatedId: Swift.String?
         /// Details about the related item.
         /// This member is required.
         public var identifier: SSMIncidentsClientTypes.ItemIdentifier?
@@ -4486,10 +4827,12 @@ extension SSMIncidentsClientTypes {
         public var title: Swift.String?
 
         public init (
+            generatedId: Swift.String? = nil,
             identifier: SSMIncidentsClientTypes.ItemIdentifier? = nil,
             title: Swift.String? = nil
         )
         {
+            self.generatedId = generatedId
             self.identifier = identifier
             self.title = title
         }
@@ -5644,6 +5987,7 @@ extension SSMIncidentsClientTypes.TimelineEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventData
         case eventId
+        case eventReferences
         case eventTime
         case eventType
         case eventUpdatedTime
@@ -5657,6 +6001,12 @@ extension SSMIncidentsClientTypes.TimelineEvent: Swift.Codable {
         }
         if let eventId = self.eventId {
             try encodeContainer.encode(eventId, forKey: .eventId)
+        }
+        if let eventReferences = eventReferences {
+            var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
+            for eventreferencelist0 in eventReferences {
+                try eventReferencesContainer.encode(eventreferencelist0)
+            }
         }
         if let eventTime = self.eventTime {
             try encodeContainer.encodeTimestamp(eventTime, format: .epochSeconds, forKey: .eventTime)
@@ -5686,6 +6036,17 @@ extension SSMIncidentsClientTypes.TimelineEvent: Swift.Codable {
         eventType = eventTypeDecoded
         let eventDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventData)
         eventData = eventDataDecoded
+        let eventReferencesContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.EventReference?].self, forKey: .eventReferences)
+        var eventReferencesDecoded0:[SSMIncidentsClientTypes.EventReference]? = nil
+        if let eventReferencesContainer = eventReferencesContainer {
+            eventReferencesDecoded0 = [SSMIncidentsClientTypes.EventReference]()
+            for union0 in eventReferencesContainer {
+                if let union0 = union0 {
+                    eventReferencesDecoded0?.append(union0)
+                }
+            }
+        }
+        eventReferences = eventReferencesDecoded0
     }
 }
 
@@ -5698,6 +6059,8 @@ extension SSMIncidentsClientTypes {
         /// The ID of the timeline event.
         /// This member is required.
         public var eventId: Swift.String?
+        /// A list of references in a TimelineEvent.
+        public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
         /// The time that the event occurred.
         /// This member is required.
         public var eventTime: ClientRuntime.Date?
@@ -5714,6 +6077,7 @@ extension SSMIncidentsClientTypes {
         public init (
             eventData: Swift.String? = nil,
             eventId: Swift.String? = nil,
+            eventReferences: [SSMIncidentsClientTypes.EventReference]? = nil,
             eventTime: ClientRuntime.Date? = nil,
             eventType: Swift.String? = nil,
             eventUpdatedTime: ClientRuntime.Date? = nil,
@@ -5722,6 +6086,7 @@ extension SSMIncidentsClientTypes {
         {
             self.eventData = eventData
             self.eventId = eventId
+            self.eventReferences = eventReferences
             self.eventTime = eventTime
             self.eventType = eventType
             self.eventUpdatedTime = eventUpdatedTime
@@ -6534,6 +6899,7 @@ extension UpdateResponsePlanInput: Swift.Encodable {
         case incidentTemplateSummary
         case incidentTemplateTags
         case incidentTemplateTitle
+        case integrations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6586,6 +6952,12 @@ extension UpdateResponsePlanInput: Swift.Encodable {
         if let incidentTemplateTitle = self.incidentTemplateTitle {
             try encodeContainer.encode(incidentTemplateTitle, forKey: .incidentTemplateTitle)
         }
+        if let integrations = integrations {
+            var integrationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integrations)
+            for integrations0 in integrations {
+                try integrationsContainer.encode(integrations0)
+            }
+        }
     }
 }
 
@@ -6631,6 +7003,8 @@ public struct UpdateResponsePlanInput: Swift.Equatable {
     public var incidentTemplateTags: [Swift.String:Swift.String]?
     /// The short format name of the incident. The title can't contain spaces.
     public var incidentTemplateTitle: Swift.String?
+    /// Information about third-party services integrated into the response plan.
+    public var integrations: [SSMIncidentsClientTypes.Integration]?
 
     public init (
         actions: [SSMIncidentsClientTypes.Action]? = nil,
@@ -6644,7 +7018,8 @@ public struct UpdateResponsePlanInput: Swift.Equatable {
         incidentTemplateNotificationTargets: [SSMIncidentsClientTypes.NotificationTargetItem]? = nil,
         incidentTemplateSummary: Swift.String? = nil,
         incidentTemplateTags: [Swift.String:Swift.String]? = nil,
-        incidentTemplateTitle: Swift.String? = nil
+        incidentTemplateTitle: Swift.String? = nil,
+        integrations: [SSMIncidentsClientTypes.Integration]? = nil
     )
     {
         self.actions = actions
@@ -6659,6 +7034,7 @@ public struct UpdateResponsePlanInput: Swift.Equatable {
         self.incidentTemplateSummary = incidentTemplateSummary
         self.incidentTemplateTags = incidentTemplateTags
         self.incidentTemplateTitle = incidentTemplateTitle
+        self.integrations = integrations
     }
 }
 
@@ -6675,6 +7051,7 @@ struct UpdateResponsePlanInputBody: Swift.Equatable {
     let engagements: [Swift.String]?
     let actions: [SSMIncidentsClientTypes.Action]?
     let incidentTemplateTags: [Swift.String:Swift.String]?
+    let integrations: [SSMIncidentsClientTypes.Integration]?
 }
 
 extension UpdateResponsePlanInputBody: Swift.Decodable {
@@ -6691,6 +7068,7 @@ extension UpdateResponsePlanInputBody: Swift.Decodable {
         case incidentTemplateSummary
         case incidentTemplateTags
         case incidentTemplateTitle
+        case integrations
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -6755,6 +7133,17 @@ extension UpdateResponsePlanInputBody: Swift.Decodable {
             }
         }
         incidentTemplateTags = incidentTemplateTagsDecoded0
+        let integrationsContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.Integration?].self, forKey: .integrations)
+        var integrationsDecoded0:[SSMIncidentsClientTypes.Integration]? = nil
+        if let integrationsContainer = integrationsContainer {
+            integrationsDecoded0 = [SSMIncidentsClientTypes.Integration]()
+            for union0 in integrationsContainer {
+                if let union0 = union0 {
+                    integrationsDecoded0?.append(union0)
+                }
+            }
+        }
+        integrations = integrationsDecoded0
     }
 }
 
@@ -6805,6 +7194,7 @@ extension UpdateTimelineEventInput: Swift.Encodable {
         case clientToken
         case eventData
         case eventId
+        case eventReferences
         case eventTime
         case eventType
         case incidentRecordArn
@@ -6820,6 +7210,12 @@ extension UpdateTimelineEventInput: Swift.Encodable {
         }
         if let eventId = self.eventId {
             try encodeContainer.encode(eventId, forKey: .eventId)
+        }
+        if let eventReferences = eventReferences {
+            var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
+            for eventreferencelist0 in eventReferences {
+                try eventReferencesContainer.encode(eventreferencelist0)
+            }
         }
         if let eventTime = self.eventTime {
             try encodeContainer.encodeTimestamp(eventTime, format: .epochSeconds, forKey: .eventTime)
@@ -6847,6 +7243,8 @@ public struct UpdateTimelineEventInput: Swift.Equatable {
     /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
     /// This member is required.
     public var eventId: Swift.String?
+    /// Updates all existing references in a TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item. This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes them and enters only new references.
+    public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
     /// The time that the event occurred.
     public var eventTime: ClientRuntime.Date?
     /// The type of the event. You can update events of type Custom Event.
@@ -6859,6 +7257,7 @@ public struct UpdateTimelineEventInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         eventData: Swift.String? = nil,
         eventId: Swift.String? = nil,
+        eventReferences: [SSMIncidentsClientTypes.EventReference]? = nil,
         eventTime: ClientRuntime.Date? = nil,
         eventType: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil
@@ -6867,6 +7266,7 @@ public struct UpdateTimelineEventInput: Swift.Equatable {
         self.clientToken = clientToken
         self.eventData = eventData
         self.eventId = eventId
+        self.eventReferences = eventReferences
         self.eventTime = eventTime
         self.eventType = eventType
         self.incidentRecordArn = incidentRecordArn
@@ -6880,6 +7280,7 @@ struct UpdateTimelineEventInputBody: Swift.Equatable {
     let eventTime: ClientRuntime.Date?
     let eventType: Swift.String?
     let eventData: Swift.String?
+    let eventReferences: [SSMIncidentsClientTypes.EventReference]?
 }
 
 extension UpdateTimelineEventInputBody: Swift.Decodable {
@@ -6887,6 +7288,7 @@ extension UpdateTimelineEventInputBody: Swift.Decodable {
         case clientToken
         case eventData
         case eventId
+        case eventReferences
         case eventTime
         case eventType
         case incidentRecordArn
@@ -6906,6 +7308,17 @@ extension UpdateTimelineEventInputBody: Swift.Decodable {
         eventType = eventTypeDecoded
         let eventDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventData)
         eventData = eventDataDecoded
+        let eventReferencesContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.EventReference?].self, forKey: .eventReferences)
+        var eventReferencesDecoded0:[SSMIncidentsClientTypes.EventReference]? = nil
+        if let eventReferencesContainer = eventReferencesContainer {
+            eventReferencesDecoded0 = [SSMIncidentsClientTypes.EventReference]()
+            for union0 in eventReferencesContainer {
+                if let union0 = union0 {
+                    eventReferencesDecoded0?.append(union0)
+                }
+            }
+        }
+        eventReferences = eventReferencesDecoded0
     }
 }
 

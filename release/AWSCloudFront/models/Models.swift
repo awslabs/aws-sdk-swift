@@ -431,8 +431,8 @@ extension CloudFrontClientTypes.AllowedMethods: Swift.Codable {
                 var itemsBuffer:[CloudFrontClientTypes.Method]? = nil
                 if let itemsContainer = itemsContainer {
                     itemsBuffer = [CloudFrontClientTypes.Method]()
-                    for stringContainer0 in itemsContainer {
-                        itemsBuffer?.append(stringContainer0)
+                    for enumContainer0 in itemsContainer {
+                        itemsBuffer?.append(enumContainer0)
                     }
                 }
                 items = itemsBuffer
@@ -1885,8 +1885,8 @@ extension CloudFrontClientTypes.CachedMethods: Swift.Codable {
                 var itemsBuffer:[CloudFrontClientTypes.Method]? = nil
                 if let itemsContainer = itemsContainer {
                     itemsBuffer = [CloudFrontClientTypes.Method]()
-                    for stringContainer0 in itemsContainer {
-                        itemsBuffer?.append(stringContainer0)
+                    for enumContainer0 in itemsContainer {
+                        itemsBuffer?.append(enumContainer0)
                     }
                 }
                 items = itemsBuffer
@@ -2866,6 +2866,471 @@ extension CloudFrontClientTypes {
 
 }
 
+extension CloudFrontClientTypes.ContinuousDeploymentPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+        case id = "Id"
+        case lastModifiedTime = "LastModifiedTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig {
+            try container.encode(continuousDeploymentPolicyConfig, forKey: ClientRuntime.Key("ContinuousDeploymentPolicyConfig"))
+        }
+        if let id = id {
+            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        }
+        if let lastModifiedTime = lastModifiedTime {
+            try container.encodeTimestamp(lastModifiedTime, format: .dateTime, forKey: ClientRuntime.Key("LastModifiedTime"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let continuousDeploymentPolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.self, forKey: .continuousDeploymentPolicyConfig)
+        continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfigDecoded
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicy: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// A continuous deployment policy.
+    public struct ContinuousDeploymentPolicy: Swift.Equatable {
+        /// Contains the configuration for a continuous deployment policy.
+        /// This member is required.
+        public var continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
+        /// The identifier of the continuous deployment policy.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The date and time the continuous deployment policy was last modified.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+
+        public init (
+            continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+        }
+    }
+
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicyConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+        case stagingDistributionDnsNames = "StagingDistributionDnsNames"
+        case trafficConfig = "TrafficConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let enabled = enabled {
+            try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
+        }
+        if let stagingDistributionDnsNames = stagingDistributionDnsNames {
+            try container.encode(stagingDistributionDnsNames, forKey: ClientRuntime.Key("StagingDistributionDnsNames"))
+        }
+        if let trafficConfig = trafficConfig {
+            try container.encode(trafficConfig, forKey: ClientRuntime.Key("TrafficConfig"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stagingDistributionDnsNamesDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StagingDistributionDnsNames.self, forKey: .stagingDistributionDnsNames)
+        stagingDistributionDnsNames = stagingDistributionDnsNamesDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let trafficConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.TrafficConfig.self, forKey: .trafficConfig)
+        trafficConfig = trafficConfigDecoded
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicyConfig: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// Contains the configuration for a continuous deployment policy.
+    public struct ContinuousDeploymentPolicyConfig: Swift.Equatable {
+        /// A Boolean that indicates whether this continuous deployment policy is enabled (in effect). When this value is true, this policy is enabled and in effect. When this value is false, this policy is not enabled and has no effect.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The CloudFront domain name of the staging distribution. For example: d111111abcdef8.cloudfront.net.
+        /// This member is required.
+        public var stagingDistributionDnsNames: CloudFrontClientTypes.StagingDistributionDnsNames?
+        /// Contains the parameters for routing production traffic from your primary to staging distributions.
+        public var trafficConfig: CloudFrontClientTypes.TrafficConfig?
+
+        public init (
+            enabled: Swift.Bool? = nil,
+            stagingDistributionDnsNames: CloudFrontClientTypes.StagingDistributionDnsNames? = nil,
+            trafficConfig: CloudFrontClientTypes.TrafficConfig? = nil
+        )
+        {
+            self.enabled = enabled
+            self.stagingDistributionDnsNames = stagingDistributionDnsNames
+            self.trafficConfig = trafficConfig
+        }
+    }
+
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicyList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items = "Items"
+        case maxItems = "MaxItems"
+        case nextMarker = "NextMarker"
+        case quantity = "Quantity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let items = items {
+            var itemsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Items"))
+            for continuousdeploymentpolicysummary0 in items {
+                try itemsContainer.encode(continuousdeploymentpolicysummary0, forKey: ClientRuntime.Key("ContinuousDeploymentPolicySummary"))
+            }
+        }
+        if let maxItems = maxItems {
+            try container.encode(maxItems, forKey: ClientRuntime.Key("MaxItems"))
+        }
+        if let nextMarker = nextMarker {
+            try container.encode(nextMarker, forKey: ClientRuntime.Key("NextMarker"))
+        }
+        if let quantity = quantity {
+            try container.encode(quantity, forKey: ClientRuntime.Key("Quantity"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+        let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
+        maxItems = maxItemsDecoded
+        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity)
+        quantity = quantityDecoded
+        if containerValues.contains(.items) {
+            struct KeyVal0{struct ContinuousDeploymentPolicySummary{}}
+            let itemsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.ContinuousDeploymentPolicySummary>.CodingKeys.self, forKey: .items)
+            if let itemsWrappedContainer = itemsWrappedContainer {
+                let itemsContainer = try itemsWrappedContainer.decodeIfPresent([CloudFrontClientTypes.ContinuousDeploymentPolicySummary].self, forKey: .member)
+                var itemsBuffer:[CloudFrontClientTypes.ContinuousDeploymentPolicySummary]? = nil
+                if let itemsContainer = itemsContainer {
+                    itemsBuffer = [CloudFrontClientTypes.ContinuousDeploymentPolicySummary]()
+                    for structureContainer0 in itemsContainer {
+                        itemsBuffer?.append(structureContainer0)
+                    }
+                }
+                items = itemsBuffer
+            } else {
+                items = []
+            }
+        } else {
+            items = nil
+        }
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicyList: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// Contains a list of continuous deployment policies.
+    public struct ContinuousDeploymentPolicyList: Swift.Equatable {
+        /// A list of continuous deployment policy items.
+        public var items: [CloudFrontClientTypes.ContinuousDeploymentPolicySummary]?
+        /// The maximum number of continuous deployment policies that were specified in your request.
+        /// This member is required.
+        public var maxItems: Swift.Int?
+        /// Indicates the next page of continuous deployment policies. To get the next page of the list, use this value in the Marker field of your request.
+        public var nextMarker: Swift.String?
+        /// The total number of continuous deployment policies in your Amazon Web Services account, regardless of the MaxItems value.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init (
+            items: [CloudFrontClientTypes.ContinuousDeploymentPolicySummary]? = nil,
+            maxItems: Swift.Int? = nil,
+            nextMarker: Swift.String? = nil,
+            quantity: Swift.Int? = nil
+        )
+        {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+    }
+
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicySummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let continuousDeploymentPolicy = continuousDeploymentPolicy {
+            try container.encode(continuousDeploymentPolicy, forKey: ClientRuntime.Key("ContinuousDeploymentPolicy"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicy.self, forKey: .continuousDeploymentPolicy)
+        continuousDeploymentPolicy = continuousDeploymentPolicyDecoded
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicySummary: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// A summary of the information about your continuous deployment policies.
+    public struct ContinuousDeploymentPolicySummary: Swift.Equatable {
+        /// The continuous deployment policy.
+        /// This member is required.
+        public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+
+        public init (
+            continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil
+        )
+        {
+            self.continuousDeploymentPolicy = continuousDeploymentPolicy
+        }
+    }
+
+}
+
+extension CloudFrontClientTypes {
+    public enum ContinuousDeploymentPolicyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case singleheader
+        case singleweight
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContinuousDeploymentPolicyType] {
+            return [
+                .singleheader,
+                .singleweight,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .singleheader: return "SingleHeader"
+            case .singleweight: return "SingleWeight"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContinuousDeploymentPolicyType(rawValue: rawValue) ?? ContinuousDeploymentPolicyType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case header = "Header"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let header = header {
+            try container.encode(header, forKey: ClientRuntime.Key("Header"))
+        }
+        if let value = value {
+            try container.encode(value, forKey: ClientRuntime.Key("Value"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let headerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .header)
+        header = headerDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// This configuration determines which HTTP requests are sent to the staging distribution. If the HTTP request contains a header and value that matches what you specify here, the request is sent to the staging distribution. Otherwise the request is sent to the primary distribution.
+    public struct ContinuousDeploymentSingleHeaderConfig: Swift.Equatable {
+        /// The request header name that you want CloudFront to send to your staging distribution.
+        /// This member is required.
+        public var header: Swift.String?
+        /// The request header value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init (
+            header: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.header = header
+            self.value = value
+        }
+    }
+
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionStickinessConfig = "SessionStickinessConfig"
+        case weight = "Weight"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let sessionStickinessConfig = sessionStickinessConfig {
+            try container.encode(sessionStickinessConfig, forKey: ClientRuntime.Key("SessionStickinessConfig"))
+        }
+        if let weight = weight {
+            try container.encode(Swift.String(weight), forKey: ClientRuntime.Key("Weight"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let weightDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .weight)
+        weight = weightDecoded
+        let sessionStickinessConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.SessionStickinessConfig.self, forKey: .sessionStickinessConfig)
+        sessionStickinessConfig = sessionStickinessConfigDecoded
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// Contains the percentage of traffic to send to a staging distribution, expressed as a decimal number between 0 and 1.
+    public struct ContinuousDeploymentSingleWeightConfig: Swift.Equatable {
+        /// Session stickiness provides the ability to define multiple requests from a single viewer as a single session. This prevents the potentially inconsistent experience of sending some of a given user's requests to your staging distribution, while others are sent to your primary distribution. Define the session duration using TTL values.
+        public var sessionStickinessConfig: CloudFrontClientTypes.SessionStickinessConfig?
+        /// The percentage of traffic to send to the staging distribution, expressed as a decimal number between 0 and 1.
+        /// This member is required.
+        public var weight: Swift.Float?
+
+        public init (
+            sessionStickinessConfig: CloudFrontClientTypes.SessionStickinessConfig? = nil,
+            weight: Swift.Float? = nil
+        )
+        {
+            self.sessionStickinessConfig = sessionStickinessConfig
+            self.weight = weight
+        }
+    }
+
+}
+
 extension CloudFrontClientTypes.CookieNames: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
@@ -3010,6 +3475,307 @@ extension CloudFrontClientTypes {
         }
     }
 
+}
+
+extension CopyDistributionInput: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CopyDistributionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callerReference = "CallerReference"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let callerReference = callerReference {
+            try container.encode(callerReference, forKey: ClientRuntime.Key("CallerReference"))
+        }
+    }
+}
+
+extension CopyDistributionInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let ifMatch = ifMatch {
+            items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        if let staging = staging {
+            items.add(Header(name: "Staging", value: Swift.String(staging)))
+        }
+        return items
+    }
+}
+
+extension CopyDistributionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let primaryDistributionId = primaryDistributionId else {
+            return nil
+        }
+        return "/2020-05-31/distribution/\(primaryDistributionId.urlPercentEncoding())/copy"
+    }
+}
+
+public struct CopyDistributionInput: Swift.Equatable {
+    /// A value that uniquely identifies a request to create a resource. This helps to prevent CloudFront from creating a duplicate resource if you accidentally resubmit an identical request.
+    /// This member is required.
+    public var callerReference: Swift.String?
+    /// The version identifier of the primary distribution whose configuration you are copying. This is the ETag value returned in the response to GetDistribution and GetDistributionConfig.
+    public var ifMatch: Swift.String?
+    /// The identifier of the primary distribution whose configuration you are copying. To get a distribution ID, use ListDistributions.
+    /// This member is required.
+    public var primaryDistributionId: Swift.String?
+    /// The type of distribution that your primary distribution will be copied to. The only valid value is True, indicating that you are copying to a staging distribution.
+    public var staging: Swift.Bool?
+
+    public init (
+        callerReference: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        primaryDistributionId: Swift.String? = nil,
+        staging: Swift.Bool? = nil
+    )
+    {
+        self.callerReference = callerReference
+        self.ifMatch = ifMatch
+        self.primaryDistributionId = primaryDistributionId
+        self.staging = staging
+    }
+}
+
+struct CopyDistributionInputBody: Swift.Equatable {
+    let callerReference: Swift.String?
+}
+
+extension CopyDistributionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callerReference = "CallerReference"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let callerReferenceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .callerReference)
+        callerReference = callerReferenceDecoded
+    }
+}
+
+extension CopyDistributionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension CopyDistributionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "CNAMEAlreadyExists" : self = .cNAMEAlreadyExists(try CNAMEAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DistributionAlreadyExists" : self = .distributionAlreadyExists(try DistributionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior" : self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InconsistentQuantities" : self = .inconsistentQuantities(try InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidDefaultRootObject" : self = .invalidDefaultRootObject(try InvalidDefaultRootObject(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidErrorCode" : self = .invalidErrorCode(try InvalidErrorCode(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidForwardCookies" : self = .invalidForwardCookies(try InvalidForwardCookies(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidFunctionAssociation" : self = .invalidFunctionAssociation(try InvalidFunctionAssociation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidGeoRestrictionParameter" : self = .invalidGeoRestrictionParameter(try InvalidGeoRestrictionParameter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidHeadersForS3Origin" : self = .invalidHeadersForS3Origin(try InvalidHeadersForS3Origin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidLambdaFunctionAssociation" : self = .invalidLambdaFunctionAssociation(try InvalidLambdaFunctionAssociation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidLocationCode" : self = .invalidLocationCode(try InvalidLocationCode(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidMinimumProtocolVersion" : self = .invalidMinimumProtocolVersion(try InvalidMinimumProtocolVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOrigin" : self = .invalidOrigin(try InvalidOrigin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginAccessControl" : self = .invalidOriginAccessControl(try InvalidOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginAccessIdentity" : self = .invalidOriginAccessIdentity(try InvalidOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginKeepaliveTimeout" : self = .invalidOriginKeepaliveTimeout(try InvalidOriginKeepaliveTimeout(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginReadTimeout" : self = .invalidOriginReadTimeout(try InvalidOriginReadTimeout(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidProtocolSettings" : self = .invalidProtocolSettings(try InvalidProtocolSettings(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidQueryStringParameters" : self = .invalidQueryStringParameters(try InvalidQueryStringParameters(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRelativePath" : self = .invalidRelativePath(try InvalidRelativePath(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequiredProtocol" : self = .invalidRequiredProtocol(try InvalidRequiredProtocol(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResponseCode" : self = .invalidResponseCode(try InvalidResponseCode(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidTTLOrder" : self = .invalidTTLOrder(try InvalidTTLOrder(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidViewerCertificate" : self = .invalidViewerCertificate(try InvalidViewerCertificate(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidWebACLId" : self = .invalidWebACLId(try InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchOrigin" : self = .noSuchOrigin(try NoSuchOrigin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchRealtimeLogConfig" : self = .noSuchRealtimeLogConfig(try NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RealtimeLogConfigOwnerMismatch" : self = .realtimeLogConfigOwnerMismatch(try RealtimeLogConfigOwnerMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyCacheBehaviors" : self = .tooManyCacheBehaviors(try TooManyCacheBehaviors(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyCertificates" : self = .tooManyCertificates(try TooManyCertificates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyCookieNamesInWhiteList" : self = .tooManyCookieNamesInWhiteList(try TooManyCookieNamesInWhiteList(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionCNAMEs" : self = .tooManyDistributionCNAMEs(try TooManyDistributionCNAMEs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributions" : self = .tooManyDistributions(try TooManyDistributions(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToCachePolicy" : self = .tooManyDistributionsAssociatedToCachePolicy(try TooManyDistributionsAssociatedToCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig" : self = .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(try TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToKeyGroup" : self = .tooManyDistributionsAssociatedToKeyGroup(try TooManyDistributionsAssociatedToKeyGroup(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToOriginRequestPolicy" : self = .tooManyDistributionsAssociatedToOriginRequestPolicy(try TooManyDistributionsAssociatedToOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToResponseHeadersPolicy" : self = .tooManyDistributionsAssociatedToResponseHeadersPolicy(try TooManyDistributionsAssociatedToResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsWithFunctionAssociations" : self = .tooManyDistributionsWithFunctionAssociations(try TooManyDistributionsWithFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsWithLambdaAssociations" : self = .tooManyDistributionsWithLambdaAssociations(try TooManyDistributionsWithLambdaAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsWithSingleFunctionARN" : self = .tooManyDistributionsWithSingleFunctionARN(try TooManyDistributionsWithSingleFunctionARN(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyFunctionAssociations" : self = .tooManyFunctionAssociations(try TooManyFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyHeadersInForwardedValues" : self = .tooManyHeadersInForwardedValues(try TooManyHeadersInForwardedValues(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyKeyGroupsAssociatedToDistribution" : self = .tooManyKeyGroupsAssociatedToDistribution(try TooManyKeyGroupsAssociatedToDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyLambdaFunctionAssociations" : self = .tooManyLambdaFunctionAssociations(try TooManyLambdaFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyOriginCustomHeaders" : self = .tooManyOriginCustomHeaders(try TooManyOriginCustomHeaders(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyOriginGroupsPerDistribution" : self = .tooManyOriginGroupsPerDistribution(try TooManyOriginGroupsPerDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyOrigins" : self = .tooManyOrigins(try TooManyOrigins(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyQueryStringParameters" : self = .tooManyQueryStringParameters(try TooManyQueryStringParameters(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TrustedKeyGroupDoesNotExist" : self = .trustedKeyGroupDoesNotExist(try TrustedKeyGroupDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CopyDistributionOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case cNAMEAlreadyExists(CNAMEAlreadyExists)
+    case distributionAlreadyExists(DistributionAlreadyExists)
+    case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior)
+    case inconsistentQuantities(InconsistentQuantities)
+    case invalidArgument(InvalidArgument)
+    case invalidDefaultRootObject(InvalidDefaultRootObject)
+    case invalidErrorCode(InvalidErrorCode)
+    case invalidForwardCookies(InvalidForwardCookies)
+    case invalidFunctionAssociation(InvalidFunctionAssociation)
+    case invalidGeoRestrictionParameter(InvalidGeoRestrictionParameter)
+    case invalidHeadersForS3Origin(InvalidHeadersForS3Origin)
+    case invalidIfMatchVersion(InvalidIfMatchVersion)
+    case invalidLambdaFunctionAssociation(InvalidLambdaFunctionAssociation)
+    case invalidLocationCode(InvalidLocationCode)
+    case invalidMinimumProtocolVersion(InvalidMinimumProtocolVersion)
+    case invalidOrigin(InvalidOrigin)
+    case invalidOriginAccessControl(InvalidOriginAccessControl)
+    case invalidOriginAccessIdentity(InvalidOriginAccessIdentity)
+    case invalidOriginKeepaliveTimeout(InvalidOriginKeepaliveTimeout)
+    case invalidOriginReadTimeout(InvalidOriginReadTimeout)
+    case invalidProtocolSettings(InvalidProtocolSettings)
+    case invalidQueryStringParameters(InvalidQueryStringParameters)
+    case invalidRelativePath(InvalidRelativePath)
+    case invalidRequiredProtocol(InvalidRequiredProtocol)
+    case invalidResponseCode(InvalidResponseCode)
+    case invalidTTLOrder(InvalidTTLOrder)
+    case invalidViewerCertificate(InvalidViewerCertificate)
+    case invalidWebACLId(InvalidWebACLId)
+    case missingBody(MissingBody)
+    case noSuchCachePolicy(NoSuchCachePolicy)
+    case noSuchDistribution(NoSuchDistribution)
+    case noSuchFieldLevelEncryptionConfig(NoSuchFieldLevelEncryptionConfig)
+    case noSuchOrigin(NoSuchOrigin)
+    case noSuchOriginRequestPolicy(NoSuchOriginRequestPolicy)
+    case noSuchRealtimeLogConfig(NoSuchRealtimeLogConfig)
+    case noSuchResponseHeadersPolicy(NoSuchResponseHeadersPolicy)
+    case preconditionFailed(PreconditionFailed)
+    case realtimeLogConfigOwnerMismatch(RealtimeLogConfigOwnerMismatch)
+    case tooManyCacheBehaviors(TooManyCacheBehaviors)
+    case tooManyCertificates(TooManyCertificates)
+    case tooManyCookieNamesInWhiteList(TooManyCookieNamesInWhiteList)
+    case tooManyDistributionCNAMEs(TooManyDistributionCNAMEs)
+    case tooManyDistributions(TooManyDistributions)
+    case tooManyDistributionsAssociatedToCachePolicy(TooManyDistributionsAssociatedToCachePolicy)
+    case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(TooManyDistributionsAssociatedToFieldLevelEncryptionConfig)
+    case tooManyDistributionsAssociatedToKeyGroup(TooManyDistributionsAssociatedToKeyGroup)
+    case tooManyDistributionsAssociatedToOriginRequestPolicy(TooManyDistributionsAssociatedToOriginRequestPolicy)
+    case tooManyDistributionsAssociatedToResponseHeadersPolicy(TooManyDistributionsAssociatedToResponseHeadersPolicy)
+    case tooManyDistributionsWithFunctionAssociations(TooManyDistributionsWithFunctionAssociations)
+    case tooManyDistributionsWithLambdaAssociations(TooManyDistributionsWithLambdaAssociations)
+    case tooManyDistributionsWithSingleFunctionARN(TooManyDistributionsWithSingleFunctionARN)
+    case tooManyFunctionAssociations(TooManyFunctionAssociations)
+    case tooManyHeadersInForwardedValues(TooManyHeadersInForwardedValues)
+    case tooManyKeyGroupsAssociatedToDistribution(TooManyKeyGroupsAssociatedToDistribution)
+    case tooManyLambdaFunctionAssociations(TooManyLambdaFunctionAssociations)
+    case tooManyOriginCustomHeaders(TooManyOriginCustomHeaders)
+    case tooManyOriginGroupsPerDistribution(TooManyOriginGroupsPerDistribution)
+    case tooManyOrigins(TooManyOrigins)
+    case tooManyQueryStringParameters(TooManyQueryStringParameters)
+    case tooManyTrustedSigners(TooManyTrustedSigners)
+    case trustedKeyGroupDoesNotExist(TrustedKeyGroupDoesNotExist)
+    case trustedSignerDoesNotExist(TrustedSignerDoesNotExist)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CopyDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            self.location = locationHeaderValue
+        } else {
+            self.location = nil
+        }
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
+                self.distribution = output
+            } else {
+                self.distribution = nil
+            }
+        } else {
+            self.distribution = nil
+        }
+    }
+}
+
+public struct CopyDistributionOutputResponse: Swift.Equatable {
+    /// A distribution tells CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
+    public var distribution: CloudFrontClientTypes.Distribution?
+    /// The version identifier for the current version of the staging distribution.
+    public var eTag: Swift.String?
+    /// The URL of the staging distribution.
+    public var location: Swift.String?
+
+    public init (
+        distribution: CloudFrontClientTypes.Distribution? = nil,
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil
+    )
+    {
+        self.distribution = distribution
+        self.eTag = eTag
+        self.location = location
+    }
+}
+
+struct CopyDistributionOutputResponseBody: Swift.Equatable {
+    let distribution: CloudFrontClientTypes.Distribution?
+}
+
+extension CopyDistributionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distribution = "Distribution"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
+        distribution = distributionDecoded
+    }
 }
 
 public struct CreateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
@@ -3405,6 +4171,198 @@ extension CreateCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudFrontOriginAccessIdentityDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CloudFrontOriginAccessIdentity.self, forKey: .cloudFrontOriginAccessIdentity)
         cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentityDecoded
+    }
+}
+
+public struct CreateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateContinuousDeploymentPolicyInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateContinuousDeploymentPolicyInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateContinuousDeploymentPolicyOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let continuousDeploymentPolicyConfig = input.operationInput.continuousDeploymentPolicyConfig {
+                let continuousDeploymentPolicyConfigdata = try encoder.encode(continuousDeploymentPolicyConfig)
+                let continuousDeploymentPolicyConfigbody = ClientRuntime.HttpBody.data(continuousDeploymentPolicyConfigdata)
+                input.builder.withBody(continuousDeploymentPolicyConfigbody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let continuousDeploymentPolicyConfigdata = "{}".data(using: .utf8)!
+                    let continuousDeploymentPolicyConfigbody = ClientRuntime.HttpBody.data(continuousDeploymentPolicyConfigdata)
+                    input.builder.withBody(continuousDeploymentPolicyConfigbody)
+                }
+            }
+        } catch let err {
+            throw SdkError<CreateContinuousDeploymentPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateContinuousDeploymentPolicyInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateContinuousDeploymentPolicyOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension CreateContinuousDeploymentPolicyInput: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CreateContinuousDeploymentPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig {
+            try container.encode(continuousDeploymentPolicyConfig, forKey: ClientRuntime.Key("ContinuousDeploymentPolicyConfig"))
+        }
+    }
+}
+
+extension CreateContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/2020-05-31/continuous-deployment-policy"
+    }
+}
+
+public struct CreateContinuousDeploymentPolicyInput: Swift.Equatable {
+    /// Contains the configuration for a continuous deployment policy.
+    /// This member is required.
+    public var continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
+
+    public init (
+        continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil
+    )
+    {
+        self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+    }
+}
+
+struct CreateContinuousDeploymentPolicyInputBody: Swift.Equatable {
+    let continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
+}
+
+extension CreateContinuousDeploymentPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.self, forKey: .continuousDeploymentPolicyConfig)
+        continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfigDecoded
+    }
+}
+
+extension CreateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension CreateContinuousDeploymentPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InconsistentQuantities" : self = .inconsistentQuantities(try InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "StagingDistributionInUse" : self = .stagingDistributionInUse(try StagingDistributionInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case inconsistentQuantities(InconsistentQuantities)
+    case invalidArgument(InvalidArgument)
+    case stagingDistributionInUse(StagingDistributionInUse)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            self.location = locationHeaderValue
+        } else {
+            self.location = nil
+        }
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
+                self.continuousDeploymentPolicy = output
+            } else {
+                self.continuousDeploymentPolicy = nil
+            }
+        } else {
+            self.continuousDeploymentPolicy = nil
+        }
+    }
+}
+
+public struct CreateContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
+    /// A continuous deployment policy.
+    public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+    /// The version identifier for the current version of the continuous deployment policy.
+    public var eTag: Swift.String?
+    /// The location of the continuous deployment policy.
+    public var location: Swift.String?
+
+    public init (
+        continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil
+    )
+    {
+        self.continuousDeploymentPolicy = continuousDeploymentPolicy
+        self.eTag = eTag
+        self.location = location
+    }
+}
+
+struct CreateContinuousDeploymentPolicyOutputResponseBody: Swift.Equatable {
+    let continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+}
+
+extension CreateContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicy.self, forKey: .continuousDeploymentPolicy)
+        continuousDeploymentPolicy = continuousDeploymentPolicyDecoded
     }
 }
 
@@ -7441,6 +8399,88 @@ public struct DeleteCloudFrontOriginAccessIdentityOutputResponse: Swift.Equatabl
     public init () { }
 }
 
+extension DeleteContinuousDeploymentPolicyInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let ifMatch = ifMatch {
+            items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension DeleteContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteContinuousDeploymentPolicyInput: Swift.Equatable {
+    /// The identifier of the continuous deployment policy that you are deleting.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the continuous deployment policy that you are deleting.
+    public var ifMatch: Swift.String?
+
+    public init (
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+struct DeleteContinuousDeploymentPolicyInputBody: Swift.Equatable {
+}
+
+extension DeleteContinuousDeploymentPolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension DeleteContinuousDeploymentPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case invalidArgument(InvalidArgument)
+    case invalidIfMatchVersion(InvalidIfMatchVersion)
+    case preconditionFailed(PreconditionFailed)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteDistributionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8729,25 +9769,25 @@ extension CloudFrontClientTypes {
         public var activeTrustedSigners: CloudFrontClientTypes.ActiveTrustedSigners?
         /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see [ Signup, Accounts, and Credentials](https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html) in Getting Started with Amazon Web Services services in China.
         public var aliasICPRecordals: [CloudFrontClientTypes.AliasICPRecordal]?
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
+        /// The distribution’s Amazon Resource Name (ARN).
         /// This member is required.
         public var arn: Swift.String?
-        /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
+        /// The distribution’s configuration.
         /// This member is required.
         public var distributionConfig: CloudFrontClientTypes.DistributionConfig?
-        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net.
+        /// The distribution’s CloudFront domain name. For example: d111111abcdef8.cloudfront.net.
         /// This member is required.
         public var domainName: Swift.String?
-        /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
+        /// The distribution’s identifier. For example: E1U5RQF7T870K0.
         /// This member is required.
         public var id: Swift.String?
         /// The number of invalidation batches currently in progress.
         /// This member is required.
         public var inProgressInvalidationBatches: Swift.Int?
-        /// The date and time the distribution was last modified.
+        /// The date and time when the distribution was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations.
+        /// The distribution’s status. When the status is Deployed, the distribution’s information is fully propagated to all CloudFront edge locations.
         /// This member is required.
         public var status: Swift.String?
 
@@ -8993,7 +10033,7 @@ extension CloudFrontClientTypes {
         /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         /// This member is required.
         public var defaultCacheBehavior: CloudFrontClientTypes.DefaultCacheBehavior?
-        /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Don't add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see [Creating a Default Root Object](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) in the Amazon CloudFront Developer Guide.
+        /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (https://www.example.com) instead of an object in your distribution (https://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Don't add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see [Creating a Default Root Object](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) in the Amazon CloudFront Developer Guide.
         public var defaultRootObject: Swift.String?
         /// From this field, you can enable or disable the selected distribution.
         /// This member is required.
@@ -12443,6 +13483,216 @@ extension GetCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudFrontOriginAccessIdentityDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CloudFrontOriginAccessIdentity.self, forKey: .cloudFrontOriginAccessIdentity)
         cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentityDecoded
+    }
+}
+
+extension GetContinuousDeploymentPolicyConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())/config"
+    }
+}
+
+public struct GetContinuousDeploymentPolicyConfigInput: Swift.Equatable {
+    /// The identifier of the continuous deployment policy whose configuration you are getting.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init (
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetContinuousDeploymentPolicyConfigInputBody: Swift.Equatable {
+}
+
+extension GetContinuousDeploymentPolicyConfigInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetContinuousDeploymentPolicyConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension GetContinuousDeploymentPolicyConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetContinuousDeploymentPolicyConfigOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetContinuousDeploymentPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig = try responseDecoder.decode(responseBody: data)
+                self.continuousDeploymentPolicyConfig = output
+            } else {
+                self.continuousDeploymentPolicyConfig = nil
+            }
+        } else {
+            self.continuousDeploymentPolicyConfig = nil
+        }
+    }
+}
+
+public struct GetContinuousDeploymentPolicyConfigOutputResponse: Swift.Equatable {
+    /// Contains the configuration for a continuous deployment policy.
+    public var continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
+    /// The version identifier for the current version of the continuous deployment policy.
+    public var eTag: Swift.String?
+
+    public init (
+        continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+        self.eTag = eTag
+    }
+}
+
+struct GetContinuousDeploymentPolicyConfigOutputResponseBody: Swift.Equatable {
+    let continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
+}
+
+extension GetContinuousDeploymentPolicyConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.self, forKey: .continuousDeploymentPolicyConfig)
+        continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfigDecoded
+    }
+}
+
+extension GetContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct GetContinuousDeploymentPolicyInput: Swift.Equatable {
+    /// The identifier of the continuous deployment policy that you are getting.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init (
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetContinuousDeploymentPolicyInputBody: Swift.Equatable {
+}
+
+extension GetContinuousDeploymentPolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension GetContinuousDeploymentPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
+                self.continuousDeploymentPolicy = output
+            } else {
+                self.continuousDeploymentPolicy = nil
+            }
+        } else {
+            self.continuousDeploymentPolicy = nil
+        }
+    }
+}
+
+public struct GetContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
+    /// A continuous deployment policy.
+    public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+    /// The version identifier for the current version of the continuous deployment policy.
+    public var eTag: Swift.String?
+
+    public init (
+        continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.continuousDeploymentPolicy = continuousDeploymentPolicy
+        self.eTag = eTag
+    }
+}
+
+struct GetContinuousDeploymentPolicyOutputResponseBody: Swift.Equatable {
+    let continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+}
+
+extension GetContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicy.self, forKey: .continuousDeploymentPolicy)
+        continuousDeploymentPolicy = continuousDeploymentPolicyDecoded
     }
 }
 
@@ -18158,6 +19408,121 @@ extension ListConflictingAliasesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListContinuousDeploymentPoliciesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let maxItems = maxItems {
+                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+                items.append(maxItemsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListContinuousDeploymentPoliciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/2020-05-31/continuous-deployment-policy"
+    }
+}
+
+public struct ListContinuousDeploymentPoliciesInput: Swift.Equatable {
+    /// Use this field when paginating results to indicate where to begin in your list of continuous deployment policies. The response includes policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    public var marker: Swift.String?
+    /// The maximum number of continuous deployment policies that you want returned in the response.
+    public var maxItems: Swift.Int?
+
+    public init (
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    )
+    {
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+struct ListContinuousDeploymentPoliciesInputBody: Swift.Equatable {
+}
+
+extension ListContinuousDeploymentPoliciesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListContinuousDeploymentPoliciesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension ListContinuousDeploymentPoliciesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListContinuousDeploymentPoliciesOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case invalidArgument(InvalidArgument)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListContinuousDeploymentPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: CloudFrontClientTypes.ContinuousDeploymentPolicyList = try responseDecoder.decode(responseBody: data)
+                self.continuousDeploymentPolicyList = output
+            } else {
+                self.continuousDeploymentPolicyList = nil
+            }
+        } else {
+            self.continuousDeploymentPolicyList = nil
+        }
+    }
+}
+
+public struct ListContinuousDeploymentPoliciesOutputResponse: Swift.Equatable {
+    /// A list of continuous deployment policies.
+    public var continuousDeploymentPolicyList: CloudFrontClientTypes.ContinuousDeploymentPolicyList?
+
+    public init (
+        continuousDeploymentPolicyList: CloudFrontClientTypes.ContinuousDeploymentPolicyList? = nil
+    )
+    {
+        self.continuousDeploymentPolicyList = continuousDeploymentPolicyList
+    }
+}
+
+struct ListContinuousDeploymentPoliciesOutputResponseBody: Swift.Equatable {
+    let continuousDeploymentPolicyList: CloudFrontClientTypes.ContinuousDeploymentPolicyList?
+}
+
+extension ListContinuousDeploymentPoliciesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicyList = "ContinuousDeploymentPolicyList"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyList.self, forKey: .continuousDeploymentPolicyList)
+        continuousDeploymentPolicyList = continuousDeploymentPolicyListDecoded
+    }
+}
+
 extension ListDistributionsByCachePolicyIdInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -21994,7 +23359,6 @@ extension CloudFrontClientTypes {
     /// A CloudFront origin access control configuration.
     public struct OriginAccessControlConfig: Swift.Equatable {
         /// A description of the origin access control.
-        /// This member is required.
         public var description: Swift.String?
         /// A name to identify the origin access control.
         /// This member is required.
@@ -23777,8 +25141,8 @@ extension CloudFrontClientTypes.OriginSslProtocols: Swift.Codable {
                 var itemsBuffer:[CloudFrontClientTypes.SslProtocol]? = nil
                 if let itemsContainer = itemsContainer {
                     itemsBuffer = [CloudFrontClientTypes.SslProtocol]()
-                    for stringContainer0 in itemsContainer {
-                        itemsBuffer?.append(stringContainer0)
+                    for enumContainer0 in itemsContainer {
+                        itemsBuffer?.append(enumContainer0)
                     }
                 }
                 items = itemsBuffer
@@ -25994,8 +27358,8 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods: 
                 var itemsBuffer:[CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethodsValues]? = nil
                 if let itemsContainer = itemsContainer {
                     itemsBuffer = [CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethodsValues]()
-                    for stringContainer0 in itemsContainer {
-                        itemsBuffer?.append(stringContainer0)
+                    for enumContainer0 in itemsContainer {
+                        itemsBuffer?.append(enumContainer0)
                     }
                 }
                 items = itemsBuffer
@@ -27764,6 +29128,70 @@ extension CloudFrontClientTypes {
     }
 }
 
+extension CloudFrontClientTypes.SessionStickinessConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case idleTTL = "IdleTTL"
+        case maximumTTL = "MaximumTTL"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let idleTTL = idleTTL {
+            try container.encode(idleTTL, forKey: ClientRuntime.Key("IdleTTL"))
+        }
+        if let maximumTTL = maximumTTL {
+            try container.encode(maximumTTL, forKey: ClientRuntime.Key("MaximumTTL"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idleTTLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTTL)
+        idleTTL = idleTTLDecoded
+        let maximumTTLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumTTL)
+        maximumTTL = maximumTTLDecoded
+    }
+}
+
+extension CloudFrontClientTypes.SessionStickinessConfig: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// Session stickiness provides the ability to define multiple requests from a single viewer as a single session. This prevents the potentially inconsistent experience of sending some of a given user's requests to your staging distribution, while others are sent to your primary distribution. Define the session duration using TTL values.
+    public struct SessionStickinessConfig: Swift.Equatable {
+        /// The amount of time after which you want sessions to cease if no requests are received. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to MaximumTTL.
+        /// This member is required.
+        public var idleTTL: Swift.Int?
+        /// The maximum amount of time to consider requests from the viewer as being part of the same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to IdleTTL.
+        /// This member is required.
+        public var maximumTTL: Swift.Int?
+
+        public init (
+            idleTTL: Swift.Int? = nil,
+            maximumTTL: Swift.Int? = nil
+        )
+        {
+            self.idleTTL = idleTTL
+            self.maximumTTL = maximumTTL
+        }
+    }
+
+}
+
 extension CloudFrontClientTypes.Signer: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountNumber = "AwsAccountNumber"
@@ -27861,6 +29289,141 @@ extension CloudFrontClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = SslProtocol(rawValue: rawValue) ?? SslProtocol.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension CloudFrontClientTypes.StagingDistributionDnsNames: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items = "Items"
+        case quantity = "Quantity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let items = items {
+            var itemsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Items"))
+            for string0 in items {
+                try itemsContainer.encode(string0, forKey: ClientRuntime.Key("DnsName"))
+            }
+        }
+        if let quantity = quantity {
+            try container.encode(quantity, forKey: ClientRuntime.Key("Quantity"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity)
+        quantity = quantityDecoded
+        if containerValues.contains(.items) {
+            struct KeyVal0{struct DnsName{}}
+            let itemsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.DnsName>.CodingKeys.self, forKey: .items)
+            if let itemsWrappedContainer = itemsWrappedContainer {
+                let itemsContainer = try itemsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var itemsBuffer:[Swift.String]? = nil
+                if let itemsContainer = itemsContainer {
+                    itemsBuffer = [Swift.String]()
+                    for stringContainer0 in itemsContainer {
+                        itemsBuffer?.append(stringContainer0)
+                    }
+                }
+                items = itemsBuffer
+            } else {
+                items = []
+            }
+        } else {
+            items = nil
+        }
+    }
+}
+
+extension CloudFrontClientTypes.StagingDistributionDnsNames: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// The CloudFront domain name of the staging distribution.
+    public struct StagingDistributionDnsNames: Swift.Equatable {
+        /// The CloudFront domain name of the staging distribution.
+        public var items: [Swift.String]?
+        /// The number of CloudFront domain names in your staging distribution.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init (
+            items: [Swift.String]? = nil,
+            quantity: Swift.Int? = nil
+        )
+        {
+            self.items = items
+            self.quantity = quantity
+        }
+    }
+
+}
+
+extension StagingDistributionInUse {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<StagingDistributionInUseBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A continuous deployment policy for this staging distribution already exists.
+public struct StagingDistributionInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct StagingDistributionInUseBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension StagingDistributionInUseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -32049,6 +33612,79 @@ extension TooManyTrustedSignersBody: Swift.Decodable {
     }
 }
 
+extension CloudFrontClientTypes.TrafficConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case singleHeaderConfig = "SingleHeaderConfig"
+        case singleWeightConfig = "SingleWeightConfig"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let singleHeaderConfig = singleHeaderConfig {
+            try container.encode(singleHeaderConfig, forKey: ClientRuntime.Key("SingleHeaderConfig"))
+        }
+        if let singleWeightConfig = singleWeightConfig {
+            try container.encode(singleWeightConfig, forKey: ClientRuntime.Key("SingleWeightConfig"))
+        }
+        if let type = type {
+            try container.encode(type, forKey: ClientRuntime.Key("Type"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let singleWeightConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig.self, forKey: .singleWeightConfig)
+        singleWeightConfig = singleWeightConfigDecoded
+        let singleHeaderConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig.self, forKey: .singleHeaderConfig)
+        singleHeaderConfig = singleHeaderConfigDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension CloudFrontClientTypes.TrafficConfig: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// The traffic configuration of your continuous deployment.
+    public struct TrafficConfig: Swift.Equatable {
+        /// Determines which HTTP requests are sent to the staging distribution.
+        public var singleHeaderConfig: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig?
+        /// Contains the percentage of traffic to send to the staging distribution.
+        public var singleWeightConfig: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig?
+        /// The type of traffic configuration.
+        /// This member is required.
+        public var type: CloudFrontClientTypes.ContinuousDeploymentPolicyType?
+
+        public init (
+            singleHeaderConfig: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig? = nil,
+            singleWeightConfig: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig? = nil,
+            type: CloudFrontClientTypes.ContinuousDeploymentPolicyType? = nil
+        )
+        {
+            self.singleHeaderConfig = singleHeaderConfig
+            self.singleWeightConfig = singleWeightConfig
+            self.type = type
+        }
+    }
+
+}
+
 extension TrustedKeyGroupDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -32989,6 +34625,215 @@ extension UpdateCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodabl
     }
 }
 
+public struct UpdateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateContinuousDeploymentPolicyInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateContinuousDeploymentPolicyInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateContinuousDeploymentPolicyOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let continuousDeploymentPolicyConfig = input.operationInput.continuousDeploymentPolicyConfig {
+                let continuousDeploymentPolicyConfigdata = try encoder.encode(continuousDeploymentPolicyConfig)
+                let continuousDeploymentPolicyConfigbody = ClientRuntime.HttpBody.data(continuousDeploymentPolicyConfigdata)
+                input.builder.withBody(continuousDeploymentPolicyConfigbody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let continuousDeploymentPolicyConfigdata = "{}".data(using: .utf8)!
+                    let continuousDeploymentPolicyConfigbody = ClientRuntime.HttpBody.data(continuousDeploymentPolicyConfigdata)
+                    input.builder.withBody(continuousDeploymentPolicyConfigbody)
+                }
+            }
+        } catch let err {
+            throw SdkError<UpdateContinuousDeploymentPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateContinuousDeploymentPolicyInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateContinuousDeploymentPolicyOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension UpdateContinuousDeploymentPolicyInput: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension UpdateContinuousDeploymentPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig {
+            try container.encode(continuousDeploymentPolicyConfig, forKey: ClientRuntime.Key("ContinuousDeploymentPolicyConfig"))
+        }
+    }
+}
+
+extension UpdateContinuousDeploymentPolicyInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let ifMatch = ifMatch {
+            items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension UpdateContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateContinuousDeploymentPolicyInput: Swift.Equatable {
+    /// The continuous deployment policy configuration.
+    /// This member is required.
+    public var continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
+    /// The identifier of the continuous deployment policy that you are updating.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the continuous deployment policy that you are updating.
+    public var ifMatch: Swift.String?
+
+    public init (
+        continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil,
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    )
+    {
+        self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+struct UpdateContinuousDeploymentPolicyInputBody: Swift.Equatable {
+    let continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
+}
+
+extension UpdateContinuousDeploymentPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.self, forKey: .continuousDeploymentPolicyConfig)
+        continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfigDecoded
+    }
+}
+
+extension UpdateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension UpdateContinuousDeploymentPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InconsistentQuantities" : self = .inconsistentQuantities(try InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "StagingDistributionInUse" : self = .stagingDistributionInUse(try StagingDistributionInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case inconsistentQuantities(InconsistentQuantities)
+    case invalidArgument(InvalidArgument)
+    case invalidIfMatchVersion(InvalidIfMatchVersion)
+    case preconditionFailed(PreconditionFailed)
+    case stagingDistributionInUse(StagingDistributionInUse)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
+                self.continuousDeploymentPolicy = output
+            } else {
+                self.continuousDeploymentPolicy = nil
+            }
+        } else {
+            self.continuousDeploymentPolicy = nil
+        }
+    }
+}
+
+public struct UpdateContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
+    /// A continuous deployment policy.
+    public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+    /// The version identifier for the current version of the continuous deployment policy.
+    public var eTag: Swift.String?
+
+    public init (
+        continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.continuousDeploymentPolicy = continuousDeploymentPolicy
+        self.eTag = eTag
+    }
+}
+
+struct UpdateContinuousDeploymentPolicyOutputResponseBody: Swift.Equatable {
+    let continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+}
+
+extension UpdateContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicy.self, forKey: .continuousDeploymentPolicy)
+        continuousDeploymentPolicy = continuousDeploymentPolicyDecoded
+    }
+}
+
 public struct UpdateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateDistributionInputBodyMiddleware"
 
@@ -33164,6 +35009,7 @@ extension UpdateDistributionOutputError {
         case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RealtimeLogConfigOwnerMismatch" : self = .realtimeLogConfigOwnerMismatch(try RealtimeLogConfigOwnerMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "StagingDistributionInUse" : self = .stagingDistributionInUse(try StagingDistributionInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCacheBehaviors" : self = .tooManyCacheBehaviors(try TooManyCacheBehaviors(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCertificates" : self = .tooManyCertificates(try TooManyCertificates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCookieNamesInWhiteList" : self = .tooManyCookieNamesInWhiteList(try TooManyCookieNamesInWhiteList(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -33232,6 +35078,7 @@ public enum UpdateDistributionOutputError: Swift.Error, Swift.Equatable {
     case noSuchResponseHeadersPolicy(NoSuchResponseHeadersPolicy)
     case preconditionFailed(PreconditionFailed)
     case realtimeLogConfigOwnerMismatch(RealtimeLogConfigOwnerMismatch)
+    case stagingDistributionInUse(StagingDistributionInUse)
     case tooManyCacheBehaviors(TooManyCacheBehaviors)
     case tooManyCertificates(TooManyCertificates)
     case tooManyCookieNamesInWhiteList(TooManyCookieNamesInWhiteList)

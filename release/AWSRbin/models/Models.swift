@@ -2,9 +2,101 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension ConflictException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.reason = output.reason
+        } else {
+            self.message = nil
+            self.reason = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The specified retention rule lock request can't be completed.
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+    /// The reason for the exception.
+    public var reason: RbinClientTypes.ConflictExceptionReason?
+
+    public init (
+        message: Swift.String? = nil,
+        reason: RbinClientTypes.ConflictExceptionReason? = nil
+    )
+    {
+        self.message = message
+        self.reason = reason
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let reason: RbinClientTypes.ConflictExceptionReason?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+        case reason = "Reason"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(RbinClientTypes.ConflictExceptionReason.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension RbinClientTypes {
+    public enum ConflictExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case invalidRuleState
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConflictExceptionReason] {
+            return [
+                .invalidRuleState,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalidRuleState: return "INVALID_RULE_STATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConflictExceptionReason(rawValue: rawValue) ?? ConflictExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CreateRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case lockConfiguration = "LockConfiguration"
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
@@ -15,6 +107,9 @@ extension CreateRuleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lockConfiguration = self.lockConfiguration {
+            try encodeContainer.encode(lockConfiguration, forKey: .lockConfiguration)
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
@@ -46,6 +141,8 @@ extension CreateRuleInput: ClientRuntime.URLPathProvider {
 public struct CreateRuleInput: Swift.Equatable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// Information about the retention rule lock configuration.
+    public var lockConfiguration: RbinClientTypes.LockConfiguration?
     /// Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To retain EBS-backed AMIs, specify EC2_IMAGE.
@@ -59,6 +156,7 @@ public struct CreateRuleInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
+        lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
@@ -66,6 +164,7 @@ public struct CreateRuleInput: Swift.Equatable {
     )
     {
         self.description = description
+        self.lockConfiguration = lockConfiguration
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
@@ -79,11 +178,13 @@ struct CreateRuleInputBody: Swift.Equatable {
     let tags: [RbinClientTypes.Tag]?
     let resourceType: RbinClientTypes.ResourceType?
     let resourceTags: [RbinClientTypes.ResourceTag]?
+    let lockConfiguration: RbinClientTypes.LockConfiguration?
 }
 
 extension CreateRuleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case lockConfiguration = "LockConfiguration"
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
@@ -120,6 +221,8 @@ extension CreateRuleInputBody: Swift.Decodable {
             }
         }
         resourceTags = resourceTagsDecoded0
+        let lockConfigurationDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockConfiguration.self, forKey: .lockConfiguration)
+        lockConfiguration = lockConfigurationDecoded
     }
 }
 
@@ -157,6 +260,8 @@ extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: CreateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
+            self.lockConfiguration = output.lockConfiguration
+            self.lockState = output.lockState
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
@@ -165,6 +270,8 @@ extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.description = nil
             self.identifier = nil
+            self.lockConfiguration = nil
+            self.lockState = nil
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
@@ -179,6 +286,18 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
     public var description: Swift.String?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
+    /// Information about the retention rule lock configuration.
+    public var lockConfiguration: RbinClientTypes.LockConfiguration?
+    /// The lock state for the retention rule.
+    ///
+    /// * locked - The retention rule is locked and can't be modified or deleted.
+    ///
+    /// * pending_unlock - The retention rule has been unlocked but it is still within the unlock delay period. The retention rule can be modified or deleted only after the unlock delay period has expired.
+    ///
+    /// * unlocked - The retention rule is unlocked and it can be modified or deleted by any user with the required permissions.
+    ///
+    /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
+    public var lockState: RbinClientTypes.LockState?
     /// Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
@@ -193,6 +312,8 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
     public init (
         description: Swift.String? = nil,
         identifier: Swift.String? = nil,
+        lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
+        lockState: RbinClientTypes.LockState? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
@@ -202,6 +323,8 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
     {
         self.description = description
         self.identifier = identifier
+        self.lockConfiguration = lockConfiguration
+        self.lockState = lockState
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
@@ -218,12 +341,16 @@ struct CreateRuleOutputResponseBody: Swift.Equatable {
     let resourceType: RbinClientTypes.ResourceType?
     let resourceTags: [RbinClientTypes.ResourceTag]?
     let status: RbinClientTypes.RuleStatus?
+    let lockConfiguration: RbinClientTypes.LockConfiguration?
+    let lockState: RbinClientTypes.LockState?
 }
 
 extension CreateRuleOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
+        case lockConfiguration = "LockConfiguration"
+        case lockState = "LockState"
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
@@ -265,6 +392,10 @@ extension CreateRuleOutputResponseBody: Swift.Decodable {
         resourceTags = resourceTagsDecoded0
         let statusDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RuleStatus.self, forKey: .status)
         status = statusDecoded
+        let lockConfigurationDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockConfiguration.self, forKey: .lockConfiguration)
+        lockConfiguration = lockConfigurationDecoded
+        let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
+        lockState = lockStateDecoded
     }
 }
 
@@ -310,6 +441,7 @@ extension DeleteRuleOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteRuleOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -319,6 +451,7 @@ extension DeleteRuleOutputError {
 }
 
 public enum DeleteRuleOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -400,6 +533,9 @@ extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
+            self.lockConfiguration = output.lockConfiguration
+            self.lockEndTime = output.lockEndTime
+            self.lockState = output.lockState
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
@@ -407,6 +543,9 @@ extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.description = nil
             self.identifier = nil
+            self.lockConfiguration = nil
+            self.lockEndTime = nil
+            self.lockState = nil
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
@@ -420,6 +559,20 @@ public struct GetRuleOutputResponse: Swift.Equatable {
     public var description: Swift.String?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
+    /// Information about the retention rule lock configuration.
+    public var lockConfiguration: RbinClientTypes.LockConfiguration?
+    /// The date and time at which the unlock delay is set to expire. Only returned for retention rules that have been unlocked and that are still within the unlock delay period.
+    public var lockEndTime: ClientRuntime.Date?
+    /// The lock state for the retention rule.
+    ///
+    /// * locked - The retention rule is locked and can't be modified or deleted.
+    ///
+    /// * pending_unlock - The retention rule has been unlocked but it is still within the unlock delay period. The retention rule can be modified or deleted only after the unlock delay period has expired.
+    ///
+    /// * unlocked - The retention rule is unlocked and it can be modified or deleted by any user with the required permissions.
+    ///
+    /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
+    public var lockState: RbinClientTypes.LockState?
     /// Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
@@ -432,6 +585,9 @@ public struct GetRuleOutputResponse: Swift.Equatable {
     public init (
         description: Swift.String? = nil,
         identifier: Swift.String? = nil,
+        lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
+        lockEndTime: ClientRuntime.Date? = nil,
+        lockState: RbinClientTypes.LockState? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
@@ -440,6 +596,9 @@ public struct GetRuleOutputResponse: Swift.Equatable {
     {
         self.description = description
         self.identifier = identifier
+        self.lockConfiguration = lockConfiguration
+        self.lockEndTime = lockEndTime
+        self.lockState = lockState
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
@@ -454,12 +613,18 @@ struct GetRuleOutputResponseBody: Swift.Equatable {
     let retentionPeriod: RbinClientTypes.RetentionPeriod?
     let resourceTags: [RbinClientTypes.ResourceTag]?
     let status: RbinClientTypes.RuleStatus?
+    let lockConfiguration: RbinClientTypes.LockConfiguration?
+    let lockState: RbinClientTypes.LockState?
+    let lockEndTime: ClientRuntime.Date?
 }
 
 extension GetRuleOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
+        case lockConfiguration = "LockConfiguration"
+        case lockEndTime = "LockEndTime"
+        case lockState = "LockState"
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
@@ -489,6 +654,12 @@ extension GetRuleOutputResponseBody: Swift.Decodable {
         resourceTags = resourceTagsDecoded0
         let statusDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RuleStatus.self, forKey: .status)
         status = statusDecoded
+        let lockConfigurationDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockConfiguration.self, forKey: .lockConfiguration)
+        lockConfiguration = lockConfigurationDecoded
+        let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
+        lockState = lockStateDecoded
+        let lockEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lockEndTime)
+        lockEndTime = lockEndTimeDecoded
     }
 }
 
@@ -546,6 +717,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListRulesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lockState = "LockState"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceTags = "ResourceTags"
@@ -554,6 +726,9 @@ extension ListRulesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lockState = self.lockState {
+            try encodeContainer.encode(lockState.rawValue, forKey: .lockState)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -579,6 +754,8 @@ extension ListRulesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRulesInput: Swift.Equatable {
+    /// The lock state of the retention rules to list. Only retention rules with the specified lock state are returned.
+    public var lockState: RbinClientTypes.LockState?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -590,12 +767,14 @@ public struct ListRulesInput: Swift.Equatable {
     public var resourceType: RbinClientTypes.ResourceType?
 
     public init (
+        lockState: RbinClientTypes.LockState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil
     )
     {
+        self.lockState = lockState
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceTags = resourceTags
@@ -608,10 +787,12 @@ struct ListRulesInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
     let resourceTags: [RbinClientTypes.ResourceTag]?
+    let lockState: RbinClientTypes.LockState?
 }
 
 extension ListRulesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lockState = "LockState"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceTags = "ResourceTags"
@@ -637,6 +818,8 @@ extension ListRulesInputBody: Swift.Decodable {
             }
         }
         resourceTags = resourceTagsDecoded0
+        let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
+        lockState = lockStateDecoded
     }
 }
 
@@ -828,6 +1011,289 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+extension RbinClientTypes.LockConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case unlockDelay = "UnlockDelay"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let unlockDelay = self.unlockDelay {
+            try encodeContainer.encode(unlockDelay, forKey: .unlockDelay)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let unlockDelayDecoded = try containerValues.decodeIfPresent(RbinClientTypes.UnlockDelay.self, forKey: .unlockDelay)
+        unlockDelay = unlockDelayDecoded
+    }
+}
+
+extension RbinClientTypes {
+    /// Information about a retention rule lock configuration.
+    public struct LockConfiguration: Swift.Equatable {
+        /// Information about the retention rule unlock delay.
+        /// This member is required.
+        public var unlockDelay: RbinClientTypes.UnlockDelay?
+
+        public init (
+            unlockDelay: RbinClientTypes.UnlockDelay? = nil
+        )
+        {
+            self.unlockDelay = unlockDelay
+        }
+    }
+
+}
+
+extension LockRuleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lockConfiguration = "LockConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lockConfiguration = self.lockConfiguration {
+            try encodeContainer.encode(lockConfiguration, forKey: .lockConfiguration)
+        }
+    }
+}
+
+extension LockRuleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/rules/\(identifier.urlPercentEncoding())/lock"
+    }
+}
+
+public struct LockRuleInput: Swift.Equatable {
+    /// The unique ID of the retention rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Information about the retention rule lock configuration.
+    /// This member is required.
+    public var lockConfiguration: RbinClientTypes.LockConfiguration?
+
+    public init (
+        identifier: Swift.String? = nil,
+        lockConfiguration: RbinClientTypes.LockConfiguration? = nil
+    )
+    {
+        self.identifier = identifier
+        self.lockConfiguration = lockConfiguration
+    }
+}
+
+struct LockRuleInputBody: Swift.Equatable {
+    let lockConfiguration: RbinClientTypes.LockConfiguration?
+}
+
+extension LockRuleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lockConfiguration = "LockConfiguration"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lockConfigurationDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockConfiguration.self, forKey: .lockConfiguration)
+        lockConfiguration = lockConfigurationDecoded
+    }
+}
+
+extension LockRuleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension LockRuleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum LockRuleOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension LockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: LockRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.identifier = output.identifier
+            self.lockConfiguration = output.lockConfiguration
+            self.lockState = output.lockState
+            self.resourceTags = output.resourceTags
+            self.resourceType = output.resourceType
+            self.retentionPeriod = output.retentionPeriod
+            self.status = output.status
+        } else {
+            self.description = nil
+            self.identifier = nil
+            self.lockConfiguration = nil
+            self.lockState = nil
+            self.resourceTags = nil
+            self.resourceType = nil
+            self.retentionPeriod = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct LockRuleOutputResponse: Swift.Equatable {
+    /// The retention rule description.
+    public var description: Swift.String?
+    /// The unique ID of the retention rule.
+    public var identifier: Swift.String?
+    /// Information about the retention rule lock configuration.
+    public var lockConfiguration: RbinClientTypes.LockConfiguration?
+    /// The lock state for the retention rule.
+    ///
+    /// * locked - The retention rule is locked and can't be modified or deleted.
+    ///
+    /// * pending_unlock - The retention rule has been unlocked but it is still within the unlock delay period. The retention rule can be modified or deleted only after the unlock delay period has expired.
+    ///
+    /// * unlocked - The retention rule is unlocked and it can be modified or deleted by any user with the required permissions.
+    ///
+    /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
+    public var lockState: RbinClientTypes.LockState?
+    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    public var resourceTags: [RbinClientTypes.ResourceTag]?
+    /// The resource type retained by the retention rule.
+    public var resourceType: RbinClientTypes.ResourceType?
+    /// Information about the retention period for which the retention rule is to retain resources.
+    public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+    /// The state of the retention rule. Only retention rules that are in the available state retain resources.
+    public var status: RbinClientTypes.RuleStatus?
+
+    public init (
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
+        lockState: RbinClientTypes.LockState? = nil,
+        resourceTags: [RbinClientTypes.ResourceTag]? = nil,
+        resourceType: RbinClientTypes.ResourceType? = nil,
+        retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+        status: RbinClientTypes.RuleStatus? = nil
+    )
+    {
+        self.description = description
+        self.identifier = identifier
+        self.lockConfiguration = lockConfiguration
+        self.lockState = lockState
+        self.resourceTags = resourceTags
+        self.resourceType = resourceType
+        self.retentionPeriod = retentionPeriod
+        self.status = status
+    }
+}
+
+struct LockRuleOutputResponseBody: Swift.Equatable {
+    let identifier: Swift.String?
+    let description: Swift.String?
+    let resourceType: RbinClientTypes.ResourceType?
+    let retentionPeriod: RbinClientTypes.RetentionPeriod?
+    let resourceTags: [RbinClientTypes.ResourceTag]?
+    let status: RbinClientTypes.RuleStatus?
+    let lockConfiguration: RbinClientTypes.LockConfiguration?
+    let lockState: RbinClientTypes.LockState?
+}
+
+extension LockRuleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case identifier = "Identifier"
+        case lockConfiguration = "LockConfiguration"
+        case lockState = "LockState"
+        case resourceTags = "ResourceTags"
+        case resourceType = "ResourceType"
+        case retentionPeriod = "RetentionPeriod"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(RbinClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RetentionPeriod.self, forKey: .retentionPeriod)
+        retentionPeriod = retentionPeriodDecoded
+        let resourceTagsContainer = try containerValues.decodeIfPresent([RbinClientTypes.ResourceTag?].self, forKey: .resourceTags)
+        var resourceTagsDecoded0:[RbinClientTypes.ResourceTag]? = nil
+        if let resourceTagsContainer = resourceTagsContainer {
+            resourceTagsDecoded0 = [RbinClientTypes.ResourceTag]()
+            for structure0 in resourceTagsContainer {
+                if let structure0 = structure0 {
+                    resourceTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceTags = resourceTagsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RuleStatus.self, forKey: .status)
+        status = statusDecoded
+        let lockConfigurationDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockConfiguration.self, forKey: .lockConfiguration)
+        lockConfiguration = lockConfigurationDecoded
+        let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
+        lockState = lockStateDecoded
+    }
+}
+
+extension RbinClientTypes {
+    public enum LockState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case locked
+        case pendingUnlock
+        case unlocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LockState] {
+            return [
+                .locked,
+                .pendingUnlock,
+                .unlocked,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .locked: return "locked"
+            case .pendingUnlock: return "pending_unlock"
+            case .unlocked: return "unlocked"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LockState(rawValue: rawValue) ?? LockState.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -1112,6 +1578,7 @@ extension RbinClientTypes.RuleSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
+        case lockState = "LockState"
         case retentionPeriod = "RetentionPeriod"
     }
 
@@ -1122,6 +1589,9 @@ extension RbinClientTypes.RuleSummary: Swift.Codable {
         }
         if let identifier = self.identifier {
             try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let lockState = self.lockState {
+            try encodeContainer.encode(lockState.rawValue, forKey: .lockState)
         }
         if let retentionPeriod = self.retentionPeriod {
             try encodeContainer.encode(retentionPeriod, forKey: .retentionPeriod)
@@ -1136,6 +1606,8 @@ extension RbinClientTypes.RuleSummary: Swift.Codable {
         description = descriptionDecoded
         let retentionPeriodDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RetentionPeriod.self, forKey: .retentionPeriod)
         retentionPeriod = retentionPeriodDecoded
+        let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
+        lockState = lockStateDecoded
     }
 }
 
@@ -1146,17 +1618,29 @@ extension RbinClientTypes {
         public var description: Swift.String?
         /// The unique ID of the retention rule.
         public var identifier: Swift.String?
+        /// The lock state for the retention rule.
+        ///
+        /// * locked - The retention rule is locked and can't be modified or deleted.
+        ///
+        /// * pending_unlock - The retention rule has been unlocked but it is still within the unlock delay period. The retention rule can be modified or deleted only after the unlock delay period has expired.
+        ///
+        /// * unlocked - The retention rule is unlocked and it can be modified or deleted by any user with the required permissions.
+        ///
+        /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
+        public var lockState: RbinClientTypes.LockState?
         /// Information about the retention period for which the retention rule is to retain resources.
         public var retentionPeriod: RbinClientTypes.RetentionPeriod?
 
         public init (
             description: Swift.String? = nil,
             identifier: Swift.String? = nil,
+            lockState: RbinClientTypes.LockState? = nil,
             retentionPeriod: RbinClientTypes.RetentionPeriod? = nil
         )
         {
             self.description = description
             self.identifier = identifier
+            self.lockState = lockState
             self.retentionPeriod = retentionPeriod
         }
     }
@@ -1407,6 +1891,279 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension RbinClientTypes.UnlockDelay: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case unlockDelayUnit = "UnlockDelayUnit"
+        case unlockDelayValue = "UnlockDelayValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let unlockDelayUnit = self.unlockDelayUnit {
+            try encodeContainer.encode(unlockDelayUnit.rawValue, forKey: .unlockDelayUnit)
+        }
+        if let unlockDelayValue = self.unlockDelayValue {
+            try encodeContainer.encode(unlockDelayValue, forKey: .unlockDelayValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let unlockDelayValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unlockDelayValue)
+        unlockDelayValue = unlockDelayValueDecoded
+        let unlockDelayUnitDecoded = try containerValues.decodeIfPresent(RbinClientTypes.UnlockDelayUnit.self, forKey: .unlockDelayUnit)
+        unlockDelayUnit = unlockDelayUnitDecoded
+    }
+}
+
+extension RbinClientTypes {
+    /// Information about the retention rule unlock delay. The unlock delay is the period after which a retention rule can be modified or edited after it has been unlocked by a user with the required permissions. The retention rule can't be modified or deleted during the unlock delay.
+    public struct UnlockDelay: Swift.Equatable {
+        /// The unit of time in which to measure the unlock delay. Currently, the unlock delay can be measure only in days.
+        /// This member is required.
+        public var unlockDelayUnit: RbinClientTypes.UnlockDelayUnit?
+        /// The unlock delay period, measured in the unit specified for UnlockDelayUnit.
+        /// This member is required.
+        public var unlockDelayValue: Swift.Int?
+
+        public init (
+            unlockDelayUnit: RbinClientTypes.UnlockDelayUnit? = nil,
+            unlockDelayValue: Swift.Int? = nil
+        )
+        {
+            self.unlockDelayUnit = unlockDelayUnit
+            self.unlockDelayValue = unlockDelayValue
+        }
+    }
+
+}
+
+extension RbinClientTypes {
+    public enum UnlockDelayUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnlockDelayUnit] {
+            return [
+                .days,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UnlockDelayUnit(rawValue: rawValue) ?? UnlockDelayUnit.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension UnlockRuleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/rules/\(identifier.urlPercentEncoding())/unlock"
+    }
+}
+
+public struct UnlockRuleInput: Swift.Equatable {
+    /// The unique ID of the retention rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init (
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct UnlockRuleInputBody: Swift.Equatable {
+}
+
+extension UnlockRuleInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UnlockRuleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UnlockRuleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UnlockRuleOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UnlockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UnlockRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.identifier = output.identifier
+            self.lockConfiguration = output.lockConfiguration
+            self.lockEndTime = output.lockEndTime
+            self.lockState = output.lockState
+            self.resourceTags = output.resourceTags
+            self.resourceType = output.resourceType
+            self.retentionPeriod = output.retentionPeriod
+            self.status = output.status
+        } else {
+            self.description = nil
+            self.identifier = nil
+            self.lockConfiguration = nil
+            self.lockEndTime = nil
+            self.lockState = nil
+            self.resourceTags = nil
+            self.resourceType = nil
+            self.retentionPeriod = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct UnlockRuleOutputResponse: Swift.Equatable {
+    /// The retention rule description.
+    public var description: Swift.String?
+    /// The unique ID of the retention rule.
+    public var identifier: Swift.String?
+    /// Information about the retention rule lock configuration.
+    public var lockConfiguration: RbinClientTypes.LockConfiguration?
+    /// The date and time at which the unlock delay is set to expire. Only returned for retention rules that have been unlocked and that are still within the unlock delay period.
+    public var lockEndTime: ClientRuntime.Date?
+    /// The lock state for the retention rule.
+    ///
+    /// * locked - The retention rule is locked and can't be modified or deleted.
+    ///
+    /// * pending_unlock - The retention rule has been unlocked but it is still within the unlock delay period. The retention rule can be modified or deleted only after the unlock delay period has expired.
+    ///
+    /// * unlocked - The retention rule is unlocked and it can be modified or deleted by any user with the required permissions.
+    ///
+    /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
+    public var lockState: RbinClientTypes.LockState?
+    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    public var resourceTags: [RbinClientTypes.ResourceTag]?
+    /// The resource type retained by the retention rule.
+    public var resourceType: RbinClientTypes.ResourceType?
+    /// Information about the retention period for which the retention rule is to retain resources.
+    public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+    /// The state of the retention rule. Only retention rules that are in the available state retain resources.
+    public var status: RbinClientTypes.RuleStatus?
+
+    public init (
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
+        lockEndTime: ClientRuntime.Date? = nil,
+        lockState: RbinClientTypes.LockState? = nil,
+        resourceTags: [RbinClientTypes.ResourceTag]? = nil,
+        resourceType: RbinClientTypes.ResourceType? = nil,
+        retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+        status: RbinClientTypes.RuleStatus? = nil
+    )
+    {
+        self.description = description
+        self.identifier = identifier
+        self.lockConfiguration = lockConfiguration
+        self.lockEndTime = lockEndTime
+        self.lockState = lockState
+        self.resourceTags = resourceTags
+        self.resourceType = resourceType
+        self.retentionPeriod = retentionPeriod
+        self.status = status
+    }
+}
+
+struct UnlockRuleOutputResponseBody: Swift.Equatable {
+    let identifier: Swift.String?
+    let description: Swift.String?
+    let resourceType: RbinClientTypes.ResourceType?
+    let retentionPeriod: RbinClientTypes.RetentionPeriod?
+    let resourceTags: [RbinClientTypes.ResourceTag]?
+    let status: RbinClientTypes.RuleStatus?
+    let lockConfiguration: RbinClientTypes.LockConfiguration?
+    let lockState: RbinClientTypes.LockState?
+    let lockEndTime: ClientRuntime.Date?
+}
+
+extension UnlockRuleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case identifier = "Identifier"
+        case lockConfiguration = "LockConfiguration"
+        case lockEndTime = "LockEndTime"
+        case lockState = "LockState"
+        case resourceTags = "ResourceTags"
+        case resourceType = "ResourceType"
+        case retentionPeriod = "RetentionPeriod"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(RbinClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RetentionPeriod.self, forKey: .retentionPeriod)
+        retentionPeriod = retentionPeriodDecoded
+        let resourceTagsContainer = try containerValues.decodeIfPresent([RbinClientTypes.ResourceTag?].self, forKey: .resourceTags)
+        var resourceTagsDecoded0:[RbinClientTypes.ResourceTag]? = nil
+        if let resourceTagsContainer = resourceTagsContainer {
+            resourceTagsDecoded0 = [RbinClientTypes.ResourceTag]()
+            for structure0 in resourceTagsContainer {
+                if let structure0 = structure0 {
+                    resourceTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceTags = resourceTagsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RuleStatus.self, forKey: .status)
+        status = statusDecoded
+        let lockConfigurationDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockConfiguration.self, forKey: .lockConfiguration)
+        lockConfiguration = lockConfigurationDecoded
+        let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
+        lockState = lockStateDecoded
+        let lockEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lockEndTime)
+        lockEndTime = lockEndTimeDecoded
+    }
+}
+
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -1541,7 +2298,7 @@ public struct UpdateRuleInput: Swift.Equatable {
     public var identifier: Swift.String?
     /// Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
-    /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To retain EBS-backed AMIs, specify EC2_IMAGE.
+    /// This parameter is currently not supported. You can't update a retention rule's resource type after creation.
     public var resourceType: RbinClientTypes.ResourceType?
     /// Information about the retention period for which the retention rule is to retain resources.
     public var retentionPeriod: RbinClientTypes.RetentionPeriod?
@@ -1610,6 +2367,7 @@ extension UpdateRuleOutputError: ClientRuntime.HttpResponseBinding {
 extension UpdateRuleOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1619,6 +2377,7 @@ extension UpdateRuleOutputError {
 }
 
 public enum UpdateRuleOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -1633,6 +2392,8 @@ extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: UpdateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
+            self.lockEndTime = output.lockEndTime
+            self.lockState = output.lockState
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
@@ -1640,6 +2401,8 @@ extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.description = nil
             self.identifier = nil
+            self.lockEndTime = nil
+            self.lockState = nil
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
@@ -1653,6 +2416,18 @@ public struct UpdateRuleOutputResponse: Swift.Equatable {
     public var description: Swift.String?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
+    /// The date and time at which the unlock delay is set to expire. Only returned for retention rules that have been unlocked and that are still within the unlock delay period.
+    public var lockEndTime: ClientRuntime.Date?
+    /// The lock state for the retention rule.
+    ///
+    /// * locked - The retention rule is locked and can't be modified or deleted.
+    ///
+    /// * pending_unlock - The retention rule has been unlocked but it is still within the unlock delay period. The retention rule can be modified or deleted only after the unlock delay period has expired.
+    ///
+    /// * unlocked - The retention rule is unlocked and it can be modified or deleted by any user with the required permissions.
+    ///
+    /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
+    public var lockState: RbinClientTypes.LockState?
     /// Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
@@ -1665,6 +2440,8 @@ public struct UpdateRuleOutputResponse: Swift.Equatable {
     public init (
         description: Swift.String? = nil,
         identifier: Swift.String? = nil,
+        lockEndTime: ClientRuntime.Date? = nil,
+        lockState: RbinClientTypes.LockState? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
@@ -1673,6 +2450,8 @@ public struct UpdateRuleOutputResponse: Swift.Equatable {
     {
         self.description = description
         self.identifier = identifier
+        self.lockEndTime = lockEndTime
+        self.lockState = lockState
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
@@ -1687,12 +2466,16 @@ struct UpdateRuleOutputResponseBody: Swift.Equatable {
     let resourceType: RbinClientTypes.ResourceType?
     let resourceTags: [RbinClientTypes.ResourceTag]?
     let status: RbinClientTypes.RuleStatus?
+    let lockState: RbinClientTypes.LockState?
+    let lockEndTime: ClientRuntime.Date?
 }
 
 extension UpdateRuleOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
+        case lockEndTime = "LockEndTime"
+        case lockState = "LockState"
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
@@ -1722,6 +2505,10 @@ extension UpdateRuleOutputResponseBody: Swift.Decodable {
         resourceTags = resourceTagsDecoded0
         let statusDecoded = try containerValues.decodeIfPresent(RbinClientTypes.RuleStatus.self, forKey: .status)
         status = statusDecoded
+        let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
+        lockState = lockStateDecoded
+        let lockEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lockEndTime)
+        lockEndTime = lockEndTimeDecoded
     }
 }
 

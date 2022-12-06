@@ -57,6 +57,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 extension AppflowClientTypes.AggregationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregationType
+        case targetFileSize
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -64,12 +65,17 @@ extension AppflowClientTypes.AggregationConfig: Swift.Codable {
         if let aggregationType = self.aggregationType {
             try encodeContainer.encode(aggregationType.rawValue, forKey: .aggregationType)
         }
+        if let targetFileSize = self.targetFileSize {
+            try encodeContainer.encode(targetFileSize, forKey: .targetFileSize)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregationTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AggregationType.self, forKey: .aggregationType)
         aggregationType = aggregationTypeDecoded
+        let targetFileSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetFileSize)
+        targetFileSize = targetFileSizeDecoded
     }
 }
 
@@ -78,12 +84,16 @@ extension AppflowClientTypes {
     public struct AggregationConfig: Swift.Equatable {
         /// Specifies whether Amazon AppFlow aggregates the flow records into a single file, or leave them unaggregated.
         public var aggregationType: AppflowClientTypes.AggregationType?
+        /// The desired file size, in MB, for each output file that Amazon AppFlow writes to the flow destination. For each file, Amazon AppFlow attempts to achieve the size that you specify. The actual file sizes might differ from this target based on the number and size of the records that each file contains.
+        public var targetFileSize: Swift.Int?
 
         public init (
-            aggregationType: AppflowClientTypes.AggregationType? = nil
+            aggregationType: AppflowClientTypes.AggregationType? = nil,
+            targetFileSize: Swift.Int? = nil
         )
         {
             self.aggregationType = aggregationType
+            self.targetFileSize = targetFileSize
         }
     }
 
@@ -611,6 +621,35 @@ extension AppflowClientTypes {
         }
     }
 
+}
+
+extension AppflowClientTypes {
+    public enum CatalogType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case glue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CatalogType] {
+            return [
+                .glue,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .glue: return "GLUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CatalogType(rawValue: rawValue) ?? CatalogType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ConflictException {
@@ -2100,7 +2139,6 @@ extension AppflowClientTypes {
     /// Defines the connector-specific configuration and credentials for the connector profile.
     public struct ConnectorProfileConfig: Swift.Equatable {
         /// The connector-specific credentials required by each connector.
-        /// This member is required.
         public var connectorProfileCredentials: AppflowClientTypes.ConnectorProfileCredentials?
         /// The connector-specific properties of the profile configuration.
         /// This member is required.
@@ -3035,6 +3073,7 @@ extension CreateFlowInput: Swift.Encodable {
         case destinationFlowConfigList
         case flowName
         case kmsArn
+        case metadataCatalogConfig
         case sourceFlowConfig
         case tags
         case tasks
@@ -3057,6 +3096,9 @@ extension CreateFlowInput: Swift.Encodable {
         }
         if let kmsArn = self.kmsArn {
             try encodeContainer.encode(kmsArn, forKey: .kmsArn)
+        }
+        if let metadataCatalogConfig = self.metadataCatalogConfig {
+            try encodeContainer.encode(metadataCatalogConfig, forKey: .metadataCatalogConfig)
         }
         if let sourceFlowConfig = self.sourceFlowConfig {
             try encodeContainer.encode(sourceFlowConfig, forKey: .sourceFlowConfig)
@@ -3096,6 +3138,8 @@ public struct CreateFlowInput: Swift.Equatable {
     public var flowName: Swift.String?
     /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon AppFlow-managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon AppFlow-managed KMS key.
     public var kmsArn: Swift.String?
+    /// Specifies the configuration that Amazon AppFlow uses when it catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs the data from a flow, it stores metadata in a data catalog.
+    public var metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
     /// The configuration that controls how Amazon AppFlow retrieves data from the source connector.
     /// This member is required.
     public var sourceFlowConfig: AppflowClientTypes.SourceFlowConfig?
@@ -3113,6 +3157,7 @@ public struct CreateFlowInput: Swift.Equatable {
         destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]? = nil,
         flowName: Swift.String? = nil,
         kmsArn: Swift.String? = nil,
+        metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig? = nil,
         sourceFlowConfig: AppflowClientTypes.SourceFlowConfig? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         tasks: [AppflowClientTypes.Task]? = nil,
@@ -3123,6 +3168,7 @@ public struct CreateFlowInput: Swift.Equatable {
         self.destinationFlowConfigList = destinationFlowConfigList
         self.flowName = flowName
         self.kmsArn = kmsArn
+        self.metadataCatalogConfig = metadataCatalogConfig
         self.sourceFlowConfig = sourceFlowConfig
         self.tags = tags
         self.tasks = tasks
@@ -3139,6 +3185,7 @@ struct CreateFlowInputBody: Swift.Equatable {
     let destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]?
     let tasks: [AppflowClientTypes.Task]?
     let tags: [Swift.String:Swift.String]?
+    let metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
 }
 
 extension CreateFlowInputBody: Swift.Decodable {
@@ -3147,6 +3194,7 @@ extension CreateFlowInputBody: Swift.Decodable {
         case destinationFlowConfigList
         case flowName
         case kmsArn
+        case metadataCatalogConfig
         case sourceFlowConfig
         case tags
         case tasks
@@ -3198,6 +3246,8 @@ extension CreateFlowInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let metadataCatalogConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.MetadataCatalogConfig.self, forKey: .metadataCatalogConfig)
+        metadataCatalogConfig = metadataCatalogConfigDecoded
     }
 }
 
@@ -5112,8 +5162,11 @@ extension DescribeFlowOutputResponse: ClientRuntime.HttpResponseBinding {
             self.flowStatusMessage = output.flowStatusMessage
             self.kmsArn = output.kmsArn
             self.lastRunExecutionDetails = output.lastRunExecutionDetails
+            self.lastRunMetadataCatalogDetails = output.lastRunMetadataCatalogDetails
             self.lastUpdatedAt = output.lastUpdatedAt
             self.lastUpdatedBy = output.lastUpdatedBy
+            self.metadataCatalogConfig = output.metadataCatalogConfig
+            self.schemaVersion = output.schemaVersion
             self.sourceFlowConfig = output.sourceFlowConfig
             self.tags = output.tags
             self.tasks = output.tasks
@@ -5129,8 +5182,11 @@ extension DescribeFlowOutputResponse: ClientRuntime.HttpResponseBinding {
             self.flowStatusMessage = nil
             self.kmsArn = nil
             self.lastRunExecutionDetails = nil
+            self.lastRunMetadataCatalogDetails = nil
             self.lastUpdatedAt = nil
             self.lastUpdatedBy = nil
+            self.metadataCatalogConfig = nil
+            self.schemaVersion = nil
             self.sourceFlowConfig = nil
             self.tags = nil
             self.tasks = nil
@@ -5160,10 +5216,22 @@ public struct DescribeFlowOutputResponse: Swift.Equatable {
     public var kmsArn: Swift.String?
     /// Describes the details of the most recent flow run.
     public var lastRunExecutionDetails: AppflowClientTypes.ExecutionDetails?
+    /// Describes the metadata catalog, metadata table, and data partitions that Amazon AppFlow used for the associated flow run.
+    public var lastRunMetadataCatalogDetails: [AppflowClientTypes.MetadataCatalogDetail]?
     /// Specifies when the flow was last updated.
     public var lastUpdatedAt: ClientRuntime.Date?
     /// Specifies the user name of the account that performed the most recent update.
     public var lastUpdatedBy: Swift.String?
+    /// Specifies the configuration that Amazon AppFlow uses when it catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs the data from a flow, it stores metadata in a data catalog.
+    public var metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
+    /// The version number of your data schema. Amazon AppFlow assigns this version number. The version number increases by one when you change any of the following settings in your flow configuration:
+    ///
+    /// * Source-to-destination field mappings
+    ///
+    /// * Field data types
+    ///
+    /// * Partition keys
+    public var schemaVersion: Swift.Int?
     /// The configuration that controls how Amazon AppFlow retrieves data from the source connector.
     public var sourceFlowConfig: AppflowClientTypes.SourceFlowConfig?
     /// The tags used to organize, track, or control access for your flow.
@@ -5184,8 +5252,11 @@ public struct DescribeFlowOutputResponse: Swift.Equatable {
         flowStatusMessage: Swift.String? = nil,
         kmsArn: Swift.String? = nil,
         lastRunExecutionDetails: AppflowClientTypes.ExecutionDetails? = nil,
+        lastRunMetadataCatalogDetails: [AppflowClientTypes.MetadataCatalogDetail]? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
         lastUpdatedBy: Swift.String? = nil,
+        metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig? = nil,
+        schemaVersion: Swift.Int? = nil,
         sourceFlowConfig: AppflowClientTypes.SourceFlowConfig? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         tasks: [AppflowClientTypes.Task]? = nil,
@@ -5202,8 +5273,11 @@ public struct DescribeFlowOutputResponse: Swift.Equatable {
         self.flowStatusMessage = flowStatusMessage
         self.kmsArn = kmsArn
         self.lastRunExecutionDetails = lastRunExecutionDetails
+        self.lastRunMetadataCatalogDetails = lastRunMetadataCatalogDetails
         self.lastUpdatedAt = lastUpdatedAt
         self.lastUpdatedBy = lastUpdatedBy
+        self.metadataCatalogConfig = metadataCatalogConfig
+        self.schemaVersion = schemaVersion
         self.sourceFlowConfig = sourceFlowConfig
         self.tags = tags
         self.tasks = tasks
@@ -5228,6 +5302,9 @@ struct DescribeFlowOutputResponseBody: Swift.Equatable {
     let createdBy: Swift.String?
     let lastUpdatedBy: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
+    let lastRunMetadataCatalogDetails: [AppflowClientTypes.MetadataCatalogDetail]?
+    let schemaVersion: Swift.Int?
 }
 
 extension DescribeFlowOutputResponseBody: Swift.Decodable {
@@ -5242,8 +5319,11 @@ extension DescribeFlowOutputResponseBody: Swift.Decodable {
         case flowStatusMessage
         case kmsArn
         case lastRunExecutionDetails
+        case lastRunMetadataCatalogDetails
         case lastUpdatedAt
         case lastUpdatedBy
+        case metadataCatalogConfig
+        case schemaVersion
         case sourceFlowConfig
         case tags
         case tasks
@@ -5311,6 +5391,21 @@ extension DescribeFlowOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let metadataCatalogConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.MetadataCatalogConfig.self, forKey: .metadataCatalogConfig)
+        metadataCatalogConfig = metadataCatalogConfigDecoded
+        let lastRunMetadataCatalogDetailsContainer = try containerValues.decodeIfPresent([AppflowClientTypes.MetadataCatalogDetail?].self, forKey: .lastRunMetadataCatalogDetails)
+        var lastRunMetadataCatalogDetailsDecoded0:[AppflowClientTypes.MetadataCatalogDetail]? = nil
+        if let lastRunMetadataCatalogDetailsContainer = lastRunMetadataCatalogDetailsContainer {
+            lastRunMetadataCatalogDetailsDecoded0 = [AppflowClientTypes.MetadataCatalogDetail]()
+            for structure0 in lastRunMetadataCatalogDetailsContainer {
+                if let structure0 = structure0 {
+                    lastRunMetadataCatalogDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        lastRunMetadataCatalogDetails = lastRunMetadataCatalogDetailsDecoded0
+        let schemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .schemaVersion)
+        schemaVersion = schemaVersionDecoded
     }
 }
 
@@ -6061,6 +6156,7 @@ extension AppflowClientTypes.ExecutionRecord: Swift.Codable {
         case executionResult
         case executionStatus
         case lastUpdatedAt
+        case metadataCatalogDetails
         case startedAt
     }
 
@@ -6084,6 +6180,12 @@ extension AppflowClientTypes.ExecutionRecord: Swift.Codable {
         if let lastUpdatedAt = self.lastUpdatedAt {
             try encodeContainer.encodeTimestamp(lastUpdatedAt, format: .epochSeconds, forKey: .lastUpdatedAt)
         }
+        if let metadataCatalogDetails = metadataCatalogDetails {
+            var metadataCatalogDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadataCatalogDetails)
+            for metadatacatalogdetails0 in metadataCatalogDetails {
+                try metadataCatalogDetailsContainer.encode(metadatacatalogdetails0)
+            }
+        }
         if let startedAt = self.startedAt {
             try encodeContainer.encodeTimestamp(startedAt, format: .epochSeconds, forKey: .startedAt)
         }
@@ -6105,6 +6207,17 @@ extension AppflowClientTypes.ExecutionRecord: Swift.Codable {
         dataPullStartTime = dataPullStartTimeDecoded
         let dataPullEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dataPullEndTime)
         dataPullEndTime = dataPullEndTimeDecoded
+        let metadataCatalogDetailsContainer = try containerValues.decodeIfPresent([AppflowClientTypes.MetadataCatalogDetail?].self, forKey: .metadataCatalogDetails)
+        var metadataCatalogDetailsDecoded0:[AppflowClientTypes.MetadataCatalogDetail]? = nil
+        if let metadataCatalogDetailsContainer = metadataCatalogDetailsContainer {
+            metadataCatalogDetailsDecoded0 = [AppflowClientTypes.MetadataCatalogDetail]()
+            for structure0 in metadataCatalogDetailsContainer {
+                if let structure0 = structure0 {
+                    metadataCatalogDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metadataCatalogDetails = metadataCatalogDetailsDecoded0
     }
 }
 
@@ -6123,6 +6236,8 @@ extension AppflowClientTypes {
         public var executionStatus: AppflowClientTypes.ExecutionStatus?
         /// Specifies the time of the most recent update.
         public var lastUpdatedAt: ClientRuntime.Date?
+        /// Describes the metadata catalog, metadata table, and data partitions that Amazon AppFlow used for the associated flow run.
+        public var metadataCatalogDetails: [AppflowClientTypes.MetadataCatalogDetail]?
         /// Specifies the start time of the flow run.
         public var startedAt: ClientRuntime.Date?
 
@@ -6133,6 +6248,7 @@ extension AppflowClientTypes {
             executionResult: AppflowClientTypes.ExecutionResult? = nil,
             executionStatus: AppflowClientTypes.ExecutionStatus? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
+            metadataCatalogDetails: [AppflowClientTypes.MetadataCatalogDetail]? = nil,
             startedAt: ClientRuntime.Date? = nil
         )
         {
@@ -6142,6 +6258,7 @@ extension AppflowClientTypes {
             self.executionResult = executionResult
             self.executionStatus = executionStatus
             self.lastUpdatedAt = lastUpdatedAt
+            self.metadataCatalogDetails = metadataCatalogDetails
             self.startedAt = startedAt
         }
     }
@@ -6633,6 +6750,64 @@ extension AppflowClientTypes {
             self = FlowStatus(rawValue: rawValue) ?? FlowStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension AppflowClientTypes.GlueDataCatalogConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName
+        case roleArn
+        case tablePrefix
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let tablePrefix = self.tablePrefix {
+            try encodeContainer.encode(tablePrefix, forKey: .tablePrefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tablePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tablePrefix)
+        tablePrefix = tablePrefixDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data with the Glue Data Catalog. When Amazon AppFlow catalogs your data, it stores metadata in Data Catalog tables. This metadata represents the data that's transferred by the flow that you configure with these settings. You can configure a flow with these settings only when the flow destination is Amazon S3.
+    public struct GlueDataCatalogConfig: Swift.Equatable {
+        /// The name of the Data Catalog database that stores the metadata tables that Amazon AppFlow creates in your Amazon Web Services account. These tables contain metadata for the data that's transferred by the flow that you configure with this parameter. When you configure a new flow with this parameter, you must specify an existing database.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon AppFlow the permissions it needs to create Data Catalog tables, databases, and partitions. For an example IAM policy that has the required permissions, see [Identity-based policy examples for Amazon AppFlow](https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_id-based-policy-examples.html).
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// A naming prefix for each Data Catalog table that Amazon AppFlow creates for the flow that you configure with this setting. Amazon AppFlow adds the prefix to the beginning of the each table name.
+        /// This member is required.
+        public var tablePrefix: Swift.String?
+
+        public init (
+            databaseName: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            tablePrefix: Swift.String? = nil
+        )
+        {
+            self.databaseName = databaseName
+            self.roleArn = roleArn
+            self.tablePrefix = tablePrefix
+        }
+    }
+
 }
 
 extension AppflowClientTypes {
@@ -8253,6 +8428,106 @@ extension AppflowClientTypes {
 
 }
 
+extension AppflowClientTypes.MetadataCatalogConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case glueDataCatalog
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let glueDataCatalog = self.glueDataCatalog {
+            try encodeContainer.encode(glueDataCatalog, forKey: .glueDataCatalog)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let glueDataCatalogDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.GlueDataCatalogConfig.self, forKey: .glueDataCatalog)
+        glueDataCatalog = glueDataCatalogDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data. When Amazon AppFlow catalogs your data, it stores metadata in a data catalog.
+    public struct MetadataCatalogConfig: Swift.Equatable {
+        /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data with the Glue Data Catalog.
+        public var glueDataCatalog: AppflowClientTypes.GlueDataCatalogConfig?
+
+        public init (
+            glueDataCatalog: AppflowClientTypes.GlueDataCatalogConfig? = nil
+        )
+        {
+            self.glueDataCatalog = glueDataCatalog
+        }
+    }
+
+}
+
+extension AppflowClientTypes.MetadataCatalogDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogType
+        case partitionRegistrationOutput
+        case tableName
+        case tableRegistrationOutput
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogType = self.catalogType {
+            try encodeContainer.encode(catalogType.rawValue, forKey: .catalogType)
+        }
+        if let partitionRegistrationOutput = self.partitionRegistrationOutput {
+            try encodeContainer.encode(partitionRegistrationOutput, forKey: .partitionRegistrationOutput)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let tableRegistrationOutput = self.tableRegistrationOutput {
+            try encodeContainer.encode(tableRegistrationOutput, forKey: .tableRegistrationOutput)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.CatalogType.self, forKey: .catalogType)
+        catalogType = catalogTypeDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let tableRegistrationOutputDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.RegistrationOutput.self, forKey: .tableRegistrationOutput)
+        tableRegistrationOutput = tableRegistrationOutputDecoded
+        let partitionRegistrationOutputDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.RegistrationOutput.self, forKey: .partitionRegistrationOutput)
+        partitionRegistrationOutput = partitionRegistrationOutputDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// Describes the metadata catalog, metadata table, and data partitions that Amazon AppFlow used for the associated flow run.
+    public struct MetadataCatalogDetail: Swift.Equatable {
+        /// The type of metadata catalog that Amazon AppFlow used for the associated flow run. This parameter returns the following value: GLUE The metadata catalog is provided by the Glue Data Catalog. Glue includes the Glue Data Catalog as a component.
+        public var catalogType: AppflowClientTypes.CatalogType?
+        /// Describes the status of the attempt from Amazon AppFlow to register the data partitions with the metadata catalog. The data partitions organize the flow output into a hierarchical path, such as a folder path in an S3 bucket. Amazon AppFlow creates the partitions (if they don't already exist) based on your flow configuration.
+        public var partitionRegistrationOutput: AppflowClientTypes.RegistrationOutput?
+        /// The name of the table that stores the metadata for the associated flow run. The table stores metadata that represents the data that the flow transferred. Amazon AppFlow stores the table in the metadata catalog.
+        public var tableName: Swift.String?
+        /// Describes the status of the attempt from Amazon AppFlow to register the metadata table with the metadata catalog. Amazon AppFlow creates or updates this table for the associated flow run.
+        public var tableRegistrationOutput: AppflowClientTypes.RegistrationOutput?
+
+        public init (
+            catalogType: AppflowClientTypes.CatalogType? = nil,
+            partitionRegistrationOutput: AppflowClientTypes.RegistrationOutput? = nil,
+            tableName: Swift.String? = nil,
+            tableRegistrationOutput: AppflowClientTypes.RegistrationOutput? = nil
+        )
+        {
+            self.catalogType = catalogType
+            self.partitionRegistrationOutput = partitionRegistrationOutput
+            self.tableName = tableName
+            self.tableRegistrationOutput = tableRegistrationOutput
+        }
+    }
+
+}
+
 extension AppflowClientTypes.OAuth2Credentials: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessToken
@@ -8960,6 +9235,7 @@ extension AppflowClientTypes {
         case maskLength
         case maskValue
         case mathOperationFieldsOrder
+        case orderedPartitionKeysList
         case sourceDataType
         case subfieldCategoryMap
         case truncateLength
@@ -8980,6 +9256,7 @@ extension AppflowClientTypes {
                 .maskLength,
                 .maskValue,
                 .mathOperationFieldsOrder,
+                .orderedPartitionKeysList,
                 .sourceDataType,
                 .subfieldCategoryMap,
                 .truncateLength,
@@ -9005,6 +9282,7 @@ extension AppflowClientTypes {
             case .maskLength: return "MASK_LENGTH"
             case .maskValue: return "MASK_VALUE"
             case .mathOperationFieldsOrder: return "MATH_OPERATION_FIELDS_ORDER"
+            case .orderedPartitionKeysList: return "ORDERED_PARTITION_KEYS_LIST"
             case .sourceDataType: return "SOURCE_DATA_TYPE"
             case .subfieldCategoryMap: return "SUBFIELD_CATEGORY_MAP"
             case .truncateLength: return "TRUNCATE_LENGTH"
@@ -9112,14 +9390,53 @@ extension AppflowClientTypes {
     }
 }
 
+extension AppflowClientTypes {
+    public enum PathPrefix: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case executionId
+        case schemaVersion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PathPrefix] {
+            return [
+                .executionId,
+                .schemaVersion,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .executionId: return "EXECUTION_ID"
+            case .schemaVersion: return "SCHEMA_VERSION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PathPrefix(rawValue: rawValue) ?? PathPrefix.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AppflowClientTypes.PrefixConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pathPrefixHierarchy
         case prefixFormat
         case prefixType
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pathPrefixHierarchy = pathPrefixHierarchy {
+            var pathPrefixHierarchyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pathPrefixHierarchy)
+            for pathprefixhierarchy0 in pathPrefixHierarchy {
+                try pathPrefixHierarchyContainer.encode(pathprefixhierarchy0.rawValue)
+            }
+        }
         if let prefixFormat = self.prefixFormat {
             try encodeContainer.encode(prefixFormat.rawValue, forKey: .prefixFormat)
         }
@@ -9134,22 +9451,43 @@ extension AppflowClientTypes.PrefixConfig: Swift.Codable {
         prefixType = prefixTypeDecoded
         let prefixFormatDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PrefixFormat.self, forKey: .prefixFormat)
         prefixFormat = prefixFormatDecoded
+        let pathPrefixHierarchyContainer = try containerValues.decodeIfPresent([AppflowClientTypes.PathPrefix?].self, forKey: .pathPrefixHierarchy)
+        var pathPrefixHierarchyDecoded0:[AppflowClientTypes.PathPrefix]? = nil
+        if let pathPrefixHierarchyContainer = pathPrefixHierarchyContainer {
+            pathPrefixHierarchyDecoded0 = [AppflowClientTypes.PathPrefix]()
+            for enum0 in pathPrefixHierarchyContainer {
+                if let enum0 = enum0 {
+                    pathPrefixHierarchyDecoded0?.append(enum0)
+                }
+            }
+        }
+        pathPrefixHierarchy = pathPrefixHierarchyDecoded0
     }
 }
 
 extension AppflowClientTypes {
-    /// Determines the prefix that Amazon AppFlow applies to the destination folder name. You can name your destination folders according to the flow frequency and date.
+    /// Specifies elements that Amazon AppFlow includes in the file and folder names in the flow destination.
     public struct PrefixConfig: Swift.Equatable {
-        /// Determines the level of granularity that's included in the prefix.
+        /// Specifies whether the destination file path includes either or both of the following elements: EXECUTION_ID The ID that Amazon AppFlow assigns to the flow run. SCHEMA_VERSION The version number of your data schema. Amazon AppFlow assigns this version number. The version number increases by one when you change any of the following settings in your flow configuration:
+        ///
+        /// * Source-to-destination field mappings
+        ///
+        /// * Field data types
+        ///
+        /// * Partition keys
+        public var pathPrefixHierarchy: [AppflowClientTypes.PathPrefix]?
+        /// Determines the level of granularity for the date and time that's included in the prefix.
         public var prefixFormat: AppflowClientTypes.PrefixFormat?
         /// Determines the format of the prefix, and whether it applies to the file name, file path, or both.
         public var prefixType: AppflowClientTypes.PrefixType?
 
         public init (
+            pathPrefixHierarchy: [AppflowClientTypes.PathPrefix]? = nil,
             prefixFormat: AppflowClientTypes.PrefixFormat? = nil,
             prefixType: AppflowClientTypes.PrefixType? = nil
         )
         {
+            self.pathPrefixHierarchy = pathPrefixHierarchy
             self.prefixFormat = prefixFormat
             self.prefixType = prefixType
         }
@@ -9443,10 +9781,8 @@ extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Amazon Redshift.
     public struct RedshiftConnectorProfileCredentials: Swift.Equatable {
         /// The password that corresponds to the user name.
-        /// This member is required.
         public var password: Swift.String?
         /// The name of the user.
-        /// This member is required.
         public var username: Swift.String?
 
         public init (
@@ -9465,8 +9801,13 @@ extension AppflowClientTypes.RedshiftConnectorProfileProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketName
         case bucketPrefix
+        case clusterIdentifier
+        case dataApiRoleArn
+        case databaseName
         case databaseUrl
+        case isRedshiftServerless
         case roleArn
+        case workgroupName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9477,11 +9818,26 @@ extension AppflowClientTypes.RedshiftConnectorProfileProperties: Swift.Codable {
         if let bucketPrefix = self.bucketPrefix {
             try encodeContainer.encode(bucketPrefix, forKey: .bucketPrefix)
         }
+        if let clusterIdentifier = self.clusterIdentifier {
+            try encodeContainer.encode(clusterIdentifier, forKey: .clusterIdentifier)
+        }
+        if let dataApiRoleArn = self.dataApiRoleArn {
+            try encodeContainer.encode(dataApiRoleArn, forKey: .dataApiRoleArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
         if let databaseUrl = self.databaseUrl {
             try encodeContainer.encode(databaseUrl, forKey: .databaseUrl)
         }
+        if isRedshiftServerless != false {
+            try encodeContainer.encode(isRedshiftServerless, forKey: .isRedshiftServerless)
+        }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
         }
     }
 
@@ -9495,6 +9851,16 @@ extension AppflowClientTypes.RedshiftConnectorProfileProperties: Swift.Codable {
         bucketPrefix = bucketPrefixDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let dataApiRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataApiRoleArn)
+        dataApiRoleArn = dataApiRoleArnDecoded
+        let isRedshiftServerlessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isRedshiftServerless) ?? false
+        isRedshiftServerless = isRedshiftServerlessDecoded
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
     }
 }
 
@@ -9506,24 +9872,43 @@ extension AppflowClientTypes {
         public var bucketName: Swift.String?
         /// The object key for the destination bucket in which Amazon AppFlow places the files.
         public var bucketPrefix: Swift.String?
+        /// The unique ID that's assigned to an Amazon Redshift cluster.
+        public var clusterIdentifier: Swift.String?
+        /// The Amazon Resource Name (ARN) of an IAM role that permits Amazon AppFlow to access your Amazon Redshift database through the Data API. For more information, and for the polices that you attach to this role, see [Allow Amazon AppFlow to access Amazon Redshift databases with the Data API](https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#access-redshift).
+        public var dataApiRoleArn: Swift.String?
+        /// The name of an Amazon Redshift database.
+        public var databaseName: Swift.String?
         /// The JDBC URL of the Amazon Redshift cluster.
-        /// This member is required.
         public var databaseUrl: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM role.
+        /// Indicates whether the connector profile defines a connection to an Amazon Redshift Serverless data warehouse.
+        public var isRedshiftServerless: Swift.Bool
+        /// The Amazon Resource Name (ARN) of IAM role that grants Amazon Redshift read-only access to Amazon S3. For more information, and for the polices that you attach to this role, see [Allow Amazon Redshift to access your Amazon AppFlow data in Amazon S3](https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#redshift-access-s3).
         /// This member is required.
         public var roleArn: Swift.String?
+        /// The name of an Amazon Redshift workgroup.
+        public var workgroupName: Swift.String?
 
         public init (
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
+            clusterIdentifier: Swift.String? = nil,
+            dataApiRoleArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
             databaseUrl: Swift.String? = nil,
-            roleArn: Swift.String? = nil
+            isRedshiftServerless: Swift.Bool = false,
+            roleArn: Swift.String? = nil,
+            workgroupName: Swift.String? = nil
         )
         {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
+            self.clusterIdentifier = clusterIdentifier
+            self.dataApiRoleArn = dataApiRoleArn
+            self.databaseName = databaseName
             self.databaseUrl = databaseUrl
+            self.isRedshiftServerless = isRedshiftServerless
             self.roleArn = roleArn
+            self.workgroupName = workgroupName
         }
     }
 
@@ -9776,6 +10161,61 @@ extension RegisterConnectorOutputResponseBody: Swift.Decodable {
         let connectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorArn)
         connectorArn = connectorArnDecoded
     }
+}
+
+extension AppflowClientTypes.RegistrationOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case result
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let result = self.result {
+            try encodeContainer.encode(result, forKey: .result)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let resultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .result)
+        result = resultDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ExecutionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// Describes the status of an attempt from Amazon AppFlow to register a resource. When you run a flow that you've configured to use a metadata catalog, Amazon AppFlow registers a metadata table and data partitions with that catalog. This operation provides the status of that registration attempt. The operation also indicates how many related resources Amazon AppFlow created or updated.
+    public struct RegistrationOutput: Swift.Equatable {
+        /// Explains the status of the registration attempt from Amazon AppFlow. If the attempt fails, the message explains why.
+        public var message: Swift.String?
+        /// Indicates the number of resources that Amazon AppFlow created or updated. Possible resources include metadata tables and data partitions.
+        public var result: Swift.String?
+        /// Indicates the status of the registration attempt from Amazon AppFlow.
+        public var status: AppflowClientTypes.ExecutionStatus?
+
+        public init (
+            message: Swift.String? = nil,
+            result: Swift.String? = nil,
+            status: AppflowClientTypes.ExecutionStatus? = nil
+        )
+        {
+            self.message = message
+            self.result = result
+            self.status = status
+        }
+    }
+
 }
 
 extension ResourceNotFoundException {
@@ -10996,7 +11436,7 @@ extension AppflowClientTypes.SalesforceSourceProperties: Swift.Codable {
 extension AppflowClientTypes {
     /// The properties that are applied when Salesforce is being used as a source.
     public struct SalesforceSourceProperties: Swift.Equatable {
-        /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data from Salesforce. AUTOMATIC The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers from Salesforce. If your flow transfers fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900,000 records, and it might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output. BULKV2 Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields. REST_SYNC Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail with a timed out error.
+        /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data from Salesforce. AUTOMATIC The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers from Salesforce. If your flow transfers fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900,000 records, and it might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output. BULKV2 Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields. REST_SYNC Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail wituh a timed out error.
         public var dataTransferApi: AppflowClientTypes.SalesforceDataTransferApi?
         /// The flag that enables dynamic fetching of new (recently added) fields in the Salesforce objects while running a flow.
         public var enableDynamicFieldUpdate: Swift.Bool
@@ -13055,6 +13495,7 @@ extension AppflowClientTypes {
         case mapAll
         case mask
         case merge
+        case partition
         case passthrough
         case truncate
         case validate
@@ -13068,6 +13509,7 @@ extension AppflowClientTypes {
                 .mapAll,
                 .mask,
                 .merge,
+                .partition,
                 .passthrough,
                 .truncate,
                 .validate,
@@ -13086,6 +13528,7 @@ extension AppflowClientTypes {
             case .mapAll: return "Map_all"
             case .mask: return "Mask"
             case .merge: return "Merge"
+            case .partition: return "Partition"
             case .passthrough: return "Passthrough"
             case .truncate: return "Truncate"
             case .validate: return "Validate"
@@ -13835,11 +14278,163 @@ extension UpdateConnectorProfileOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateConnectorRegistrationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorLabel
+        case connectorProvisioningConfig
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectorLabel = self.connectorLabel {
+            try encodeContainer.encode(connectorLabel, forKey: .connectorLabel)
+        }
+        if let connectorProvisioningConfig = self.connectorProvisioningConfig {
+            try encodeContainer.encode(connectorProvisioningConfig, forKey: .connectorProvisioningConfig)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateConnectorRegistrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/update-connector-registration"
+    }
+}
+
+public struct UpdateConnectorRegistrationInput: Swift.Equatable {
+    /// The name of the connector. The name is unique for each connector registration in your AWS account.
+    /// This member is required.
+    public var connectorLabel: Swift.String?
+    /// Contains information about the configuration of the connector being registered.
+    public var connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig?
+    /// A description about the update that you're applying to the connector.
+    public var description: Swift.String?
+
+    public init (
+        connectorLabel: Swift.String? = nil,
+        connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig? = nil,
+        description: Swift.String? = nil
+    )
+    {
+        self.connectorLabel = connectorLabel
+        self.connectorProvisioningConfig = connectorProvisioningConfig
+        self.description = description
+    }
+}
+
+struct UpdateConnectorRegistrationInputBody: Swift.Equatable {
+    let connectorLabel: Swift.String?
+    let description: Swift.String?
+    let connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig?
+}
+
+extension UpdateConnectorRegistrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorLabel
+        case connectorProvisioningConfig
+        case description
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectorLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorLabel)
+        connectorLabel = connectorLabelDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let connectorProvisioningConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorProvisioningConfig.self, forKey: .connectorProvisioningConfig)
+        connectorProvisioningConfig = connectorProvisioningConfigDecoded
+    }
+}
+
+extension UpdateConnectorRegistrationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateConnectorRegistrationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConnectorServerException" : self = .connectorServerException(try ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateConnectorRegistrationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case connectorAuthenticationException(ConnectorAuthenticationException)
+    case connectorServerException(ConnectorServerException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateConnectorRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateConnectorRegistrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.connectorArn = output.connectorArn
+        } else {
+            self.connectorArn = nil
+        }
+    }
+}
+
+public struct UpdateConnectorRegistrationOutputResponse: Swift.Equatable {
+    /// The ARN of the connector being updated.
+    public var connectorArn: Swift.String?
+
+    public init (
+        connectorArn: Swift.String? = nil
+    )
+    {
+        self.connectorArn = connectorArn
+    }
+}
+
+struct UpdateConnectorRegistrationOutputResponseBody: Swift.Equatable {
+    let connectorArn: Swift.String?
+}
+
+extension UpdateConnectorRegistrationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorArn)
+        connectorArn = connectorArnDecoded
+    }
+}
+
 extension UpdateFlowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
         case destinationFlowConfigList
         case flowName
+        case metadataCatalogConfig
         case sourceFlowConfig
         case tasks
         case triggerConfig
@@ -13858,6 +14453,9 @@ extension UpdateFlowInput: Swift.Encodable {
         }
         if let flowName = self.flowName {
             try encodeContainer.encode(flowName, forKey: .flowName)
+        }
+        if let metadataCatalogConfig = self.metadataCatalogConfig {
+            try encodeContainer.encode(metadataCatalogConfig, forKey: .metadataCatalogConfig)
         }
         if let sourceFlowConfig = self.sourceFlowConfig {
             try encodeContainer.encode(sourceFlowConfig, forKey: .sourceFlowConfig)
@@ -13889,6 +14487,8 @@ public struct UpdateFlowInput: Swift.Equatable {
     /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
     /// This member is required.
     public var flowName: Swift.String?
+    /// Specifies the configuration that Amazon AppFlow uses when it catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs the data from a flow, it stores metadata in a data catalog.
+    public var metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
     /// Contains information about the configuration of the source connector used in the flow.
     /// This member is required.
     public var sourceFlowConfig: AppflowClientTypes.SourceFlowConfig?
@@ -13903,6 +14503,7 @@ public struct UpdateFlowInput: Swift.Equatable {
         description: Swift.String? = nil,
         destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]? = nil,
         flowName: Swift.String? = nil,
+        metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig? = nil,
         sourceFlowConfig: AppflowClientTypes.SourceFlowConfig? = nil,
         tasks: [AppflowClientTypes.Task]? = nil,
         triggerConfig: AppflowClientTypes.TriggerConfig? = nil
@@ -13911,6 +14512,7 @@ public struct UpdateFlowInput: Swift.Equatable {
         self.description = description
         self.destinationFlowConfigList = destinationFlowConfigList
         self.flowName = flowName
+        self.metadataCatalogConfig = metadataCatalogConfig
         self.sourceFlowConfig = sourceFlowConfig
         self.tasks = tasks
         self.triggerConfig = triggerConfig
@@ -13924,6 +14526,7 @@ struct UpdateFlowInputBody: Swift.Equatable {
     let sourceFlowConfig: AppflowClientTypes.SourceFlowConfig?
     let destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]?
     let tasks: [AppflowClientTypes.Task]?
+    let metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
 }
 
 extension UpdateFlowInputBody: Swift.Decodable {
@@ -13931,6 +14534,7 @@ extension UpdateFlowInputBody: Swift.Decodable {
         case description
         case destinationFlowConfigList
         case flowName
+        case metadataCatalogConfig
         case sourceFlowConfig
         case tasks
         case triggerConfig
@@ -13968,6 +14572,8 @@ extension UpdateFlowInputBody: Swift.Decodable {
             }
         }
         tasks = tasksDecoded0
+        let metadataCatalogConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.MetadataCatalogConfig.self, forKey: .metadataCatalogConfig)
+        metadataCatalogConfig = metadataCatalogConfigDecoded
     }
 }
 
@@ -14161,7 +14767,7 @@ extension AppflowClientTypes {
         public var aggregationConfig: AppflowClientTypes.AggregationConfig?
         /// Indicates the file type that Amazon AppFlow places in the Upsolver Amazon S3 bucket.
         public var fileType: AppflowClientTypes.FileType?
-        /// Determines the prefix that Amazon AppFlow applies to the destination folder name. You can name your destination folders according to the flow frequency and date.
+        /// Specifies elements that Amazon AppFlow includes in the file and folder names in the flow destination.
         /// This member is required.
         public var prefixConfig: AppflowClientTypes.PrefixConfig?
 

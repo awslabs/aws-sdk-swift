@@ -5,6 +5,8 @@ import ClientRuntime
 
 /// Backup Backup is a unified backup service designed to protect Amazon Web Services services and their associated data. Backup simplifies the creation, migration, restoration, and deletion of backups, while also providing reporting and auditing.
 public protocol BackupClientProtocol {
+    /// This action removes the specified legal hold on a recovery point. This action can only be performed by a user with sufficient permissions.
+    func cancelLegalHold(input: CancelLegalHoldInput) async throws -> CancelLegalHoldOutputResponse
     /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     func createBackupPlan(input: CreateBackupPlanInput) async throws -> CreateBackupPlanOutputResponse
     /// Creates a JSON document that specifies a set of resources to assign to a backup plan. For examples, see [Assigning resources programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json).
@@ -13,6 +15,8 @@ public protocol BackupClientProtocol {
     func createBackupVault(input: CreateBackupVaultInput) async throws -> CreateBackupVaultOutputResponse
     /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance.
     func createFramework(input: CreateFrameworkInput) async throws -> CreateFrameworkOutputResponse
+    /// This action creates a legal hold on a recovery point (backup). A legal hold is a restraint on altering or deleting a backup until an authorized user cancels the legal hold. Any actions to delete or disassociate a recovery point will fail with an error if one or more active legal holds are on the recovery point.
+    func createLegalHold(input: CreateLegalHoldInput) async throws -> CreateLegalHoldOutputResponse
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     func createReportPlan(input: CreateReportPlanInput) async throws -> CreateReportPlanOutputResponse
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
@@ -29,7 +33,7 @@ public protocol BackupClientProtocol {
     func deleteBackupVaultNotifications(input: DeleteBackupVaultNotificationsInput) async throws -> DeleteBackupVaultNotificationsOutputResponse
     /// Deletes the framework specified by a framework name.
     func deleteFramework(input: DeleteFrameworkInput) async throws -> DeleteFrameworkOutputResponse
-    /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup.
+    /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state. EXPIRED recovery points can be deleted with this API once the IAM role has the iam:CreateServiceLinkedRole action. To learn more about adding this role, see [ Troubleshooting manual deletions](https://docs.aws.amazon.com/aws-backup/latest/devguide/deleting-backups.html#deleting-backups-troubleshooting). If the user or role is deleted or the permission within the role is removed, the deletion will not be successful and will enter an EXPIRED state.
     func deleteRecoveryPoint(input: DeleteRecoveryPointInput) async throws -> DeleteRecoveryPointOutputResponse
     /// Deletes the report plan specified by a report plan name.
     func deleteReportPlan(input: DeleteReportPlanInput) async throws -> DeleteReportPlanOutputResponse
@@ -57,6 +61,8 @@ public protocol BackupClientProtocol {
     func describeRestoreJob(input: DescribeRestoreJobInput) async throws -> DescribeRestoreJobOutputResponse
     /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
     func disassociateRecoveryPoint(input: DisassociateRecoveryPointInput) async throws -> DisassociateRecoveryPointOutputResponse
+    /// This action to a specific child (nested) recovery point removes the relationship between the specified recovery point and its parent (composite) recovery point.
+    func disassociateRecoveryPointFromParent(input: DisassociateRecoveryPointFromParentInput) async throws -> DisassociateRecoveryPointFromParentOutputResponse
     /// Returns the backup plan that is specified by the plan ID as a backup template.
     func exportBackupPlanTemplate(input: ExportBackupPlanTemplateInput) async throws -> ExportBackupPlanTemplateOutputResponse
     /// Returns BackupPlan details for the specified BackupPlanId. The details are the body of a backup plan in JSON format, in addition to plan metadata.
@@ -71,6 +77,8 @@ public protocol BackupClientProtocol {
     func getBackupVaultAccessPolicy(input: GetBackupVaultAccessPolicyInput) async throws -> GetBackupVaultAccessPolicyOutputResponse
     /// Returns event notifications for the specified backup vault.
     func getBackupVaultNotifications(input: GetBackupVaultNotificationsInput) async throws -> GetBackupVaultNotificationsOutputResponse
+    /// This action returns details for a specified legal hold. The details are the body of a legal hold in JSON format, in addition to metadata.
+    func getLegalHold(input: GetLegalHoldInput) async throws -> GetLegalHoldOutputResponse
     /// Returns a set of metadata key-value pairs that were used to create the backup.
     func getRecoveryPointRestoreMetadata(input: GetRecoveryPointRestoreMetadataInput) async throws -> GetRecoveryPointRestoreMetadataOutputResponse
     /// Returns the Amazon Web Services resource types supported by Backup.
@@ -91,10 +99,14 @@ public protocol BackupClientProtocol {
     func listCopyJobs(input: ListCopyJobsInput) async throws -> ListCopyJobsOutputResponse
     /// Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
     func listFrameworks(input: ListFrameworksInput) async throws -> ListFrameworksOutputResponse
+    /// This action returns metadata about active and previous legal holds.
+    func listLegalHolds(input: ListLegalHoldsInput) async throws -> ListLegalHoldsOutputResponse
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     func listProtectedResources(input: ListProtectedResourcesInput) async throws -> ListProtectedResourcesOutputResponse
     /// Returns detailed information about the recovery points stored in a backup vault.
     func listRecoveryPointsByBackupVault(input: ListRecoveryPointsByBackupVaultInput) async throws -> ListRecoveryPointsByBackupVaultOutputResponse
+    /// This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold.
+    func listRecoveryPointsByLegalHold(input: ListRecoveryPointsByLegalHoldInput) async throws -> ListRecoveryPointsByLegalHoldOutputResponse
     /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN). For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     func listRecoveryPointsByResource(input: ListRecoveryPointsByResourceInput) async throws -> ListRecoveryPointsByResourceOutputResponse
     /// Returns details about your report jobs.
@@ -119,7 +131,7 @@ public protocol BackupClientProtocol {
     func startReportJob(input: StartReportJobInput) async throws -> StartReportJobOutputResponse
     /// Recovers the saved resource identified by an Amazon Resource Name (ARN).
     func startRestoreJob(input: StartRestoreJobInput) async throws -> StartRestoreJobOutputResponse
-    /// Attempts to cancel a job to create a one-time backup of a resource.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
     func stopBackupJob(input: StopBackupJobInput) async throws -> StopBackupJobOutputResponse
     /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN).
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse

@@ -27,11 +27,13 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     func getAssociatedResource(input: GetAssociatedResourceInput) async throws -> GetAssociatedResourceOutputResponse
     /// Retrieves an attribute group, either by its name or its ID. The attribute group can be specified either by its unique ID or by its name.
     func getAttributeGroup(input: GetAttributeGroupInput) async throws -> GetAttributeGroupOutputResponse
+    /// Retrieves a TagKey configuration from an account.
+    func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutputResponse
     /// Retrieves a list of all of your applications. Results are paginated.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// Lists all attribute groups that are associated with specified application. Results are paginated.
     func listAssociatedAttributeGroups(input: ListAssociatedAttributeGroupsInput) async throws -> ListAssociatedAttributeGroupsOutputResponse
-    /// Lists all resources that are associated with specified application. Results are paginated.
+    /// Lists all of the resources that are associated with the specified application. Results are paginated. If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API.
     func listAssociatedResources(input: ListAssociatedResourcesInput) async throws -> ListAssociatedResourcesOutputResponse
     /// Lists all attribute groups which you have access to. Results are paginated.
     func listAttributeGroups(input: ListAttributeGroupsInput) async throws -> ListAttributeGroupsOutputResponse
@@ -39,6 +41,8 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     func listAttributeGroupsForApplication(input: ListAttributeGroupsForApplicationInput) async throws -> ListAttributeGroupsForApplicationOutputResponse
     /// Lists all of the tags on the resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Associates a TagKey configuration to an account.
+    func putConfiguration(input: PutConfigurationInput) async throws -> PutConfigurationOutputResponse
     /// Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
     func syncResource(input: SyncResourceInput) async throws -> SyncResourceOutputResponse
     /// Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful.

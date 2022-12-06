@@ -1923,6 +1923,7 @@ extension ConfigClientTypes.ConfigRule: Swift.Codable {
         case configRuleState = "ConfigRuleState"
         case createdBy = "CreatedBy"
         case description = "Description"
+        case evaluationModes = "EvaluationModes"
         case inputParameters = "InputParameters"
         case maximumExecutionFrequency = "MaximumExecutionFrequency"
         case scope = "Scope"
@@ -1948,6 +1949,12 @@ extension ConfigClientTypes.ConfigRule: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationModes = evaluationModes {
+            var evaluationModesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluationModes)
+            for evaluationmodes0 in evaluationModes {
+                try evaluationModesContainer.encode(evaluationmodes0)
+            }
         }
         if let inputParameters = self.inputParameters {
             try encodeContainer.encode(inputParameters, forKey: .inputParameters)
@@ -1985,6 +1992,17 @@ extension ConfigClientTypes.ConfigRule: Swift.Codable {
         configRuleState = configRuleStateDecoded
         let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
         createdBy = createdByDecoded
+        let evaluationModesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.EvaluationModeConfiguration?].self, forKey: .evaluationModes)
+        var evaluationModesDecoded0:[ConfigClientTypes.EvaluationModeConfiguration]? = nil
+        if let evaluationModesContainer = evaluationModesContainer {
+            evaluationModesDecoded0 = [ConfigClientTypes.EvaluationModeConfiguration]()
+            for structure0 in evaluationModesContainer {
+                if let structure0 = structure0 {
+                    evaluationModesDecoded0?.append(structure0)
+                }
+            }
+        }
+        evaluationModes = evaluationModesDecoded0
     }
 }
 
@@ -2003,6 +2021,8 @@ extension ConfigClientTypes {
         public var createdBy: Swift.String?
         /// The description that you provide for the Config rule.
         public var description: Swift.String?
+        /// The modes the Config rule can be evaluated in. The valid values are distinct objects. By default, the value is Detective evaluation mode only.
+        public var evaluationModes: [ConfigClientTypes.EvaluationModeConfiguration]?
         /// A string, in JSON format, that is passed to the Config rule Lambda function.
         public var inputParameters: Swift.String?
         /// The maximum frequency with which Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:
@@ -2027,6 +2047,7 @@ extension ConfigClientTypes {
             configRuleState: ConfigClientTypes.ConfigRuleState? = nil,
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
+            evaluationModes: [ConfigClientTypes.EvaluationModeConfiguration]? = nil,
             inputParameters: Swift.String? = nil,
             maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil,
             scope: ConfigClientTypes.Scope? = nil,
@@ -2039,6 +2060,7 @@ extension ConfigClientTypes {
             self.configRuleState = configRuleState
             self.createdBy = createdBy
             self.description = description
+            self.evaluationModes = evaluationModes
             self.inputParameters = inputParameters
             self.maximumExecutionFrequency = maximumExecutionFrequency
             self.scope = scope
@@ -6712,9 +6734,45 @@ extension DescribeConfigRuleEvaluationStatusOutputResponseBody: Swift.Decodable 
     }
 }
 
+extension ConfigClientTypes.DescribeConfigRulesFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationMode = "EvaluationMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evaluationMode = self.evaluationMode {
+            try encodeContainer.encode(evaluationMode.rawValue, forKey: .evaluationMode)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
+        evaluationMode = evaluationModeDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Returns a filtered list of Detective or Proactive Config rules. By default, if the filter is not defined, this API returns an unfiltered list.
+    public struct DescribeConfigRulesFilters: Swift.Equatable {
+        /// The mode of an evaluation. The valid values are Detective or Proactive.
+        public var evaluationMode: ConfigClientTypes.EvaluationMode?
+
+        public init (
+            evaluationMode: ConfigClientTypes.EvaluationMode? = nil
+        )
+        {
+            self.evaluationMode = evaluationMode
+        }
+    }
+
+}
+
 extension DescribeConfigRulesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configRuleNames = "ConfigRuleNames"
+        case filters = "Filters"
         case nextToken = "NextToken"
     }
 
@@ -6725,6 +6783,9 @@ extension DescribeConfigRulesInput: Swift.Encodable {
             for configrulenames0 in configRuleNames {
                 try configRuleNamesContainer.encode(configrulenames0)
             }
+        }
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
@@ -6742,15 +6803,19 @@ extension DescribeConfigRulesInput: ClientRuntime.URLPathProvider {
 public struct DescribeConfigRulesInput: Swift.Equatable {
     /// The names of the Config rules for which you want details. If you do not specify any names, Config returns details for all your rules.
     public var configRuleNames: [Swift.String]?
+    /// Returns a list of Detecive or Proactive Config rules. By default, this API returns an unfiltered list.
+    public var filters: ConfigClientTypes.DescribeConfigRulesFilters?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         configRuleNames: [Swift.String]? = nil,
+        filters: ConfigClientTypes.DescribeConfigRulesFilters? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.configRuleNames = configRuleNames
+        self.filters = filters
         self.nextToken = nextToken
     }
 }
@@ -6758,11 +6823,13 @@ public struct DescribeConfigRulesInput: Swift.Equatable {
 struct DescribeConfigRulesInputBody: Swift.Equatable {
     let configRuleNames: [Swift.String]?
     let nextToken: Swift.String?
+    let filters: ConfigClientTypes.DescribeConfigRulesFilters?
 }
 
 extension DescribeConfigRulesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configRuleNames = "ConfigRuleNames"
+        case filters = "Filters"
         case nextToken = "NextToken"
     }
 
@@ -6781,6 +6848,8 @@ extension DescribeConfigRulesInputBody: Swift.Decodable {
         configRuleNames = configRuleNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.DescribeConfigRulesFilters.self, forKey: .filters)
+        filters = filtersDecoded
     }
 }
 
@@ -6796,6 +6865,7 @@ extension DescribeConfigRulesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -6804,6 +6874,7 @@ extension DescribeConfigRulesOutputError {
 
 public enum DescribeConfigRulesOutputError: Swift.Error, Swift.Equatable {
     case invalidNextTokenException(InvalidNextTokenException)
+    case invalidParameterValueException(InvalidParameterValueException)
     case noSuchConfigRuleException(NoSuchConfigRuleException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -9845,6 +9916,108 @@ extension ConfigClientTypes {
 
 }
 
+extension ConfigClientTypes.EvaluationContext: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationContextIdentifier = "EvaluationContextIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evaluationContextIdentifier = self.evaluationContextIdentifier {
+            try encodeContainer.encode(evaluationContextIdentifier, forKey: .evaluationContextIdentifier)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationContextIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationContextIdentifier)
+        evaluationContextIdentifier = evaluationContextIdentifierDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Use EvaluationContext to group independently initiated proactive resource evaluations. For example, CFN Stack. If you want to check just a resource definition, you do not need to provide evaluation context.
+    public struct EvaluationContext: Swift.Equatable {
+        /// A unique EvaluationContextIdentifier ID for an EvaluationContext.
+        public var evaluationContextIdentifier: Swift.String?
+
+        public init (
+            evaluationContextIdentifier: Swift.String? = nil
+        )
+        {
+            self.evaluationContextIdentifier = evaluationContextIdentifier
+        }
+    }
+
+}
+
+extension ConfigClientTypes {
+    public enum EvaluationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case detective
+        case proactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationMode] {
+            return [
+                .detective,
+                .proactive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .detective: return "DETECTIVE"
+            case .proactive: return "PROACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationMode(rawValue: rawValue) ?? EvaluationMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConfigClientTypes.EvaluationModeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mode = "Mode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .mode)
+        mode = modeDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// The configuration object for Config rule evaluation mode. The Supported valid values are Detective or Proactive.
+    public struct EvaluationModeConfiguration: Swift.Equatable {
+        /// The mode of an evaluation. The valid values are Detective or Proactive.
+        public var mode: ConfigClientTypes.EvaluationMode?
+
+        public init (
+            mode: ConfigClientTypes.EvaluationMode? = nil
+        )
+        {
+            self.mode = mode
+        }
+    }
+
+}
+
 extension ConfigClientTypes.EvaluationResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case annotation = "Annotation"
@@ -9934,6 +10107,7 @@ extension ConfigClientTypes.EvaluationResultIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case evaluationResultQualifier = "EvaluationResultQualifier"
         case orderingTimestamp = "OrderingTimestamp"
+        case resourceEvaluationId = "ResourceEvaluationId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9944,6 +10118,9 @@ extension ConfigClientTypes.EvaluationResultIdentifier: Swift.Codable {
         if let orderingTimestamp = self.orderingTimestamp {
             try encodeContainer.encodeTimestamp(orderingTimestamp, format: .epochSeconds, forKey: .orderingTimestamp)
         }
+        if let resourceEvaluationId = self.resourceEvaluationId {
+            try encodeContainer.encode(resourceEvaluationId, forKey: .resourceEvaluationId)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -9952,6 +10129,8 @@ extension ConfigClientTypes.EvaluationResultIdentifier: Swift.Codable {
         evaluationResultQualifier = evaluationResultQualifierDecoded
         let orderingTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .orderingTimestamp)
         orderingTimestamp = orderingTimestampDecoded
+        let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
+        resourceEvaluationId = resourceEvaluationIdDecoded
     }
 }
 
@@ -9962,14 +10141,18 @@ extension ConfigClientTypes {
         public var evaluationResultQualifier: ConfigClientTypes.EvaluationResultQualifier?
         /// The time of the event that triggered the evaluation of your Amazon Web Services resources. The time can indicate when Config delivered a configuration item change notification, or it can indicate when Config delivered the configuration snapshot, depending on which event triggered the evaluation.
         public var orderingTimestamp: ClientRuntime.Date?
+        /// A Unique ID for an evaluation result.
+        public var resourceEvaluationId: Swift.String?
 
         public init (
             evaluationResultQualifier: ConfigClientTypes.EvaluationResultQualifier? = nil,
-            orderingTimestamp: ClientRuntime.Date? = nil
+            orderingTimestamp: ClientRuntime.Date? = nil,
+            resourceEvaluationId: Swift.String? = nil
         )
         {
             self.evaluationResultQualifier = evaluationResultQualifier
             self.orderingTimestamp = orderingTimestamp
+            self.resourceEvaluationId = resourceEvaluationId
         }
     }
 
@@ -9978,6 +10161,7 @@ extension ConfigClientTypes {
 extension ConfigClientTypes.EvaluationResultQualifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configRuleName = "ConfigRuleName"
+        case evaluationMode = "EvaluationMode"
         case resourceId = "ResourceId"
         case resourceType = "ResourceType"
     }
@@ -9986,6 +10170,9 @@ extension ConfigClientTypes.EvaluationResultQualifier: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configRuleName = self.configRuleName {
             try encodeContainer.encode(configRuleName, forKey: .configRuleName)
+        }
+        if let evaluationMode = self.evaluationMode {
+            try encodeContainer.encode(evaluationMode.rawValue, forKey: .evaluationMode)
         }
         if let resourceId = self.resourceId {
             try encodeContainer.encode(resourceId, forKey: .resourceId)
@@ -10003,6 +10190,8 @@ extension ConfigClientTypes.EvaluationResultQualifier: Swift.Codable {
         resourceType = resourceTypeDecoded
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
+        let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
+        evaluationMode = evaluationModeDecoded
     }
 }
 
@@ -10011,6 +10200,8 @@ extension ConfigClientTypes {
     public struct EvaluationResultQualifier: Swift.Equatable {
         /// The name of the Config rule that was used in the evaluation.
         public var configRuleName: Swift.String?
+        /// The mode of an evaluation. The valid values are Detective or Proactive.
+        public var evaluationMode: ConfigClientTypes.EvaluationMode?
         /// The ID of the evaluated Amazon Web Services resource.
         public var resourceId: Swift.String?
         /// The type of Amazon Web Services resource that was evaluated.
@@ -10018,13 +10209,61 @@ extension ConfigClientTypes {
 
         public init (
             configRuleName: Swift.String? = nil,
+            evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
         )
         {
             self.configRuleName = configRuleName
+            self.evaluationMode = evaluationMode
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension ConfigClientTypes.EvaluationStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReason = "FailureReason"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceEvaluationStatus.self, forKey: .status)
+        status = statusDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Returns status details of an evaluation.
+    public struct EvaluationStatus: Swift.Equatable {
+        /// An explanation for failed execution status.
+        public var failureReason: Swift.String?
+        /// The status of an execution. The valid values are In_Progress, Succeeded or Failed.
+        /// This member is required.
+        public var status: ConfigClientTypes.ResourceEvaluationStatus?
+
+        public init (
+            failureReason: Swift.String? = nil,
+            status: ConfigClientTypes.ResourceEvaluationStatus? = nil
+        )
+        {
+            self.failureReason = failureReason
+            self.status = status
         }
     }
 
@@ -11501,6 +11740,7 @@ extension GetComplianceDetailsByResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case complianceTypes = "ComplianceTypes"
         case nextToken = "NextToken"
+        case resourceEvaluationId = "ResourceEvaluationId"
         case resourceId = "ResourceId"
         case resourceType = "ResourceType"
     }
@@ -11515,6 +11755,9 @@ extension GetComplianceDetailsByResourceInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceEvaluationId = self.resourceEvaluationId {
+            try encodeContainer.encode(resourceEvaluationId, forKey: .resourceEvaluationId)
         }
         if let resourceId = self.resourceId {
             try encodeContainer.encode(resourceId, forKey: .resourceId)
@@ -11537,22 +11780,24 @@ public struct GetComplianceDetailsByResourceInput: Swift.Equatable {
     public var complianceTypes: [ConfigClientTypes.ComplianceType]?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
+    /// The unique ID of Amazon Web Services resource execution for which you want to retrieve evaluation results. You need to only provide either a ResourceEvaluationID or a ResourceID and ResourceType.
+    public var resourceEvaluationId: Swift.String?
     /// The ID of the Amazon Web Services resource for which you want compliance information.
-    /// This member is required.
     public var resourceId: Swift.String?
     /// The type of the Amazon Web Services resource for which you want compliance information.
-    /// This member is required.
     public var resourceType: Swift.String?
 
     public init (
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         nextToken: Swift.String? = nil,
+        resourceEvaluationId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
         self.complianceTypes = complianceTypes
         self.nextToken = nextToken
+        self.resourceEvaluationId = resourceEvaluationId
         self.resourceId = resourceId
         self.resourceType = resourceType
     }
@@ -11563,12 +11808,14 @@ struct GetComplianceDetailsByResourceInputBody: Swift.Equatable {
     let resourceId: Swift.String?
     let complianceTypes: [ConfigClientTypes.ComplianceType]?
     let nextToken: Swift.String?
+    let resourceEvaluationId: Swift.String?
 }
 
 extension GetComplianceDetailsByResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case complianceTypes = "ComplianceTypes"
         case nextToken = "NextToken"
+        case resourceEvaluationId = "ResourceEvaluationId"
         case resourceId = "ResourceId"
         case resourceType = "ResourceType"
     }
@@ -11592,6 +11839,8 @@ extension GetComplianceDetailsByResourceInputBody: Swift.Decodable {
         complianceTypes = complianceTypesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
+        resourceEvaluationId = resourceEvaluationIdDecoded
     }
 }
 
@@ -13223,6 +13472,177 @@ extension GetResourceConfigHistoryOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetResourceEvaluationSummaryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceEvaluationId = "ResourceEvaluationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceEvaluationId = self.resourceEvaluationId {
+            try encodeContainer.encode(resourceEvaluationId, forKey: .resourceEvaluationId)
+        }
+    }
+}
+
+extension GetResourceEvaluationSummaryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetResourceEvaluationSummaryInput: Swift.Equatable {
+    /// The unique ResourceEvaluationId of Amazon Web Services resource execution for which you want to retrieve the evaluation summary.
+    /// This member is required.
+    public var resourceEvaluationId: Swift.String?
+
+    public init (
+        resourceEvaluationId: Swift.String? = nil
+    )
+    {
+        self.resourceEvaluationId = resourceEvaluationId
+    }
+}
+
+struct GetResourceEvaluationSummaryInputBody: Swift.Equatable {
+    let resourceEvaluationId: Swift.String?
+}
+
+extension GetResourceEvaluationSummaryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceEvaluationId = "ResourceEvaluationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
+        resourceEvaluationId = resourceEvaluationIdDecoded
+    }
+}
+
+extension GetResourceEvaluationSummaryOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetResourceEvaluationSummaryOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetResourceEvaluationSummaryOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourceEvaluationSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetResourceEvaluationSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.compliance = output.compliance
+            self.evaluationContext = output.evaluationContext
+            self.evaluationMode = output.evaluationMode
+            self.evaluationStartTimestamp = output.evaluationStartTimestamp
+            self.evaluationStatus = output.evaluationStatus
+            self.resourceDetails = output.resourceDetails
+            self.resourceEvaluationId = output.resourceEvaluationId
+        } else {
+            self.compliance = nil
+            self.evaluationContext = nil
+            self.evaluationMode = nil
+            self.evaluationStartTimestamp = nil
+            self.evaluationStatus = nil
+            self.resourceDetails = nil
+            self.resourceEvaluationId = nil
+        }
+    }
+}
+
+public struct GetResourceEvaluationSummaryOutputResponse: Swift.Equatable {
+    /// The compliance status of the resource evaluation summary.
+    public var compliance: ConfigClientTypes.ComplianceType?
+    /// Returns an EvaluationContext object.
+    public var evaluationContext: ConfigClientTypes.EvaluationContext?
+    /// Lists results of the mode that you requested to retrieve the resource evaluation summary. The valid values are Detective or Proactive.
+    public var evaluationMode: ConfigClientTypes.EvaluationMode?
+    /// The start timestamp when Config rule starts evaluating compliance for the provided resource details.
+    public var evaluationStartTimestamp: ClientRuntime.Date?
+    /// Returns an EvaluationStatus object.
+    public var evaluationStatus: ConfigClientTypes.EvaluationStatus?
+    /// Returns a ResourceDetails object.
+    public var resourceDetails: ConfigClientTypes.ResourceDetails?
+    /// The unique ResourceEvaluationId of Amazon Web Services resource execution for which you want to retrieve the evaluation summary.
+    public var resourceEvaluationId: Swift.String?
+
+    public init (
+        compliance: ConfigClientTypes.ComplianceType? = nil,
+        evaluationContext: ConfigClientTypes.EvaluationContext? = nil,
+        evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
+        evaluationStartTimestamp: ClientRuntime.Date? = nil,
+        evaluationStatus: ConfigClientTypes.EvaluationStatus? = nil,
+        resourceDetails: ConfigClientTypes.ResourceDetails? = nil,
+        resourceEvaluationId: Swift.String? = nil
+    )
+    {
+        self.compliance = compliance
+        self.evaluationContext = evaluationContext
+        self.evaluationMode = evaluationMode
+        self.evaluationStartTimestamp = evaluationStartTimestamp
+        self.evaluationStatus = evaluationStatus
+        self.resourceDetails = resourceDetails
+        self.resourceEvaluationId = resourceEvaluationId
+    }
+}
+
+struct GetResourceEvaluationSummaryOutputResponseBody: Swift.Equatable {
+    let resourceEvaluationId: Swift.String?
+    let evaluationMode: ConfigClientTypes.EvaluationMode?
+    let evaluationStatus: ConfigClientTypes.EvaluationStatus?
+    let evaluationStartTimestamp: ClientRuntime.Date?
+    let compliance: ConfigClientTypes.ComplianceType?
+    let evaluationContext: ConfigClientTypes.EvaluationContext?
+    let resourceDetails: ConfigClientTypes.ResourceDetails?
+}
+
+extension GetResourceEvaluationSummaryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case compliance = "Compliance"
+        case evaluationContext = "EvaluationContext"
+        case evaluationMode = "EvaluationMode"
+        case evaluationStartTimestamp = "EvaluationStartTimestamp"
+        case evaluationStatus = "EvaluationStatus"
+        case resourceDetails = "ResourceDetails"
+        case resourceEvaluationId = "ResourceEvaluationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
+        resourceEvaluationId = resourceEvaluationIdDecoded
+        let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
+        evaluationMode = evaluationModeDecoded
+        let evaluationStatusDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationStatus.self, forKey: .evaluationStatus)
+        evaluationStatus = evaluationStatusDecoded
+        let evaluationStartTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .evaluationStartTimestamp)
+        evaluationStartTimestamp = evaluationStartTimestampDecoded
+        let complianceDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ComplianceType.self, forKey: .compliance)
+        compliance = complianceDecoded
+        let evaluationContextDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationContext.self, forKey: .evaluationContext)
+        evaluationContext = evaluationContextDecoded
+        let resourceDetailsDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceDetails.self, forKey: .resourceDetails)
+        resourceDetails = resourceDetailsDecoded
+    }
+}
+
 extension GetStoredQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryName = "QueryName"
@@ -13381,6 +13801,58 @@ extension ConfigClientTypes {
         }
     }
 
+}
+
+extension IdempotentParameterMismatch {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: IdempotentParameterMismatchBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Using the same client token with one or more different parameters. Specify a new client token with the parameter changes and try again.
+public struct IdempotentParameterMismatch: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct IdempotentParameterMismatchBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IdempotentParameterMismatchBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension InsufficientDeliveryPolicyException {
@@ -14868,6 +15340,163 @@ extension ListDiscoveredResourcesOutputResponseBody: Swift.Decodable {
             }
         }
         resourceIdentifiers = resourceIdentifiersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListResourceEvaluationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case limit = "Limit"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if limit != 0 {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListResourceEvaluationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListResourceEvaluationsInput: Swift.Equatable {
+    /// Returns a ResourceEvaluationFilters object.
+    public var filters: ConfigClientTypes.ResourceEvaluationFilters?
+    /// The maximum number of evaluations returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
+    public var limit: Swift.Int
+    /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: ConfigClientTypes.ResourceEvaluationFilters? = nil,
+        limit: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.limit = limit
+        self.nextToken = nextToken
+    }
+}
+
+struct ListResourceEvaluationsInputBody: Swift.Equatable {
+    let filters: ConfigClientTypes.ResourceEvaluationFilters?
+    let limit: Swift.Int
+    let nextToken: Swift.String?
+}
+
+extension ListResourceEvaluationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case limit = "Limit"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceEvaluationFilters.self, forKey: .filters)
+        filters = filtersDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        limit = limitDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListResourceEvaluationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListResourceEvaluationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidTimeRangeException" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListResourceEvaluationsOutputError: Swift.Error, Swift.Equatable {
+    case invalidNextTokenException(InvalidNextTokenException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case invalidTimeRangeException(InvalidTimeRangeException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListResourceEvaluationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListResourceEvaluationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.resourceEvaluations = output.resourceEvaluations
+        } else {
+            self.nextToken = nil
+            self.resourceEvaluations = nil
+        }
+    }
+}
+
+public struct ListResourceEvaluationsOutputResponse: Swift.Equatable {
+    /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    public var nextToken: Swift.String?
+    /// Returns a ResourceEvaluations object.
+    public var resourceEvaluations: [ConfigClientTypes.ResourceEvaluation]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        resourceEvaluations: [ConfigClientTypes.ResourceEvaluation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceEvaluations = resourceEvaluations
+    }
+}
+
+struct ListResourceEvaluationsOutputResponseBody: Swift.Equatable {
+    let resourceEvaluations: [ConfigClientTypes.ResourceEvaluation]?
+    let nextToken: Swift.String?
+}
+
+extension ListResourceEvaluationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case resourceEvaluations = "ResourceEvaluations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceEvaluationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ResourceEvaluation?].self, forKey: .resourceEvaluations)
+        var resourceEvaluationsDecoded0:[ConfigClientTypes.ResourceEvaluation]? = nil
+        if let resourceEvaluationsContainer = resourceEvaluationsContainer {
+            resourceEvaluationsDecoded0 = [ConfigClientTypes.ResourceEvaluation]()
+            for structure0 in resourceEvaluationsContainer {
+                if let structure0 = structure0 {
+                    resourceEvaluationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceEvaluations = resourceEvaluationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -20813,7 +21442,7 @@ extension ConfigClientTypes.RecordingGroup: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// Specifies the types of Amazon Web Services resource for which Config records configuration changes. In the recording group, you specify whether all supported types or specific types of resources are recorded. By default, Config records configuration changes for all supported types of regional resources that Config discovers in the region in which it is running. Regional resources are tied to a region and can be used only in that region. Examples of regional resources are EC2 instances and EBS volumes. You can also have Config record configuration changes for supported types of global resources (for example, IAM resources). Global resources are not tied to an individual region and can be used in all regions. The configuration details for any global resource are the same in all regions. If you customize Config in multiple regions to record global resources, it will create multiple configuration items each time a global resource changes: one configuration item for each region. These configuration items will contain identical data. To prevent duplicate configuration items, you should consider customizing Config in only one region to record global resources, unless you want the configuration items to be available in multiple regions. If you don't want Config to record all resources, you can specify which types of resources it will record with the resourceTypes parameter. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources). For more information, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html).
+    /// Specifies which Amazon Web Services resource types Config records for configuration changes. In the recording group, you specify whether you want to record all supported resource types or only specific types of resources. By default, Config records the configuration changes for all supported types of regional resources that Config discovers in the region in which it is running. Regional resources are tied to a region and can be used only in that region. Examples of regional resources are EC2 instances and EBS volumes. You can also have Config record supported types of global resources. Global resources are not tied to a specific region and can be used in all regions. The global resource types that Config supports include IAM users, groups, roles, and customer managed policies. Global resource types onboarded to Config recording after February 2022 will only be recorded in the service's home region for the commercial partition and Amazon Web Services GovCloud (US) West for the GovCloud partition. You can view the Configuration Items for these new global resource types only in their home region and Amazon Web Services GovCloud (US) West. Supported global resource types onboarded before February 2022 such as AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, AWS::IAM::User remain unchanged, and they will continue to deliver Configuration Items in all supported regions in Config. The change will only affect new global resource types onboarded after February 2022. To record global resource types onboarded after February 2022, enable All Supported Resource Types in the home region of the global resource type you want to record. If you don't want Config to record all resources, you can specify which types of resources it will record with the resourceTypes parameter. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources). For more information and a table of the Home Regions for Global Resource Types Onboarded after February 2022, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html).
     public struct RecordingGroup: Swift.Equatable {
         /// Specifies whether Config records configuration changes for every supported type of regional resource. If you set this option to true, when Config adds support for a new type of regional resource, it starts recording resources of that type automatically. If you set this option to true, you cannot enumerate a list of resourceTypes.
         public var allSupported: Swift.Bool
@@ -21598,6 +22227,35 @@ extension ResourceConcurrentModificationExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConfigClientTypes {
+    public enum ResourceConfigurationSchemaType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cfnResourceSchema
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceConfigurationSchemaType] {
+            return [
+                .cfnResourceSchema,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cfnResourceSchema: return "CFN_RESOURCE_SCHEMA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceConfigurationSchemaType(rawValue: rawValue) ?? ResourceConfigurationSchemaType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConfigClientTypes.ResourceCount: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case count
@@ -21729,6 +22387,219 @@ extension ConfigClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResourceCountGroupKey(rawValue: rawValue) ?? ResourceCountGroupKey.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConfigClientTypes.ResourceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceConfiguration = "ResourceConfiguration"
+        case resourceConfigurationSchemaType = "ResourceConfigurationSchemaType"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceConfiguration = self.resourceConfiguration {
+            try encodeContainer.encode(resourceConfiguration, forKey: .resourceConfiguration)
+        }
+        if let resourceConfigurationSchemaType = self.resourceConfigurationSchemaType {
+            try encodeContainer.encode(resourceConfigurationSchemaType.rawValue, forKey: .resourceConfigurationSchemaType)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceConfigurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceConfiguration)
+        resourceConfiguration = resourceConfigurationDecoded
+        let resourceConfigurationSchemaTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceConfigurationSchemaType.self, forKey: .resourceConfigurationSchemaType)
+        resourceConfigurationSchemaType = resourceConfigurationSchemaTypeDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Returns information about the resource being evaluated.
+    public struct ResourceDetails: Swift.Equatable {
+        /// The resource definition to be evaluated as per the resource configuration schema type.
+        /// This member is required.
+        public var resourceConfiguration: Swift.String?
+        /// The schema type of the resource configuration.
+        public var resourceConfigurationSchemaType: ConfigClientTypes.ResourceConfigurationSchemaType?
+        /// A unique resource ID for an evaluation.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The type of resource being evaluated.
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init (
+            resourceConfiguration: Swift.String? = nil,
+            resourceConfigurationSchemaType: ConfigClientTypes.ResourceConfigurationSchemaType? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.resourceConfiguration = resourceConfiguration
+            self.resourceConfigurationSchemaType = resourceConfigurationSchemaType
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension ConfigClientTypes.ResourceEvaluation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationMode = "EvaluationMode"
+        case evaluationStartTimestamp = "EvaluationStartTimestamp"
+        case resourceEvaluationId = "ResourceEvaluationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evaluationMode = self.evaluationMode {
+            try encodeContainer.encode(evaluationMode.rawValue, forKey: .evaluationMode)
+        }
+        if let evaluationStartTimestamp = self.evaluationStartTimestamp {
+            try encodeContainer.encodeTimestamp(evaluationStartTimestamp, format: .epochSeconds, forKey: .evaluationStartTimestamp)
+        }
+        if let resourceEvaluationId = self.resourceEvaluationId {
+            try encodeContainer.encode(resourceEvaluationId, forKey: .resourceEvaluationId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
+        resourceEvaluationId = resourceEvaluationIdDecoded
+        let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
+        evaluationMode = evaluationModeDecoded
+        let evaluationStartTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .evaluationStartTimestamp)
+        evaluationStartTimestamp = evaluationStartTimestampDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Returns details of a resource evaluation.
+    public struct ResourceEvaluation: Swift.Equatable {
+        /// The mode of an evaluation. The valid values are Detective or Proactive.
+        public var evaluationMode: ConfigClientTypes.EvaluationMode?
+        /// The starting time of an execution.
+        public var evaluationStartTimestamp: ClientRuntime.Date?
+        /// The ResourceEvaluationId of a evaluation.
+        public var resourceEvaluationId: Swift.String?
+
+        public init (
+            evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
+            evaluationStartTimestamp: ClientRuntime.Date? = nil,
+            resourceEvaluationId: Swift.String? = nil
+        )
+        {
+            self.evaluationMode = evaluationMode
+            self.evaluationStartTimestamp = evaluationStartTimestamp
+            self.resourceEvaluationId = resourceEvaluationId
+        }
+    }
+
+}
+
+extension ConfigClientTypes.ResourceEvaluationFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationContextIdentifier = "EvaluationContextIdentifier"
+        case evaluationMode = "EvaluationMode"
+        case timeWindow = "TimeWindow"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evaluationContextIdentifier = self.evaluationContextIdentifier {
+            try encodeContainer.encode(evaluationContextIdentifier, forKey: .evaluationContextIdentifier)
+        }
+        if let evaluationMode = self.evaluationMode {
+            try encodeContainer.encode(evaluationMode.rawValue, forKey: .evaluationMode)
+        }
+        if let timeWindow = self.timeWindow {
+            try encodeContainer.encode(timeWindow, forKey: .timeWindow)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
+        evaluationMode = evaluationModeDecoded
+        let timeWindowDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.TimeWindow.self, forKey: .timeWindow)
+        timeWindow = timeWindowDecoded
+        let evaluationContextIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationContextIdentifier)
+        evaluationContextIdentifier = evaluationContextIdentifierDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Returns details of a resource evaluation based on the selected filter.
+    public struct ResourceEvaluationFilters: Swift.Equatable {
+        /// Filters evaluations for a given infrastructure deployment. For example: CFN Stack.
+        public var evaluationContextIdentifier: Swift.String?
+        /// Filters all resource evaluations results based on an evaluation mode. the valid value for this API is Proactive.
+        public var evaluationMode: ConfigClientTypes.EvaluationMode?
+        /// Returns a TimeWindow object.
+        public var timeWindow: ConfigClientTypes.TimeWindow?
+
+        public init (
+            evaluationContextIdentifier: Swift.String? = nil,
+            evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
+            timeWindow: ConfigClientTypes.TimeWindow? = nil
+        )
+        {
+            self.evaluationContextIdentifier = evaluationContextIdentifier
+            self.evaluationMode = evaluationMode
+            self.timeWindow = timeWindow
+        }
+    }
+
+}
+
+extension ConfigClientTypes {
+    public enum ResourceEvaluationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceEvaluationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceEvaluationStatus(rawValue: rawValue) ?? ResourceEvaluationStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -23744,6 +24615,168 @@ extension StartRemediationExecutionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StartResourceEvaluationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case evaluationContext = "EvaluationContext"
+        case evaluationMode = "EvaluationMode"
+        case evaluationTimeout = "EvaluationTimeout"
+        case resourceDetails = "ResourceDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let evaluationContext = self.evaluationContext {
+            try encodeContainer.encode(evaluationContext, forKey: .evaluationContext)
+        }
+        if let evaluationMode = self.evaluationMode {
+            try encodeContainer.encode(evaluationMode.rawValue, forKey: .evaluationMode)
+        }
+        if evaluationTimeout != 0 {
+            try encodeContainer.encode(evaluationTimeout, forKey: .evaluationTimeout)
+        }
+        if let resourceDetails = self.resourceDetails {
+            try encodeContainer.encode(resourceDetails, forKey: .resourceDetails)
+        }
+    }
+}
+
+extension StartResourceEvaluationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartResourceEvaluationInput: Swift.Equatable {
+    /// A client token is a unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request using one of these actions, specify a client token in the request. Avoid reusing the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, other than the Region or Availability Zone, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Returns an EvaluationContext object.
+    public var evaluationContext: ConfigClientTypes.EvaluationContext?
+    /// The mode of an evaluation. The valid value for this API is Proactive.
+    /// This member is required.
+    public var evaluationMode: ConfigClientTypes.EvaluationMode?
+    /// The timeout for an evaluation. The default is 900 seconds. You cannot specify a number greater than 3600. If you specify 0, Config uses the default.
+    public var evaluationTimeout: Swift.Int
+    /// Returns a ResourceDetails object.
+    /// This member is required.
+    public var resourceDetails: ConfigClientTypes.ResourceDetails?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        evaluationContext: ConfigClientTypes.EvaluationContext? = nil,
+        evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
+        evaluationTimeout: Swift.Int = 0,
+        resourceDetails: ConfigClientTypes.ResourceDetails? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.evaluationContext = evaluationContext
+        self.evaluationMode = evaluationMode
+        self.evaluationTimeout = evaluationTimeout
+        self.resourceDetails = resourceDetails
+    }
+}
+
+struct StartResourceEvaluationInputBody: Swift.Equatable {
+    let resourceDetails: ConfigClientTypes.ResourceDetails?
+    let evaluationContext: ConfigClientTypes.EvaluationContext?
+    let evaluationMode: ConfigClientTypes.EvaluationMode?
+    let evaluationTimeout: Swift.Int
+    let clientToken: Swift.String?
+}
+
+extension StartResourceEvaluationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case evaluationContext = "EvaluationContext"
+        case evaluationMode = "EvaluationMode"
+        case evaluationTimeout = "EvaluationTimeout"
+        case resourceDetails = "ResourceDetails"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceDetailsDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceDetails.self, forKey: .resourceDetails)
+        resourceDetails = resourceDetailsDecoded
+        let evaluationContextDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationContext.self, forKey: .evaluationContext)
+        evaluationContext = evaluationContextDecoded
+        let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
+        evaluationMode = evaluationModeDecoded
+        let evaluationTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationTimeout) ?? 0
+        evaluationTimeout = evaluationTimeoutDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension StartResourceEvaluationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartResourceEvaluationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatch(try IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartResourceEvaluationOutputError: Swift.Error, Swift.Equatable {
+    case idempotentParameterMismatch(IdempotentParameterMismatch)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartResourceEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartResourceEvaluationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourceEvaluationId = output.resourceEvaluationId
+        } else {
+            self.resourceEvaluationId = nil
+        }
+    }
+}
+
+public struct StartResourceEvaluationOutputResponse: Swift.Equatable {
+    /// A unique ResourceEvaluationId that is associated with a single execution.
+    public var resourceEvaluationId: Swift.String?
+
+    public init (
+        resourceEvaluationId: Swift.String? = nil
+    )
+    {
+        self.resourceEvaluationId = resourceEvaluationId
+    }
+}
+
+struct StartResourceEvaluationOutputResponseBody: Swift.Equatable {
+    let resourceEvaluationId: Swift.String?
+}
+
+extension StartResourceEvaluationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceEvaluationId = "ResourceEvaluationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
+        resourceEvaluationId = resourceEvaluationIdDecoded
+    }
+}
+
 extension ConfigClientTypes.StaticValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case values = "Values"
@@ -24275,6 +25308,51 @@ extension ConfigClientTypes {
         {
             self.documentName = documentName
             self.documentVersion = documentVersion
+        }
+    }
+
+}
+
+extension ConfigClientTypes.TimeWindow: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Filters evaluation results based on start and end times.
+    public struct TimeWindow: Swift.Equatable {
+        /// The end time of an execution. The end time must be after the start date.
+        public var endTime: ClientRuntime.Date?
+        /// The start time of an execution.
+        public var startTime: ClientRuntime.Date?
+
+        public init (
+            endTime: ClientRuntime.Date? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
         }
     }
 

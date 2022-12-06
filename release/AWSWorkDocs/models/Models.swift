@@ -71,6 +71,7 @@ extension AbortDocumentVersionUploadOutputError: ClientRuntime.HttpResponseBindi
 extension AbortDocumentVersionUploadOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -83,6 +84,7 @@ extension AbortDocumentVersionUploadOutputError {
 }
 
 public enum AbortDocumentVersionUploadOutputError: Swift.Error, Swift.Equatable {
+    case concurrentModificationException(ConcurrentModificationException)
     case entityNotExistsException(EntityNotExistsException)
     case failedDependencyException(FailedDependencyException)
     case prohibitedStateException(ProhibitedStateException)
@@ -574,6 +576,7 @@ extension AddResourcePermissionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -584,6 +587,7 @@ extension AddResourcePermissionsOutputError {
 
 public enum AddResourcePermissionsOutputError: Swift.Error, Swift.Equatable {
     case failedDependencyException(FailedDependencyException)
+    case prohibitedStateException(ProhibitedStateException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unauthorizedOperationException(UnauthorizedOperationException)
     case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
@@ -1485,6 +1489,7 @@ extension CreateFolderOutputError: ClientRuntime.HttpResponseBinding {
 extension CreateFolderOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictingOperationException" : self = .conflictingOperationException(try ConflictingOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EntityAlreadyExistsException" : self = .entityAlreadyExistsException(try EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1500,6 +1505,7 @@ extension CreateFolderOutputError {
 }
 
 public enum CreateFolderOutputError: Swift.Error, Swift.Equatable {
+    case concurrentModificationException(ConcurrentModificationException)
     case conflictingOperationException(ConflictingOperationException)
     case entityAlreadyExistsException(EntityAlreadyExistsException)
     case entityNotExistsException(EntityNotExistsException)
@@ -1775,6 +1781,7 @@ extension CreateNotificationSubscriptionOutputError: ClientRuntime.HttpResponseB
 extension CreateNotificationSubscriptionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManySubscriptionsException" : self = .tooManySubscriptionsException(try TooManySubscriptionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1784,6 +1791,7 @@ extension CreateNotificationSubscriptionOutputError {
 }
 
 public enum CreateNotificationSubscriptionOutputError: Swift.Error, Swift.Equatable {
+    case invalidArgumentException(InvalidArgumentException)
     case serviceUnavailableException(ServiceUnavailableException)
     case tooManySubscriptionsException(TooManySubscriptionsException)
     case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
@@ -1833,7 +1841,7 @@ extension CreateNotificationSubscriptionOutputResponseBody: Swift.Decodable {
 
 extension CreateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserInput(emailAddress: \(Swift.String(describing: emailAddress)), givenName: \(Swift.String(describing: givenName)), organizationId: \(Swift.String(describing: organizationId)), storageRule: \(Swift.String(describing: storageRule)), surname: \(Swift.String(describing: surname)), timeZoneId: \(Swift.String(describing: timeZoneId)), username: \(Swift.String(describing: username)), authenticationToken: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\")"}
+        "CreateUserInput(givenName: \(Swift.String(describing: givenName)), organizationId: \(Swift.String(describing: organizationId)), storageRule: \(Swift.String(describing: storageRule)), surname: \(Swift.String(describing: surname)), timeZoneId: \(Swift.String(describing: timeZoneId)), username: \(Swift.String(describing: username)), authenticationToken: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateUserInput: Swift.Encodable {
@@ -2561,6 +2569,7 @@ extension DeleteDocumentOutputError {
         case "ConflictingOperationException" : self = .conflictingOperationException(try ConflictingOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2575,6 +2584,7 @@ public enum DeleteDocumentOutputError: Swift.Error, Swift.Equatable {
     case conflictingOperationException(ConflictingOperationException)
     case entityNotExistsException(EntityNotExistsException)
     case failedDependencyException(FailedDependencyException)
+    case limitExceededException(LimitExceededException)
     case prohibitedStateException(ProhibitedStateException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unauthorizedOperationException(UnauthorizedOperationException)
@@ -2588,6 +2598,126 @@ extension DeleteDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteDocumentOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteDocumentVersionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DeleteDocumentVersionInput(deletePriorVersions: \(Swift.String(describing: deletePriorVersions)), documentId: \(Swift.String(describing: documentId)), versionId: \(Swift.String(describing: versionId)), authenticationToken: \"CONTENT_REDACTED\")"}
+}
+
+extension DeleteDocumentVersionInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let authenticationToken = authenticationToken {
+            items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
+        }
+        return items
+    }
+}
+
+extension DeleteDocumentVersionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            let deletePriorVersionsQueryItem = ClientRuntime.URLQueryItem(name: "deletePriorVersions".urlPercentEncoding(), value: Swift.String(deletePriorVersions).urlPercentEncoding())
+            items.append(deletePriorVersionsQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteDocumentVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let documentId = documentId else {
+            return nil
+        }
+        guard let versionId = versionId else {
+            return nil
+        }
+        return "/api/v1/documentVersions/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteDocumentVersionInput: Swift.Equatable {
+    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    public var authenticationToken: Swift.String?
+    /// When set to TRUE, deletes the specified version and all prior versions of a document.
+    /// This member is required.
+    public var deletePriorVersions: Swift.Bool
+    /// The ID of a document.
+    /// This member is required.
+    public var documentId: Swift.String?
+    /// The version ID of a document.
+    /// This member is required.
+    public var versionId: Swift.String?
+
+    public init (
+        authenticationToken: Swift.String? = nil,
+        deletePriorVersions: Swift.Bool = false,
+        documentId: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.authenticationToken = authenticationToken
+        self.deletePriorVersions = deletePriorVersions
+        self.documentId = documentId
+        self.versionId = versionId
+    }
+}
+
+struct DeleteDocumentVersionInputBody: Swift.Equatable {
+}
+
+extension DeleteDocumentVersionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteDocumentVersionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteDocumentVersionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictingOperationException" : self = .conflictingOperationException(try ConflictingOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteDocumentVersionOutputError: Swift.Error, Swift.Equatable {
+    case concurrentModificationException(ConcurrentModificationException)
+    case conflictingOperationException(ConflictingOperationException)
+    case entityNotExistsException(EntityNotExistsException)
+    case failedDependencyException(FailedDependencyException)
+    case invalidOperationException(InvalidOperationException)
+    case prohibitedStateException(ProhibitedStateException)
+    case unauthorizedOperationException(UnauthorizedOperationException)
+    case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDocumentVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteDocumentVersionOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -2751,6 +2881,7 @@ extension DeleteFolderOutputError {
         case "ConflictingOperationException" : self = .conflictingOperationException(try ConflictingOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2765,6 +2896,7 @@ public enum DeleteFolderOutputError: Swift.Error, Swift.Equatable {
     case conflictingOperationException(ConflictingOperationException)
     case entityNotExistsException(EntityNotExistsException)
     case failedDependencyException(FailedDependencyException)
+    case limitExceededException(LimitExceededException)
     case prohibitedStateException(ProhibitedStateException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unauthorizedOperationException(UnauthorizedOperationException)
@@ -2872,6 +3004,7 @@ extension DeleteLabelsOutputError {
         switch errorType {
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2883,6 +3016,7 @@ extension DeleteLabelsOutputError {
 public enum DeleteLabelsOutputError: Swift.Error, Swift.Equatable {
     case entityNotExistsException(EntityNotExistsException)
     case failedDependencyException(FailedDependencyException)
+    case prohibitedStateException(ProhibitedStateException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unauthorizedOperationException(UnauthorizedOperationException)
     case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
@@ -3559,6 +3693,7 @@ extension DescribeDocumentVersionsOutputError {
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPasswordException" : self = .invalidPasswordException(try InvalidPasswordException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3572,6 +3707,7 @@ public enum DescribeDocumentVersionsOutputError: Swift.Error, Swift.Equatable {
     case entityNotExistsException(EntityNotExistsException)
     case failedDependencyException(FailedDependencyException)
     case invalidArgumentException(InvalidArgumentException)
+    case invalidPasswordException(InvalidPasswordException)
     case prohibitedStateException(ProhibitedStateException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unauthorizedOperationException(UnauthorizedOperationException)
@@ -4268,6 +4404,7 @@ extension DescribeResourcePermissionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4278,6 +4415,7 @@ extension DescribeResourcePermissionsOutputError {
 
 public enum DescribeResourcePermissionsOutputError: Swift.Error, Swift.Equatable {
     case failedDependencyException(FailedDependencyException)
+    case invalidArgumentException(InvalidArgumentException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unauthorizedOperationException(UnauthorizedOperationException)
     case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
@@ -4583,7 +4721,15 @@ public struct DescribeUsersInput: Swift.Equatable {
     public var order: WorkDocsClientTypes.OrderType?
     /// The ID of the organization.
     public var organizationId: Swift.String?
-    /// A query to filter users by user name.
+    /// A query to filter users by user name. Remember the following about the Userids and Query parameters:
+    ///
+    /// * If you don't use either parameter, the API returns a paginated list of all users on the site.
+    ///
+    /// * If you use both parameters, the API ignores the Query parameter.
+    ///
+    /// * The Userid parameter only returns user names that match a corresponding user ID.
+    ///
+    /// * The Query parameter runs a "prefix" search for users by the GivenName, SurName, or UserName fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html) API call. For example, querying on Ma returns Márcia Oliveira, María García, and Mateo Jackson. If you use multiple characters, the API only returns data that matches all characters. For example, querying on Ma J only returns Mateo Jackson.
     public var query: Swift.String?
     /// The sorting criteria.
     public var sort: WorkDocsClientTypes.UserSortType?
@@ -5338,6 +5484,7 @@ public struct EntityNotExistsException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The IDs of the non-existent resources.
     public var entityIds: [Swift.String]?
     public var message: Swift.String?
 
@@ -6898,7 +7045,6 @@ public struct InitiateDocumentVersionUploadInput: Swift.Equatable {
     /// The name of the document.
     public var name: Swift.String?
     /// The ID of the parent folder.
-    /// This member is required.
     public var parentFolderId: Swift.String?
 
     public init (
@@ -6978,6 +7124,8 @@ extension InitiateDocumentVersionUploadOutputError {
         case "EntityAlreadyExistsException" : self = .entityAlreadyExistsException(try EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPasswordException" : self = .invalidPasswordException(try InvalidPasswordException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceAlreadyCheckedOutException" : self = .resourceAlreadyCheckedOutException(try ResourceAlreadyCheckedOutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -6995,6 +7143,8 @@ public enum InitiateDocumentVersionUploadOutputError: Swift.Error, Swift.Equatab
     case entityAlreadyExistsException(EntityAlreadyExistsException)
     case entityNotExistsException(EntityNotExistsException)
     case failedDependencyException(FailedDependencyException)
+    case invalidPasswordException(InvalidPasswordException)
+    case limitExceededException(LimitExceededException)
     case prohibitedStateException(ProhibitedStateException)
     case resourceAlreadyCheckedOutException(ResourceAlreadyCheckedOutException)
     case serviceUnavailableException(ServiceUnavailableException)
@@ -7281,7 +7431,7 @@ extension LimitExceededException {
     }
 }
 
-/// The maximum of 100,000 folders under the parent folder has been exceeded.
+/// The maximum of 100,000 files and folders under the parent folder has been exceeded.
 public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -8354,6 +8504,102 @@ extension WorkDocsClientTypes {
     }
 }
 
+extension RestoreDocumentVersionsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreDocumentVersionsInput(documentId: \(Swift.String(describing: documentId)), authenticationToken: \"CONTENT_REDACTED\")"}
+}
+
+extension RestoreDocumentVersionsInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let authenticationToken = authenticationToken {
+            items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
+        }
+        return items
+    }
+}
+
+extension RestoreDocumentVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let documentId = documentId else {
+            return nil
+        }
+        return "/api/v1/documentVersions/restore/\(documentId.urlPercentEncoding())"
+    }
+}
+
+public struct RestoreDocumentVersionsInput: Swift.Equatable {
+    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    public var authenticationToken: Swift.String?
+    /// The ID of the document.
+    /// This member is required.
+    public var documentId: Swift.String?
+
+    public init (
+        authenticationToken: Swift.String? = nil,
+        documentId: Swift.String? = nil
+    )
+    {
+        self.authenticationToken = authenticationToken
+        self.documentId = documentId
+    }
+}
+
+struct RestoreDocumentVersionsInputBody: Swift.Equatable {
+}
+
+extension RestoreDocumentVersionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension RestoreDocumentVersionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RestoreDocumentVersionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictingOperationException" : self = .conflictingOperationException(try ConflictingOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum RestoreDocumentVersionsOutputError: Swift.Error, Swift.Equatable {
+    case concurrentModificationException(ConcurrentModificationException)
+    case conflictingOperationException(ConflictingOperationException)
+    case entityNotExistsException(EntityNotExistsException)
+    case failedDependencyException(FailedDependencyException)
+    case invalidOperationException(InvalidOperationException)
+    case prohibitedStateException(ProhibitedStateException)
+    case unauthorizedOperationException(UnauthorizedOperationException)
+    case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreDocumentVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct RestoreDocumentVersionsOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension WorkDocsClientTypes {
     public enum RolePermissionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case direct
@@ -8895,11 +9141,13 @@ extension WorkDocsClientTypes {
 extension WorkDocsClientTypes {
     public enum SubscriptionProtocolType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case https
+        case sqs
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SubscriptionProtocolType] {
             return [
                 .https,
+                .sqs,
                 .sdkUnknown("")
             ]
         }
@@ -8910,6 +9158,7 @@ extension WorkDocsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .https: return "HTTPS"
+            case .sqs: return "SQS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9753,6 +10002,7 @@ extension UpdateUserOutputError {
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IllegalUserStateException" : self = .illegalUserStateException(try IllegalUserStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -9767,6 +10017,7 @@ public enum UpdateUserOutputError: Swift.Error, Swift.Equatable {
     case failedDependencyException(FailedDependencyException)
     case illegalUserStateException(IllegalUserStateException)
     case invalidArgumentException(InvalidArgumentException)
+    case prohibitedStateException(ProhibitedStateException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unauthorizedOperationException(UnauthorizedOperationException)
     case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
@@ -9979,6 +10230,11 @@ extension WorkDocsClientTypes.User: Swift.Codable {
     }
 }
 
+extension WorkDocsClientTypes.User: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "User(createdTimestamp: \(Swift.String(describing: createdTimestamp)), givenName: \(Swift.String(describing: givenName)), id: \(Swift.String(describing: id)), locale: \(Swift.String(describing: locale)), modifiedTimestamp: \(Swift.String(describing: modifiedTimestamp)), organizationId: \(Swift.String(describing: organizationId)), recycleBinFolderId: \(Swift.String(describing: recycleBinFolderId)), rootFolderId: \(Swift.String(describing: rootFolderId)), status: \(Swift.String(describing: status)), storage: \(Swift.String(describing: storage)), surname: \(Swift.String(describing: surname)), timeZoneId: \(Swift.String(describing: timeZoneId)), type: \(Swift.String(describing: type)), username: \(Swift.String(describing: username)), emailAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension WorkDocsClientTypes {
     /// Describes a user.
     public struct User: Swift.Equatable {
@@ -10124,6 +10380,11 @@ extension WorkDocsClientTypes.UserMetadata: Swift.Codable {
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
     }
+}
+
+extension WorkDocsClientTypes.UserMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UserMetadata(givenName: \(Swift.String(describing: givenName)), id: \(Swift.String(describing: id)), surname: \(Swift.String(describing: surname)), username: \(Swift.String(describing: username)), emailAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkDocsClientTypes {

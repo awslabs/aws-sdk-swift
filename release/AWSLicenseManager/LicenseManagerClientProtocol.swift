@@ -11,7 +11,7 @@ public protocol LicenseManagerClientProtocol {
     func checkInLicense(input: CheckInLicenseInput) async throws -> CheckInLicenseOutputResponse
     /// Checks out the specified license for offline use.
     func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput) async throws -> CheckoutBorrowLicenseOutputResponse
-    /// Checks out the specified license.
+    /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutputResponse
     /// Creates a grant for the specified license. A grant shares the use of license entitlements with specific Amazon Web Services accounts.
     func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutputResponse
@@ -77,8 +77,12 @@ public protocol LicenseManagerClientProtocol {
     func listLicenseVersions(input: ListLicenseVersionsInput) async throws -> ListLicenseVersionsOutputResponse
     /// Lists grants that are received but not accepted.
     func listReceivedGrants(input: ListReceivedGrantsInput) async throws -> ListReceivedGrantsOutputResponse
+    /// Lists the grants received for all accounts in the organization.
+    func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutputResponse
     /// Lists received licenses.
     func listReceivedLicenses(input: ListReceivedLicensesInput) async throws -> ListReceivedLicensesOutputResponse
+    /// Lists the licenses received for all accounts in the organization.
+    func listReceivedLicensesForOrganization(input: ListReceivedLicensesForOrganizationInput) async throws -> ListReceivedLicensesForOrganizationOutputResponse
     /// Lists resources managed using Systems Manager inventory.
     func listResourceInventory(input: ListResourceInventoryInput) async throws -> ListResourceInventoryOutputResponse
     /// Lists the tags for the specified license configuration.

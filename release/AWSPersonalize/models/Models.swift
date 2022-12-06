@@ -2503,6 +2503,7 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
         case datasetArn
         case importMode
         case jobName
+        case publishAttributionMetricsToS3
         case roleArn
         case tags
     }
@@ -2520,6 +2521,9 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
         }
         if let jobName = self.jobName {
             try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let publishAttributionMetricsToS3 = self.publishAttributionMetricsToS3 {
+            try encodeContainer.encode(publishAttributionMetricsToS3, forKey: .publishAttributionMetricsToS3)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -2555,6 +2559,8 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
     /// The name for the dataset import job.
     /// This member is required.
     public var jobName: Swift.String?
+    /// If you created a metric attribution, specify whether to publish metrics for this import job to Amazon S3
+    public var publishAttributionMetricsToS3: Swift.Bool?
     /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -2566,6 +2572,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
         datasetArn: Swift.String? = nil,
         importMode: PersonalizeClientTypes.ImportMode? = nil,
         jobName: Swift.String? = nil,
+        publishAttributionMetricsToS3: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
     )
@@ -2574,6 +2581,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
         self.datasetArn = datasetArn
         self.importMode = importMode
         self.jobName = jobName
+        self.publishAttributionMetricsToS3 = publishAttributionMetricsToS3
         self.roleArn = roleArn
         self.tags = tags
     }
@@ -2586,6 +2594,7 @@ struct CreateDatasetImportJobInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let tags: [PersonalizeClientTypes.Tag]?
     let importMode: PersonalizeClientTypes.ImportMode?
+    let publishAttributionMetricsToS3: Swift.Bool?
 }
 
 extension CreateDatasetImportJobInputBody: Swift.Decodable {
@@ -2594,6 +2603,7 @@ extension CreateDatasetImportJobInputBody: Swift.Decodable {
         case datasetArn
         case importMode
         case jobName
+        case publishAttributionMetricsToS3
         case roleArn
         case tags
     }
@@ -2621,6 +2631,8 @@ extension CreateDatasetImportJobInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let importModeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.ImportMode.self, forKey: .importMode)
         importMode = importModeDecoded
+        let publishAttributionMetricsToS3Decoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publishAttributionMetricsToS3)
+        publishAttributionMetricsToS3 = publishAttributionMetricsToS3Decoded
     }
 }
 
@@ -3229,6 +3241,176 @@ extension CreateFilterOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateMetricAttributionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetGroupArn
+        case metrics
+        case metricsOutputConfig
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetGroupArn = self.datasetGroupArn {
+            try encodeContainer.encode(datasetGroupArn, forKey: .datasetGroupArn)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for metricattributes0 in metrics {
+                try metricsContainer.encode(metricattributes0)
+            }
+        }
+        if let metricsOutputConfig = self.metricsOutputConfig {
+            try encodeContainer.encode(metricsOutputConfig, forKey: .metricsOutputConfig)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension CreateMetricAttributionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateMetricAttributionInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution.
+    /// This member is required.
+    public var datasetGroupArn: Swift.String?
+    /// A list of metric attributes for the metric attribution. Each metric attribute specifies an event type to track and a function. Available functions are SUM() or SAMPLECOUNT(). For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE).
+    /// This member is required.
+    public var metrics: [PersonalizeClientTypes.MetricAttribute]?
+    /// The output configuration details for the metric attribution.
+    /// This member is required.
+    public var metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput?
+    /// A name for the metric attribution.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        datasetGroupArn: Swift.String? = nil,
+        metrics: [PersonalizeClientTypes.MetricAttribute]? = nil,
+        metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.datasetGroupArn = datasetGroupArn
+        self.metrics = metrics
+        self.metricsOutputConfig = metricsOutputConfig
+        self.name = name
+    }
+}
+
+struct CreateMetricAttributionInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let datasetGroupArn: Swift.String?
+    let metrics: [PersonalizeClientTypes.MetricAttribute]?
+    let metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput?
+}
+
+extension CreateMetricAttributionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetGroupArn
+        case metrics
+        case metricsOutputConfig
+        case name
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
+        datasetGroupArn = datasetGroupArnDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([PersonalizeClientTypes.MetricAttribute?].self, forKey: .metrics)
+        var metricsDecoded0:[PersonalizeClientTypes.MetricAttribute]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [PersonalizeClientTypes.MetricAttribute]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let metricsOutputConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.MetricAttributionOutput.self, forKey: .metricsOutputConfig)
+        metricsOutputConfig = metricsOutputConfigDecoded
+    }
+}
+
+extension CreateMetricAttributionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateMetricAttributionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateMetricAttributionOutputError: Swift.Error, Swift.Equatable {
+    case invalidInputException(InvalidInputException)
+    case limitExceededException(LimitExceededException)
+    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateMetricAttributionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateMetricAttributionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metricAttributionArn = output.metricAttributionArn
+        } else {
+            self.metricAttributionArn = nil
+        }
+    }
+}
+
+public struct CreateMetricAttributionOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the new metric attribution.
+    public var metricAttributionArn: Swift.String?
+
+    public init (
+        metricAttributionArn: Swift.String? = nil
+    )
+    {
+        self.metricAttributionArn = metricAttributionArn
+    }
+}
+
+struct CreateMetricAttributionOutputResponseBody: Swift.Equatable {
+    let metricAttributionArn: Swift.String?
+}
+
+extension CreateMetricAttributionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttributionArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
+    }
+}
+
 extension CreateRecommenderInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datasetGroupArn
@@ -3772,6 +3954,7 @@ extension CreateSolutionOutputResponseBody: Swift.Decodable {
 
 extension CreateSolutionVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
         case solutionArn
         case tags
         case trainingMode
@@ -3779,6 +3962,9 @@ extension CreateSolutionVersionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
         if let solutionArn = self.solutionArn {
             try encodeContainer.encode(solutionArn, forKey: .solutionArn)
         }
@@ -3801,6 +3987,8 @@ extension CreateSolutionVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateSolutionVersionInput: Swift.Equatable {
+    /// The name of the solution version.
+    public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
     /// This member is required.
     public var solutionArn: Swift.String?
@@ -3810,11 +3998,13 @@ public struct CreateSolutionVersionInput: Swift.Equatable {
     public var trainingMode: PersonalizeClientTypes.TrainingMode?
 
     public init (
+        name: Swift.String? = nil,
         solutionArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil,
         trainingMode: PersonalizeClientTypes.TrainingMode? = nil
     )
     {
+        self.name = name
         self.solutionArn = solutionArn
         self.tags = tags
         self.trainingMode = trainingMode
@@ -3822,6 +4012,7 @@ public struct CreateSolutionVersionInput: Swift.Equatable {
 }
 
 struct CreateSolutionVersionInputBody: Swift.Equatable {
+    let name: Swift.String?
     let solutionArn: Swift.String?
     let trainingMode: PersonalizeClientTypes.TrainingMode?
     let tags: [PersonalizeClientTypes.Tag]?
@@ -3829,6 +4020,7 @@ struct CreateSolutionVersionInputBody: Swift.Equatable {
 
 extension CreateSolutionVersionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
         case solutionArn
         case tags
         case trainingMode
@@ -3836,6 +4028,8 @@ extension CreateSolutionVersionInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
         let solutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionArn)
         solutionArn = solutionArnDecoded
         let trainingModeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.TrainingMode.self, forKey: .trainingMode)
@@ -3867,6 +4061,7 @@ extension CreateSolutionVersionOutputError {
         switch errorType {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3878,6 +4073,7 @@ extension CreateSolutionVersionOutputError {
 public enum CreateSolutionVersionOutputError: Swift.Error, Swift.Equatable {
     case invalidInputException(InvalidInputException)
     case limitExceededException(LimitExceededException)
+    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
     case resourceInUseException(ResourceInUseException)
     case resourceNotFoundException(ResourceNotFoundException)
     case tooManyTagsException(TooManyTagsException)
@@ -4555,6 +4751,7 @@ extension PersonalizeClientTypes.DatasetImportJob: Swift.Codable {
         case importMode
         case jobName
         case lastUpdatedDateTime
+        case publishAttributionMetricsToS3
         case roleArn
         case status
     }
@@ -4584,6 +4781,9 @@ extension PersonalizeClientTypes.DatasetImportJob: Swift.Codable {
         }
         if let lastUpdatedDateTime = self.lastUpdatedDateTime {
             try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let publishAttributionMetricsToS3 = self.publishAttributionMetricsToS3 {
+            try encodeContainer.encode(publishAttributionMetricsToS3, forKey: .publishAttributionMetricsToS3)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -4615,6 +4815,8 @@ extension PersonalizeClientTypes.DatasetImportJob: Swift.Codable {
         failureReason = failureReasonDecoded
         let importModeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.ImportMode.self, forKey: .importMode)
         importMode = importModeDecoded
+        let publishAttributionMetricsToS3Decoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publishAttributionMetricsToS3)
+        publishAttributionMetricsToS3 = publishAttributionMetricsToS3Decoded
     }
 }
 
@@ -4639,6 +4841,8 @@ extension PersonalizeClientTypes {
         public var jobName: Swift.String?
         /// The date and time (in Unix time) the dataset was last updated.
         public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// Whether the job publishes metrics to Amazon S3 for a metric attribution.
+        public var publishAttributionMetricsToS3: Swift.Bool?
         /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
         public var roleArn: Swift.String?
         /// The status of the dataset import job. A dataset import job can be in one of the following states:
@@ -4655,6 +4859,7 @@ extension PersonalizeClientTypes {
             importMode: PersonalizeClientTypes.ImportMode? = nil,
             jobName: Swift.String? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            publishAttributionMetricsToS3: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -4667,6 +4872,7 @@ extension PersonalizeClientTypes {
             self.importMode = importMode
             self.jobName = jobName
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.publishAttributionMetricsToS3 = publishAttributionMetricsToS3
             self.roleArn = roleArn
             self.status = status
         }
@@ -5732,6 +5938,90 @@ extension DeleteFilterOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteFilterOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteMetricAttributionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttributionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricAttributionArn = self.metricAttributionArn {
+            try encodeContainer.encode(metricAttributionArn, forKey: .metricAttributionArn)
+        }
+    }
+}
+
+extension DeleteMetricAttributionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteMetricAttributionInput: Swift.Equatable {
+    /// The metric attribution's Amazon Resource Name (ARN).
+    /// This member is required.
+    public var metricAttributionArn: Swift.String?
+
+    public init (
+        metricAttributionArn: Swift.String? = nil
+    )
+    {
+        self.metricAttributionArn = metricAttributionArn
+    }
+}
+
+struct DeleteMetricAttributionInputBody: Swift.Equatable {
+    let metricAttributionArn: Swift.String?
+}
+
+extension DeleteMetricAttributionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttributionArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
+    }
+}
+
+extension DeleteMetricAttributionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteMetricAttributionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteMetricAttributionOutputError: Swift.Error, Swift.Equatable {
+    case invalidInputException(InvalidInputException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMetricAttributionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteMetricAttributionOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -7244,6 +7534,119 @@ extension DescribeFilterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.Filter.self, forKey: .filter)
         filter = filterDecoded
+    }
+}
+
+extension DescribeMetricAttributionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttributionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricAttributionArn = self.metricAttributionArn {
+            try encodeContainer.encode(metricAttributionArn, forKey: .metricAttributionArn)
+        }
+    }
+}
+
+extension DescribeMetricAttributionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMetricAttributionInput: Swift.Equatable {
+    /// The metric attribution's Amazon Resource Name (ARN).
+    /// This member is required.
+    public var metricAttributionArn: Swift.String?
+
+    public init (
+        metricAttributionArn: Swift.String? = nil
+    )
+    {
+        self.metricAttributionArn = metricAttributionArn
+    }
+}
+
+struct DescribeMetricAttributionInputBody: Swift.Equatable {
+    let metricAttributionArn: Swift.String?
+}
+
+extension DescribeMetricAttributionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttributionArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
+    }
+}
+
+extension DescribeMetricAttributionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeMetricAttributionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DescribeMetricAttributionOutputError: Swift.Error, Swift.Equatable {
+    case invalidInputException(InvalidInputException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeMetricAttributionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeMetricAttributionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metricAttribution = output.metricAttribution
+        } else {
+            self.metricAttribution = nil
+        }
+    }
+}
+
+public struct DescribeMetricAttributionOutputResponse: Swift.Equatable {
+    /// The details of the metric attribution.
+    public var metricAttribution: PersonalizeClientTypes.MetricAttribution?
+
+    public init (
+        metricAttribution: PersonalizeClientTypes.MetricAttribution? = nil
+    )
+    {
+        self.metricAttribution = metricAttribution
+    }
+}
+
+struct DescribeMetricAttributionOutputResponseBody: Swift.Equatable {
+    let metricAttribution: PersonalizeClientTypes.MetricAttribution?
+}
+
+extension DescribeMetricAttributionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttribution
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricAttributionDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.MetricAttribution.self, forKey: .metricAttribution)
+        metricAttribution = metricAttributionDecoded
     }
 }
 
@@ -10375,6 +10778,316 @@ extension ListFiltersOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListMetricAttributionMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case metricAttributionArn
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let metricAttributionArn = self.metricAttributionArn {
+            try encodeContainer.encode(metricAttributionArn, forKey: .metricAttributionArn)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListMetricAttributionMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListMetricAttributionMetricsInput: Swift.Equatable {
+    /// The maximum number of metrics to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the metric attribution to retrieve attributes for.
+    public var metricAttributionArn: Swift.String?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        metricAttributionArn: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.metricAttributionArn = metricAttributionArn
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMetricAttributionMetricsInputBody: Swift.Equatable {
+    let metricAttributionArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListMetricAttributionMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case metricAttributionArn
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListMetricAttributionMetricsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListMetricAttributionMetricsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListMetricAttributionMetricsOutputError: Swift.Error, Swift.Equatable {
+    case invalidInputException(InvalidInputException)
+    case invalidNextTokenException(InvalidNextTokenException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMetricAttributionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListMetricAttributionMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metrics = output.metrics
+            self.nextToken = output.nextToken
+        } else {
+            self.metrics = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListMetricAttributionMetricsOutputResponse: Swift.Equatable {
+    /// The metrics for the specified metric attribution.
+    public var metrics: [PersonalizeClientTypes.MetricAttribute]?
+    /// Specify the pagination token from a previous ListMetricAttributionMetricsResponse request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        metrics: [PersonalizeClientTypes.MetricAttribute]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.metrics = metrics
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMetricAttributionMetricsOutputResponseBody: Swift.Equatable {
+    let metrics: [PersonalizeClientTypes.MetricAttribute]?
+    let nextToken: Swift.String?
+}
+
+extension ListMetricAttributionMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metrics
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricsContainer = try containerValues.decodeIfPresent([PersonalizeClientTypes.MetricAttribute?].self, forKey: .metrics)
+        var metricsDecoded0:[PersonalizeClientTypes.MetricAttribute]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [PersonalizeClientTypes.MetricAttribute]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListMetricAttributionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetGroupArn
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetGroupArn = self.datasetGroupArn {
+            try encodeContainer.encode(datasetGroupArn, forKey: .datasetGroupArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListMetricAttributionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListMetricAttributionsInput: Swift.Equatable {
+    /// The metric attributions' dataset group Amazon Resource Name (ARN).
+    public var datasetGroupArn: Swift.String?
+    /// The maximum number of metric attributions to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        datasetGroupArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.datasetGroupArn = datasetGroupArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMetricAttributionsInputBody: Swift.Equatable {
+    let datasetGroupArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListMetricAttributionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetGroupArn
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
+        datasetGroupArn = datasetGroupArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListMetricAttributionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListMetricAttributionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListMetricAttributionsOutputError: Swift.Error, Swift.Equatable {
+    case invalidInputException(InvalidInputException)
+    case invalidNextTokenException(InvalidNextTokenException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMetricAttributionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListMetricAttributionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metricAttributions = output.metricAttributions
+            self.nextToken = output.nextToken
+        } else {
+            self.metricAttributions = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListMetricAttributionsOutputResponse: Swift.Equatable {
+    /// The list of metric attributions.
+    public var metricAttributions: [PersonalizeClientTypes.MetricAttributionSummary]?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        metricAttributions: [PersonalizeClientTypes.MetricAttributionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.metricAttributions = metricAttributions
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMetricAttributionsOutputResponseBody: Swift.Equatable {
+    let metricAttributions: [PersonalizeClientTypes.MetricAttributionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListMetricAttributionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttributions
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricAttributionsContainer = try containerValues.decodeIfPresent([PersonalizeClientTypes.MetricAttributionSummary?].self, forKey: .metricAttributions)
+        var metricAttributionsDecoded0:[PersonalizeClientTypes.MetricAttributionSummary]? = nil
+        if let metricAttributionsContainer = metricAttributionsContainer {
+            metricAttributionsDecoded0 = [PersonalizeClientTypes.MetricAttributionSummary]()
+            for structure0 in metricAttributionsContainer {
+                if let structure0 = structure0 {
+                    metricAttributionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricAttributions = metricAttributionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListRecipesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domain
@@ -11272,6 +11985,300 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         }
         tags = tagsDecoded0
     }
+}
+
+extension PersonalizeClientTypes.MetricAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventType
+        case expression
+        case metricName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType, forKey: .eventType)
+        }
+        if let expression = self.expression {
+            try encodeContainer.encode(expression, forKey: .expression)
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
+        expression = expressionDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// Contains information on a metric that a metric attribution reports on. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
+    public struct MetricAttribute: Swift.Equatable {
+        /// The metric's event type.
+        /// This member is required.
+        public var eventType: Swift.String?
+        /// The attribute's expression. Available functions are SUM() or SAMPLECOUNT(). For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE).
+        /// This member is required.
+        public var expression: Swift.String?
+        /// The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3.
+        /// This member is required.
+        public var metricName: Swift.String?
+
+        public init (
+            eventType: Swift.String? = nil,
+            expression: Swift.String? = nil,
+            metricName: Swift.String? = nil
+        )
+        {
+            self.eventType = eventType
+            self.expression = expression
+            self.metricName = metricName
+        }
+    }
+
+}
+
+extension PersonalizeClientTypes.MetricAttribution: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case datasetGroupArn
+        case failureReason
+        case lastUpdatedDateTime
+        case metricAttributionArn
+        case metricsOutputConfig
+        case name
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let datasetGroupArn = self.datasetGroupArn {
+            try encodeContainer.encode(datasetGroupArn, forKey: .datasetGroupArn)
+        }
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let metricAttributionArn = self.metricAttributionArn {
+            try encodeContainer.encode(metricAttributionArn, forKey: .metricAttributionArn)
+        }
+        if let metricsOutputConfig = self.metricsOutputConfig {
+            try encodeContainer.encode(metricsOutputConfig, forKey: .metricsOutputConfig)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
+        let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
+        datasetGroupArn = datasetGroupArnDecoded
+        let metricsOutputConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.MetricAttributionOutput.self, forKey: .metricsOutputConfig)
+        metricsOutputConfig = metricsOutputConfigDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// Contains information on a metric attribution. A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you import the data, you can view reports in Amazon CloudWatch or Amazon S3. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
+    public struct MetricAttribution: Swift.Equatable {
+        /// The metric attribution's creation date time.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The metric attribution's dataset group Amazon Resource Name (ARN).
+        public var datasetGroupArn: Swift.String?
+        /// The metric attribution's failure reason.
+        public var failureReason: Swift.String?
+        /// The metric attribution's last updated date time.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// The metric attribution's Amazon Resource Name (ARN).
+        public var metricAttributionArn: Swift.String?
+        /// The metric attribution's output configuration.
+        public var metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput?
+        /// The metric attribution's name.
+        public var name: Swift.String?
+        /// The metric attribution's status.
+        public var status: Swift.String?
+
+        public init (
+            creationDateTime: ClientRuntime.Date? = nil,
+            datasetGroupArn: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            metricAttributionArn: Swift.String? = nil,
+            metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput? = nil,
+            name: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.metricAttributionArn = metricAttributionArn
+            self.metricsOutputConfig = metricsOutputConfig
+            self.name = name
+            self.status = status
+        }
+    }
+
+}
+
+extension PersonalizeClientTypes.MetricAttributionOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case roleArn
+        case s3DataDestination
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let s3DataDestination = self.s3DataDestination {
+            try encodeContainer.encode(s3DataDestination, forKey: .s3DataDestination)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3DataDestinationDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.S3DataConfig.self, forKey: .s3DataDestination)
+        s3DataDestination = s3DataDestinationDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// The output configuration details for a metric attribution.
+    public struct MetricAttributionOutput: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket and add metrics to Amazon CloudWatch. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The configuration details of an Amazon S3 input or output bucket.
+        public var s3DataDestination: PersonalizeClientTypes.S3DataConfig?
+
+        public init (
+            roleArn: Swift.String? = nil,
+            s3DataDestination: PersonalizeClientTypes.S3DataConfig? = nil
+        )
+        {
+            self.roleArn = roleArn
+            self.s3DataDestination = s3DataDestination
+        }
+    }
+
+}
+
+extension PersonalizeClientTypes.MetricAttributionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case failureReason
+        case lastUpdatedDateTime
+        case metricAttributionArn
+        case name
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let metricAttributionArn = self.metricAttributionArn {
+            try encodeContainer.encode(metricAttributionArn, forKey: .metricAttributionArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// Provides a summary of the properties of a metric attribution. For a complete listing, call the [DescribeMetricAttribution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeMetricAttribution.html).
+    public struct MetricAttributionSummary: Swift.Equatable {
+        /// The metric attribution's creation date time.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The metric attribution's failure reason.
+        public var failureReason: Swift.String?
+        /// The metric attribution's last updated date time.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// The metric attribution's Amazon Resource Name (ARN).
+        public var metricAttributionArn: Swift.String?
+        /// The name of the metric attribution.
+        public var name: Swift.String?
+        /// The metric attribution's status.
+        public var status: Swift.String?
+
+        public init (
+            creationDateTime: ClientRuntime.Date? = nil,
+            failureReason: Swift.String? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            metricAttributionArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.metricAttributionArn = metricAttributionArn
+            self.name = name
+            self.status = status
+        }
+    }
+
 }
 
 extension PersonalizeClientTypes {
@@ -12469,6 +13476,7 @@ extension PersonalizeClientTypes.SolutionSummary: Swift.Codable {
         case creationDateTime
         case lastUpdatedDateTime
         case name
+        case recipeArn
         case solutionArn
         case status
     }
@@ -12483,6 +13491,9 @@ extension PersonalizeClientTypes.SolutionSummary: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let recipeArn = self.recipeArn {
+            try encodeContainer.encode(recipeArn, forKey: .recipeArn)
         }
         if let solutionArn = self.solutionArn {
             try encodeContainer.encode(solutionArn, forKey: .solutionArn)
@@ -12504,6 +13515,8 @@ extension PersonalizeClientTypes.SolutionSummary: Swift.Codable {
         creationDateTime = creationDateTimeDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let recipeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recipeArn)
+        recipeArn = recipeArnDecoded
     }
 }
 
@@ -12516,6 +13529,8 @@ extension PersonalizeClientTypes {
         public var lastUpdatedDateTime: ClientRuntime.Date?
         /// The name of the solution.
         public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the recipe used by the solution.
+        public var recipeArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the solution.
         public var solutionArn: Swift.String?
         /// The status of the solution. A solution can be in one of the following states:
@@ -12529,6 +13544,7 @@ extension PersonalizeClientTypes {
             creationDateTime: ClientRuntime.Date? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            recipeArn: Swift.String? = nil,
             solutionArn: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -12536,6 +13552,7 @@ extension PersonalizeClientTypes {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
+            self.recipeArn = recipeArn
             self.solutionArn = solutionArn
             self.status = status
         }
@@ -12550,6 +13567,7 @@ extension PersonalizeClientTypes.SolutionVersion: Swift.Codable {
         case eventType
         case failureReason
         case lastUpdatedDateTime
+        case name
         case performAutoML
         case performHPO
         case recipeArn
@@ -12578,6 +13596,9 @@ extension PersonalizeClientTypes.SolutionVersion: Swift.Codable {
         }
         if let lastUpdatedDateTime = self.lastUpdatedDateTime {
             try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
         }
         if performAutoML != false {
             try encodeContainer.encode(performAutoML, forKey: .performAutoML)
@@ -12613,6 +13634,8 @@ extension PersonalizeClientTypes.SolutionVersion: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
         let solutionVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionVersionArn)
         solutionVersionArn = solutionVersionArnDecoded
         let solutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionArn)
@@ -12659,6 +13682,8 @@ extension PersonalizeClientTypes {
         public var failureReason: Swift.String?
         /// The date and time (in Unix time) that the solution was last updated.
         public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// The name of the solution version.
+        public var name: Swift.String?
         /// When true, Amazon Personalize searches for the most optimal recipe according to the solution configuration. When false (the default), Amazon Personalize uses recipeArn.
         public var performAutoML: Swift.Bool
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
@@ -12698,6 +13723,7 @@ extension PersonalizeClientTypes {
             eventType: Swift.String? = nil,
             failureReason: Swift.String? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
             performAutoML: Swift.Bool = false,
             performHPO: Swift.Bool = false,
             recipeArn: Swift.String? = nil,
@@ -12715,6 +13741,7 @@ extension PersonalizeClientTypes {
             self.eventType = eventType
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.name = name
             self.performAutoML = performAutoML
             self.performHPO = performHPO
             self.recipeArn = recipeArn
@@ -13723,6 +14750,182 @@ extension UpdateCampaignOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let campaignArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .campaignArn)
         campaignArn = campaignArnDecoded
+    }
+}
+
+extension UpdateMetricAttributionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addMetrics
+        case metricAttributionArn
+        case metricsOutputConfig
+        case removeMetrics
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addMetrics = addMetrics {
+            var addMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addMetrics)
+            for metricattributes0 in addMetrics {
+                try addMetricsContainer.encode(metricattributes0)
+            }
+        }
+        if let metricAttributionArn = self.metricAttributionArn {
+            try encodeContainer.encode(metricAttributionArn, forKey: .metricAttributionArn)
+        }
+        if let metricsOutputConfig = self.metricsOutputConfig {
+            try encodeContainer.encode(metricsOutputConfig, forKey: .metricsOutputConfig)
+        }
+        if let removeMetrics = removeMetrics {
+            var removeMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeMetrics)
+            for metricattributesnameslist0 in removeMetrics {
+                try removeMetricsContainer.encode(metricattributesnameslist0)
+            }
+        }
+    }
+}
+
+extension UpdateMetricAttributionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateMetricAttributionInput: Swift.Equatable {
+    /// Add new metric attributes to the metric attribution.
+    public var addMetrics: [PersonalizeClientTypes.MetricAttribute]?
+    /// The Amazon Resource Name (ARN) for the metric attribution to update.
+    public var metricAttributionArn: Swift.String?
+    /// An output config for the metric attribution.
+    public var metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput?
+    /// Remove metric attributes from the metric attribution.
+    public var removeMetrics: [Swift.String]?
+
+    public init (
+        addMetrics: [PersonalizeClientTypes.MetricAttribute]? = nil,
+        metricAttributionArn: Swift.String? = nil,
+        metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput? = nil,
+        removeMetrics: [Swift.String]? = nil
+    )
+    {
+        self.addMetrics = addMetrics
+        self.metricAttributionArn = metricAttributionArn
+        self.metricsOutputConfig = metricsOutputConfig
+        self.removeMetrics = removeMetrics
+    }
+}
+
+struct UpdateMetricAttributionInputBody: Swift.Equatable {
+    let addMetrics: [PersonalizeClientTypes.MetricAttribute]?
+    let removeMetrics: [Swift.String]?
+    let metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput?
+    let metricAttributionArn: Swift.String?
+}
+
+extension UpdateMetricAttributionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addMetrics
+        case metricAttributionArn
+        case metricsOutputConfig
+        case removeMetrics
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let addMetricsContainer = try containerValues.decodeIfPresent([PersonalizeClientTypes.MetricAttribute?].self, forKey: .addMetrics)
+        var addMetricsDecoded0:[PersonalizeClientTypes.MetricAttribute]? = nil
+        if let addMetricsContainer = addMetricsContainer {
+            addMetricsDecoded0 = [PersonalizeClientTypes.MetricAttribute]()
+            for structure0 in addMetricsContainer {
+                if let structure0 = structure0 {
+                    addMetricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        addMetrics = addMetricsDecoded0
+        let removeMetricsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .removeMetrics)
+        var removeMetricsDecoded0:[Swift.String]? = nil
+        if let removeMetricsContainer = removeMetricsContainer {
+            removeMetricsDecoded0 = [Swift.String]()
+            for string0 in removeMetricsContainer {
+                if let string0 = string0 {
+                    removeMetricsDecoded0?.append(string0)
+                }
+            }
+        }
+        removeMetrics = removeMetricsDecoded0
+        let metricsOutputConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.MetricAttributionOutput.self, forKey: .metricsOutputConfig)
+        metricsOutputConfig = metricsOutputConfigDecoded
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
+    }
+}
+
+extension UpdateMetricAttributionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateMetricAttributionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateMetricAttributionOutputError: Swift.Error, Swift.Equatable {
+    case invalidInputException(InvalidInputException)
+    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMetricAttributionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateMetricAttributionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metricAttributionArn = output.metricAttributionArn
+        } else {
+            self.metricAttributionArn = nil
+        }
+    }
+}
+
+public struct UpdateMetricAttributionOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the metric attribution that you updated.
+    public var metricAttributionArn: Swift.String?
+
+    public init (
+        metricAttributionArn: Swift.String? = nil
+    )
+    {
+        self.metricAttributionArn = metricAttributionArn
+    }
+}
+
+struct UpdateMetricAttributionOutputResponseBody: Swift.Equatable {
+    let metricAttributionArn: Swift.String?
+}
+
+extension UpdateMetricAttributionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricAttributionArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricAttributionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricAttributionArn)
+        metricAttributionArn = metricAttributionArnDecoded
     }
 }
 

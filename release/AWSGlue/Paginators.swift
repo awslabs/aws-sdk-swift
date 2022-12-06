@@ -604,6 +604,99 @@ extension ListCustomEntityTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// Paginate over `[ListDataQualityResultsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListDataQualityResultsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityResultsOutputResponse`
+extension GlueClient {
+    public func listDataQualityResultsPaginated(input: ListDataQualityResultsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityResultsInput, ListDataQualityResultsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListDataQualityResultsInput, ListDataQualityResultsOutputResponse>(input: input, inputKey: \ListDataQualityResultsInput.nextToken, outputKey: \ListDataQualityResultsOutputResponse.nextToken, paginationFunction: self.listDataQualityResults(input:))
+    }
+}
+
+extension ListDataQualityResultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataQualityResultsInput {
+        return ListDataQualityResultsInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// Paginate over `[ListDataQualityRuleRecommendationRunsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListDataQualityRuleRecommendationRunsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRuleRecommendationRunsOutputResponse`
+extension GlueClient {
+    public func listDataQualityRuleRecommendationRunsPaginated(input: ListDataQualityRuleRecommendationRunsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutputResponse>(input: input, inputKey: \ListDataQualityRuleRecommendationRunsInput.nextToken, outputKey: \ListDataQualityRuleRecommendationRunsOutputResponse.nextToken, paginationFunction: self.listDataQualityRuleRecommendationRuns(input:))
+    }
+}
+
+extension ListDataQualityRuleRecommendationRunsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataQualityRuleRecommendationRunsInput {
+        return ListDataQualityRuleRecommendationRunsInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// Paginate over `[ListDataQualityRulesetEvaluationRunsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListDataQualityRulesetEvaluationRunsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetEvaluationRunsOutputResponse`
+extension GlueClient {
+    public func listDataQualityRulesetEvaluationRunsPaginated(input: ListDataQualityRulesetEvaluationRunsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutputResponse>(input: input, inputKey: \ListDataQualityRulesetEvaluationRunsInput.nextToken, outputKey: \ListDataQualityRulesetEvaluationRunsOutputResponse.nextToken, paginationFunction: self.listDataQualityRulesetEvaluationRuns(input:))
+    }
+}
+
+extension ListDataQualityRulesetEvaluationRunsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataQualityRulesetEvaluationRunsInput {
+        return ListDataQualityRulesetEvaluationRunsInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// Paginate over `[ListDataQualityRulesetsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListDataQualityRulesetsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetsOutputResponse`
+extension GlueClient {
+    public func listDataQualityRulesetsPaginated(input: ListDataQualityRulesetsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutputResponse>(input: input, inputKey: \ListDataQualityRulesetsInput.nextToken, outputKey: \ListDataQualityRulesetsOutputResponse.nextToken, paginationFunction: self.listDataQualityRulesets(input:))
+    }
+}
+
+extension ListDataQualityRulesetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataQualityRulesetsInput {
+        return ListDataQualityRulesetsInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            tags: self.tags
+        )}
+}
+
 /// Paginate over `[ListDevEndpointsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

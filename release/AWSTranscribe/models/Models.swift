@@ -40,13 +40,13 @@ extension TranscribeClientTypes.AbsoluteTimeRange: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// A time range, in milliseconds, between two points in your media file. You can use StartTime and EndTime to search a custom segment. For example, setting StartTime to 10000 and EndTime to 50000 only searches for your specified criteria in the audio contained between the 10,000 millisecond mark and the 50,000 millisecond mark of your media file. You must use StartTime and EndTime as a set; that is, if you include one, you must include both. You can use also First to search from the start of the audio until the time you specify, or Last to search from the time you specify until the end of the audio. For example, setting First to 50000 only searches for your specified criteria in the audio contained between the start of the media file to the 50,000 millisecond mark. You can use First and Last independently of each other. If you prefer to use percentage instead of milliseconds, see .
+    /// A time range, in milliseconds, between two points in your media file. You can use StartTime and EndTime to search a custom segment. For example, setting StartTime to 10000 and EndTime to 50000 only searches for your specified criteria in the audio contained between the 10,000 millisecond mark and the 50,000 millisecond mark of your media file. You must use StartTime and EndTime as a set; that is, if you include one, you must include both. You can use also First to search from the start of the audio until the time that you specify, or Last to search from the time that you specify until the end of the audio. For example, setting First to 50000 only searches for your specified criteria in the audio contained between the start of the media file to the 50,000 millisecond mark. You can use First and Last independently of each other. If you prefer to use percentage instead of milliseconds, see .
     public struct AbsoluteTimeRange: Swift.Equatable {
         /// The time, in milliseconds, when Amazon Transcribe stops searching for the specified criteria in your audio. If you include EndTime in your request, you must also include StartTime.
         public var endTime: Swift.Int?
-        /// The time, in milliseconds, from the start of your media file until the value you specify in which Amazon Transcribe searches for your specified criteria.
+        /// The time, in milliseconds, from the start of your media file until the specified value. Amazon Transcribe searches for your specified criteria in this time segment.
         public var first: Swift.Int?
-        /// The time, in milliseconds, from the value you specify until the end of your media file in which Amazon Transcribe searches for your specified criteria.
+        /// The time, in milliseconds, from the specified value until the end of your media file. Amazon Transcribe searches for your specified criteria in this time segment.
         public var last: Swift.Int?
         /// The time, in milliseconds, when Amazon Transcribe starts searching for the specified criteria in your audio. If you include StartTime in your request, you must also include EndTime.
         public var startTime: Swift.Int?
@@ -153,20 +153,24 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes {
     public enum CLMLanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deDe
         case enAu
         case enGb
         case enUs
         case esUs
         case hiIn
+        case jaJp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CLMLanguageCode] {
             return [
+                .deDe,
                 .enAu,
                 .enGb,
                 .enUs,
                 .esUs,
                 .hiIn,
+                .jaJp,
                 .sdkUnknown("")
             ]
         }
@@ -176,11 +180,13 @@ extension TranscribeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .deDe: return "de-DE"
             case .enAu: return "en-AU"
             case .enGb: return "en-GB"
             case .enUs: return "en-US"
             case .esUs: return "es-US"
             case .hiIn: return "hi-IN"
+            case .jaJp: return "ja-JP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -314,13 +320,13 @@ extension TranscribeClientTypes {
         public var callAnalyticsJobName: Swift.String?
         /// Provides the status of the specified Call Analytics job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
         public var callAnalyticsJobStatus: TranscribeClientTypes.CallAnalyticsJobStatus?
-        /// Allows you to specify which speaker is on which channel in your Call Analytics job request. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
+        /// Indicates which speaker is on which channel.
         public var channelDefinitions: [TranscribeClientTypes.ChannelDefinition]?
         /// The date and time the specified Call Analytics job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public var completionTime: ClientRuntime.Date?
         /// The date and time the specified Call Analytics job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var creationTime: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+        /// The Amazon Resource Name (ARN) you included in your request.
         public var dataAccessRoleArn: Swift.String?
         /// If CallAnalyticsJobStatus is FAILED, FailureReason contains information about why the Call Analytics job request failed. The FailureReason field contains one of the following values:
         ///
@@ -328,7 +334,7 @@ extension TranscribeClientTypes {
         ///
         /// * The media format provided does not match the detected media format. The media format specified in MediaFormat doesn't match the format of the input file. Check the media format of your media file and correct the specified value.
         ///
-        /// * Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 8,000 and 48,000 Hertz.
+        /// * Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 8,000 and 48,000 hertz.
         ///
         /// * The sample rate provided does not match the detected sample rate. The sample rate specified in MediaSampleRateHertz doesn't match the sample rate detected in your input media file. Check the sample rate of your media file and correct the specified value.
         ///
@@ -340,13 +346,13 @@ extension TranscribeClientTypes {
         public var identifiedLanguageScore: Swift.Float?
         /// The language code used to create your Call Analytics job. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. If you don't know the language spoken in your media file, you can omit this field and let Amazon Transcribe automatically identify the language of your media. To improve the accuracy of language identification, you can include several language codes and Amazon Transcribe chooses the closest match for your transcription.
         public var languageCode: TranscribeClientTypes.LanguageCode?
-        /// Describes the Amazon S3 location of the media file you want to use in your request.
+        /// Provides the Amazon S3 location of the media file you used in your Call Analytics request.
         public var media: TranscribeClientTypes.Media?
         /// The format of the input media file.
         public var mediaFormat: TranscribeClientTypes.MediaFormat?
-        /// The sample rate, in Hertz, of the audio track in your input media file.
+        /// The sample rate, in hertz, of the audio track in your input media file.
         public var mediaSampleRateHertz: Swift.Int?
-        /// Allows additional optional settings in your request, including content redaction; allows you to apply custom language models, vocabulary filters, and custom vocabularies to your Call Analytics job.
+        /// Provides information on any additional settings that were included in your request. Additional settings include content redaction and language identification settings.
         public var settings: TranscribeClientTypes.CallAnalyticsJobSettings?
         /// The date and time the specified Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var startTime: ClientRuntime.Date?
@@ -449,9 +455,9 @@ extension TranscribeClientTypes.CallAnalyticsJobSettings: Swift.Codable {
         var languageOptionsDecoded0:[TranscribeClientTypes.LanguageCode]? = nil
         if let languageOptionsContainer = languageOptionsContainer {
             languageOptionsDecoded0 = [TranscribeClientTypes.LanguageCode]()
-            for string0 in languageOptionsContainer {
-                if let string0 = string0 {
-                    languageOptionsDecoded0?.append(string0)
+            for enum0 in languageOptionsContainer {
+                if let enum0 = enum0 {
+                    languageOptionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -471,21 +477,21 @@ extension TranscribeClientTypes.CallAnalyticsJobSettings: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Provides additional optional settings for your request, including content redaction, automatic language identification; allows you to apply custom language models, vocabulary filters, and custom vocabularies.
+    /// Provides additional optional settings for your request, including content redaction, automatic language identification; allows you to apply custom language models, custom vocabulary filters, and custom vocabularies.
     public struct CallAnalyticsJobSettings: Swift.Equatable {
-        /// Allows you to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
+        /// Makes it possible to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
         public var contentRedaction: TranscribeClientTypes.ContentRedaction?
-        /// If using automatic language identification (IdentifyLanguage) in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). You can specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The languages you specify must match the languages of the specified custom language models, custom vocabularies, and custom vocabulary filters. To include language options using IdentifyLanguage without including a custom language model, a custom vocabulary, or a custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including language options can improve the accuracy of automatic language identification. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
+        /// If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you specify must match the languages of the associated custom language models, custom vocabularies, and custom vocabulary filters. It's recommended that you include LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon Transcribe determines that the language spoken in your media is en-AU, your custom vocabulary is not applied to your transcription. If you include LanguageOptions and include en-US as the only English language dialect, your custom vocabulary is applied to your transcription. If you want to include a custom language model, custom vocabulary, or custom vocabulary filter with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName, VocabularyName, or VocabularyFilterName sub-parameters. For a list of languages supported with Call Analytics, refer to [Supported languages and language-specific features](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html).
         public var languageIdSettings: [Swift.String:TranscribeClientTypes.LanguageIdSettings]?
-        /// The name of the custom language model you want to use when processing your Call Analytics job. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied. There are no errors or warnings associated with a language mismatch.
+        /// The name of the custom language model you want to use when processing your Call Analytics job. Note that custom language model names are case sensitive. The language of the specified custom language model must match the language code that you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch.
         public var languageModelName: Swift.String?
-        /// You can specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. For a list of languages supported with Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
+        /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. For a list of languages supported with Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
         public var languageOptions: [TranscribeClientTypes.LanguageCode]?
-        /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
+        /// Specify how you want your custom vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public var vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod?
-        /// The name of the custom vocabulary filter you want to include in your Call Analytics transcription request. Vocabulary filter names are case sensitive. Note that if you include VocabularyFilterName in your request, you must also include VocabularyFilterMethod.
+        /// The name of the custom vocabulary filter you want to include in your Call Analytics transcription request. Custom vocabulary filter names are case sensitive. Note that if you include VocabularyFilterName in your request, you must also include VocabularyFilterMethod.
         public var vocabularyFilterName: Swift.String?
-        /// The name of the custom vocabulary you want to include in your Call Analytics transcription request. Vocabulary names are case sensitive.
+        /// The name of the custom vocabulary you want to include in your Call Analytics transcription request. Custom vocabulary names are case sensitive.
         public var vocabularyName: Swift.String?
 
         public init (
@@ -647,6 +653,7 @@ extension TranscribeClientTypes.CategoryProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case categoryName = "CategoryName"
         case createTime = "CreateTime"
+        case inputType = "InputType"
         case lastUpdateTime = "LastUpdateTime"
         case rules = "Rules"
     }
@@ -658,6 +665,9 @@ extension TranscribeClientTypes.CategoryProperties: Swift.Codable {
         }
         if let createTime = self.createTime {
             try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let inputType = self.inputType {
+            try encodeContainer.encode(inputType.rawValue, forKey: .inputType)
         }
         if let lastUpdateTime = self.lastUpdateTime {
             try encodeContainer.encodeTimestamp(lastUpdateTime, format: .epochSeconds, forKey: .lastUpdateTime)
@@ -689,6 +699,8 @@ extension TranscribeClientTypes.CategoryProperties: Swift.Codable {
         createTime = createTimeDecoded
         let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
         lastUpdateTime = lastUpdateTimeDecoded
+        let inputTypeDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.InputType.self, forKey: .inputType)
+        inputType = inputTypeDecoded
     }
 }
 
@@ -699,6 +711,8 @@ extension TranscribeClientTypes {
         public var categoryName: Swift.String?
         /// The date and time the specified Call Analytics category was created. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
         public var createTime: ClientRuntime.Date?
+        /// The input type associated with the specified category. POST_CALL refers to a category that is applied to batch transcriptions; REAL_TIME refers to a category that is applied to streaming transcriptions.
+        public var inputType: TranscribeClientTypes.InputType?
         /// The date and time the specified Call Analytics category was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-05T12:45:32.691000-07:00 represents 12:45 PM UTC-7 on May 5, 2022.
         public var lastUpdateTime: ClientRuntime.Date?
         /// The rules used to define a Call Analytics category. Each category can have between 1 and 20 rules.
@@ -707,12 +721,14 @@ extension TranscribeClientTypes {
         public init (
             categoryName: Swift.String? = nil,
             createTime: ClientRuntime.Date? = nil,
+            inputType: TranscribeClientTypes.InputType? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
             rules: [TranscribeClientTypes.Rule]? = nil
         )
         {
             self.categoryName = categoryName
             self.createTime = createTime
+            self.inputType = inputType
             self.lastUpdateTime = lastUpdateTime
             self.rules = rules
         }
@@ -746,7 +762,7 @@ extension TranscribeClientTypes.ChannelDefinition: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Allows you to specify which speaker is on which channel. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
+    /// Makes it possible to specify which speaker is on which channel. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
     public struct ChannelDefinition: Swift.Equatable {
         /// Specify the audio channel you want to define.
         public var channelId: Swift.Int
@@ -850,9 +866,9 @@ extension TranscribeClientTypes.ContentRedaction: Swift.Codable {
         var piiEntityTypesDecoded0:[TranscribeClientTypes.PiiEntityType]? = nil
         if let piiEntityTypesContainer = piiEntityTypesContainer {
             piiEntityTypesDecoded0 = [TranscribeClientTypes.PiiEntityType]()
-            for string0 in piiEntityTypesContainer {
-                if let string0 = string0 {
-                    piiEntityTypesDecoded0?.append(string0)
+            for enum0 in piiEntityTypesContainer {
+                if let enum0 = enum0 {
+                    piiEntityTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -861,7 +877,7 @@ extension TranscribeClientTypes.ContentRedaction: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Allows you to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
+    /// Makes it possible to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
     public struct ContentRedaction: Swift.Equatable {
         /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL.
         public var piiEntityTypes: [TranscribeClientTypes.PiiEntityType]?
@@ -888,11 +904,15 @@ extension TranscribeClientTypes {
 
 extension CreateCallAnalyticsCategoryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputType = "InputType"
         case rules = "Rules"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputType = self.inputType {
+            try encodeContainer.encode(inputType.rawValue, forKey: .inputType)
+        }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
             for rulelist0 in rules {
@@ -912,26 +932,32 @@ public struct CreateCallAnalyticsCategoryInput: Swift.Equatable {
     /// A unique name, chosen by you, for your Call Analytics category. It's helpful to use a detailed naming system that will make sense to you in the future. For example, it's better to use sentiment-positive-last30seconds for a category over a generic name like test-category. Category names are case sensitive.
     /// This member is required.
     public var categoryName: Swift.String?
-    /// Rules define a Call Analytics category. When creating a new Call Analytics category, you must create between 1 and 20 rules for that category. For each rule, you specify a filter you want applied to the attributes of a call. For example, you can choose a sentiment filter that detects if a customer's sentiment was positive during the last 30 seconds of the call.
+    /// Choose whether you want to create a streaming or a batch category for your Call Analytics transcription. Specifying POST_CALL assigns your category to batch transcriptions; categories with this input type cannot be applied to streaming (real-time) transcriptions. Specifying REAL_TIME assigns your category to streaming transcriptions; categories with this input type cannot be applied to batch (post-call) transcriptions. If you do not include InputType, your category is created as a batch category by default.
+    public var inputType: TranscribeClientTypes.InputType?
+    /// Rules define a Call Analytics category. When creating a new category, you must create between 1 and 20 rules for that category. For each rule, you specify a filter you want applied to the attributes of a call. For example, you can choose a sentiment filter that detects if a customer's sentiment was positive during the last 30 seconds of the call.
     /// This member is required.
     public var rules: [TranscribeClientTypes.Rule]?
 
     public init (
         categoryName: Swift.String? = nil,
+        inputType: TranscribeClientTypes.InputType? = nil,
         rules: [TranscribeClientTypes.Rule]? = nil
     )
     {
         self.categoryName = categoryName
+        self.inputType = inputType
         self.rules = rules
     }
 }
 
 struct CreateCallAnalyticsCategoryInputBody: Swift.Equatable {
     let rules: [TranscribeClientTypes.Rule]?
+    let inputType: TranscribeClientTypes.InputType?
 }
 
 extension CreateCallAnalyticsCategoryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputType = "InputType"
         case rules = "Rules"
     }
 
@@ -948,6 +974,8 @@ extension CreateCallAnalyticsCategoryInputBody: Swift.Decodable {
             }
         }
         rules = rulesDecoded0
+        let inputTypeDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.InputType.self, forKey: .inputType)
+        inputType = inputTypeDecoded
     }
 }
 
@@ -1061,10 +1089,10 @@ public struct CreateLanguageModelInput: Swift.Equatable {
     /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri, which is the Amazon S3 location of your training data, and DataAccessRoleArn, which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 location. You can optionally include TuningDataS3Uri, which is the Amazon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations.
     /// This member is required.
     public var inputDataConfig: TranscribeClientTypes.InputDataConfig?
-    /// The language code that represents the language of your model. Each language model must contain terms in only one language, and the language you select for your model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. Note that U.S. English (en-US) is the only language supported with Amazon Transcribe Medical. A custom language model can only be used to transcribe files in the same language as the model. For example, if you create a language model using US English (en-US), you can only apply this model to files that contain English audio.
+    /// The language code that represents the language of your model. Each custom language model must contain terms in only one language, and the language you select for your custom language model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. Note that US English (en-US) is the only language supported with Amazon Transcribe Medical. A custom language model can only be used to transcribe files in the same language as the model. For example, if you create a custom language model using US English (en-US), you can only apply this model to files that contain English audio.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.CLMLanguageCode?
-    /// A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new language model with the same name as an existing language model, you get a ConflictException error.
+    /// A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom language model with the same name as an existing custom language model, you get a ConflictException error.
     /// This member is required.
     public var modelName: Swift.String?
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom language model at the time you create this new model. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
@@ -1266,12 +1294,12 @@ public struct CreateMedicalVocabularyInput: Swift.Equatable {
     /// The language code that represents the language of the entries in your custom vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// Adds one or more custom tags, each in the form of a key:value pair, to a new medical vocabulary at the time you create this new vocabulary. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom medical vocabulary at the time you create this new custom vocabulary. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     public var tags: [TranscribeClientTypes.Tag]?
     /// The Amazon S3 location (URI) of the text file that contains your custom medical vocabulary. The URI must be in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
     /// This member is required.
     public var vocabularyFileUri: Swift.String?
-    /// A unique name, chosen by you, for your new custom medical vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new medical vocabulary with the same name as an existing medical vocabulary, you get a ConflictException error.
+    /// A unique name, chosen by you, for your new custom medical vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom medical vocabulary with the same name as an existing custom medical vocabulary, you get a ConflictException error.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -1374,13 +1402,13 @@ extension CreateMedicalVocabularyOutputResponse: ClientRuntime.HttpResponseBindi
 public struct CreateMedicalVocabularyOutputResponse: Swift.Equatable {
     /// If VocabularyState is FAILED, FailureReason contains information about why the medical transcription job request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
     public var failureReason: Swift.String?
-    /// The language code you selected for your medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
+    /// The language code you selected for your custom medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time you created your custom medical vocabulary. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name you chose for your custom medical vocabulary.
     public var vocabularyName: Swift.String?
-    /// The processing state of your custom medical vocabulary. If the state is READY, you can use the vocabulary in a StartMedicalTranscriptionJob request.
+    /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
     public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
     public init (
@@ -1469,17 +1497,17 @@ extension CreateVocabularyFilterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVocabularyFilterInput: Swift.Equatable {
-    /// The language code that represents the language of the entries in your vocabulary filter. Each vocabulary filter must contain terms in only one language. A vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
+    /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary filter at the time you create this new filter. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary filter at the time you create this new vocabulary filter. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     public var tags: [TranscribeClientTypes.Tag]?
     /// The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
     public var vocabularyFilterFileUri: Swift.String?
-    /// A unique name, chosen by you, for your new custom vocabulary filter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new vocabulary filter with the same name as an existing vocabulary filter, you get a ConflictException error.
+    /// A unique name, chosen by you, for your new custom vocabulary filter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom vocabulary filter with the same name as an existing custom vocabulary filter, you get a ConflictException error.
     /// This member is required.
     public var vocabularyFilterName: Swift.String?
-    /// Use this parameter if you want to create your vocabulary filter by including all desired terms, as comma-separated values, within your request. The other option for creating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
+    /// Use this parameter if you want to create your custom vocabulary filter by including all desired terms, as comma-separated values, within your request. The other option for creating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
     public var words: [Swift.String]?
 
     public init (
@@ -1590,9 +1618,9 @@ extension CreateVocabularyFilterOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct CreateVocabularyFilterOutputResponse: Swift.Equatable {
-    /// The language code you selected for your vocabulary filter.
+    /// The language code you selected for your custom vocabulary filter.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// The date and time you created your vocabulary filter. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+    /// The date and time you created your custom vocabulary filter. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name you chose for your custom vocabulary filter.
     public var vocabularyFilterName: Swift.String?
@@ -1671,16 +1699,16 @@ extension CreateVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVocabularyInput: Swift.Equatable {
-    /// The language code that represents the language of the entries in your custom vocabulary. Each vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the vocabulary. For example, if you create a vocabulary using US English (en-US), you can only apply this vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
+    /// The language code that represents the language of the entries in your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// Use this parameter if you want to create your vocabulary by including all desired terms, as comma-separated values, within your request. The other option for creating your vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
+    /// Use this parameter if you want to create your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for creating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
     public var phrases: [Swift.String]?
-    /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary at the time you create this new vocabulary. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary at the time you create this new custom vocabulary. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     public var tags: [TranscribeClientTypes.Tag]?
     /// The Amazon S3 location of the text file that contains your custom vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt Note that if you include VocabularyFileUri in your request, you cannot use the Phrases flag; you must choose one or the other.
     public var vocabularyFileUri: Swift.String?
-    /// A unique name, chosen by you, for your new custom vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new vocabulary with the same name as an existing vocabulary, you get a ConflictException error.
+    /// A unique name, chosen by you, for your new custom vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom vocabulary with the same name as an existing custom vocabulary, you get a ConflictException error.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -1796,7 +1824,7 @@ extension CreateVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateVocabularyOutputResponse: Swift.Equatable {
-    /// If VocabularyState is FAILED, FailureReason contains information about why the vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
+    /// If VocabularyState is FAILED, FailureReason contains information about why the custom vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
     public var failureReason: Swift.String?
     /// The language code you selected for your custom vocabulary.
     public var languageCode: TranscribeClientTypes.LanguageCode?
@@ -1804,7 +1832,7 @@ public struct CreateVocabularyOutputResponse: Swift.Equatable {
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name you chose for your custom vocabulary.
     public var vocabularyName: Swift.String?
-    /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
+    /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
     public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
     public init (
@@ -2160,7 +2188,7 @@ extension DeleteMedicalVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteMedicalVocabularyInput: Swift.Equatable {
-    /// The name of the custom medical vocabulary you want to delete. Vocabulary names are case sensitive.
+    /// The name of the custom medical vocabulary you want to delete. Custom medical vocabulary names are case sensitive.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -2306,7 +2334,7 @@ extension DeleteVocabularyFilterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVocabularyFilterInput: Swift.Equatable {
-    /// The name of the custom vocabulary filter you want to delete. Vocabulary filter names are case sensitive.
+    /// The name of the custom vocabulary filter you want to delete. Custom vocabulary filter names are case sensitive.
     /// This member is required.
     public var vocabularyFilterName: Swift.String?
 
@@ -2380,7 +2408,7 @@ extension DeleteVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVocabularyInput: Swift.Equatable {
-    /// The name of the custom vocabulary you want to delete. Vocabulary names are case sensitive.
+    /// The name of the custom vocabulary you want to delete. Custom vocabulary names are case sensitive.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -2874,7 +2902,7 @@ extension GetMedicalVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetMedicalVocabularyInput: Swift.Equatable {
-    /// The name of the custom medical vocabulary you want information about. Vocabulary names are case sensitive.
+    /// The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -2947,17 +2975,17 @@ extension GetMedicalVocabularyOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct GetMedicalVocabularyOutputResponse: Swift.Equatable {
-    /// The S3 location where the specified medical vocabulary is stored; use this URI to view or download the vocabulary.
+    /// The S3 location where the specified custom medical vocabulary is stored; use this URI to view or download the custom vocabulary.
     public var downloadUri: Swift.String?
-    /// If VocabularyState is FAILED, FailureReason contains information about why the medical vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
+    /// If VocabularyState is FAILED, FailureReason contains information about why the custom medical vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
     public var failureReason: Swift.String?
-    /// The language code you selected for your medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
+    /// The language code you selected for your custom medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom medical vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name of the custom medical vocabulary you requested information about.
     public var vocabularyName: Swift.String?
-    /// The processing state of your custom medical vocabulary. If the state is READY, you can use the vocabulary in a StartMedicalTranscriptionJob request.
+    /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
     public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
     public init (
@@ -3134,7 +3162,7 @@ extension GetVocabularyFilterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetVocabularyFilterInput: Swift.Equatable {
-    /// The name of the custom vocabulary filter you want information about. Vocabulary filter names are case sensitive.
+    /// The name of the custom vocabulary filter you want information about. Custom vocabulary filter names are case sensitive.
     /// This member is required.
     public var vocabularyFilterName: Swift.String?
 
@@ -3203,11 +3231,11 @@ extension GetVocabularyFilterOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetVocabularyFilterOutputResponse: Swift.Equatable {
-    /// The Amazon S3 location where the vocabulary filter is stored; use this URI to view or download the vocabulary filter.
+    /// The Amazon S3 location where the custom vocabulary filter is stored; use this URI to view or download the custom vocabulary filter.
     public var downloadUri: Swift.String?
-    /// The language code you selected for your vocabulary filter.
+    /// The language code you selected for your custom vocabulary filter.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// The date and time the specified vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+    /// The date and time the specified custom vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name of the custom vocabulary filter you requested information about.
     public var vocabularyFilterName: Swift.String?
@@ -3269,7 +3297,7 @@ extension GetVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetVocabularyInput: Swift.Equatable {
-    /// The name of the custom vocabulary you want information about. Vocabulary names are case sensitive.
+    /// The name of the custom vocabulary you want information about. Custom vocabulary names are case sensitive.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -3342,17 +3370,17 @@ extension GetVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetVocabularyOutputResponse: Swift.Equatable {
-    /// The S3 location where the vocabulary is stored; use this URI to view or download the vocabulary.
+    /// The S3 location where the custom vocabulary is stored; use this URI to view or download the custom vocabulary.
     public var downloadUri: Swift.String?
-    /// If VocabularyState is FAILED, FailureReason contains information about why the vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
+    /// If VocabularyState is FAILED, FailureReason contains information about why the custom vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
     public var failureReason: Swift.String?
     /// The language code you selected for your custom vocabulary.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// The date and time the specified vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+    /// The date and time the specified custom vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name of the custom vocabulary you requested information about.
     public var vocabularyName: Swift.String?
-    /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
+    /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
     public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
     public init (
@@ -3443,7 +3471,7 @@ extension TranscribeClientTypes.InputDataConfig: Swift.Codable {
 extension TranscribeClientTypes {
     /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri and DataAccessRoleArn. You can optionally include TuningDataS3Uri.
     public struct InputDataConfig: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
         /// This member is required.
         public var dataAccessRoleArn: Swift.String?
         /// The Amazon S3 location (URI) of the text files you want to use to train your custom language model. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-model-training-data/
@@ -3464,6 +3492,38 @@ extension TranscribeClientTypes {
         }
     }
 
+}
+
+extension TranscribeClientTypes {
+    public enum InputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case postCall
+        case realTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputType] {
+            return [
+                .postCall,
+                .realTime,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .postCall: return "POST_CALL"
+            case .realTime: return "REAL_TIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InputType(rawValue: rawValue) ?? InputType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension InternalFailureException {
@@ -3573,17 +3633,17 @@ extension TranscribeClientTypes {
     /// * A lack of interruptions
     ///
     ///
-    /// See [Rule criteria](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics-create-categories.html#call-analytics-create-categories-rules) for usage examples.
+    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
     public struct InterruptionFilter: Swift.Equatable {
-        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want to search for an interruption. See for more detail.
+        /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for an interruption. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
         /// Set to TRUE to flag speech that does not contain interruptions. Set to FALSE to flag speech that contains interruptions.
         public var negate: Swift.Bool?
-        /// Specify the interrupter you want to flag. Omitting this parameter is equivalent to specifying both participants.
+        /// Specify the interrupter that you want to flag. Omitting this parameter is equivalent to specifying both participants.
         public var participantRole: TranscribeClientTypes.ParticipantRole?
-        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for an interruption. See for more detail.
+        /// Makes it possible to specify a time range (in percentage) in your media file, during which you want to search for an interruption. See for more detail.
         public var relativeTimeRange: TranscribeClientTypes.RelativeTimeRange?
-        /// Specify the duration of the interruptions in milliseconds. For example, you can flag speech that contains more than 10000 milliseconds of interruptions.
+        /// Specify the duration of the interruptions in milliseconds. For example, you can flag speech that contains more than 10,000 milliseconds of interruptions.
         public var threshold: Swift.Int?
 
         public init (
@@ -3630,11 +3690,11 @@ extension TranscribeClientTypes.JobExecutionSettings: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Allows you to control how your transcription job is processed. Currently, the only JobExecutionSettings modification you can choose is enabling job queueing using the AllowDeferredExecution sub-parameter. If you include JobExecutionSettings in your request, you must also include the sub-parameters: AllowDeferredExecution and DataAccessRoleArn.
+    /// Makes it possible to control how your transcription job is processed. Currently, the only JobExecutionSettings modification you can choose is enabling job queueing using the AllowDeferredExecution sub-parameter. If you include JobExecutionSettings in your request, you must also include the sub-parameters: AllowDeferredExecution and DataAccessRoleArn.
     public struct JobExecutionSettings: Swift.Equatable {
-        /// Allows you to enable job queuing when your concurrent request limit is exceeded. When AllowDeferredExecution is set to true, transcription job requests are placed in a queue until the number of jobs falls below the concurrent request limit. If AllowDeferredExecution is set to false and the number of transcription job requests exceed the concurrent request limit, you get a LimitExceededException error. Note that job queuing is enabled by default for Call Analytics jobs. If you include AllowDeferredExecution in your request, you must also include DataAccessRoleArn.
+        /// Makes it possible to enable job queuing when your concurrent request limit is exceeded. When AllowDeferredExecution is set to true, transcription job requests are placed in a queue until the number of jobs falls below the concurrent request limit. If AllowDeferredExecution is set to false and the number of transcription job requests exceed the concurrent request limit, you get a LimitExceededException error. Note that job queuing is enabled by default for Call Analytics jobs. If you include AllowDeferredExecution in your request, you must also include DataAccessRoleArn.
         public var allowDeferredExecution: Swift.Bool?
-        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns). Note that if you include DataAccessRoleArn in your request, you must also include AllowDeferredExecution.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns). Note that if you include DataAccessRoleArn in your request, you must also include AllowDeferredExecution.
         public var dataAccessRoleArn: Swift.String?
 
         public init (
@@ -3863,13 +3923,13 @@ extension TranscribeClientTypes.LanguageIdSettings: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// If using automatic language identification (IdentifyLanguage) in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). You can specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The languages you specify must match the languages of the specified custom language models, custom vocabularies, and custom vocabulary filters. To include language options using IdentifyLanguage without including a custom language model, a custom vocabulary, or a custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including language options can improve the accuracy of automatic language identification. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
+    /// If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that multi-language identification (IdentifyMultipleLanguages) doesn't support custom language models. LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you specify must match the languages of the associated custom language models, custom vocabularies, and custom vocabulary filters. It's recommended that you include LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon Transcribe determines that the language spoken in your media is en-AU, your custom vocabulary is not applied to your transcription. If you include LanguageOptions and include en-US as the only English language dialect, your custom vocabulary is applied to your transcription. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
     public struct LanguageIdSettings: Swift.Equatable {
-        /// The name of the custom language model you want to use when processing your transcription job. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied. There are no errors or warnings associated with a language mismatch.
+        /// The name of the custom language model you want to use when processing your transcription job. Note that custom language model names are case sensitive. The language of the specified custom language model must match the language code that you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch.
         public var languageModelName: Swift.String?
-        /// The name of the custom vocabulary filter you want to use when processing your transcription job. Vocabulary filter names are case sensitive. The language of the specified vocabulary filter must match the language code you specify in your transcription request. If the languages don't match, the vocabulary filter isn't applied. There are no errors or warnings associated with a language mismatch. Note that if you include VocabularyFilterName in your request, you must also include VocabularyFilterMethod.
+        /// The name of the custom vocabulary filter you want to use when processing your transcription job. Custom vocabulary filter names are case sensitive. The language of the specified custom vocabulary filter must match the language code that you specify in your transcription request. If the languages don't match, the custom vocabulary filter isn't applied. There are no errors or warnings associated with a language mismatch. Note that if you include VocabularyFilterName in your request, you must also include VocabularyFilterMethod.
         public var vocabularyFilterName: Swift.String?
-        /// The name of the custom vocabulary you want to use when processing your transcription job. Vocabulary names are case sensitive. The language of the specified vocabulary must match the language code you specify in your transcription request. If the languages don't match, the vocabulary isn't applied. There are no errors or warnings associated with a language mismatch.
+        /// The name of the custom vocabulary you want to use when processing your transcription job. Custom vocabulary names are case sensitive. The language of the specified custom vocabulary must match the language code that you specify in your transcription request. If the languages don't match, the custom vocabulary isn't applied. There are no errors or warnings associated with a language mismatch.
         public var vocabularyName: Swift.String?
 
         public init (
@@ -3964,15 +4024,15 @@ extension TranscribeClientTypes {
         public var failureReason: Swift.String?
         /// The Amazon S3 location of the input files used to train and tune your custom language model, in addition to the data access role ARN (Amazon Resource Name) that has permissions to access these data.
         public var inputDataConfig: TranscribeClientTypes.InputDataConfig?
-        /// The language code used to create your custom language model. Each language model must contain terms in only one language, and the language you select for your model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. Note that U.S. English (en-US) is the only language supported with Amazon Transcribe Medical.
+        /// The language code used to create your custom language model. Each custom language model must contain terms in only one language, and the language you select for your custom language model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. Note that U.S. English (en-US) is the only language supported with Amazon Transcribe Medical.
         public var languageCode: TranscribeClientTypes.CLMLanguageCode?
-        /// The date and time the specified language model was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+        /// The date and time the specified custom language model was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
         public var lastModifiedTime: ClientRuntime.Date?
         /// A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public var modelName: Swift.String?
         /// The status of the specified custom language model. When the status displays as COMPLETED the model is ready for use.
         public var modelStatus: TranscribeClientTypes.ModelStatus?
-        /// Shows if a more current base model is available for use with the specified custom language model. If false, your language model is using the most up-to-date base model. If true, there is a newer base model available than the one your language model is using. Note that to update a base model, you must recreate the custom language model using the new base model. Base model upgrades for existing custom language models are not supported.
+        /// Shows if a more current base model is available for use with the specified custom language model. If false, your custom language model is using the most up-to-date base model. If true, there is a newer base model available than the one your language model is using. Note that to update a base model, you must recreate the custom language model using the new base model. Base model upgrades for existing custom language models are not supported.
         public var upgradeAvailability: Swift.Bool?
 
         public init (
@@ -4077,7 +4137,7 @@ extension ListCallAnalyticsCategoriesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListCallAnalyticsCategoriesInput: Swift.Equatable {
-    /// The maximum number of Call Analytics categories to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of Call Analytics categories to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// If your ListCallAnalyticsCategories request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
     public var nextToken: Swift.String?
@@ -4213,7 +4273,7 @@ extension ListCallAnalyticsJobsInput: ClientRuntime.URLPathProvider {
 public struct ListCallAnalyticsJobsInput: Swift.Equatable {
     /// Returns only the Call Analytics jobs that contain the specified string. The search is not case sensitive.
     public var jobNameContains: Swift.String?
-    /// The maximum number of Call Analytics jobs to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of Call Analytics jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// If your ListCallAnalyticsJobs request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
     public var nextToken: Swift.String?
@@ -4363,7 +4423,7 @@ extension ListLanguageModelsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListLanguageModelsInput: Swift.Equatable {
-    /// The maximum number of custom language models to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of custom language models to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// Returns only the custom language models that contain the specified string. The search is not case sensitive.
     public var nameContains: Swift.String?
@@ -4507,7 +4567,7 @@ extension ListMedicalTranscriptionJobsInput: ClientRuntime.URLPathProvider {
 public struct ListMedicalTranscriptionJobsInput: Swift.Equatable {
     /// Returns only the medical transcription jobs that contain the specified string. The search is not case sensitive.
     public var jobNameContains: Swift.String?
-    /// The maximum number of medical transcription jobs to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of medical transcription jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// If your ListMedicalTranscriptionJobs request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
     public var nextToken: Swift.String?
@@ -4657,13 +4717,13 @@ extension ListMedicalVocabulariesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListMedicalVocabulariesInput: Swift.Equatable {
-    /// The maximum number of custom medical vocabularies to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of custom medical vocabularies to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// Returns only the custom medical vocabularies that contain the specified string. The search is not case sensitive.
     public var nameContains: Swift.String?
     /// If your ListMedicalVocabularies request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
     public var nextToken: Swift.String?
-    /// Returns only custom medical vocabularies with the specified state. Vocabularies are ordered by creation date, with the newest vocabulary first. If you don't include StateEquals, all custom medical vocabularies are returned.
+    /// Returns only custom medical vocabularies with the specified state. Custom vocabularies are ordered by creation date, with the newest vocabulary first. If you don't include StateEquals, all custom medical vocabularies are returned.
     public var stateEquals: TranscribeClientTypes.VocabularyState?
 
     public init (
@@ -4735,7 +4795,7 @@ extension ListMedicalVocabulariesOutputResponse: ClientRuntime.HttpResponseBindi
 public struct ListMedicalVocabulariesOutputResponse: Swift.Equatable {
     /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the NextToken parameter in your results output, then run your request again including NextToken with the value of the copied string. Repeat as needed to view all your results.
     public var nextToken: Swift.String?
-    /// Lists all custom medical vocabularies that have the status specified in your request. Vocabularies are ordered by creation date, with the newest vocabulary first.
+    /// Lists all custom medical vocabularies that have the status specified in your request. Custom vocabularies are ordered by creation date, with the newest vocabulary first.
     public var status: TranscribeClientTypes.VocabularyState?
     /// Provides information about the custom medical vocabularies that match the criteria specified in your request.
     public var vocabularies: [TranscribeClientTypes.VocabularyInfo]?
@@ -4800,7 +4860,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// Returns a list of all tags associated with the specified Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
+    /// Returns a list of all tags associated with the specified Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -4935,7 +4995,7 @@ extension ListTranscriptionJobsInput: ClientRuntime.URLPathProvider {
 public struct ListTranscriptionJobsInput: Swift.Equatable {
     /// Returns only the transcription jobs that contain the specified string. The search is not case sensitive.
     public var jobNameContains: Swift.String?
-    /// The maximum number of transcription jobs to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of transcription jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// If your ListTranscriptionJobs request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
     public var nextToken: Swift.String?
@@ -5085,7 +5145,7 @@ extension ListVocabulariesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListVocabulariesInput: Swift.Equatable {
-    /// The maximum number of custom vocabularies to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of custom vocabularies to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// Returns only the custom vocabularies that contain the specified string. The search is not case sensitive.
     public var nameContains: Swift.String?
@@ -5237,7 +5297,7 @@ extension ListVocabularyFiltersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListVocabularyFiltersInput: Swift.Equatable {
-    /// The maximum number of custom vocabulary filters to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
+    /// The maximum number of custom vocabulary filters to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
     /// Returns only the custom vocabulary filters that contain the specified string. The search is not case sensitive.
     public var nameContains: Swift.String?
@@ -5377,7 +5437,7 @@ extension TranscribeClientTypes.Media: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Describes the Amazon S3 location of the media file you want to use in your request.
+    /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the [MediaFormat](https://docs.aws.amazon.com/APIReference/API_StartTranscriptionJob.html#transcribe-StartTranscriptionJob-request-MediaFormat) parameter or the [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio) section in the Amazon S3 Developer Guide.
     public struct Media: Swift.Equatable {
         /// The Amazon S3 location of the media file you want to transcribe. For example:
         ///
@@ -5395,7 +5455,7 @@ extension TranscribeClientTypes {
         /// * s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac
         ///
         ///
-        /// Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. RedactedMediaFileUri is only supported for Call Analytics (StartCallAnalyticsJob) transcription requests.
+        /// Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. RedactedMediaFileUri produces a redacted audio file in addition to a redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob) transcription requests.
         public var redactedMediaFileUri: Swift.String?
 
         public init (
@@ -5508,7 +5568,7 @@ extension TranscribeClientTypes.MedicalTranscript: Swift.Codable {
 extension TranscribeClientTypes {
     /// Provides you with the Amazon S3 URI you can use to access your transcript.
     public struct MedicalTranscript: Swift.Equatable {
-        /// The Amazon S3 location of your transcript. You can use this URI to access or download your transcript. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your transcript is stored in a service-managed bucket, and TranscriptFileUri provides you with a temporary URI you can use for secure access to your transcript. Temporary URIs for service-managed Amazon S3 buckets are only valid for 15 minutes. If you get an AccesDenied error, you can get a new temporary URI by running a GetTranscriptionJob or ListTranscriptionJob request.
+        /// The Amazon S3 location of your transcript. You can use this URI to access or download your transcript. Note that this is the Amazon S3 location you specified in your request using the OutputBucketName parameter.
         public var transcriptFileUri: Swift.String?
 
         public init (
@@ -5647,7 +5707,7 @@ extension TranscribeClientTypes {
     public struct MedicalTranscriptionJob: Swift.Equatable {
         /// The date and time the specified medical transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public var completionTime: ClientRuntime.Date?
-        /// Labels all personal health information (PHI) identified in your transcript. For more information, see [Identifying personal health information (PHI) in a transcription](https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
+        /// Indicates whether content identification was enabled for your transcription request.
         public var contentIdentificationType: TranscribeClientTypes.MedicalContentIdentificationType?
         /// The date and time the specified medical transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var creationTime: ClientRuntime.Date?
@@ -5657,7 +5717,7 @@ extension TranscribeClientTypes {
         ///
         /// * The media format provided does not match the detected media format. The media format specified in MediaFormat doesn't match the format of the input file. Check the media format of your media file and correct the specified value.
         ///
-        /// * Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 16,000 and 48,000 Hertz.
+        /// * Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 16,000 and 48,000 hertz.
         ///
         /// * The sample rate provided does not match the detected sample rate. The sample rate specified in MediaSampleRateHertz doesn't match the sample rate detected in your input media file. Check the sample rate of your media file and correct the specified value.
         ///
@@ -5667,15 +5727,15 @@ extension TranscribeClientTypes {
         public var failureReason: Swift.String?
         /// The language code used to create your medical transcription job. US English (en-US) is the only supported language for medical transcriptions.
         public var languageCode: TranscribeClientTypes.LanguageCode?
-        /// Describes the Amazon S3 location of the media file you want to use in your request.
+        /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the [MediaFormat](https://docs.aws.amazon.com/APIReference/API_StartTranscriptionJob.html#transcribe-StartTranscriptionJob-request-MediaFormat) parameter or the [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio) section in the Amazon S3 Developer Guide.
         public var media: TranscribeClientTypes.Media?
         /// The format of the input media file.
         public var mediaFormat: TranscribeClientTypes.MediaFormat?
-        /// The sample rate, in Hertz, of the audio track in your input media file.
+        /// The sample rate, in hertz, of the audio track in your input media file.
         public var mediaSampleRateHertz: Swift.Int?
         /// The name of the medical transcription job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public var medicalTranscriptionJobName: Swift.String?
-        /// Specify additional optional settings in your request, including channel identification, alternative transcriptions, and speaker labeling; allows you to apply custom vocabularies to your medical transcription job.
+        /// Provides information on any additional settings that were included in your request. Additional settings include channel identification, alternative transcriptions, speaker partitioning, custom vocabularies, and custom vocabulary filters.
         public var settings: TranscribeClientTypes.MedicalTranscriptionSetting?
         /// Describes the medical specialty represented in your media.
         public var specialty: TranscribeClientTypes.Specialty?
@@ -5915,19 +5975,19 @@ extension TranscribeClientTypes.MedicalTranscriptionSetting: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Allows additional optional settings in your request, including channel identification, alternative transcriptions, and speaker labeling; allows you to apply custom vocabularies to your medical transcription job.
+    /// Allows additional optional settings in your request, including channel identification, alternative transcriptions, and speaker partitioning. You can use that to apply custom vocabularies to your medical transcription job.
     public struct MedicalTranscriptionSetting: Swift.Equatable {
         /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is transcribed in a continuous manner and your transcript does not separate the speech by channel. You can't include both ShowSpeakerLabels and ChannelIdentification in the same request. Including both parameters returns a BadRequestException. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
         public var channelIdentification: Swift.Bool?
         /// Indicate the maximum number of alternative transcriptions you want Amazon Transcribe Medical to include in your transcript. If you select a number greater than the number of alternative transcriptions generated by Amazon Transcribe Medical, only the actual number of alternative transcriptions are included. If you include MaxAlternatives in your request, you must also include ShowAlternatives with a value of true. For more information, see [Alternative transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html).
         public var maxAlternatives: Swift.Int?
-        /// Specify the maximum number of speakers you want to identify in your media. Note that if your media contains more speakers than the specified number, multiple speakers will be identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
+        /// Specify the maximum number of speakers you want to partition in your media. Note that if your media contains more speakers than the specified number, multiple speakers are treated as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
         public var maxSpeakerLabels: Swift.Int?
         /// To include alternative transcriptions within your transcription output, include ShowAlternatives in your transcription request. If you include ShowAlternatives, you must also include MaxAlternatives, which is the maximum number of alternative transcriptions you want Amazon Transcribe Medical to generate. For more information, see [Alternative transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html).
         public var showAlternatives: Swift.Bool?
-        /// Enables speaker identification (diarization) in your transcription output. Speaker identification labels the speech from individual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. You can't include both ShowSpeakerLabels and ChannelIdentification in the same request. Including both parameters returns a BadRequestException. For more information, see [Identifying speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
+        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. You can't include ShowSpeakerLabels and ChannelIdentification in the same request. Including both parameters returns a BadRequestException. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
         public var showSpeakerLabels: Swift.Bool?
-        /// The name of the custom vocabulary you want to use when processing your medical transcription job. Vocabulary names are case sensitive. The language of the specified vocabulary must match the language code you specify in your transcription request. If the languages don't match, the vocabulary isn't applied. There are no errors or warnings associated with a language mismatch. US English (en-US) is the only valid language for Amazon Transcribe Medical.
+        /// The name of the custom vocabulary you want to use when processing your medical transcription job. Custom vocabulary names are case sensitive. The language of the specified custom vocabulary must match the language code that you specify in your transcription request. If the languages don't match, the custom vocabulary isn't applied. There are no errors or warnings associated with a language mismatch. US English (en-US) is the only valid language for Amazon Transcribe Medical.
         public var vocabularyName: Swift.String?
 
         public init (
@@ -5972,7 +6032,7 @@ extension TranscribeClientTypes.ModelSettings: Swift.Codable {
 extension TranscribeClientTypes {
     /// Provides the name of the custom language model that was included in the specified transcription job. Only use ModelSettings with the LanguageModelName sub-parameter if you're not using automatic language identification (). If using LanguageIdSettings in your request, this parameter contains a LanguageModelName sub-parameter.
     public struct ModelSettings: Swift.Equatable {
-        /// The name of the custom language model you want to use when processing your transcription job. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied. There are no errors or warnings associated with a language mismatch.
+        /// The name of the custom language model you want to use when processing your transcription job. Note that custom language model names are case sensitive. The language of the specified custom language model must match the language code that you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch.
         public var languageModelName: Swift.String?
 
         public init (
@@ -6065,15 +6125,15 @@ extension TranscribeClientTypes {
     /// * The presence of speech at specified periods throughout the call
     ///
     ///
-    /// See [Rule criteria](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics-create-categories.html#call-analytics-create-categories-rules) for usage examples.
+    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
     public struct NonTalkTimeFilter: Swift.Equatable {
-        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want to search for a period of silence. See for more detail.
+        /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for a period of silence. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
         /// Set to TRUE to flag periods of speech. Set to FALSE to flag periods of silence
         public var negate: Swift.Bool?
-        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for a period of silence. See for more detail.
+        /// Makes it possible to specify a time range (in percentage) in your media file, during which you want to search for a period of silence. See for more detail.
         public var relativeTimeRange: TranscribeClientTypes.RelativeTimeRange?
-        /// Specify the duration, in milliseconds, of the period of silence you want to flag. For example, you can flag a silent period that lasts 30000 milliseconds.
+        /// Specify the duration, in milliseconds, of the period of silence that you want to flag. For example, you can flag a silent period that lasts 30,000 milliseconds.
         public var threshold: Swift.Int?
 
         public init (
@@ -6369,13 +6429,13 @@ extension TranscribeClientTypes.RelativeTimeRange: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// A time range, in percentage, between two points in your media file. You can use StartPercentage and EndPercentage to search a custom segment. For example, setting StartPercentage to 10 and EndPercentage to 50 only searches for your specified criteria in the audio contained between the 10 percent mark and the 50 percent mark of your media file. You can use also First to search from the start of the media file until the time you specify, or Last to search from the time you specify until the end of the media file. For example, setting First to 10 only searches for your specified criteria in the audio contained in the first 10 percent of the media file. If you prefer to use milliseconds instead of percentage, see .
+    /// A time range, in percentage, between two points in your media file. You can use StartPercentage and EndPercentage to search a custom segment. For example, setting StartPercentage to 10 and EndPercentage to 50 only searches for your specified criteria in the audio contained between the 10 percent mark and the 50 percent mark of your media file. You can use also First to search from the start of the media file until the time that you specify. Or use Last to search from the time that you specify until the end of the media file. For example, setting First to 10 only searches for your specified criteria in the audio contained in the first 10 percent of the media file. If you prefer to use milliseconds instead of percentage, see .
     public struct RelativeTimeRange: Swift.Equatable {
         /// The time, in percentage, when Amazon Transcribe stops searching for the specified criteria in your media file. If you include EndPercentage in your request, you must also include StartPercentage.
         public var endPercentage: Swift.Int?
-        /// The time, in percentage, from the start of your media file until the value you specify in which Amazon Transcribe searches for your specified criteria.
+        /// The time, in percentage, from the start of your media file until the specified value. Amazon Transcribe searches for your specified criteria in this time segment.
         public var first: Swift.Int?
-        /// The time, in percentage, from the value you specify until the end of your media file in which Amazon Transcribe searches for your specified criteria.
+        /// The time, in percentage, from the specified value until the end of your media file. Amazon Transcribe searches for your specified criteria in this time segment.
         public var last: Swift.Int?
         /// The time, in percentage, when Amazon Transcribe starts searching for the specified criteria in your media file. If you include StartPercentage in your request, you must also include EndPercentage.
         public var startPercentage: Swift.Int?
@@ -6448,7 +6508,7 @@ extension TranscribeClientTypes.Rule: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// A rule is a set of criteria you can specify to flag an attribute in your Call Analytics output. Rules define a Call Analytics category. Rules can include these parameters: , , , and . To learn more about these parameters, refer to [Rule criteria](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics-create-categories.html#call-analytics-create-categories-rules). To learn more about Call Analytics categories, see [Creating categories](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics-create-categories.html). To learn more about Call Analytics, see [Analyzing call center audio with Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html).
+    /// A rule is a set of criteria that you can specify to flag an attribute in your Call Analytics output. Rules define a Call Analytics category. Rules can include these parameters: , , , and . To learn more about Call Analytics rules and categories, see [Creating categories for batch transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for streaming transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html). To learn more about Call Analytics, see [Analyzing call center audio with Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html).
     public enum Rule: Swift.Equatable {
         /// Flag the presence or absence of periods of silence in your Call Analytics transcription output. Refer to for more detail.
         case nontalktimefilter(TranscribeClientTypes.NonTalkTimeFilter)
@@ -6500,9 +6560,9 @@ extension TranscribeClientTypes.SentimentFilter: Swift.Codable {
         var sentimentsDecoded0:[TranscribeClientTypes.SentimentValue]? = nil
         if let sentimentsContainer = sentimentsContainer {
             sentimentsDecoded0 = [TranscribeClientTypes.SentimentValue]()
-            for string0 in sentimentsContainer {
-                if let string0 = string0 {
-                    sentimentsDecoded0?.append(string0)
+            for enum0 in sentimentsContainer {
+                if let enum0 = enum0 {
+                    sentimentsDecoded0?.append(enum0)
                 }
             }
         }
@@ -6530,17 +6590,17 @@ extension TranscribeClientTypes {
     /// * The presence or absence of a mixed sentiment felt by the customer, the agent, or both at specified points in the call
     ///
     ///
-    /// See [Rule criteria](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics-create-categories.html#call-analytics-create-categories-rules) for examples.
+    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
     public struct SentimentFilter: Swift.Equatable {
-        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want to search for the specified sentiments. See for more detail.
+        /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for the specified sentiments. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
-        /// Set to TRUE to flag the sentiments you didn't include in your request. Set to FALSE to flag the sentiments you specified in your request.
+        /// Set to TRUE to flag the sentiments that you didn't include in your request. Set to FALSE to flag the sentiments that you specified in your request.
         public var negate: Swift.Bool?
-        /// Specify the participant you want to flag. Omitting this parameter is equivalent to specifying both participants.
+        /// Specify the participant that you want to flag. Omitting this parameter is equivalent to specifying both participants.
         public var participantRole: TranscribeClientTypes.ParticipantRole?
-        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for the specified sentiments. See for more detail.
+        /// Makes it possible to specify a time range (in percentage) in your media file, during which you want to search for the specified sentiments. See for more detail.
         public var relativeTimeRange: TranscribeClientTypes.RelativeTimeRange?
-        /// Specify the sentiments you want to flag.
+        /// Specify the sentiments that you want to flag.
         /// This member is required.
         public var sentiments: [TranscribeClientTypes.SentimentValue]?
 
@@ -6662,19 +6722,19 @@ extension TranscribeClientTypes.Settings: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Allows additional optional settings in your request, including channel identification, alternative transcriptions, and speaker labeling; allows you to apply custom vocabularies to your transcription job.
+    /// Allows additional optional settings in your request, including channel identification, alternative transcriptions, and speaker partitioning. You can use that to apply custom vocabularies to your transcription job.
     public struct Settings: Swift.Equatable {
         /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. You can't include both ShowSpeakerLabels and ChannelIdentification in the same request. Including both parameters returns a BadRequestException. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
         public var channelIdentification: Swift.Bool?
         /// Indicate the maximum number of alternative transcriptions you want Amazon Transcribe to include in your transcript. If you select a number greater than the number of alternative transcriptions generated by Amazon Transcribe, only the actual number of alternative transcriptions are included. If you include MaxAlternatives in your request, you must also include ShowAlternatives with a value of true. For more information, see [Alternative transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html).
         public var maxAlternatives: Swift.Int?
-        /// Specify the maximum number of speakers you want to identify in your media. Note that if your media contains more speakers than the specified number, multiple speakers will be identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
+        /// Specify the maximum number of speakers you want to partition in your media. Note that if your media contains more speakers than the specified number, multiple speakers are treated as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
         public var maxSpeakerLabels: Swift.Int?
         /// To include alternative transcriptions within your transcription output, include ShowAlternatives in your transcription request. If you have multi-channel audio and do not enable channel identification, your audio is transcribed in a continuous manner and your transcript does not separate the speech by channel. If you include ShowAlternatives, you must also include MaxAlternatives, which is the maximum number of alternative transcriptions you want Amazon Transcribe to generate. For more information, see [Alternative transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html).
         public var showAlternatives: Swift.Bool?
-        /// Enables speaker identification (diarization) in your transcription output. Speaker identification labels the speech from individual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. You can't include both ShowSpeakerLabels and ChannelIdentification in the same request. Including both parameters returns a BadRequestException. For more information, see [Identifying speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
+        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. You can't include both ShowSpeakerLabels and ChannelIdentification in the same request. Including both parameters returns a BadRequestException. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
         public var showSpeakerLabels: Swift.Bool?
-        /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
+        /// Specify how you want your custom vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public var vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod?
         /// The name of the custom vocabulary filter you want to use in your transcription job request. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. Note that if you include VocabularyFilterName in your request, you must also include VocabularyFilterMethod.
         public var vocabularyFilterName: Swift.String?
@@ -6780,11 +6840,11 @@ public struct StartCallAnalyticsJobInput: Swift.Equatable {
     /// A unique name, chosen by you, for your Call Analytics job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
     public var callAnalyticsJobName: Swift.String?
-    /// Allows you to specify which speaker is on which channel. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
+    /// Makes it possible to specify which speaker is on which channel. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
     public var channelDefinitions: [TranscribeClientTypes.ChannelDefinition]?
-    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
-    /// Describes the Amazon S3 location of the media file you want to use in your request.
+    /// Describes the Amazon S3 location of the media file you want to use in your Call Analytics request.
     /// This member is required.
     public var media: TranscribeClientTypes.Media?
     /// The KMS key you want to use to encrypt your Call Analytics output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:
@@ -7036,17 +7096,17 @@ public struct StartMedicalTranscriptionJobInput: Swift.Equatable {
     /// The language code that represents the language spoken in the input media file. US English (en-US) is the only valid value for medical transcription jobs. Any other value you enter for language code results in a BadRequestException error.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// Describes the Amazon S3 location of the media file you want to use in your request.
+    /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the [MediaFormat](https://docs.aws.amazon.com/APIReference/API_StartTranscriptionJob.html#transcribe-StartTranscriptionJob-request-MediaFormat) parameter or the [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio) section in the Amazon S3 Developer Guide.
     /// This member is required.
     public var media: TranscribeClientTypes.Media?
     /// Specify the format of your input media file.
     public var mediaFormat: TranscribeClientTypes.MediaFormat?
-    /// The sample rate, in Hertz, of the audio track in your input media file. If you don't specify the media sample rate, Amazon Transcribe Medical determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe Medical; if there's a mismatch between the value you specify and the value detected, your job fails. Therefore, in most cases, it's advised to omit MediaSampleRateHertz and let Amazon Transcribe Medical determine the sample rate.
+    /// The sample rate, in hertz, of the audio track in your input media file. If you don't specify the media sample rate, Amazon Transcribe Medical determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe Medical; if there's a mismatch between the value that you specify and the value detected, your job fails. Therefore, in most cases, it's advised to omit MediaSampleRateHertz and let Amazon Transcribe Medical determine the sample rate.
     public var mediaSampleRateHertz: Swift.Int?
-    /// A unique name, chosen by you, for your medical transcription job. The name you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
+    /// A unique name, chosen by you, for your medical transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
     public var medicalTranscriptionJobName: Swift.String?
-    /// The name of the Amazon S3 bucket where you want your medical transcription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, specify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAMPLE-BUCKET, set OutputBucketName to DOC-EXAMPLE-BUCKET. However, if you want your output stored in S3://DOC-EXAMPLE-BUCKET/test-files/, set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon Transcribe must have permission to use the specified location. You can change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user). If you don't specify OutputBucketName, your transcript is placed in a service-managed Amazon S3 bucket and you are provided with a URI to access your transcript.
+    /// The name of the Amazon S3 bucket where you want your medical transcription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, specify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAMPLE-BUCKET, set OutputBucketName to DOC-EXAMPLE-BUCKET. However, if you want your output stored in S3://DOC-EXAMPLE-BUCKET/test-files/, set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon Transcribe must have permission to use the specified location. You can change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user).
     /// This member is required.
     public var outputBucketName: Swift.String?
     /// The KMS key you want to use to encrypt your medical transcription output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:
@@ -7082,7 +7142,7 @@ public struct StartMedicalTranscriptionJobInput: Swift.Equatable {
     ///
     /// If you specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is created for you.
     public var outputKey: Swift.String?
-    /// Specify additional optional settings in your request, including channel identification, alternative transcriptions, and speaker labeling; allows you to apply custom vocabularies to your transcription job.
+    /// Specify additional optional settings in your request, including channel identification, alternative transcriptions, and speaker partitioning. You can use that to apply custom vocabularies to your transcription job.
     public var settings: TranscribeClientTypes.MedicalTranscriptionSetting?
     /// Specify the predominant medical specialty represented in your media. For batch transcriptions, PRIMARYCARE is the only valid value. If you require additional specialties, refer to .
     /// This member is required.
@@ -7378,28 +7438,28 @@ extension StartTranscriptionJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartTranscriptionJobInput: Swift.Equatable {
-    /// Allows you to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
+    /// Makes it possible to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
     public var contentRedaction: TranscribeClientTypes.ContentRedaction?
-    /// Enables automatic language identification in your transcription job request. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including language options can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+    /// Enables automatic language identification in your transcription job request. Use this parameter if your media file contains only one language. If your media contains multiple languages, use IdentifyMultipleLanguages instead. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). If you include LanguageIdSettings, also include LanguageOptions. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
     public var identifyLanguage: Swift.Bool?
-    /// Enables automatic multi-language identification in your transcription job request. Use this parameter if your media file contains more than one language. If you include IdentifyMultipleLanguages, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including language options can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName and VocabularyFilterName). Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+    /// Enables automatic multi-language identification in your transcription job request. Use this parameter if your media file contains more than one language. If your media contains only one language, use IdentifyLanguage instead. If you include IdentifyMultipleLanguages, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName and VocabularyFilterName). If you include LanguageIdSettings, also include LanguageOptions. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
     public var identifyMultipleLanguages: Swift.Bool?
-    /// Allows you to control how your transcription job is processed. Currently, the only JobExecutionSettings modification you can choose is enabling job queueing using the AllowDeferredExecution sub-parameter. If you include JobExecutionSettings in your request, you must also include the sub-parameters: AllowDeferredExecution and DataAccessRoleArn.
+    /// Makes it possible to control how your transcription job is processed. Currently, the only JobExecutionSettings modification you can choose is enabling job queueing using the AllowDeferredExecution sub-parameter. If you include JobExecutionSettings in your request, you must also include the sub-parameters: AllowDeferredExecution and DataAccessRoleArn.
     public var jobExecutionSettings: TranscribeClientTypes.JobExecutionSettings?
     /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context) and [Asymmetric keys in KMS](https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html).
     public var kmsEncryptionContext: [Swift.String:Swift.String]?
     /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// If using automatic language identification (IdentifyLanguage) in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). You can specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The languages you specify must match the languages of the specified custom language models, custom vocabularies, and custom vocabulary filters. To include language options using IdentifyLanguage without including a custom language model, a custom vocabulary, or a custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including language options can improve the accuracy of automatic language identification. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
+    /// If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that multi-language identification (IdentifyMultipleLanguages) doesn't support custom language models. LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you specify must match the languages of the associated custom language models, custom vocabularies, and custom vocabulary filters. It's recommended that you include LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon Transcribe determines that the language spoken in your media is en-AU, your custom vocabulary is not applied to your transcription. If you include LanguageOptions and include en-US as the only English language dialect, your custom vocabulary is applied to your transcription. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
     public var languageIdSettings: [Swift.String:TranscribeClientTypes.LanguageIdSettings]?
-    /// You can specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+    /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
     public var languageOptions: [TranscribeClientTypes.LanguageCode]?
     /// Describes the Amazon S3 location of the media file you want to use in your request.
     /// This member is required.
     public var media: TranscribeClientTypes.Media?
     /// Specify the format of your input media file.
     public var mediaFormat: TranscribeClientTypes.MediaFormat?
-    /// The sample rate, in Hertz, of the audio track in your input media file. If you don't specify the media sample rate, Amazon Transcribe determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe; if there's a mismatch between the value you specify and the value detected, your job fails. Therefore, in most cases, it's advised to omit MediaSampleRateHertz and let Amazon Transcribe determine the sample rate.
+    /// The sample rate, in hertz, of the audio track in your input media file. If you don't specify the media sample rate, Amazon Transcribe determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe. If there's a mismatch between the value that you specify and the value detected, your job fails. In most cases, you can omit MediaSampleRateHertz and let Amazon Transcribe determine the sample rate.
     public var mediaSampleRateHertz: Swift.Int?
     /// Specify the custom language model you want to include with your transcription job. If you include ModelSettings in your request, you must include the LanguageModelName sub-parameter. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html).
     public var modelSettings: TranscribeClientTypes.ModelSettings?
@@ -7438,13 +7498,13 @@ public struct StartTranscriptionJobInput: Swift.Equatable {
     ///
     /// If you specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is created for you.
     public var outputKey: Swift.String?
-    /// Specify additional optional settings in your request, including channel identification, alternative transcriptions, speaker labeling; allows you to apply custom vocabularies and vocabulary filters. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use Settings with the VocabularyName or VocabularyFilterName (or both) sub-parameter. If you're using automatic language identification with your request and want to include a custom language model, a custom vocabulary, or a custom vocabulary filter, use instead the  parameter with the LanguageModelName, VocabularyName or VocabularyFilterName sub-parameters.
+    /// Specify additional optional settings in your request, including channel identification, alternative transcriptions, speaker partitioning. You can use that to apply custom vocabularies and vocabulary filters. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use Settings with the VocabularyName or VocabularyFilterName (or both) sub-parameter. If you're using automatic language identification with your request and want to include a custom language model, a custom vocabulary, or a custom vocabulary filter, use instead the  parameter with the LanguageModelName, VocabularyName or VocabularyFilterName sub-parameters.
     public var settings: TranscribeClientTypes.Settings?
     /// Produces subtitle files for your input media. You can specify WebVTT (*.vtt) and SubRip (*.srt) formats.
     public var subtitles: TranscribeClientTypes.Subtitles?
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     public var tags: [TranscribeClientTypes.Tag]?
-    /// A unique name, chosen by you, for your transcription job. The name you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
+    /// A unique name, chosen by you, for your transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
     public var transcriptionJobName: Swift.String?
 
@@ -7578,9 +7638,9 @@ extension StartTranscriptionJobInputBody: Swift.Decodable {
         var languageOptionsDecoded0:[TranscribeClientTypes.LanguageCode]? = nil
         if let languageOptionsContainer = languageOptionsContainer {
             languageOptionsDecoded0 = [TranscribeClientTypes.LanguageCode]()
-            for string0 in languageOptionsContainer {
-                if let string0 = string0 {
-                    languageOptionsDecoded0?.append(string0)
+            for enum0 in languageOptionsContainer {
+                if let enum0 = enum0 {
+                    languageOptionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -7738,9 +7798,9 @@ extension TranscribeClientTypes.Subtitles: Swift.Codable {
         var formatsDecoded0:[TranscribeClientTypes.SubtitleFormat]? = nil
         if let formatsContainer = formatsContainer {
             formatsDecoded0 = [TranscribeClientTypes.SubtitleFormat]()
-            for string0 in formatsContainer {
-                if let string0 = string0 {
-                    formatsDecoded0?.append(string0)
+            for enum0 in formatsContainer {
+                if let enum0 = enum0 {
+                    formatsDecoded0?.append(enum0)
                 }
             }
         }
@@ -7802,9 +7862,9 @@ extension TranscribeClientTypes.SubtitlesOutput: Swift.Codable {
         var formatsDecoded0:[TranscribeClientTypes.SubtitleFormat]? = nil
         if let formatsContainer = formatsContainer {
             formatsDecoded0 = [TranscribeClientTypes.SubtitleFormat]()
-            for string0 in formatsContainer {
-                if let string0 = string0 {
-                    formatsDecoded0?.append(string0)
+            for enum0 in formatsContainer {
+                if let enum0 = enum0 {
+                    formatsDecoded0?.append(enum0)
                 }
             }
         }
@@ -7919,7 +7979,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
+    /// The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
@@ -8117,20 +8177,20 @@ extension TranscribeClientTypes {
     /// * Custom words or phrases that occur at a specific time frame
     ///
     ///
-    /// See [Rule criteria](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics-create-categories.html#call-analytics-create-categories-rules) for examples.
+    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) and [Rule criteria for streaming categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html#tca-rules-stream) for usage examples.
     public struct TranscriptFilter: Swift.Equatable {
-        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want to search for the specified key words or phrases. See for more detail.
+        /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for the specified key words or phrases. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
-        /// Set to TRUE to flag the absence of the phrase you specified in your request. Set to FALSE to flag the presence of the phrase you specified in your request.
+        /// Set to TRUE to flag the absence of the phrase that you specified in your request. Set to FALSE to flag the presence of the phrase that you specified in your request.
         public var negate: Swift.Bool?
-        /// Specify the participant you want to flag. Omitting this parameter is equivalent to specifying both participants.
+        /// Specify the participant that you want to flag. Omitting this parameter is equivalent to specifying both participants.
         public var participantRole: TranscribeClientTypes.ParticipantRole?
-        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for the specified key words or phrases. See for more detail.
+        /// Makes it possible to specify a time range (in percentage) in your media file, during which you want to search for the specified key words or phrases. See for more detail.
         public var relativeTimeRange: TranscribeClientTypes.RelativeTimeRange?
-        /// Specify the phrases you want to flag.
+        /// Specify the phrases that you want to flag.
         /// This member is required.
         public var targets: [Swift.String]?
-        /// Flag the presence or absence of an exact match to the phrases you specify. For example, if you specify the phrase "speak to a manager" as your Targets value, only that exact phrase is flagged. Note that semantic matching is not supported. For example, if your customer says "speak to the manager", instead of "speak to a manager", your content is not flagged.
+        /// Flag the presence or absence of an exact match to the phrases that you specify. For example, if you specify the phrase "speak to a manager" as your Targets value, only that exact phrase is flagged. Note that semantic matching is not supported. For example, if your customer says "speak to the manager", instead of "speak to a manager", your content is not flagged.
         /// This member is required.
         public var transcriptFilterType: TranscribeClientTypes.TranscriptFilterType?
 
@@ -8335,9 +8395,9 @@ extension TranscribeClientTypes.TranscriptionJob: Swift.Codable {
         var languageOptionsDecoded0:[TranscribeClientTypes.LanguageCode]? = nil
         if let languageOptionsContainer = languageOptionsContainer {
             languageOptionsDecoded0 = [TranscribeClientTypes.LanguageCode]()
-            for string0 in languageOptionsContainer {
-                if let string0 = string0 {
-                    languageOptionsDecoded0?.append(string0)
+            for enum0 in languageOptionsContainer {
+                if let enum0 = enum0 {
+                    languageOptionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -8387,7 +8447,7 @@ extension TranscribeClientTypes {
     public struct TranscriptionJob: Swift.Equatable {
         /// The date and time the specified transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public var completionTime: ClientRuntime.Date?
-        /// Redacts or flags specified personally identifiable information (PII) in your transcript.
+        /// Indicates whether redaction was enabled in your transcript.
         public var contentRedaction: TranscribeClientTypes.ContentRedaction?
         /// The date and time the specified transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var creationTime: ClientRuntime.Date?
@@ -8397,7 +8457,7 @@ extension TranscribeClientTypes {
         ///
         /// * The media format provided does not match the detected media format. The media format specified in MediaFormat doesn't match the format of the input file. Check the media format of your media file and correct the specified value.
         ///
-        /// * Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 8,000 and 48,000 Hertz.
+        /// * Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 8,000 and 48,000 hertz.
         ///
         /// * The sample rate provided does not match the detected sample rate. The sample rate specified in MediaSampleRateHertz doesn't match the sample rate detected in your input media file. Check the sample rate of your media file and correct the specified value.
         ///
@@ -8411,31 +8471,31 @@ extension TranscribeClientTypes {
         public var identifyLanguage: Swift.Bool?
         /// Indicates whether automatic multi-language identification was enabled (TRUE) for the specified transcription job.
         public var identifyMultipleLanguages: Swift.Bool?
-        /// Provides information about how your transcription job is being processed. This parameter shows if your request is queued and what data access role is being used.
+        /// Provides information about how your transcription job was processed. This parameter shows if your request was queued and what data access role was used.
         public var jobExecutionSettings: TranscribeClientTypes.JobExecutionSettings?
-        /// The language code used to create your transcription job. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+        /// The language code used to create your transcription job. This parameter is used with single-language identification. For multi-language identification requests, refer to the plural version of this parameter, LanguageCodes.
         public var languageCode: TranscribeClientTypes.LanguageCode?
-        /// The language codes used to create your transcription job. This parameter is used with multi-language identification. For single-language identification requests, refer to the singular version of this parameter, LanguageCode. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
+        /// The language codes used to create your transcription job. This parameter is used with multi-language identification. For single-language identification requests, refer to the singular version of this parameter, LanguageCode.
         public var languageCodes: [TranscribeClientTypes.LanguageCodeItem]?
-        /// If using automatic language identification (IdentifyLanguage) in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). You can specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The languages you specify must match the languages of the specified custom language models, custom vocabularies, and custom vocabulary filters. To include language options using IdentifyLanguage without including a custom language model, a custom vocabulary, or a custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including language options can improve the accuracy of automatic language identification. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
+        /// Provides the name and language of all custom language models, custom vocabularies, and custom vocabulary filters that you included in your request.
         public var languageIdSettings: [Swift.String:TranscribeClientTypes.LanguageIdSettings]?
-        /// You can specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+        /// Provides the language codes you specified in your request.
         public var languageOptions: [TranscribeClientTypes.LanguageCode]?
-        /// Describes the Amazon S3 location of the media file you want to use in your request.
+        /// Provides the Amazon S3 location of the media file you used in your request.
         public var media: TranscribeClientTypes.Media?
         /// The format of the input media file.
         public var mediaFormat: TranscribeClientTypes.MediaFormat?
-        /// The sample rate, in Hertz, of the audio track in your input media file.
+        /// The sample rate, in hertz, of the audio track in your input media file.
         public var mediaSampleRateHertz: Swift.Int?
-        /// The custom language model you want to include with your transcription job. If you include ModelSettings in your request, you must include the LanguageModelName sub-parameter.
+        /// Provides information on the custom language model you included in your request.
         public var modelSettings: TranscribeClientTypes.ModelSettings?
-        /// Specify additional optional settings in your request, including channel identification, alternative transcriptions, speaker labeling; allows you to apply custom vocabularies and vocabulary filters. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use Settings with the VocabularyName or VocabularyFilterName (or both) sub-parameter. If you're using automatic language identification with your request and want to include a custom language model, a custom vocabulary, or a custom vocabulary filter, do not use the Settings parameter; use instead the  parameter with the LanguageModelName, VocabularyName or VocabularyFilterName sub-parameters.
+        /// Provides information on any additional settings that were included in your request. Additional settings include channel identification, alternative transcriptions, speaker partitioning, custom vocabularies, and custom vocabulary filters.
         public var settings: TranscribeClientTypes.Settings?
         /// The date and time the specified transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var startTime: ClientRuntime.Date?
-        /// Generate subtitles for your media file with your transcription request.
+        /// Indicates whether subtitles were generated with your transcription.
         public var subtitles: TranscribeClientTypes.SubtitlesOutput?
-        /// Adds one or more custom tags, each in the form of a key:value pair, to a new transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+        /// The tags, each in the form of a key:value pair, assigned to the specified transcription job.
         public var tags: [TranscribeClientTypes.Tag]?
         /// Provides you with the Amazon S3 URI you can use to access your transcript.
         public var transcript: TranscribeClientTypes.Transcript?
@@ -8768,7 +8828,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
+    /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// Removes the specified tag keys from the specified Amazon Transcribe resource.
@@ -8852,11 +8912,15 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateCallAnalyticsCategoryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputType = "InputType"
         case rules = "Rules"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputType = self.inputType {
+            try encodeContainer.encode(inputType.rawValue, forKey: .inputType)
+        }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
             for rulelist0 in rules {
@@ -8876,26 +8940,32 @@ public struct UpdateCallAnalyticsCategoryInput: Swift.Equatable {
     /// The name of the Call Analytics category you want to update. Category names are case sensitive.
     /// This member is required.
     public var categoryName: Swift.String?
+    /// Choose whether you want to update a streaming or a batch Call Analytics category. The input type you specify must match the input type specified when the category was created. For example, if you created a category with the POST_CALL input type, you must use POST_CALL as the input type when updating this category.
+    public var inputType: TranscribeClientTypes.InputType?
     /// The rules used for the updated Call Analytics category. The rules you provide in this field replace the ones that are currently being used in the specified category.
     /// This member is required.
     public var rules: [TranscribeClientTypes.Rule]?
 
     public init (
         categoryName: Swift.String? = nil,
+        inputType: TranscribeClientTypes.InputType? = nil,
         rules: [TranscribeClientTypes.Rule]? = nil
     )
     {
         self.categoryName = categoryName
+        self.inputType = inputType
         self.rules = rules
     }
 }
 
 struct UpdateCallAnalyticsCategoryInputBody: Swift.Equatable {
     let rules: [TranscribeClientTypes.Rule]?
+    let inputType: TranscribeClientTypes.InputType?
 }
 
 extension UpdateCallAnalyticsCategoryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputType = "InputType"
         case rules = "Rules"
     }
 
@@ -8912,6 +8982,8 @@ extension UpdateCallAnalyticsCategoryInputBody: Swift.Decodable {
             }
         }
         rules = rulesDecoded0
+        let inputTypeDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.InputType.self, forKey: .inputType)
+        inputType = inputTypeDecoded
     }
 }
 
@@ -9016,7 +9088,7 @@ public struct UpdateMedicalVocabularyInput: Swift.Equatable {
     /// The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
     /// This member is required.
     public var vocabularyFileUri: Swift.String?
-    /// The name of the custom medical vocabulary you want to update. Vocabulary names are case sensitive.
+    /// The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -9102,13 +9174,13 @@ extension UpdateMedicalVocabularyOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct UpdateMedicalVocabularyOutputResponse: Swift.Equatable {
-    /// The language code you selected for your medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
+    /// The language code you selected for your custom medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom medical vocabulary was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name of the updated custom medical vocabulary.
     public var vocabularyName: Swift.String?
-    /// The processing state of your custom medical vocabulary. If the state is READY, you can use the vocabulary in a StartMedicalTranscriptionJob request.
+    /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
     public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
     public init (
@@ -9182,10 +9254,10 @@ extension UpdateVocabularyFilterInput: ClientRuntime.URLPathProvider {
 public struct UpdateVocabularyFilterInput: Swift.Equatable {
     /// The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
     public var vocabularyFilterFileUri: Swift.String?
-    /// The name of the custom vocabulary filter you want to update. Vocabulary filter names are case sensitive.
+    /// The name of the custom vocabulary filter you want to update. Custom vocabulary filter names are case sensitive.
     /// This member is required.
     public var vocabularyFilterName: Swift.String?
-    /// Use this parameter if you want to update your vocabulary filter by including all desired terms, as comma-separated values, within your request. The other option for updating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
+    /// Use this parameter if you want to update your custom vocabulary filter by including all desired terms, as comma-separated values, within your request. The other option for updating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
     public var words: [Swift.String]?
 
     public init (
@@ -9275,9 +9347,9 @@ extension UpdateVocabularyFilterOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct UpdateVocabularyFilterOutputResponse: Swift.Equatable {
-    /// The language code you selected for your vocabulary filter.
+    /// The language code you selected for your custom vocabulary filter.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// The date and time the specified vocabulary filter was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+    /// The date and time the specified custom vocabulary filter was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name of the updated custom vocabulary filter.
     public var vocabularyFilterName: Swift.String?
@@ -9349,14 +9421,14 @@ extension UpdateVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateVocabularyInput: Swift.Equatable {
-    /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the vocabulary. For example, if you create a vocabulary using US English (en-US), you can only apply this vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
+    /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// Use this parameter if you want to update your vocabulary by including all desired terms, as comma-separated values, within your request. The other option for updating your vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
+    /// Use this parameter if you want to update your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for updating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language.
     public var phrases: [Swift.String]?
     /// The Amazon S3 location of the text file that contains your custom vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt Note that if you include VocabularyFileUri in your request, you cannot use the Phrases flag; you must choose one or the other.
     public var vocabularyFileUri: Swift.String?
-    /// The name of the custom vocabulary you want to update. Vocabulary names are case sensitive.
+    /// The name of the custom vocabulary you want to update. Custom vocabulary names are case sensitive.
     /// This member is required.
     public var vocabularyName: Swift.String?
 
@@ -9459,11 +9531,11 @@ extension UpdateVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateVocabularyOutputResponse: Swift.Equatable {
     /// The language code you selected for your custom vocabulary.
     public var languageCode: TranscribeClientTypes.LanguageCode?
-    /// The date and time the specified vocabulary was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+    /// The date and time the specified custom vocabulary was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
     public var lastModifiedTime: ClientRuntime.Date?
     /// The name of the updated custom vocabulary.
     public var vocabularyName: Swift.String?
-    /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
+    /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
     public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
     public init (
@@ -9540,11 +9612,11 @@ extension TranscribeClientTypes.VocabularyFilterInfo: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Provides information about a vocabulary filter, including the language of the filter, when it was last modified, and its name.
+    /// Provides information about a custom vocabulary filter, including the language of the filter, when it was last modified, and its name.
     public struct VocabularyFilterInfo: Swift.Equatable {
-        /// The language code that represents the language of the entries in your vocabulary filter. Each vocabulary filter must contain terms in only one language. A vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
+        /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
         public var languageCode: TranscribeClientTypes.LanguageCode?
-        /// The date and time the specified vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+        /// The date and time the specified custom vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
         public var lastModifiedTime: ClientRuntime.Date?
         /// A unique name, chosen by you, for your custom vocabulary filter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public var vocabularyFilterName: Swift.String?
@@ -9636,15 +9708,15 @@ extension TranscribeClientTypes.VocabularyInfo: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Provides information about a custom vocabulary, including the language of the vocabulary, when it was last modified, its name, and the processing state.
+    /// Provides information about a custom vocabulary, including the language of the custom vocabulary, when it was last modified, its name, and the processing state.
     public struct VocabularyInfo: Swift.Equatable {
-        /// The language code used to create your custom vocabulary. Each vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the vocabulary. For example, if you create a vocabulary using US English (en-US), you can only apply this vocabulary to files that contain English audio.
+        /// The language code used to create your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio.
         public var languageCode: TranscribeClientTypes.LanguageCode?
-        /// The date and time the specified vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
+        /// The date and time the specified custom vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
         public var lastModifiedTime: ClientRuntime.Date?
         /// A unique name, chosen by you, for your custom vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public var vocabularyName: Swift.String?
-        /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
+        /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
         public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
         public init (

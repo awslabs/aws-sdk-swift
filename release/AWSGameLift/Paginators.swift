@@ -527,6 +527,39 @@ extension PaginatorSequence where Input == ListBuildsInput, Output == ListBuilds
     }
 }
 
+/// Paginate over `[ListComputeOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListComputeInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListComputeOutputResponse`
+extension GameLiftClient {
+    public func listComputePaginated(input: ListComputeInput) -> ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutputResponse>(input: input, inputKey: \ListComputeInput.nextToken, outputKey: \ListComputeOutputResponse.nextToken, paginationFunction: self.listCompute(input:))
+    }
+}
+
+extension ListComputeInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListComputeInput {
+        return ListComputeInput(
+            fleetId: self.fleetId,
+            limit: self.limit,
+            location: self.location,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listComputePaginated`
+/// to access the nested member `[GameLiftClientTypes.Compute]`
+/// - Returns: `[GameLiftClientTypes.Compute]`
+extension PaginatorSequence where Input == ListComputeInput, Output == ListComputeOutputResponse {
+    public func computeList() async throws -> [GameLiftClientTypes.Compute] {
+        return try await self.asyncCompactMap { item in item.computeList }
+    }
+}
+
 /// Paginate over `[ListFleetsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -621,6 +654,38 @@ extension ListGameServersInput: ClientRuntime.PaginateToken {
 extension PaginatorSequence where Input == ListGameServersInput, Output == ListGameServersOutputResponse {
     public func gameServers() async throws -> [GameLiftClientTypes.GameServer] {
         return try await self.asyncCompactMap { item in item.gameServers }
+    }
+}
+
+/// Paginate over `[ListLocationsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListLocationsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListLocationsOutputResponse`
+extension GameLiftClient {
+    public func listLocationsPaginated(input: ListLocationsInput) -> ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutputResponse>(input: input, inputKey: \ListLocationsInput.nextToken, outputKey: \ListLocationsOutputResponse.nextToken, paginationFunction: self.listLocations(input:))
+    }
+}
+
+extension ListLocationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLocationsInput {
+        return ListLocationsInput(
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listLocationsPaginated`
+/// to access the nested member `[GameLiftClientTypes.LocationModel]`
+/// - Returns: `[GameLiftClientTypes.LocationModel]`
+extension PaginatorSequence where Input == ListLocationsInput, Output == ListLocationsOutputResponse {
+    public func locations() async throws -> [GameLiftClientTypes.LocationModel] {
+        return try await self.asyncCompactMap { item in item.locations }
     }
 }
 

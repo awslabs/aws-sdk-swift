@@ -1331,7 +1331,7 @@ public struct CreateGrantInput: Swift.Equatable {
     /// Amazon Resource Name (ARN) of the license.
     /// This member is required.
     public var licenseArn: Swift.String?
-    /// The grant principals.
+    /// The grant principals. This value should be specified as an Amazon Resource Name (ARN).
     /// This member is required.
     public var principals: [Swift.String]?
 
@@ -1397,9 +1397,9 @@ extension CreateGrantInputBody: Swift.Decodable {
         var allowedOperationsDecoded0:[LicenseManagerClientTypes.AllowedOperation]? = nil
         if let allowedOperationsContainer = allowedOperationsContainer {
             allowedOperationsDecoded0 = [LicenseManagerClientTypes.AllowedOperation]()
-            for string0 in allowedOperationsContainer {
-                if let string0 = string0 {
-                    allowedOperationsDecoded0?.append(string0)
+            for enum0 in allowedOperationsContainer {
+                if let enum0 = enum0 {
+                    allowedOperationsDecoded0?.append(enum0)
                 }
             }
         }
@@ -1619,9 +1619,9 @@ extension CreateGrantVersionInputBody: Swift.Decodable {
         var allowedOperationsDecoded0:[LicenseManagerClientTypes.AllowedOperation]? = nil
         if let allowedOperationsContainer = allowedOperationsContainer {
             allowedOperationsDecoded0 = [LicenseManagerClientTypes.AllowedOperation]()
-            for string0 in allowedOperationsContainer {
-                if let string0 = string0 {
-                    allowedOperationsDecoded0?.append(string0)
+            for enum0 in allowedOperationsContainer {
+                if let enum0 = enum0 {
+                    allowedOperationsDecoded0?.append(enum0)
                 }
             }
         }
@@ -2023,13 +2023,13 @@ extension CreateLicenseConversionTaskForResourceInput: ClientRuntime.URLPathProv
 }
 
 public struct CreateLicenseConversionTaskForResourceInput: Swift.Equatable {
-    /// Information that identifies the license type you are converting to. For the structure of the destination license, see [Convert a license type using the AWS CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
+    /// Information that identifies the license type you are converting to. For the structure of the destination license, see [Convert a license type using the Amazon Web Services CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
     /// This member is required.
     public var destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
     /// Amazon Resource Name (ARN) of the resource you are converting the license type for.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Information that identifies the license type you are converting from. For the structure of the source license, see [Convert a license type using the AWS CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
+    /// Information that identifies the license type you are converting from. For the structure of the source license, see [Convert a license type using the Amazon Web Services CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
     /// This member is required.
     public var sourceLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
 
@@ -2466,9 +2466,9 @@ extension CreateLicenseManagerReportGeneratorInputBody: Swift.Decodable {
         var typeDecoded0:[LicenseManagerClientTypes.ReportType]? = nil
         if let typeContainer = typeContainer {
             typeDecoded0 = [LicenseManagerClientTypes.ReportType]()
-            for string0 in typeContainer {
-                if let string0 = string0 {
-                    typeDecoded0?.append(string0)
+            for enum0 in typeContainer {
+                if let enum0 = enum0 {
+                    typeDecoded0?.append(enum0)
                 }
             }
         }
@@ -6045,9 +6045,9 @@ extension LicenseManagerClientTypes.Grant: Swift.Codable {
         var grantedOperationsDecoded0:[LicenseManagerClientTypes.AllowedOperation]? = nil
         if let grantedOperationsContainer = grantedOperationsContainer {
             grantedOperationsDecoded0 = [LicenseManagerClientTypes.AllowedOperation]()
-            for string0 in grantedOperationsContainer {
-                if let string0 = string0 {
-                    grantedOperationsDecoded0?.append(string0)
+            for enum0 in grantedOperationsContainer {
+                if let enum0 = enum0 {
+                    grantedOperationsDecoded0?.append(enum0)
                 }
             }
         }
@@ -9473,6 +9473,200 @@ extension ListLicensesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListReceivedGrantsForOrganizationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case licenseArn = "LicenseArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filterlist0 in filters {
+                try filtersContainer.encode(filterlist0)
+            }
+        }
+        if let licenseArn = self.licenseArn {
+            try encodeContainer.encode(licenseArn, forKey: .licenseArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListReceivedGrantsForOrganizationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListReceivedGrantsForOrganizationInput: Swift.Equatable {
+    /// Filters to scope the results. The following filters are supported:
+    ///
+    /// * ParentArn
+    ///
+    /// * GranteePrincipalArn
+    public var filters: [LicenseManagerClientTypes.Filter]?
+    /// The Amazon Resource Name (ARN) of the received license.
+    /// This member is required.
+    public var licenseArn: Swift.String?
+    /// Maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: [LicenseManagerClientTypes.Filter]? = nil,
+        licenseArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.licenseArn = licenseArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListReceivedGrantsForOrganizationInputBody: Swift.Equatable {
+    let licenseArn: Swift.String?
+    let filters: [LicenseManagerClientTypes.Filter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListReceivedGrantsForOrganizationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case licenseArn = "LicenseArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
+        licenseArn = licenseArnDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[LicenseManagerClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LicenseManagerClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListReceivedGrantsForOrganizationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListReceivedGrantsForOrganizationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListReceivedGrantsForOrganizationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case authorizationException(AuthorizationException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case rateLimitExceededException(RateLimitExceededException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serverInternalException(ServerInternalException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReceivedGrantsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListReceivedGrantsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.grants = output.grants
+            self.nextToken = output.nextToken
+        } else {
+            self.grants = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListReceivedGrantsForOrganizationOutputResponse: Swift.Equatable {
+    /// Lists the grants the organization has received.
+    public var grants: [LicenseManagerClientTypes.Grant]?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        grants: [LicenseManagerClientTypes.Grant]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.grants = grants
+        self.nextToken = nextToken
+    }
+}
+
+struct ListReceivedGrantsForOrganizationOutputResponseBody: Swift.Equatable {
+    let grants: [LicenseManagerClientTypes.Grant]?
+    let nextToken: Swift.String?
+}
+
+extension ListReceivedGrantsForOrganizationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grants = "Grants"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let grantsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Grant?].self, forKey: .grants)
+        var grantsDecoded0:[LicenseManagerClientTypes.Grant]? = nil
+        if let grantsContainer = grantsContainer {
+            grantsDecoded0 = [LicenseManagerClientTypes.Grant]()
+            for structure0 in grantsContainer {
+                if let structure0 = structure0 {
+                    grantsDecoded0?.append(structure0)
+                }
+            }
+        }
+        grants = grantsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListReceivedGrantsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -9679,6 +9873,187 @@ extension ListReceivedGrantsOutputResponseBody: Swift.Decodable {
             }
         }
         grants = grantsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListReceivedLicensesForOrganizationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filterlist0 in filters {
+                try filtersContainer.encode(filterlist0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListReceivedLicensesForOrganizationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListReceivedLicensesForOrganizationInput: Swift.Equatable {
+    /// Filters to scope the results. The following filters are supported:
+    ///
+    /// * Beneficiary
+    ///
+    /// * ProductSKU
+    public var filters: [LicenseManagerClientTypes.Filter]?
+    /// Maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: [LicenseManagerClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListReceivedLicensesForOrganizationInputBody: Swift.Equatable {
+    let filters: [LicenseManagerClientTypes.Filter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListReceivedLicensesForOrganizationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[LicenseManagerClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LicenseManagerClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListReceivedLicensesForOrganizationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListReceivedLicensesForOrganizationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListReceivedLicensesForOrganizationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case authorizationException(AuthorizationException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case rateLimitExceededException(RateLimitExceededException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serverInternalException(ServerInternalException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReceivedLicensesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListReceivedLicensesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.licenses = output.licenses
+            self.nextToken = output.nextToken
+        } else {
+            self.licenses = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListReceivedLicensesForOrganizationOutputResponse: Swift.Equatable {
+    /// Lists the licenses the organization has received.
+    public var licenses: [LicenseManagerClientTypes.GrantedLicense]?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        licenses: [LicenseManagerClientTypes.GrantedLicense]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.licenses = licenses
+        self.nextToken = nextToken
+    }
+}
+
+struct ListReceivedLicensesForOrganizationOutputResponseBody: Swift.Equatable {
+    let licenses: [LicenseManagerClientTypes.GrantedLicense]?
+    let nextToken: Swift.String?
+}
+
+extension ListReceivedLicensesForOrganizationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case licenses = "Licenses"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let licensesContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.GrantedLicense?].self, forKey: .licenses)
+        var licensesDecoded0:[LicenseManagerClientTypes.GrantedLicense]? = nil
+        if let licensesContainer = licensesContainer {
+            licensesDecoded0 = [LicenseManagerClientTypes.GrantedLicense]()
+            for structure0 in licensesContainer {
+                if let structure0 = structure0 {
+                    licensesDecoded0?.append(structure0)
+                }
+            }
+        }
+        licenses = licensesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -11055,9 +11430,9 @@ extension LicenseManagerClientTypes.ReceivedMetadata: Swift.Codable {
         var allowedOperationsDecoded0:[LicenseManagerClientTypes.AllowedOperation]? = nil
         if let allowedOperationsContainer = allowedOperationsContainer {
             allowedOperationsDecoded0 = [LicenseManagerClientTypes.AllowedOperation]()
-            for string0 in allowedOperationsContainer {
-                if let string0 = string0 {
-                    allowedOperationsDecoded0?.append(string0)
+            for enum0 in allowedOperationsContainer {
+                if let enum0 = enum0 {
+                    allowedOperationsDecoded0?.append(enum0)
                 }
             }
         }
@@ -11579,9 +11954,9 @@ extension LicenseManagerClientTypes.ReportGenerator: Swift.Codable {
         var reportTypeDecoded0:[LicenseManagerClientTypes.ReportType]? = nil
         if let reportTypeContainer = reportTypeContainer {
             reportTypeDecoded0 = [LicenseManagerClientTypes.ReportType]()
-            for string0 in reportTypeContainer {
-                if let string0 = string0 {
-                    reportTypeDecoded0?.append(string0)
+            for enum0 in reportTypeContainer {
+                if let enum0 = enum0 {
+                    reportTypeDecoded0?.append(enum0)
                 }
             }
         }
@@ -12847,9 +13222,9 @@ extension UpdateLicenseManagerReportGeneratorInputBody: Swift.Decodable {
         var typeDecoded0:[LicenseManagerClientTypes.ReportType]? = nil
         if let typeContainer = typeContainer {
             typeDecoded0 = [LicenseManagerClientTypes.ReportType]()
-            for string0 in typeContainer {
-                if let string0 = string0 {
-                    typeDecoded0?.append(string0)
+            for enum0 in typeContainer {
+                if let enum0 = enum0 {
+                    typeDecoded0?.append(enum0)
                 }
             }
         }

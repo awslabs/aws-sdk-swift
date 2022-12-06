@@ -26,7 +26,7 @@ extension AssociateKmsKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateKmsKeyInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see [Amazon Resource Names - Key Management Service](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms) and [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
+    /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms) and [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
     /// This member is required.
     public var kmsKeyId: Swift.String?
     /// The name of the log group.
@@ -231,7 +231,7 @@ extension CreateExportTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateExportTaskInput: Swift.Equatable {
-    /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services region.
+    /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region.
     /// This member is required.
     public var destination: Swift.String?
     /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
@@ -414,7 +414,7 @@ extension CreateLogGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLogGroupInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see [Amazon Resource Names - Key Management Service](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
+    /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
     public var kmsKeyId: Swift.String?
     /// The name of the log group.
     /// This member is required.
@@ -665,6 +665,130 @@ extension DataAlreadyAcceptedExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum DataProtectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activated
+        case archived
+        case deleted
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataProtectionStatus] {
+            return [
+                .activated,
+                .archived,
+                .deleted,
+                .disabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "ACTIVATED"
+            case .archived: return "ARCHIVED"
+            case .deleted: return "DELETED"
+            case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataProtectionStatus(rawValue: rawValue) ?? DataProtectionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DeleteDataProtectionPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
+        }
+    }
+}
+
+extension DeleteDataProtectionPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDataProtectionPolicyInput: Swift.Equatable {
+    /// The name or ARN of the log group that you want to delete the data protection policy for.
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+
+    public init (
+        logGroupIdentifier: Swift.String? = nil
+    )
+    {
+        self.logGroupIdentifier = logGroupIdentifier
+    }
+}
+
+struct DeleteDataProtectionPolicyInputBody: Swift.Equatable {
+    let logGroupIdentifier: Swift.String?
+}
+
+extension DeleteDataProtectionPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
+    }
+}
+
+extension DeleteDataProtectionPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteDataProtectionPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationAbortedException" : self = .operationAbortedException(try OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteDataProtectionPolicyOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterException(InvalidParameterException)
+    case operationAbortedException(OperationAbortedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDataProtectionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteDataProtectionPolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension DeleteDestinationInput: Swift.Encodable {
@@ -1613,7 +1737,7 @@ public struct DescribeExportTasksInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
     public var statusCode: CloudWatchLogsClientTypes.ExportTaskStatusCode?
-    /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
+    /// The ID of the export task. Specifying a task ID filters the results to one or zero export tasks.
     public var taskId: Swift.String?
 
     public init (
@@ -1744,15 +1868,30 @@ extension DescribeExportTasksOutputResponseBody: Swift.Decodable {
 
 extension DescribeLogGroupsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdentifiers
+        case includeLinkedAccounts
         case limit
+        case logGroupNamePattern
         case logGroupNamePrefix
         case nextToken
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIdentifiers = accountIdentifiers {
+            var accountIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIdentifiers)
+            for accountids0 in accountIdentifiers {
+                try accountIdentifiersContainer.encode(accountids0)
+            }
+        }
+        if let includeLinkedAccounts = self.includeLinkedAccounts {
+            try encodeContainer.encode(includeLinkedAccounts, forKey: .includeLinkedAccounts)
+        }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let logGroupNamePattern = self.logGroupNamePattern {
+            try encodeContainer.encode(logGroupNamePattern, forKey: .logGroupNamePattern)
         }
         if let logGroupNamePrefix = self.logGroupNamePrefix {
             try encodeContainer.encode(logGroupNamePrefix, forKey: .logGroupNamePrefix)
@@ -1770,46 +1909,79 @@ extension DescribeLogGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeLogGroupsInput: Swift.Equatable {
+    /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+    public var accountIdentifiers: [Swift.String]?
+    /// If you are using a monitoring account, set this to True to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. If you specify includeLinkedAccounts in your request, then metricFilterCount, retentionInDays, and storedBytes are not included in the response.
+    public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// The prefix to match.
+    /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and GroupFoo would match, but foo, F/o/o and Froo would not match. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
+    public var logGroupNamePattern: Swift.String?
+    /// The prefix to match. logGroupNamePrefix and logGroupNamePattern are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePrefix: Swift.String?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init (
+        accountIdentifiers: [Swift.String]? = nil,
+        includeLinkedAccounts: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
+        logGroupNamePattern: Swift.String? = nil,
         logGroupNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.accountIdentifiers = accountIdentifiers
+        self.includeLinkedAccounts = includeLinkedAccounts
         self.limit = limit
+        self.logGroupNamePattern = logGroupNamePattern
         self.logGroupNamePrefix = logGroupNamePrefix
         self.nextToken = nextToken
     }
 }
 
 struct DescribeLogGroupsInputBody: Swift.Equatable {
+    let accountIdentifiers: [Swift.String]?
     let logGroupNamePrefix: Swift.String?
+    let logGroupNamePattern: Swift.String?
     let nextToken: Swift.String?
     let limit: Swift.Int?
+    let includeLinkedAccounts: Swift.Bool?
 }
 
 extension DescribeLogGroupsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdentifiers
+        case includeLinkedAccounts
         case limit
+        case logGroupNamePattern
         case logGroupNamePrefix
         case nextToken
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIdentifiers)
+        var accountIdentifiersDecoded0:[Swift.String]? = nil
+        if let accountIdentifiersContainer = accountIdentifiersContainer {
+            accountIdentifiersDecoded0 = [Swift.String]()
+            for string0 in accountIdentifiersContainer {
+                if let string0 = string0 {
+                    accountIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIdentifiers = accountIdentifiersDecoded0
         let logGroupNamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupNamePrefix)
         logGroupNamePrefix = logGroupNamePrefixDecoded
+        let logGroupNamePatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupNamePattern)
+        logGroupNamePattern = logGroupNamePatternDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
+        let includeLinkedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccounts)
+        includeLinkedAccounts = includeLinkedAccountsDecoded
     }
 }
 
@@ -1853,7 +2025,7 @@ extension DescribeLogGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeLogGroupsOutputResponse: Swift.Equatable {
-    /// The log groups. If the retentionInDays value is not included for a log group, then that log group is set to have its events never expire.
+    /// The log groups. If the retentionInDays value is not included for a log group, then that log group's events do not expire.
     public var logGroups: [CloudWatchLogsClientTypes.LogGroup]?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
@@ -1901,6 +2073,7 @@ extension DescribeLogStreamsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case descending
         case limit
+        case logGroupIdentifier
         case logGroupName
         case logStreamNamePrefix
         case nextToken
@@ -1914,6 +2087,9 @@ extension DescribeLogStreamsInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
         }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
@@ -1941,7 +2117,9 @@ public struct DescribeLogStreamsInput: Swift.Equatable {
     public var descending: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// The name of the log group.
+    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    public var logGroupIdentifier: Swift.String?
+    /// The name of the log group. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     /// This member is required.
     public var logGroupName: Swift.String?
     /// The prefix to match. If orderBy is LastEventTime, you cannot specify this parameter.
@@ -1954,6 +2132,7 @@ public struct DescribeLogStreamsInput: Swift.Equatable {
     public init (
         descending: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
+        logGroupIdentifier: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         logStreamNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -1962,6 +2141,7 @@ public struct DescribeLogStreamsInput: Swift.Equatable {
     {
         self.descending = descending
         self.limit = limit
+        self.logGroupIdentifier = logGroupIdentifier
         self.logGroupName = logGroupName
         self.logStreamNamePrefix = logStreamNamePrefix
         self.nextToken = nextToken
@@ -1971,6 +2151,7 @@ public struct DescribeLogStreamsInput: Swift.Equatable {
 
 struct DescribeLogStreamsInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
+    let logGroupIdentifier: Swift.String?
     let logStreamNamePrefix: Swift.String?
     let orderBy: CloudWatchLogsClientTypes.OrderBy?
     let descending: Swift.Bool?
@@ -1982,6 +2163,7 @@ extension DescribeLogStreamsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case descending
         case limit
+        case logGroupIdentifier
         case logGroupName
         case logStreamNamePrefix
         case nextToken
@@ -1992,6 +2174,8 @@ extension DescribeLogStreamsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupName)
         logGroupName = logGroupNameDecoded
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
         let logStreamNamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStreamNamePrefix)
         logStreamNamePrefix = logStreamNamePrefixDecoded
         let orderByDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.OrderBy.self, forKey: .orderBy)
@@ -2131,7 +2315,7 @@ extension DescribeMetricFiltersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeMetricFiltersInput: Swift.Equatable {
-    /// The prefix to match. CloudWatch Logs uses the value you set here only if you also include the logGroupName parameter in your request.
+    /// The prefix to match. CloudWatch Logs uses the value that you set here only if you also include the logGroupName parameter in your request.
     public var filterNamePrefix: Swift.String?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
@@ -3380,11 +3564,13 @@ extension FilterLogEventsInput: Swift.Encodable {
         case filterPattern
         case interleaved
         case limit
+        case logGroupIdentifier
         case logGroupName
         case logStreamNamePrefix
         case logStreamNames
         case nextToken
         case startTime
+        case unmask
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3400,6 +3586,9 @@ extension FilterLogEventsInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
         }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
@@ -3419,6 +3608,9 @@ extension FilterLogEventsInput: Swift.Encodable {
         if let startTime = self.startTime {
             try encodeContainer.encode(startTime, forKey: .startTime)
         }
+        if unmask != false {
+            try encodeContainer.encode(unmask, forKey: .unmask)
+        }
     }
 }
 
@@ -3433,12 +3625,14 @@ public struct FilterLogEventsInput: Swift.Equatable {
     public var endTime: Swift.Int?
     /// The filter pattern to use. For more information, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html). If not provided, all the events are matched.
     public var filterPattern: Swift.String?
-    /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false. Important: Starting on June 17, 2019, this parameter is ignored and the value is assumed to be true. The response from this operation always interleaves events from multiple log streams within a log group.
+    /// If the value is true, the operation attempts to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. Important As of June 17, 2019, this parameter is ignored and the value is assumed to be true. The response from this operation always interleaves events from multiple log streams within a log group.
     @available(*, deprecated, message: "Starting on June 17, 2019, this parameter will be ignored and the value will be assumed to be true. The response from this operation will always interleave events from multiple log streams within a log group.")
     public var interleaved: Swift.Bool?
     /// The maximum number of events to return. The default is 10,000 events.
     public var limit: Swift.Int?
-    /// The name of the log group to search.
+    /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    public var logGroupIdentifier: Swift.String?
+    /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     /// This member is required.
     public var logGroupName: Swift.String?
     /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
@@ -3449,33 +3643,40 @@ public struct FilterLogEventsInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
     public var startTime: Swift.Int?
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    public var unmask: Swift.Bool
 
     public init (
         endTime: Swift.Int? = nil,
         filterPattern: Swift.String? = nil,
         interleaved: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
+        logGroupIdentifier: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         logStreamNamePrefix: Swift.String? = nil,
         logStreamNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
-        startTime: Swift.Int? = nil
+        startTime: Swift.Int? = nil,
+        unmask: Swift.Bool = false
     )
     {
         self.endTime = endTime
         self.filterPattern = filterPattern
         self.interleaved = interleaved
         self.limit = limit
+        self.logGroupIdentifier = logGroupIdentifier
         self.logGroupName = logGroupName
         self.logStreamNamePrefix = logStreamNamePrefix
         self.logStreamNames = logStreamNames
         self.nextToken = nextToken
         self.startTime = startTime
+        self.unmask = unmask
     }
 }
 
 struct FilterLogEventsInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
+    let logGroupIdentifier: Swift.String?
     let logStreamNames: [Swift.String]?
     let logStreamNamePrefix: Swift.String?
     let startTime: Swift.Int?
@@ -3484,6 +3685,7 @@ struct FilterLogEventsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let limit: Swift.Int?
     let interleaved: Swift.Bool?
+    let unmask: Swift.Bool
 }
 
 extension FilterLogEventsInputBody: Swift.Decodable {
@@ -3492,17 +3694,21 @@ extension FilterLogEventsInputBody: Swift.Decodable {
         case filterPattern
         case interleaved
         case limit
+        case logGroupIdentifier
         case logGroupName
         case logStreamNamePrefix
         case logStreamNames
         case nextToken
         case startTime
+        case unmask
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupName)
         logGroupName = logGroupNameDecoded
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
         let logStreamNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logStreamNames)
         var logStreamNamesDecoded0:[Swift.String]? = nil
         if let logStreamNamesContainer = logStreamNamesContainer {
@@ -3528,6 +3734,8 @@ extension FilterLogEventsInputBody: Swift.Decodable {
         limit = limitDecoded
         let interleavedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .interleaved)
         interleaved = interleavedDecoded
+        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask) ?? false
+        unmask = unmaskDecoded
     }
 }
 
@@ -3579,7 +3787,7 @@ public struct FilterLogEventsOutputResponse: Swift.Equatable {
     public var events: [CloudWatchLogsClientTypes.FilteredLogEvent]?
     /// The token to use when requesting the next set of items. The token expires after 24 hours.
     public var nextToken: Swift.String?
-    /// IMPORTANT Starting on May 15, 2020, this parameter will be deprecated. This parameter will be an empty list after the deprecation occurs. Indicates which log streams have been searched and whether each has been searched completely.
+    /// Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
     public var searchedLogStreams: [CloudWatchLogsClientTypes.SearchedLogStream]?
 
     public init (
@@ -3711,15 +3919,154 @@ extension CloudWatchLogsClientTypes {
 
 }
 
+extension GetDataProtectionPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
+        }
+    }
+}
+
+extension GetDataProtectionPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDataProtectionPolicyInput: Swift.Equatable {
+    /// The name or ARN of the log group that contains the data protection policy that you want to see.
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+
+    public init (
+        logGroupIdentifier: Swift.String? = nil
+    )
+    {
+        self.logGroupIdentifier = logGroupIdentifier
+    }
+}
+
+struct GetDataProtectionPolicyInputBody: Swift.Equatable {
+    let logGroupIdentifier: Swift.String?
+}
+
+extension GetDataProtectionPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
+    }
+}
+
+extension GetDataProtectionPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetDataProtectionPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationAbortedException" : self = .operationAbortedException(try OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetDataProtectionPolicyOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterException(InvalidParameterException)
+    case operationAbortedException(OperationAbortedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDataProtectionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetDataProtectionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.logGroupIdentifier = output.logGroupIdentifier
+            self.policyDocument = output.policyDocument
+        } else {
+            self.lastUpdatedTime = nil
+            self.logGroupIdentifier = nil
+            self.policyDocument = nil
+        }
+    }
+}
+
+public struct GetDataProtectionPolicyOutputResponse: Swift.Equatable {
+    /// The date and time that this policy was most recently updated.
+    public var lastUpdatedTime: Swift.Int?
+    /// The log group name or ARN that you specified in your request.
+    public var logGroupIdentifier: Swift.String?
+    /// The data protection policy document for this log group.
+    public var policyDocument: Swift.String?
+
+    public init (
+        lastUpdatedTime: Swift.Int? = nil,
+        logGroupIdentifier: Swift.String? = nil,
+        policyDocument: Swift.String? = nil
+    )
+    {
+        self.lastUpdatedTime = lastUpdatedTime
+        self.logGroupIdentifier = logGroupIdentifier
+        self.policyDocument = policyDocument
+    }
+}
+
+struct GetDataProtectionPolicyOutputResponseBody: Swift.Equatable {
+    let logGroupIdentifier: Swift.String?
+    let policyDocument: Swift.String?
+    let lastUpdatedTime: Swift.Int?
+}
+
+extension GetDataProtectionPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdatedTime
+        case logGroupIdentifier
+        case policyDocument
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+    }
+}
+
 extension GetLogEventsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
         case limit
+        case logGroupIdentifier
         case logGroupName
         case logStreamName
         case nextToken
         case startFromHead
         case startTime
+        case unmask
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3729,6 +4076,9 @@ extension GetLogEventsInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
         }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
@@ -3745,6 +4095,9 @@ extension GetLogEventsInput: Swift.Encodable {
         if let startTime = self.startTime {
             try encodeContainer.encode(startTime, forKey: .startTime)
         }
+        if unmask != false {
+            try encodeContainer.encode(unmask, forKey: .unmask)
+        }
     }
 }
 
@@ -3757,9 +4110,11 @@ extension GetLogEventsInput: ClientRuntime.URLPathProvider {
 public struct GetLogEventsInput: Swift.Equatable {
     /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
     public var endTime: Swift.Int?
-    /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
+    /// The maximum number of log events returned. If you don't specify a limit, the default is as many log events as can fit in a response size of 1 MB (up to 10,000 log events).
     public var limit: Swift.Int?
-    /// The name of the log group.
+    /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    public var logGroupIdentifier: Swift.String?
+    /// The name of the log group. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     /// This member is required.
     public var logGroupName: Swift.String?
     /// The name of the log stream.
@@ -3771,52 +4126,64 @@ public struct GetLogEventsInput: Swift.Equatable {
     public var startFromHead: Swift.Bool?
     /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
     public var startTime: Swift.Int?
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    public var unmask: Swift.Bool
 
     public init (
         endTime: Swift.Int? = nil,
         limit: Swift.Int? = nil,
+        logGroupIdentifier: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         logStreamName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startFromHead: Swift.Bool? = nil,
-        startTime: Swift.Int? = nil
+        startTime: Swift.Int? = nil,
+        unmask: Swift.Bool = false
     )
     {
         self.endTime = endTime
         self.limit = limit
+        self.logGroupIdentifier = logGroupIdentifier
         self.logGroupName = logGroupName
         self.logStreamName = logStreamName
         self.nextToken = nextToken
         self.startFromHead = startFromHead
         self.startTime = startTime
+        self.unmask = unmask
     }
 }
 
 struct GetLogEventsInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
+    let logGroupIdentifier: Swift.String?
     let logStreamName: Swift.String?
     let startTime: Swift.Int?
     let endTime: Swift.Int?
     let nextToken: Swift.String?
     let limit: Swift.Int?
     let startFromHead: Swift.Bool?
+    let unmask: Swift.Bool
 }
 
 extension GetLogEventsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
         case limit
+        case logGroupIdentifier
         case logGroupName
         case logStreamName
         case nextToken
         case startFromHead
         case startTime
+        case unmask
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupName)
         logGroupName = logGroupNameDecoded
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
         let logStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStreamName)
         logStreamName = logStreamNameDecoded
         let startTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startTime)
@@ -3829,6 +4196,8 @@ extension GetLogEventsInputBody: Swift.Decodable {
         limit = limitDecoded
         let startFromHeadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .startFromHead)
         startFromHead = startFromHeadDecoded
+        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask) ?? false
+        unmask = unmaskDecoded
     }
 }
 
@@ -3878,7 +4247,7 @@ extension GetLogEventsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetLogEventsOutputResponse: Swift.Equatable {
     /// The events.
     public var events: [CloudWatchLogsClientTypes.OutputLogEvent]?
-    /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token is never null. If you have reached the end of the stream, it returns the same token you passed in.
+    /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token is not null. If you have reached the end of the stream, it returns the same token you passed in.
     public var nextBackwardToken: Swift.String?
     /// The token for the next set of items in the forward direction. The token expires after 24 hours. If you have reached the end of the stream, it returns the same token you passed in.
     public var nextForwardToken: Swift.String?
@@ -3930,12 +4299,16 @@ extension GetLogEventsOutputResponseBody: Swift.Decodable {
 
 extension GetLogGroupFieldsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
         case logGroupName
         case time
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
+        }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
         }
@@ -3952,17 +4325,21 @@ extension GetLogGroupFieldsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLogGroupFieldsInput: Swift.Equatable {
-    /// The name of the log group to search.
+    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    public var logGroupIdentifier: Swift.String?
+    /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     /// This member is required.
     public var logGroupName: Swift.String?
-    /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+    /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
     public var time: Swift.Int?
 
     public init (
+        logGroupIdentifier: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         time: Swift.Int? = nil
     )
     {
+        self.logGroupIdentifier = logGroupIdentifier
         self.logGroupName = logGroupName
         self.time = time
     }
@@ -3971,10 +4348,12 @@ public struct GetLogGroupFieldsInput: Swift.Equatable {
 struct GetLogGroupFieldsInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
     let time: Swift.Int?
+    let logGroupIdentifier: Swift.String?
 }
 
 extension GetLogGroupFieldsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
         case logGroupName
         case time
     }
@@ -3985,6 +4364,8 @@ extension GetLogGroupFieldsInputBody: Swift.Decodable {
         logGroupName = logGroupNameDecoded
         let timeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .time)
         time = timeDecoded
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
     }
 }
 
@@ -4069,12 +4450,16 @@ extension GetLogGroupFieldsOutputResponseBody: Swift.Decodable {
 extension GetLogRecordInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logRecordPointer
+        case unmask
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logRecordPointer = self.logRecordPointer {
             try encodeContainer.encode(logRecordPointer, forKey: .logRecordPointer)
+        }
+        if unmask != false {
+            try encodeContainer.encode(unmask, forKey: .unmask)
         }
     }
 }
@@ -4089,28 +4474,36 @@ public struct GetLogRecordInput: Swift.Equatable {
     /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
     /// This member is required.
     public var logRecordPointer: Swift.String?
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    public var unmask: Swift.Bool
 
     public init (
-        logRecordPointer: Swift.String? = nil
+        logRecordPointer: Swift.String? = nil,
+        unmask: Swift.Bool = false
     )
     {
         self.logRecordPointer = logRecordPointer
+        self.unmask = unmask
     }
 }
 
 struct GetLogRecordInputBody: Swift.Equatable {
     let logRecordPointer: Swift.String?
+    let unmask: Swift.Bool
 }
 
 extension GetLogRecordInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logRecordPointer
+        case unmask
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logRecordPointerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logRecordPointer)
         logRecordPointer = logRecordPointerDecoded
+        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask) ?? false
+        unmask = unmaskDecoded
     }
 }
 
@@ -4288,7 +4681,7 @@ public struct GetQueryResultsOutputResponse: Swift.Equatable {
     public var results: [[CloudWatchLogsClientTypes.ResultField]]?
     /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
     public var statistics: CloudWatchLogsClientTypes.QueryStatistics?
-    /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 15 minutes of execution. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
+    /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 15 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
     public var status: CloudWatchLogsClientTypes.QueryStatus?
 
     public init (
@@ -4861,6 +5254,7 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case creationTime
+        case dataProtectionStatus
         case kmsKeyId
         case logGroupName
         case metricFilterCount
@@ -4875,6 +5269,9 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encode(creationTime, forKey: .creationTime)
+        }
+        if let dataProtectionStatus = self.dataProtectionStatus {
+            try encodeContainer.encode(dataProtectionStatus.rawValue, forKey: .dataProtectionStatus)
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
@@ -4909,6 +5306,8 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         storedBytes = storedBytesDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let dataProtectionStatusDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DataProtectionStatus.self, forKey: .dataProtectionStatus)
+        dataProtectionStatus = dataProtectionStatusDecoded
     }
 }
 
@@ -4919,13 +5318,15 @@ extension CloudWatchLogsClientTypes {
         public var arn: Swift.String?
         /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public var creationTime: Swift.Int?
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
+        /// Displays whether this log group has a protection policy, or whether it had one in the past. For more information, see [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html).
+        public var dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus?
+        /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
         public var kmsKeyId: Swift.String?
         /// The name of the log group.
         public var logGroupName: Swift.String?
         /// The number of metric filters.
         public var metricFilterCount: Swift.Int?
-        /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group to never have log events expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
+        /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
         public var retentionInDays: Swift.Int?
         /// The number of bytes stored.
         public var storedBytes: Swift.Int?
@@ -4933,6 +5334,7 @@ extension CloudWatchLogsClientTypes {
         public init (
             arn: Swift.String? = nil,
             creationTime: Swift.Int? = nil,
+            dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus? = nil,
             kmsKeyId: Swift.String? = nil,
             logGroupName: Swift.String? = nil,
             metricFilterCount: Swift.Int? = nil,
@@ -4942,6 +5344,7 @@ extension CloudWatchLogsClientTypes {
         {
             self.arn = arn
             self.creationTime = creationTime
+            self.dataProtectionStatus = dataProtectionStatus
             self.kmsKeyId = kmsKeyId
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
@@ -5073,7 +5476,7 @@ extension CloudWatchLogsClientTypes {
         public var lastIngestionTime: Swift.Int?
         /// The name of the log stream.
         public var logStreamName: Swift.String?
-        /// The number of bytes stored. Important: On June 17, 2019, this parameter was deprecated for log streams, and is always reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.
+        /// The number of bytes stored. Important: As of June 17, 2019, this parameter is no longer supported for log streams, and is always reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.
         @available(*, deprecated, message: "Starting on June 17, 2019, this parameter will be deprecated for log streams, and will be reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.")
         public var storedBytes: Swift.Int?
         /// The sequence token.
@@ -5385,7 +5788,7 @@ extension CloudWatchLogsClientTypes {
     public struct MetricTransformation: Swift.Equatable {
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
         public var defaultValue: Swift.Double?
-        /// The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions. Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric. To help prevent accidental high charges, Amazon disables a metric filter if it generates 1000 different name/value pairs for the dimensions that you have specified within a certain amount of time. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see [ Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html).
+        /// The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions. Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric. CloudWatch Logs disables a metric filter if it generates 1000 different name/value pairs for your specified dimensions within a certain amount of time. This helps to prevent accidental high charges. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see [ Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html).
         public var dimensions: [Swift.String:Swift.String]?
         /// The name of the CloudWatch metric.
         /// This member is required.
@@ -5556,6 +5959,165 @@ extension CloudWatchLogsClientTypes {
         }
     }
 
+}
+
+extension PutDataProtectionPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
+        case policyDocument
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
+        }
+        if let policyDocument = self.policyDocument {
+            try encodeContainer.encode(policyDocument, forKey: .policyDocument)
+        }
+    }
+}
+
+extension PutDataProtectionPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutDataProtectionPolicyInput: Swift.Equatable {
+    /// Specify either the log group name or log group ARN.
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+    /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:
+    ///
+    /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Kinesis Data Firehose streams, and S3 buckets, they must already exist.
+    ///
+    /// * The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.
+    ///
+    ///
+    /// For an example data protection policy, see the Examples section on this page. The contents of two DataIdentifer arrays must match exactly.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+
+    public init (
+        logGroupIdentifier: Swift.String? = nil,
+        policyDocument: Swift.String? = nil
+    )
+    {
+        self.logGroupIdentifier = logGroupIdentifier
+        self.policyDocument = policyDocument
+    }
+}
+
+struct PutDataProtectionPolicyInputBody: Swift.Equatable {
+    let logGroupIdentifier: Swift.String?
+    let policyDocument: Swift.String?
+}
+
+extension PutDataProtectionPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupIdentifier
+        case policyDocument
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+    }
+}
+
+extension PutDataProtectionPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutDataProtectionPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationAbortedException" : self = .operationAbortedException(try OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum PutDataProtectionPolicyOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterException(InvalidParameterException)
+    case limitExceededException(LimitExceededException)
+    case operationAbortedException(OperationAbortedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutDataProtectionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PutDataProtectionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.logGroupIdentifier = output.logGroupIdentifier
+            self.policyDocument = output.policyDocument
+        } else {
+            self.lastUpdatedTime = nil
+            self.logGroupIdentifier = nil
+            self.policyDocument = nil
+        }
+    }
+}
+
+public struct PutDataProtectionPolicyOutputResponse: Swift.Equatable {
+    /// The date and time that this policy was most recently updated.
+    public var lastUpdatedTime: Swift.Int?
+    /// The log group name or ARN that you specified in your request.
+    public var logGroupIdentifier: Swift.String?
+    /// The data protection policy used for this log group.
+    public var policyDocument: Swift.String?
+
+    public init (
+        lastUpdatedTime: Swift.Int? = nil,
+        logGroupIdentifier: Swift.String? = nil,
+        policyDocument: Swift.String? = nil
+    )
+    {
+        self.lastUpdatedTime = lastUpdatedTime
+        self.logGroupIdentifier = logGroupIdentifier
+        self.policyDocument = policyDocument
+    }
+}
+
+struct PutDataProtectionPolicyOutputResponseBody: Swift.Equatable {
+    let logGroupIdentifier: Swift.String?
+    let policyDocument: Swift.String?
+    let lastUpdatedTime: Swift.Int?
+}
+
+extension PutDataProtectionPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdatedTime
+        case logGroupIdentifier
+        case policyDocument
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+    }
 }
 
 extension PutDestinationInput: Swift.Encodable {
@@ -6189,7 +6751,7 @@ extension PutQueryDefinitionInput: ClientRuntime.URLPathProvider {
 public struct PutQueryDefinitionInput: Swift.Equatable {
     /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
     public var logGroupNames: [Swift.String]?
-    /// A name for the query definition. If you are saving a lot of query definitions, we recommend that you name them so that you can easily find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
+    /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
     /// This member is required.
     public var name: Swift.String?
     /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html) to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
@@ -6342,7 +6904,7 @@ extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutResourcePolicyInput: Swift.Equatable {
-    /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports [aws:SourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn) and [aws:SourceAccount](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceaccount) condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs and replace the value of SourceAccount with the Amazon Web Services account ID making that call. { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }
+    /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports [aws:SourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn) and [aws:SourceAccount](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceaccount) condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs. You would also replace the value of SourceAccount with the Amazon Web Services account ID making that call. { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }
     public var policyDocument: Swift.String?
     /// Name of the new policy. This parameter is required.
     public var policyName: Swift.String?
@@ -6471,7 +7033,7 @@ public struct PutRetentionPolicyInput: Swift.Equatable {
     /// The name of the log group.
     /// This member is required.
     public var logGroupName: Swift.String?
-    /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group to never have log events expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
+    /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
     /// This member is required.
     public var retentionInDays: Swift.Int?
 
@@ -6587,14 +7149,14 @@ public struct PutSubscriptionFilterInput: Swift.Equatable {
     ///
     /// * An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.
     ///
-    /// * A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you are setting up a cross-account subscription, the destination must have an IAM policy associated with it that allows the sender to send logs to the destination. For more information, see [PutDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestinationPolicy.html).
+    /// * A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM policy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see [PutDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestinationPolicy.html).
     ///
-    /// * An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.
+    /// * A Kinesis Data Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.
     ///
     /// * A Lambda function belonging to the same account as the subscription filter, for same-account delivery.
     /// This member is required.
     public var destinationArn: Swift.String?
-    /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream.
+    /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
     public var distribution: CloudWatchLogsClientTypes.Distribution?
     /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. To find the name of the filter currently associated with a log group, use [DescribeSubscriptionFilters](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeSubscriptionFilters.html).
     /// This member is required.
@@ -7094,7 +7656,7 @@ extension CloudWatchLogsClientTypes {
         public var expiredLogEventEndIndex: Swift.Int?
         /// The log events that are too new.
         public var tooNewLogEventStartIndex: Swift.Int?
-        /// The log events that are too old.
+        /// The log events that are dated too far in the past.
         public var tooOldLogEventEndIndex: Swift.Int?
 
         public init (
@@ -7523,6 +8085,7 @@ extension StartQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
         case limit
+        case logGroupIdentifiers
         case logGroupName
         case logGroupNames
         case queryString
@@ -7536,6 +8099,12 @@ extension StartQueryInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let logGroupIdentifiers = logGroupIdentifiers {
+            var logGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupIdentifiers)
+            for loggroupidentifiers0 in logGroupIdentifiers {
+                try logGroupIdentifiersContainer.encode(loggroupidentifiers0)
+            }
         }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
@@ -7567,9 +8136,11 @@ public struct StartQueryInput: Swift.Equatable {
     public var endTime: Swift.Int?
     /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
     public var limit: Swift.Int?
-    /// The log group on which to perform the query. A StartQuery operation must include a logGroupNames or a logGroupName parameter, but not both.
+    /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames or logGroupIdentifiers.
+    public var logGroupIdentifiers: [Swift.String]?
+    /// The log group on which to perform the query. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames or logGroupIdentifiers.
     public var logGroupName: Swift.String?
-    /// The list of log groups to be queried. You can include up to 20 log groups. A StartQuery operation must include a logGroupNames or a logGroupName parameter, but not both.
+    /// The list of log groups to be queried. You can include up to 50 log groups. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames or logGroupIdentifiers.
     public var logGroupNames: [Swift.String]?
     /// The query string to use. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
     /// This member is required.
@@ -7581,6 +8152,7 @@ public struct StartQueryInput: Swift.Equatable {
     public init (
         endTime: Swift.Int? = nil,
         limit: Swift.Int? = nil,
+        logGroupIdentifiers: [Swift.String]? = nil,
         logGroupName: Swift.String? = nil,
         logGroupNames: [Swift.String]? = nil,
         queryString: Swift.String? = nil,
@@ -7589,6 +8161,7 @@ public struct StartQueryInput: Swift.Equatable {
     {
         self.endTime = endTime
         self.limit = limit
+        self.logGroupIdentifiers = logGroupIdentifiers
         self.logGroupName = logGroupName
         self.logGroupNames = logGroupNames
         self.queryString = queryString
@@ -7599,6 +8172,7 @@ public struct StartQueryInput: Swift.Equatable {
 struct StartQueryInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
     let logGroupNames: [Swift.String]?
+    let logGroupIdentifiers: [Swift.String]?
     let startTime: Swift.Int?
     let endTime: Swift.Int?
     let queryString: Swift.String?
@@ -7609,6 +8183,7 @@ extension StartQueryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
         case limit
+        case logGroupIdentifiers
         case logGroupName
         case logGroupNames
         case queryString
@@ -7630,6 +8205,17 @@ extension StartQueryInputBody: Swift.Decodable {
             }
         }
         logGroupNames = logGroupNamesDecoded0
+        let logGroupIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logGroupIdentifiers)
+        var logGroupIdentifiersDecoded0:[Swift.String]? = nil
+        if let logGroupIdentifiersContainer = logGroupIdentifiersContainer {
+            logGroupIdentifiersDecoded0 = [Swift.String]()
+            for string0 in logGroupIdentifiersContainer {
+                if let string0 = string0 {
+                    logGroupIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        logGroupIdentifiers = logGroupIdentifiersDecoded0
         let startTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startTime)
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endTime)
@@ -8367,7 +8953,7 @@ extension UnrecognizedClientException {
     }
 }
 
-/// The most likely cause is an invalid Amazon Web Services access key ID or secret key.
+/// The most likely cause is an Amazon Web Services access key ID or secret key that's not valid.
 public struct UnrecognizedClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

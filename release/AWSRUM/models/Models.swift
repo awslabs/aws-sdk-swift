@@ -59,6 +59,7 @@ extension RUMClientTypes.AppMonitor: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appMonitorConfiguration = "AppMonitorConfiguration"
         case created = "Created"
+        case customEvents = "CustomEvents"
         case dataStorage = "DataStorage"
         case domain = "Domain"
         case id = "Id"
@@ -75,6 +76,9 @@ extension RUMClientTypes.AppMonitor: Swift.Codable {
         }
         if let created = self.created {
             try encodeContainer.encode(created, forKey: .created)
+        }
+        if let customEvents = self.customEvents {
+            try encodeContainer.encode(customEvents, forKey: .customEvents)
         }
         if let dataStorage = self.dataStorage {
             try encodeContainer.encode(dataStorage, forKey: .dataStorage)
@@ -131,6 +135,8 @@ extension RUMClientTypes.AppMonitor: Swift.Codable {
         appMonitorConfiguration = appMonitorConfigurationDecoded
         let dataStorageDecoded = try containerValues.decodeIfPresent(RUMClientTypes.DataStorage.self, forKey: .dataStorage)
         dataStorage = dataStorageDecoded
+        let customEventsDecoded = try containerValues.decodeIfPresent(RUMClientTypes.CustomEvents.self, forKey: .customEvents)
+        customEvents = customEventsDecoded
     }
 }
 
@@ -141,6 +147,8 @@ extension RUMClientTypes {
         public var appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration?
         /// The date and time that this app monitor was created.
         public var created: Swift.String?
+        /// Specifies whether this app monitor allows the web client to define and send custom events. For more information about custom events, see [Send custom events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html).
+        public var customEvents: RUMClientTypes.CustomEvents?
         /// A structure that contains information about whether this app monitor stores a copy of the telemetry data that RUM collects using CloudWatch Logs.
         public var dataStorage: RUMClientTypes.DataStorage?
         /// The top-level internet domain name for which your application has administrative authority.
@@ -159,6 +167,7 @@ extension RUMClientTypes {
         public init (
             appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration? = nil,
             created: Swift.String? = nil,
+            customEvents: RUMClientTypes.CustomEvents? = nil,
             dataStorage: RUMClientTypes.DataStorage? = nil,
             domain: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -170,6 +179,7 @@ extension RUMClientTypes {
         {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.created = created
+            self.customEvents = customEvents
             self.dataStorage = dataStorage
             self.domain = domain
             self.id = id
@@ -1208,6 +1218,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 extension CreateAppMonitorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appMonitorConfiguration = "AppMonitorConfiguration"
+        case customEvents = "CustomEvents"
         case cwLogEnabled = "CwLogEnabled"
         case domain = "Domain"
         case name = "Name"
@@ -1218,6 +1229,9 @@ extension CreateAppMonitorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appMonitorConfiguration = self.appMonitorConfiguration {
             try encodeContainer.encode(appMonitorConfiguration, forKey: .appMonitorConfiguration)
+        }
+        if let customEvents = self.customEvents {
+            try encodeContainer.encode(customEvents, forKey: .customEvents)
         }
         if let cwLogEnabled = self.cwLogEnabled {
             try encodeContainer.encode(cwLogEnabled, forKey: .cwLogEnabled)
@@ -1246,6 +1260,8 @@ extension CreateAppMonitorInput: ClientRuntime.URLPathProvider {
 public struct CreateAppMonitorInput: Swift.Equatable {
     /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/monitoring/CloudWatch-RUM-get-started-authorization.html). If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
     public var appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration?
+    /// Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see [Send custom events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html).
+    public var customEvents: RUMClientTypes.CustomEvents?
     /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
     public var cwLogEnabled: Swift.Bool?
     /// The top-level internet domain name for which your application has administrative authority.
@@ -1259,6 +1275,7 @@ public struct CreateAppMonitorInput: Swift.Equatable {
 
     public init (
         appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration? = nil,
+        customEvents: RUMClientTypes.CustomEvents? = nil,
         cwLogEnabled: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1266,6 +1283,7 @@ public struct CreateAppMonitorInput: Swift.Equatable {
     )
     {
         self.appMonitorConfiguration = appMonitorConfiguration
+        self.customEvents = customEvents
         self.cwLogEnabled = cwLogEnabled
         self.domain = domain
         self.name = name
@@ -1279,11 +1297,13 @@ struct CreateAppMonitorInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration?
     let cwLogEnabled: Swift.Bool?
+    let customEvents: RUMClientTypes.CustomEvents?
 }
 
 extension CreateAppMonitorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appMonitorConfiguration = "AppMonitorConfiguration"
+        case customEvents = "CustomEvents"
         case cwLogEnabled = "CwLogEnabled"
         case domain = "Domain"
         case name = "Name"
@@ -1311,6 +1331,8 @@ extension CreateAppMonitorInputBody: Swift.Decodable {
         appMonitorConfiguration = appMonitorConfigurationDecoded
         let cwLogEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cwLogEnabled)
         cwLogEnabled = cwLogEnabledDecoded
+        let customEventsDecoded = try containerValues.decodeIfPresent(RUMClientTypes.CustomEvents.self, forKey: .customEvents)
+        customEvents = customEventsDecoded
     }
 }
 
@@ -1386,6 +1408,73 @@ extension CreateAppMonitorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+    }
+}
+
+extension RUMClientTypes.CustomEvents: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(RUMClientTypes.CustomEventsStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension RUMClientTypes {
+    /// A structure that contains information about custom events for this app monitor.
+    public struct CustomEvents: Swift.Equatable {
+        /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED.
+        public var status: RUMClientTypes.CustomEventsStatus?
+
+        public init (
+            status: RUMClientTypes.CustomEventsStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension RUMClientTypes {
+    public enum CustomEventsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomEventsStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomEventsStatus(rawValue: rawValue) ?? CustomEventsStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -3671,6 +3760,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 extension UpdateAppMonitorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appMonitorConfiguration = "AppMonitorConfiguration"
+        case customEvents = "CustomEvents"
         case cwLogEnabled = "CwLogEnabled"
         case domain = "Domain"
     }
@@ -3679,6 +3769,9 @@ extension UpdateAppMonitorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appMonitorConfiguration = self.appMonitorConfiguration {
             try encodeContainer.encode(appMonitorConfiguration, forKey: .appMonitorConfiguration)
+        }
+        if let customEvents = self.customEvents {
+            try encodeContainer.encode(customEvents, forKey: .customEvents)
         }
         if let cwLogEnabled = self.cwLogEnabled {
             try encodeContainer.encode(cwLogEnabled, forKey: .cwLogEnabled)
@@ -3701,6 +3794,8 @@ extension UpdateAppMonitorInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppMonitorInput: Swift.Equatable {
     /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/monitoring/CloudWatch-RUM-get-started-authorization.html).
     public var appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration?
+    /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see [Send custom events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html).
+    public var customEvents: RUMClientTypes.CustomEvents?
     /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
     public var cwLogEnabled: Swift.Bool?
     /// The top-level internet domain name for which your application has administrative authority.
@@ -3711,12 +3806,14 @@ public struct UpdateAppMonitorInput: Swift.Equatable {
 
     public init (
         appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration? = nil,
+        customEvents: RUMClientTypes.CustomEvents? = nil,
         cwLogEnabled: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         name: Swift.String? = nil
     )
     {
         self.appMonitorConfiguration = appMonitorConfiguration
+        self.customEvents = customEvents
         self.cwLogEnabled = cwLogEnabled
         self.domain = domain
         self.name = name
@@ -3727,11 +3824,13 @@ struct UpdateAppMonitorInputBody: Swift.Equatable {
     let domain: Swift.String?
     let appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration?
     let cwLogEnabled: Swift.Bool?
+    let customEvents: RUMClientTypes.CustomEvents?
 }
 
 extension UpdateAppMonitorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appMonitorConfiguration = "AppMonitorConfiguration"
+        case customEvents = "CustomEvents"
         case cwLogEnabled = "CwLogEnabled"
         case domain = "Domain"
     }
@@ -3744,6 +3843,8 @@ extension UpdateAppMonitorInputBody: Swift.Decodable {
         appMonitorConfiguration = appMonitorConfigurationDecoded
         let cwLogEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cwLogEnabled)
         cwLogEnabled = cwLogEnabledDecoded
+        let customEventsDecoded = try containerValues.decodeIfPresent(RUMClientTypes.CustomEvents.self, forKey: .customEvents)
+        customEvents = customEventsDecoded
     }
 }
 

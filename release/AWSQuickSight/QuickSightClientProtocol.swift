@@ -43,6 +43,8 @@ public protocol QuickSightClientProtocol {
     func createThemeAlias(input: CreateThemeAliasInput) async throws -> CreateThemeAliasOutputResponse
     /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
     func deleteAccountCustomization(input: DeleteAccountCustomizationInput) async throws -> DeleteAccountCustomizationOutputResponse
+    /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
+    func deleteAccountSubscription(input: DeleteAccountSubscriptionInput) async throws -> DeleteAccountSubscriptionOutputResponse
     /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     func deleteAnalysis(input: DeleteAnalysisInput) async throws -> DeleteAnalysisOutputResponse
     /// Deletes a dashboard.
@@ -96,14 +98,18 @@ public protocol QuickSightClientProtocol {
     func describeAccountCustomization(input: DescribeAccountCustomizationInput) async throws -> DescribeAccountCustomizationOutputResponse
     /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
     func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutputResponse
-    /// Use the DescribeAccountSubscription operation to receive a description of a Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
+    /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     func describeAccountSubscription(input: DescribeAccountSubscriptionInput) async throws -> DescribeAccountSubscriptionOutputResponse
     /// Provides a summary of the metadata for an analysis.
     func describeAnalysis(input: DescribeAnalysisInput) async throws -> DescribeAnalysisOutputResponse
+    /// Provides a detailed description of the definition of an analysis. If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the [DescribeAnalysis](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html) instead.
+    func describeAnalysisDefinition(input: DescribeAnalysisDefinitionInput) async throws -> DescribeAnalysisDefinitionOutputResponse
     /// Provides the read and write permissions for an analysis.
     func describeAnalysisPermissions(input: DescribeAnalysisPermissionsInput) async throws -> DescribeAnalysisPermissionsOutputResponse
     /// Provides a summary for a dashboard.
     func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutputResponse
+    /// Provides a detailed description of the definition of a dashboard. If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the [DescribeDashboard](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboard.html) instead.
+    func describeDashboardDefinition(input: DescribeDashboardDefinitionInput) async throws -> DescribeDashboardDefinitionOutputResponse
     /// Describes read and write permissions for a dashboard.
     func describeDashboardPermissions(input: DescribeDashboardPermissionsInput) async throws -> DescribeDashboardPermissionsOutputResponse
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
@@ -136,6 +142,8 @@ public protocol QuickSightClientProtocol {
     func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutputResponse
     /// Describes the template alias for a template.
     func describeTemplateAlias(input: DescribeTemplateAliasInput) async throws -> DescribeTemplateAliasOutputResponse
+    /// Provides a detailed description of the definition of a template. If you do not need to know details about the content of a template, for instance if you are trying to check the status of a recently created or updated template, use the [DescribeTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeTemplate.html) instead.
+    func describeTemplateDefinition(input: DescribeTemplateDefinitionInput) async throws -> DescribeTemplateDefinitionOutputResponse
     /// Describes read and write permissions on a template.
     func describeTemplatePermissions(input: DescribeTemplatePermissionsInput) async throws -> DescribeTemplatePermissionsOutputResponse
     /// Describes a theme.
@@ -241,6 +249,10 @@ public protocol QuickSightClientProtocol {
     func searchAnalyses(input: SearchAnalysesInput) async throws -> SearchAnalysesOutputResponse
     /// Searches for dashboards that belong to a user. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     func searchDashboards(input: SearchDashboardsInput) async throws -> SearchDashboardsOutputResponse
+    /// Use the SearchDataSets operation to search for datasets that belong to an account.
+    func searchDataSets(input: SearchDataSetsInput) async throws -> SearchDataSetsOutputResponse
+    /// Use the SearchDataSources operation to search for data sources that belong to an account.
+    func searchDataSources(input: SearchDataSourcesInput) async throws -> SearchDataSourcesOutputResponse
     /// Searches the subfolders in a folder.
     func searchFolders(input: SearchFoldersInput) async throws -> SearchFoldersOutputResponse
     /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.

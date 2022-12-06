@@ -19,7 +19,7 @@ public protocol Inspector2ClientProtocol {
     func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutputResponse
     /// Deletes a filter resource.
     func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutputResponse
-    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization
+    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
     func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     /// Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service.
     func disable(input: DisableInput) async throws -> DisableOutputResponse

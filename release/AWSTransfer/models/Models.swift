@@ -152,7 +152,7 @@ extension TransferClientTypes {
     public struct As2ConnectorConfig: Swift.Equatable {
         /// Specifies whether the AS2 file is compressed.
         public var compression: TransferClientTypes.CompressionEnum?
-        /// The algorithm that is used to encrypt the file.
+        /// The algorithm that is used to encrypt the file. You can only specify NONE if the URL for your connector uses HTTPS. This ensures that no traffic is sent in clear text.
         public var encryptionAlgorithm: TransferClientTypes.EncryptionAlg?
         /// A unique identifier for the AS2 local profile.
         public var localProfileId: Swift.String?
@@ -162,7 +162,7 @@ extension TransferClientTypes {
         ///
         /// * NONE: Specifies that no MDN response is required.
         public var mdnResponse: TransferClientTypes.MdnResponse?
-        /// The signing algorithm for the MDN response. If set to DEFAULT (or not set at all), the value for SigningAlogorithm is used.
+        /// The signing algorithm for the MDN response. If set to DEFAULT (or not set at all), the value for SigningAlgorithm is used.
         public var mdnSigningAlgorithm: TransferClientTypes.MdnSigningAlg?
         /// Used as the Subject HTTP header attribute in AS2 messages that are being sent with the connector.
         public var messageSubject: Swift.String?
@@ -873,6 +873,7 @@ extension CreateAgreementOutputError {
         case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -884,6 +885,7 @@ public enum CreateAgreementOutputError: Swift.Error, Swift.Equatable {
     case resourceExistsException(ResourceExistsException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1055,6 +1057,7 @@ extension CreateConnectorOutputError {
         case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -1066,6 +1069,7 @@ public enum CreateConnectorOutputError: Swift.Error, Swift.Equatable {
     case resourceExistsException(ResourceExistsException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1239,6 +1243,7 @@ extension CreateProfileOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -1249,6 +1254,7 @@ public enum CreateProfileOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1451,7 +1457,7 @@ public struct CreateServerInput: Swift.Equatable {
     public var securityPolicyName: Swift.String?
     /// Key-value pairs that can be used to group and search for servers.
     public var tags: [TransferClientTypes.Tag]?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -1734,7 +1740,13 @@ public struct CreateUserInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    ///
+    /// * For RSA keys, the key type is ssh-rsa.
+    ///
+    /// * For ED25519 keys, the key type is ssh-ed25519.
+    ///
+    /// * For ECDSA keys, the key type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
     public var sshPublicKeyBody: Swift.String?
     /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
     public var tags: [TransferClientTypes.Tag]?
@@ -5841,7 +5853,7 @@ extension TransferClientTypes {
         public var tags: [TransferClientTypes.Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public var userCount: Swift.Int?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
         public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
         public init (
@@ -6256,6 +6268,7 @@ extension TransferClientTypes {
         case aes128Cbc
         case aes192Cbc
         case aes256Cbc
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EncryptionAlg] {
@@ -6263,6 +6276,7 @@ extension TransferClientTypes {
                 .aes128Cbc,
                 .aes192Cbc,
                 .aes256Cbc,
+                .none,
                 .sdkUnknown("")
             ]
         }
@@ -6275,6 +6289,7 @@ extension TransferClientTypes {
             case .aes128Cbc: return "AES128_CBC"
             case .aes192Cbc: return "AES192_CBC"
             case .aes256Cbc: return "AES256_CBC"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -12631,6 +12646,7 @@ extension UpdateAccessOutputError {
         case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -12642,6 +12658,7 @@ public enum UpdateAccessOutputError: Swift.Error, Swift.Equatable {
     case resourceExistsException(ResourceExistsException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -12847,6 +12864,7 @@ extension UpdateAgreementOutputError {
         case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -12858,6 +12876,7 @@ public enum UpdateAgreementOutputError: Swift.Error, Swift.Equatable {
     case resourceExistsException(ResourceExistsException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -13002,6 +13021,7 @@ extension UpdateCertificateOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -13012,6 +13032,7 @@ public enum UpdateCertificateOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -13169,6 +13190,7 @@ extension UpdateConnectorOutputError {
         case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -13180,6 +13202,7 @@ public enum UpdateConnectorOutputError: Swift.Error, Swift.Equatable {
     case resourceExistsException(ResourceExistsException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -13469,6 +13492,7 @@ extension UpdateProfileOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -13479,6 +13503,7 @@ public enum UpdateProfileOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -13667,7 +13692,7 @@ public struct UpdateServerInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance that the user account is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -14165,7 +14190,7 @@ extension TransferClientTypes.WorkflowDetail: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
     public struct WorkflowDetail: Swift.Equatable {
         /// Includes the necessary permissions for S3, EFS, and Lambda operations that Transfer can assume, so that all workflow steps can operate on the required resources
         /// This member is required.

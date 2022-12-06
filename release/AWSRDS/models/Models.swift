@@ -1627,6 +1627,390 @@ extension BackupPolicyNotFoundFaultBody: Swift.Decodable {
     }
 }
 
+extension RDSClientTypes.BlueGreenDeployment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeploymentIdentifier = "BlueGreenDeploymentIdentifier"
+        case blueGreenDeploymentName = "BlueGreenDeploymentName"
+        case createTime = "CreateTime"
+        case deleteTime = "DeleteTime"
+        case source = "Source"
+        case status = "Status"
+        case statusDetails = "StatusDetails"
+        case switchoverDetails = "SwitchoverDetails"
+        case tagList = "TagList"
+        case target = "Target"
+        case tasks = "Tasks"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier {
+            try container.encode(blueGreenDeploymentIdentifier, forKey: ClientRuntime.Key("BlueGreenDeploymentIdentifier"))
+        }
+        if let blueGreenDeploymentName = blueGreenDeploymentName {
+            try container.encode(blueGreenDeploymentName, forKey: ClientRuntime.Key("BlueGreenDeploymentName"))
+        }
+        if let createTime = createTime {
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("createTime"))
+        }
+        if let deleteTime = deleteTime {
+            try container.encodeTimestamp(deleteTime, format: .dateTime, forKey: ClientRuntime.Key("deleteTime"))
+        }
+        if let source = source {
+            try container.encode(source, forKey: ClientRuntime.Key("Source"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let statusDetails = statusDetails {
+            try container.encode(statusDetails, forKey: ClientRuntime.Key("StatusDetails"))
+        }
+        if let switchoverDetails = switchoverDetails {
+            if !switchoverDetails.isEmpty {
+                var switchoverDetailsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SwitchoverDetails"))
+                for (index0, switchoverdetail0) in switchoverDetails.enumerated() {
+                    try switchoverDetailsContainer.encode(switchoverdetail0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var switchoverDetailsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SwitchoverDetails"))
+                try switchoverDetailsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let tagList = tagList {
+            if !tagList.isEmpty {
+                var tagListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagList"))
+                for (index0, tag0) in tagList.enumerated() {
+                    try tagListContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagList"))
+                try tagListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let target = target {
+            try container.encode(target, forKey: ClientRuntime.Key("Target"))
+        }
+        if let tasks = tasks {
+            if !tasks.isEmpty {
+                var tasksContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tasks"))
+                for (index0, bluegreendeploymenttask0) in tasks.enumerated() {
+                    try tasksContainer.encode(bluegreendeploymenttask0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tasksContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tasks"))
+                try tasksContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blueGreenDeploymentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blueGreenDeploymentIdentifier)
+        blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifierDecoded
+        let blueGreenDeploymentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blueGreenDeploymentName)
+        blueGreenDeploymentName = blueGreenDeploymentNameDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
+        target = targetDecoded
+        if containerValues.contains(.switchoverDetails) {
+            struct KeyVal0{struct member{}}
+            let switchoverDetailsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .switchoverDetails)
+            if let switchoverDetailsWrappedContainer = switchoverDetailsWrappedContainer {
+                let switchoverDetailsContainer = try switchoverDetailsWrappedContainer.decodeIfPresent([RDSClientTypes.SwitchoverDetail].self, forKey: .member)
+                var switchoverDetailsBuffer:[RDSClientTypes.SwitchoverDetail]? = nil
+                if let switchoverDetailsContainer = switchoverDetailsContainer {
+                    switchoverDetailsBuffer = [RDSClientTypes.SwitchoverDetail]()
+                    for structureContainer0 in switchoverDetailsContainer {
+                        switchoverDetailsBuffer?.append(structureContainer0)
+                    }
+                }
+                switchoverDetails = switchoverDetailsBuffer
+            } else {
+                switchoverDetails = []
+            }
+        } else {
+            switchoverDetails = nil
+        }
+        if containerValues.contains(.tasks) {
+            struct KeyVal0{struct member{}}
+            let tasksWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .tasks)
+            if let tasksWrappedContainer = tasksWrappedContainer {
+                let tasksContainer = try tasksWrappedContainer.decodeIfPresent([RDSClientTypes.BlueGreenDeploymentTask].self, forKey: .member)
+                var tasksBuffer:[RDSClientTypes.BlueGreenDeploymentTask]? = nil
+                if let tasksContainer = tasksContainer {
+                    tasksBuffer = [RDSClientTypes.BlueGreenDeploymentTask]()
+                    for structureContainer0 in tasksContainer {
+                        tasksBuffer?.append(structureContainer0)
+                    }
+                }
+                tasks = tasksBuffer
+            } else {
+                tasks = []
+            }
+        } else {
+            tasks = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let statusDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusDetails)
+        statusDetails = statusDetailsDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let deleteTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .deleteTime)
+        deleteTime = deleteTimeDecoded
+        if containerValues.contains(.tagList) {
+            struct KeyVal0{struct Tag{}}
+            let tagListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tagList)
+            if let tagListWrappedContainer = tagListWrappedContainer {
+                let tagListContainer = try tagListWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagListBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagListContainer = tagListContainer {
+                    tagListBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagListContainer {
+                        tagListBuffer?.append(structureContainer0)
+                    }
+                }
+                tagList = tagListBuffer
+            } else {
+                tagList = []
+            }
+        } else {
+            tagList = nil
+        }
+    }
+}
+
+extension RDSClientTypes {
+    /// Contains the details about a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    public struct BlueGreenDeployment: Swift.Equatable {
+        /// The system-generated identifier of the blue/green deployment.
+        public var blueGreenDeploymentIdentifier: Swift.String?
+        /// The user-supplied name of the blue/green deployment.
+        public var blueGreenDeploymentName: Swift.String?
+        /// Specifies the time when the blue/green deployment was created, in Universal Coordinated Time (UTC).
+        public var createTime: ClientRuntime.Date?
+        /// Specifies the time when the blue/green deployment was deleted, in Universal Coordinated Time (UTC).
+        public var deleteTime: ClientRuntime.Date?
+        /// The source database for the blue/green deployment. Before switchover, the source database is the production database in the blue environment.
+        public var source: Swift.String?
+        /// The status of the blue/green deployment. Values:
+        ///
+        /// * PROVISIONING - Resources are being created in the green environment.
+        ///
+        /// * AVAILABLE - Resources are available in the green environment.
+        ///
+        /// * SWITCHOVER_IN_PROGRESS - The deployment is being switched from the blue environment to the green environment.
+        ///
+        /// * SWITCHOVER_COMPLETED - Switchover from the blue environment to the green environment is complete.
+        ///
+        /// * INVALID_CONFIGURATION - Resources in the green environment are invalid, so switchover isn't possible.
+        ///
+        /// * SWITCHOVER_FAILED - Switchover was attempted but failed.
+        ///
+        /// * DELETING - The blue/green deployment is being deleted.
+        public var status: Swift.String?
+        /// Additional information about the status of the blue/green deployment.
+        public var statusDetails: Swift.String?
+        /// The details about each source and target resource in the blue/green deployment.
+        public var switchoverDetails: [RDSClientTypes.SwitchoverDetail]?
+        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
+        /// The target database for the blue/green deployment. Before switchover, the target database is the clone database in the green environment.
+        public var target: Swift.String?
+        /// Either tasks to be performed or tasks that have been completed on the target database before switchover.
+        public var tasks: [RDSClientTypes.BlueGreenDeploymentTask]?
+
+        public init (
+            blueGreenDeploymentIdentifier: Swift.String? = nil,
+            blueGreenDeploymentName: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            deleteTime: ClientRuntime.Date? = nil,
+            source: Swift.String? = nil,
+            status: Swift.String? = nil,
+            statusDetails: Swift.String? = nil,
+            switchoverDetails: [RDSClientTypes.SwitchoverDetail]? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil,
+            target: Swift.String? = nil,
+            tasks: [RDSClientTypes.BlueGreenDeploymentTask]? = nil
+        )
+        {
+            self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
+            self.blueGreenDeploymentName = blueGreenDeploymentName
+            self.createTime = createTime
+            self.deleteTime = deleteTime
+            self.source = source
+            self.status = status
+            self.statusDetails = statusDetails
+            self.switchoverDetails = switchoverDetails
+            self.tagList = tagList
+            self.target = target
+            self.tasks = tasks
+        }
+    }
+
+}
+
+extension BlueGreenDeploymentAlreadyExistsFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<BlueGreenDeploymentAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A blue/green deployment with the specified name already exists.
+public struct BlueGreenDeploymentAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct BlueGreenDeploymentAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension BlueGreenDeploymentAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension BlueGreenDeploymentNotFoundFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<BlueGreenDeploymentNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+public struct BlueGreenDeploymentNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct BlueGreenDeploymentNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension BlueGreenDeploymentNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes.BlueGreenDeploymentTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let name = name {
+            try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Contains the details about a task for a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    public struct BlueGreenDeploymentTask: Swift.Equatable {
+        /// The name of the blue/green deployment task.
+        public var name: Swift.String?
+        /// The status of the blue/green deployment task. Values:
+        ///
+        /// * PENDING - The resources are being prepared for deployment.
+        ///
+        /// * IN_PROGRESS - The resource is being deployed.
+        ///
+        /// * COMPLETED - The resource has been deployed.
+        ///
+        /// * FAILED - Deployment of the resource failed.
+        public var status: Swift.String?
+
+        public init (
+            name: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.status = status
+        }
+    }
+
+}
+
 extension CancelExportTaskInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -2215,15 +2599,24 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allocatedStorage = "AllocatedStorage"
+        case backupRetentionPeriod = "BackupRetentionPeriod"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case engineVersion = "EngineVersion"
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+        case iops = "Iops"
         case masterUserPassword = "MasterUserPassword"
         case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allocatedStorage = allocatedStorage {
+            try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
+        }
+        if let backupRetentionPeriod = backupRetentionPeriod {
+            try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
+        }
         if let dbClusterIdentifier = dbClusterIdentifier {
             try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
         }
@@ -2232,6 +2625,9 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         }
         if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
+        }
+        if let iops = iops {
+            try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
         }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
@@ -2253,34 +2649,52 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
+        backupRetentionPeriod = backupRetentionPeriodDecoded
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
+        allocatedStorage = allocatedStorageDecoded
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
+        iops = iopsDecoded
     }
 }
 
 extension RDSClientTypes {
     /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
     public struct ClusterPendingModifiedValues: Swift.Equatable {
+        /// The allocated storage size in gibibytes (GiB) for all database engines except Amazon Aurora. For Aurora, AllocatedStorage always returns 1, because Aurora DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
+        public var allocatedStorage: Swift.Int?
+        /// The number of days for which automatic DB snapshots are retained.
+        public var backupRetentionPeriod: Swift.Int?
         /// The DBClusterIdentifier value for the DB cluster.
         public var dbClusterIdentifier: Swift.String?
         /// The database engine version.
         public var engineVersion: Swift.String?
         /// A value that indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
+        /// The Provisioned IOPS (I/O operations per second) value. This setting is only for non-Aurora Multi-AZ DB clusters.
+        public var iops: Swift.Int?
         /// The master credentials for the DB cluster.
         public var masterUserPassword: Swift.String?
         /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated.
         public var pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports?
 
         public init (
+            allocatedStorage: Swift.Int? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
+            iops: Swift.Int? = nil,
             masterUserPassword: Swift.String? = nil,
             pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil
         )
         {
+            self.allocatedStorage = allocatedStorage
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.dbClusterIdentifier = dbClusterIdentifier
             self.engineVersion = engineVersion
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
+            self.iops = iops
             self.masterUserPassword = masterUserPassword
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
         }
@@ -3531,6 +3945,219 @@ extension CopyOptionGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateBlueGreenDeploymentInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let blueGreenDeploymentName = blueGreenDeploymentName {
+            try container.encode(blueGreenDeploymentName, forKey: ClientRuntime.Key("BlueGreenDeploymentName"))
+        }
+        if let source = source {
+            try container.encode(source, forKey: ClientRuntime.Key("Source"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let targetDBClusterParameterGroupName = targetDBClusterParameterGroupName {
+            try container.encode(targetDBClusterParameterGroupName, forKey: ClientRuntime.Key("TargetDBClusterParameterGroupName"))
+        }
+        if let targetDBParameterGroupName = targetDBParameterGroupName {
+            try container.encode(targetDBParameterGroupName, forKey: ClientRuntime.Key("TargetDBParameterGroupName"))
+        }
+        if let targetEngineVersion = targetEngineVersion {
+            try container.encode(targetEngineVersion, forKey: ClientRuntime.Key("TargetEngineVersion"))
+        }
+        try container.encode("CreateBlueGreenDeployment", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateBlueGreenDeploymentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateBlueGreenDeploymentInput: Swift.Equatable {
+    /// The name of the blue/green deployment. Constraints:
+    ///
+    /// * Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region.
+    /// This member is required.
+    public var blueGreenDeploymentName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deployment creates this database in the green environment. You can make updates to the database in the green environment, such as an engine version upgrade. When you are ready, you can switch the database in the green environment to be the production database.
+    /// This member is required.
+    public var source: Swift.String?
+    /// Tags to assign to the blue/green deployment.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated with the source DB cluster.
+    public var targetDBClusterParameterGroupName: Swift.String?
+    /// The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is different from the one associated with the source DB instance.
+    public var targetDBParameterGroupName: Swift.String?
+    /// The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment.
+    public var targetEngineVersion: Swift.String?
+
+    public init (
+        blueGreenDeploymentName: Swift.String? = nil,
+        source: Swift.String? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetDBClusterParameterGroupName: Swift.String? = nil,
+        targetDBParameterGroupName: Swift.String? = nil,
+        targetEngineVersion: Swift.String? = nil
+    )
+    {
+        self.blueGreenDeploymentName = blueGreenDeploymentName
+        self.source = source
+        self.tags = tags
+        self.targetDBClusterParameterGroupName = targetDBClusterParameterGroupName
+        self.targetDBParameterGroupName = targetDBParameterGroupName
+        self.targetEngineVersion = targetEngineVersion
+    }
+}
+
+struct CreateBlueGreenDeploymentInputBody: Swift.Equatable {
+    let blueGreenDeploymentName: Swift.String?
+    let source: Swift.String?
+    let targetEngineVersion: Swift.String?
+    let targetDBParameterGroupName: Swift.String?
+    let targetDBClusterParameterGroupName: Swift.String?
+    let tags: [RDSClientTypes.Tag]?
+}
+
+extension CreateBlueGreenDeploymentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeploymentName = "BlueGreenDeploymentName"
+        case source = "Source"
+        case tags = "Tags"
+        case targetDBClusterParameterGroupName = "TargetDBClusterParameterGroupName"
+        case targetDBParameterGroupName = "TargetDBParameterGroupName"
+        case targetEngineVersion = "TargetEngineVersion"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blueGreenDeploymentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blueGreenDeploymentName)
+        blueGreenDeploymentName = blueGreenDeploymentNameDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let targetEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetEngineVersion)
+        targetEngineVersion = targetEngineVersionDecoded
+        let targetDBParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDBParameterGroupName)
+        targetDBParameterGroupName = targetDBParameterGroupNameDecoded
+        let targetDBClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDBClusterParameterGroupName)
+        targetDBClusterParameterGroupName = targetDBClusterParameterGroupNameDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension CreateBlueGreenDeploymentOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension CreateBlueGreenDeploymentOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BlueGreenDeploymentAlreadyExistsFault" : self = .blueGreenDeploymentAlreadyExistsFault(try BlueGreenDeploymentAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DBClusterParameterGroupNotFound" : self = .dBClusterParameterGroupNotFoundFault(try DBClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DBClusterQuotaExceededFault" : self = .dBClusterQuotaExceededFault(try DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InstanceQuotaExceeded" : self = .instanceQuotaExceededFault(try InstanceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "SourceClusterNotSupportedFault" : self = .sourceClusterNotSupportedFault(try SourceClusterNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "SourceDatabaseNotSupportedFault" : self = .sourceDatabaseNotSupportedFault(try SourceDatabaseNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateBlueGreenDeploymentOutputError: Swift.Error, Swift.Equatable {
+    case blueGreenDeploymentAlreadyExistsFault(BlueGreenDeploymentAlreadyExistsFault)
+    case dBClusterNotFoundFault(DBClusterNotFoundFault)
+    case dBClusterParameterGroupNotFoundFault(DBClusterParameterGroupNotFoundFault)
+    case dBClusterQuotaExceededFault(DBClusterQuotaExceededFault)
+    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
+    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
+    case instanceQuotaExceededFault(InstanceQuotaExceededFault)
+    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
+    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
+    case sourceClusterNotSupportedFault(SourceClusterNotSupportedFault)
+    case sourceDatabaseNotSupportedFault(SourceDatabaseNotSupportedFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateBlueGreenDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateBlueGreenDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.blueGreenDeployment = output.blueGreenDeployment
+        } else {
+            self.blueGreenDeployment = nil
+        }
+    }
+}
+
+public struct CreateBlueGreenDeploymentOutputResponse: Swift.Equatable {
+    /// Contains the details about a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    public var blueGreenDeployment: RDSClientTypes.BlueGreenDeployment?
+
+    public init (
+        blueGreenDeployment: RDSClientTypes.BlueGreenDeployment? = nil
+    )
+    {
+        self.blueGreenDeployment = blueGreenDeployment
+    }
+}
+
+struct CreateBlueGreenDeploymentOutputResponseBody: Swift.Equatable {
+    let blueGreenDeployment: RDSClientTypes.BlueGreenDeployment?
+}
+
+extension CreateBlueGreenDeploymentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeployment = "BlueGreenDeployment"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateBlueGreenDeploymentResult"))
+        let blueGreenDeploymentDecoded = try containerValues.decodeIfPresent(RDSClientTypes.BlueGreenDeployment.self, forKey: .blueGreenDeployment)
+        blueGreenDeployment = blueGreenDeploymentDecoded
+    }
+}
+
 extension CreateCustomDBEngineVersionInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -3589,7 +4216,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
     /// The database engine to use for your custom engine version (CEV). The only supported value is custom-oracle-ee.
     /// This member is required.
     public var engine: Swift.String?
-    /// The name of your CEV. The name format is 19.customized_string . For example, a valid name is 19.my_cev1. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Region.
+    /// The name of your CEV. The name format is 19.customized_string. For example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Region.
     /// This member is required.
     public var engineVersion: Swift.String?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric encryption KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an existing symmetric encryption KMS key in your account, you can use it with RDS Custom. No further action is necessary. If you don't already have a symmetric encryption KMS key in your account, follow the instructions in [ Creating a symmetric encryption KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html#create-symmetric-cmk) in the Amazon Web Services Key Management Service Developer Guide. You can choose the same symmetric encryption key when you create a CEV and a DB instance, or choose different keys.
@@ -3716,6 +4343,7 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             let data = reader.toBytes().toData()
             let output: CreateCustomDBEngineVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
+            self.customDBEngineVersionManifest = output.customDBEngineVersionManifest
             self.databaseInstallationFilesS3BucketName = output.databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = output.databaseInstallationFilesS3Prefix
             self.dbEngineDescription = output.dbEngineDescription
@@ -3743,6 +4371,7 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.validUpgradeTarget = output.validUpgradeTarget
         } else {
             self.createTime = nil
+            self.customDBEngineVersionManifest = nil
             self.dbEngineDescription = nil
             self.dbEngineVersionArn = nil
             self.dbEngineVersionDescription = nil
@@ -3776,6 +4405,8 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
 public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
     /// The creation time of the DB engine version.
     public var createTime: ClientRuntime.Date?
+    /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
+    public var customDBEngineVersionManifest: Swift.String?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -3829,6 +4460,7 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
 
     public init (
         createTime: ClientRuntime.Date? = nil,
+        customDBEngineVersionManifest: Swift.String? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -3857,6 +4489,7 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
     )
     {
         self.createTime = createTime
+        self.customDBEngineVersionManifest = customDBEngineVersionManifest
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -3912,11 +4545,13 @@ struct CreateCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let createTime: ClientRuntime.Date?
     let tagList: [RDSClientTypes.Tag]?
     let supportsBabelfish: Swift.Bool
+    let customDBEngineVersionManifest: Swift.String?
 }
 
 extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
+        case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
@@ -4135,6 +4770,8 @@ extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         }
         let supportsBabelfishDecoded = try containerValues.decode(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
+        let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
+        customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
     }
 }
 
@@ -4573,6 +5210,9 @@ extension CreateDBClusterInput: Swift.Encodable {
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
         }
+        if let dbSystemId = dbSystemId {
+            try container.encode(dbSystemId, forKey: ClientRuntime.Key("DBSystemId"))
+        }
         if let databaseName = databaseName {
             try container.encode(databaseName, forKey: ClientRuntime.Key("DatabaseName"))
         }
@@ -4767,6 +5407,8 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var dbClusterParameterGroupName: Swift.String?
     /// A DB subnet group to associate with this DB cluster. This setting is required to create a Multi-AZ DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mydbsubnetgroup Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var dbSubnetGroupName: Swift.String?
+    /// Reserved for future use.
+    public var dbSystemId: Swift.String?
     /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var deletionProtection: Swift.Bool?
     /// The Active Directory directory ID to create the DB cluster in. For Amazon Aurora DB clusters, Amazon RDS can use Kerberos authentication to authenticate users that connect to the DB cluster. For more information, see [Kerberos authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/kerberos-authentication.html) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
@@ -4953,6 +5595,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         dbClusterInstanceClass: Swift.String? = nil,
         dbClusterParameterGroupName: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
+        dbSystemId: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         domainIAMRoleName: Swift.String? = nil,
@@ -5001,6 +5644,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.dbClusterInstanceClass = dbClusterInstanceClass
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbSubnetGroupName = dbSubnetGroupName
+        self.dbSystemId = dbSystemId
         self.deletionProtection = deletionProtection
         self.domain = domain
         self.domainIAMRoleName = domainIAMRoleName
@@ -5085,6 +5729,7 @@ struct CreateDBClusterInputBody: Swift.Equatable {
     let performanceInsightsRetentionPeriod: Swift.Int?
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
+    let dbSystemId: Swift.String?
 }
 
 extension CreateDBClusterInputBody: Swift.Decodable {
@@ -5100,6 +5745,7 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         case dbClusterInstanceClass = "DBClusterInstanceClass"
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case dbSystemId = "DBSystemId"
         case databaseName = "DatabaseName"
         case deletionProtection = "DeletionProtection"
         case domain = "Domain"
@@ -5299,6 +5945,8 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
         networkType = networkTypeDecoded
+        let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
+        dbSystemId = dbSystemIdDecoded
     }
 }
 
@@ -6221,7 +6869,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * sqlserver-web
     /// This member is required.
     public var engine: Swift.String?
-    /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon Aurora Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string . An example identifier is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. MariaDB For information, see [MariaDB on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. Microsoft SQL Server For information, see [Microsoft SQL Server Versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. MySQL For information, see [MySQL on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. Oracle For information, see [Oracle Database Engine Release Notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
+    /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon Aurora Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. MariaDB For information, see [MariaDB on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. Microsoft SQL Server For information, see [Microsoft SQL Server Versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. MySQL For information, see [MySQL on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. Oracle For information, see [Oracle Database Engine Release Notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid IOPS values, see [Amazon RDS DB instance storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html) in the Amazon RDS User Guide. Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances, must be a multiple between 1 and 50 of the storage amount for the DB instance. Amazon Aurora Not applicable. Storage is managed by the DB cluster.
     public var iops: Swift.Int?
@@ -6319,7 +6967,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var publiclyAccessible: Swift.Bool?
     /// A value that indicates whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom instances, either set this parameter to true or leave it unset. If you set this parameter to false, RDS reports an error. Amazon Aurora Not applicable. The encryption for DB instances is managed by the DB cluster.
     public var storageEncrypted: Swift.Bool?
-    /// Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
+    /// Specifies the storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. Valid values: gp2 | gp3 | io1 | standard If you specify io1 or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2 Amazon Aurora Not applicable. Storage is managed by the DB cluster.
     public var storageType: Swift.String?
@@ -9859,6 +10507,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         case dbClusterOptionGroupMemberships = "DBClusterOptionGroupMemberships"
         case dbClusterParameterGroup = "DBClusterParameterGroup"
         case dbSubnetGroup = "DBSubnetGroup"
+        case dbSystemId = "DBSystemId"
         case databaseName = "DatabaseName"
         case dbClusterResourceId = "DbClusterResourceId"
         case deletionProtection = "DeletionProtection"
@@ -10028,6 +10677,9 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         }
         if let dbSubnetGroup = dbSubnetGroup {
             try container.encode(dbSubnetGroup, forKey: ClientRuntime.Key("DBSubnetGroup"))
+        }
+        if let dbSystemId = dbSystemId {
+            try container.encode(dbSystemId, forKey: ClientRuntime.Key("DBSystemId"))
         }
         if let databaseName = databaseName {
             try container.encode(databaseName, forKey: ClientRuntime.Key("DatabaseName"))
@@ -10515,6 +11167,8 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
         networkType = networkTypeDecoded
+        let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
+        dbSystemId = dbSystemIdDecoded
     }
 }
 
@@ -10577,6 +11231,8 @@ extension RDSClientTypes {
         public var dbClusterResourceId: Swift.String?
         /// Specifies information on the subnet group associated with the DB cluster, including the name, description, and subnets in the subnet group.
         public var dbSubnetGroup: Swift.String?
+        /// Reserved for future use.
+        public var dbSystemId: Swift.String?
         /// Indicates if the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled.
         public var deletionProtection: Swift.Bool?
         /// The Active Directory Domain membership records associated with the DB cluster.
@@ -10716,6 +11372,7 @@ extension RDSClientTypes {
             dbClusterParameterGroup: Swift.String? = nil,
             dbClusterResourceId: Swift.String? = nil,
             dbSubnetGroup: Swift.String? = nil,
+            dbSystemId: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
             domainMemberships: [RDSClientTypes.DomainMembership]? = nil,
             earliestBacktrackTime: ClientRuntime.Date? = nil,
@@ -10787,6 +11444,7 @@ extension RDSClientTypes {
             self.dbClusterParameterGroup = dbClusterParameterGroup
             self.dbClusterResourceId = dbClusterResourceId
             self.dbSubnetGroup = dbSubnetGroup
+            self.dbSystemId = dbSystemId
             self.deletionProtection = deletionProtection
             self.domainMemberships = domainMemberships
             self.earliestBacktrackTime = earliestBacktrackTime
@@ -11930,6 +12588,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         case dbClusterIdentifier = "DBClusterIdentifier"
         case dbClusterSnapshotArn = "DBClusterSnapshotArn"
         case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+        case dbSystemId = "DBSystemId"
         case engine = "Engine"
         case engineMode = "EngineMode"
         case engineVersion = "EngineVersion"
@@ -11976,6 +12635,9 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         }
         if let dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier {
             try container.encode(dbClusterSnapshotIdentifier, forKey: ClientRuntime.Key("DBClusterSnapshotIdentifier"))
+        }
+        if let dbSystemId = dbSystemId {
+            try container.encode(dbSystemId, forKey: ClientRuntime.Key("DBSystemId"))
         }
         if let engine = engine {
             try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
@@ -12116,6 +12778,8 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         } else {
             tagList = nil
         }
+        let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
+        dbSystemId = dbSystemIdDecoded
     }
 }
 
@@ -12134,6 +12798,8 @@ extension RDSClientTypes {
         public var dbClusterSnapshotArn: Swift.String?
         /// Specifies the identifier for the DB cluster snapshot.
         public var dbClusterSnapshotIdentifier: Swift.String?
+        /// Reserved for future use.
+        public var dbSystemId: Swift.String?
         /// Specifies the name of the database engine for this DB cluster snapshot.
         public var engine: Swift.String?
         /// Provides the engine mode of the database engine for this DB cluster snapshot.
@@ -12180,6 +12846,7 @@ extension RDSClientTypes {
             dbClusterIdentifier: Swift.String? = nil,
             dbClusterSnapshotArn: Swift.String? = nil,
             dbClusterSnapshotIdentifier: Swift.String? = nil,
+            dbSystemId: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
@@ -12204,6 +12871,7 @@ extension RDSClientTypes {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterSnapshotArn = dbClusterSnapshotArn
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
+            self.dbSystemId = dbSystemId
             self.engine = engine
             self.engineMode = engineMode
             self.engineVersion = engineVersion
@@ -12474,6 +13142,7 @@ extension DBClusterSnapshotNotFoundFaultBody: Swift.Decodable {
 extension RDSClientTypes.DBEngineVersion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
+        case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
@@ -12505,6 +13174,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createTime = createTime {
             try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("createTime"))
+        }
+        if let customDBEngineVersionManifest = customDBEngineVersionManifest {
+            try container.encode(customDBEngineVersionManifest, forKey: ClientRuntime.Key("CustomDBEngineVersionManifest"))
         }
         if let dbEngineDescription = dbEngineDescription {
             try container.encode(dbEngineDescription, forKey: ClientRuntime.Key("DBEngineDescription"))
@@ -12845,6 +13517,8 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         }
         let supportsBabelfishDecoded = try containerValues.decode(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
+        let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
+        customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
     }
 }
 
@@ -12853,6 +13527,8 @@ extension RDSClientTypes {
     public struct DBEngineVersion: Swift.Equatable {
         /// The creation time of the DB engine version.
         public var createTime: ClientRuntime.Date?
+        /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
+        public var customDBEngineVersionManifest: Swift.String?
         /// The name of the Amazon S3 bucket that contains your database installation files.
         public var databaseInstallationFilesS3BucketName: Swift.String?
         /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -12906,6 +13582,7 @@ extension RDSClientTypes {
 
         public init (
             createTime: ClientRuntime.Date? = nil,
+            customDBEngineVersionManifest: Swift.String? = nil,
             databaseInstallationFilesS3BucketName: Swift.String? = nil,
             databaseInstallationFilesS3Prefix: Swift.String? = nil,
             dbEngineDescription: Swift.String? = nil,
@@ -12934,6 +13611,7 @@ extension RDSClientTypes {
         )
         {
             self.createTime = createTime
+            self.customDBEngineVersionManifest = customDBEngineVersionManifest
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
             self.dbEngineDescription = dbEngineDescription
@@ -12996,6 +13674,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         case dbParameterGroups = "DBParameterGroups"
         case dbSecurityGroups = "DBSecurityGroups"
         case dbSubnetGroup = "DBSubnetGroup"
+        case dbSystemId = "DBSystemId"
         case dbInstancePort = "DbInstancePort"
         case dbiResourceId = "DbiResourceId"
         case deletionProtection = "DeletionProtection"
@@ -13172,6 +13851,9 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         }
         if let dbSubnetGroup = dbSubnetGroup {
             try container.encode(dbSubnetGroup, forKey: ClientRuntime.Key("DBSubnetGroup"))
+        }
+        if let dbSystemId = dbSystemId {
+            try container.encode(dbSystemId, forKey: ClientRuntime.Key("DBSystemId"))
         }
         if dbInstancePort != 0 {
             try container.encode(dbInstancePort, forKey: ClientRuntime.Key("DbInstancePort"))
@@ -13774,6 +14456,8 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         activityStreamPolicyStatus = activityStreamPolicyStatusDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
+        dbSystemId = dbSystemIdDecoded
     }
 }
 
@@ -13851,6 +14535,8 @@ extension RDSClientTypes {
         public var dbSecurityGroups: [RDSClientTypes.DBSecurityGroupMembership]?
         /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
         public var dbSubnetGroup: RDSClientTypes.DBSubnetGroup?
+        /// The Oracle system ID (Oracle SID) for a container database (CDB). The Oracle SID is also the name of the CDB. This setting is valid for RDS Custom only.
+        public var dbSystemId: Swift.String?
         /// The Amazon Web Services Region-unique, immutable identifier for the DB instance. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB instance is accessed.
         public var dbiResourceId: Swift.String?
         /// Indicates if the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
@@ -13961,7 +14647,7 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBInstanceStatusInfo]?
         /// Specifies whether the DB instance is encrypted.
         public var storageEncrypted: Swift.Bool
-        /// Specifies the storage throughput for the DB instance.
+        /// Specifies the storage throughput for the DB instance. This setting applies only to the gp3 storage type.
         public var storageThroughput: Swift.Int?
         /// Specifies the storage type associated with the DB instance.
         public var storageType: Swift.String?
@@ -14006,6 +14692,7 @@ extension RDSClientTypes {
             dbParameterGroups: [RDSClientTypes.DBParameterGroupStatus]? = nil,
             dbSecurityGroups: [RDSClientTypes.DBSecurityGroupMembership]? = nil,
             dbSubnetGroup: RDSClientTypes.DBSubnetGroup? = nil,
+            dbSystemId: Swift.String? = nil,
             dbiResourceId: Swift.String? = nil,
             deletionProtection: Swift.Bool = false,
             domainMemberships: [RDSClientTypes.DomainMembership]? = nil,
@@ -14085,6 +14772,7 @@ extension RDSClientTypes {
             self.dbParameterGroups = dbParameterGroups
             self.dbSecurityGroups = dbSecurityGroups
             self.dbSubnetGroup = dbSubnetGroup
+            self.dbSystemId = dbSystemId
             self.dbiResourceId = dbiResourceId
             self.deletionProtection = deletionProtection
             self.domainMemberships = domainMemberships
@@ -18154,6 +18842,130 @@ extension DBUpgradeDependencyFailureFaultBody: Swift.Decodable {
     }
 }
 
+extension DeleteBlueGreenDeploymentInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier {
+            try container.encode(blueGreenDeploymentIdentifier, forKey: ClientRuntime.Key("BlueGreenDeploymentIdentifier"))
+        }
+        if let deleteTarget = deleteTarget {
+            try container.encode(deleteTarget, forKey: ClientRuntime.Key("DeleteTarget"))
+        }
+        try container.encode("DeleteBlueGreenDeployment", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteBlueGreenDeploymentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteBlueGreenDeploymentInput: Swift.Equatable {
+    /// The blue/green deployment identifier of the deployment to be deleted. This parameter isn't case-sensitive. Constraints:
+    ///
+    /// * Must match an existing blue/green deployment identifier.
+    /// This member is required.
+    public var blueGreenDeploymentIdentifier: Swift.String?
+    /// A value that indicates whether to delete the resources in the green environment.
+    public var deleteTarget: Swift.Bool?
+
+    public init (
+        blueGreenDeploymentIdentifier: Swift.String? = nil,
+        deleteTarget: Swift.Bool? = nil
+    )
+    {
+        self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
+        self.deleteTarget = deleteTarget
+    }
+}
+
+struct DeleteBlueGreenDeploymentInputBody: Swift.Equatable {
+    let blueGreenDeploymentIdentifier: Swift.String?
+    let deleteTarget: Swift.Bool?
+}
+
+extension DeleteBlueGreenDeploymentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeploymentIdentifier = "BlueGreenDeploymentIdentifier"
+        case deleteTarget = "DeleteTarget"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blueGreenDeploymentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blueGreenDeploymentIdentifier)
+        blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifierDecoded
+        let deleteTargetDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteTarget)
+        deleteTarget = deleteTargetDecoded
+    }
+}
+
+extension DeleteBlueGreenDeploymentOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension DeleteBlueGreenDeploymentOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidBlueGreenDeploymentStateFault" : self = .invalidBlueGreenDeploymentStateFault(try InvalidBlueGreenDeploymentStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteBlueGreenDeploymentOutputError: Swift.Error, Swift.Equatable {
+    case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
+    case invalidBlueGreenDeploymentStateFault(InvalidBlueGreenDeploymentStateFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteBlueGreenDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DeleteBlueGreenDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.blueGreenDeployment = output.blueGreenDeployment
+        } else {
+            self.blueGreenDeployment = nil
+        }
+    }
+}
+
+public struct DeleteBlueGreenDeploymentOutputResponse: Swift.Equatable {
+    /// Contains the details about a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    public var blueGreenDeployment: RDSClientTypes.BlueGreenDeployment?
+
+    public init (
+        blueGreenDeployment: RDSClientTypes.BlueGreenDeployment? = nil
+    )
+    {
+        self.blueGreenDeployment = blueGreenDeployment
+    }
+}
+
+struct DeleteBlueGreenDeploymentOutputResponseBody: Swift.Equatable {
+    let blueGreenDeployment: RDSClientTypes.BlueGreenDeployment?
+}
+
+extension DeleteBlueGreenDeploymentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeployment = "BlueGreenDeployment"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteBlueGreenDeploymentResult"))
+        let blueGreenDeploymentDecoded = try containerValues.decodeIfPresent(RDSClientTypes.BlueGreenDeployment.self, forKey: .blueGreenDeployment)
+        blueGreenDeployment = blueGreenDeploymentDecoded
+    }
+}
+
 extension DeleteCustomDBEngineVersionInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -18242,6 +19054,7 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             let data = reader.toBytes().toData()
             let output: DeleteCustomDBEngineVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
+            self.customDBEngineVersionManifest = output.customDBEngineVersionManifest
             self.databaseInstallationFilesS3BucketName = output.databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = output.databaseInstallationFilesS3Prefix
             self.dbEngineDescription = output.dbEngineDescription
@@ -18269,6 +19082,7 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.validUpgradeTarget = output.validUpgradeTarget
         } else {
             self.createTime = nil
+            self.customDBEngineVersionManifest = nil
             self.dbEngineDescription = nil
             self.dbEngineVersionArn = nil
             self.dbEngineVersionDescription = nil
@@ -18302,6 +19116,8 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
 public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
     /// The creation time of the DB engine version.
     public var createTime: ClientRuntime.Date?
+    /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
+    public var customDBEngineVersionManifest: Swift.String?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -18355,6 +19171,7 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
 
     public init (
         createTime: ClientRuntime.Date? = nil,
+        customDBEngineVersionManifest: Swift.String? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -18383,6 +19200,7 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
     )
     {
         self.createTime = createTime
+        self.customDBEngineVersionManifest = customDBEngineVersionManifest
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -18438,11 +19256,13 @@ struct DeleteCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let createTime: ClientRuntime.Date?
     let tagList: [RDSClientTypes.Tag]?
     let supportsBabelfish: Swift.Bool
+    let customDBEngineVersionManifest: Swift.String?
 }
 
 extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
+        case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
@@ -18661,6 +19481,8 @@ extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         }
         let supportsBabelfishDecoded = try containerValues.decode(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
+        let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
+        customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
     }
 }
 
@@ -20701,6 +21523,210 @@ extension DescribeAccountAttributesOutputResponseBody: Swift.Decodable {
         } else {
             accountQuotas = nil
         }
+    }
+}
+
+extension DescribeBlueGreenDeploymentsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier {
+            try container.encode(blueGreenDeploymentIdentifier, forKey: ClientRuntime.Key("BlueGreenDeploymentIdentifier"))
+        }
+        if let filters = filters {
+            if !filters.isEmpty {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                for (index0, filter0) in filters.enumerated() {
+                    try filtersContainer.encode(filter0, forKey: ClientRuntime.Key("Filter.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        try container.encode("DescribeBlueGreenDeployments", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeBlueGreenDeploymentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeBlueGreenDeploymentsInput: Swift.Equatable {
+    /// The blue/green deployment identifier. If this parameter is specified, information from only the specific blue/green deployment is returned. This parameter isn't case-sensitive. Constraints:
+    ///
+    /// * If supplied, must match an existing blue/green deployment identifier.
+    public var blueGreenDeploymentIdentifier: Swift.String?
+    /// A filter that specifies one or more blue/green deployments to describe. Supported filters:
+    ///
+    /// * blue-green-deployment-identifier - Accepts system-generated identifiers for blue/green deployments. The results list only includes information about the blue/green deployments with the specified identifiers.
+    ///
+    /// * blue-green-deployment-name - Accepts user-supplied names for blue/green deployments. The results list only includes information about the blue/green deployments with the specified names.
+    ///
+    /// * source - Accepts source databases for a blue/green deployment. The results list only includes information about the blue/green deployments with the specified source databases.
+    ///
+    /// * target - Accepts target databases for a blue/green deployment. The results list only includes information about the blue/green deployments with the specified target databases.
+    public var filters: [RDSClientTypes.Filter]?
+    /// An optional pagination token provided by a previous DescribeBlueGreenDeployments request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
+    public var maxRecords: Swift.Int?
+
+    public init (
+        blueGreenDeploymentIdentifier: Swift.String? = nil,
+        filters: [RDSClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeBlueGreenDeploymentsInputBody: Swift.Equatable {
+    let blueGreenDeploymentIdentifier: Swift.String?
+    let filters: [RDSClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeBlueGreenDeploymentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeploymentIdentifier = "BlueGreenDeploymentIdentifier"
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blueGreenDeploymentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blueGreenDeploymentIdentifier)
+        blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifierDecoded
+        if containerValues.contains(.filters) {
+            struct KeyVal0{struct Filter{}}
+            let filtersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Filter>.CodingKeys.self, forKey: .filters)
+            if let filtersWrappedContainer = filtersWrappedContainer {
+                let filtersContainer = try filtersWrappedContainer.decodeIfPresent([RDSClientTypes.Filter].self, forKey: .member)
+                var filtersBuffer:[RDSClientTypes.Filter]? = nil
+                if let filtersContainer = filtersContainer {
+                    filtersBuffer = [RDSClientTypes.Filter]()
+                    for structureContainer0 in filtersContainer {
+                        filtersBuffer?.append(structureContainer0)
+                    }
+                }
+                filters = filtersBuffer
+            } else {
+                filters = []
+            }
+        } else {
+            filters = nil
+        }
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+extension DescribeBlueGreenDeploymentsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension DescribeBlueGreenDeploymentsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DescribeBlueGreenDeploymentsOutputError: Swift.Error, Swift.Equatable {
+    case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeBlueGreenDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeBlueGreenDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.blueGreenDeployments = output.blueGreenDeployments
+            self.marker = output.marker
+        } else {
+            self.blueGreenDeployments = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeBlueGreenDeploymentsOutputResponse: Swift.Equatable {
+    /// Contains a list of blue/green deployments for the user.
+    public var blueGreenDeployments: [RDSClientTypes.BlueGreenDeployment]?
+    /// A pagination token that can be used in a later DescribeBlueGreenDeployments request.
+    public var marker: Swift.String?
+
+    public init (
+        blueGreenDeployments: [RDSClientTypes.BlueGreenDeployment]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.blueGreenDeployments = blueGreenDeployments
+        self.marker = marker
+    }
+}
+
+struct DescribeBlueGreenDeploymentsOutputResponseBody: Swift.Equatable {
+    let blueGreenDeployments: [RDSClientTypes.BlueGreenDeployment]?
+    let marker: Swift.String?
+}
+
+extension DescribeBlueGreenDeploymentsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeployments = "BlueGreenDeployments"
+        case marker = "Marker"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeBlueGreenDeploymentsResult"))
+        if containerValues.contains(.blueGreenDeployments) {
+            struct KeyVal0{struct member{}}
+            let blueGreenDeploymentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .blueGreenDeployments)
+            if let blueGreenDeploymentsWrappedContainer = blueGreenDeploymentsWrappedContainer {
+                let blueGreenDeploymentsContainer = try blueGreenDeploymentsWrappedContainer.decodeIfPresent([RDSClientTypes.BlueGreenDeployment].self, forKey: .member)
+                var blueGreenDeploymentsBuffer:[RDSClientTypes.BlueGreenDeployment]? = nil
+                if let blueGreenDeploymentsContainer = blueGreenDeploymentsContainer {
+                    blueGreenDeploymentsBuffer = [RDSClientTypes.BlueGreenDeployment]()
+                    for structureContainer0 in blueGreenDeploymentsContainer {
+                        blueGreenDeploymentsBuffer?.append(structureContainer0)
+                    }
+                }
+                blueGreenDeployments = blueGreenDeploymentsBuffer
+            } else {
+                blueGreenDeployments = []
+            }
+        } else {
+            blueGreenDeployments = nil
+        }
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
     }
 }
 
@@ -31337,6 +32363,58 @@ extension InsufficientStorageClusterCapacityFaultBody: Swift.Decodable {
     }
 }
 
+extension InvalidBlueGreenDeploymentStateFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidBlueGreenDeploymentStateFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The blue/green deployment can't be switched over or deleted because there is an invalid configuration in the green environment.
+public struct InvalidBlueGreenDeploymentStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct InvalidBlueGreenDeploymentStateFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidBlueGreenDeploymentStateFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidCustomDBEngineVersionStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -33501,6 +34579,7 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             let data = reader.toBytes().toData()
             let output: ModifyCustomDBEngineVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
+            self.customDBEngineVersionManifest = output.customDBEngineVersionManifest
             self.databaseInstallationFilesS3BucketName = output.databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = output.databaseInstallationFilesS3Prefix
             self.dbEngineDescription = output.dbEngineDescription
@@ -33528,6 +34607,7 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.validUpgradeTarget = output.validUpgradeTarget
         } else {
             self.createTime = nil
+            self.customDBEngineVersionManifest = nil
             self.dbEngineDescription = nil
             self.dbEngineVersionArn = nil
             self.dbEngineVersionDescription = nil
@@ -33561,6 +34641,8 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
 public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
     /// The creation time of the DB engine version.
     public var createTime: ClientRuntime.Date?
+    /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
+    public var customDBEngineVersionManifest: Swift.String?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -33614,6 +34696,7 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
 
     public init (
         createTime: ClientRuntime.Date? = nil,
+        customDBEngineVersionManifest: Swift.String? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -33642,6 +34725,7 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
     )
     {
         self.createTime = createTime
+        self.customDBEngineVersionManifest = customDBEngineVersionManifest
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -33697,11 +34781,13 @@ struct ModifyCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let createTime: ClientRuntime.Date?
     let tagList: [RDSClientTypes.Tag]?
     let supportsBabelfish: Swift.Bool
+    let customDBEngineVersionManifest: Swift.String?
 }
 
 extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
+        case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
@@ -33920,6 +35006,8 @@ extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         }
         let supportsBabelfishDecoded = try containerValues.decode(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
+        let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
+        customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
     }
 }
 
@@ -35575,7 +36663,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. The minimum value is 60 (default). The maximum value is 1,440.
     public var resumeFullAutomationModeMinutes: Swift.Int?
-    /// Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
+    /// Specifies the storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. If you specify Provisioned IOPS (io1), you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid values: gp2 | gp3 | io1 | standard Default: io1 if the Iops parameter is specified, otherwise gp2
     public var storageType: Swift.String?
@@ -44260,6 +45348,7 @@ extension RestoreDBClusterFromSnapshotOutputError {
         case "InsufficientDBClusterCapacityFault" : self = .insufficientDBClusterCapacityFault(try InsufficientDBClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientStorageClusterCapacity" : self = .insufficientStorageClusterCapacityFault(try InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSnapshotState" : self = .invalidDBSnapshotStateFault(try InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRestoreFault" : self = .invalidRestoreFault(try InvalidRestoreFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -44283,6 +45372,7 @@ public enum RestoreDBClusterFromSnapshotOutputError: Swift.Error, Swift.Equatabl
     case insufficientDBClusterCapacityFault(InsufficientDBClusterCapacityFault)
     case insufficientStorageClusterCapacityFault(InsufficientStorageClusterCapacityFault)
     case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
+    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case invalidDBSnapshotStateFault(InvalidDBSnapshotStateFault)
     case invalidRestoreFault(InvalidRestoreFault)
     case invalidSubnet(InvalidSubnet)
@@ -44938,6 +46028,9 @@ extension RestoreDBInstanceFromDBSnapshotInput: Swift.Encodable {
         if let customIamInstanceProfile = customIamInstanceProfile {
             try container.encode(customIamInstanceProfile, forKey: ClientRuntime.Key("CustomIamInstanceProfile"))
         }
+        if let dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier {
+            try container.encode(dbClusterSnapshotIdentifier, forKey: ClientRuntime.Key("DBClusterSnapshotIdentifier"))
+        }
         if let dbInstanceClass = dbInstanceClass {
             try container.encode(dbInstanceClass, forKey: ClientRuntime.Key("DBInstanceClass"))
         }
@@ -45090,6 +46183,20 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom.
     public var customIamInstanceProfile: Swift.String?
+    /// The identifier for the RDS for MySQL Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see [ Multi-AZ deployments with two readable standby DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Must match the identifier of an existing Multi-AZ DB cluster snapshot.
+    ///
+    /// * Can't be specified when DBSnapshotIdentifier is specified.
+    ///
+    /// * Must be specified when DBSnapshotIdentifier isn't specified.
+    ///
+    /// * If you are restoring from a shared manual Multi-AZ DB cluster snapshot, the DBClusterSnapshotIdentifier must be the ARN of the shared snapshot.
+    ///
+    /// * Can't be the identifier of an Aurora DB cluster snapshot.
+    ///
+    /// * Can't be the identifier of an RDS for PostgreSQL Multi-AZ DB cluster snapshot.
+    public var dbClusterSnapshotIdentifier: Swift.String?
     /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: The same DBInstanceClass as the original DB instance.
     public var dbInstanceClass: Swift.String?
     /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:
@@ -45120,8 +46227,11 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     ///
     /// * Must match the identifier of an existing DBSnapshot.
     ///
+    /// * Can't be specified when DBClusterSnapshotIdentifier is specified.
+    ///
+    /// * Must be specified when DBClusterSnapshotIdentifier isn't specified.
+    ///
     /// * If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
-    /// This member is required.
     public var dbSnapshotIdentifier: Swift.String?
     /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
@@ -45205,6 +46315,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
         backupTarget: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
+        dbClusterSnapshotIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbName: Swift.String? = nil,
@@ -45240,6 +46351,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
         self.backupTarget = backupTarget
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
+        self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbName = dbName
@@ -45305,6 +46417,7 @@ struct RestoreDBInstanceFromDBSnapshotInputBody: Swift.Equatable {
     let backupTarget: Swift.String?
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
+    let dbClusterSnapshotIdentifier: Swift.String?
 }
 
 extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
@@ -45314,6 +46427,7 @@ extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
         case backupTarget = "BackupTarget"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case customIamInstanceProfile = "CustomIamInstanceProfile"
+        case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
         case dbInstanceClass = "DBInstanceClass"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
         case dbName = "DBName"
@@ -45480,6 +46594,8 @@ extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
+        dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
     }
 }
 
@@ -45495,6 +46611,7 @@ extension RestoreDBInstanceFromDBSnapshotOutputError {
         switch errorType {
         case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "BackupPolicyNotFoundFault" : self = .backupPolicyNotFoundFault(try BackupPolicyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceAlreadyExists" : self = .dBInstanceAlreadyExistsFault(try DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSecurityGroupNotFound" : self = .dBSecurityGroupNotFoundFault(try DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -45522,6 +46639,7 @@ extension RestoreDBInstanceFromDBSnapshotOutputError {
 public enum RestoreDBInstanceFromDBSnapshotOutputError: Swift.Error, Swift.Equatable {
     case authorizationNotFoundFault(AuthorizationNotFoundFault)
     case backupPolicyNotFoundFault(BackupPolicyNotFoundFault)
+    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
     case dBInstanceAlreadyExistsFault(DBInstanceAlreadyExistsFault)
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
     case dBSecurityGroupNotFoundFault(DBSecurityGroupNotFoundFault)
@@ -47869,6 +48987,110 @@ extension SnapshotQuotaExceededFaultBody: Swift.Decodable {
     }
 }
 
+extension SourceClusterNotSupportedFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<SourceClusterNotSupportedFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The source DB cluster isn't supported for a blue/green deployment.
+public struct SourceClusterNotSupportedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct SourceClusterNotSupportedFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension SourceClusterNotSupportedFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension SourceDatabaseNotSupportedFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<SourceDatabaseNotSupportedFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The source DB instance isn't supported for a blue/green deployment.
+public struct SourceDatabaseNotSupportedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct SourceDatabaseNotSupportedFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension SourceDatabaseNotSupportedFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension SourceNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -49945,6 +51167,195 @@ extension SubscriptionNotFoundFaultBody: Swift.Decodable {
     }
 }
 
+extension SwitchoverBlueGreenDeploymentInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier {
+            try container.encode(blueGreenDeploymentIdentifier, forKey: ClientRuntime.Key("BlueGreenDeploymentIdentifier"))
+        }
+        if let switchoverTimeout = switchoverTimeout {
+            try container.encode(switchoverTimeout, forKey: ClientRuntime.Key("SwitchoverTimeout"))
+        }
+        try container.encode("SwitchoverBlueGreenDeployment", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension SwitchoverBlueGreenDeploymentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SwitchoverBlueGreenDeploymentInput: Swift.Equatable {
+    /// The blue/green deployment identifier. Constraints:
+    ///
+    /// * Must match an existing blue/green deployment identifier.
+    /// This member is required.
+    public var blueGreenDeploymentIdentifier: Swift.String?
+    /// The amount of time, in seconds, for the switchover to complete. The default is 300. If the switchover takes longer than the specified duration, then any changes are rolled back, and no changes are made to the environments.
+    public var switchoverTimeout: Swift.Int?
+
+    public init (
+        blueGreenDeploymentIdentifier: Swift.String? = nil,
+        switchoverTimeout: Swift.Int? = nil
+    )
+    {
+        self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
+        self.switchoverTimeout = switchoverTimeout
+    }
+}
+
+struct SwitchoverBlueGreenDeploymentInputBody: Swift.Equatable {
+    let blueGreenDeploymentIdentifier: Swift.String?
+    let switchoverTimeout: Swift.Int?
+}
+
+extension SwitchoverBlueGreenDeploymentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeploymentIdentifier = "BlueGreenDeploymentIdentifier"
+        case switchoverTimeout = "SwitchoverTimeout"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blueGreenDeploymentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blueGreenDeploymentIdentifier)
+        blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifierDecoded
+        let switchoverTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .switchoverTimeout)
+        switchoverTimeout = switchoverTimeoutDecoded
+    }
+}
+
+extension SwitchoverBlueGreenDeploymentOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension SwitchoverBlueGreenDeploymentOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidBlueGreenDeploymentStateFault" : self = .invalidBlueGreenDeploymentStateFault(try InvalidBlueGreenDeploymentStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum SwitchoverBlueGreenDeploymentOutputError: Swift.Error, Swift.Equatable {
+    case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
+    case invalidBlueGreenDeploymentStateFault(InvalidBlueGreenDeploymentStateFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SwitchoverBlueGreenDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: SwitchoverBlueGreenDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.blueGreenDeployment = output.blueGreenDeployment
+        } else {
+            self.blueGreenDeployment = nil
+        }
+    }
+}
+
+public struct SwitchoverBlueGreenDeploymentOutputResponse: Swift.Equatable {
+    /// Contains the details about a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    public var blueGreenDeployment: RDSClientTypes.BlueGreenDeployment?
+
+    public init (
+        blueGreenDeployment: RDSClientTypes.BlueGreenDeployment? = nil
+    )
+    {
+        self.blueGreenDeployment = blueGreenDeployment
+    }
+}
+
+struct SwitchoverBlueGreenDeploymentOutputResponseBody: Swift.Equatable {
+    let blueGreenDeployment: RDSClientTypes.BlueGreenDeployment?
+}
+
+extension SwitchoverBlueGreenDeploymentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blueGreenDeployment = "BlueGreenDeployment"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SwitchoverBlueGreenDeploymentResult"))
+        let blueGreenDeploymentDecoded = try containerValues.decodeIfPresent(RDSClientTypes.BlueGreenDeployment.self, forKey: .blueGreenDeployment)
+        blueGreenDeployment = blueGreenDeploymentDecoded
+    }
+}
+
+extension RDSClientTypes.SwitchoverDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceMember = "SourceMember"
+        case status = "Status"
+        case targetMember = "TargetMember"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let sourceMember = sourceMember {
+            try container.encode(sourceMember, forKey: ClientRuntime.Key("SourceMember"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let targetMember = targetMember {
+            try container.encode(targetMember, forKey: ClientRuntime.Key("TargetMember"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceMemberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceMember)
+        sourceMember = sourceMemberDecoded
+        let targetMemberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetMember)
+        targetMember = targetMemberDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Contains the details about a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    public struct SwitchoverDetail: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of a resource in the blue environment.
+        public var sourceMember: Swift.String?
+        /// The switchover status of a resource in a blue/green deployment. Values:
+        ///
+        /// * preparing-for-switchover - The resource is being prepared to switch over.
+        ///
+        /// * ready-for-switchover - The resource is ready to switch over.
+        ///
+        /// * switchover-in-progress - The resource is being switched over.
+        ///
+        /// * switchover-completed - The resource has been switched over.
+        ///
+        /// * switchover-failed - The resource attempted to switch over but failed.
+        public var status: Swift.String?
+        /// The Amazon Resource Name (ARN) of a resource in the green environment.
+        public var targetMember: Swift.String?
+
+        public init (
+            sourceMember: Swift.String? = nil,
+            status: Swift.String? = nil,
+            targetMember: Swift.String? = nil
+        )
+        {
+            self.sourceMember = sourceMember
+            self.status = status
+            self.targetMember = targetMember
+        }
+    }
+
+}
+
 extension SwitchoverReadReplicaInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -50084,7 +51495,7 @@ extension RDSClientTypes.Tag: Swift.Codable {
 }
 
 extension RDSClientTypes {
-    /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+    /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public struct Tag: Swift.Equatable {
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public var key: Swift.String?

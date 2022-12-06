@@ -90,6 +90,42 @@ extension IvschatClientTypes {
     }
 }
 
+extension IvschatClientTypes.CloudWatchLogsDestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupName = self.logGroupName {
+            try encodeContainer.encode(logGroupName, forKey: .logGroupName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupName)
+        logGroupName = logGroupNameDecoded
+    }
+}
+
+extension IvschatClientTypes {
+    /// Specifies a CloudWatch Logs location where chat logs will be stored.
+    public struct CloudWatchLogsDestinationConfiguration: Swift.Equatable {
+        /// Name of the Amazon Cloudwatch Logs destination where chat activity will be logged.
+        /// This member is required.
+        public var logGroupName: Swift.String?
+
+        public init (
+            logGroupName: Swift.String? = nil
+        )
+        {
+            self.logGroupName = logGroupName
+        }
+    }
+
+}
+
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -375,8 +411,274 @@ extension CreateChatTokenOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateLoggingConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationConfiguration
+        case name
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationConfiguration = self.destinationConfiguration {
+            try encodeContainer.encode(destinationConfiguration, forKey: .destinationConfiguration)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateLoggingConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateLoggingConfiguration"
+    }
+}
+
+public struct CreateLoggingConfigurationInput: Swift.Equatable {
+    /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+    /// This member is required.
+    public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    /// Logging-configuration name. The value does not need to be unique.
+    public var name: Swift.String?
+    /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.destinationConfiguration = destinationConfiguration
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateLoggingConfigurationInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateLoggingConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationConfiguration
+        case name
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let destinationConfigurationDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.DestinationConfiguration.self, forKey: .destinationConfiguration)
+        destinationConfiguration = destinationConfigurationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateLoggingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateLoggingConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PendingVerification" : self = .pendingVerification(try PendingVerification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case pendingVerification(PendingVerification)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createTime = output.createTime
+            self.destinationConfiguration = output.destinationConfiguration
+            self.id = output.id
+            self.name = output.name
+            self.state = output.state
+            self.tags = output.tags
+            self.updateTime = output.updateTime
+        } else {
+            self.arn = nil
+            self.createTime = nil
+            self.destinationConfiguration = nil
+            self.id = nil
+            self.name = nil
+            self.state = nil
+            self.tags = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct CreateLoggingConfigurationOutputResponse: Swift.Equatable {
+    /// Logging-configuration ARN, assigned by the system.
+    public var arn: Swift.String?
+    /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+    public var createTime: ClientRuntime.Date?
+    /// A complex type that contains a destination configuration for where chat content will be logged, from the request. There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+    public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the logging configuration.
+    public var id: Swift.String?
+    /// Logging-configuration name, from the request (if specified).
+    public var name: Swift.String?
+    /// The state of the logging configuration. When the state is ACTIVE, the configuration is ready to log chat content.
+    public var state: IvschatClientTypes.CreateLoggingConfigurationState?
+    /// Tags attached to the resource, from the request (if specified). Array of maps, each of the form string:string (key:value).
+    public var tags: [Swift.String:Swift.String]?
+    /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+    public var updateTime: ClientRuntime.Date?
+
+    public init (
+        arn: Swift.String? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: IvschatClientTypes.CreateLoggingConfigurationState? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.arn = arn
+        self.createTime = createTime
+        self.destinationConfiguration = destinationConfiguration
+        self.id = id
+        self.name = name
+        self.state = state
+        self.tags = tags
+        self.updateTime = updateTime
+    }
+}
+
+struct CreateLoggingConfigurationOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let id: Swift.String?
+    let createTime: ClientRuntime.Date?
+    let updateTime: ClientRuntime.Date?
+    let name: Swift.String?
+    let destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    let state: IvschatClientTypes.CreateLoggingConfigurationState?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateLoggingConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createTime
+        case destinationConfiguration
+        case id
+        case name
+        case state
+        case tags
+        case updateTime
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let destinationConfigurationDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.DestinationConfiguration.self, forKey: .destinationConfiguration)
+        destinationConfiguration = destinationConfigurationDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.CreateLoggingConfigurationState.self, forKey: .state)
+        state = stateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IvschatClientTypes {
+    public enum CreateLoggingConfigurationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CreateLoggingConfigurationState] {
+            return [
+                .active,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CreateLoggingConfigurationState(rawValue: rawValue) ?? CreateLoggingConfigurationState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CreateRoomInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingConfigurationIdentifiers
         case maximumMessageLength
         case maximumMessageRatePerSecond
         case messageReviewHandler
@@ -386,6 +688,12 @@ extension CreateRoomInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let loggingConfigurationIdentifiers = loggingConfigurationIdentifiers {
+            var loggingConfigurationIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggingConfigurationIdentifiers)
+            for loggingconfigurationidentifierlist0 in loggingConfigurationIdentifiers {
+                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifierlist0)
+            }
+        }
         if maximumMessageLength != 0 {
             try encodeContainer.encode(maximumMessageLength, forKey: .maximumMessageLength)
         }
@@ -414,6 +722,8 @@ extension CreateRoomInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateRoomInput: Swift.Equatable {
+    /// Array of logging-configuration identifiers attached to the room.
+    public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
     public var maximumMessageLength: Swift.Int
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
@@ -426,6 +736,7 @@ public struct CreateRoomInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        loggingConfigurationIdentifiers: [Swift.String]? = nil,
         maximumMessageLength: Swift.Int = 0,
         maximumMessageRatePerSecond: Swift.Int = 0,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
@@ -433,6 +744,7 @@ public struct CreateRoomInput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
         self.maximumMessageLength = maximumMessageLength
         self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
         self.messageReviewHandler = messageReviewHandler
@@ -447,10 +759,12 @@ struct CreateRoomInputBody: Swift.Equatable {
     let maximumMessageLength: Swift.Int
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
+    let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
 extension CreateRoomInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingConfigurationIdentifiers
         case maximumMessageLength
         case maximumMessageRatePerSecond
         case messageReviewHandler
@@ -479,6 +793,17 @@ extension CreateRoomInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let loggingConfigurationIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .loggingConfigurationIdentifiers)
+        var loggingConfigurationIdentifiersDecoded0:[Swift.String]? = nil
+        if let loggingConfigurationIdentifiersContainer = loggingConfigurationIdentifiersContainer {
+            loggingConfigurationIdentifiersDecoded0 = [Swift.String]()
+            for string0 in loggingConfigurationIdentifiersContainer {
+                if let string0 = string0 {
+                    loggingConfigurationIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
     }
 }
 
@@ -523,6 +848,7 @@ extension CreateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = output.arn
             self.createTime = output.createTime
             self.id = output.id
+            self.loggingConfigurationIdentifiers = output.loggingConfigurationIdentifiers
             self.maximumMessageLength = output.maximumMessageLength
             self.maximumMessageRatePerSecond = output.maximumMessageRatePerSecond
             self.messageReviewHandler = output.messageReviewHandler
@@ -533,6 +859,7 @@ extension CreateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = nil
             self.createTime = nil
             self.id = nil
+            self.loggingConfigurationIdentifiers = nil
             self.maximumMessageLength = 0
             self.maximumMessageRatePerSecond = 0
             self.messageReviewHandler = nil
@@ -550,15 +877,17 @@ public struct CreateRoomOutputResponse: Swift.Equatable {
     public var createTime: ClientRuntime.Date?
     /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
     public var id: Swift.String?
-    /// Maximum number of characters in a single message, from the request.
+    /// Array of logging configurations attached to the room, from the request (if specified).
+    public var loggingConfigurationIdentifiers: [Swift.String]?
+    /// Maximum number of characters in a single message, from the request (if specified).
     public var maximumMessageLength: Swift.Int
-    /// Maximum number of messages per second that can be sent to the room (by all clients), from the request.
+    /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
     public var maximumMessageRatePerSecond: Swift.Int
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name, from the request (if specified).
     public var name: Swift.String?
-    /// Tags attached to the resource, from the request.
+    /// Tags attached to the resource, from the request (if specified).
     public var tags: [Swift.String:Swift.String]?
     /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
     public var updateTime: ClientRuntime.Date?
@@ -567,6 +896,7 @@ public struct CreateRoomOutputResponse: Swift.Equatable {
         arn: Swift.String? = nil,
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
+        loggingConfigurationIdentifiers: [Swift.String]? = nil,
         maximumMessageLength: Swift.Int = 0,
         maximumMessageRatePerSecond: Swift.Int = 0,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
@@ -578,6 +908,7 @@ public struct CreateRoomOutputResponse: Swift.Equatable {
         self.arn = arn
         self.createTime = createTime
         self.id = id
+        self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
         self.maximumMessageLength = maximumMessageLength
         self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
         self.messageReviewHandler = messageReviewHandler
@@ -597,6 +928,7 @@ struct CreateRoomOutputResponseBody: Swift.Equatable {
     let maximumMessageLength: Swift.Int
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
+    let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
 extension CreateRoomOutputResponseBody: Swift.Decodable {
@@ -604,6 +936,7 @@ extension CreateRoomOutputResponseBody: Swift.Decodable {
         case arn
         case createTime
         case id
+        case loggingConfigurationIdentifiers
         case maximumMessageLength
         case maximumMessageRatePerSecond
         case messageReviewHandler
@@ -641,7 +974,106 @@ extension CreateRoomOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let loggingConfigurationIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .loggingConfigurationIdentifiers)
+        var loggingConfigurationIdentifiersDecoded0:[Swift.String]? = nil
+        if let loggingConfigurationIdentifiersContainer = loggingConfigurationIdentifiersContainer {
+            loggingConfigurationIdentifiersDecoded0 = [Swift.String]()
+            for string0 in loggingConfigurationIdentifiersContainer {
+                if let string0 = string0 {
+                    loggingConfigurationIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
     }
+}
+
+extension DeleteLoggingConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+}
+
+extension DeleteLoggingConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteLoggingConfiguration"
+    }
+}
+
+public struct DeleteLoggingConfigurationInput: Swift.Equatable {
+    /// Identifier of the logging configuration to be deleted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init (
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct DeleteLoggingConfigurationInputBody: Swift.Equatable {
+    let identifier: Swift.String?
+}
+
+extension DeleteLoggingConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+    }
+}
+
+extension DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteLoggingConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PendingVerification" : self = .pendingVerification(try PendingVerification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case pendingVerification(PendingVerification)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteLoggingConfigurationOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension DeleteMessageInput: Swift.Encodable {
@@ -729,6 +1161,7 @@ extension DeleteMessageOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PendingVerification" : self = .pendingVerification(try PendingVerification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -739,6 +1172,7 @@ extension DeleteMessageOutputError {
 
 public enum DeleteMessageOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
+    case pendingVerification(PendingVerification)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
@@ -872,6 +1306,63 @@ public struct DeleteRoomOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension IvschatClientTypes.DestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudwatchlogs = "cloudWatchLogs"
+        case firehose
+        case s3
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .cloudwatchlogs(cloudwatchlogs):
+                try container.encode(cloudwatchlogs, forKey: .cloudwatchlogs)
+            case let .firehose(firehose):
+                try container.encode(firehose, forKey: .firehose)
+            case let .s3(s3):
+                try container.encode(s3, forKey: .s3)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let s3Decoded = try values.decodeIfPresent(IvschatClientTypes.S3DestinationConfiguration.self, forKey: .s3)
+        if let s3 = s3Decoded {
+            self = .s3(s3)
+            return
+        }
+        let cloudwatchlogsDecoded = try values.decodeIfPresent(IvschatClientTypes.CloudWatchLogsDestinationConfiguration.self, forKey: .cloudwatchlogs)
+        if let cloudwatchlogs = cloudwatchlogsDecoded {
+            self = .cloudwatchlogs(cloudwatchlogs)
+            return
+        }
+        let firehoseDecoded = try values.decodeIfPresent(IvschatClientTypes.FirehoseDestinationConfiguration.self, forKey: .firehose)
+        if let firehose = firehoseDecoded {
+            self = .firehose(firehose)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension IvschatClientTypes {
+    /// A complex type that describes a location where chat logs will be stored. Each member represents the configuration of one log destination. For logging, you define only one type of destination (for CloudWatch Logs, Kinesis Firehose, or S3).
+    public enum DestinationConfiguration: Swift.Equatable {
+        /// An Amazon S3 destination configuration where chat activity will be logged.
+        case s3(IvschatClientTypes.S3DestinationConfiguration)
+        /// An Amazon CloudWatch Logs destination configuration where chat activity will be logged.
+        case cloudwatchlogs(IvschatClientTypes.CloudWatchLogsDestinationConfiguration)
+        /// An Amazon Kinesis Data Firehose destination configuration where chat activity will be logged.
+        case firehose(IvschatClientTypes.FirehoseDestinationConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension DisconnectUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reason
@@ -957,6 +1448,7 @@ extension DisconnectUserOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PendingVerification" : self = .pendingVerification(try PendingVerification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -967,6 +1459,7 @@ extension DisconnectUserOutputError {
 
 public enum DisconnectUserOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
+    case pendingVerification(PendingVerification)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
@@ -1012,6 +1505,236 @@ extension IvschatClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = FallbackResult(rawValue: rawValue) ?? FallbackResult.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension IvschatClientTypes.FirehoseDestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryStreamName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryStreamName = self.deliveryStreamName {
+            try encodeContainer.encode(deliveryStreamName, forKey: .deliveryStreamName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
+        deliveryStreamName = deliveryStreamNameDecoded
+    }
+}
+
+extension IvschatClientTypes {
+    /// Specifies a Kinesis Firehose location where chat logs will be stored.
+    public struct FirehoseDestinationConfiguration: Swift.Equatable {
+        /// Name of the Amazon Kinesis Firehose delivery stream where chat activity will be logged.
+        /// This member is required.
+        public var deliveryStreamName: Swift.String?
+
+        public init (
+            deliveryStreamName: Swift.String? = nil
+        )
+        {
+            self.deliveryStreamName = deliveryStreamName
+        }
+    }
+
+}
+
+extension GetLoggingConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+}
+
+extension GetLoggingConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetLoggingConfiguration"
+    }
+}
+
+public struct GetLoggingConfigurationInput: Swift.Equatable {
+    /// Identifier of the logging configuration to be retrieved.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init (
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetLoggingConfigurationInputBody: Swift.Equatable {
+    let identifier: Swift.String?
+}
+
+extension GetLoggingConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+    }
+}
+
+extension GetLoggingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetLoggingConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createTime = output.createTime
+            self.destinationConfiguration = output.destinationConfiguration
+            self.id = output.id
+            self.name = output.name
+            self.state = output.state
+            self.tags = output.tags
+            self.updateTime = output.updateTime
+        } else {
+            self.arn = nil
+            self.createTime = nil
+            self.destinationConfiguration = nil
+            self.id = nil
+            self.name = nil
+            self.state = nil
+            self.tags = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct GetLoggingConfigurationOutputResponse: Swift.Equatable {
+    /// Logging-configuration ARN, from the request (if identifier was an ARN).
+    public var arn: Swift.String?
+    /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+    public var createTime: ClientRuntime.Date?
+    /// A complex type that contains a destination configuration for where chat content will be logged. There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+    public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the logging configuration.
+    public var id: Swift.String?
+    /// Logging-configuration name. This value does not need to be unique.
+    public var name: Swift.String?
+    /// The state of the logging configuration. When the state is ACTIVE, the configuration is ready to log chat content.
+    public var state: IvschatClientTypes.LoggingConfigurationState?
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
+    public var tags: [Swift.String:Swift.String]?
+    /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+    public var updateTime: ClientRuntime.Date?
+
+    public init (
+        arn: Swift.String? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: IvschatClientTypes.LoggingConfigurationState? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.arn = arn
+        self.createTime = createTime
+        self.destinationConfiguration = destinationConfiguration
+        self.id = id
+        self.name = name
+        self.state = state
+        self.tags = tags
+        self.updateTime = updateTime
+    }
+}
+
+struct GetLoggingConfigurationOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let id: Swift.String?
+    let createTime: ClientRuntime.Date?
+    let updateTime: ClientRuntime.Date?
+    let name: Swift.String?
+    let destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    let state: IvschatClientTypes.LoggingConfigurationState?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetLoggingConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createTime
+        case destinationConfiguration
+        case id
+        case name
+        case state
+        case tags
+        case updateTime
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let destinationConfigurationDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.DestinationConfiguration.self, forKey: .destinationConfiguration)
+        destinationConfiguration = destinationConfigurationDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.LoggingConfigurationState.self, forKey: .state)
+        state = stateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1098,6 +1821,7 @@ extension GetRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = output.arn
             self.createTime = output.createTime
             self.id = output.id
+            self.loggingConfigurationIdentifiers = output.loggingConfigurationIdentifiers
             self.maximumMessageLength = output.maximumMessageLength
             self.maximumMessageRatePerSecond = output.maximumMessageRatePerSecond
             self.messageReviewHandler = output.messageReviewHandler
@@ -1108,6 +1832,7 @@ extension GetRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = nil
             self.createTime = nil
             self.id = nil
+            self.loggingConfigurationIdentifiers = nil
             self.maximumMessageLength = 0
             self.maximumMessageRatePerSecond = 0
             self.messageReviewHandler = nil
@@ -1125,6 +1850,8 @@ public struct GetRoomOutputResponse: Swift.Equatable {
     public var createTime: ClientRuntime.Date?
     /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
     public var id: Swift.String?
+    /// Array of logging configurations attached to the room.
+    public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
     public var maximumMessageLength: Swift.Int
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
@@ -1142,6 +1869,7 @@ public struct GetRoomOutputResponse: Swift.Equatable {
         arn: Swift.String? = nil,
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
+        loggingConfigurationIdentifiers: [Swift.String]? = nil,
         maximumMessageLength: Swift.Int = 0,
         maximumMessageRatePerSecond: Swift.Int = 0,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
@@ -1153,6 +1881,7 @@ public struct GetRoomOutputResponse: Swift.Equatable {
         self.arn = arn
         self.createTime = createTime
         self.id = id
+        self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
         self.maximumMessageLength = maximumMessageLength
         self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
         self.messageReviewHandler = messageReviewHandler
@@ -1172,6 +1901,7 @@ struct GetRoomOutputResponseBody: Swift.Equatable {
     let maximumMessageLength: Swift.Int
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
+    let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
 extension GetRoomOutputResponseBody: Swift.Decodable {
@@ -1179,6 +1909,7 @@ extension GetRoomOutputResponseBody: Swift.Decodable {
         case arn
         case createTime
         case id
+        case loggingConfigurationIdentifiers
         case maximumMessageLength
         case maximumMessageRatePerSecond
         case messageReviewHandler
@@ -1216,6 +1947,17 @@ extension GetRoomOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let loggingConfigurationIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .loggingConfigurationIdentifiers)
+        var loggingConfigurationIdentifiersDecoded0:[Swift.String]? = nil
+        if let loggingConfigurationIdentifiersContainer = loggingConfigurationIdentifiersContainer {
+            loggingConfigurationIdentifiersDecoded0 = [Swift.String]()
+            for string0 in loggingConfigurationIdentifiersContainer {
+                if let string0 = string0 {
+                    loggingConfigurationIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
     }
 }
 
@@ -1272,8 +2014,153 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListLoggingConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if maxResults != 0 {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListLoggingConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListLoggingConfigurations"
+    }
+}
+
+public struct ListLoggingConfigurationsInput: Swift.Equatable {
+    /// Maximum number of logging configurations to return. Default: 50.
+    public var maxResults: Swift.Int
+    /// The first logging configurations to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLoggingConfigurationsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int
+}
+
+extension ListLoggingConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListLoggingConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListLoggingConfigurationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListLoggingConfigurationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.loggingConfigurations = output.loggingConfigurations
+            self.nextToken = output.nextToken
+        } else {
+            self.loggingConfigurations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListLoggingConfigurationsOutputResponse: Swift.Equatable {
+    /// List of the matching logging configurations (summary information only). There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+    /// This member is required.
+    public var loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]?
+    /// If there are more logging configurations than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+
+    public init (
+        loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.loggingConfigurations = loggingConfigurations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLoggingConfigurationsOutputResponseBody: Swift.Equatable {
+    let loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListLoggingConfigurationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingConfigurations
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let loggingConfigurationsContainer = try containerValues.decodeIfPresent([IvschatClientTypes.LoggingConfigurationSummary?].self, forKey: .loggingConfigurations)
+        var loggingConfigurationsDecoded0:[IvschatClientTypes.LoggingConfigurationSummary]? = nil
+        if let loggingConfigurationsContainer = loggingConfigurationsContainer {
+            loggingConfigurationsDecoded0 = [IvschatClientTypes.LoggingConfigurationSummary]()
+            for structure0 in loggingConfigurationsContainer {
+                if let structure0 = structure0 {
+                    loggingConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        loggingConfigurations = loggingConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListRoomsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingConfigurationIdentifier
         case maxResults
         case messageReviewHandlerUri
         case name
@@ -1282,6 +2169,9 @@ extension ListRoomsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let loggingConfigurationIdentifier = self.loggingConfigurationIdentifier {
+            try encodeContainer.encode(loggingConfigurationIdentifier, forKey: .loggingConfigurationIdentifier)
+        }
         if maxResults != 0 {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -1304,6 +2194,8 @@ extension ListRoomsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRoomsInput: Swift.Equatable {
+    /// Logging-configuration identifier.
+    public var loggingConfigurationIdentifier: Swift.String?
     /// Maximum number of rooms to return. Default: 50.
     public var maxResults: Swift.Int
     /// Filters the list to match the specified message review handler URI.
@@ -1314,12 +2206,14 @@ public struct ListRoomsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init (
+        loggingConfigurationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         messageReviewHandlerUri: Swift.String? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.loggingConfigurationIdentifier = loggingConfigurationIdentifier
         self.maxResults = maxResults
         self.messageReviewHandlerUri = messageReviewHandlerUri
         self.name = name
@@ -1332,10 +2226,12 @@ struct ListRoomsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let maxResults: Swift.Int
     let messageReviewHandlerUri: Swift.String?
+    let loggingConfigurationIdentifier: Swift.String?
 }
 
 extension ListRoomsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingConfigurationIdentifier
         case maxResults
         case messageReviewHandlerUri
         case name
@@ -1352,6 +2248,8 @@ extension ListRoomsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let messageReviewHandlerUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageReviewHandlerUri)
         messageReviewHandlerUri = messageReviewHandlerUriDecoded
+        let loggingConfigurationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loggingConfigurationIdentifier)
+        loggingConfigurationIdentifier = loggingConfigurationIdentifierDecoded
     }
 }
 
@@ -1513,7 +2411,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutputResponse: Swift.Equatable {
-    /// Tags attached to the resource, from the request.
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1548,6 +2446,170 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         }
         tags = tagsDecoded0
     }
+}
+
+extension IvschatClientTypes {
+    public enum LoggingConfigurationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LoggingConfigurationState] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .updateFailed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LoggingConfigurationState(rawValue: rawValue) ?? LoggingConfigurationState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IvschatClientTypes.LoggingConfigurationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createTime
+        case destinationConfiguration
+        case id
+        case name
+        case state
+        case tags
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .dateTime, forKey: .createTime)
+        }
+        if let destinationConfiguration = self.destinationConfiguration {
+            try encodeContainer.encode(destinationConfiguration, forKey: .destinationConfiguration)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .dateTime, forKey: .updateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let destinationConfigurationDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.DestinationConfiguration.self, forKey: .destinationConfiguration)
+        destinationConfiguration = destinationConfigurationDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.LoggingConfigurationState.self, forKey: .state)
+        state = stateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IvschatClientTypes {
+    /// Summary information about a logging configuration.
+    public struct LoggingConfigurationSummary: Swift.Equatable {
+        /// Logging-configuration ARN.
+        public var arn: Swift.String?
+        /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var createTime: ClientRuntime.Date?
+        /// A complex type that contains a destination configuration for where chat content will be logged.
+        public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+        /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
+        public var id: Swift.String?
+        /// Logging-configuration name. The value does not need to be unique.
+        public var name: Swift.String?
+        /// The state of the logging configuration. When this is ACTIVE, the configuration is ready for logging chat content.
+        public var state: IvschatClientTypes.LoggingConfigurationState?
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+        /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var updateTime: ClientRuntime.Date?
+
+        public init (
+            arn: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            state: IvschatClientTypes.LoggingConfigurationState? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.createTime = createTime
+            self.destinationConfiguration = destinationConfiguration
+            self.id = id
+            self.name = name
+            self.state = state
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+    }
+
 }
 
 extension IvschatClientTypes.MessageReviewHandler: Swift.Codable {
@@ -1757,6 +2819,7 @@ extension IvschatClientTypes.RoomSummary: Swift.Codable {
         case arn
         case createTime
         case id
+        case loggingConfigurationIdentifiers
         case messageReviewHandler
         case name
         case tags
@@ -1773,6 +2836,12 @@ extension IvschatClientTypes.RoomSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let loggingConfigurationIdentifiers = loggingConfigurationIdentifiers {
+            var loggingConfigurationIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggingConfigurationIdentifiers)
+            for loggingconfigurationidentifierlist0 in loggingConfigurationIdentifiers {
+                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifierlist0)
+            }
         }
         if let messageReviewHandler = self.messageReviewHandler {
             try encodeContainer.encode(messageReviewHandler, forKey: .messageReviewHandler)
@@ -1816,6 +2885,17 @@ extension IvschatClientTypes.RoomSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let loggingConfigurationIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .loggingConfigurationIdentifiers)
+        var loggingConfigurationIdentifiersDecoded0:[Swift.String]? = nil
+        if let loggingConfigurationIdentifiersContainer = loggingConfigurationIdentifiersContainer {
+            loggingConfigurationIdentifiersDecoded0 = [Swift.String]()
+            for string0 in loggingConfigurationIdentifiersContainer {
+                if let string0 = string0 {
+                    loggingConfigurationIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
     }
 }
 
@@ -1828,11 +2908,13 @@ extension IvschatClientTypes {
         public var createTime: ClientRuntime.Date?
         /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
         public var id: Swift.String?
+        /// List of logging-configuration identifiers attached to the room.
+        public var loggingConfigurationIdentifiers: [Swift.String]?
         /// Configuration information for optional review of messages.
         public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
         /// Room name. The value does not need to be unique.
         public var name: Swift.String?
-        /// Tags attached to the resource. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
         /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         public var updateTime: ClientRuntime.Date?
@@ -1841,6 +2923,7 @@ extension IvschatClientTypes {
             arn: Swift.String? = nil,
             createTime: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
+            loggingConfigurationIdentifiers: [Swift.String]? = nil,
             messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -1850,10 +2933,47 @@ extension IvschatClientTypes {
             self.arn = arn
             self.createTime = createTime
             self.id = id
+            self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
             self.messageReviewHandler = messageReviewHandler
             self.name = name
             self.tags = tags
             self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension IvschatClientTypes.S3DestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+    }
+}
+
+extension IvschatClientTypes {
+    /// Specifies an S3 location where chat logs will be stored.
+    public struct S3DestinationConfiguration: Swift.Equatable {
+        /// Name of the Amazon S3 bucket where chat activity will be logged.
+        /// This member is required.
+        public var bucketName: Swift.String?
+
+        public init (
+            bucketName: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
         }
     }
 
@@ -1956,6 +3076,7 @@ extension SendEventOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PendingVerification" : self = .pendingVerification(try PendingVerification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1966,6 +3087,7 @@ extension SendEventOutputError {
 
 public enum SendEventOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
+    case pendingVerification(PendingVerification)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
@@ -2128,7 +3250,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be added or updated. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+    /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2319,7 +3441,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be removed. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+    /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -2378,9 +3500,259 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateLoggingConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationConfiguration
+        case identifier
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationConfiguration = self.destinationConfiguration {
+            try encodeContainer.encode(destinationConfiguration, forKey: .destinationConfiguration)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateLoggingConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/UpdateLoggingConfiguration"
+    }
+}
+
+public struct UpdateLoggingConfigurationInput: Swift.Equatable {
+    /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+    public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    /// Identifier of the logging configuration to be updated.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Logging-configuration name. The value does not need to be unique.
+    public var name: Swift.String?
+
+    public init (
+        destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.destinationConfiguration = destinationConfiguration
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+struct UpdateLoggingConfigurationInputBody: Swift.Equatable {
+    let identifier: Swift.String?
+    let name: Swift.String?
+    let destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+}
+
+extension UpdateLoggingConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationConfiguration
+        case identifier
+        case name
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let destinationConfigurationDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.DestinationConfiguration.self, forKey: .destinationConfiguration)
+        destinationConfiguration = destinationConfigurationDecoded
+    }
+}
+
+extension UpdateLoggingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateLoggingConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PendingVerification" : self = .pendingVerification(try PendingVerification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case pendingVerification(PendingVerification)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createTime = output.createTime
+            self.destinationConfiguration = output.destinationConfiguration
+            self.id = output.id
+            self.name = output.name
+            self.state = output.state
+            self.tags = output.tags
+            self.updateTime = output.updateTime
+        } else {
+            self.arn = nil
+            self.createTime = nil
+            self.destinationConfiguration = nil
+            self.id = nil
+            self.name = nil
+            self.state = nil
+            self.tags = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct UpdateLoggingConfigurationOutputResponse: Swift.Equatable {
+    /// Logging-configuration ARN, from the request (if identifier was an ARN).
+    public var arn: Swift.String?
+    /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+    public var createTime: ClientRuntime.Date?
+    /// A complex type that contains a destination configuration for where chat content will be logged, from the request. There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+    public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
+    public var id: Swift.String?
+    /// Logging-configuration name, from the request (if specified).
+    public var name: Swift.String?
+    /// The state of the logging configuration. When the state is ACTIVE, the configuration is ready to log chat content.
+    public var state: IvschatClientTypes.UpdateLoggingConfigurationState?
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
+    public var tags: [Swift.String:Swift.String]?
+    /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+    public var updateTime: ClientRuntime.Date?
+
+    public init (
+        arn: Swift.String? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: IvschatClientTypes.UpdateLoggingConfigurationState? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.arn = arn
+        self.createTime = createTime
+        self.destinationConfiguration = destinationConfiguration
+        self.id = id
+        self.name = name
+        self.state = state
+        self.tags = tags
+        self.updateTime = updateTime
+    }
+}
+
+struct UpdateLoggingConfigurationOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let id: Swift.String?
+    let createTime: ClientRuntime.Date?
+    let updateTime: ClientRuntime.Date?
+    let name: Swift.String?
+    let destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
+    let state: IvschatClientTypes.UpdateLoggingConfigurationState?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension UpdateLoggingConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createTime
+        case destinationConfiguration
+        case id
+        case name
+        case state
+        case tags
+        case updateTime
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let destinationConfigurationDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.DestinationConfiguration.self, forKey: .destinationConfiguration)
+        destinationConfiguration = destinationConfigurationDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.UpdateLoggingConfigurationState.self, forKey: .state)
+        state = stateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IvschatClientTypes {
+    public enum UpdateLoggingConfigurationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateLoggingConfigurationState] {
+            return [
+                .active,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateLoggingConfigurationState(rawValue: rawValue) ?? UpdateLoggingConfigurationState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UpdateRoomInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identifier
+        case loggingConfigurationIdentifiers
         case maximumMessageLength
         case maximumMessageRatePerSecond
         case messageReviewHandler
@@ -2391,6 +3763,12 @@ extension UpdateRoomInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let identifier = self.identifier {
             try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let loggingConfigurationIdentifiers = loggingConfigurationIdentifiers {
+            var loggingConfigurationIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggingConfigurationIdentifiers)
+            for loggingconfigurationidentifierlist0 in loggingConfigurationIdentifiers {
+                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifierlist0)
+            }
         }
         if maximumMessageLength != 0 {
             try encodeContainer.encode(maximumMessageLength, forKey: .maximumMessageLength)
@@ -2417,6 +3795,8 @@ public struct UpdateRoomInput: Swift.Equatable {
     /// Identifier of the room to be updated. Currently this must be an ARN.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Array of logging-configuration identifiers attached to the room.
+    public var loggingConfigurationIdentifiers: [Swift.String]?
     /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
     public var maximumMessageLength: Swift.Int
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
@@ -2428,6 +3808,7 @@ public struct UpdateRoomInput: Swift.Equatable {
 
     public init (
         identifier: Swift.String? = nil,
+        loggingConfigurationIdentifiers: [Swift.String]? = nil,
         maximumMessageLength: Swift.Int = 0,
         maximumMessageRatePerSecond: Swift.Int = 0,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
@@ -2435,6 +3816,7 @@ public struct UpdateRoomInput: Swift.Equatable {
     )
     {
         self.identifier = identifier
+        self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
         self.maximumMessageLength = maximumMessageLength
         self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
         self.messageReviewHandler = messageReviewHandler
@@ -2448,11 +3830,13 @@ struct UpdateRoomInputBody: Swift.Equatable {
     let maximumMessageRatePerSecond: Swift.Int
     let maximumMessageLength: Swift.Int
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
+    let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
 extension UpdateRoomInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identifier
+        case loggingConfigurationIdentifiers
         case maximumMessageLength
         case maximumMessageRatePerSecond
         case messageReviewHandler
@@ -2471,6 +3855,17 @@ extension UpdateRoomInputBody: Swift.Decodable {
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
+        let loggingConfigurationIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .loggingConfigurationIdentifiers)
+        var loggingConfigurationIdentifiersDecoded0:[Swift.String]? = nil
+        if let loggingConfigurationIdentifiersContainer = loggingConfigurationIdentifiersContainer {
+            loggingConfigurationIdentifiersDecoded0 = [Swift.String]()
+            for string0 in loggingConfigurationIdentifiersContainer {
+                if let string0 = string0 {
+                    loggingConfigurationIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
     }
 }
 
@@ -2511,6 +3906,7 @@ extension UpdateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = output.arn
             self.createTime = output.createTime
             self.id = output.id
+            self.loggingConfigurationIdentifiers = output.loggingConfigurationIdentifiers
             self.maximumMessageLength = output.maximumMessageLength
             self.maximumMessageRatePerSecond = output.maximumMessageRatePerSecond
             self.messageReviewHandler = output.messageReviewHandler
@@ -2521,6 +3917,7 @@ extension UpdateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = nil
             self.createTime = nil
             self.id = nil
+            self.loggingConfigurationIdentifiers = nil
             self.maximumMessageLength = 0
             self.maximumMessageRatePerSecond = 0
             self.messageReviewHandler = nil
@@ -2538,15 +3935,17 @@ public struct UpdateRoomOutputResponse: Swift.Equatable {
     public var createTime: ClientRuntime.Date?
     /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
     public var id: Swift.String?
-    /// Maximum number of characters in a single message, from the request.
+    /// Array of logging configurations attached to the room, from the request (if specified).
+    public var loggingConfigurationIdentifiers: [Swift.String]?
+    /// Maximum number of characters in a single message, from the request (if specified).
     public var maximumMessageLength: Swift.Int
-    /// Maximum number of messages per second that can be sent to the room (by all clients), from the request.
+    /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
     public var maximumMessageRatePerSecond: Swift.Int
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
-    /// Room name, from the request.
+    /// Room name, from the request (if specified).
     public var name: Swift.String?
-    /// Tags attached to the resource.
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
     public var tags: [Swift.String:Swift.String]?
     /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
     public var updateTime: ClientRuntime.Date?
@@ -2555,6 +3954,7 @@ public struct UpdateRoomOutputResponse: Swift.Equatable {
         arn: Swift.String? = nil,
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
+        loggingConfigurationIdentifiers: [Swift.String]? = nil,
         maximumMessageLength: Swift.Int = 0,
         maximumMessageRatePerSecond: Swift.Int = 0,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
@@ -2566,6 +3966,7 @@ public struct UpdateRoomOutputResponse: Swift.Equatable {
         self.arn = arn
         self.createTime = createTime
         self.id = id
+        self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
         self.maximumMessageLength = maximumMessageLength
         self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
         self.messageReviewHandler = messageReviewHandler
@@ -2585,6 +3986,7 @@ struct UpdateRoomOutputResponseBody: Swift.Equatable {
     let maximumMessageLength: Swift.Int
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
+    let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
 extension UpdateRoomOutputResponseBody: Swift.Decodable {
@@ -2592,6 +3994,7 @@ extension UpdateRoomOutputResponseBody: Swift.Decodable {
         case arn
         case createTime
         case id
+        case loggingConfigurationIdentifiers
         case maximumMessageLength
         case maximumMessageRatePerSecond
         case messageReviewHandler
@@ -2629,6 +4032,17 @@ extension UpdateRoomOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let loggingConfigurationIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .loggingConfigurationIdentifiers)
+        var loggingConfigurationIdentifiersDecoded0:[Swift.String]? = nil
+        if let loggingConfigurationIdentifiersContainer = loggingConfigurationIdentifiersContainer {
+            loggingConfigurationIdentifiersDecoded0 = [Swift.String]()
+            for string0 in loggingConfigurationIdentifiersContainer {
+                if let string0 = string0 {
+                    loggingConfigurationIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
     }
 }
 
