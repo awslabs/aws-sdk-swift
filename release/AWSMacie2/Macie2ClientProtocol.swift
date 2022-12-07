@@ -3,7 +3,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS. Macie automates the discovery of sensitive data, such as PII and intellectual property, to provide you with insight into the data that your organization stores in AWS. Macie also provides an inventory of your Amazon S3 buckets, which it continually monitors for you. If Macie detects sensitive data or potential data access issues, it generates detailed findings for you to review and act upon as necessary.
+/// Amazon Macie
 public protocol Macie2ClientProtocol {
     /// Accepts an Amazon Macie membership invitation that was received from a specific account.
     func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutputResponse
@@ -35,7 +35,7 @@ public protocol Macie2ClientProtocol {
     func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutputResponse
     /// Deletes the association between an Amazon Macie administrator account and an account.
     func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutputResponse
-    /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes.
+    /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     func describeBuckets(input: DescribeBucketsInput) async throws -> DescribeBucketsOutputResponse
     /// Retrieves the status and settings for a classification job.
     func describeClassificationJob(input: DescribeClassificationJobInput) async throws -> DescribeClassificationJobOutputResponse
@@ -59,10 +59,14 @@ public protocol Macie2ClientProtocol {
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutputResponse
     /// Retrieves the settings and status of an allow list.
     func getAllowList(input: GetAllowListInput) async throws -> GetAllowListOutputResponse
-    /// Retrieves (queries) aggregated statistical data about S3 buckets that Amazon Macie monitors and analyzes.
+    /// Retrieves the configuration settings and status of automated sensitive data discovery for an account.
+    func getAutomatedDiscoveryConfiguration(input: GetAutomatedDiscoveryConfigurationInput) async throws -> GetAutomatedDiscoveryConfigurationOutputResponse
+    /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
     func getBucketStatistics(input: GetBucketStatisticsInput) async throws -> GetBucketStatisticsOutputResponse
     /// Retrieves the configuration settings for storing data classification results.
     func getClassificationExportConfiguration(input: GetClassificationExportConfigurationInput) async throws -> GetClassificationExportConfigurationOutputResponse
+    /// Retrieves the classification scope settings for an account.
+    func getClassificationScope(input: GetClassificationScopeInput) async throws -> GetClassificationScopeOutputResponse
     /// Retrieves the criteria and other settings for a custom data identifier.
     func getCustomDataIdentifier(input: GetCustomDataIdentifierInput) async throws -> GetCustomDataIdentifierOutputResponse
     /// Retrieves the details of one or more findings.
@@ -75,18 +79,22 @@ public protocol Macie2ClientProtocol {
     func getFindingStatistics(input: GetFindingStatisticsInput) async throws -> GetFindingStatisticsOutputResponse
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
     func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutputResponse
-    /// Retrieves the current status and configuration settings for an Amazon Macie account.
+    /// Retrieves the status and configuration settings for an Amazon Macie account.
     func getMacieSession(input: GetMacieSessionInput) async throws -> GetMacieSessionOutputResponse
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
     func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutputResponse
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
     func getMember(input: GetMemberInput) async throws -> GetMemberOutputResponse
+    /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
+    func getResourceProfile(input: GetResourceProfileInput) async throws -> GetResourceProfileOutputResponse
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     func getRevealConfiguration(input: GetRevealConfigurationInput) async throws -> GetRevealConfigurationOutputResponse
     /// Retrieves occurrences of sensitive data reported by a finding.
     func getSensitiveDataOccurrences(input: GetSensitiveDataOccurrencesInput) async throws -> GetSensitiveDataOccurrencesOutputResponse
     /// Checks whether occurrences of sensitive data can be retrieved for a finding.
     func getSensitiveDataOccurrencesAvailability(input: GetSensitiveDataOccurrencesAvailabilityInput) async throws -> GetSensitiveDataOccurrencesAvailabilityOutputResponse
+    /// Retrieves the settings for the sensitivity inspection template for an account.
+    func getSensitivityInspectionTemplate(input: GetSensitivityInspectionTemplateInput) async throws -> GetSensitivityInspectionTemplateOutputResponse
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutputResponse
     /// Retrieves (queries) aggregated usage data for an account.
@@ -95,6 +103,8 @@ public protocol Macie2ClientProtocol {
     func listAllowLists(input: ListAllowListsInput) async throws -> ListAllowListsOutputResponse
     /// Retrieves a subset of information about one or more classification jobs.
     func listClassificationJobs(input: ListClassificationJobsInput) async throws -> ListClassificationJobsOutputResponse
+    /// Retrieves a subset of information about the classification scope for an account.
+    func listClassificationScopes(input: ListClassificationScopesInput) async throws -> ListClassificationScopesOutputResponse
     /// Retrieves a subset of information about all the custom data identifiers for an account.
     func listCustomDataIdentifiers(input: ListCustomDataIdentifiersInput) async throws -> ListCustomDataIdentifiersOutputResponse
     /// Retrieves a subset of information about one or more findings.
@@ -109,6 +119,12 @@ public protocol Macie2ClientProtocol {
     func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutputResponse
+    /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    func listResourceProfileArtifacts(input: ListResourceProfileArtifactsInput) async throws -> ListResourceProfileArtifactsOutputResponse
+    /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
+    func listResourceProfileDetections(input: ListResourceProfileDetectionsInput) async throws -> ListResourceProfileDetectionsOutputResponse
+    /// Retrieves a subset of information about the sensitivity inspection template for an account.
+    func listSensitivityInspectionTemplates(input: ListSensitivityInspectionTemplatesInput) async throws -> ListSensitivityInspectionTemplatesOutputResponse
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Creates or updates the configuration settings for storing data classification results.
@@ -125,8 +141,12 @@ public protocol Macie2ClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the settings for an allow list.
     func updateAllowList(input: UpdateAllowListInput) async throws -> UpdateAllowListOutputResponse
+    /// Enables or disables automated sensitive data discovery for an account.
+    func updateAutomatedDiscoveryConfiguration(input: UpdateAutomatedDiscoveryConfigurationInput) async throws -> UpdateAutomatedDiscoveryConfigurationOutputResponse
     /// Changes the status of a classification job.
     func updateClassificationJob(input: UpdateClassificationJobInput) async throws -> UpdateClassificationJobOutputResponse
+    /// Updates the classification scope settings for an account.
+    func updateClassificationScope(input: UpdateClassificationScopeInput) async throws -> UpdateClassificationScopeOutputResponse
     /// Updates the criteria and other settings for a findings filter.
     func updateFindingsFilter(input: UpdateFindingsFilterInput) async throws -> UpdateFindingsFilterOutputResponse
     /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
@@ -135,8 +155,14 @@ public protocol Macie2ClientProtocol {
     func updateMemberSession(input: UpdateMemberSessionInput) async throws -> UpdateMemberSessionOutputResponse
     /// Updates the Amazon Macie configuration settings for an organization in Organizations.
     func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
+    /// Updates the sensitivity score for an S3 bucket.
+    func updateResourceProfile(input: UpdateResourceProfileInput) async throws -> UpdateResourceProfileOutputResponse
+    /// Updates the sensitivity scoring settings for an S3 bucket.
+    func updateResourceProfileDetections(input: UpdateResourceProfileDetectionsInput) async throws -> UpdateResourceProfileDetectionsOutputResponse
     /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     func updateRevealConfiguration(input: UpdateRevealConfigurationInput) async throws -> UpdateRevealConfigurationOutputResponse
+    /// Updates the settings for the sensitivity inspection template for an account.
+    func updateSensitivityInspectionTemplate(input: UpdateSensitivityInspectionTemplateInput) async throws -> UpdateSensitivityInspectionTemplateOutputResponse
 }
 
 public protocol Macie2ClientConfigurationProtocol : AWSClientRuntime.AWSClientConfiguration {

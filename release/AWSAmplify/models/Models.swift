@@ -260,7 +260,7 @@ extension AmplifyClientTypes {
         /// The name for the Amplify app.
         /// This member is required.
         public var name: Swift.String?
-        /// The platform for the Amplify app.
+        /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
         /// This member is required.
         public var platform: AmplifyClientTypes.Platform?
         /// Describes the information about a production branch of the Amplify app.
@@ -1170,7 +1170,7 @@ public struct CreateAppInput: Swift.Equatable {
     public var name: Swift.String?
     /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var oauthToken: Swift.String?
-    /// The platform or framework for an Amplify app.
+    /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
     public var platform: AmplifyClientTypes.Platform?
     /// The repository for an Amplify app.
     public var repository: Swift.String?
@@ -5939,12 +5939,14 @@ extension NotFoundExceptionBody: Swift.Decodable {
 extension AmplifyClientTypes {
     public enum Platform: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case web
+        case webCompute
         case webDynamic
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Platform] {
             return [
                 .web,
+                .webCompute,
                 .webDynamic,
                 .sdkUnknown("")
             ]
@@ -5956,6 +5958,7 @@ extension AmplifyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .web: return "WEB"
+            case .webCompute: return "WEB_COMPUTE"
             case .webDynamic: return "WEB_DYNAMIC"
             case let .sdkUnknown(s): return s
             }
@@ -7286,7 +7289,7 @@ public struct UpdateAppInput: Swift.Equatable {
     public var name: Swift.String?
     /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var oauthToken: Swift.String?
-    /// The platform for an Amplify app.
+    /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
     public var platform: AmplifyClientTypes.Platform?
     /// The name of the repository for an Amplify app
     public var repository: Swift.String?

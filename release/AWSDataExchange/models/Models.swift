@@ -243,7 +243,7 @@ extension DataExchangeClientTypes {
         /// The unique identifier for the asset.
         /// This member is required.
         public var assetId: Swift.String?
-        /// The S3 bucket that is the destination for the asset.
+        /// The Amazon S3 bucket that is the destination for the asset.
         /// This member is required.
         public var bucket: Swift.String?
         /// The name of the object in Amazon S3 for the asset.
@@ -266,7 +266,9 @@ extension DataExchangeClientTypes {
 extension DataExchangeClientTypes.AssetDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiGatewayApiAsset = "ApiGatewayApiAsset"
+        case lakeFormationDataPermissionAsset = "LakeFormationDataPermissionAsset"
         case redshiftDataShareAsset = "RedshiftDataShareAsset"
+        case s3DataAccessAsset = "S3DataAccessAsset"
         case s3SnapshotAsset = "S3SnapshotAsset"
     }
 
@@ -275,8 +277,14 @@ extension DataExchangeClientTypes.AssetDetails: Swift.Codable {
         if let apiGatewayApiAsset = self.apiGatewayApiAsset {
             try encodeContainer.encode(apiGatewayApiAsset, forKey: .apiGatewayApiAsset)
         }
+        if let lakeFormationDataPermissionAsset = self.lakeFormationDataPermissionAsset {
+            try encodeContainer.encode(lakeFormationDataPermissionAsset, forKey: .lakeFormationDataPermissionAsset)
+        }
         if let redshiftDataShareAsset = self.redshiftDataShareAsset {
             try encodeContainer.encode(redshiftDataShareAsset, forKey: .redshiftDataShareAsset)
+        }
+        if let s3DataAccessAsset = self.s3DataAccessAsset {
+            try encodeContainer.encode(s3DataAccessAsset, forKey: .s3DataAccessAsset)
         }
         if let s3SnapshotAsset = self.s3SnapshotAsset {
             try encodeContainer.encode(s3SnapshotAsset, forKey: .s3SnapshotAsset)
@@ -291,27 +299,39 @@ extension DataExchangeClientTypes.AssetDetails: Swift.Codable {
         redshiftDataShareAsset = redshiftDataShareAssetDecoded
         let apiGatewayApiAssetDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.ApiGatewayApiAsset.self, forKey: .apiGatewayApiAsset)
         apiGatewayApiAsset = apiGatewayApiAssetDecoded
+        let s3DataAccessAssetDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.S3DataAccessAsset.self, forKey: .s3DataAccessAsset)
+        s3DataAccessAsset = s3DataAccessAssetDecoded
+        let lakeFormationDataPermissionAssetDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.LakeFormationDataPermissionAsset.self, forKey: .lakeFormationDataPermissionAsset)
+        lakeFormationDataPermissionAsset = lakeFormationDataPermissionAssetDecoded
     }
 }
 
 extension DataExchangeClientTypes {
-    /// Information about the asset.
+    /// Details about the asset.
     public struct AssetDetails: Swift.Equatable {
         /// Information about the API Gateway API asset.
         public var apiGatewayApiAsset: DataExchangeClientTypes.ApiGatewayApiAsset?
+        /// The AWS Lake Formation data permission that is the asset.
+        public var lakeFormationDataPermissionAsset: DataExchangeClientTypes.LakeFormationDataPermissionAsset?
         /// The Amazon Redshift datashare that is the asset.
         public var redshiftDataShareAsset: DataExchangeClientTypes.RedshiftDataShareAsset?
-        /// The S3 object that is the asset.
+        /// The Amazon S3 data access that is the asset.
+        public var s3DataAccessAsset: DataExchangeClientTypes.S3DataAccessAsset?
+        /// The Amazon S3 object that is the asset.
         public var s3SnapshotAsset: DataExchangeClientTypes.S3SnapshotAsset?
 
         public init (
             apiGatewayApiAsset: DataExchangeClientTypes.ApiGatewayApiAsset? = nil,
+            lakeFormationDataPermissionAsset: DataExchangeClientTypes.LakeFormationDataPermissionAsset? = nil,
             redshiftDataShareAsset: DataExchangeClientTypes.RedshiftDataShareAsset? = nil,
+            s3DataAccessAsset: DataExchangeClientTypes.S3DataAccessAsset? = nil,
             s3SnapshotAsset: DataExchangeClientTypes.S3SnapshotAsset? = nil
         )
         {
             self.apiGatewayApiAsset = apiGatewayApiAsset
+            self.lakeFormationDataPermissionAsset = lakeFormationDataPermissionAsset
             self.redshiftDataShareAsset = redshiftDataShareAsset
+            self.s3DataAccessAsset = s3DataAccessAsset
             self.s3SnapshotAsset = s3SnapshotAsset
         }
     }
@@ -392,12 +412,12 @@ extension DataExchangeClientTypes.AssetEntry: Swift.Codable {
 }
 
 extension DataExchangeClientTypes {
-    /// An asset in AWS Data Exchange is a piece of data (S3 object) or a means of fulfilling data (Amazon Redshift datashare or Amazon API Gateway API). The asset can be a structured data file, an image file, or some other data file that can be stored as an S3 object, an Amazon API Gateway API, or an Amazon Redshift datashare. When you create an import job for your files, API Gateway APIs, or Amazon Redshift datashares, you create an asset in AWS Data Exchange.
+    /// An asset in AWS Data Exchange is a piece of data (Amazon S3 object) or a means of fulfilling data (Amazon Redshift datashare or Amazon API Gateway API, AWS Lake Formation data permission, or Amazon S3 data access). The asset can be a structured data file, an image file, or some other data file that can be stored as an Amazon S3 object, an Amazon API Gateway API, or an Amazon Redshift datashare, an AWS Lake Formation data permission, or an Amazon S3 data access. When you create an import job for your files, API Gateway APIs, Amazon Redshift datashares, AWS Lake Formation data permission, or Amazon S3 data access, you create an asset in AWS Data Exchange.
     public struct AssetEntry: Swift.Equatable {
         /// The ARN for the asset.
         /// This member is required.
         public var arn: Swift.String?
-        /// Information about the asset.
+        /// Details about the asset.
         /// This member is required.
         public var assetDetails: DataExchangeClientTypes.AssetDetails?
         /// The type of asset that is added to a data set.
@@ -412,7 +432,7 @@ extension DataExchangeClientTypes {
         /// The unique identifier for the asset.
         /// This member is required.
         public var id: Swift.String?
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+        /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in LF-tag policy" or "Table(s) included in LF-tag policy" are used as the asset name.
         /// This member is required.
         public var name: Swift.String?
         /// The unique identifier for the revision associated with this asset.
@@ -480,7 +500,7 @@ extension DataExchangeClientTypes.AssetSourceEntry: Swift.Codable {
 extension DataExchangeClientTypes {
     /// The source of the assets.
     public struct AssetSourceEntry: Swift.Equatable {
-        /// The S3 bucket that's part of the source of the asset.
+        /// The Amazon S3 bucket that's part of the source of the asset.
         /// This member is required.
         public var bucket: Swift.String?
         /// The name of the object in Amazon S3 for the asset.
@@ -502,14 +522,18 @@ extension DataExchangeClientTypes {
 extension DataExchangeClientTypes {
     public enum AssetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case apiGatewayApi
+        case lakeFormationDataPermission
         case redshiftDataShare
+        case s3DataAccess
         case s3Snapshot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssetType] {
             return [
                 .apiGatewayApi,
+                .lakeFormationDataPermission,
                 .redshiftDataShare,
+                .s3DataAccess,
                 .s3Snapshot,
                 .sdkUnknown("")
             ]
@@ -521,7 +545,9 @@ extension DataExchangeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .apiGatewayApi: return "API_GATEWAY_API"
+            case .lakeFormationDataPermission: return "LAKE_FORMATION_DATA_PERMISSION"
             case .redshiftDataShare: return "REDSHIFT_DATA_SHARE"
+            case .s3DataAccess: return "S3_DATA_ACCESS"
             case .s3Snapshot: return "S3_SNAPSHOT"
             case let .sdkUnknown(s): return s
             }
@@ -562,7 +588,7 @@ extension DataExchangeClientTypes.AutoExportRevisionDestinationEntry: Swift.Coda
 extension DataExchangeClientTypes {
     /// A revision destination is the Amazon S3 bucket folder destination to where the export will be sent.
     public struct AutoExportRevisionDestinationEntry: Swift.Equatable {
-        /// The S3 bucket that is the destination for the event action.
+        /// The Amazon S3 bucket that is the destination for the event action.
         /// This member is required.
         public var bucket: Swift.String?
         /// A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see [Key patterns when exporting revisions](https://docs.aws.amazon.com/data-exchange/latest/userguide/jobs.html#revision-export-keypatterns).
@@ -1642,7 +1668,7 @@ public struct CreateRevisionOutputResponse: Swift.Equatable {
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
     public var createdAt: ClientRuntime.Date?
-    /// The unique identifier for the data set associated with this revision.
+    /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
     public var finalized: Swift.Bool?
@@ -1758,6 +1784,122 @@ extension CreateRevisionOutputResponseBody: Swift.Decodable {
         let revokedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .revokedAt)
         revokedAt = revokedAtDecoded
     }
+}
+
+extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetSource = "AssetSource"
+        case dataSetId = "DataSetId"
+        case revisionId = "RevisionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assetSource = self.assetSource {
+            try encodeContainer.encode(assetSource, forKey: .assetSource)
+        }
+        if let dataSetId = self.dataSetId {
+            try encodeContainer.encode(dataSetId, forKey: .dataSetId)
+        }
+        if let revisionId = self.revisionId {
+            try encodeContainer.encode(revisionId, forKey: .revisionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assetSourceDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.S3DataAccessAssetSourceEntry.self, forKey: .assetSource)
+        assetSource = assetSourceDecoded
+        let dataSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetId)
+        dataSetId = dataSetIdDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details of the operation to create an Amazon S3 data access from an S3 bucket.
+    public struct CreateS3DataAccessFromS3BucketRequestDetails: Swift.Equatable {
+        /// Details about the S3 data access source asset.
+        /// This member is required.
+        public var assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?
+        /// The unique identifier for the data set associated with the creation of this Amazon S3 data access.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// The unique identifier for a revision.
+        /// This member is required.
+        public var revisionId: Swift.String?
+
+        public init (
+            assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry? = nil,
+            dataSetId: Swift.String? = nil,
+            revisionId: Swift.String? = nil
+        )
+        {
+            self.assetSource = assetSource
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetSource = "AssetSource"
+        case dataSetId = "DataSetId"
+        case revisionId = "RevisionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assetSource = self.assetSource {
+            try encodeContainer.encode(assetSource, forKey: .assetSource)
+        }
+        if let dataSetId = self.dataSetId {
+            try encodeContainer.encode(dataSetId, forKey: .dataSetId)
+        }
+        if let revisionId = self.revisionId {
+            try encodeContainer.encode(revisionId, forKey: .revisionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assetSourceDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.S3DataAccessAssetSourceEntry.self, forKey: .assetSource)
+        assetSource = assetSourceDecoded
+        let dataSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetId)
+        dataSetId = dataSetIdDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details about the response of the operation to create an S3 data access from an S3 bucket.
+    public struct CreateS3DataAccessFromS3BucketResponseDetails: Swift.Equatable {
+        /// Details about the asset source from an Amazon S3 bucket.
+        /// This member is required.
+        public var assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?
+        /// The unique identifier for this data set.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// The unique identifier for the revision.
+        /// This member is required.
+        public var revisionId: Swift.String?
+
+        public init (
+            assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry? = nil,
+            dataSetId: Swift.String? = nil,
+            revisionId: Swift.String? = nil
+        )
+        {
+            self.assetSource = assetSource
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+        }
+    }
+
 }
 
 extension DataExchangeClientTypes.DataSetEntry: Swift.Codable {
@@ -1891,6 +2033,154 @@ extension DataExchangeClientTypes {
         }
     }
 
+}
+
+extension DataExchangeClientTypes.DatabaseLFTagPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expression = "Expression"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expression = expression {
+            var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
+            for listoflftags0 in expression {
+                try expressionContainer.encode(listoflftags0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expressionContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.LFTag?].self, forKey: .expression)
+        var expressionDecoded0:[DataExchangeClientTypes.LFTag]? = nil
+        if let expressionContainer = expressionContainer {
+            expressionDecoded0 = [DataExchangeClientTypes.LFTag]()
+            for structure0 in expressionContainer {
+                if let structure0 = structure0 {
+                    expressionDecoded0?.append(structure0)
+                }
+            }
+        }
+        expression = expressionDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// The LF-tag policy for database resources.
+    public struct DatabaseLFTagPolicy: Swift.Equatable {
+        /// A list of LF-tag conditions that apply to database resources.
+        /// This member is required.
+        public var expression: [DataExchangeClientTypes.LFTag]?
+
+        public init (
+            expression: [DataExchangeClientTypes.LFTag]? = nil
+        )
+        {
+            self.expression = expression
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expression = "Expression"
+        case permissions = "Permissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expression = expression {
+            var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
+            for listoflftags0 in expression {
+                try expressionContainer.encode(listoflftags0)
+            }
+        }
+        if let permissions = permissions {
+            var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
+            for listofdatabaselftagpolicypermissions0 in permissions {
+                try permissionsContainer.encode(listofdatabaselftagpolicypermissions0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expressionContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.LFTag?].self, forKey: .expression)
+        var expressionDecoded0:[DataExchangeClientTypes.LFTag]? = nil
+        if let expressionContainer = expressionContainer {
+            expressionDecoded0 = [DataExchangeClientTypes.LFTag]()
+            for structure0 in expressionContainer {
+                if let structure0 = structure0 {
+                    expressionDecoded0?.append(structure0)
+                }
+            }
+        }
+        expression = expressionDecoded0
+        let permissionsContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.DatabaseLFTagPolicyPermission?].self, forKey: .permissions)
+        var permissionsDecoded0:[DataExchangeClientTypes.DatabaseLFTagPolicyPermission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [DataExchangeClientTypes.DatabaseLFTagPolicyPermission]()
+            for string0 in permissionsContainer {
+                if let string0 = string0 {
+                    permissionsDecoded0?.append(string0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// The LF-tag policy and permissions for database resources.
+    public struct DatabaseLFTagPolicyAndPermissions: Swift.Equatable {
+        /// A list of LF-tag conditions that apply to database resources.
+        /// This member is required.
+        public var expression: [DataExchangeClientTypes.LFTag]?
+        /// The permissions granted to subscribers on database resources.
+        /// This member is required.
+        public var permissions: [DataExchangeClientTypes.DatabaseLFTagPolicyPermission]?
+
+        public init (
+            expression: [DataExchangeClientTypes.LFTag]? = nil,
+            permissions: [DataExchangeClientTypes.DatabaseLFTagPolicyPermission]? = nil
+        )
+        {
+            self.expression = expression
+            self.permissions = permissions
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes {
+    public enum DatabaseLFTagPolicyPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case describe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseLFTagPolicyPermission] {
+            return [
+                .describe,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .describe: return "DESCRIBE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatabaseLFTagPolicyPermission(rawValue: rawValue) ?? DatabaseLFTagPolicyPermission.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension DeleteAssetInput: ClientRuntime.URLPathProvider {
@@ -2247,7 +2537,7 @@ extension DataExchangeClientTypes {
     public struct Details: Swift.Equatable {
         /// Information about the job error.
         public var importAssetFromSignedUrlJobErrorDetails: DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails?
-        /// Information about the job error.
+        /// Details about the job error.
         public var importAssetsFromS3JobErrorDetails: [DataExchangeClientTypes.AssetSourceEntry]?
 
         public init (
@@ -3019,7 +3309,7 @@ extension GetAssetOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetAssetOutputResponse: Swift.Equatable {
     /// The ARN for the asset.
     public var arn: Swift.String?
-    /// Information about the asset.
+    /// Details about the asset.
     public var assetDetails: DataExchangeClientTypes.AssetDetails?
     /// The type of asset that is added to a data set.
     public var assetType: DataExchangeClientTypes.AssetType?
@@ -3029,7 +3319,7 @@ public struct GetAssetOutputResponse: Swift.Equatable {
     public var dataSetId: Swift.String?
     /// The unique identifier for the asset.
     public var id: Swift.String?
-    /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+    /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy" or "Table(s) included in the LF-tag policy" are used as the asset name.
     public var name: Swift.String?
     /// The unique identifier for the revision associated with this asset.
     public var revisionId: Swift.String?
@@ -3763,7 +4053,7 @@ public struct GetRevisionOutputResponse: Swift.Equatable {
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
     public var createdAt: ClientRuntime.Date?
-    /// The unique identifier for the data set associated with this revision.
+    /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
     public var finalized: Swift.Bool?
@@ -4167,9 +4457,9 @@ extension DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails: Swift
 }
 
 extension DataExchangeClientTypes {
-    /// Information about the job error.
+    /// Details about the job error.
     public struct ImportAssetFromSignedUrlJobErrorDetails: Swift.Equatable {
-        /// Information about the job error.
+        /// Details about the job error.
         /// This member is required.
         public var assetName: Swift.String?
 
@@ -4223,7 +4513,7 @@ extension DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails: Swift.
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
     public struct ImportAssetFromSignedUrlRequestDetails: Swift.Equatable {
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name.
+        /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name.
         /// This member is required.
         public var assetName: Swift.String?
         /// The unique identifier for the data set associated with this import job.
@@ -4335,6 +4625,184 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
             self.signedUrl = signedUrl
             self.signedUrlExpiresAt = signedUrlExpiresAt
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case dataSetId = "DataSetId"
+        case database = "Database"
+        case revisionId = "RevisionId"
+        case roleArn = "RoleArn"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let dataSetId = self.dataSetId {
+            try encodeContainer.encode(dataSetId, forKey: .dataSetId)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let revisionId = self.revisionId {
+            try encodeContainer.encode(revisionId, forKey: .revisionId)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.TableLFTagPolicyAndPermissions.self, forKey: .table)
+        table = tableDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let dataSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetId)
+        dataSetId = dataSetIdDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details about the assets imported from an AWS Lake Formation tag policy request.
+    public struct ImportAssetsFromLakeFormationTagPolicyRequestDetails: Swift.Equatable {
+        /// The identifier for the AWS Glue Data Catalog.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// The unique identifier for the data set associated with this import job.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// A structure for the database object.
+        public var database: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions?
+        /// The unique identifier for the revision associated with this import job.
+        /// This member is required.
+        public var revisionId: Swift.String?
+        /// The IAM role's ARN that allows AWS Data Exchange to assume the role and grant and revoke permissions of subscribers to AWS Lake Formation data permissions.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// A structure for the table object.
+        public var table: DataExchangeClientTypes.TableLFTagPolicyAndPermissions?
+
+        public init (
+            catalogId: Swift.String? = nil,
+            dataSetId: Swift.String? = nil,
+            database: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions? = nil,
+            revisionId: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            table: DataExchangeClientTypes.TableLFTagPolicyAndPermissions? = nil
+        )
+        {
+            self.catalogId = catalogId
+            self.dataSetId = dataSetId
+            self.database = database
+            self.revisionId = revisionId
+            self.roleArn = roleArn
+            self.table = table
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case dataSetId = "DataSetId"
+        case database = "Database"
+        case revisionId = "RevisionId"
+        case roleArn = "RoleArn"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let dataSetId = self.dataSetId {
+            try encodeContainer.encode(dataSetId, forKey: .dataSetId)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let revisionId = self.revisionId {
+            try encodeContainer.encode(revisionId, forKey: .revisionId)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.TableLFTagPolicyAndPermissions.self, forKey: .table)
+        table = tableDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let dataSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetId)
+        dataSetId = dataSetIdDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details from an import AWS Lake Formation tag policy job response.
+    public struct ImportAssetsFromLakeFormationTagPolicyResponseDetails: Swift.Equatable {
+        /// The identifier for the AWS Glue Data Catalog.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// The unique identifier for the data set associated with this import job.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// A structure for the database object.
+        public var database: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions?
+        /// The unique identifier for the revision associated with this import job.
+        /// This member is required.
+        public var revisionId: Swift.String?
+        /// The IAM role's ARN that allows AWS Data Exchange to assume the role and grant and revoke permissions to AWS Lake Formation data permissions.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// A structure for the table object.
+        public var table: DataExchangeClientTypes.TableLFTagPolicyAndPermissions?
+
+        public init (
+            catalogId: Swift.String? = nil,
+            dataSetId: Swift.String? = nil,
+            database: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions? = nil,
+            revisionId: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            table: DataExchangeClientTypes.TableLFTagPolicyAndPermissions? = nil
+        )
+        {
+            self.catalogId = catalogId
+            self.dataSetId = dataSetId
+            self.database = database
+            self.revisionId = revisionId
+            self.roleArn = roleArn
+            self.table = table
         }
     }
 
@@ -4526,7 +4994,7 @@ extension DataExchangeClientTypes.ImportAssetsFromS3RequestDetails: Swift.Codabl
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
     public struct ImportAssetsFromS3RequestDetails: Swift.Equatable {
-        /// Is a list of S3 bucket and object key pairs.
+        /// Is a list of Amazon S3 bucket and object key pairs.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.AssetSourceEntry]?
         /// The unique identifier for the data set associated with this import job.
@@ -4897,14 +5365,18 @@ extension DataExchangeClientTypes {
 
 extension DataExchangeClientTypes {
     public enum JobErrorLimitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsLakeFormationDataPermissionAssetsPerRevision
         case amazonRedshiftDatashareAssetsPerRevision
+        case amazonS3DataAccessAssetsPerRevision
         case assetSizeInGb
         case assetsPerRevision
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobErrorLimitName] {
             return [
+                .awsLakeFormationDataPermissionAssetsPerRevision,
                 .amazonRedshiftDatashareAssetsPerRevision,
+                .amazonS3DataAccessAssetsPerRevision,
                 .assetSizeInGb,
                 .assetsPerRevision,
                 .sdkUnknown("")
@@ -4916,7 +5388,9 @@ extension DataExchangeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .awsLakeFormationDataPermissionAssetsPerRevision: return "AWS Lake Formation data permission assets per revision"
             case .amazonRedshiftDatashareAssetsPerRevision: return "Amazon Redshift datashare assets per revision"
+            case .amazonS3DataAccessAssetsPerRevision: return "Amazon S3 data access assets per revision"
             case .assetSizeInGb: return "Asset size in GB"
             case .assetsPerRevision: return "Assets per revision"
             case let .sdkUnknown(s): return s
@@ -4966,15 +5440,388 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+    public enum LFPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case describe
+        case select
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LFPermission] {
+            return [
+                .describe,
+                .select,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .describe: return "DESCRIBE"
+            case .select: return "SELECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LFPermission(rawValue: rawValue) ?? LFPermission.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataExchangeClientTypes.LFResourceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case database = "Database"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.DatabaseLFTagPolicy.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.TableLFTagPolicy.self, forKey: .table)
+        table = tableDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details about the AWS Lake Formation resource (Table or Database) included in the AWS Lake Formation data permission.
+    public struct LFResourceDetails: Swift.Equatable {
+        /// Details about the database resource included in the AWS Lake Formation data permission.
+        public var database: DataExchangeClientTypes.DatabaseLFTagPolicy?
+        /// Details about the table resource included in the AWS Lake Formation data permission.
+        public var table: DataExchangeClientTypes.TableLFTagPolicy?
+
+        public init (
+            database: DataExchangeClientTypes.DatabaseLFTagPolicy? = nil,
+            table: DataExchangeClientTypes.TableLFTagPolicy? = nil
+        )
+        {
+            self.database = database
+            self.table = table
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes {
+    public enum LFResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case database
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LFResourceType] {
+            return [
+                .database,
+                .table,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .database: return "DATABASE"
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LFResourceType(rawValue: rawValue) ?? LFResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataExchangeClientTypes.LFTag: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagKey = "TagKey"
+        case tagValues = "TagValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagKey = self.tagKey {
+            try encodeContainer.encode(tagKey, forKey: .tagKey)
+        }
+        if let tagValues = tagValues {
+            var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
+            for listoflftagvalues0 in tagValues {
+                try tagValuesContainer.encode(listoflftagvalues0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagKey)
+        tagKey = tagKeyDecoded
+        let tagValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagValues)
+        var tagValuesDecoded0:[Swift.String]? = nil
+        if let tagValuesContainer = tagValuesContainer {
+            tagValuesDecoded0 = [Swift.String]()
+            for string0 in tagValuesContainer {
+                if let string0 = string0 {
+                    tagValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        tagValues = tagValuesDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// A structure that allows an LF-admin to grant permissions on certain conditions.
+    public struct LFTag: Swift.Equatable {
+        /// The key name for the LF-tag.
+        /// This member is required.
+        public var tagKey: Swift.String?
+        /// A list of LF-tag values.
+        /// This member is required.
+        public var tagValues: [Swift.String]?
+
+        public init (
+            tagKey: Swift.String? = nil,
+            tagValues: [Swift.String]? = nil
+        )
+        {
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.LFTagPolicyDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case resourceDetails = "ResourceDetails"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let resourceDetails = self.resourceDetails {
+            try encodeContainer.encode(resourceDetails, forKey: .resourceDetails)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.LFResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceDetailsDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.LFResourceDetails.self, forKey: .resourceDetails)
+        resourceDetails = resourceDetailsDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details about the LF-tag policy.
+    public struct LFTagPolicyDetails: Swift.Equatable {
+        /// The identifier for the AWS Glue Data Catalog.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// Details for the Lake Formation Resources included in the LF-tag policy.
+        /// This member is required.
+        public var resourceDetails: DataExchangeClientTypes.LFResourceDetails?
+        /// The resource type for which the LF-tag policy applies.
+        /// This member is required.
+        public var resourceType: DataExchangeClientTypes.LFResourceType?
+
+        public init (
+            catalogId: Swift.String? = nil,
+            resourceDetails: DataExchangeClientTypes.LFResourceDetails? = nil,
+            resourceType: DataExchangeClientTypes.LFResourceType? = nil
+        )
+        {
+            self.catalogId = catalogId
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.LakeFormationDataPermissionAsset: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lakeFormationDataPermissionDetails = "LakeFormationDataPermissionDetails"
+        case lakeFormationDataPermissionType = "LakeFormationDataPermissionType"
+        case permissions = "Permissions"
+        case roleArn = "RoleArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lakeFormationDataPermissionDetails = self.lakeFormationDataPermissionDetails {
+            try encodeContainer.encode(lakeFormationDataPermissionDetails, forKey: .lakeFormationDataPermissionDetails)
+        }
+        if let lakeFormationDataPermissionType = self.lakeFormationDataPermissionType {
+            try encodeContainer.encode(lakeFormationDataPermissionType.rawValue, forKey: .lakeFormationDataPermissionType)
+        }
+        if let permissions = permissions {
+            var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
+            for listoflfpermissions0 in permissions {
+                try permissionsContainer.encode(listoflfpermissions0.rawValue)
+            }
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lakeFormationDataPermissionDetailsDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.LakeFormationDataPermissionDetails.self, forKey: .lakeFormationDataPermissionDetails)
+        lakeFormationDataPermissionDetails = lakeFormationDataPermissionDetailsDecoded
+        let lakeFormationDataPermissionTypeDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.LakeFormationDataPermissionType.self, forKey: .lakeFormationDataPermissionType)
+        lakeFormationDataPermissionType = lakeFormationDataPermissionTypeDecoded
+        let permissionsContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.LFPermission?].self, forKey: .permissions)
+        var permissionsDecoded0:[DataExchangeClientTypes.LFPermission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [DataExchangeClientTypes.LFPermission]()
+            for string0 in permissionsContainer {
+                if let string0 = string0 {
+                    permissionsDecoded0?.append(string0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// The AWS Lake Formation data permission asset.
+    public struct LakeFormationDataPermissionAsset: Swift.Equatable {
+        /// Details about the AWS Lake Formation data permission.
+        /// This member is required.
+        public var lakeFormationDataPermissionDetails: DataExchangeClientTypes.LakeFormationDataPermissionDetails?
+        /// The data permission type.
+        /// This member is required.
+        public var lakeFormationDataPermissionType: DataExchangeClientTypes.LakeFormationDataPermissionType?
+        /// The permissions granted to the subscribers on the resource.
+        /// This member is required.
+        public var permissions: [DataExchangeClientTypes.LFPermission]?
+        /// The IAM role's ARN that allows AWS Data Exchange to assume the role and grant and revoke permissions to AWS Lake Formation data permissions.
+        public var roleArn: Swift.String?
+
+        public init (
+            lakeFormationDataPermissionDetails: DataExchangeClientTypes.LakeFormationDataPermissionDetails? = nil,
+            lakeFormationDataPermissionType: DataExchangeClientTypes.LakeFormationDataPermissionType? = nil,
+            permissions: [DataExchangeClientTypes.LFPermission]? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.lakeFormationDataPermissionDetails = lakeFormationDataPermissionDetails
+            self.lakeFormationDataPermissionType = lakeFormationDataPermissionType
+            self.permissions = permissions
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.LakeFormationDataPermissionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lfTagPolicy = "LFTagPolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lfTagPolicy = self.lfTagPolicy {
+            try encodeContainer.encode(lfTagPolicy, forKey: .lfTagPolicy)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lfTagPolicyDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.LFTagPolicyDetails.self, forKey: .lfTagPolicy)
+        lfTagPolicy = lfTagPolicyDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details about the AWS Lake Formation data permission.
+    public struct LakeFormationDataPermissionDetails: Swift.Equatable {
+        /// Details about the LF-tag policy.
+        public var lfTagPolicy: DataExchangeClientTypes.LFTagPolicyDetails?
+
+        public init (
+            lfTagPolicy: DataExchangeClientTypes.LFTagPolicyDetails? = nil
+        )
+        {
+            self.lfTagPolicy = lfTagPolicy
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes {
+    public enum LakeFormationDataPermissionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case lftagpolicy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LakeFormationDataPermissionType] {
+            return [
+                .lftagpolicy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .lftagpolicy: return "LFTagPolicy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LakeFormationDataPermissionType(rawValue: rawValue) ?? LakeFormationDataPermissionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataExchangeClientTypes {
     public enum LimitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsLakeFormationDataPermissionAssetsPerRevision
         case amazonApiGatewayApiAssetsPerRevision
         case amazonRedshiftDatashareAssetsPerImportJobFromRedshift
         case amazonRedshiftDatashareAssetsPerRevision
+        case amazonS3DataAccessAssetsPerRevision
         case assetPerExportJobFromAmazonS3
         case assetSizeInGb
         case assetsPerImportJobFromAmazonS3
         case assetsPerRevision
         case autoExportEventActionsPerDataSet
+        case concurrentInProgressJobsToCreateAmazonS3DataAccessAssetsFromS3Buckets
         case concurrentInProgressJobsToExportAssetsToAmazonS3
         case concurrentInProgressJobsToExportAssetsToASignedUrl
         case concurrentInProgressJobsToExportRevisionsToAmazonS3
@@ -4982,25 +5829,31 @@ extension DataExchangeClientTypes {
         case concurrentInProgressJobsToImportAssetsFromAmazonS3
         case concurrentInProgressJobsToImportAssetsFromASignedUrl
         case concurrentInProgressJobsToImportAssetsFromAnApiGatewayApi
+        case concurrentInProgressJobsToImportAssetsFromAnAwsLakeFormationTagPolicy
         case dataSetsPerAccount
         case dataSetsPerProduct
         case eventActionsPerAccount
         case productsPerAccount
+        case revisionsPerAwsLakeFormationDataPermissionDataSet
         case revisionsPerAmazonApiGatewayApiDataSet
         case revisionsPerAmazonRedshiftDatashareDataSet
+        case revisionsPerAmazonS3DataAccessDataSet
         case revisionsPerDataSet
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LimitName] {
             return [
+                .awsLakeFormationDataPermissionAssetsPerRevision,
                 .amazonApiGatewayApiAssetsPerRevision,
                 .amazonRedshiftDatashareAssetsPerImportJobFromRedshift,
                 .amazonRedshiftDatashareAssetsPerRevision,
+                .amazonS3DataAccessAssetsPerRevision,
                 .assetPerExportJobFromAmazonS3,
                 .assetSizeInGb,
                 .assetsPerImportJobFromAmazonS3,
                 .assetsPerRevision,
                 .autoExportEventActionsPerDataSet,
+                .concurrentInProgressJobsToCreateAmazonS3DataAccessAssetsFromS3Buckets,
                 .concurrentInProgressJobsToExportAssetsToAmazonS3,
                 .concurrentInProgressJobsToExportAssetsToASignedUrl,
                 .concurrentInProgressJobsToExportRevisionsToAmazonS3,
@@ -5008,12 +5861,15 @@ extension DataExchangeClientTypes {
                 .concurrentInProgressJobsToImportAssetsFromAmazonS3,
                 .concurrentInProgressJobsToImportAssetsFromASignedUrl,
                 .concurrentInProgressJobsToImportAssetsFromAnApiGatewayApi,
+                .concurrentInProgressJobsToImportAssetsFromAnAwsLakeFormationTagPolicy,
                 .dataSetsPerAccount,
                 .dataSetsPerProduct,
                 .eventActionsPerAccount,
                 .productsPerAccount,
+                .revisionsPerAwsLakeFormationDataPermissionDataSet,
                 .revisionsPerAmazonApiGatewayApiDataSet,
                 .revisionsPerAmazonRedshiftDatashareDataSet,
+                .revisionsPerAmazonS3DataAccessDataSet,
                 .revisionsPerDataSet,
                 .sdkUnknown("")
             ]
@@ -5024,14 +5880,17 @@ extension DataExchangeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .awsLakeFormationDataPermissionAssetsPerRevision: return "AWS Lake Formation data permission assets per revision"
             case .amazonApiGatewayApiAssetsPerRevision: return "Amazon API Gateway API assets per revision"
             case .amazonRedshiftDatashareAssetsPerImportJobFromRedshift: return "Amazon Redshift datashare assets per import job from Redshift"
             case .amazonRedshiftDatashareAssetsPerRevision: return "Amazon Redshift datashare assets per revision"
+            case .amazonS3DataAccessAssetsPerRevision: return "Amazon S3 data access assets per revision"
             case .assetPerExportJobFromAmazonS3: return "Asset per export job from Amazon S3"
             case .assetSizeInGb: return "Asset size in GB"
             case .assetsPerImportJobFromAmazonS3: return "Assets per import job from Amazon S3"
             case .assetsPerRevision: return "Assets per revision"
             case .autoExportEventActionsPerDataSet: return "Auto export event actions per data set"
+            case .concurrentInProgressJobsToCreateAmazonS3DataAccessAssetsFromS3Buckets: return "Concurrent in progress jobs to create Amazon S3 data access assets from S3 buckets"
             case .concurrentInProgressJobsToExportAssetsToAmazonS3: return "Concurrent in progress jobs to export assets to Amazon S3"
             case .concurrentInProgressJobsToExportAssetsToASignedUrl: return "Concurrent in progress jobs to export assets to a signed URL"
             case .concurrentInProgressJobsToExportRevisionsToAmazonS3: return "Concurrent in progress jobs to export revisions to Amazon S3"
@@ -5039,12 +5898,15 @@ extension DataExchangeClientTypes {
             case .concurrentInProgressJobsToImportAssetsFromAmazonS3: return "Concurrent in progress jobs to import assets from Amazon S3"
             case .concurrentInProgressJobsToImportAssetsFromASignedUrl: return "Concurrent in progress jobs to import assets from a signed URL"
             case .concurrentInProgressJobsToImportAssetsFromAnApiGatewayApi: return "Concurrent in progress jobs to import assets from an API Gateway API"
+            case .concurrentInProgressJobsToImportAssetsFromAnAwsLakeFormationTagPolicy: return "Concurrent in progress jobs to import assets from an AWS Lake Formation tag policy"
             case .dataSetsPerAccount: return "Data sets per account"
             case .dataSetsPerProduct: return "Data sets per product"
             case .eventActionsPerAccount: return "Event actions per account"
             case .productsPerAccount: return "Products per account"
+            case .revisionsPerAwsLakeFormationDataPermissionDataSet: return "Revisions per AWS Lake Formation data permission data set"
             case .revisionsPerAmazonApiGatewayApiDataSet: return "Revisions per Amazon API Gateway API data set"
             case .revisionsPerAmazonRedshiftDatashareDataSet: return "Revisions per Amazon Redshift datashare data set"
+            case .revisionsPerAmazonS3DataAccessDataSet: return "Revisions per Amazon S3 data access data set"
             case .revisionsPerDataSet: return "Revisions per data set"
             case let .sdkUnknown(s): return s
             }
@@ -5946,7 +6808,7 @@ extension DataExchangeClientTypes.OriginDetails: Swift.Codable {
 }
 
 extension DataExchangeClientTypes {
-    /// Information about the origin of the data set.
+    /// Details about the origin of the data set.
     public struct OriginDetails: Swift.Equatable {
         /// The product ID of the origin of the data set.
         /// This member is required.
@@ -6065,17 +6927,22 @@ extension DataExchangeClientTypes {
 
 extension DataExchangeClientTypes.RequestDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createS3DataAccessFromS3Bucket = "CreateS3DataAccessFromS3Bucket"
         case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
         case exportAssetsToS3 = "ExportAssetsToS3"
         case exportRevisionsToS3 = "ExportRevisionsToS3"
         case importAssetFromApiGatewayApi = "ImportAssetFromApiGatewayApi"
         case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
+        case importAssetsFromLakeFormationTagPolicy = "ImportAssetsFromLakeFormationTagPolicy"
         case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
         case importAssetsFromS3 = "ImportAssetsFromS3"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createS3DataAccessFromS3Bucket = self.createS3DataAccessFromS3Bucket {
+            try encodeContainer.encode(createS3DataAccessFromS3Bucket, forKey: .createS3DataAccessFromS3Bucket)
+        }
         if let exportAssetToSignedUrl = self.exportAssetToSignedUrl {
             try encodeContainer.encode(exportAssetToSignedUrl, forKey: .exportAssetToSignedUrl)
         }
@@ -6090,6 +6957,9 @@ extension DataExchangeClientTypes.RequestDetails: Swift.Codable {
         }
         if let importAssetFromSignedUrl = self.importAssetFromSignedUrl {
             try encodeContainer.encode(importAssetFromSignedUrl, forKey: .importAssetFromSignedUrl)
+        }
+        if let importAssetsFromLakeFormationTagPolicy = self.importAssetsFromLakeFormationTagPolicy {
+            try encodeContainer.encode(importAssetsFromLakeFormationTagPolicy, forKey: .importAssetsFromLakeFormationTagPolicy)
         }
         if let importAssetsFromRedshiftDataShares = self.importAssetsFromRedshiftDataShares {
             try encodeContainer.encode(importAssetsFromRedshiftDataShares, forKey: .importAssetsFromRedshiftDataShares)
@@ -6115,12 +6985,18 @@ extension DataExchangeClientTypes.RequestDetails: Swift.Codable {
         importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataSharesDecoded
         let importAssetFromApiGatewayApiDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails.self, forKey: .importAssetFromApiGatewayApi)
         importAssetFromApiGatewayApi = importAssetFromApiGatewayApiDecoded
+        let createS3DataAccessFromS3BucketDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails.self, forKey: .createS3DataAccessFromS3Bucket)
+        createS3DataAccessFromS3Bucket = createS3DataAccessFromS3BucketDecoded
+        let importAssetsFromLakeFormationTagPolicyDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails.self, forKey: .importAssetsFromLakeFormationTagPolicy)
+        importAssetsFromLakeFormationTagPolicy = importAssetsFromLakeFormationTagPolicyDecoded
     }
 }
 
 extension DataExchangeClientTypes {
     /// The details for the request.
     public struct RequestDetails: Swift.Equatable {
+        /// Details of the request to create S3 data access from the Amazon S3 bucket.
+        public var createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails?
         /// Details about the export to signed URL request.
         public var exportAssetToSignedUrl: DataExchangeClientTypes.ExportAssetToSignedUrlRequestDetails?
         /// Details about the export to Amazon S3 request.
@@ -6131,26 +7007,32 @@ extension DataExchangeClientTypes {
         public var importAssetFromApiGatewayApi: DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails?
         /// Details about the import from Amazon S3 request.
         public var importAssetFromSignedUrl: DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails?
+        /// Request details for the ImportAssetsFromLakeFormationTagPolicy job.
+        public var importAssetsFromLakeFormationTagPolicy: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails?
         /// Details from an import from Amazon Redshift datashare request.
         public var importAssetsFromRedshiftDataShares: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetails?
-        /// Information about the import asset from API Gateway API request.
+        /// Details about the import asset from API Gateway API request.
         public var importAssetsFromS3: DataExchangeClientTypes.ImportAssetsFromS3RequestDetails?
 
         public init (
+            createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails? = nil,
             exportAssetToSignedUrl: DataExchangeClientTypes.ExportAssetToSignedUrlRequestDetails? = nil,
             exportAssetsToS3: DataExchangeClientTypes.ExportAssetsToS3RequestDetails? = nil,
             exportRevisionsToS3: DataExchangeClientTypes.ExportRevisionsToS3RequestDetails? = nil,
             importAssetFromApiGatewayApi: DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails? = nil,
             importAssetFromSignedUrl: DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails? = nil,
+            importAssetsFromLakeFormationTagPolicy: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails? = nil,
             importAssetsFromRedshiftDataShares: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetails? = nil,
             importAssetsFromS3: DataExchangeClientTypes.ImportAssetsFromS3RequestDetails? = nil
         )
         {
+            self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromApiGatewayApi = importAssetFromApiGatewayApi
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
+            self.importAssetsFromLakeFormationTagPolicy = importAssetsFromLakeFormationTagPolicy
             self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
         }
@@ -6275,17 +7157,22 @@ extension DataExchangeClientTypes {
 
 extension DataExchangeClientTypes.ResponseDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createS3DataAccessFromS3Bucket = "CreateS3DataAccessFromS3Bucket"
         case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
         case exportAssetsToS3 = "ExportAssetsToS3"
         case exportRevisionsToS3 = "ExportRevisionsToS3"
         case importAssetFromApiGatewayApi = "ImportAssetFromApiGatewayApi"
         case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
+        case importAssetsFromLakeFormationTagPolicy = "ImportAssetsFromLakeFormationTagPolicy"
         case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
         case importAssetsFromS3 = "ImportAssetsFromS3"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createS3DataAccessFromS3Bucket = self.createS3DataAccessFromS3Bucket {
+            try encodeContainer.encode(createS3DataAccessFromS3Bucket, forKey: .createS3DataAccessFromS3Bucket)
+        }
         if let exportAssetToSignedUrl = self.exportAssetToSignedUrl {
             try encodeContainer.encode(exportAssetToSignedUrl, forKey: .exportAssetToSignedUrl)
         }
@@ -6300,6 +7187,9 @@ extension DataExchangeClientTypes.ResponseDetails: Swift.Codable {
         }
         if let importAssetFromSignedUrl = self.importAssetFromSignedUrl {
             try encodeContainer.encode(importAssetFromSignedUrl, forKey: .importAssetFromSignedUrl)
+        }
+        if let importAssetsFromLakeFormationTagPolicy = self.importAssetsFromLakeFormationTagPolicy {
+            try encodeContainer.encode(importAssetsFromLakeFormationTagPolicy, forKey: .importAssetsFromLakeFormationTagPolicy)
         }
         if let importAssetsFromRedshiftDataShares = self.importAssetsFromRedshiftDataShares {
             try encodeContainer.encode(importAssetsFromRedshiftDataShares, forKey: .importAssetsFromRedshiftDataShares)
@@ -6325,12 +7215,18 @@ extension DataExchangeClientTypes.ResponseDetails: Swift.Codable {
         importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataSharesDecoded
         let importAssetFromApiGatewayApiDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails.self, forKey: .importAssetFromApiGatewayApi)
         importAssetFromApiGatewayApi = importAssetFromApiGatewayApiDecoded
+        let createS3DataAccessFromS3BucketDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails.self, forKey: .createS3DataAccessFromS3Bucket)
+        createS3DataAccessFromS3Bucket = createS3DataAccessFromS3BucketDecoded
+        let importAssetsFromLakeFormationTagPolicyDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails.self, forKey: .importAssetsFromLakeFormationTagPolicy)
+        importAssetsFromLakeFormationTagPolicy = importAssetsFromLakeFormationTagPolicyDecoded
     }
 }
 
 extension DataExchangeClientTypes {
     /// Details for the response.
     public struct ResponseDetails: Swift.Equatable {
+        /// Response details from the CreateS3DataAccessFromS3Bucket job.
+        public var createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails?
         /// Details for the export to signed URL response.
         public var exportAssetToSignedUrl: DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails?
         /// Details for the export to Amazon S3 response.
@@ -6341,26 +7237,32 @@ extension DataExchangeClientTypes {
         public var importAssetFromApiGatewayApi: DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails?
         /// Details for the import from signed URL response.
         public var importAssetFromSignedUrl: DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails?
+        /// Response details from the ImportAssetsFromLakeFormationTagPolicy job.
+        public var importAssetsFromLakeFormationTagPolicy: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails?
         /// Details from an import from Amazon Redshift datashare response.
         public var importAssetsFromRedshiftDataShares: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails?
         /// Details for the import from Amazon S3 response.
         public var importAssetsFromS3: DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails?
 
         public init (
+            createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails? = nil,
             exportAssetToSignedUrl: DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails? = nil,
             exportAssetsToS3: DataExchangeClientTypes.ExportAssetsToS3ResponseDetails? = nil,
             exportRevisionsToS3: DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails? = nil,
             importAssetFromApiGatewayApi: DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails? = nil,
             importAssetFromSignedUrl: DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails? = nil,
+            importAssetsFromLakeFormationTagPolicy: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails? = nil,
             importAssetsFromRedshiftDataShares: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails? = nil,
             importAssetsFromS3: DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails? = nil
         )
         {
+            self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromApiGatewayApi = importAssetFromApiGatewayApi
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
+            self.importAssetsFromLakeFormationTagPolicy = importAssetsFromLakeFormationTagPolicy
             self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
         }
@@ -6402,7 +7304,7 @@ extension DataExchangeClientTypes.RevisionDestinationEntry: Swift.Codable {
 extension DataExchangeClientTypes {
     /// The destination where the assets in the revision will be exported.
     public struct RevisionDestinationEntry: Swift.Equatable {
-        /// The S3 bucket that is the destination for the assets in the revision.
+        /// The Amazon S3 bucket that is the destination for the assets in the revision.
         /// This member is required.
         public var bucket: Swift.String?
         /// A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see [Key patterns when exporting revisions](https://docs.aws.amazon.com/data-exchange/latest/userguide/jobs.html#revision-export-keypatterns).
@@ -6515,7 +7417,7 @@ extension DataExchangeClientTypes {
         /// The date and time that the revision was created, in ISO 8601 format.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
-        /// The unique identifier for the data set associated with this revision.
+        /// The unique identifier for the data set associated with the data set revision.
         /// This member is required.
         public var dataSetId: Swift.String?
         /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
@@ -6737,7 +7639,7 @@ public struct RevokeRevisionOutputResponse: Swift.Equatable {
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
     public var createdAt: ClientRuntime.Date?
-    /// The unique identifier for the data set associated with this revision.
+    /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
     public var finalized: Swift.Bool?
@@ -6838,6 +7740,186 @@ extension RevokeRevisionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DataExchangeClientTypes.S3DataAccessAsset: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case keyPrefixes = "KeyPrefixes"
+        case keys = "Keys"
+        case s3AccessPointAlias = "S3AccessPointAlias"
+        case s3AccessPointArn = "S3AccessPointArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucket = self.bucket {
+            try encodeContainer.encode(bucket, forKey: .bucket)
+        }
+        if let keyPrefixes = keyPrefixes {
+            var keyPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyPrefixes)
+            for listof__string0 in keyPrefixes {
+                try keyPrefixesContainer.encode(listof__string0)
+            }
+        }
+        if let keys = keys {
+            var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
+            for listof__string0 in keys {
+                try keysContainer.encode(listof__string0)
+            }
+        }
+        if let s3AccessPointAlias = self.s3AccessPointAlias {
+            try encodeContainer.encode(s3AccessPointAlias, forKey: .s3AccessPointAlias)
+        }
+        if let s3AccessPointArn = self.s3AccessPointArn {
+            try encodeContainer.encode(s3AccessPointArn, forKey: .s3AccessPointArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let keyPrefixesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keyPrefixes)
+        var keyPrefixesDecoded0:[Swift.String]? = nil
+        if let keyPrefixesContainer = keyPrefixesContainer {
+            keyPrefixesDecoded0 = [Swift.String]()
+            for string0 in keyPrefixesContainer {
+                if let string0 = string0 {
+                    keyPrefixesDecoded0?.append(string0)
+                }
+            }
+        }
+        keyPrefixes = keyPrefixesDecoded0
+        let keysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keys)
+        var keysDecoded0:[Swift.String]? = nil
+        if let keysContainer = keysContainer {
+            keysDecoded0 = [Swift.String]()
+            for string0 in keysContainer {
+                if let string0 = string0 {
+                    keysDecoded0?.append(string0)
+                }
+            }
+        }
+        keys = keysDecoded0
+        let s3AccessPointAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3AccessPointAlias)
+        s3AccessPointAlias = s3AccessPointAliasDecoded
+        let s3AccessPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3AccessPointArn)
+        s3AccessPointArn = s3AccessPointArnDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// The Amazon S3 data access that is the asset.
+    public struct S3DataAccessAsset: Swift.Equatable {
+        /// The Amazon S3 bucket hosting data to be shared in the S3 data access.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data access.
+        public var keyPrefixes: [Swift.String]?
+        /// S3 keys made available using this asset.
+        public var keys: [Swift.String]?
+        /// The automatically-generated bucket-style alias for your Amazon S3 Access Point. Customers can access their entitled data using the S3 Access Point alias.
+        public var s3AccessPointAlias: Swift.String?
+        /// The ARN for your Amazon S3 Access Point. Customers can also access their entitled data using the S3 Access Point ARN.
+        public var s3AccessPointArn: Swift.String?
+
+        public init (
+            bucket: Swift.String? = nil,
+            keyPrefixes: [Swift.String]? = nil,
+            keys: [Swift.String]? = nil,
+            s3AccessPointAlias: Swift.String? = nil,
+            s3AccessPointArn: Swift.String? = nil
+        )
+        {
+            self.bucket = bucket
+            self.keyPrefixes = keyPrefixes
+            self.keys = keys
+            self.s3AccessPointAlias = s3AccessPointAlias
+            self.s3AccessPointArn = s3AccessPointArn
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.S3DataAccessAssetSourceEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case keyPrefixes = "KeyPrefixes"
+        case keys = "Keys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucket = self.bucket {
+            try encodeContainer.encode(bucket, forKey: .bucket)
+        }
+        if let keyPrefixes = keyPrefixes {
+            var keyPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyPrefixes)
+            for listof__string0 in keyPrefixes {
+                try keyPrefixesContainer.encode(listof__string0)
+            }
+        }
+        if let keys = keys {
+            var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
+            for listof__string0 in keys {
+                try keysContainer.encode(listof__string0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let keyPrefixesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keyPrefixes)
+        var keyPrefixesDecoded0:[Swift.String]? = nil
+        if let keyPrefixesContainer = keyPrefixesContainer {
+            keyPrefixesDecoded0 = [Swift.String]()
+            for string0 in keyPrefixesContainer {
+                if let string0 = string0 {
+                    keyPrefixesDecoded0?.append(string0)
+                }
+            }
+        }
+        keyPrefixes = keyPrefixesDecoded0
+        let keysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keys)
+        var keysDecoded0:[Swift.String]? = nil
+        if let keysContainer = keysContainer {
+            keysDecoded0 = [Swift.String]()
+            for string0 in keysContainer {
+                if let string0 = string0 {
+                    keysDecoded0?.append(string0)
+                }
+            }
+        }
+        keys = keysDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Source details for an Amazon S3 data access asset.
+    public struct S3DataAccessAssetSourceEntry: Swift.Equatable {
+        /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data access.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// Organizes Amazon S3 asset key prefixes stored in an Amazon S3 bucket.
+        public var keyPrefixes: [Swift.String]?
+        /// The keys used to create the Amazon S3 data access.
+        public var keys: [Swift.String]?
+
+        public init (
+            bucket: Swift.String? = nil,
+            keyPrefixes: [Swift.String]? = nil,
+            keys: [Swift.String]? = nil
+        )
+        {
+            self.bucket = bucket
+            self.keyPrefixes = keyPrefixes
+            self.keys = keys
+        }
+    }
+
+}
+
 extension DataExchangeClientTypes.S3SnapshotAsset: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case size = "Size"
@@ -6858,9 +7940,9 @@ extension DataExchangeClientTypes.S3SnapshotAsset: Swift.Codable {
 }
 
 extension DataExchangeClientTypes {
-    /// The S3 object that is the asset.
+    /// The Amazon S3 object that is the asset.
     public struct S3SnapshotAsset: Swift.Equatable {
-        /// The size of the S3 object that is the object.
+        /// The size of the Amazon S3 object that is the object.
         /// This member is required.
         public var size: Swift.Double?
 
@@ -7334,6 +8416,157 @@ extension DataExchangeClientTypes {
     }
 }
 
+extension DataExchangeClientTypes.TableLFTagPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expression = "Expression"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expression = expression {
+            var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
+            for listoflftags0 in expression {
+                try expressionContainer.encode(listoflftags0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expressionContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.LFTag?].self, forKey: .expression)
+        var expressionDecoded0:[DataExchangeClientTypes.LFTag]? = nil
+        if let expressionContainer = expressionContainer {
+            expressionDecoded0 = [DataExchangeClientTypes.LFTag]()
+            for structure0 in expressionContainer {
+                if let structure0 = structure0 {
+                    expressionDecoded0?.append(structure0)
+                }
+            }
+        }
+        expression = expressionDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// The LF-tag policy for a table resource.
+    public struct TableLFTagPolicy: Swift.Equatable {
+        /// A list of LF-tag conditions that apply to table resources.
+        /// This member is required.
+        public var expression: [DataExchangeClientTypes.LFTag]?
+
+        public init (
+            expression: [DataExchangeClientTypes.LFTag]? = nil
+        )
+        {
+            self.expression = expression
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.TableLFTagPolicyAndPermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expression = "Expression"
+        case permissions = "Permissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expression = expression {
+            var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
+            for listoflftags0 in expression {
+                try expressionContainer.encode(listoflftags0)
+            }
+        }
+        if let permissions = permissions {
+            var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
+            for listoftabletagpolicylfpermissions0 in permissions {
+                try permissionsContainer.encode(listoftabletagpolicylfpermissions0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expressionContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.LFTag?].self, forKey: .expression)
+        var expressionDecoded0:[DataExchangeClientTypes.LFTag]? = nil
+        if let expressionContainer = expressionContainer {
+            expressionDecoded0 = [DataExchangeClientTypes.LFTag]()
+            for structure0 in expressionContainer {
+                if let structure0 = structure0 {
+                    expressionDecoded0?.append(structure0)
+                }
+            }
+        }
+        expression = expressionDecoded0
+        let permissionsContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.TableTagPolicyLFPermission?].self, forKey: .permissions)
+        var permissionsDecoded0:[DataExchangeClientTypes.TableTagPolicyLFPermission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [DataExchangeClientTypes.TableTagPolicyLFPermission]()
+            for string0 in permissionsContainer {
+                if let string0 = string0 {
+                    permissionsDecoded0?.append(string0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// The LF-tag policy and permissions that apply to table resources.
+    public struct TableLFTagPolicyAndPermissions: Swift.Equatable {
+        /// A list of LF-tag conditions that apply to table resources.
+        /// This member is required.
+        public var expression: [DataExchangeClientTypes.LFTag]?
+        /// The permissions granted to subscribers on table resources.
+        /// This member is required.
+        public var permissions: [DataExchangeClientTypes.TableTagPolicyLFPermission]?
+
+        public init (
+            expression: [DataExchangeClientTypes.LFTag]? = nil,
+            permissions: [DataExchangeClientTypes.TableTagPolicyLFPermission]? = nil
+        )
+        {
+            self.expression = expression
+            self.permissions = permissions
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes {
+    public enum TableTagPolicyLFPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case describe
+        case select
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableTagPolicyLFPermission] {
+            return [
+                .describe,
+                .select,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .describe: return "DESCRIBE"
+            case .select: return "SELECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TableTagPolicyLFPermission(rawValue: rawValue) ?? TableTagPolicyLFPermission.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "tags"
@@ -7488,9 +8721,11 @@ extension ThrottlingExceptionBody: Swift.Decodable {
 
 extension DataExchangeClientTypes {
     public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createS3DataAccessFromS3Bucket
         case exportAssetsToS3
         case exportAssetToSignedUrl
         case exportRevisionsToS3
+        case importAssetsFromLakeFormationTagPolicy
         case importAssetsFromRedshiftDataShares
         case importAssetsFromS3
         case importAssetFromApiGatewayApi
@@ -7499,9 +8734,11 @@ extension DataExchangeClientTypes {
 
         public static var allCases: [ModelType] {
             return [
+                .createS3DataAccessFromS3Bucket,
                 .exportAssetsToS3,
                 .exportAssetToSignedUrl,
                 .exportRevisionsToS3,
+                .importAssetsFromLakeFormationTagPolicy,
                 .importAssetsFromRedshiftDataShares,
                 .importAssetsFromS3,
                 .importAssetFromApiGatewayApi,
@@ -7515,9 +8752,11 @@ extension DataExchangeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .createS3DataAccessFromS3Bucket: return "CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET"
             case .exportAssetsToS3: return "EXPORT_ASSETS_TO_S3"
             case .exportAssetToSignedUrl: return "EXPORT_ASSET_TO_SIGNED_URL"
             case .exportRevisionsToS3: return "EXPORT_REVISIONS_TO_S3"
+            case .importAssetsFromLakeFormationTagPolicy: return "IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY"
             case .importAssetsFromRedshiftDataShares: return "IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES"
             case .importAssetsFromS3: return "IMPORT_ASSETS_FROM_S3"
             case .importAssetFromApiGatewayApi: return "IMPORT_ASSET_FROM_API_GATEWAY_API"
@@ -7651,7 +8890,7 @@ public struct UpdateAssetInput: Swift.Equatable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
-    /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+    /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are used as the name.
     /// This member is required.
     public var name: Swift.String?
     /// The unique identifier for a revision.
@@ -7754,7 +8993,7 @@ extension UpdateAssetOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateAssetOutputResponse: Swift.Equatable {
     /// The ARN for the asset.
     public var arn: Swift.String?
-    /// Information about the asset.
+    /// Details about the asset.
     public var assetDetails: DataExchangeClientTypes.AssetDetails?
     /// The type of asset that is added to a data set.
     public var assetType: DataExchangeClientTypes.AssetType?
@@ -7764,7 +9003,7 @@ public struct UpdateAssetOutputResponse: Swift.Equatable {
     public var dataSetId: Swift.String?
     /// The unique identifier for the asset.
     public var id: Swift.String?
-    /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+    /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy"- or "Table(s) included in LF-tag policy" are used as the asset name.
     public var name: Swift.String?
     /// The unique identifier for the revision associated with this asset.
     public var revisionId: Swift.String?
@@ -8402,7 +9641,7 @@ public struct UpdateRevisionOutputResponse: Swift.Equatable {
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
     public var createdAt: ClientRuntime.Date?
-    /// The unique identifier for the data set associated with this revision.
+    /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
     public var finalized: Swift.Bool?

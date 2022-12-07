@@ -23,10 +23,14 @@ public protocol IoTTwinMakerClientProtocol {
     func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutputResponse
     /// Deletes a workspace.
     func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutputResponse
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces.
+    func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutputResponse
     /// Retrieves information about a component type.
     func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutputResponse
     /// Retrieves information about an entity.
     func getEntity(input: GetEntityInput) async throws -> GetEntityOutputResponse
+    /// Gets the pricing plan.
+    func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutputResponse
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutputResponse
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
@@ -53,6 +57,8 @@ public protocol IoTTwinMakerClientProtocol {
     func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutputResponse
     /// Updates an entity.
     func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutputResponse
+    /// Update the pricing plan.
+    func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutputResponse
     /// Updates a scene.
     func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutputResponse
     /// Updates a workspace.

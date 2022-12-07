@@ -21,6 +21,8 @@ public protocol GlueClientProtocol {
     func batchGetCrawlers(input: BatchGetCrawlersInput) async throws -> BatchGetCrawlersOutputResponse
     /// Retrieves the details for the custom patterns specified by a list of names.
     func batchGetCustomEntityTypes(input: BatchGetCustomEntityTypesInput) async throws -> BatchGetCustomEntityTypesOutputResponse
+    /// Retrieves a list of data quality results for the specified result IDs.
+    func batchGetDataQualityResult(input: BatchGetDataQualityResultInput) async throws -> BatchGetDataQualityResultOutputResponse
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     func batchGetDevEndpoints(input: BatchGetDevEndpointsInput) async throws -> BatchGetDevEndpointsOutputResponse
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
@@ -35,6 +37,10 @@ public protocol GlueClientProtocol {
     func batchStopJobRun(input: BatchStopJobRunInput) async throws -> BatchStopJobRunOutputResponse
     /// Updates one or more partitions in a batch operation.
     func batchUpdatePartition(input: BatchUpdatePartitionInput) async throws -> BatchUpdatePartitionOutputResponse
+    /// Cancels the specified recommendation run that was being used to generate rules.
+    func cancelDataQualityRuleRecommendationRun(input: CancelDataQualityRuleRecommendationRunInput) async throws -> CancelDataQualityRuleRecommendationRunOutputResponse
+    /// Cancels a run where a ruleset is being evaluated against a data source.
+    func cancelDataQualityRulesetEvaluationRun(input: CancelDataQualityRulesetEvaluationRunInput) async throws -> CancelDataQualityRulesetEvaluationRunOutputResponse
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
     func cancelMLTaskRun(input: CancelMLTaskRunInput) async throws -> CancelMLTaskRunOutputResponse
     /// Cancels the statement.
@@ -53,6 +59,8 @@ public protocol GlueClientProtocol {
     func createCustomEntityType(input: CreateCustomEntityTypeInput) async throws -> CreateCustomEntityTypeOutputResponse
     /// Creates a new database in a Data Catalog.
     func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutputResponse
+    /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
+    func createDataQualityRuleset(input: CreateDataQualityRulesetInput) async throws -> CreateDataQualityRulesetOutputResponse
     /// Creates a new development endpoint.
     func createDevEndpoint(input: CreateDevEndpointInput) async throws -> CreateDevEndpointOutputResponse
     /// Creates a new job definition.
@@ -97,6 +105,8 @@ public protocol GlueClientProtocol {
     func deleteCustomEntityType(input: DeleteCustomEntityTypeInput) async throws -> DeleteCustomEntityTypeOutputResponse
     /// Removes a specified database from a Data Catalog. After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
     func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutputResponse
+    /// Deletes a data quality ruleset.
+    func deleteDataQualityRuleset(input: DeleteDataQualityRulesetInput) async throws -> DeleteDataQualityRulesetOutputResponse
     /// Deletes a specified development endpoint.
     func deleteDevEndpoint(input: DeleteDevEndpointInput) async throws -> DeleteDevEndpointOutputResponse
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
@@ -165,13 +175,27 @@ public protocol GlueClientProtocol {
     func getDataCatalogEncryptionSettings(input: GetDataCatalogEncryptionSettingsInput) async throws -> GetDataCatalogEncryptionSettingsOutputResponse
     /// Transforms a Python script into a directed acyclic graph (DAG).
     func getDataflowGraph(input: GetDataflowGraphInput) async throws -> GetDataflowGraphOutputResponse
+    /// Retrieves the result of a data quality rule evaluation.
+    func getDataQualityResult(input: GetDataQualityResultInput) async throws -> GetDataQualityResultOutputResponse
+    /// Gets the specified recommendation run that was used to generate rules.
+    func getDataQualityRuleRecommendationRun(input: GetDataQualityRuleRecommendationRunInput) async throws -> GetDataQualityRuleRecommendationRunOutputResponse
+    /// Returns an existing ruleset by identifier or name.
+    func getDataQualityRuleset(input: GetDataQualityRulesetInput) async throws -> GetDataQualityRulesetOutputResponse
+    /// Retrieves a specific run where a ruleset is evaluated against a data source.
+    func getDataQualityRulesetEvaluationRun(input: GetDataQualityRulesetEvaluationRunInput) async throws -> GetDataQualityRulesetEvaluationRunOutputResponse
     /// Retrieves information about a specified development endpoint. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     func getDevEndpoint(input: GetDevEndpointInput) async throws -> GetDevEndpointOutputResponse
-    /// Retrieves all the development endpoints in this AWS account. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
+    /// Retrieves all the development endpoints in this Amazon Web Services account. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     func getDevEndpoints(input: GetDevEndpointsInput) async throws -> GetDevEndpointsOutputResponse
     /// Retrieves an existing job definition.
     func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
-    /// Returns information on a job bookmark entry.
+    /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see:
+    ///
+    /// * [Tracking processed data using job bookmarks](https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html)
+    ///
+    /// * [Job parameters used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
+    ///
+    /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
     func getJobBookmark(input: GetJobBookmarkInput) async throws -> GetJobBookmarkOutputResponse
     /// Retrieves the metadata for a given job run.
     func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutputResponse
@@ -266,6 +290,14 @@ public protocol GlueClientProtocol {
     func listCrawls(input: ListCrawlsInput) async throws -> ListCrawlsOutputResponse
     /// Lists all the custom patterns that have been created.
     func listCustomEntityTypes(input: ListCustomEntityTypesInput) async throws -> ListCustomEntityTypesOutputResponse
+    /// Returns all data quality execution results for your account.
+    func listDataQualityResults(input: ListDataQualityResultsInput) async throws -> ListDataQualityResultsOutputResponse
+    /// Lists the recommendation runs meeting the filter criteria.
+    func listDataQualityRuleRecommendationRuns(input: ListDataQualityRuleRecommendationRunsInput) async throws -> ListDataQualityRuleRecommendationRunsOutputResponse
+    /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
+    func listDataQualityRulesetEvaluationRuns(input: ListDataQualityRulesetEvaluationRunsInput) async throws -> ListDataQualityRulesetEvaluationRunsOutputResponse
+    /// Returns a paginated list of rulesets for the specified list of Glue tables.
+    func listDataQualityRulesets(input: ListDataQualityRulesetsInput) async throws -> ListDataQualityRulesetsOutputResponse
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     func listDevEndpoints(input: ListDevEndpointsInput) async throws -> ListDevEndpointsOutputResponse
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -300,7 +332,13 @@ public protocol GlueClientProtocol {
     func registerSchemaVersion(input: RegisterSchemaVersionInput) async throws -> RegisterSchemaVersionOutputResponse
     /// Removes a key value pair from the schema version metadata for the specified schema version ID.
     func removeSchemaVersionMetadata(input: RemoveSchemaVersionMetadataInput) async throws -> RemoveSchemaVersionMetadataOutputResponse
-    /// Resets a bookmark entry.
+    /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see:
+    ///
+    /// * [Tracking processed data using job bookmarks](https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html)
+    ///
+    /// * [Job parameters used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
+    ///
+    /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
     func resetJobBookmark(input: ResetJobBookmarkInput) async throws -> ResetJobBookmarkOutputResponse
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
     func resumeWorkflowRun(input: ResumeWorkflowRunInput) async throws -> ResumeWorkflowRunOutputResponse
@@ -314,6 +352,10 @@ public protocol GlueClientProtocol {
     func startCrawler(input: StartCrawlerInput) async throws -> StartCrawlerOutputResponse
     /// Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
     func startCrawlerSchedule(input: StartCrawlerScheduleInput) async throws -> StartCrawlerScheduleOutputResponse
+    /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
+    func startDataQualityRuleRecommendationRun(input: StartDataQualityRuleRecommendationRunInput) async throws -> StartDataQualityRuleRecommendationRunOutputResponse
+    /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API.
+    func startDataQualityRulesetEvaluationRun(input: StartDataQualityRulesetEvaluationRunInput) async throws -> StartDataQualityRulesetEvaluationRunOutputResponse
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
     func startExportLabelsTaskRun(input: StartExportLabelsTaskRunInput) async throws -> StartExportLabelsTaskRunOutputResponse
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation.
@@ -358,6 +400,8 @@ public protocol GlueClientProtocol {
     func updateCrawlerSchedule(input: UpdateCrawlerScheduleInput) async throws -> UpdateCrawlerScheduleOutputResponse
     /// Updates an existing database definition in a Data Catalog.
     func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutputResponse
+    /// Updates the specified data quality ruleset.
+    func updateDataQualityRuleset(input: UpdateDataQualityRulesetInput) async throws -> UpdateDataQualityRulesetOutputResponse
     /// Updates a specified development endpoint.
     func updateDevEndpoint(input: UpdateDevEndpointInput) async throws -> UpdateDevEndpointOutputResponse
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.

@@ -85,6 +85,7 @@ extension SFNClient {
 extension ListExecutionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListExecutionsInput {
         return ListExecutionsInput(
+            mapRunArn: self.mapRunArn,
             maxResults: self.maxResults,
             nextToken: token,
             stateMachineArn: self.stateMachineArn,
@@ -98,6 +99,38 @@ extension ListExecutionsInput: ClientRuntime.PaginateToken {
 extension PaginatorSequence where Input == ListExecutionsInput, Output == ListExecutionsOutputResponse {
     public func executions() async throws -> [SFNClientTypes.ExecutionListItem] {
         return try await self.asyncCompactMap { item in item.executions }
+    }
+}
+
+/// Paginate over `[ListMapRunsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListMapRunsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListMapRunsOutputResponse`
+extension SFNClient {
+    public func listMapRunsPaginated(input: ListMapRunsInput) -> ClientRuntime.PaginatorSequence<ListMapRunsInput, ListMapRunsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListMapRunsInput, ListMapRunsOutputResponse>(input: input, inputKey: \ListMapRunsInput.nextToken, outputKey: \ListMapRunsOutputResponse.nextToken, paginationFunction: self.listMapRuns(input:))
+    }
+}
+
+extension ListMapRunsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMapRunsInput {
+        return ListMapRunsInput(
+            executionArn: self.executionArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listMapRunsPaginated`
+/// to access the nested member `[SFNClientTypes.MapRunListItem]`
+/// - Returns: `[SFNClientTypes.MapRunListItem]`
+extension PaginatorSequence where Input == ListMapRunsInput, Output == ListMapRunsOutputResponse {
+    public func mapRuns() async throws -> [SFNClientTypes.MapRunListItem] {
+        return try await self.asyncCompactMap { item in item.mapRuns }
     }
 }
 

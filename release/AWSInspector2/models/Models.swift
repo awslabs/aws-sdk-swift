@@ -290,7 +290,7 @@ extension Inspector2ClientTypes.AccountState: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// An object with details the status of an Amazon Web Services account within your Amazon Inspector environment
+    /// An object with details the status of an Amazon Web Services account within your Amazon Inspector environment.
     public struct AccountState: Swift.Equatable {
         /// The Amazon Web Services account ID.
         /// This member is required.
@@ -356,6 +356,8 @@ extension Inspector2ClientTypes.AggregationRequest: Swift.Codable {
         case ec2instanceaggregation = "ec2InstanceAggregation"
         case findingtypeaggregation = "findingTypeAggregation"
         case imagelayeraggregation = "imageLayerAggregation"
+        case lambdafunctionaggregation = "lambdaFunctionAggregation"
+        case lambdalayeraggregation = "lambdaLayerAggregation"
         case packageaggregation = "packageAggregation"
         case repositoryaggregation = "repositoryAggregation"
         case sdkUnknown
@@ -377,6 +379,10 @@ extension Inspector2ClientTypes.AggregationRequest: Swift.Codable {
                 try container.encode(findingtypeaggregation, forKey: .findingtypeaggregation)
             case let .imagelayeraggregation(imagelayeraggregation):
                 try container.encode(imagelayeraggregation, forKey: .imagelayeraggregation)
+            case let .lambdafunctionaggregation(lambdafunctionaggregation):
+                try container.encode(lambdafunctionaggregation, forKey: .lambdafunctionaggregation)
+            case let .lambdalayeraggregation(lambdalayeraggregation):
+                try container.encode(lambdalayeraggregation, forKey: .lambdalayeraggregation)
             case let .packageaggregation(packageaggregation):
                 try container.encode(packageaggregation, forKey: .packageaggregation)
             case let .repositoryaggregation(repositoryaggregation):
@@ -435,6 +441,16 @@ extension Inspector2ClientTypes.AggregationRequest: Swift.Codable {
             self = .titleaggregation(titleaggregation)
             return
         }
+        let lambdalayeraggregationDecoded = try values.decodeIfPresent(Inspector2ClientTypes.LambdaLayerAggregation.self, forKey: .lambdalayeraggregation)
+        if let lambdalayeraggregation = lambdalayeraggregationDecoded {
+            self = .lambdalayeraggregation(lambdalayeraggregation)
+            return
+        }
+        let lambdafunctionaggregationDecoded = try values.decodeIfPresent(Inspector2ClientTypes.LambdaFunctionAggregation.self, forKey: .lambdafunctionaggregation)
+        if let lambdafunctionaggregation = lambdafunctionaggregationDecoded {
+            self = .lambdafunctionaggregation(lambdafunctionaggregation)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -460,6 +476,10 @@ extension Inspector2ClientTypes {
         case repositoryaggregation(Inspector2ClientTypes.RepositoryAggregation)
         /// An object that contains details about an aggregation request based on finding title.
         case titleaggregation(Inspector2ClientTypes.TitleAggregation)
+        /// Returns an object with findings aggregated by AWS Lambda layer.
+        case lambdalayeraggregation(Inspector2ClientTypes.LambdaLayerAggregation)
+        /// Returns an object with findings aggregated by AWS Lambda function.
+        case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregation)
         case sdkUnknown(Swift.String)
     }
 
@@ -469,12 +489,14 @@ extension Inspector2ClientTypes {
     public enum AggregationResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case awsEc2Instance
         case awsEcrContainerImage
+        case awsLambdaFunction
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AggregationResourceType] {
             return [
                 .awsEc2Instance,
                 .awsEcrContainerImage,
+                .awsLambdaFunction,
                 .sdkUnknown("")
             ]
         }
@@ -486,6 +508,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
+            case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -505,6 +528,8 @@ extension Inspector2ClientTypes.AggregationResponse: Swift.Codable {
         case ec2instanceaggregation = "ec2InstanceAggregation"
         case findingtypeaggregation = "findingTypeAggregation"
         case imagelayeraggregation = "imageLayerAggregation"
+        case lambdafunctionaggregation = "lambdaFunctionAggregation"
+        case lambdalayeraggregation = "lambdaLayerAggregation"
         case packageaggregation = "packageAggregation"
         case repositoryaggregation = "repositoryAggregation"
         case sdkUnknown
@@ -526,6 +551,10 @@ extension Inspector2ClientTypes.AggregationResponse: Swift.Codable {
                 try container.encode(findingtypeaggregation, forKey: .findingtypeaggregation)
             case let .imagelayeraggregation(imagelayeraggregation):
                 try container.encode(imagelayeraggregation, forKey: .imagelayeraggregation)
+            case let .lambdafunctionaggregation(lambdafunctionaggregation):
+                try container.encode(lambdafunctionaggregation, forKey: .lambdafunctionaggregation)
+            case let .lambdalayeraggregation(lambdalayeraggregation):
+                try container.encode(lambdalayeraggregation, forKey: .lambdalayeraggregation)
             case let .packageaggregation(packageaggregation):
                 try container.encode(packageaggregation, forKey: .packageaggregation)
             case let .repositoryaggregation(repositoryaggregation):
@@ -584,6 +613,16 @@ extension Inspector2ClientTypes.AggregationResponse: Swift.Codable {
             self = .titleaggregation(titleaggregation)
             return
         }
+        let lambdalayeraggregationDecoded = try values.decodeIfPresent(Inspector2ClientTypes.LambdaLayerAggregationResponse.self, forKey: .lambdalayeraggregation)
+        if let lambdalayeraggregation = lambdalayeraggregationDecoded {
+            self = .lambdalayeraggregation(lambdalayeraggregation)
+            return
+        }
+        let lambdafunctionaggregationDecoded = try values.decodeIfPresent(Inspector2ClientTypes.LambdaFunctionAggregationResponse.self, forKey: .lambdafunctionaggregation)
+        if let lambdafunctionaggregation = lambdafunctionaggregationDecoded {
+            self = .lambdafunctionaggregation(lambdafunctionaggregation)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -609,6 +648,10 @@ extension Inspector2ClientTypes {
         case repositoryaggregation(Inspector2ClientTypes.RepositoryAggregationResponse)
         /// An object that contains details about an aggregation response based on finding title.
         case titleaggregation(Inspector2ClientTypes.TitleAggregationResponse)
+        /// An aggregation of findings by AWS Lambda layer.
+        case lambdalayeraggregation(Inspector2ClientTypes.LambdaLayerAggregationResponse)
+        /// An aggregation of findings by AWS Lambda function.
+        case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregationResponse)
         case sdkUnknown(Swift.String)
     }
 
@@ -620,8 +663,10 @@ extension Inspector2ClientTypes {
         case ami
         case awsEc2Instance
         case awsEcrContainer
+        case awsLambdaFunction
         case findingType
         case imageLayer
+        case lambdaLayer
         case package
         case repository
         case title
@@ -633,8 +678,10 @@ extension Inspector2ClientTypes {
                 .ami,
                 .awsEc2Instance,
                 .awsEcrContainer,
+                .awsLambdaFunction,
                 .findingType,
                 .imageLayer,
+                .lambdaLayer,
                 .package,
                 .repository,
                 .title,
@@ -651,8 +698,10 @@ extension Inspector2ClientTypes {
             case .ami: return "AMI"
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainer: return "AWS_ECR_CONTAINER"
+            case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case .findingType: return "FINDING_TYPE"
             case .imageLayer: return "IMAGE_LAYER"
+            case .lambdaLayer: return "LAMBDA_LAYER"
             case .package: return "PACKAGE"
             case .repository: return "REPOSITORY"
             case .title: return "TITLE"
@@ -774,7 +823,7 @@ extension Inspector2ClientTypes.AmiAggregationResponse: Swift.Codable {
 extension Inspector2ClientTypes {
     /// A response that contains the results of a finding aggregation by AMI.
     public struct AmiAggregationResponse: Swift.Equatable {
-        /// The Amazon Web Services account ID that the AMI belongs.
+        /// The Amazon Web Services account ID for the AMI.
         public var accountId: Swift.String?
         /// The IDs of Amazon EC2 instances using this AMI.
         public var affectedInstances: Swift.Int?
@@ -834,6 +883,38 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = AmiSortBy(rawValue: rawValue) ?? AmiSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum Architecture: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case arm64
+        case x8664
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Architecture] {
+            return [
+                .arm64,
+                .x8664,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .arm64: return "ARM64"
+            case .x8664: return "X86_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Architecture(rawValue: rawValue) ?? Architecture.sdkUnknown(rawValue)
         }
     }
 }
@@ -960,6 +1041,7 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ec2
         case ecr
+        case lambda
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -970,6 +1052,9 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
         if let ecr = self.ecr {
             try encodeContainer.encode(ecr, forKey: .ecr)
         }
+        if let lambda = self.lambda {
+            try encodeContainer.encode(lambda, forKey: .lambda)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -978,6 +1063,8 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
         ec2 = ec2Decoded
         let ecrDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ecr)
         ecr = ecrDecoded
+        let lambdaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .lambda)
+        lambda = lambdaDecoded
     }
 }
 
@@ -990,14 +1077,18 @@ extension Inspector2ClientTypes {
         /// Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization.
         /// This member is required.
         public var ecr: Swift.Bool?
+        /// Represents whether AWS Lambda scans are automatically enabled for new members of your Amazon Inspector organization.
+        public var lambda: Swift.Bool?
 
         public init (
             ec2: Swift.Bool? = nil,
-            ecr: Swift.Bool? = nil
+            ecr: Swift.Bool? = nil,
+            lambda: Swift.Bool? = nil
         )
         {
             self.ec2 = ec2
             self.ecr = ecr
+            self.lambda = lambda
         }
     }
 
@@ -1504,7 +1595,7 @@ extension Inspector2ClientTypes {
         public var platform: Swift.String?
         /// The date and time the Amazon ECR container image was pushed.
         public var pushedAt: ClientRuntime.Date?
-        /// The registry the Amazon ECR container image belongs to.
+        /// The registry for the Amazon ECR container image.
         /// This member is required.
         public var registry: Swift.String?
         /// The name of the repository the Amazon ECR container image resides in.
@@ -1568,6 +1659,160 @@ extension Inspector2ClientTypes {
             self = AwsEcrContainerSortBy(rawValue: rawValue) ?? AwsEcrContainerSortBy.sdkUnknown(rawValue)
         }
     }
+}
+
+extension Inspector2ClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architectures
+        case codeSha256
+        case executionRoleArn
+        case functionName
+        case lastModifiedAt
+        case layers
+        case packageType
+        case runtime
+        case version
+        case vpcConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let architectures = architectures {
+            var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
+            for architecturelist0 in architectures {
+                try architecturesContainer.encode(architecturelist0.rawValue)
+            }
+        }
+        if let codeSha256 = self.codeSha256 {
+            try encodeContainer.encode(codeSha256, forKey: .codeSha256)
+        }
+        if let executionRoleArn = self.executionRoleArn {
+            try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
+        }
+        if let functionName = self.functionName {
+            try encodeContainer.encode(functionName, forKey: .functionName)
+        }
+        if let lastModifiedAt = self.lastModifiedAt {
+            try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let layers = layers {
+            var layersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layers)
+            for layerlist0 in layers {
+                try layersContainer.encode(layerlist0)
+            }
+        }
+        if let packageType = self.packageType {
+            try encodeContainer.encode(packageType.rawValue, forKey: .packageType)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime.rawValue, forKey: .runtime)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
+        functionName = functionNameDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Runtime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeSha256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codeSha256)
+        codeSha256 = codeSha256Decoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
+        executionRoleArn = executionRoleArnDecoded
+        let layersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .layers)
+        var layersDecoded0:[Swift.String]? = nil
+        if let layersContainer = layersContainer {
+            layersDecoded0 = [Swift.String]()
+            for string0 in layersContainer {
+                if let string0 = string0 {
+                    layersDecoded0?.append(string0)
+                }
+            }
+        }
+        layers = layersDecoded0
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.LambdaVpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+        let packageTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.PackageType.self, forKey: .packageType)
+        packageType = packageTypeDecoded
+        let architecturesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Architecture?].self, forKey: .architectures)
+        var architecturesDecoded0:[Inspector2ClientTypes.Architecture]? = nil
+        if let architecturesContainer = architecturesContainer {
+            architecturesDecoded0 = [Inspector2ClientTypes.Architecture]()
+            for string0 in architecturesContainer {
+                if let string0 = string0 {
+                    architecturesDecoded0?.append(string0)
+                }
+            }
+        }
+        architectures = architecturesDecoded0
+        let lastModifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAt)
+        lastModifiedAt = lastModifiedAtDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A summary of information about the AWS Lambda function.
+    public struct AwsLambdaFunctionDetails: Swift.Equatable {
+        /// The instruction set architecture that the AWS Lambda function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
+        public var architectures: [Inspector2ClientTypes.Architecture]?
+        /// The SHA256 hash of the AWS Lambda function's deployment package.
+        /// This member is required.
+        public var codeSha256: Swift.String?
+        /// The AWS Lambda function's execution role.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// The name of the AWS Lambda function.
+        /// This member is required.
+        public var functionName: Swift.String?
+        /// The date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html)
+        public var lastModifiedAt: ClientRuntime.Date?
+        /// The AWS Lambda function's [ layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). A Lambda function can have up to five layers.
+        public var layers: [Swift.String]?
+        /// The type of deployment package. Set to Image for container image and set Zip for .zip file archive.
+        public var packageType: Inspector2ClientTypes.PackageType?
+        /// The runtime environment for the AWS Lambda function.
+        /// This member is required.
+        public var runtime: Inspector2ClientTypes.Runtime?
+        /// The version of the AWS Lambda function.
+        /// This member is required.
+        public var version: Swift.String?
+        /// The AWS Lambda function's networking configuration.
+        public var vpcConfig: Inspector2ClientTypes.LambdaVpcConfig?
+
+        public init (
+            architectures: [Inspector2ClientTypes.Architecture]? = nil,
+            codeSha256: Swift.String? = nil,
+            executionRoleArn: Swift.String? = nil,
+            functionName: Swift.String? = nil,
+            lastModifiedAt: ClientRuntime.Date? = nil,
+            layers: [Swift.String]? = nil,
+            packageType: Inspector2ClientTypes.PackageType? = nil,
+            runtime: Inspector2ClientTypes.Runtime? = nil,
+            version: Swift.String? = nil,
+            vpcConfig: Inspector2ClientTypes.LambdaVpcConfig? = nil
+        )
+        {
+            self.architectures = architectures
+            self.codeSha256 = codeSha256
+            self.executionRoleArn = executionRoleArn
+            self.functionName = functionName
+            self.lastModifiedAt = lastModifiedAt
+            self.layers = layers
+            self.packageType = packageType
+            self.runtime = runtime
+            self.version = version
+            self.vpcConfig = vpcConfig
+        }
+    }
+
 }
 
 extension BadRequestException {
@@ -2187,6 +2432,9 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
         case ec2InstanceTags
         case ecrImageTags
         case ecrRepositoryName
+        case lambdaFunctionName
+        case lambdaFunctionRuntime
+        case lambdaFunctionTags
         case resourceId
         case resourceType
         case scanStatusCode
@@ -2218,6 +2466,24 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             var ecrRepositoryNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrRepositoryName)
             for coveragestringfilterlist0 in ecrRepositoryName {
                 try ecrRepositoryNameContainer.encode(coveragestringfilterlist0)
+            }
+        }
+        if let lambdaFunctionName = lambdaFunctionName {
+            var lambdaFunctionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionName)
+            for coveragestringfilterlist0 in lambdaFunctionName {
+                try lambdaFunctionNameContainer.encode(coveragestringfilterlist0)
+            }
+        }
+        if let lambdaFunctionRuntime = lambdaFunctionRuntime {
+            var lambdaFunctionRuntimeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionRuntime)
+            for coveragestringfilterlist0 in lambdaFunctionRuntime {
+                try lambdaFunctionRuntimeContainer.encode(coveragestringfilterlist0)
+            }
+        }
+        if let lambdaFunctionTags = lambdaFunctionTags {
+            var lambdaFunctionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionTags)
+            for coveragemapfilterlist0 in lambdaFunctionTags {
+                try lambdaFunctionTagsContainer.encode(coveragemapfilterlist0)
             }
         }
         if let resourceId = resourceId {
@@ -2353,6 +2619,39 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             }
         }
         ec2InstanceTags = ec2InstanceTagsDecoded0
+        let lambdaFunctionNameContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageStringFilter?].self, forKey: .lambdaFunctionName)
+        var lambdaFunctionNameDecoded0:[Inspector2ClientTypes.CoverageStringFilter]? = nil
+        if let lambdaFunctionNameContainer = lambdaFunctionNameContainer {
+            lambdaFunctionNameDecoded0 = [Inspector2ClientTypes.CoverageStringFilter]()
+            for structure0 in lambdaFunctionNameContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionName = lambdaFunctionNameDecoded0
+        let lambdaFunctionTagsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageMapFilter?].self, forKey: .lambdaFunctionTags)
+        var lambdaFunctionTagsDecoded0:[Inspector2ClientTypes.CoverageMapFilter]? = nil
+        if let lambdaFunctionTagsContainer = lambdaFunctionTagsContainer {
+            lambdaFunctionTagsDecoded0 = [Inspector2ClientTypes.CoverageMapFilter]()
+            for structure0 in lambdaFunctionTagsContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionTags = lambdaFunctionTagsDecoded0
+        let lambdaFunctionRuntimeContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageStringFilter?].self, forKey: .lambdaFunctionRuntime)
+        var lambdaFunctionRuntimeDecoded0:[Inspector2ClientTypes.CoverageStringFilter]? = nil
+        if let lambdaFunctionRuntimeContainer = lambdaFunctionRuntimeContainer {
+            lambdaFunctionRuntimeDecoded0 = [Inspector2ClientTypes.CoverageStringFilter]()
+            for structure0 in lambdaFunctionRuntimeContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionRuntimeDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionRuntime = lambdaFunctionRuntimeDecoded0
     }
 }
 
@@ -2367,6 +2666,12 @@ extension Inspector2ClientTypes {
         public var ecrImageTags: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The Amazon ECR repository name to filter on.
         public var ecrRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// Returns coverage statistics for AWS Lambda functions filtered by function names.
+        public var lambdaFunctionName: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// Returns coverage statistics for AWS Lambda functions filtered by runtime.
+        public var lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// Returns coverage statistics for AWS Lambda functions filtered by tag.
+        public var lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE or AWS_ECR_REPOSITORY.
@@ -2383,6 +2688,9 @@ extension Inspector2ClientTypes {
             ec2InstanceTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
             ecrImageTags: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             ecrRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            lambdaFunctionName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
             resourceId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             resourceType: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
@@ -2394,6 +2702,9 @@ extension Inspector2ClientTypes {
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
             self.ecrRepositoryName = ecrRepositoryName
+            self.lambdaFunctionName = lambdaFunctionName
+            self.lambdaFunctionRuntime = lambdaFunctionRuntime
+            self.lambdaFunctionTags = lambdaFunctionTags
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.scanStatusCode = scanStatusCode
@@ -2495,6 +2806,7 @@ extension Inspector2ClientTypes {
         case awsEc2Instance
         case awsEcrContainerImage
         case awsEcrRepository
+        case awsLambdaFunction
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CoverageResourceType] {
@@ -2502,6 +2814,7 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
+                .awsLambdaFunction,
                 .sdkUnknown("")
             ]
         }
@@ -2514,6 +2827,7 @@ extension Inspector2ClientTypes {
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
+            case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4348,7 +4662,7 @@ extension Inspector2ClientTypes.Ec2InstanceAggregationResponse: Swift.Codable {
 extension Inspector2ClientTypes {
     /// A response that contains the results of a finding aggregation by Amazon EC2 instance.
     public struct Ec2InstanceAggregationResponse: Swift.Equatable {
-        /// The Amazon Web Services account the Amazon EC2 instance belongs to.
+        /// The Amazon Web Services account for the Amazon EC2 instance.
         public var accountId: Swift.String?
         /// The Amazon Machine Image (AMI) of the Amazon EC2 instance.
         public var ami: Swift.String?
@@ -4546,7 +4860,7 @@ extension Inspector2ClientTypes.EcrConfiguration: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// Details about the ECR automated re-scan duration setting for your environment
+    /// Details about the ECR automated re-scan duration setting for your environment.
     public struct EcrConfiguration: Swift.Equatable {
         /// The ECR automated re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the automated re-scan duration the monitoring state of that image becomes inactive and all associated findings are scheduled for closure.
         /// This member is required.
@@ -5248,6 +5562,73 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes {
+    public enum ExploitAvailable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case no
+        case yes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExploitAvailable] {
+            return [
+                .no,
+                .yes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .no: return "NO"
+            case .yes: return "YES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExploitAvailable(rawValue: rawValue) ?? ExploitAvailable.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.ExploitabilityDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastKnownExploitAt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastKnownExploitAt = self.lastKnownExploitAt {
+            try encodeContainer.encodeTimestamp(lastKnownExploitAt, format: .epochSeconds, forKey: .lastKnownExploitAt)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastKnownExploitAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastKnownExploitAt)
+        lastKnownExploitAt = lastKnownExploitAtDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The details of an exploit available for a finding discovered in your environment.
+    public struct ExploitabilityDetails: Swift.Equatable {
+        /// The date and time of the last exploit associated with a finding discovered in your environment.
+        public var lastKnownExploitAt: ClientRuntime.Date?
+
+        public init (
+            lastKnownExploitAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.lastKnownExploitAt = lastKnownExploitAt
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
     public enum ExternalReportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cancelled
         case failed
@@ -5553,12 +5934,18 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
         case ecrImageRegistry
         case ecrImageRepositoryName
         case ecrImageTags
+        case exploitAvailable
         case findingArn
         case findingStatus
         case findingType
         case firstObservedAt
         case fixAvailable
         case inspectorScore
+        case lambdaFunctionExecutionRoleArn
+        case lambdaFunctionLastModifiedAt
+        case lambdaFunctionLayers
+        case lambdaFunctionName
+        case lambdaFunctionRuntime
         case lastObservedAt
         case networkProtocol
         case portRange
@@ -5649,6 +6036,12 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
                 try ecrImageTagsContainer.encode(stringfilterlist0)
             }
         }
+        if let exploitAvailable = exploitAvailable {
+            var exploitAvailableContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exploitAvailable)
+            for stringfilterlist0 in exploitAvailable {
+                try exploitAvailableContainer.encode(stringfilterlist0)
+            }
+        }
         if let findingArn = findingArn {
             var findingArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArn)
             for stringfilterlist0 in findingArn {
@@ -5683,6 +6076,36 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
             var inspectorScoreContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inspectorScore)
             for numberfilterlist0 in inspectorScore {
                 try inspectorScoreContainer.encode(numberfilterlist0)
+            }
+        }
+        if let lambdaFunctionExecutionRoleArn = lambdaFunctionExecutionRoleArn {
+            var lambdaFunctionExecutionRoleArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionExecutionRoleArn)
+            for stringfilterlist0 in lambdaFunctionExecutionRoleArn {
+                try lambdaFunctionExecutionRoleArnContainer.encode(stringfilterlist0)
+            }
+        }
+        if let lambdaFunctionLastModifiedAt = lambdaFunctionLastModifiedAt {
+            var lambdaFunctionLastModifiedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionLastModifiedAt)
+            for datefilterlist0 in lambdaFunctionLastModifiedAt {
+                try lambdaFunctionLastModifiedAtContainer.encode(datefilterlist0)
+            }
+        }
+        if let lambdaFunctionLayers = lambdaFunctionLayers {
+            var lambdaFunctionLayersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionLayers)
+            for stringfilterlist0 in lambdaFunctionLayers {
+                try lambdaFunctionLayersContainer.encode(stringfilterlist0)
+            }
+        }
+        if let lambdaFunctionName = lambdaFunctionName {
+            var lambdaFunctionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionName)
+            for stringfilterlist0 in lambdaFunctionName {
+                try lambdaFunctionNameContainer.encode(stringfilterlist0)
+            }
+        }
+        if let lambdaFunctionRuntime = lambdaFunctionRuntime {
+            var lambdaFunctionRuntimeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionRuntime)
+            for stringfilterlist0 in lambdaFunctionRuntime {
+                try lambdaFunctionRuntimeContainer.encode(stringfilterlist0)
             }
         }
         if let lastObservedAt = lastObservedAt {
@@ -6125,6 +6548,72 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
             }
         }
         fixAvailable = fixAvailableDecoded0
+        let lambdaFunctionNameContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .lambdaFunctionName)
+        var lambdaFunctionNameDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let lambdaFunctionNameContainer = lambdaFunctionNameContainer {
+            lambdaFunctionNameDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in lambdaFunctionNameContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionName = lambdaFunctionNameDecoded0
+        let lambdaFunctionLayersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .lambdaFunctionLayers)
+        var lambdaFunctionLayersDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let lambdaFunctionLayersContainer = lambdaFunctionLayersContainer {
+            lambdaFunctionLayersDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in lambdaFunctionLayersContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionLayersDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionLayers = lambdaFunctionLayersDecoded0
+        let lambdaFunctionRuntimeContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .lambdaFunctionRuntime)
+        var lambdaFunctionRuntimeDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let lambdaFunctionRuntimeContainer = lambdaFunctionRuntimeContainer {
+            lambdaFunctionRuntimeDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in lambdaFunctionRuntimeContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionRuntimeDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionRuntime = lambdaFunctionRuntimeDecoded0
+        let lambdaFunctionLastModifiedAtContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.DateFilter?].self, forKey: .lambdaFunctionLastModifiedAt)
+        var lambdaFunctionLastModifiedAtDecoded0:[Inspector2ClientTypes.DateFilter]? = nil
+        if let lambdaFunctionLastModifiedAtContainer = lambdaFunctionLastModifiedAtContainer {
+            lambdaFunctionLastModifiedAtDecoded0 = [Inspector2ClientTypes.DateFilter]()
+            for structure0 in lambdaFunctionLastModifiedAtContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionLastModifiedAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionLastModifiedAt = lambdaFunctionLastModifiedAtDecoded0
+        let lambdaFunctionExecutionRoleArnContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .lambdaFunctionExecutionRoleArn)
+        var lambdaFunctionExecutionRoleArnDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let lambdaFunctionExecutionRoleArnContainer = lambdaFunctionExecutionRoleArnContainer {
+            lambdaFunctionExecutionRoleArnDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in lambdaFunctionExecutionRoleArnContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionExecutionRoleArnDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionExecutionRoleArn = lambdaFunctionExecutionRoleArnDecoded0
+        let exploitAvailableContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .exploitAvailable)
+        var exploitAvailableDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let exploitAvailableContainer = exploitAvailableContainer {
+            exploitAvailableDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in exploitAvailableContainer {
+                if let structure0 = structure0 {
+                    exploitAvailableDecoded0?.append(structure0)
+                }
+            }
+        }
+        exploitAvailable = exploitAvailableDecoded0
     }
 }
 
@@ -6155,6 +6644,8 @@ extension Inspector2ClientTypes {
         public var ecrImageRepositoryName: [Inspector2ClientTypes.StringFilter]?
         /// The tags attached to the Amazon ECR container image.
         public var ecrImageTags: [Inspector2ClientTypes.StringFilter]?
+        /// Filters the list of AWS Lambda findings by the availability of exploits.
+        public var exploitAvailable: [Inspector2ClientTypes.StringFilter]?
         /// Details on the finding ARNs used to filter findings.
         public var findingArn: [Inspector2ClientTypes.StringFilter]?
         /// Details on the finding status types used to filter findings.
@@ -6167,6 +6658,16 @@ extension Inspector2ClientTypes {
         public var fixAvailable: [Inspector2ClientTypes.StringFilter]?
         /// The Amazon Inspector score to filter on.
         public var inspectorScore: [Inspector2ClientTypes.NumberFilter]?
+        /// Filters the list of AWS Lambda functions by execution role.
+        public var lambdaFunctionExecutionRoleArn: [Inspector2ClientTypes.StringFilter]?
+        /// Filters the list of AWS Lambda functions by the date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html)
+        public var lambdaFunctionLastModifiedAt: [Inspector2ClientTypes.DateFilter]?
+        /// Filters the list of AWS Lambda functions by the function's [ layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). A Lambda function can have up to five layers.
+        public var lambdaFunctionLayers: [Inspector2ClientTypes.StringFilter]?
+        /// Filters the list of AWS Lambda functions by the name of the function.
+        public var lambdaFunctionName: [Inspector2ClientTypes.StringFilter]?
+        /// Filters the list of AWS Lambda functions by the runtime environment for the Lambda function.
+        public var lambdaFunctionRuntime: [Inspector2ClientTypes.StringFilter]?
         /// Details on the date and time a finding was last seen used to filter findings.
         public var lastObservedAt: [Inspector2ClientTypes.DateFilter]?
         /// Details on the ingress source addresses used to filter findings.
@@ -6209,12 +6710,18 @@ extension Inspector2ClientTypes {
             ecrImageRegistry: [Inspector2ClientTypes.StringFilter]? = nil,
             ecrImageRepositoryName: [Inspector2ClientTypes.StringFilter]? = nil,
             ecrImageTags: [Inspector2ClientTypes.StringFilter]? = nil,
+            exploitAvailable: [Inspector2ClientTypes.StringFilter]? = nil,
             findingArn: [Inspector2ClientTypes.StringFilter]? = nil,
             findingStatus: [Inspector2ClientTypes.StringFilter]? = nil,
             findingType: [Inspector2ClientTypes.StringFilter]? = nil,
             firstObservedAt: [Inspector2ClientTypes.DateFilter]? = nil,
             fixAvailable: [Inspector2ClientTypes.StringFilter]? = nil,
             inspectorScore: [Inspector2ClientTypes.NumberFilter]? = nil,
+            lambdaFunctionExecutionRoleArn: [Inspector2ClientTypes.StringFilter]? = nil,
+            lambdaFunctionLastModifiedAt: [Inspector2ClientTypes.DateFilter]? = nil,
+            lambdaFunctionLayers: [Inspector2ClientTypes.StringFilter]? = nil,
+            lambdaFunctionName: [Inspector2ClientTypes.StringFilter]? = nil,
+            lambdaFunctionRuntime: [Inspector2ClientTypes.StringFilter]? = nil,
             lastObservedAt: [Inspector2ClientTypes.DateFilter]? = nil,
             networkProtocol: [Inspector2ClientTypes.StringFilter]? = nil,
             portRange: [Inspector2ClientTypes.PortRangeFilter]? = nil,
@@ -6243,12 +6750,18 @@ extension Inspector2ClientTypes {
             self.ecrImageRegistry = ecrImageRegistry
             self.ecrImageRepositoryName = ecrImageRepositoryName
             self.ecrImageTags = ecrImageTags
+            self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
             self.findingStatus = findingStatus
             self.findingType = findingType
             self.firstObservedAt = firstObservedAt
             self.fixAvailable = fixAvailable
             self.inspectorScore = inspectorScore
+            self.lambdaFunctionExecutionRoleArn = lambdaFunctionExecutionRoleArn
+            self.lambdaFunctionLastModifiedAt = lambdaFunctionLastModifiedAt
+            self.lambdaFunctionLayers = lambdaFunctionLayers
+            self.lambdaFunctionName = lambdaFunctionName
+            self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lastObservedAt = lastObservedAt
             self.networkProtocol = networkProtocol
             self.portRange = portRange
@@ -6272,6 +6785,8 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId
         case description
+        case exploitAvailable
+        case exploitabilityDetails
         case findingArn
         case firstObservedAt
         case fixAvailable
@@ -6296,6 +6811,12 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let exploitAvailable = self.exploitAvailable {
+            try encodeContainer.encode(exploitAvailable.rawValue, forKey: .exploitAvailable)
+        }
+        if let exploitabilityDetails = self.exploitabilityDetails {
+            try encodeContainer.encode(exploitabilityDetails, forKey: .exploitabilityDetails)
         }
         if let findingArn = self.findingArn {
             try encodeContainer.encode(findingArn, forKey: .findingArn)
@@ -6392,6 +6913,10 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
         packageVulnerabilityDetails = packageVulnerabilityDetailsDecoded
         let fixAvailableDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.FixAvailable.self, forKey: .fixAvailable)
         fixAvailable = fixAvailableDecoded
+        let exploitAvailableDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ExploitAvailable.self, forKey: .exploitAvailable)
+        exploitAvailable = exploitAvailableDecoded
+        let exploitabilityDetailsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ExploitabilityDetails.self, forKey: .exploitabilityDetails)
+        exploitabilityDetails = exploitabilityDetailsDecoded
     }
 }
 
@@ -6404,6 +6929,10 @@ extension Inspector2ClientTypes {
         /// The description of the finding.
         /// This member is required.
         public var description: Swift.String?
+        /// If a finding discovered in your environment has an exploit available.
+        public var exploitAvailable: Inspector2ClientTypes.ExploitAvailable?
+        /// The details of an exploit available for a finding discovered in your environment.
+        public var exploitabilityDetails: Inspector2ClientTypes.ExploitabilityDetails?
         /// The Amazon Resource Number (ARN) of the finding.
         /// This member is required.
         public var findingArn: Swift.String?
@@ -6446,6 +6975,8 @@ extension Inspector2ClientTypes {
         public init (
             awsAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
+            exploitAvailable: Inspector2ClientTypes.ExploitAvailable? = nil,
+            exploitabilityDetails: Inspector2ClientTypes.ExploitabilityDetails? = nil,
             findingArn: Swift.String? = nil,
             firstObservedAt: ClientRuntime.Date? = nil,
             fixAvailable: Inspector2ClientTypes.FixAvailable? = nil,
@@ -6465,6 +6996,8 @@ extension Inspector2ClientTypes {
         {
             self.awsAccountId = awsAccountId
             self.description = description
+            self.exploitAvailable = exploitAvailable
+            self.exploitabilityDetails = exploitabilityDetails
             self.findingArn = findingArn
             self.firstObservedAt = firstObservedAt
             self.fixAvailable = fixAvailable
@@ -6986,12 +7519,14 @@ extension Inspector2ClientTypes {
     public enum FreeTrialType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ec2
         case ecr
+        case lambda
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FreeTrialType] {
             return [
                 .ec2,
                 .ecr,
+                .lambda,
                 .sdkUnknown("")
             ]
         }
@@ -7003,6 +7538,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .ec2: return "EC2"
             case .ecr: return "ECR"
+            case .lambda: return "LAMBDA"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7840,6 +8376,675 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension Inspector2ClientTypes.LambdaFunctionAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case functionNames
+        case functionTags
+        case resourceIds
+        case runtimes
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let functionNames = functionNames {
+            var functionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionNames)
+            for stringfilterlist0 in functionNames {
+                try functionNamesContainer.encode(stringfilterlist0)
+            }
+        }
+        if let functionTags = functionTags {
+            var functionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionTags)
+            for mapfilterlist0 in functionTags {
+                try functionTagsContainer.encode(mapfilterlist0)
+            }
+        }
+        if let resourceIds = resourceIds {
+            var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
+            for stringfilterlist0 in resourceIds {
+                try resourceIdsContainer.encode(stringfilterlist0)
+            }
+        }
+        if let runtimes = runtimes {
+            var runtimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimes)
+            for stringfilterlist0 in runtimes {
+                try runtimesContainer.encode(stringfilterlist0)
+            }
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in resourceIdsContainer {
+                if let structure0 = structure0 {
+                    resourceIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let functionNamesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .functionNames)
+        var functionNamesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let functionNamesContainer = functionNamesContainer {
+            functionNamesDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in functionNamesContainer {
+                if let structure0 = structure0 {
+                    functionNamesDecoded0?.append(structure0)
+                }
+            }
+        }
+        functionNames = functionNamesDecoded0
+        let runtimesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .runtimes)
+        var runtimesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let runtimesContainer = runtimesContainer {
+            runtimesDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in runtimesContainer {
+                if let structure0 = structure0 {
+                    runtimesDecoded0?.append(structure0)
+                }
+            }
+        }
+        runtimes = runtimesDecoded0
+        let functionTagsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.MapFilter?].self, forKey: .functionTags)
+        var functionTagsDecoded0:[Inspector2ClientTypes.MapFilter]? = nil
+        if let functionTagsContainer = functionTagsContainer {
+            functionTagsDecoded0 = [Inspector2ClientTypes.MapFilter]()
+            for structure0 in functionTagsContainer {
+                if let structure0 = structure0 {
+                    functionTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        functionTags = functionTagsDecoded0
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.LambdaFunctionSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The details that define a findings aggregation based on AWS Lambda functions.
+    public struct LambdaFunctionAggregation: Swift.Equatable {
+        /// The AWS Lambda function names to include in the aggregation results.
+        public var functionNames: [Inspector2ClientTypes.StringFilter]?
+        /// The tags to include in the aggregation results.
+        public var functionTags: [Inspector2ClientTypes.MapFilter]?
+        /// The resource IDs to include in the aggregation results.
+        public var resourceIds: [Inspector2ClientTypes.StringFilter]?
+        /// Returns findings aggregated by AWS Lambda function runtime environments.
+        public var runtimes: [Inspector2ClientTypes.StringFilter]?
+        /// The finding severity to use for sorting the results.
+        public var sortBy: Inspector2ClientTypes.LambdaFunctionSortBy?
+        /// The order to use for sorting the results.
+        public var sortOrder: Inspector2ClientTypes.SortOrder?
+
+        public init (
+            functionNames: [Inspector2ClientTypes.StringFilter]? = nil,
+            functionTags: [Inspector2ClientTypes.MapFilter]? = nil,
+            resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            runtimes: [Inspector2ClientTypes.StringFilter]? = nil,
+            sortBy: Inspector2ClientTypes.LambdaFunctionSortBy? = nil,
+            sortOrder: Inspector2ClientTypes.SortOrder? = nil
+        )
+        {
+            self.functionNames = functionNames
+            self.functionTags = functionTags
+            self.resourceIds = resourceIds
+            self.runtimes = runtimes
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.LambdaFunctionAggregationResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case functionName
+        case lambdaTags
+        case lastModifiedAt
+        case resourceId
+        case runtime
+        case severityCounts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let functionName = self.functionName {
+            try encodeContainer.encode(functionName, forKey: .functionName)
+        }
+        if let lambdaTags = lambdaTags {
+            var lambdaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .lambdaTags)
+            for (dictKey0, tagmap0) in lambdaTags {
+                try lambdaTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let lastModifiedAt = self.lastModifiedAt {
+            try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
+        }
+        if let severityCounts = self.severityCounts {
+            try encodeContainer.encode(severityCounts, forKey: .severityCounts)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
+        functionName = functionNameDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let lambdaTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .lambdaTags)
+        var lambdaTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let lambdaTagsContainer = lambdaTagsContainer {
+            lambdaTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, mapvalue0) in lambdaTagsContainer {
+                if let mapvalue0 = mapvalue0 {
+                    lambdaTagsDecoded0?[key0] = mapvalue0
+                }
+            }
+        }
+        lambdaTags = lambdaTagsDecoded0
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let severityCountsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SeverityCounts.self, forKey: .severityCounts)
+        severityCounts = severityCountsDecoded
+        let lastModifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAt)
+        lastModifiedAt = lastModifiedAtDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A response that contains the results of an AWS Lambda function finding aggregation.
+    public struct LambdaFunctionAggregationResponse: Swift.Equatable {
+        /// The ID of the AWS account that owns the AWS Lambda function.
+        public var accountId: Swift.String?
+        /// The AWS Lambda function names included in the aggregation results.
+        public var functionName: Swift.String?
+        /// The tags included in the aggregation results.
+        public var lambdaTags: [Swift.String:Swift.String]?
+        /// The date that the AWS Lambda function included in the aggregation results was last changed.
+        public var lastModifiedAt: ClientRuntime.Date?
+        /// The resource IDs included in the aggregation results.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The runtimes included in the aggregation results.
+        public var runtime: Swift.String?
+        /// An object that contains the counts of aggregated finding per severity.
+        public var severityCounts: Inspector2ClientTypes.SeverityCounts?
+
+        public init (
+            accountId: Swift.String? = nil,
+            functionName: Swift.String? = nil,
+            lambdaTags: [Swift.String:Swift.String]? = nil,
+            lastModifiedAt: ClientRuntime.Date? = nil,
+            resourceId: Swift.String? = nil,
+            runtime: Swift.String? = nil,
+            severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
+        )
+        {
+            self.accountId = accountId
+            self.functionName = functionName
+            self.lambdaTags = lambdaTags
+            self.lastModifiedAt = lastModifiedAt
+            self.resourceId = resourceId
+            self.runtime = runtime
+            self.severityCounts = severityCounts
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.LambdaFunctionMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case functionName
+        case functionTags
+        case layers
+        case runtime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let functionName = self.functionName {
+            try encodeContainer.encode(functionName, forKey: .functionName)
+        }
+        if let functionTags = functionTags {
+            var functionTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .functionTags)
+            for (dictKey0, tagmap0) in functionTags {
+                try functionTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let layers = layers {
+            var layersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layers)
+            for lambdalayerlist0 in layers {
+                try layersContainer.encode(lambdalayerlist0)
+            }
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime.rawValue, forKey: .runtime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let functionTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .functionTags)
+        var functionTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let functionTagsContainer = functionTagsContainer {
+            functionTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, mapvalue0) in functionTagsContainer {
+                if let mapvalue0 = mapvalue0 {
+                    functionTagsDecoded0?[key0] = mapvalue0
+                }
+            }
+        }
+        functionTags = functionTagsDecoded0
+        let layersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .layers)
+        var layersDecoded0:[Swift.String]? = nil
+        if let layersContainer = layersContainer {
+            layersDecoded0 = [Swift.String]()
+            for string0 in layersContainer {
+                if let string0 = string0 {
+                    layersDecoded0?.append(string0)
+                }
+            }
+        }
+        layers = layersDecoded0
+        let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
+        functionName = functionNameDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Runtime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The AWS Lambda function metadata.
+    public struct LambdaFunctionMetadata: Swift.Equatable {
+        /// The name of a function.
+        public var functionName: Swift.String?
+        /// The resource tags on an AWS Lambda function.
+        public var functionTags: [Swift.String:Swift.String]?
+        /// The layers for an AWS Lambda function. A Lambda function can have up to five layers.
+        public var layers: [Swift.String]?
+        /// An AWS Lambda function's runtime.
+        public var runtime: Inspector2ClientTypes.Runtime?
+
+        public init (
+            functionName: Swift.String? = nil,
+            functionTags: [Swift.String:Swift.String]? = nil,
+            layers: [Swift.String]? = nil,
+            runtime: Inspector2ClientTypes.Runtime? = nil
+        )
+        {
+            self.functionName = functionName
+            self.functionTags = functionTags
+            self.layers = layers
+            self.runtime = runtime
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum LambdaFunctionSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case critical
+        case high
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LambdaFunctionSortBy] {
+            return [
+                .all,
+                .critical,
+                .high,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LambdaFunctionSortBy(rawValue: rawValue) ?? LambdaFunctionSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.LambdaLayerAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case functionNames
+        case layerArns
+        case resourceIds
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let functionNames = functionNames {
+            var functionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionNames)
+            for stringfilterlist0 in functionNames {
+                try functionNamesContainer.encode(stringfilterlist0)
+            }
+        }
+        if let layerArns = layerArns {
+            var layerArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerArns)
+            for stringfilterlist0 in layerArns {
+                try layerArnsContainer.encode(stringfilterlist0)
+            }
+        }
+        if let resourceIds = resourceIds {
+            var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
+            for stringfilterlist0 in resourceIds {
+                try resourceIdsContainer.encode(stringfilterlist0)
+            }
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let functionNamesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .functionNames)
+        var functionNamesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let functionNamesContainer = functionNamesContainer {
+            functionNamesDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in functionNamesContainer {
+                if let structure0 = structure0 {
+                    functionNamesDecoded0?.append(structure0)
+                }
+            }
+        }
+        functionNames = functionNamesDecoded0
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in resourceIdsContainer {
+                if let structure0 = structure0 {
+                    resourceIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let layerArnsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .layerArns)
+        var layerArnsDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let layerArnsContainer = layerArnsContainer {
+            layerArnsDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in layerArnsContainer {
+                if let structure0 = structure0 {
+                    layerArnsDecoded0?.append(structure0)
+                }
+            }
+        }
+        layerArns = layerArnsDecoded0
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.LambdaLayerSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The details that define a findings aggregation based on an AWS Lambda function's layers.
+    public struct LambdaLayerAggregation: Swift.Equatable {
+        /// The names of the AWS Lambda functions associated with the layers.
+        public var functionNames: [Inspector2ClientTypes.StringFilter]?
+        /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+        public var layerArns: [Inspector2ClientTypes.StringFilter]?
+        /// The resource IDs for the AWS Lambda function layers.
+        public var resourceIds: [Inspector2ClientTypes.StringFilter]?
+        /// The finding severity to use for sorting the results.
+        public var sortBy: Inspector2ClientTypes.LambdaLayerSortBy?
+        /// The order to use for sorting the results.
+        public var sortOrder: Inspector2ClientTypes.SortOrder?
+
+        public init (
+            functionNames: [Inspector2ClientTypes.StringFilter]? = nil,
+            layerArns: [Inspector2ClientTypes.StringFilter]? = nil,
+            resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            sortBy: Inspector2ClientTypes.LambdaLayerSortBy? = nil,
+            sortOrder: Inspector2ClientTypes.SortOrder? = nil
+        )
+        {
+            self.functionNames = functionNames
+            self.layerArns = layerArns
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.LambdaLayerAggregationResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case functionName
+        case layerArn
+        case resourceId
+        case severityCounts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let functionName = self.functionName {
+            try encodeContainer.encode(functionName, forKey: .functionName)
+        }
+        if let layerArn = self.layerArn {
+            try encodeContainer.encode(layerArn, forKey: .layerArn)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let severityCounts = self.severityCounts {
+            try encodeContainer.encode(severityCounts, forKey: .severityCounts)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
+        functionName = functionNameDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let layerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .layerArn)
+        layerArn = layerArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let severityCountsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SeverityCounts.self, forKey: .severityCounts)
+        severityCounts = severityCountsDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A response that contains the results of an AWS Lambda function layer finding aggregation.
+    public struct LambdaLayerAggregationResponse: Swift.Equatable {
+        /// The account ID of the AWS Lambda function layer.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The names of the AWS Lambda functions associated with the layers.
+        /// This member is required.
+        public var functionName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+        /// This member is required.
+        public var layerArn: Swift.String?
+        /// The Resource ID of the AWS Lambda function layer.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// An object that contains the counts of aggregated finding per severity.
+        public var severityCounts: Inspector2ClientTypes.SeverityCounts?
+
+        public init (
+            accountId: Swift.String? = nil,
+            functionName: Swift.String? = nil,
+            layerArn: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
+        )
+        {
+            self.accountId = accountId
+            self.functionName = functionName
+            self.layerArn = layerArn
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum LambdaLayerSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case critical
+        case high
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LambdaLayerSortBy] {
+            return [
+                .all,
+                .critical,
+                .high,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LambdaLayerSortBy(rawValue: rawValue) ?? LambdaLayerSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.LambdaVpcConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityGroupIds
+        case subnetIds
+        case vpcId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupidlist0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for subnetidlist0 in subnetIds {
+                try subnetIdsContainer.encode(subnetidlist0)
+            }
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The VPC security groups and subnets that are attached to an AWS Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
+    public struct LambdaVpcConfig: Swift.Equatable {
+        /// The VPC security groups and subnets that are attached to an AWS Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
+        public var securityGroupIds: [Swift.String]?
+        /// A list of VPC subnet IDs.
+        public var subnetIds: [Swift.String]?
+        /// The ID of the VPC.
+        public var vpcId: Swift.String?
+
+        public init (
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+
 }
 
 extension ListAccountPermissionsInput: Swift.Encodable {
@@ -9971,6 +11176,7 @@ extension Inspector2ClientTypes.PackageFilter: Swift.Codable {
         case epoch
         case name
         case release
+        case sourceLambdaLayerArn
         case sourceLayerHash
         case version
     }
@@ -9988,6 +11194,9 @@ extension Inspector2ClientTypes.PackageFilter: Swift.Codable {
         }
         if let release = self.release {
             try encodeContainer.encode(release, forKey: .release)
+        }
+        if let sourceLambdaLayerArn = self.sourceLambdaLayerArn {
+            try encodeContainer.encode(sourceLambdaLayerArn, forKey: .sourceLambdaLayerArn)
         }
         if let sourceLayerHash = self.sourceLayerHash {
             try encodeContainer.encode(sourceLayerHash, forKey: .sourceLayerHash)
@@ -10011,6 +11220,8 @@ extension Inspector2ClientTypes.PackageFilter: Swift.Codable {
         architecture = architectureDecoded
         let sourceLayerHashDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StringFilter.self, forKey: .sourceLayerHash)
         sourceLayerHash = sourceLayerHashDecoded
+        let sourceLambdaLayerArnDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StringFilter.self, forKey: .sourceLambdaLayerArn)
+        sourceLambdaLayerArn = sourceLambdaLayerArnDecoded
     }
 }
 
@@ -10025,6 +11236,8 @@ extension Inspector2ClientTypes {
         public var name: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the package release to filter on.
         public var release: Inspector2ClientTypes.StringFilter?
+        /// An object that describes the details of a string filter.
+        public var sourceLambdaLayerArn: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the source layer hash to filter on.
         public var sourceLayerHash: Inspector2ClientTypes.StringFilter?
         /// The package version to filter on.
@@ -10035,6 +11248,7 @@ extension Inspector2ClientTypes {
             epoch: Inspector2ClientTypes.NumberFilter? = nil,
             name: Inspector2ClientTypes.StringFilter? = nil,
             release: Inspector2ClientTypes.StringFilter? = nil,
+            sourceLambdaLayerArn: Inspector2ClientTypes.StringFilter? = nil,
             sourceLayerHash: Inspector2ClientTypes.StringFilter? = nil,
             version: Inspector2ClientTypes.StringFilter? = nil
         )
@@ -10043,6 +11257,7 @@ extension Inspector2ClientTypes {
             self.epoch = epoch
             self.name = name
             self.release = release
+            self.sourceLambdaLayerArn = sourceLambdaLayerArn
             self.sourceLayerHash = sourceLayerHash
             self.version = version
         }
@@ -10155,6 +11370,38 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = PackageSortBy(rawValue: rawValue) ?? PackageSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum PackageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case image
+        case zip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageType] {
+            return [
+                .image,
+                .zip,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .image: return "IMAGE"
+            case .zip: return "ZIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackageType(rawValue: rawValue) ?? PackageType.sdkUnknown(rawValue)
         }
     }
 }
@@ -10965,6 +12212,7 @@ extension Inspector2ClientTypes.ResourceDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsEc2Instance
         case awsEcrContainerImage
+        case awsLambdaFunction
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10975,6 +12223,9 @@ extension Inspector2ClientTypes.ResourceDetails: Swift.Codable {
         if let awsEcrContainerImage = self.awsEcrContainerImage {
             try encodeContainer.encode(awsEcrContainerImage, forKey: .awsEcrContainerImage)
         }
+        if let awsLambdaFunction = self.awsLambdaFunction {
+            try encodeContainer.encode(awsLambdaFunction, forKey: .awsLambdaFunction)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -10983,6 +12234,8 @@ extension Inspector2ClientTypes.ResourceDetails: Swift.Codable {
         awsEc2Instance = awsEc2InstanceDecoded
         let awsEcrContainerImageDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AwsEcrContainerImageDetails.self, forKey: .awsEcrContainerImage)
         awsEcrContainerImage = awsEcrContainerImageDecoded
+        let awsLambdaFunctionDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AwsLambdaFunctionDetails.self, forKey: .awsLambdaFunction)
+        awsLambdaFunction = awsLambdaFunctionDecoded
     }
 }
 
@@ -10993,14 +12246,18 @@ extension Inspector2ClientTypes {
         public var awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails?
         /// An object that contains details about the Amazon ECR container image involved in the finding.
         public var awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails?
+        /// A summary of the information about an AWS Lambda function affected by a finding.
+        public var awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails?
 
         public init (
             awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails? = nil,
-            awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails? = nil
+            awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails? = nil,
+            awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails? = nil
         )
         {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
+            self.awsLambdaFunction = awsLambdaFunction
         }
     }
 
@@ -11064,6 +12321,7 @@ extension Inspector2ClientTypes.ResourceScanMetadata: Swift.Codable {
         case ec2
         case ecrImage
         case ecrRepository
+        case lambdaFunction
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11077,6 +12335,9 @@ extension Inspector2ClientTypes.ResourceScanMetadata: Swift.Codable {
         if let ecrRepository = self.ecrRepository {
             try encodeContainer.encode(ecrRepository, forKey: .ecrRepository)
         }
+        if let lambdaFunction = self.lambdaFunction {
+            try encodeContainer.encode(lambdaFunction, forKey: .lambdaFunction)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -11087,6 +12348,8 @@ extension Inspector2ClientTypes.ResourceScanMetadata: Swift.Codable {
         ecrImage = ecrImageDecoded
         let ec2Decoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2Metadata.self, forKey: .ec2)
         ec2 = ec2Decoded
+        let lambdaFunctionDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.LambdaFunctionMetadata.self, forKey: .lambdaFunction)
+        lambdaFunction = lambdaFunctionDecoded
     }
 }
 
@@ -11099,16 +12362,20 @@ extension Inspector2ClientTypes {
         public var ecrImage: Inspector2ClientTypes.EcrContainerImageMetadata?
         /// An object that contains details about the repository an Amazon ECR image resides in.
         public var ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata?
+        /// An object that contains metadata details for an AWS Lambda function.
+        public var lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata?
 
         public init (
             ec2: Inspector2ClientTypes.Ec2Metadata? = nil,
             ecrImage: Inspector2ClientTypes.EcrContainerImageMetadata? = nil,
-            ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata? = nil
+            ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata? = nil,
+            lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata? = nil
         )
         {
             self.ec2 = ec2
             self.ecrImage = ecrImage
             self.ecrRepository = ecrRepository
+            self.lambdaFunction = lambdaFunction
         }
     }
 
@@ -11118,12 +12385,14 @@ extension Inspector2ClientTypes {
     public enum ResourceScanType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ec2
         case ecr
+        case lambda
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceScanType] {
             return [
                 .ec2,
                 .ecr,
+                .lambda,
                 .sdkUnknown("")
             ]
         }
@@ -11135,6 +12404,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .ec2: return "EC2"
             case .ecr: return "ECR"
+            case .lambda: return "LAMBDA"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11150,6 +12420,7 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ec2
         case ecr
+        case lambda
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11160,6 +12431,9 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
         if let ecr = self.ecr {
             try encodeContainer.encode(ecr, forKey: .ecr)
         }
+        if let lambda = self.lambda {
+            try encodeContainer.encode(lambda, forKey: .lambda)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -11168,6 +12442,8 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
         ec2 = ec2Decoded
         let ecrDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.State.self, forKey: .ecr)
         ecr = ecrDecoded
+        let lambdaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.State.self, forKey: .lambda)
+        lambda = lambdaDecoded
     }
 }
 
@@ -11180,14 +12456,18 @@ extension Inspector2ClientTypes {
         /// An object detailing the state of Amazon Inspector scanning for Amazon ECR resources.
         /// This member is required.
         public var ecr: Inspector2ClientTypes.State?
+        /// An object that described the state of Amazon Inspector scans for an account.
+        public var lambda: Inspector2ClientTypes.State?
 
         public init (
             ec2: Inspector2ClientTypes.State? = nil,
-            ecr: Inspector2ClientTypes.State? = nil
+            ecr: Inspector2ClientTypes.State? = nil,
+            lambda: Inspector2ClientTypes.State? = nil
         )
         {
             self.ec2 = ec2
             self.ecr = ecr
+            self.lambda = lambda
         }
     }
 
@@ -11197,6 +12477,7 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ec2
         case ecr
+        case lambda
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11207,6 +12488,9 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
         if let ecr = self.ecr {
             try encodeContainer.encode(ecr.rawValue, forKey: .ecr)
         }
+        if let lambda = self.lambda {
+            try encodeContainer.encode(lambda.rawValue, forKey: .lambda)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -11215,6 +12499,8 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
         ec2 = ec2Decoded
         let ecrDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .ecr)
         ecr = ecrDecoded
+        let lambdaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .lambda)
+        lambda = lambdaDecoded
     }
 }
 
@@ -11227,14 +12513,18 @@ extension Inspector2ClientTypes {
         /// The status of Amazon Inspector scanning for Amazon ECR resources.
         /// This member is required.
         public var ecr: Inspector2ClientTypes.Status?
+        /// The status of Amazon Inspector scanning for AWS Lambda function resources.
+        public var lambda: Inspector2ClientTypes.Status?
 
         public init (
             ec2: Inspector2ClientTypes.Status? = nil,
-            ecr: Inspector2ClientTypes.Status? = nil
+            ecr: Inspector2ClientTypes.Status? = nil,
+            lambda: Inspector2ClientTypes.Status? = nil
         )
         {
             self.ec2 = ec2
             self.ecr = ecr
+            self.lambda = lambda
         }
     }
 
@@ -11245,6 +12535,7 @@ extension Inspector2ClientTypes {
         case awsEc2Instance
         case awsEcrContainerImage
         case awsEcrRepository
+        case awsLambdaFunction
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -11252,6 +12543,7 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
+                .awsLambdaFunction,
                 .sdkUnknown("")
             ]
         }
@@ -11264,6 +12556,7 @@ extension Inspector2ClientTypes {
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
+            case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11271,6 +12564,65 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResourceType(rawValue: rawValue) ?? ResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum Runtime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case java11
+        case java8
+        case java8Al2
+        case nodejs
+        case nodejs12X
+        case nodejs14X
+        case nodejs16X
+        case python37
+        case python38
+        case python39
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Runtime] {
+            return [
+                .java11,
+                .java8,
+                .java8Al2,
+                .nodejs,
+                .nodejs12X,
+                .nodejs14X,
+                .nodejs16X,
+                .python37,
+                .python38,
+                .python39,
+                .unsupported,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .java11: return "JAVA_11"
+            case .java8: return "JAVA_8"
+            case .java8Al2: return "JAVA_8_AL2"
+            case .nodejs: return "NODEJS"
+            case .nodejs12X: return "NODEJS_12_X"
+            case .nodejs14X: return "NODEJS_14_X"
+            case .nodejs16X: return "NODEJS_16_X"
+            case .python37: return "PYTHON_3_7"
+            case .python38: return "PYTHON_3_8"
+            case .python39: return "PYTHON_3_9"
+            case .unsupported: return "UNSUPPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Runtime(rawValue: rawValue) ?? Runtime.sdkUnknown(rawValue)
         }
     }
 }
@@ -11358,6 +12710,7 @@ extension Inspector2ClientTypes {
     public enum ScanStatusReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
         case ec2InstanceStopped
+        case excludedByTag
         case imageSizeExceeded
         case internalError
         case noInventory
@@ -11372,12 +12725,14 @@ extension Inspector2ClientTypes {
         case successful
         case unmanagedEc2Instance
         case unsupportedOs
+        case unsupportedRuntime
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanStatusReason] {
             return [
                 .accessDenied,
                 .ec2InstanceStopped,
+                .excludedByTag,
                 .imageSizeExceeded,
                 .internalError,
                 .noInventory,
@@ -11392,6 +12747,7 @@ extension Inspector2ClientTypes {
                 .successful,
                 .unmanagedEc2Instance,
                 .unsupportedOs,
+                .unsupportedRuntime,
                 .sdkUnknown("")
             ]
         }
@@ -11403,6 +12759,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
             case .ec2InstanceStopped: return "EC2_INSTANCE_STOPPED"
+            case .excludedByTag: return "EXCLUDED_BY_TAG"
             case .imageSizeExceeded: return "IMAGE_SIZE_EXCEEDED"
             case .internalError: return "INTERNAL_ERROR"
             case .noInventory: return "NO_INVENTORY"
@@ -11417,6 +12774,7 @@ extension Inspector2ClientTypes {
             case .successful: return "SUCCESSFUL"
             case .unmanagedEc2Instance: return "UNMANAGED_EC2_INSTANCE"
             case .unsupportedOs: return "UNSUPPORTED_OS"
+            case .unsupportedRuntime: return "UNSUPPORTED_RUNTIME"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11464,12 +12822,14 @@ extension Inspector2ClientTypes {
     public enum Service: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ec2
         case ecr
+        case lambda
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Service] {
             return [
                 .ec2,
                 .ecr,
+                .lambda,
                 .sdkUnknown("")
             ]
         }
@@ -11481,6 +12841,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .ec2: return "EC2"
             case .ecr: return "ECR"
+            case .lambda: return "LAMBDA"
             case let .sdkUnknown(s): return s
             }
         }
@@ -12030,7 +13391,7 @@ extension Inspector2ClientTypes.StringFilter: Swift.Codable {
 extension Inspector2ClientTypes {
     /// An object that describes the details of a string filter.
     public struct StringFilter: Swift.Equatable {
-        /// The operator to use when comparing values in the filter
+        /// The operator to use when comparing values in the filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.StringComparison?
         /// The value to filter on.
@@ -12159,6 +13520,11 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            self.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        } else {
+            self.retryAfterSeconds = nil
+        }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
@@ -12180,17 +13546,21 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
     public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
+    public var _retryable: Swift.Bool = true
+    public var _isThrottling: Swift.Bool = true
     public var _type: ClientRuntime.ErrorType = .client
     /// This member is required.
     public var message: Swift.String?
+    /// The number of seconds to wait before retrying the request.
+    public var retryAfterSeconds: Swift.Int?
 
     public init (
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil
     )
     {
         self.message = message
+        self.retryAfterSeconds = retryAfterSeconds
     }
 }
 
@@ -13012,6 +14382,7 @@ extension Inspector2ClientTypes {
         case ec2InstanceHours
         case ecrInitialScan
         case ecrRescan
+        case lambdaFunctionHours
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UsageType] {
@@ -13019,6 +14390,7 @@ extension Inspector2ClientTypes {
                 .ec2InstanceHours,
                 .ecrInitialScan,
                 .ecrRescan,
+                .lambdaFunctionHours,
                 .sdkUnknown("")
             ]
         }
@@ -13031,6 +14403,7 @@ extension Inspector2ClientTypes {
             case .ec2InstanceHours: return "EC2_INSTANCE_HOURS"
             case .ecrInitialScan: return "ECR_INITIAL_SCAN"
             case .ecrRescan: return "ECR_RESCAN"
+            case .lambdaFunctionHours: return "LAMBDA_FUNCTION_HOURS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13217,6 +14590,7 @@ extension Inspector2ClientTypes.VulnerablePackage: Swift.Codable {
         case packageManager
         case release
         case remediation
+        case sourceLambdaLayerArn
         case sourceLayerHash
         case version
     }
@@ -13246,6 +14620,9 @@ extension Inspector2ClientTypes.VulnerablePackage: Swift.Codable {
         }
         if let remediation = self.remediation {
             try encodeContainer.encode(remediation, forKey: .remediation)
+        }
+        if let sourceLambdaLayerArn = self.sourceLambdaLayerArn {
+            try encodeContainer.encode(sourceLambdaLayerArn, forKey: .sourceLambdaLayerArn)
         }
         if let sourceLayerHash = self.sourceLayerHash {
             try encodeContainer.encode(sourceLayerHash, forKey: .sourceLayerHash)
@@ -13277,6 +14654,8 @@ extension Inspector2ClientTypes.VulnerablePackage: Swift.Codable {
         fixedInVersion = fixedInVersionDecoded
         let remediationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediation)
         remediation = remediationDecoded
+        let sourceLambdaLayerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLambdaLayerArn)
+        sourceLambdaLayerArn = sourceLambdaLayerArnDecoded
     }
 }
 
@@ -13300,6 +14679,8 @@ extension Inspector2ClientTypes {
         public var release: Swift.String?
         /// The code to run in your environment to update packages with a fix available.
         public var remediation: Swift.String?
+        /// The Amazon Resource Number (ARN) of the AWS Lambda function affected by a finding.
+        public var sourceLambdaLayerArn: Swift.String?
         /// The source layer hash of the vulnerable package.
         public var sourceLayerHash: Swift.String?
         /// The version of the vulnerable package.
@@ -13315,6 +14696,7 @@ extension Inspector2ClientTypes {
             packageManager: Inspector2ClientTypes.PackageManager? = nil,
             release: Swift.String? = nil,
             remediation: Swift.String? = nil,
+            sourceLambdaLayerArn: Swift.String? = nil,
             sourceLayerHash: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -13327,6 +14709,7 @@ extension Inspector2ClientTypes {
             self.packageManager = packageManager
             self.release = release
             self.remediation = remediation
+            self.sourceLambdaLayerArn = sourceLambdaLayerArn
             self.sourceLayerHash = sourceLayerHash
             self.version = version
         }

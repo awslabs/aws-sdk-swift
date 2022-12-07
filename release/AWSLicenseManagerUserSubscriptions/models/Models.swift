@@ -699,6 +699,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary: Sw
         case failureMessage = "FailureMessage"
         case identityProvider = "IdentityProvider"
         case product = "Product"
+        case settings = "Settings"
         case status = "Status"
     }
 
@@ -713,6 +714,9 @@ extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary: Sw
         if let product = self.product {
             try encodeContainer.encode(product, forKey: .product)
         }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
         }
@@ -722,6 +726,8 @@ extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary: Sw
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityProviderDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.self, forKey: .identityProvider)
         identityProvider = identityProviderDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.Settings.self, forKey: .settings)
+        settings = settingsDecoded
         let productDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .product)
         product = productDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
@@ -742,6 +748,9 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         /// The name of the user-based subscription product.
         /// This member is required.
         public var product: Swift.String?
+        /// An object that details the registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
+        /// This member is required.
+        public var settings: LicenseManagerUserSubscriptionsClientTypes.Settings?
         /// The status of an identity provider.
         /// This member is required.
         public var status: Swift.String?
@@ -750,12 +759,14 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             failureMessage: Swift.String? = nil,
             identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider? = nil,
             product: Swift.String? = nil,
+            settings: LicenseManagerUserSubscriptionsClientTypes.Settings? = nil,
             status: Swift.String? = nil
         )
         {
             self.failureMessage = failureMessage
             self.identityProvider = identityProvider
             self.product = product
+            self.settings = settings
             self.status = status
         }
     }
@@ -1863,6 +1874,7 @@ extension RegisterIdentityProviderInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identityProvider = "IdentityProvider"
         case product = "Product"
+        case settings = "Settings"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1872,6 +1884,9 @@ extension RegisterIdentityProviderInput: Swift.Encodable {
         }
         if let product = self.product {
             try encodeContainer.encode(product, forKey: .product)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
         }
     }
 }
@@ -1889,26 +1904,32 @@ public struct RegisterIdentityProviderInput: Swift.Equatable {
     /// The name of the user-based subscription product.
     /// This member is required.
     public var product: Swift.String?
+    /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
+    public var settings: LicenseManagerUserSubscriptionsClientTypes.Settings?
 
     public init (
         identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider? = nil,
-        product: Swift.String? = nil
+        product: Swift.String? = nil,
+        settings: LicenseManagerUserSubscriptionsClientTypes.Settings? = nil
     )
     {
         self.identityProvider = identityProvider
         self.product = product
+        self.settings = settings
     }
 }
 
 struct RegisterIdentityProviderInputBody: Swift.Equatable {
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let product: Swift.String?
+    let settings: LicenseManagerUserSubscriptionsClientTypes.Settings?
 }
 
 extension RegisterIdentityProviderInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identityProvider = "IdentityProvider"
         case product = "Product"
+        case settings = "Settings"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1917,6 +1938,8 @@ extension RegisterIdentityProviderInputBody: Swift.Decodable {
         identityProvider = identityProviderDecoded
         let productDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .product)
         product = productDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.Settings.self, forKey: .settings)
+        settings = settingsDecoded
     }
 }
 
@@ -2098,6 +2121,65 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.Settings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityGroupId = "SecurityGroupId"
+        case subnets = "Subnets"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityGroupId = self.securityGroupId {
+            try encodeContainer.encode(securityGroupId, forKey: .securityGroupId)
+        }
+        if let subnets = subnets {
+            var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
+            for subnets0 in subnets {
+                try subnetsContainer.encode(subnets0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subnetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnets)
+        var subnetsDecoded0:[Swift.String]? = nil
+        if let subnetsContainer = subnetsContainer {
+            subnetsDecoded0 = [Swift.String]()
+            for string0 in subnetsContainer {
+                if let string0 = string0 {
+                    subnetsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnets = subnetsDecoded0
+        let securityGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityGroupId)
+        securityGroupId = securityGroupIdDecoded
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes {
+    /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints, and the security group ID that is associated with the VPC endpoints. The security group should permit inbound TCP port 1688 communication from resources in the VPC.
+    public struct Settings: Swift.Equatable {
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoint for activation servers.
+        /// This member is required.
+        public var securityGroupId: Swift.String?
+        /// The subnets defined for the registered identity provider.
+        /// This member is required.
+        public var subnets: [Swift.String]?
+
+        public init (
+            securityGroupId: Swift.String? = nil,
+            subnets: [Swift.String]? = nil
+        )
+        {
+            self.securityGroupId = securityGroupId
+            self.subnets = subnets
+        }
+    }
+
 }
 
 extension StartProductSubscriptionInput: Swift.Encodable {
@@ -2474,6 +2556,237 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension UpdateIdentityProviderSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identityProvider = "IdentityProvider"
+        case product = "Product"
+        case updateSettings = "UpdateSettings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identityProvider = self.identityProvider {
+            try encodeContainer.encode(identityProvider, forKey: .identityProvider)
+        }
+        if let product = self.product {
+            try encodeContainer.encode(product, forKey: .product)
+        }
+        if let updateSettings = self.updateSettings {
+            try encodeContainer.encode(updateSettings, forKey: .updateSettings)
+        }
+    }
+}
+
+extension UpdateIdentityProviderSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/identity-provider/UpdateIdentityProviderSettings"
+    }
+}
+
+public struct UpdateIdentityProviderSettingsInput: Swift.Equatable {
+    /// Details about an identity provider.
+    /// This member is required.
+    public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
+    /// The name of the user-based subscription product.
+    /// This member is required.
+    public var product: Swift.String?
+    /// Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:
+    ///
+    /// * Subnets which you want to add to provision VPC endpoints.
+    ///
+    /// * Subnets which you want to remove the VPC endpoints from.
+    ///
+    /// * Security group ID which permits traffic to the VPC endpoints.
+    /// This member is required.
+    public var updateSettings: LicenseManagerUserSubscriptionsClientTypes.UpdateSettings?
+
+    public init (
+        identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider? = nil,
+        product: Swift.String? = nil,
+        updateSettings: LicenseManagerUserSubscriptionsClientTypes.UpdateSettings? = nil
+    )
+    {
+        self.identityProvider = identityProvider
+        self.product = product
+        self.updateSettings = updateSettings
+    }
+}
+
+struct UpdateIdentityProviderSettingsInputBody: Swift.Equatable {
+    let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
+    let product: Swift.String?
+    let updateSettings: LicenseManagerUserSubscriptionsClientTypes.UpdateSettings?
+}
+
+extension UpdateIdentityProviderSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identityProvider = "IdentityProvider"
+        case product = "Product"
+        case updateSettings = "UpdateSettings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identityProviderDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.self, forKey: .identityProvider)
+        identityProvider = identityProviderDecoded
+        let productDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .product)
+        product = productDecoded
+        let updateSettingsDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.UpdateSettings.self, forKey: .updateSettings)
+        updateSettings = updateSettingsDecoded
+    }
+}
+
+extension UpdateIdentityProviderSettingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateIdentityProviderSettingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateIdentityProviderSettingsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateIdentityProviderSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateIdentityProviderSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.identityProviderSummary = output.identityProviderSummary
+        } else {
+            self.identityProviderSummary = nil
+        }
+    }
+}
+
+public struct UpdateIdentityProviderSettingsOutputResponse: Swift.Equatable {
+    /// Describes an identity provider.
+    /// This member is required.
+    public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
+
+    public init (
+        identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
+    )
+    {
+        self.identityProviderSummary = identityProviderSummary
+    }
+}
+
+struct UpdateIdentityProviderSettingsOutputResponseBody: Swift.Equatable {
+    let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
+}
+
+extension UpdateIdentityProviderSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identityProviderSummary = "IdentityProviderSummary"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identityProviderSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.self, forKey: .identityProviderSummary)
+        identityProviderSummary = identityProviderSummaryDecoded
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.UpdateSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addSubnets = "AddSubnets"
+        case removeSubnets = "RemoveSubnets"
+        case securityGroupId = "SecurityGroupId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addSubnets = addSubnets {
+            var addSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addSubnets)
+            for subnets0 in addSubnets {
+                try addSubnetsContainer.encode(subnets0)
+            }
+        }
+        if let removeSubnets = removeSubnets {
+            var removeSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeSubnets)
+            for subnets0 in removeSubnets {
+                try removeSubnetsContainer.encode(subnets0)
+            }
+        }
+        if let securityGroupId = self.securityGroupId {
+            try encodeContainer.encode(securityGroupId, forKey: .securityGroupId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let addSubnetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .addSubnets)
+        var addSubnetsDecoded0:[Swift.String]? = nil
+        if let addSubnetsContainer = addSubnetsContainer {
+            addSubnetsDecoded0 = [Swift.String]()
+            for string0 in addSubnetsContainer {
+                if let string0 = string0 {
+                    addSubnetsDecoded0?.append(string0)
+                }
+            }
+        }
+        addSubnets = addSubnetsDecoded0
+        let removeSubnetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .removeSubnets)
+        var removeSubnetsDecoded0:[Swift.String]? = nil
+        if let removeSubnetsContainer = removeSubnetsContainer {
+            removeSubnetsDecoded0 = [Swift.String]()
+            for string0 in removeSubnetsContainer {
+                if let string0 = string0 {
+                    removeSubnetsDecoded0?.append(string0)
+                }
+            }
+        }
+        removeSubnets = removeSubnetsDecoded0
+        let securityGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityGroupId)
+        securityGroupId = securityGroupIdDecoded
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes {
+    /// Updates the registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
+    public struct UpdateSettings: Swift.Equatable {
+        /// The ID of one or more subnets in which License Manager will create a VPC endpoint for products that require connectivity to activation servers.
+        /// This member is required.
+        public var addSubnets: [Swift.String]?
+        /// The ID of one or more subnets to remove.
+        /// This member is required.
+        public var removeSubnets: [Swift.String]?
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoints for activation servers.
+        public var securityGroupId: Swift.String?
+
+        public init (
+            addSubnets: [Swift.String]? = nil,
+            removeSubnets: [Swift.String]? = nil,
+            securityGroupId: Swift.String? = nil
+        )
+        {
+            self.addSubnets = addSubnets
+            self.removeSubnets = removeSubnets
+            self.securityGroupId = securityGroupId
+        }
+    }
+
 }
 
 extension ValidationException {

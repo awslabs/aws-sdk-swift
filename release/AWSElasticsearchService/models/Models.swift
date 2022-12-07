@@ -765,6 +765,183 @@ extension AssociatePackageOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension AuthorizeVpcEndpointAccessInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case account = "Account"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let account = self.account {
+            try encodeContainer.encode(account, forKey: .account)
+        }
+    }
+}
+
+extension AuthorizeVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/authorizeVpcEndpointAccess"
+    }
+}
+
+/// Container for request parameters to the [AuthorizeVpcEndpointAccess] operation. Specifies the account to be permitted to manage VPC endpoints against the domain.
+public struct AuthorizeVpcEndpointAccessInput: Swift.Equatable {
+    /// The account ID to grant access to.
+    /// This member is required.
+    public var account: Swift.String?
+    /// The name of the OpenSearch Service domain to provide access to.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init (
+        account: Swift.String? = nil,
+        domainName: Swift.String? = nil
+    )
+    {
+        self.account = account
+        self.domainName = domainName
+    }
+}
+
+struct AuthorizeVpcEndpointAccessInputBody: Swift.Equatable {
+    let account: Swift.String?
+}
+
+extension AuthorizeVpcEndpointAccessInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case account = "Account"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
+        account = accountDecoded
+    }
+}
+
+extension AuthorizeVpcEndpointAccessOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension AuthorizeVpcEndpointAccessOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum AuthorizeVpcEndpointAccessOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AuthorizeVpcEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AuthorizeVpcEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.authorizedPrincipal = output.authorizedPrincipal
+        } else {
+            self.authorizedPrincipal = nil
+        }
+    }
+}
+
+/// Container for response parameters to the [AuthorizeVpcEndpointAccess] operation. Contains the account ID and the type of the account being authorized to access the VPC endpoint.
+public struct AuthorizeVpcEndpointAccessOutputResponse: Swift.Equatable {
+    /// Information about the account or service that was provided access to the domain.
+    /// This member is required.
+    public var authorizedPrincipal: ElasticsearchClientTypes.AuthorizedPrincipal?
+
+    public init (
+        authorizedPrincipal: ElasticsearchClientTypes.AuthorizedPrincipal? = nil
+    )
+    {
+        self.authorizedPrincipal = authorizedPrincipal
+    }
+}
+
+struct AuthorizeVpcEndpointAccessOutputResponseBody: Swift.Equatable {
+    let authorizedPrincipal: ElasticsearchClientTypes.AuthorizedPrincipal?
+}
+
+extension AuthorizeVpcEndpointAccessOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedPrincipal = "AuthorizedPrincipal"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizedPrincipalDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.AuthorizedPrincipal.self, forKey: .authorizedPrincipal)
+        authorizedPrincipal = authorizedPrincipalDecoded
+    }
+}
+
+extension ElasticsearchClientTypes.AuthorizedPrincipal: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principal = "Principal"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalTypeDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+        let principalDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principal)
+        principal = principalDecoded
+    }
+}
+
+extension ElasticsearchClientTypes {
+    /// Information about an account or service that has access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    public struct AuthorizedPrincipal: Swift.Equatable {
+        /// The IAM principal that is allowed access to the domain.
+        public var principal: Swift.String?
+        /// The type of principal.
+        public var principalType: ElasticsearchClientTypes.PrincipalType?
+
+        public init (
+            principal: Swift.String? = nil,
+            principalType: ElasticsearchClientTypes.PrincipalType? = nil
+        )
+        {
+            self.principal = principal
+            self.principalType = principalType
+        }
+    }
+
+}
+
 extension ElasticsearchClientTypes.AutoTune: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoTuneDetails = "AutoTuneDetails"
@@ -2678,6 +2855,155 @@ extension CreatePackageOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateVpcEndpointInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case domainArn = "DomainArn"
+        case vpcOptions = "VpcOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let domainArn = self.domainArn {
+            try encodeContainer.encode(domainArn, forKey: .domainArn)
+        }
+        if let vpcOptions = self.vpcOptions {
+            try encodeContainer.encode(vpcOptions, forKey: .vpcOptions)
+        }
+    }
+}
+
+extension CreateVpcEndpointInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/2015-01-01/es/vpcEndpoints"
+    }
+}
+
+/// Container for the parameters to the [CreateVpcEndpointRequest] operation.
+public struct CreateVpcEndpointInput: Swift.Equatable {
+    /// Unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain to grant access to.
+    /// This member is required.
+    public var domainArn: Swift.String?
+    /// Options to specify the subnets and security groups for the endpoint.
+    /// This member is required.
+    public var vpcOptions: ElasticsearchClientTypes.VPCOptions?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        domainArn: Swift.String? = nil,
+        vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.domainArn = domainArn
+        self.vpcOptions = vpcOptions
+    }
+}
+
+struct CreateVpcEndpointInputBody: Swift.Equatable {
+    let domainArn: Swift.String?
+    let vpcOptions: ElasticsearchClientTypes.VPCOptions?
+    let clientToken: Swift.String?
+}
+
+extension CreateVpcEndpointInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case domainArn = "DomainArn"
+        case vpcOptions = "VpcOptions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainArn)
+        domainArn = domainArnDecoded
+        let vpcOptionsDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VPCOptions.self, forKey: .vpcOptions)
+        vpcOptions = vpcOptionsDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateVpcEndpointOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateVpcEndpointOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateVpcEndpointOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case conflictException(ConflictException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case limitExceededException(LimitExceededException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.vpcEndpoint = output.vpcEndpoint
+        } else {
+            self.vpcEndpoint = nil
+        }
+    }
+}
+
+/// Container for response parameters to the [CreateVpcEndpoint] operation. Contains the configuration and status of the VPC Endpoint being created.
+public struct CreateVpcEndpointOutputResponse: Swift.Equatable {
+    /// Information about the newly created VPC endpoint.
+    /// This member is required.
+    public var vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint?
+
+    public init (
+        vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint? = nil
+    )
+    {
+        self.vpcEndpoint = vpcEndpoint
+    }
+}
+
+struct CreateVpcEndpointOutputResponseBody: Swift.Equatable {
+    let vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint?
+}
+
+extension CreateVpcEndpointOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpoint = "VpcEndpoint"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VpcEndpoint.self, forKey: .vpcEndpoint)
+        vpcEndpoint = vpcEndpointDecoded
+    }
+}
+
 extension DeleteElasticsearchDomainInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let domainName = domainName else {
@@ -3135,6 +3461,109 @@ extension DeletePackageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let packageDetailsDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.PackageDetails.self, forKey: .packageDetails)
         packageDetails = packageDetailsDecoded
+    }
+}
+
+extension DeleteVpcEndpointInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let vpcEndpointId = vpcEndpointId else {
+            return nil
+        }
+        return "/2015-01-01/es/vpcEndpoints/\(vpcEndpointId.urlPercentEncoding())"
+    }
+}
+
+/// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+public struct DeleteVpcEndpointInput: Swift.Equatable {
+    /// The unique identifier of the endpoint to be deleted.
+    /// This member is required.
+    public var vpcEndpointId: Swift.String?
+
+    public init (
+        vpcEndpointId: Swift.String? = nil
+    )
+    {
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+struct DeleteVpcEndpointInputBody: Swift.Equatable {
+}
+
+extension DeleteVpcEndpointInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteVpcEndpointOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteVpcEndpointOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteVpcEndpointOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DeleteVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.vpcEndpointSummary = output.vpcEndpointSummary
+        } else {
+            self.vpcEndpointSummary = nil
+        }
+    }
+}
+
+/// Container for response parameters to the [DeleteVpcEndpoint] operation. Contains the summarized detail of the VPC Endpoint being deleted.
+public struct DeleteVpcEndpointOutputResponse: Swift.Equatable {
+    /// Information about the deleted endpoint, including its current status (DELETING or DELETE_FAILED).
+    /// This member is required.
+    public var vpcEndpointSummary: ElasticsearchClientTypes.VpcEndpointSummary?
+
+    public init (
+        vpcEndpointSummary: ElasticsearchClientTypes.VpcEndpointSummary? = nil
+    )
+    {
+        self.vpcEndpointSummary = vpcEndpointSummary
+    }
+}
+
+struct DeleteVpcEndpointOutputResponseBody: Swift.Equatable {
+    let vpcEndpointSummary: ElasticsearchClientTypes.VpcEndpointSummary?
+}
+
+extension DeleteVpcEndpointOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpointSummary = "VpcEndpointSummary"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointSummaryDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VpcEndpointSummary.self, forKey: .vpcEndpointSummary)
+        vpcEndpointSummary = vpcEndpointSummaryDecoded
     }
 }
 
@@ -4859,6 +5288,167 @@ extension DescribeReservedElasticsearchInstancesOutputResponseBody: Swift.Decoda
             }
         }
         reservedElasticsearchInstances = reservedElasticsearchInstancesDecoded0
+    }
+}
+
+extension DescribeVpcEndpointsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpointIds = "VpcEndpointIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vpcEndpointIds = vpcEndpointIds {
+            var vpcEndpointIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcEndpointIds)
+            for vpcendpointidlist0 in vpcEndpointIds {
+                try vpcEndpointIdsContainer.encode(vpcendpointidlist0)
+            }
+        }
+    }
+}
+
+extension DescribeVpcEndpointsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/2015-01-01/es/vpcEndpoints/describe"
+    }
+}
+
+/// Container for request parameters to the [DescribeVpcEndpoints] operation. Specifies the list of VPC endpoints to be described.
+public struct DescribeVpcEndpointsInput: Swift.Equatable {
+    /// The unique identifiers of the endpoints to get information about.
+    /// This member is required.
+    public var vpcEndpointIds: [Swift.String]?
+
+    public init (
+        vpcEndpointIds: [Swift.String]? = nil
+    )
+    {
+        self.vpcEndpointIds = vpcEndpointIds
+    }
+}
+
+struct DescribeVpcEndpointsInputBody: Swift.Equatable {
+    let vpcEndpointIds: [Swift.String]?
+}
+
+extension DescribeVpcEndpointsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpointIds = "VpcEndpointIds"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vpcEndpointIds)
+        var vpcEndpointIdsDecoded0:[Swift.String]? = nil
+        if let vpcEndpointIdsContainer = vpcEndpointIdsContainer {
+            vpcEndpointIdsDecoded0 = [Swift.String]()
+            for string0 in vpcEndpointIdsContainer {
+                if let string0 = string0 {
+                    vpcEndpointIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        vpcEndpointIds = vpcEndpointIdsDecoded0
+    }
+}
+
+extension DescribeVpcEndpointsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeVpcEndpointsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DescribeVpcEndpointsOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeVpcEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeVpcEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.vpcEndpointErrors = output.vpcEndpointErrors
+            self.vpcEndpoints = output.vpcEndpoints
+        } else {
+            self.vpcEndpointErrors = nil
+            self.vpcEndpoints = nil
+        }
+    }
+}
+
+/// Container for response parameters to the [DescribeVpcEndpoints] operation. Returns a list containing configuration details and status of the VPC Endpoints as well as a list containing error responses of the endpoints that could not be described
+public struct DescribeVpcEndpointsOutputResponse: Swift.Equatable {
+    /// Any errors associated with the request.
+    /// This member is required.
+    public var vpcEndpointErrors: [ElasticsearchClientTypes.VpcEndpointError]?
+    /// Information about each requested VPC endpoint.
+    /// This member is required.
+    public var vpcEndpoints: [ElasticsearchClientTypes.VpcEndpoint]?
+
+    public init (
+        vpcEndpointErrors: [ElasticsearchClientTypes.VpcEndpointError]? = nil,
+        vpcEndpoints: [ElasticsearchClientTypes.VpcEndpoint]? = nil
+    )
+    {
+        self.vpcEndpointErrors = vpcEndpointErrors
+        self.vpcEndpoints = vpcEndpoints
+    }
+}
+
+struct DescribeVpcEndpointsOutputResponseBody: Swift.Equatable {
+    let vpcEndpoints: [ElasticsearchClientTypes.VpcEndpoint]?
+    let vpcEndpointErrors: [ElasticsearchClientTypes.VpcEndpointError]?
+}
+
+extension DescribeVpcEndpointsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpointErrors = "VpcEndpointErrors"
+        case vpcEndpoints = "VpcEndpoints"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointsContainer = try containerValues.decodeIfPresent([ElasticsearchClientTypes.VpcEndpoint?].self, forKey: .vpcEndpoints)
+        var vpcEndpointsDecoded0:[ElasticsearchClientTypes.VpcEndpoint]? = nil
+        if let vpcEndpointsContainer = vpcEndpointsContainer {
+            vpcEndpointsDecoded0 = [ElasticsearchClientTypes.VpcEndpoint]()
+            for structure0 in vpcEndpointsContainer {
+                if let structure0 = structure0 {
+                    vpcEndpointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcEndpoints = vpcEndpointsDecoded0
+        let vpcEndpointErrorsContainer = try containerValues.decodeIfPresent([ElasticsearchClientTypes.VpcEndpointError?].self, forKey: .vpcEndpointErrors)
+        var vpcEndpointErrorsDecoded0:[ElasticsearchClientTypes.VpcEndpointError]? = nil
+        if let vpcEndpointErrorsContainer = vpcEndpointErrorsContainer {
+            vpcEndpointErrorsDecoded0 = [ElasticsearchClientTypes.VpcEndpointError]()
+            for structure0 in vpcEndpointErrorsContainer {
+                if let structure0 = structure0 {
+                    vpcEndpointErrorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcEndpointErrors = vpcEndpointErrorsDecoded0
     }
 }
 
@@ -8309,9 +8899,9 @@ extension ListElasticsearchInstanceTypesOutputResponseBody: Swift.Decodable {
         var elasticsearchInstanceTypesDecoded0:[ElasticsearchClientTypes.ESPartitionInstanceType]? = nil
         if let elasticsearchInstanceTypesContainer = elasticsearchInstanceTypesContainer {
             elasticsearchInstanceTypesDecoded0 = [ElasticsearchClientTypes.ESPartitionInstanceType]()
-            for string0 in elasticsearchInstanceTypesContainer {
-                if let string0 = string0 {
-                    elasticsearchInstanceTypesDecoded0?.append(string0)
+            for enum0 in elasticsearchInstanceTypesContainer {
+                if let enum0 = enum0 {
+                    elasticsearchInstanceTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -8727,6 +9317,416 @@ extension ListTagsOutputResponseBody: Swift.Decodable {
             }
         }
         tagList = tagListDecoded0
+    }
+}
+
+extension ListVpcEndpointAccessInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/listVpcEndpointAccess"
+    }
+}
+
+/// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint
+public struct ListVpcEndpointAccessInput: Swift.Equatable {
+    /// The name of the OpenSearch Service domain to retrieve access information for.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// Provides an identifier to allow retrieval of paginated results.
+    public var nextToken: Swift.String?
+
+    public init (
+        domainName: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVpcEndpointAccessInputBody: Swift.Equatable {
+}
+
+extension ListVpcEndpointAccessInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListVpcEndpointAccessOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListVpcEndpointAccessOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListVpcEndpointAccessOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVpcEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListVpcEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.authorizedPrincipalList = output.authorizedPrincipalList
+            self.nextToken = output.nextToken
+        } else {
+            self.authorizedPrincipalList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// Container for response parameters to the [ListVpcEndpointAccess] operation. Returns a list of accounts id and account type authorized to manage VPC endpoints.
+public struct ListVpcEndpointAccessOutputResponse: Swift.Equatable {
+    /// List of AuthorizedPrincipal describing the details of the permissions to manage VPC endpoints against the specified domain.
+    /// This member is required.
+    public var authorizedPrincipalList: [ElasticsearchClientTypes.AuthorizedPrincipal]?
+    /// Provides an identifier to allow retrieval of paginated results.
+    /// This member is required.
+    public var nextToken: Swift.String?
+
+    public init (
+        authorizedPrincipalList: [ElasticsearchClientTypes.AuthorizedPrincipal]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.authorizedPrincipalList = authorizedPrincipalList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVpcEndpointAccessOutputResponseBody: Swift.Equatable {
+    let authorizedPrincipalList: [ElasticsearchClientTypes.AuthorizedPrincipal]?
+    let nextToken: Swift.String?
+}
+
+extension ListVpcEndpointAccessOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedPrincipalList = "AuthorizedPrincipalList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizedPrincipalListContainer = try containerValues.decodeIfPresent([ElasticsearchClientTypes.AuthorizedPrincipal?].self, forKey: .authorizedPrincipalList)
+        var authorizedPrincipalListDecoded0:[ElasticsearchClientTypes.AuthorizedPrincipal]? = nil
+        if let authorizedPrincipalListContainer = authorizedPrincipalListContainer {
+            authorizedPrincipalListDecoded0 = [ElasticsearchClientTypes.AuthorizedPrincipal]()
+            for structure0 in authorizedPrincipalListContainer {
+                if let structure0 = structure0 {
+                    authorizedPrincipalListDecoded0?.append(structure0)
+                }
+            }
+        }
+        authorizedPrincipalList = authorizedPrincipalListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListVpcEndpointsForDomainInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVpcEndpointsForDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/vpcEndpoints"
+    }
+}
+
+/// Container for request parameters to the [ListVpcEndpointsForDomain] operation. Specifies the domain whose VPC endpoints will be listed.
+public struct ListVpcEndpointsForDomainInput: Swift.Equatable {
+    /// Name of the ElasticSearch domain whose VPC endpoints are to be listed.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// Provides an identifier to allow retrieval of paginated results.
+    public var nextToken: Swift.String?
+
+    public init (
+        domainName: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVpcEndpointsForDomainInputBody: Swift.Equatable {
+}
+
+extension ListVpcEndpointsForDomainInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListVpcEndpointsForDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListVpcEndpointsForDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListVpcEndpointsForDomainOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVpcEndpointsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListVpcEndpointsForDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.vpcEndpointSummaryList = output.vpcEndpointSummaryList
+        } else {
+            self.nextToken = nil
+            self.vpcEndpointSummaryList = nil
+        }
+    }
+}
+
+/// Container for response parameters to the [ListVpcEndpointsForDomain] operation. Returns a list containing summarized details of the VPC endpoints.
+public struct ListVpcEndpointsForDomainOutputResponse: Swift.Equatable {
+    /// Information about each endpoint associated with the domain.
+    /// This member is required.
+    public var nextToken: Swift.String?
+    /// Provides list of VpcEndpointSummary summarizing details of the VPC endpoints.
+    /// This member is required.
+    public var vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.vpcEndpointSummaryList = vpcEndpointSummaryList
+    }
+}
+
+struct ListVpcEndpointsForDomainOutputResponseBody: Swift.Equatable {
+    let vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListVpcEndpointsForDomainOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case vpcEndpointSummaryList = "VpcEndpointSummaryList"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointSummaryListContainer = try containerValues.decodeIfPresent([ElasticsearchClientTypes.VpcEndpointSummary?].self, forKey: .vpcEndpointSummaryList)
+        var vpcEndpointSummaryListDecoded0:[ElasticsearchClientTypes.VpcEndpointSummary]? = nil
+        if let vpcEndpointSummaryListContainer = vpcEndpointSummaryListContainer {
+            vpcEndpointSummaryListDecoded0 = [ElasticsearchClientTypes.VpcEndpointSummary]()
+            for structure0 in vpcEndpointSummaryListContainer {
+                if let structure0 = structure0 {
+                    vpcEndpointSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcEndpointSummaryList = vpcEndpointSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListVpcEndpointsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVpcEndpointsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/2015-01-01/es/vpcEndpoints"
+    }
+}
+
+/// Container for request parameters to the [ListVpcEndpoints] operation.
+public struct ListVpcEndpointsInput: Swift.Equatable {
+    /// Identifier to allow retrieval of paginated results.
+    public var nextToken: Swift.String?
+
+    public init (
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVpcEndpointsInputBody: Swift.Equatable {
+}
+
+extension ListVpcEndpointsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListVpcEndpointsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListVpcEndpointsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListVpcEndpointsOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVpcEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListVpcEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.vpcEndpointSummaryList = output.vpcEndpointSummaryList
+        } else {
+            self.nextToken = nil
+            self.vpcEndpointSummaryList = nil
+        }
+    }
+}
+
+/// Container for response parameters to the [ListVpcEndpoints] operation. Returns a list containing summarized details of the VPC endpoints.
+public struct ListVpcEndpointsOutputResponse: Swift.Equatable {
+    /// Provides an identifier to allow retrieval of paginated results.
+    /// This member is required.
+    public var nextToken: Swift.String?
+    /// Information about each endpoint.
+    /// This member is required.
+    public var vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.vpcEndpointSummaryList = vpcEndpointSummaryList
+    }
+}
+
+struct ListVpcEndpointsOutputResponseBody: Swift.Equatable {
+    let vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListVpcEndpointsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case vpcEndpointSummaryList = "VpcEndpointSummaryList"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointSummaryListContainer = try containerValues.decodeIfPresent([ElasticsearchClientTypes.VpcEndpointSummary?].self, forKey: .vpcEndpointSummaryList)
+        var vpcEndpointSummaryListDecoded0:[ElasticsearchClientTypes.VpcEndpointSummary]? = nil
+        if let vpcEndpointSummaryListContainer = vpcEndpointSummaryListContainer {
+            vpcEndpointSummaryListDecoded0 = [ElasticsearchClientTypes.VpcEndpointSummary]()
+            for structure0 in vpcEndpointSummaryListContainer {
+                if let structure0 = structure0 {
+                    vpcEndpointSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcEndpointSummaryList = vpcEndpointSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -9666,6 +10666,43 @@ extension ElasticsearchClientTypes {
 
 }
 
+extension ElasticsearchClientTypes {
+    /// Specifies the type of AWS account permitted to manage VPC endpoints.:
+    ///
+    /// * AWS_ACCOUNT: Indicates that the account is owned by an AWS user.
+    ///
+    /// * AWS_SERVICE: Indicates the the account is owned by an AWS service.
+    public enum PrincipalType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsAccount
+        case awsService
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrincipalType] {
+            return [
+                .awsAccount,
+                .awsService,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsAccount: return "AWS_ACCOUNT"
+            case .awsService: return "AWS_SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PrincipalType(rawValue: rawValue) ?? PrincipalType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension PurchaseReservedElasticsearchInstanceOfferingInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceCount = "InstanceCount"
@@ -10500,6 +11537,104 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension RevokeVpcEndpointAccessInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case account = "Account"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let account = self.account {
+            try encodeContainer.encode(account, forKey: .account)
+        }
+    }
+}
+
+extension RevokeVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/revokeVpcEndpointAccess"
+    }
+}
+
+/// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+public struct RevokeVpcEndpointAccessInput: Swift.Equatable {
+    /// The account ID to revoke access from.
+    /// This member is required.
+    public var account: Swift.String?
+    /// The name of the OpenSearch Service domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init (
+        account: Swift.String? = nil,
+        domainName: Swift.String? = nil
+    )
+    {
+        self.account = account
+        self.domainName = domainName
+    }
+}
+
+struct RevokeVpcEndpointAccessInputBody: Swift.Equatable {
+    let account: Swift.String?
+}
+
+extension RevokeVpcEndpointAccessInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case account = "Account"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
+        account = accountDecoded
+    }
+}
+
+extension RevokeVpcEndpointAccessOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RevokeVpcEndpointAccessOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum RevokeVpcEndpointAccessOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RevokeVpcEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+/// Container for response parameters to the [RevokeVpcEndpointAccess] operation. The response body for this operation is empty.
+public struct RevokeVpcEndpointAccessOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension ElasticsearchClientTypes {
@@ -11940,6 +13075,143 @@ extension UpdatePackageOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateVpcEndpointInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpointId = "VpcEndpointId"
+        case vpcOptions = "VpcOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vpcEndpointId = self.vpcEndpointId {
+            try encodeContainer.encode(vpcEndpointId, forKey: .vpcEndpointId)
+        }
+        if let vpcOptions = self.vpcOptions {
+            try encodeContainer.encode(vpcOptions, forKey: .vpcOptions)
+        }
+    }
+}
+
+extension UpdateVpcEndpointInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/2015-01-01/es/vpcEndpoints/update"
+    }
+}
+
+/// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+public struct UpdateVpcEndpointInput: Swift.Equatable {
+    /// Unique identifier of the VPC endpoint to be updated.
+    /// This member is required.
+    public var vpcEndpointId: Swift.String?
+    /// The security groups and/or subnets to add, remove, or modify.
+    /// This member is required.
+    public var vpcOptions: ElasticsearchClientTypes.VPCOptions?
+
+    public init (
+        vpcEndpointId: Swift.String? = nil,
+        vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
+    )
+    {
+        self.vpcEndpointId = vpcEndpointId
+        self.vpcOptions = vpcOptions
+    }
+}
+
+struct UpdateVpcEndpointInputBody: Swift.Equatable {
+    let vpcEndpointId: Swift.String?
+    let vpcOptions: ElasticsearchClientTypes.VPCOptions?
+}
+
+extension UpdateVpcEndpointInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpointId = "VpcEndpointId"
+        case vpcOptions = "VpcOptions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointId)
+        vpcEndpointId = vpcEndpointIdDecoded
+        let vpcOptionsDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VPCOptions.self, forKey: .vpcOptions)
+        vpcOptions = vpcOptionsDecoded
+    }
+}
+
+extension UpdateVpcEndpointOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateVpcEndpointOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateVpcEndpointOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case conflictException(ConflictException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.vpcEndpoint = output.vpcEndpoint
+        } else {
+            self.vpcEndpoint = nil
+        }
+    }
+}
+
+/// Contains the configuration and status of the VPC endpoint being updated.
+public struct UpdateVpcEndpointOutputResponse: Swift.Equatable {
+    /// The endpoint to be updated.
+    /// This member is required.
+    public var vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint?
+
+    public init (
+        vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint? = nil
+    )
+    {
+        self.vpcEndpoint = vpcEndpoint
+    }
+}
+
+struct UpdateVpcEndpointOutputResponseBody: Swift.Equatable {
+    let vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint?
+}
+
+extension UpdateVpcEndpointOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcEndpoint = "VpcEndpoint"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VpcEndpoint.self, forKey: .vpcEndpoint)
+        vpcEndpoint = vpcEndpointDecoded
+    }
+}
+
 extension UpgradeElasticsearchDomainInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"
@@ -12674,6 +13946,310 @@ extension ElasticsearchClientTypes {
             self = VolumeType(rawValue: rawValue) ?? VolumeType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ElasticsearchClientTypes.VpcEndpoint: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainArn = "DomainArn"
+        case endpoint = "Endpoint"
+        case status = "Status"
+        case vpcEndpointId = "VpcEndpointId"
+        case vpcEndpointOwner = "VpcEndpointOwner"
+        case vpcOptions = "VpcOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainArn = self.domainArn {
+            try encodeContainer.encode(domainArn, forKey: .domainArn)
+        }
+        if let endpoint = self.endpoint {
+            try encodeContainer.encode(endpoint, forKey: .endpoint)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let vpcEndpointId = self.vpcEndpointId {
+            try encodeContainer.encode(vpcEndpointId, forKey: .vpcEndpointId)
+        }
+        if let vpcEndpointOwner = self.vpcEndpointOwner {
+            try encodeContainer.encode(vpcEndpointOwner, forKey: .vpcEndpointOwner)
+        }
+        if let vpcOptions = self.vpcOptions {
+            try encodeContainer.encode(vpcOptions, forKey: .vpcOptions)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointId)
+        vpcEndpointId = vpcEndpointIdDecoded
+        let vpcEndpointOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointOwner)
+        vpcEndpointOwner = vpcEndpointOwnerDecoded
+        let domainArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainArn)
+        domainArn = domainArnDecoded
+        let vpcOptionsDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VPCDerivedInfo.self, forKey: .vpcOptions)
+        vpcOptions = vpcOptionsDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VpcEndpointStatus.self, forKey: .status)
+        status = statusDecoded
+        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
+        endpoint = endpointDecoded
+    }
+}
+
+extension ElasticsearchClientTypes {
+    /// The connection endpoint for connecting to an Amazon OpenSearch Service domain through a proxy.
+    public struct VpcEndpoint: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+        public var domainArn: Swift.String?
+        /// The connection endpoint ID for connecting to the domain.
+        public var endpoint: Swift.String?
+        /// The current status of the endpoint.
+        public var status: ElasticsearchClientTypes.VpcEndpointStatus?
+        /// The unique identifier of the endpoint.
+        public var vpcEndpointId: Swift.String?
+        /// The creator of the endpoint.
+        public var vpcEndpointOwner: Swift.String?
+        /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint.
+        public var vpcOptions: ElasticsearchClientTypes.VPCDerivedInfo?
+
+        public init (
+            domainArn: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            status: ElasticsearchClientTypes.VpcEndpointStatus? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcEndpointOwner: Swift.String? = nil,
+            vpcOptions: ElasticsearchClientTypes.VPCDerivedInfo? = nil
+        )
+        {
+            self.domainArn = domainArn
+            self.endpoint = endpoint
+            self.status = status
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+            self.vpcOptions = vpcOptions
+        }
+    }
+
+}
+
+extension ElasticsearchClientTypes.VpcEndpointError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+        case vpcEndpointId = "VpcEndpointId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let vpcEndpointId = self.vpcEndpointId {
+            try encodeContainer.encode(vpcEndpointId, forKey: .vpcEndpointId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointId)
+        vpcEndpointId = vpcEndpointIdDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VpcEndpointErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension ElasticsearchClientTypes {
+    /// Error information when attempting to describe an Amazon OpenSearch Service-managed VPC endpoint.
+    public struct VpcEndpointError: Swift.Equatable {
+        /// The code associated with the error.
+        public var errorCode: ElasticsearchClientTypes.VpcEndpointErrorCode?
+        /// A message describing the error.
+        public var errorMessage: Swift.String?
+        /// The unique identifier of the endpoint.
+        public var vpcEndpointId: Swift.String?
+
+        public init (
+            errorCode: ElasticsearchClientTypes.VpcEndpointErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            vpcEndpointId: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+
+}
+
+extension ElasticsearchClientTypes {
+    /// Specifies the error code of the failure encountered while describing the VPC endpoint:
+    ///
+    /// * ENDPOINT_NOT_FOUND: Indicates that the requested VPC endpoint does not exist.
+    ///
+    /// * SERVER_ERROR: Indicates the describe endpoint operation failed due to an internal server error.
+    public enum VpcEndpointErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case endpointNotFound
+        case serverError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcEndpointErrorCode] {
+            return [
+                .endpointNotFound,
+                .serverError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .endpointNotFound: return "ENDPOINT_NOT_FOUND"
+            case .serverError: return "SERVER_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VpcEndpointErrorCode(rawValue: rawValue) ?? VpcEndpointErrorCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+    /// Specifies the current status of the VPC endpoint:
+    ///
+    /// * CREATING: Indicates that the VPC endpoint is currently being created.
+    ///
+    /// * CREATE_FAILED: Indicates that the VPC endpoint creation failed.
+    ///
+    /// * ACTIVE: Indicates that the VPC endpoint is currently active.
+    ///
+    /// * UPDATING: Indicates that the VPC endpoint is currently being updated.
+    ///
+    /// * UPDATE_FAILED: Indicates that the VPC endpoint update failed.
+    ///
+    /// * DELETING: Indicates that the VPC endpoint is currently being deleted.
+    ///
+    /// * DELETE_FAILED: Indicates that the VPC endpoint deletion failed.
+    public enum VpcEndpointStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcEndpointStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .updateFailed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VpcEndpointStatus(rawValue: rawValue) ?? VpcEndpointStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ElasticsearchClientTypes.VpcEndpointSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainArn = "DomainArn"
+        case status = "Status"
+        case vpcEndpointId = "VpcEndpointId"
+        case vpcEndpointOwner = "VpcEndpointOwner"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainArn = self.domainArn {
+            try encodeContainer.encode(domainArn, forKey: .domainArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let vpcEndpointId = self.vpcEndpointId {
+            try encodeContainer.encode(vpcEndpointId, forKey: .vpcEndpointId)
+        }
+        if let vpcEndpointOwner = self.vpcEndpointOwner {
+            try encodeContainer.encode(vpcEndpointOwner, forKey: .vpcEndpointOwner)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointId)
+        vpcEndpointId = vpcEndpointIdDecoded
+        let vpcEndpointOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointOwner)
+        vpcEndpointOwner = vpcEndpointOwnerDecoded
+        let domainArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainArn)
+        domainArn = domainArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.VpcEndpointStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension ElasticsearchClientTypes {
+    /// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
+    public struct VpcEndpointSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+        public var domainArn: Swift.String?
+        /// The current status of the endpoint.
+        public var status: ElasticsearchClientTypes.VpcEndpointStatus?
+        /// The unique identifier of the endpoint.
+        public var vpcEndpointId: Swift.String?
+        /// The creator of the endpoint.
+        public var vpcEndpointOwner: Swift.String?
+
+        public init (
+            domainArn: Swift.String? = nil,
+            status: ElasticsearchClientTypes.VpcEndpointStatus? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcEndpointOwner: Swift.String? = nil
+        )
+        {
+            self.domainArn = domainArn
+            self.status = status
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+    }
+
 }
 
 extension ElasticsearchClientTypes.ZoneAwarenessConfig: Swift.Codable {

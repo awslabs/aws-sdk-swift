@@ -2016,11 +2016,12 @@ extension CreatePricingPlanOutputResponseBody: Swift.Decodable {
 
 extension CreatePricingRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePricingRuleInput(clientToken: \(Swift.String(describing: clientToken)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreatePricingRuleInput(billingEntity: \(Swift.String(describing: billingEntity)), clientToken: \(Swift.String(describing: clientToken)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreatePricingRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case billingEntity = "BillingEntity"
         case description = "Description"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
@@ -2032,6 +2033,9 @@ extension CreatePricingRuleInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let billingEntity = self.billingEntity {
+            try encodeContainer.encode(billingEntity, forKey: .billingEntity)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -2076,6 +2080,8 @@ extension CreatePricingRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePricingRuleInput: Swift.Equatable {
+    /// The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
+    public var billingEntity: Swift.String?
     /// The token that's needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
     public var clientToken: Swift.String?
     /// The pricing rule description.
@@ -2098,6 +2104,7 @@ public struct CreatePricingRuleInput: Swift.Equatable {
     public var type: BillingconductorClientTypes.PricingRuleType?
 
     public init (
+        billingEntity: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         modifierPercentage: Swift.Double? = nil,
@@ -2108,6 +2115,7 @@ public struct CreatePricingRuleInput: Swift.Equatable {
         type: BillingconductorClientTypes.PricingRuleType? = nil
     )
     {
+        self.billingEntity = billingEntity
         self.clientToken = clientToken
         self.description = description
         self.modifierPercentage = modifierPercentage
@@ -2127,10 +2135,12 @@ struct CreatePricingRuleInputBody: Swift.Equatable {
     let modifierPercentage: Swift.Double?
     let service: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let billingEntity: Swift.String?
 }
 
 extension CreatePricingRuleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case billingEntity = "BillingEntity"
         case description = "Description"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
@@ -2165,6 +2175,8 @@ extension CreatePricingRuleInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let billingEntityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingEntity)
+        billingEntity = billingEntityDecoded
     }
 }
 
@@ -6323,6 +6335,7 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case associatedPricingPlanCount = "AssociatedPricingPlanCount"
+        case billingEntity = "BillingEntity"
         case creationTime = "CreationTime"
         case description = "Description"
         case lastModifiedTime = "LastModifiedTime"
@@ -6340,6 +6353,9 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         }
         if associatedPricingPlanCount != 0 {
             try encodeContainer.encode(associatedPricingPlanCount, forKey: .associatedPricingPlanCount)
+        }
+        if let billingEntity = self.billingEntity {
+            try encodeContainer.encode(billingEntity, forKey: .billingEntity)
         }
         if creationTime != 0 {
             try encodeContainer.encode(creationTime, forKey: .creationTime)
@@ -6389,12 +6405,14 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedTime) ?? 0
         lastModifiedTime = lastModifiedTimeDecoded
+        let billingEntityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingEntity)
+        billingEntity = billingEntityDecoded
     }
 }
 
 extension BillingconductorClientTypes.PricingRuleListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PricingRuleListElement(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "PricingRuleListElement(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BillingconductorClientTypes {
@@ -6404,6 +6422,8 @@ extension BillingconductorClientTypes {
         public var arn: Swift.String?
         /// The pricing plans count that this pricing rule is associated with.
         public var associatedPricingPlanCount: Swift.Int
+        /// The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
+        public var billingEntity: Swift.String?
         /// The time when the pricing rule was created.
         public var creationTime: Swift.Int
         /// The pricing rule description.
@@ -6424,6 +6444,7 @@ extension BillingconductorClientTypes {
         public init (
             arn: Swift.String? = nil,
             associatedPricingPlanCount: Swift.Int = 0,
+            billingEntity: Swift.String? = nil,
             creationTime: Swift.Int = 0,
             description: Swift.String? = nil,
             lastModifiedTime: Swift.Int = 0,
@@ -6436,6 +6457,7 @@ extension BillingconductorClientTypes {
         {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
+            self.billingEntity = billingEntity
             self.creationTime = creationTime
             self.description = description
             self.lastModifiedTime = lastModifiedTime
@@ -6451,12 +6473,14 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes {
     public enum PricingRuleScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case billingEntity
         case global
         case service
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PricingRuleScope] {
             return [
+                .billingEntity,
                 .global,
                 .service,
                 .sdkUnknown("")
@@ -6468,6 +6492,7 @@ extension BillingconductorClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .billingEntity: return "BILLING_ENTITY"
             case .global: return "GLOBAL"
             case .service: return "SERVICE"
             case let .sdkUnknown(s): return s
@@ -7889,7 +7914,7 @@ public enum UpdatePricingRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePricingRuleOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePricingRuleOutputResponse(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdatePricingRuleOutputResponse(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7900,6 +7925,7 @@ extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: UpdatePricingRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associatedPricingPlanCount = output.associatedPricingPlanCount
+            self.billingEntity = output.billingEntity
             self.description = output.description
             self.lastModifiedTime = output.lastModifiedTime
             self.modifierPercentage = output.modifierPercentage
@@ -7910,6 +7936,7 @@ extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.arn = nil
             self.associatedPricingPlanCount = 0
+            self.billingEntity = nil
             self.description = nil
             self.lastModifiedTime = 0
             self.modifierPercentage = nil
@@ -7926,6 +7953,8 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The pricing plans count that this pricing rule is associated with.
     public var associatedPricingPlanCount: Swift.Int
+    /// The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
+    public var billingEntity: Swift.String?
     /// The new description for the pricing rule.
     public var description: Swift.String?
     /// The most recent time the pricing rule was modified.
@@ -7944,6 +7973,7 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         associatedPricingPlanCount: Swift.Int = 0,
+        billingEntity: Swift.String? = nil,
         description: Swift.String? = nil,
         lastModifiedTime: Swift.Int = 0,
         modifierPercentage: Swift.Double? = nil,
@@ -7955,6 +7985,7 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.associatedPricingPlanCount = associatedPricingPlanCount
+        self.billingEntity = billingEntity
         self.description = description
         self.lastModifiedTime = lastModifiedTime
         self.modifierPercentage = modifierPercentage
@@ -7975,12 +8006,14 @@ struct UpdatePricingRuleOutputResponseBody: Swift.Equatable {
     let service: Swift.String?
     let associatedPricingPlanCount: Swift.Int
     let lastModifiedTime: Swift.Int
+    let billingEntity: Swift.String?
 }
 
 extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case associatedPricingPlanCount = "AssociatedPricingPlanCount"
+        case billingEntity = "BillingEntity"
         case description = "Description"
         case lastModifiedTime = "LastModifiedTime"
         case modifierPercentage = "ModifierPercentage"
@@ -8010,6 +8043,8 @@ extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
         associatedPricingPlanCount = associatedPricingPlanCountDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedTime) ?? 0
         lastModifiedTime = lastModifiedTimeDecoded
+        let billingEntityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingEntity)
+        billingEntity = billingEntityDecoded
     }
 }
 
@@ -8152,6 +8187,7 @@ extension BillingconductorClientTypes {
         case duplicatePricingruleArns
         case fieldValidationFailed
         case illegalAccounts
+        case illegalBillingEntity
         case illegalBillingPeriod
         case illegalBillingPeriodRange
         case illegalChargeDetails
@@ -8160,6 +8196,7 @@ extension BillingconductorClientTypes {
         case illegalCustomlineitemModification
         case illegalCustomlineitemUpdate
         case illegalExpression
+        case illegalModifierPercentage
         case illegalPrimaryAccount
         case illegalResourceArns
         case illegalScope
@@ -8204,6 +8241,7 @@ extension BillingconductorClientTypes {
                 .duplicatePricingruleArns,
                 .fieldValidationFailed,
                 .illegalAccounts,
+                .illegalBillingEntity,
                 .illegalBillingPeriod,
                 .illegalBillingPeriodRange,
                 .illegalChargeDetails,
@@ -8212,6 +8250,7 @@ extension BillingconductorClientTypes {
                 .illegalCustomlineitemModification,
                 .illegalCustomlineitemUpdate,
                 .illegalExpression,
+                .illegalModifierPercentage,
                 .illegalPrimaryAccount,
                 .illegalResourceArns,
                 .illegalScope,
@@ -8261,6 +8300,7 @@ extension BillingconductorClientTypes {
             case .duplicatePricingruleArns: return "DUPLICATE_PRICINGRULE_ARNS"
             case .fieldValidationFailed: return "FIELD_VALIDATION_FAILED"
             case .illegalAccounts: return "ILLEGAL_ACCOUNTS"
+            case .illegalBillingEntity: return "ILLEGAL_BILLING_ENTITY"
             case .illegalBillingPeriod: return "ILLEGAL_BILLING_PERIOD"
             case .illegalBillingPeriodRange: return "ILLEGAL_BILLING_PERIOD_RANGE"
             case .illegalChargeDetails: return "ILLEGAL_CHARGE_DETAILS"
@@ -8269,6 +8309,7 @@ extension BillingconductorClientTypes {
             case .illegalCustomlineitemModification: return "ILLEGAL_CUSTOMLINEITEM_MODIFICATION"
             case .illegalCustomlineitemUpdate: return "ILLEGAL_CUSTOMLINEITEM_UPDATE"
             case .illegalExpression: return "ILLEGAL_EXPRESSION"
+            case .illegalModifierPercentage: return "ILLEGAL_MODIFIER_PERCENTAGE"
             case .illegalPrimaryAccount: return "ILLEGAL_PRIMARY_ACCOUNT"
             case .illegalResourceArns: return "ILLEGAL_RESOURCE_ARNS"
             case .illegalScope: return "ILLEGAL_SCOPE"

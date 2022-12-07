@@ -120,6 +120,8 @@ public protocol PersonalizeClientProtocol {
     func createEventTracker(input: CreateEventTrackerInput) async throws -> CreateEventTrackerOutputResponse
     /// Creates a recommendation filter. For more information, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
     func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
+    /// Creates a metric attribution. A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
+    func createMetricAttribution(input: CreateMetricAttributionInput) async throws -> CreateMetricAttributionOutputResponse
     /// Creates a recommender with the recipe (a Domain dataset group use case) you specify. You create recommenders for a Domain dataset group and specify the recommender's Amazon Resource Name (ARN) when you make a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request. Minimum recommendation requests per second When you create a recommender, you can configure the recommender's minimum recommendation requests per second. The minimum recommendation requests per second (minRecommendationRequestsPerSecond) specifies the baseline recommendation request throughput provisioned by Amazon Personalize. The default minRecommendationRequestsPerSecond is 1. A recommendation request is a single GetRecommendations operation. Request throughput is measured in requests per second and Amazon Personalize uses your requests per second to derive your requests per hour and the price of your recommender usage. If your requests per second increases beyond minRecommendationRequestsPerSecond, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minRecommendationRequestsPerSecond. There's a short time delay while the capacity is increased that might cause loss of requests. Your bill is the greater of either the minimum requests per hour (based on minRecommendationRequestsPerSecond) or the actual number of requests. The actual request throughput used is calculated as the average requests/second within a one-hour window. We recommend starting with the default minRecommendationRequestsPerSecond, track your usage using Amazon CloudWatch metrics, and then increase the minRecommendationRequestsPerSecond as necessary. Status A recommender can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -216,6 +218,8 @@ public protocol PersonalizeClientProtocol {
     func deleteEventTracker(input: DeleteEventTrackerInput) async throws -> DeleteEventTrackerOutputResponse
     /// Deletes a filter.
     func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutputResponse
+    /// Deletes a metric attribution.
+    func deleteMetricAttribution(input: DeleteMetricAttributionInput) async throws -> DeleteMetricAttributionOutputResponse
     /// Deactivates and removes a recommender. A deleted recommender can no longer be specified in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request.
     func deleteRecommender(input: DeleteRecommenderInput) async throws -> DeleteRecommenderOutputResponse
     /// Deletes a schema. Before deleting a schema, you must delete all datasets referencing the schema. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
@@ -251,6 +255,8 @@ public protocol PersonalizeClientProtocol {
     func describeFeatureTransformation(input: DescribeFeatureTransformationInput) async throws -> DescribeFeatureTransformationOutputResponse
     /// Describes a filter's properties.
     func describeFilter(input: DescribeFilterInput) async throws -> DescribeFilterOutputResponse
+    /// Describes a metric attribution.
+    func describeMetricAttribution(input: DescribeMetricAttributionInput) async throws -> DescribeMetricAttributionOutputResponse
     /// Describes a recipe. A recipe contains three items:
     ///
     /// * An algorithm that trains a model.
@@ -299,6 +305,10 @@ public protocol PersonalizeClientProtocol {
     func listEventTrackers(input: ListEventTrackersInput) async throws -> ListEventTrackersOutputResponse
     /// Lists all filters that belong to a given dataset group.
     func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutputResponse
+    /// Lists the metrics for the metric attribution.
+    func listMetricAttributionMetrics(input: ListMetricAttributionMetricsInput) async throws -> ListMetricAttributionMetricsOutputResponse
+    /// Lists metric attributions.
+    func listMetricAttributions(input: ListMetricAttributionsInput) async throws -> ListMetricAttributionsOutputResponse
     /// Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
     func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutputResponse
     /// Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see [CreateRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateRecommender.html).
@@ -330,6 +340,8 @@ public protocol PersonalizeClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates a campaign by either deploying a new solution or changing the value of the campaign's minProvisionedTPS parameter. To update a campaign, the campaign status must be ACTIVE or CREATE FAILED. Check the campaign status using the [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html) operation. You can still get recommendations from a campaign while an update is in progress. The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is Active. For more information on campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutputResponse
+    /// Updates a metric attribution.
+    func updateMetricAttribution(input: UpdateMetricAttributionInput) async throws -> UpdateMetricAttributionOutputResponse
     /// Updates the recommender to modify the recommender configuration.
     func updateRecommender(input: UpdateRecommenderInput) async throws -> UpdateRecommenderOutputResponse
 }

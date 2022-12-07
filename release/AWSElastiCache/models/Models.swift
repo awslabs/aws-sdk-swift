@@ -386,14 +386,87 @@ extension ElastiCacheClientTypes {
 
 }
 
+extension ElastiCacheClientTypes.AuthenticationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case passwords = "Passwords"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let passwords = passwords {
+            if !passwords.isEmpty {
+                var passwordsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Passwords"))
+                for (index0, string0) in passwords.enumerated() {
+                    try passwordsContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var passwordsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Passwords"))
+                try passwordsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let type = type {
+            try container.encode(type, forKey: ClientRuntime.Key("Type"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.InputAuthenticationType.self, forKey: .type)
+        type = typeDecoded
+        if containerValues.contains(.passwords) {
+            struct KeyVal0{struct member{}}
+            let passwordsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .passwords)
+            if let passwordsWrappedContainer = passwordsWrappedContainer {
+                let passwordsContainer = try passwordsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var passwordsBuffer:[Swift.String]? = nil
+                if let passwordsContainer = passwordsContainer {
+                    passwordsBuffer = [Swift.String]()
+                    for stringContainer0 in passwordsContainer {
+                        passwordsBuffer?.append(stringContainer0)
+                    }
+                }
+                passwords = passwordsBuffer
+            } else {
+                passwords = []
+            }
+        } else {
+            passwords = nil
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+    /// Specifies the authentication mode to use.
+    public struct AuthenticationMode: Swift.Equatable {
+        /// Specifies the passwords to use for authentication if Type is set to password.
+        public var passwords: [Swift.String]?
+        /// Specifies the authentication type. Possible options are IAM authentication, password and no password.
+        public var type: ElastiCacheClientTypes.InputAuthenticationType?
+
+        public init (
+            passwords: [Swift.String]? = nil,
+            type: ElastiCacheClientTypes.InputAuthenticationType? = nil
+        )
+        {
+            self.passwords = passwords
+            self.type = type
+        }
+    }
+
+}
+
 extension ElastiCacheClientTypes {
     public enum AuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case iam
         case noPassword
         case password
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthenticationType] {
             return [
+                .iam,
                 .noPassword,
                 .password,
                 .sdkUnknown("")
@@ -405,6 +478,7 @@ extension ElastiCacheClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .iam: return "iam"
             case .noPassword: return "no-password"
             case .password: return "password"
             case let .sdkUnknown(s): return s
@@ -6637,6 +6711,9 @@ extension CreateUserInput: Swift.Encodable {
         if let accessString = accessString {
             try container.encode(accessString, forKey: ClientRuntime.Key("AccessString"))
         }
+        if let authenticationMode = authenticationMode {
+            try container.encode(authenticationMode, forKey: ClientRuntime.Key("AuthenticationMode"))
+        }
         if let engine = engine {
             try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
         }
@@ -6688,6 +6765,8 @@ public struct CreateUserInput: Swift.Equatable {
     /// Access permissions string used for this user.
     /// This member is required.
     public var accessString: Swift.String?
+    /// Specifies how to authenticate the user.
+    public var authenticationMode: ElastiCacheClientTypes.AuthenticationMode?
     /// The current supported value is Redis.
     /// This member is required.
     public var engine: Swift.String?
@@ -6706,6 +6785,7 @@ public struct CreateUserInput: Swift.Equatable {
 
     public init (
         accessString: Swift.String? = nil,
+        authenticationMode: ElastiCacheClientTypes.AuthenticationMode? = nil,
         engine: Swift.String? = nil,
         noPasswordRequired: Swift.Bool? = nil,
         passwords: [Swift.String]? = nil,
@@ -6715,6 +6795,7 @@ public struct CreateUserInput: Swift.Equatable {
     )
     {
         self.accessString = accessString
+        self.authenticationMode = authenticationMode
         self.engine = engine
         self.noPasswordRequired = noPasswordRequired
         self.passwords = passwords
@@ -6732,11 +6813,13 @@ struct CreateUserInputBody: Swift.Equatable {
     let accessString: Swift.String?
     let noPasswordRequired: Swift.Bool?
     let tags: [ElastiCacheClientTypes.Tag]?
+    let authenticationMode: ElastiCacheClientTypes.AuthenticationMode?
 }
 
 extension CreateUserInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessString = "AccessString"
+        case authenticationMode = "AuthenticationMode"
         case engine = "Engine"
         case noPasswordRequired = "NoPasswordRequired"
         case passwords = "Passwords"
@@ -6795,6 +6878,8 @@ extension CreateUserInputBody: Swift.Decodable {
         } else {
             tags = nil
         }
+        let authenticationModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.AuthenticationMode.self, forKey: .authenticationMode)
+        authenticationMode = authenticationModeDecoded
     }
 }
 
@@ -13779,6 +13864,41 @@ extension IncreaseReplicaCountOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ElastiCacheClientTypes {
+    public enum InputAuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case iam
+        case noPassword
+        case password
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputAuthenticationType] {
+            return [
+                .iam,
+                .noPassword,
+                .password,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .iam: return "iam"
+            case .noPassword: return "no-password-required"
+            case .password: return "password"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InputAuthenticationType(rawValue: rawValue) ?? InputAuthenticationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InsufficientCacheClusterCapacityFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17440,6 +17560,9 @@ extension ModifyUserInput: Swift.Encodable {
         if let appendAccessString = appendAccessString {
             try container.encode(appendAccessString, forKey: ClientRuntime.Key("AppendAccessString"))
         }
+        if let authenticationMode = authenticationMode {
+            try container.encode(authenticationMode, forKey: ClientRuntime.Key("AuthenticationMode"))
+        }
         if let noPasswordRequired = noPasswordRequired {
             try container.encode(noPasswordRequired, forKey: ClientRuntime.Key("NoPasswordRequired"))
         }
@@ -17474,6 +17597,8 @@ public struct ModifyUserInput: Swift.Equatable {
     public var accessString: Swift.String?
     /// Adds additional user permissions to the access string.
     public var appendAccessString: Swift.String?
+    /// Specifies how to authenticate the user.
+    public var authenticationMode: ElastiCacheClientTypes.AuthenticationMode?
     /// Indicates no password is required for the user.
     public var noPasswordRequired: Swift.Bool?
     /// The passwords belonging to the user. You are allowed up to two.
@@ -17485,6 +17610,7 @@ public struct ModifyUserInput: Swift.Equatable {
     public init (
         accessString: Swift.String? = nil,
         appendAccessString: Swift.String? = nil,
+        authenticationMode: ElastiCacheClientTypes.AuthenticationMode? = nil,
         noPasswordRequired: Swift.Bool? = nil,
         passwords: [Swift.String]? = nil,
         userId: Swift.String? = nil
@@ -17492,6 +17618,7 @@ public struct ModifyUserInput: Swift.Equatable {
     {
         self.accessString = accessString
         self.appendAccessString = appendAccessString
+        self.authenticationMode = authenticationMode
         self.noPasswordRequired = noPasswordRequired
         self.passwords = passwords
         self.userId = userId
@@ -17504,12 +17631,14 @@ struct ModifyUserInputBody: Swift.Equatable {
     let appendAccessString: Swift.String?
     let passwords: [Swift.String]?
     let noPasswordRequired: Swift.Bool?
+    let authenticationMode: ElastiCacheClientTypes.AuthenticationMode?
 }
 
 extension ModifyUserInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessString = "AccessString"
         case appendAccessString = "AppendAccessString"
+        case authenticationMode = "AuthenticationMode"
         case noPasswordRequired = "NoPasswordRequired"
         case passwords = "Passwords"
         case userId = "UserId"
@@ -17544,6 +17673,8 @@ extension ModifyUserInputBody: Swift.Decodable {
         }
         let noPasswordRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .noPasswordRequired)
         noPasswordRequired = noPasswordRequiredDecoded
+        let authenticationModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.AuthenticationMode.self, forKey: .authenticationMode)
+        authenticationMode = authenticationModeDecoded
     }
 }
 

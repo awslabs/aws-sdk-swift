@@ -41,6 +41,8 @@ public protocol RedshiftServerlessClientProtocol {
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
     /// Returns information about a specific snapshot.
     func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutputResponse
+    /// Returns information about a TableRestoreStatus object.
+    func getTableRestoreStatus(input: GetTableRestoreStatusInput) async throws -> GetTableRestoreStatusOutputResponse
     /// Returns information about a usage limit.
     func getUsageLimit(input: GetUsageLimitInput) async throws -> GetUsageLimitOutputResponse
     /// Returns information about a specific workgroup.
@@ -53,6 +55,8 @@ public protocol RedshiftServerlessClientProtocol {
     func listRecoveryPoints(input: ListRecoveryPointsInput) async throws -> ListRecoveryPointsOutputResponse
     /// Returns a list of snapshots.
     func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutputResponse
+    /// Returns information about an array of TableRestoreStatus objects.
+    func listTableRestoreStatus(input: ListTableRestoreStatusInput) async throws -> ListTableRestoreStatusOutputResponse
     /// Lists the tags assigned to a resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists all usage limits within Amazon Redshift Serverless.
@@ -65,6 +69,8 @@ public protocol RedshiftServerlessClientProtocol {
     func restoreFromRecoveryPoint(input: RestoreFromRecoveryPointInput) async throws -> RestoreFromRecoveryPointOutputResponse
     /// Restores a namespace from a snapshot.
     func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutputResponse
+    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance.
+    func restoreTableFromSnapshot(input: RestoreTableFromSnapshotInput) async throws -> RestoreTableFromSnapshotOutputResponse
     /// Assigns one or more tags to a resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a tag or set of tags from a resource.

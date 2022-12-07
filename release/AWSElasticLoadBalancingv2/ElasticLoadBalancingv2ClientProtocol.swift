@@ -109,7 +109,7 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     func modifyLoadBalancerAttributes(input: ModifyLoadBalancerAttributesInput) async throws -> ModifyLoadBalancerAttributesOutputResponse
     /// Replaces the specified properties of the specified rule. Any properties that you do not specify are unchanged. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.
     func modifyRule(input: ModifyRuleInput) async throws -> ModifyRuleOutputResponse
-    /// Modifies the health checks used when evaluating the health state of the targets in the specified target group. If the protocol of the target group is TCP, TLS, UDP, or TCP_UDP, you can't modify the health check protocol, interval, timeout, or success codes.
+    /// Modifies the health checks used when evaluating the health state of the targets in the specified target group.
     func modifyTargetGroup(input: ModifyTargetGroupInput) async throws -> ModifyTargetGroupOutputResponse
     /// Modifies the specified attributes of the specified target group.
     func modifyTargetGroupAttributes(input: ModifyTargetGroupAttributesInput) async throws -> ModifyTargetGroupAttributesOutputResponse

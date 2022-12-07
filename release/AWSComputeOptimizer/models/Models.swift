@@ -295,9 +295,9 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
         var inferredWorkloadTypesDecoded0:[ComputeOptimizerClientTypes.InferredWorkloadType]? = nil
         if let inferredWorkloadTypesContainer = inferredWorkloadTypesContainer {
             inferredWorkloadTypesDecoded0 = [ComputeOptimizerClientTypes.InferredWorkloadType]()
-            for string0 in inferredWorkloadTypesContainer {
-                if let string0 = string0 {
-                    inferredWorkloadTypesDecoded0?.append(string0)
+            for enum0 in inferredWorkloadTypesContainer {
+                if let enum0 = enum0 {
+                    inferredWorkloadTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -678,7 +678,7 @@ extension DeleteRecommendationPreferencesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteRecommendationPreferencesInput: Swift.Equatable {
-    /// The name of the recommendation preference to delete. Enhanced infrastructure metrics (EnhancedInfrastructureMetrics) is the only feature that can be activated through preferences. Therefore, it is also the only recommendation preference that can be deleted.
+    /// The name of the recommendation preference to delete.
     /// This member is required.
     public var recommendationPreferenceNames: [ComputeOptimizerClientTypes.RecommendationPreferenceName]?
     /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. The valid values for this parameter are Ec2Instance and AutoScalingGroup.
@@ -722,9 +722,9 @@ extension DeleteRecommendationPreferencesInputBody: Swift.Decodable {
         var recommendationPreferenceNamesDecoded0:[ComputeOptimizerClientTypes.RecommendationPreferenceName]? = nil
         if let recommendationPreferenceNamesContainer = recommendationPreferenceNamesContainer {
             recommendationPreferenceNamesDecoded0 = [ComputeOptimizerClientTypes.RecommendationPreferenceName]()
-            for string0 in recommendationPreferenceNamesContainer {
-                if let string0 = string0 {
-                    recommendationPreferenceNamesDecoded0?.append(string0)
+            for enum0 in recommendationPreferenceNamesContainer {
+                if let enum0 = enum0 {
+                    recommendationPreferenceNamesDecoded0?.append(enum0)
                 }
             }
         }
@@ -1204,6 +1204,7 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpuVendorArchitectures
         case enhancedInfrastructureMetrics
+        case externalMetricsPreference
         case inferredWorkloadTypes
     }
 
@@ -1218,6 +1219,9 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         if let enhancedInfrastructureMetrics = self.enhancedInfrastructureMetrics {
             try encodeContainer.encode(enhancedInfrastructureMetrics.rawValue, forKey: .enhancedInfrastructureMetrics)
         }
+        if let externalMetricsPreference = self.externalMetricsPreference {
+            try encodeContainer.encode(externalMetricsPreference, forKey: .externalMetricsPreference)
+        }
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
         }
@@ -1229,9 +1233,9 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         var cpuVendorArchitecturesDecoded0:[ComputeOptimizerClientTypes.CpuVendorArchitecture]? = nil
         if let cpuVendorArchitecturesContainer = cpuVendorArchitecturesContainer {
             cpuVendorArchitecturesDecoded0 = [ComputeOptimizerClientTypes.CpuVendorArchitecture]()
-            for string0 in cpuVendorArchitecturesContainer {
-                if let string0 = string0 {
-                    cpuVendorArchitecturesDecoded0?.append(string0)
+            for enum0 in cpuVendorArchitecturesContainer {
+                if let enum0 = enum0 {
+                    cpuVendorArchitecturesDecoded0?.append(enum0)
                 }
             }
         }
@@ -1240,6 +1244,8 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
         let inferredWorkloadTypesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InferredWorkloadTypesPreference.self, forKey: .inferredWorkloadTypes)
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
+        let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
+        externalMetricsPreference = externalMetricsPreferenceDecoded
     }
 }
 
@@ -1256,17 +1262,21 @@ extension ComputeOptimizerClientTypes {
         public var cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]?
         /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
+        /// An object that describes the external metrics recommendation preference. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response.
+        public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
         /// Describes the activation status of the inferred workload types preference. A status of Active confirms that the preference is applied in the latest recommendation refresh. A status of Inactive confirms that it's not yet applied to recommendations.
         public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
 
         public init (
             cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]? = nil,
             enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
+            externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
             inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil
         )
         {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
         }
     }
@@ -1574,9 +1584,9 @@ extension ExportAutoScalingGroupRecommendationsInputBody: Swift.Decodable {
         var fieldsToExportDecoded0:[ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]? = nil
         if let fieldsToExportContainer = fieldsToExportContainer {
             fieldsToExportDecoded0 = [ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]()
-            for string0 in fieldsToExportContainer {
-                if let string0 = string0 {
-                    fieldsToExportDecoded0?.append(string0)
+            for enum0 in fieldsToExportContainer {
+                if let enum0 = enum0 {
+                    fieldsToExportDecoded0?.append(enum0)
                 }
             }
         }
@@ -1842,9 +1852,9 @@ extension ExportEBSVolumeRecommendationsInputBody: Swift.Decodable {
         var fieldsToExportDecoded0:[ComputeOptimizerClientTypes.ExportableVolumeField]? = nil
         if let fieldsToExportContainer = fieldsToExportContainer {
             fieldsToExportDecoded0 = [ComputeOptimizerClientTypes.ExportableVolumeField]()
-            for string0 in fieldsToExportContainer {
-                if let string0 = string0 {
-                    fieldsToExportDecoded0?.append(string0)
+            for enum0 in fieldsToExportContainer {
+                if let enum0 = enum0 {
+                    fieldsToExportDecoded0?.append(enum0)
                 }
             }
         }
@@ -2083,9 +2093,9 @@ extension ExportEC2InstanceRecommendationsInputBody: Swift.Decodable {
         var fieldsToExportDecoded0:[ComputeOptimizerClientTypes.ExportableInstanceField]? = nil
         if let fieldsToExportContainer = fieldsToExportContainer {
             fieldsToExportDecoded0 = [ComputeOptimizerClientTypes.ExportableInstanceField]()
-            for string0 in fieldsToExportContainer {
-                if let string0 = string0 {
-                    fieldsToExportDecoded0?.append(string0)
+            for enum0 in fieldsToExportContainer {
+                if let enum0 = enum0 {
+                    fieldsToExportDecoded0?.append(enum0)
                 }
             }
         }
@@ -2316,9 +2326,9 @@ extension ExportLambdaFunctionRecommendationsInputBody: Swift.Decodable {
         var fieldsToExportDecoded0:[ComputeOptimizerClientTypes.ExportableLambdaFunctionField]? = nil
         if let fieldsToExportContainer = fieldsToExportContainer {
             fieldsToExportDecoded0 = [ComputeOptimizerClientTypes.ExportableLambdaFunctionField]()
-            for string0 in fieldsToExportContainer {
-                if let string0 = string0 {
-                    fieldsToExportDecoded0?.append(string0)
+            for enum0 in fieldsToExportContainer {
+                if let enum0 = enum0 {
+                    fieldsToExportDecoded0?.append(enum0)
                 }
             }
         }
@@ -2621,6 +2631,7 @@ extension ComputeOptimizerClientTypes {
         case currentVcpus
         case effectiveRecommendationPreferencesCpuVendorArchitectures
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
+        case effectiveRecommendationPreferencesExternalMetricsSource
         case effectiveRecommendationPreferencesInferredWorkloadTypes
         case finding
         case findingReasonCodes
@@ -2677,6 +2688,7 @@ extension ComputeOptimizerClientTypes {
                 .currentVcpus,
                 .effectiveRecommendationPreferencesCpuVendorArchitectures,
                 .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
+                .effectiveRecommendationPreferencesExternalMetricsSource,
                 .effectiveRecommendationPreferencesInferredWorkloadTypes,
                 .finding,
                 .findingReasonCodes,
@@ -2738,6 +2750,7 @@ extension ComputeOptimizerClientTypes {
             case .currentVcpus: return "CurrentVCpus"
             case .effectiveRecommendationPreferencesCpuVendorArchitectures: return "EffectiveRecommendationPreferencesCpuVendorArchitectures"
             case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
+            case .effectiveRecommendationPreferencesExternalMetricsSource: return "EffectiveRecommendationPreferencesExternalMetricsSource"
             case .effectiveRecommendationPreferencesInferredWorkloadTypes: return "EffectiveRecommendationPreferencesInferredWorkloadTypes"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
@@ -2999,6 +3012,79 @@ extension ComputeOptimizerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ExportableVolumeField(rawValue: rawValue) ?? ExportableVolumeField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.ExternalMetricsPreference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the external metrics preferences for EC2 rightsizing recommendations.
+    public struct ExternalMetricsPreference: Swift.Equatable {
+        /// Contains the source options for external metrics preferences.
+        public var source: ComputeOptimizerClientTypes.ExternalMetricsSource?
+
+        public init (
+            source: ComputeOptimizerClientTypes.ExternalMetricsSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ExternalMetricsSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case datadog
+        case dynatrace
+        case instana
+        case newrelic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExternalMetricsSource] {
+            return [
+                .datadog,
+                .dynatrace,
+                .instana,
+                .newrelic,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .datadog: return "Datadog"
+            case .dynatrace: return "Dynatrace"
+            case .instana: return "Instana"
+            case .newrelic: return "NewRelic"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExternalMetricsSource(rawValue: rawValue) ?? ExternalMetricsSource.sdkUnknown(rawValue)
         }
     }
 }
@@ -4285,8 +4371,10 @@ extension GetEffectiveRecommendationPreferencesOutputResponse: ClientRuntime.Htt
             let data = reader.toBytes().toData()
             let output: GetEffectiveRecommendationPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.enhancedInfrastructureMetrics = output.enhancedInfrastructureMetrics
+            self.externalMetricsPreference = output.externalMetricsPreference
         } else {
             self.enhancedInfrastructureMetrics = nil
+            self.externalMetricsPreference = nil
         }
     }
 }
@@ -4294,28 +4382,36 @@ extension GetEffectiveRecommendationPreferencesOutputResponse: ClientRuntime.Htt
 public struct GetEffectiveRecommendationPreferencesOutputResponse: Swift.Equatable {
     /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
+    /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
+    public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
 
     public init (
-        enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil
+        enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
+        externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil
     )
     {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+        self.externalMetricsPreference = externalMetricsPreference
     }
 }
 
 struct GetEffectiveRecommendationPreferencesOutputResponseBody: Swift.Equatable {
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
+    let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
 }
 
 extension GetEffectiveRecommendationPreferencesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enhancedInfrastructureMetrics
+        case externalMetricsPreference
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enhancedInfrastructureMetricsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics.self, forKey: .enhancedInfrastructureMetrics)
         enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
+        let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
+        externalMetricsPreference = externalMetricsPreferenceDecoded
     }
 }
 
@@ -5448,9 +5544,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         var findingReasonCodesDecoded0:[ComputeOptimizerClientTypes.InstanceRecommendationFindingReasonCode]? = nil
         if let findingReasonCodesContainer = findingReasonCodesContainer {
             findingReasonCodesDecoded0 = [ComputeOptimizerClientTypes.InstanceRecommendationFindingReasonCode]()
-            for string0 in findingReasonCodesContainer {
-                if let string0 = string0 {
-                    findingReasonCodesDecoded0?.append(string0)
+            for enum0 in findingReasonCodesContainer {
+                if let enum0 = enum0 {
+                    findingReasonCodesDecoded0?.append(enum0)
                 }
             }
         }
@@ -5500,9 +5596,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         var inferredWorkloadTypesDecoded0:[ComputeOptimizerClientTypes.InferredWorkloadType]? = nil
         if let inferredWorkloadTypesContainer = inferredWorkloadTypesContainer {
             inferredWorkloadTypesDecoded0 = [ComputeOptimizerClientTypes.InferredWorkloadType]()
-            for string0 in inferredWorkloadTypesContainer {
-                if let string0 = string0 {
-                    inferredWorkloadTypesDecoded0?.append(string0)
+            for enum0 in inferredWorkloadTypesContainer {
+                if let enum0 = enum0 {
+                    inferredWorkloadTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -5768,9 +5864,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         var platformDifferencesDecoded0:[ComputeOptimizerClientTypes.PlatformDifference]? = nil
         if let platformDifferencesContainer = platformDifferencesContainer {
             platformDifferencesDecoded0 = [ComputeOptimizerClientTypes.PlatformDifference]()
-            for string0 in platformDifferencesContainer {
-                if let string0 = string0 {
-                    platformDifferencesDecoded0?.append(string0)
+            for enum0 in platformDifferencesContainer {
+                if let enum0 = enum0 {
+                    platformDifferencesDecoded0?.append(enum0)
                 }
             }
         }
@@ -6431,9 +6527,9 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         var findingReasonCodesDecoded0:[ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode]? = nil
         if let findingReasonCodesContainer = findingReasonCodesContainer {
             findingReasonCodesDecoded0 = [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode]()
-            for string0 in findingReasonCodesContainer {
-                if let string0 = string0 {
-                    findingReasonCodesDecoded0?.append(string0)
+            for enum0 in findingReasonCodesContainer {
+                if let enum0 = enum0 {
+                    findingReasonCodesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7177,6 +7273,7 @@ extension ComputeOptimizerClientTypes {
 extension PutRecommendationPreferencesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enhancedInfrastructureMetrics
+        case externalMetricsPreference
         case inferredWorkloadTypes
         case resourceType
         case scope
@@ -7186,6 +7283,9 @@ extension PutRecommendationPreferencesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let enhancedInfrastructureMetrics = self.enhancedInfrastructureMetrics {
             try encodeContainer.encode(enhancedInfrastructureMetrics.rawValue, forKey: .enhancedInfrastructureMetrics)
+        }
+        if let externalMetricsPreference = self.externalMetricsPreference {
+            try encodeContainer.encode(externalMetricsPreference, forKey: .externalMetricsPreference)
         }
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
@@ -7208,6 +7308,8 @@ extension PutRecommendationPreferencesInput: ClientRuntime.URLPathProvider {
 public struct PutRecommendationPreferencesInput: Swift.Equatable {
     /// The status of the enhanced infrastructure metrics recommendation preference to create or update. Specify the Active status to activate the preference, or specify Inactive to deactivate the preference. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
+    /// The provider of the external metrics recommendation preference to create or update. Specify a valid provider in the source field to activate the preference. To delete this preference, see the [DeleteRecommendationPreferences] action. This preference can only be set for the Ec2Instance resource type. For more information, see [External metrics ingestion](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
+    public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
     /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. The valid values for this parameter are Ec2Instance and AutoScalingGroup.
@@ -7218,12 +7320,14 @@ public struct PutRecommendationPreferencesInput: Swift.Equatable {
 
     public init (
         enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
+        externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
         inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
         resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
         scope: ComputeOptimizerClientTypes.Scope? = nil
     )
     {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+        self.externalMetricsPreference = externalMetricsPreference
         self.inferredWorkloadTypes = inferredWorkloadTypes
         self.resourceType = resourceType
         self.scope = scope
@@ -7235,11 +7339,13 @@ struct PutRecommendationPreferencesInputBody: Swift.Equatable {
     let scope: ComputeOptimizerClientTypes.Scope?
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     let inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
+    let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
 }
 
 extension PutRecommendationPreferencesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enhancedInfrastructureMetrics
+        case externalMetricsPreference
         case inferredWorkloadTypes
         case resourceType
         case scope
@@ -7255,6 +7361,8 @@ extension PutRecommendationPreferencesInputBody: Swift.Decodable {
         enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
         let inferredWorkloadTypesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InferredWorkloadTypesPreference.self, forKey: .inferredWorkloadTypes)
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
+        let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
+        externalMetricsPreference = externalMetricsPreferenceDecoded
     }
 }
 
@@ -7447,12 +7555,14 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
     public enum RecommendationPreferenceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case enhancedInfrastructureMetrics
+        case externalMetricsPreference
         case inferredWorkloadTypes
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationPreferenceName] {
             return [
                 .enhancedInfrastructureMetrics,
+                .externalMetricsPreference,
                 .inferredWorkloadTypes,
                 .sdkUnknown("")
             ]
@@ -7464,6 +7574,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .enhancedInfrastructureMetrics: return "EnhancedInfrastructureMetrics"
+            case .externalMetricsPreference: return "ExternalMetricsPreference"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case let .sdkUnknown(s): return s
             }
@@ -7497,9 +7608,9 @@ extension ComputeOptimizerClientTypes.RecommendationPreferences: Swift.Codable {
         var cpuVendorArchitecturesDecoded0:[ComputeOptimizerClientTypes.CpuVendorArchitecture]? = nil
         if let cpuVendorArchitecturesContainer = cpuVendorArchitecturesContainer {
             cpuVendorArchitecturesDecoded0 = [ComputeOptimizerClientTypes.CpuVendorArchitecture]()
-            for string0 in cpuVendorArchitecturesContainer {
-                if let string0 = string0 {
-                    cpuVendorArchitecturesDecoded0?.append(string0)
+            for enum0 in cpuVendorArchitecturesContainer {
+                if let enum0 = enum0 {
+                    cpuVendorArchitecturesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7532,6 +7643,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enhancedInfrastructureMetrics
+        case externalMetricsPreference
         case inferredWorkloadTypes
         case resourceType
         case scope
@@ -7541,6 +7653,9 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let enhancedInfrastructureMetrics = self.enhancedInfrastructureMetrics {
             try encodeContainer.encode(enhancedInfrastructureMetrics.rawValue, forKey: .enhancedInfrastructureMetrics)
+        }
+        if let externalMetricsPreference = self.externalMetricsPreference {
+            try encodeContainer.encode(externalMetricsPreference, forKey: .externalMetricsPreference)
         }
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
@@ -7563,15 +7678,19 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
         let inferredWorkloadTypesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InferredWorkloadTypesPreference.self, forKey: .inferredWorkloadTypes)
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
+        let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
+        externalMetricsPreference = externalMetricsPreferenceDecoded
     }
 }
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation preference.
     public struct RecommendationPreferencesDetail: Swift.Equatable {
-        /// The status of the enhanced infrastructure metrics recommendation preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
+        /// The status of the enhanced infrastructure metrics recommendation preference. When the recommendations page is refreshed, a status of Active confirms that the preference is applied to the recommendations, and a status of Inactive confirms that the preference isn't yet applied to recommendations. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
-        /// The status of the inferred workload types recommendation preference. A status of Active confirms that the preference is applied in the latest recommendation refresh. A status of Inactive confirms that it's not yet applied to recommendations.
+        /// An object that describes the external metrics recommendation preference. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response.
+        public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
+        /// The status of the inferred workload types recommendation preference. When the recommendations page is refreshed, a status of Active confirms that the preference is applied to the recommendations, and a status of Inactive confirms that the preference isn't yet applied to recommendations.
         public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
         /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public var resourceType: ComputeOptimizerClientTypes.ResourceType?
@@ -7580,12 +7699,14 @@ extension ComputeOptimizerClientTypes {
 
         public init (
             enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
+            externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
             inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
             resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
             scope: ComputeOptimizerClientTypes.Scope? = nil
         )
         {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
             self.resourceType = resourceType
             self.scope = scope

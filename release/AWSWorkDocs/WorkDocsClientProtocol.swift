@@ -12,7 +12,18 @@ import ClientRuntime
 /// * eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic or record the actions in an Amazon WorkDocs site, along with AWS CloudTrail, to replicate data for eDiscovery, backup, or analytical applications.
 ///
 ///
-/// All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model.
+/// All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model. The pricing for Amazon WorkDocs APIs varies depending on the API call type for these actions:
+///
+/// * READ (Get*)
+///
+/// * WRITE (Activate*, Add*, Create*, Deactivate*, Initiate*, Update*)
+///
+/// * LIST (Describe*)
+///
+/// * DELETE*, CANCEL
+///
+///
+/// For information about Amazon WorkDocs API pricing, see [Amazon WorkDocs Pricing](https://aws.amazon.com/workdocs/pricing/).
 public protocol WorkDocsClientProtocol {
     /// Aborts the upload of the specified document version that was previously initiated by [InitiateDocumentVersionUpload]. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
     func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput) async throws -> AbortDocumentVersionUploadOutputResponse
@@ -28,7 +39,7 @@ public protocol WorkDocsClientProtocol {
     func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutputResponse
     /// Adds the specified list of labels to the given resource (a document or folder)
     func createLabels(input: CreateLabelsInput) async throws -> CreateLabelsOutputResponse
-    /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Subscribe to Notifications](https://docs.aws.amazon.com/workdocs/latest/developerguide/subscribe-notifications.html) in the Amazon WorkDocs Developer Guide.
+    /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Setting up notifications for an IAM user or role](https://docs.aws.amazon.com/workdocs/latest/developerguide/manage-notifications.html) in the Amazon WorkDocs Developer Guide.
     func createNotificationSubscription(input: CreateNotificationSubscriptionInput) async throws -> CreateNotificationSubscriptionOutputResponse
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
@@ -40,6 +51,8 @@ public protocol WorkDocsClientProtocol {
     func deleteCustomMetadata(input: DeleteCustomMetadataInput) async throws -> DeleteCustomMetadataOutputResponse
     /// Permanently deletes the specified document and its associated metadata.
     func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutputResponse
+    /// Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to delete prior versions.
+    func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutputResponse
     /// Permanently deletes the specified folder and its contents.
     func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutputResponse
     /// Deletes the contents of the specified folder.
@@ -88,6 +101,8 @@ public protocol WorkDocsClientProtocol {
     func removeAllResourcePermissions(input: RemoveAllResourcePermissionsInput) async throws -> RemoveAllResourcePermissionsOutputResponse
     /// Removes the permission for the specified principal from the specified resource.
     func removeResourcePermission(input: RemoveResourcePermissionInput) async throws -> RemoveResourcePermissionOutputResponse
+    /// Recovers a deleted version of an Amazon WorkDocs document.
+    func restoreDocumentVersions(input: RestoreDocumentVersionsInput) async throws -> RestoreDocumentVersionsOutputResponse
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutputResponse
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by [InitiateDocumentVersionUpload].

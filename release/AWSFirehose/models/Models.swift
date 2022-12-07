@@ -2,6 +2,476 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intervalInSeconds = "IntervalInSeconds"
+        case sizeInMBs = "SizeInMBs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intervalInSeconds = self.intervalInSeconds {
+            try encodeContainer.encode(intervalInSeconds, forKey: .intervalInSeconds)
+        }
+        if let sizeInMBs = self.sizeInMBs {
+            try encodeContainer.encode(sizeInMBs, forKey: .sizeInMBs)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intervalInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .intervalInSeconds)
+        intervalInSeconds = intervalInSecondsDecoded
+        let sizeInMBsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInMBs)
+        sizeInMBs = sizeInMBsDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// Describes the buffering to perform before delivering data to the Serverless offering for Amazon OpenSearch Service destination.
+    public struct AmazonOpenSearchServerlessBufferingHints: Swift.Equatable {
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
+        public var intervalInSeconds: Swift.Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        public var sizeInMBs: Swift.Int?
+
+        public init (
+            intervalInSeconds: Swift.Int? = nil,
+            sizeInMBs: Swift.Int? = nil
+        )
+        {
+            self.intervalInSeconds = intervalInSeconds
+            self.sizeInMBs = sizeInMBs
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferingHints = "BufferingHints"
+        case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+        case collectionEndpoint = "CollectionEndpoint"
+        case indexName = "IndexName"
+        case processingConfiguration = "ProcessingConfiguration"
+        case retryOptions = "RetryOptions"
+        case roleARN = "RoleARN"
+        case s3BackupMode = "S3BackupMode"
+        case s3Configuration = "S3Configuration"
+        case vpcConfiguration = "VpcConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferingHints = self.bufferingHints {
+            try encodeContainer.encode(bufferingHints, forKey: .bufferingHints)
+        }
+        if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
+            try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
+        }
+        if let collectionEndpoint = self.collectionEndpoint {
+            try encodeContainer.encode(collectionEndpoint, forKey: .collectionEndpoint)
+        }
+        if let indexName = self.indexName {
+            try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let processingConfiguration = self.processingConfiguration {
+            try encodeContainer.encode(processingConfiguration, forKey: .processingConfiguration)
+        }
+        if let retryOptions = self.retryOptions {
+            try encodeContainer.encode(retryOptions, forKey: .retryOptions)
+        }
+        if let roleARN = self.roleARN {
+            try encodeContainer.encode(roleARN, forKey: .roleARN)
+        }
+        if let s3BackupMode = self.s3BackupMode {
+            try encodeContainer.encode(s3BackupMode.rawValue, forKey: .s3BackupMode)
+        }
+        if let s3Configuration = self.s3Configuration {
+            try encodeContainer.encode(s3Configuration, forKey: .s3Configuration)
+        }
+        if let vpcConfiguration = self.vpcConfiguration {
+            try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
+        roleARN = roleARNDecoded
+        let collectionEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionEndpoint)
+        collectionEndpoint = collectionEndpointDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let bufferingHintsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.self, forKey: .bufferingHints)
+        bufferingHints = bufferingHintsDecoded
+        let retryOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.self, forKey: .retryOptions)
+        retryOptions = retryOptionsDecoded
+        let s3BackupModeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode.self, forKey: .s3BackupMode)
+        s3BackupMode = s3BackupModeDecoded
+        let s3ConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.S3DestinationConfiguration.self, forKey: .s3Configuration)
+        s3Configuration = s3ConfigurationDecoded
+        let processingConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessingConfiguration.self, forKey: .processingConfiguration)
+        processingConfiguration = processingConfigurationDecoded
+        let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
+        cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// Describes the configuration of a destination in the Serverless offering for Amazon OpenSearch Service.
+    public struct AmazonOpenSearchServerlessDestinationConfiguration: Swift.Equatable {
+        /// The buffering options. If no value is specified, the default values for AmazonopensearchserviceBufferingHints are used.
+        public var bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?
+        /// Describes the Amazon CloudWatch logging options for your delivery stream.
+        public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the collection in the Serverless offering for Amazon OpenSearch Service.
+        public var collectionEndpoint: Swift.String?
+        /// The Serverless offering for Amazon OpenSearch Service index name.
+        /// This member is required.
+        public var indexName: Swift.String?
+        /// Describes a data processing configuration.
+        public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to the Serverless offering for Amazon OpenSearch Service. The default value is 300 (5 minutes).
+        public var retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Serverless offering for Amazon OpenSearch Service Configuration API and for indexing documents.
+        /// This member is required.
+        public var roleARN: Swift.String?
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix.
+        public var s3BackupMode: FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode?
+        /// Describes the configuration of a destination in Amazon S3.
+        /// This member is required.
+        public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
+        /// The details of the VPC of the Amazon ES destination.
+        public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
+
+        public init (
+            bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints? = nil,
+            cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
+            collectionEndpoint: Swift.String? = nil,
+            indexName: Swift.String? = nil,
+            processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
+            retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions? = nil,
+            roleARN: Swift.String? = nil,
+            s3BackupMode: FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode? = nil,
+            s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
+            vpcConfiguration: FirehoseClientTypes.VpcConfiguration? = nil
+        )
+        {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.collectionEndpoint = collectionEndpoint
+            self.indexName = indexName
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Configuration = s3Configuration
+            self.vpcConfiguration = vpcConfiguration
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferingHints = "BufferingHints"
+        case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+        case collectionEndpoint = "CollectionEndpoint"
+        case indexName = "IndexName"
+        case processingConfiguration = "ProcessingConfiguration"
+        case retryOptions = "RetryOptions"
+        case roleARN = "RoleARN"
+        case s3BackupMode = "S3BackupMode"
+        case s3DestinationDescription = "S3DestinationDescription"
+        case vpcConfigurationDescription = "VpcConfigurationDescription"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferingHints = self.bufferingHints {
+            try encodeContainer.encode(bufferingHints, forKey: .bufferingHints)
+        }
+        if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
+            try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
+        }
+        if let collectionEndpoint = self.collectionEndpoint {
+            try encodeContainer.encode(collectionEndpoint, forKey: .collectionEndpoint)
+        }
+        if let indexName = self.indexName {
+            try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let processingConfiguration = self.processingConfiguration {
+            try encodeContainer.encode(processingConfiguration, forKey: .processingConfiguration)
+        }
+        if let retryOptions = self.retryOptions {
+            try encodeContainer.encode(retryOptions, forKey: .retryOptions)
+        }
+        if let roleARN = self.roleARN {
+            try encodeContainer.encode(roleARN, forKey: .roleARN)
+        }
+        if let s3BackupMode = self.s3BackupMode {
+            try encodeContainer.encode(s3BackupMode.rawValue, forKey: .s3BackupMode)
+        }
+        if let s3DestinationDescription = self.s3DestinationDescription {
+            try encodeContainer.encode(s3DestinationDescription, forKey: .s3DestinationDescription)
+        }
+        if let vpcConfigurationDescription = self.vpcConfigurationDescription {
+            try encodeContainer.encode(vpcConfigurationDescription, forKey: .vpcConfigurationDescription)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
+        roleARN = roleARNDecoded
+        let collectionEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionEndpoint)
+        collectionEndpoint = collectionEndpointDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let bufferingHintsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.self, forKey: .bufferingHints)
+        bufferingHints = bufferingHintsDecoded
+        let retryOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.self, forKey: .retryOptions)
+        retryOptions = retryOptionsDecoded
+        let s3BackupModeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode.self, forKey: .s3BackupMode)
+        s3BackupMode = s3BackupModeDecoded
+        let s3DestinationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.S3DestinationDescription.self, forKey: .s3DestinationDescription)
+        s3DestinationDescription = s3DestinationDescriptionDecoded
+        let processingConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessingConfiguration.self, forKey: .processingConfiguration)
+        processingConfiguration = processingConfigurationDecoded
+        let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
+        cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let vpcConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.VpcConfigurationDescription.self, forKey: .vpcConfigurationDescription)
+        vpcConfigurationDescription = vpcConfigurationDescriptionDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// The destination description in the Serverless offering for Amazon OpenSearch Service.
+    public struct AmazonOpenSearchServerlessDestinationDescription: Swift.Equatable {
+        /// The buffering options.
+        public var bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?
+        /// Describes the Amazon CloudWatch logging options for your delivery stream.
+        public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the collection in the Serverless offering for Amazon OpenSearch Service.
+        public var collectionEndpoint: Swift.String?
+        /// The Serverless offering for Amazon OpenSearch Service index name.
+        public var indexName: Swift.String?
+        /// Describes a data processing configuration.
+        public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The Serverless offering for Amazon OpenSearch Service retry options.
+        public var retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions?
+        /// The Amazon Resource Name (ARN) of the AWS credentials.
+        public var roleARN: Swift.String?
+        /// The Amazon S3 backup mode.
+        public var s3BackupMode: FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode?
+        /// Describes a destination in Amazon S3.
+        public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
+        /// The details of the VPC of the Amazon ES destination.
+        public var vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription?
+
+        public init (
+            bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints? = nil,
+            cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
+            collectionEndpoint: Swift.String? = nil,
+            indexName: Swift.String? = nil,
+            processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
+            retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions? = nil,
+            roleARN: Swift.String? = nil,
+            s3BackupMode: FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode? = nil,
+            s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
+            vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription? = nil
+        )
+        {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.collectionEndpoint = collectionEndpoint
+            self.indexName = indexName
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3DestinationDescription = s3DestinationDescription
+            self.vpcConfigurationDescription = vpcConfigurationDescription
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferingHints = "BufferingHints"
+        case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+        case collectionEndpoint = "CollectionEndpoint"
+        case indexName = "IndexName"
+        case processingConfiguration = "ProcessingConfiguration"
+        case retryOptions = "RetryOptions"
+        case roleARN = "RoleARN"
+        case s3Update = "S3Update"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferingHints = self.bufferingHints {
+            try encodeContainer.encode(bufferingHints, forKey: .bufferingHints)
+        }
+        if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
+            try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
+        }
+        if let collectionEndpoint = self.collectionEndpoint {
+            try encodeContainer.encode(collectionEndpoint, forKey: .collectionEndpoint)
+        }
+        if let indexName = self.indexName {
+            try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let processingConfiguration = self.processingConfiguration {
+            try encodeContainer.encode(processingConfiguration, forKey: .processingConfiguration)
+        }
+        if let retryOptions = self.retryOptions {
+            try encodeContainer.encode(retryOptions, forKey: .retryOptions)
+        }
+        if let roleARN = self.roleARN {
+            try encodeContainer.encode(roleARN, forKey: .roleARN)
+        }
+        if let s3Update = self.s3Update {
+            try encodeContainer.encode(s3Update, forKey: .s3Update)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
+        roleARN = roleARNDecoded
+        let collectionEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionEndpoint)
+        collectionEndpoint = collectionEndpointDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let bufferingHintsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.self, forKey: .bufferingHints)
+        bufferingHints = bufferingHintsDecoded
+        let retryOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.self, forKey: .retryOptions)
+        retryOptions = retryOptionsDecoded
+        let s3UpdateDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.S3DestinationUpdate.self, forKey: .s3Update)
+        s3Update = s3UpdateDecoded
+        let processingConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessingConfiguration.self, forKey: .processingConfiguration)
+        processingConfiguration = processingConfigurationDecoded
+        let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
+        cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// Describes an update for a destination in the Serverless offering for Amazon OpenSearch Service.
+    public struct AmazonOpenSearchServerlessDestinationUpdate: Swift.Equatable {
+        /// The buffering options. If no value is specified, AmazonopensearchBufferingHints object default values are used.
+        public var bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?
+        /// Describes the Amazon CloudWatch logging options for your delivery stream.
+        public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the collection in the Serverless offering for Amazon OpenSearch Service.
+        public var collectionEndpoint: Swift.String?
+        /// The Serverless offering for Amazon OpenSearch Service index name.
+        public var indexName: Swift.String?
+        /// Describes a data processing configuration.
+        public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to the Serverless offering for Amazon OpenSearch Service. The default value is 300 (5 minutes).
+        public var retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Serverless offering for Amazon OpenSearch Service Configuration API and for indexing documents.
+        public var roleARN: Swift.String?
+        /// Describes an update for a destination in Amazon S3.
+        public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
+
+        public init (
+            bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints? = nil,
+            cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
+            collectionEndpoint: Swift.String? = nil,
+            indexName: Swift.String? = nil,
+            processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
+            retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions? = nil,
+            roleARN: Swift.String? = nil,
+            s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil
+        )
+        {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.collectionEndpoint = collectionEndpoint
+            self.indexName = indexName
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3Update = s3Update
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case durationInSeconds = "DurationInSeconds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let durationInSeconds = self.durationInSeconds {
+            try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
+        durationInSeconds = durationInSecondsDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// Configures retry behavior in case Kinesis Data Firehose is unable to deliver documents to the Serverless offering for Amazon OpenSearch Service.
+    public struct AmazonOpenSearchServerlessRetryOptions: Swift.Equatable {
+        /// After an initial failure to deliver to the Serverless offering for Amazon OpenSearch Service, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
+        public var durationInSeconds: Swift.Int?
+
+        public init (
+            durationInSeconds: Swift.Int? = nil
+        )
+        {
+            self.durationInSeconds = durationInSeconds
+        }
+    }
+
+}
+
+extension FirehoseClientTypes {
+    public enum AmazonOpenSearchServerlessS3BackupMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alldocuments
+        case faileddocumentsonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AmazonOpenSearchServerlessS3BackupMode] {
+            return [
+                .alldocuments,
+                .faileddocumentsonly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .alldocuments: return "AllDocuments"
+            case .faileddocumentsonly: return "FailedDocumentsOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AmazonOpenSearchServerlessS3BackupMode(rawValue: rawValue) ?? AmazonOpenSearchServerlessS3BackupMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension FirehoseClientTypes.AmazonopensearchserviceBufferingHints: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case intervalInSeconds = "IntervalInSeconds"
@@ -28,8 +498,11 @@ extension FirehoseClientTypes.AmazonopensearchserviceBufferingHints: Swift.Codab
 }
 
 extension FirehoseClientTypes {
+    /// Describes the buffering to perform before delivering data to the Amazon OpenSearch Service destination.
     public struct AmazonopensearchserviceBufferingHints: Swift.Equatable {
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public var intervalInSeconds: Swift.Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public var sizeInMBs: Swift.Int?
 
         public init (
@@ -136,24 +609,34 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration: S
 }
 
 extension FirehoseClientTypes {
+    /// Describes the configuration of a destination in Amazon OpenSearch Service
     public struct AmazonopensearchserviceDestinationConfiguration: Swift.Equatable {
+        /// The buffering options. If no value is specified, the default values for AmazonopensearchserviceBufferingHints are used.
         public var bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
+        /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN.
         public var domainARN: Swift.String?
+        /// The ElasticsearAmazon OpenSearch Service index name.
         /// This member is required.
         public var indexName: Swift.String?
+        /// The Amazon OpenSearch Service index rotation period. Index rotation appends a timestamp to the IndexName to facilitate the expiration of old data.
         public var indexRotationPeriod: FirehoseClientTypes.AmazonopensearchserviceIndexRotationPeriod?
         /// Describes a data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon OpenSearch Service. The default value is 300 (5 minutes).
         public var retryOptions: FirehoseClientTypes.AmazonopensearchserviceRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon OpenSearch Service Configuration API and for indexing documents.
         /// This member is required.
         public var roleARN: Swift.String?
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix.
         public var s3BackupMode: FirehoseClientTypes.AmazonopensearchserviceS3BackupMode?
         /// Describes the configuration of a destination in Amazon S3.
         /// This member is required.
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
+        /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time.
         public var typeName: Swift.String?
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
@@ -284,21 +767,31 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription: Swi
 }
 
 extension FirehoseClientTypes {
+    /// The destination description in Amazon OpenSearch Service.
     public struct AmazonopensearchserviceDestinationDescription: Swift.Equatable {
+        /// The buffering options.
         public var bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon OpenSearch Service.
         public var clusterEndpoint: Swift.String?
+        /// The ARN of the Amazon OpenSearch Service domain.
         public var domainARN: Swift.String?
+        /// The Amazon OpenSearch Service index name.
         public var indexName: Swift.String?
+        /// The Amazon OpenSearch Service index rotation period
         public var indexRotationPeriod: FirehoseClientTypes.AmazonopensearchserviceIndexRotationPeriod?
         /// Describes a data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The Amazon OpenSearch Service retry options.
         public var retryOptions: FirehoseClientTypes.AmazonopensearchserviceRetryOptions?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
         public var roleARN: Swift.String?
+        /// The Amazon S3 backup mode.
         public var s3BackupMode: FirehoseClientTypes.AmazonopensearchserviceS3BackupMode?
         /// Describes a destination in Amazon S3.
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
+        /// The Amazon OpenSearch Service type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value for TypeName.
         public var typeName: Swift.String?
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription?
@@ -417,20 +910,29 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate: Swift.Co
 }
 
 extension FirehoseClientTypes {
+    /// Describes an update for a destination in Amazon OpenSearch Service.
     public struct AmazonopensearchserviceDestinationUpdate: Swift.Equatable {
+        /// The buffering options. If no value is specified, AmazonopensearchBufferingHints object default values are used.
         public var bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
+        /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN.
         public var domainARN: Swift.String?
+        /// The Amazon OpenSearch Service index name.
         public var indexName: Swift.String?
+        /// The Amazon OpenSearch Service index rotation period. Index rotation appends a timestamp to IndexName to facilitate the expiration of old data.
         public var indexRotationPeriod: FirehoseClientTypes.AmazonopensearchserviceIndexRotationPeriod?
         /// Describes a data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon OpenSearch Service. The default value is 300 (5 minutes).
         public var retryOptions: FirehoseClientTypes.AmazonopensearchserviceRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon OpenSearch Service Configuration API and for indexing documents.
         public var roleARN: Swift.String?
         /// Describes an update for a destination in Amazon S3.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
+        /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime. If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
         public var typeName: Swift.String?
 
         public init (
@@ -524,7 +1026,9 @@ extension FirehoseClientTypes.AmazonopensearchserviceRetryOptions: Swift.Codable
 }
 
 extension FirehoseClientTypes {
+    /// Configures retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon OpenSearch Service.
     public struct AmazonopensearchserviceRetryOptions: Swift.Equatable {
+        /// After an initial failure to deliver to Amazon OpenSearch Service, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Swift.Int?
 
         public init (
@@ -853,6 +1357,7 @@ extension FirehoseClientTypes {
 
 extension CreateDeliveryStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonOpenSearchServerlessDestinationConfiguration = "AmazonOpenSearchServerlessDestinationConfiguration"
         case amazonopensearchserviceDestinationConfiguration = "AmazonopensearchserviceDestinationConfiguration"
         case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
         case deliveryStreamName = "DeliveryStreamName"
@@ -869,6 +1374,9 @@ extension CreateDeliveryStreamInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let amazonOpenSearchServerlessDestinationConfiguration = self.amazonOpenSearchServerlessDestinationConfiguration {
+            try encodeContainer.encode(amazonOpenSearchServerlessDestinationConfiguration, forKey: .amazonOpenSearchServerlessDestinationConfiguration)
+        }
         if let amazonopensearchserviceDestinationConfiguration = self.amazonopensearchserviceDestinationConfiguration {
             try encodeContainer.encode(amazonopensearchserviceDestinationConfiguration, forKey: .amazonopensearchserviceDestinationConfiguration)
         }
@@ -918,10 +1426,13 @@ extension CreateDeliveryStreamInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDeliveryStreamInput: Swift.Equatable {
+    /// The destination in the Serverless offering for Amazon OpenSearch Service. You can specify only one destination.
+    public var amazonOpenSearchServerlessDestinationConfiguration: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration?
+    /// The destination in Amazon OpenSearch Service. You can specify only one destination.
     public var amazonopensearchserviceDestinationConfiguration: FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration?
     /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
     public var deliveryStreamEncryptionConfigurationInput: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput?
-    /// The name of the delivery stream. This name must be unique per AWS account in the same AWS Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
+    /// The name of the delivery stream. This name must be unique per Amazon Web Services account in the same Amazon Web Services Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
     /// This member is required.
     public var deliveryStreamName: Swift.String?
     /// The delivery stream type. This parameter can be one of the following values:
@@ -945,10 +1456,11 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
     public var s3DestinationConfiguration: FirehoseClientTypes.S3DestinationConfiguration?
     /// The destination in Splunk. You can specify only one destination.
     public var splunkDestinationConfiguration: FirehoseClientTypes.SplunkDestinationConfiguration?
-    /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to AWS resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the AWS Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
+    /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
     public var tags: [FirehoseClientTypes.Tag]?
 
     public init (
+        amazonOpenSearchServerlessDestinationConfiguration: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration? = nil,
         amazonopensearchserviceDestinationConfiguration: FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration? = nil,
         deliveryStreamEncryptionConfigurationInput: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput? = nil,
         deliveryStreamName: Swift.String? = nil,
@@ -963,6 +1475,7 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
         tags: [FirehoseClientTypes.Tag]? = nil
     )
     {
+        self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
         self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
         self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
         self.deliveryStreamName = deliveryStreamName
@@ -991,10 +1504,12 @@ struct CreateDeliveryStreamInputBody: Swift.Equatable {
     let splunkDestinationConfiguration: FirehoseClientTypes.SplunkDestinationConfiguration?
     let httpEndpointDestinationConfiguration: FirehoseClientTypes.HttpEndpointDestinationConfiguration?
     let tags: [FirehoseClientTypes.Tag]?
+    let amazonOpenSearchServerlessDestinationConfiguration: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration?
 }
 
 extension CreateDeliveryStreamInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonOpenSearchServerlessDestinationConfiguration = "AmazonOpenSearchServerlessDestinationConfiguration"
         case amazonopensearchserviceDestinationConfiguration = "AmazonopensearchserviceDestinationConfiguration"
         case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
         case deliveryStreamName = "DeliveryStreamName"
@@ -1044,6 +1559,8 @@ extension CreateDeliveryStreamInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let amazonOpenSearchServerlessDestinationConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration.self, forKey: .amazonOpenSearchServerlessDestinationConfiguration)
+        amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfigurationDecoded
     }
 }
 
@@ -1154,7 +1671,7 @@ extension FirehoseClientTypes.DataFormatConversionConfiguration: Swift.Codable {
 }
 
 extension FirehoseClientTypes {
-    /// Specifies that you want Kinesis Data Firehose to convert data from the JSON format to the Parquet or ORC format before writing it to Amazon S3. Kinesis Data Firehose uses the serializer and deserializer that you specify, in addition to the column information from the AWS Glue table, to deserialize your input data from JSON and then serialize it to the Parquet or ORC format. For more information, see [Kinesis Data Firehose Record Format Conversion](https://docs.aws.amazon.com/firehose/latest/dev/record-format-conversion.html).
+    /// Specifies that you want Kinesis Data Firehose to convert data from the JSON format to the Parquet or ORC format before writing it to Amazon S3. Kinesis Data Firehose uses the serializer and deserializer that you specify, in addition to the column information from the Amazon Web Services Glue table, to deserialize your input data from JSON and then serialize it to the Parquet or ORC format. For more information, see [Kinesis Data Firehose Record Format Conversion](https://docs.aws.amazon.com/firehose/latest/dev/record-format-conversion.html).
     public struct DataFormatConversionConfiguration: Swift.Equatable {
         /// Defaults to true. Set it to false if you want to disable format conversion while preserving the configuration details.
         public var enabled: Swift.Bool?
@@ -1162,7 +1679,7 @@ extension FirehoseClientTypes {
         public var inputFormatConfiguration: FirehoseClientTypes.InputFormatConfiguration?
         /// Specifies the serializer that you want Kinesis Data Firehose to use to convert the format of your data to the Parquet or ORC format. This parameter is required if Enabled is set to true.
         public var outputFormatConfiguration: FirehoseClientTypes.OutputFormatConfiguration?
-        /// Specifies the AWS Glue Data Catalog table that contains the column information. This parameter is required if Enabled is set to true.
+        /// Specifies the Amazon Web Services Glue Data Catalog table that contains the column information. This parameter is required if Enabled is set to true.
         public var schemaConfiguration: FirehoseClientTypes.SchemaConfiguration?
 
         public init (
@@ -1205,7 +1722,7 @@ extension DeleteDeliveryStreamInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteDeliveryStreamInput: Swift.Equatable {
-    /// Set this to true if you want to delete the delivery stream even if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the [RevokeGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html) operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the grant happens due to an AWS KMS issue, Kinesis Data Firehose keeps retrying the delete operation. The default value is false.
+    /// Set this to true if you want to delete the delivery stream even if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the [RevokeGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html) operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the grant happens due to an Amazon Web Services KMS issue, Kinesis Data Firehose keeps retrying the delete operation. The default value is false.
     public var allowForceDelete: Swift.Bool?
     /// The name of the delivery stream.
     /// This member is required.
@@ -1377,7 +1894,7 @@ extension FirehoseClientTypes {
     public struct DeliveryStreamDescription: Swift.Equatable {
         /// The date and time that the delivery stream was created.
         public var createTimestamp: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var deliveryStreamARN: Swift.String?
         /// Indicates the server-side encryption (SSE) status for the delivery stream.
@@ -1485,9 +2002,9 @@ extension FirehoseClientTypes {
     public struct DeliveryStreamEncryptionConfiguration: Swift.Equatable {
         /// Provides details in case one of the following operations fails due to an error related to KMS: [CreateDeliveryStream], [DeleteDeliveryStream], [StartDeliveryStreamEncryption], [StopDeliveryStreamEncryption].
         public var failureDescription: FirehoseClientTypes.FailureDescription?
-        /// If KeyType is CUSTOMER_MANAGED_CMK, this field contains the ARN of the customer managed CMK. If KeyType is AWS_OWNED_CMK, DeliveryStreamEncryptionConfiguration doesn't contain a value for KeyARN.
+        /// If KeyType is CUSTOMER_MANAGED_CMK, this field contains the ARN of the customer managed CMK. If KeyType is Amazon Web Services_OWNED_CMK, DeliveryStreamEncryptionConfiguration doesn't contain a value for KeyARN.
         public var keyARN: Swift.String?
-        /// Indicates the type of customer master key (CMK) that is used for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see [Customer Master Keys (CMKs)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys).
+        /// Indicates the type of customer master key (CMK) that is used for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see [Customer Master Keys (CMKs)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys).
         public var keyType: FirehoseClientTypes.KeyType?
         /// This is the server-side encryption (SSE) status for the delivery stream. For a full description of the different values of this status, see [StartDeliveryStreamEncryption] and [StopDeliveryStreamEncryption]. If this status is ENABLING_FAILED or DISABLING_FAILED, it is the status of the most recent attempt to enable or disable SSE, respectively.
         public var status: FirehoseClientTypes.DeliveryStreamEncryptionStatus?
@@ -1536,9 +2053,9 @@ extension FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput: Swift.
 extension FirehoseClientTypes {
     /// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for Server-Side Encryption (SSE).
     public struct DeliveryStreamEncryptionConfigurationInput: Swift.Equatable {
-        /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to AWS_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
+        /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to Amazon Web Services_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
         public var keyARN: Swift.String?
-        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see [Customer Master Keys (CMKs)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys). When you invoke [CreateDeliveryStream] or [StartDeliveryStreamEncryption] with KeyType set to CUSTOMER_MANAGED_CMK, Kinesis Data Firehose invokes the Amazon KMS operation [CreateGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html) to create a grant that allows the Kinesis Data Firehose service to use the customer managed CMK to perform encryption and decryption. Kinesis Data Firehose manages that grant. When you invoke [StartDeliveryStreamEncryption] to change the CMK for a delivery stream that is encrypted with a customer managed CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery streams. If a [CreateDeliveryStream] or [StartDeliveryStreamEncryption] operation exceeds this limit, Kinesis Data Firehose throws a LimitExceededException. To encrypt your delivery stream, use symmetric CMKs. Kinesis Data Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see [About Symmetric and Asymmetric CMKs](https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html) in the AWS Key Management Service developer guide.
+        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see [Customer Master Keys (CMKs)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys). When you invoke [CreateDeliveryStream] or [StartDeliveryStreamEncryption] with KeyType set to CUSTOMER_MANAGED_CMK, Kinesis Data Firehose invokes the Amazon KMS operation [CreateGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html) to create a grant that allows the Kinesis Data Firehose service to use the customer managed CMK to perform encryption and decryption. Kinesis Data Firehose manages that grant. When you invoke [StartDeliveryStreamEncryption] to change the CMK for a delivery stream that is encrypted with a customer managed CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery streams. If a [CreateDeliveryStream] or [StartDeliveryStreamEncryption] operation exceeds this limit, Kinesis Data Firehose throws a LimitExceededException. To encrypt your delivery stream, use symmetric CMKs. Kinesis Data Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see [About Symmetric and Asymmetric CMKs](https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html) in the Amazon Web Services Key Management Service developer guide.
         /// This member is required.
         public var keyType: FirehoseClientTypes.KeyType?
 
@@ -1925,6 +2442,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonOpenSearchServerlessDestinationDescription = "AmazonOpenSearchServerlessDestinationDescription"
         case amazonopensearchserviceDestinationDescription = "AmazonopensearchserviceDestinationDescription"
         case destinationId = "DestinationId"
         case elasticsearchDestinationDescription = "ElasticsearchDestinationDescription"
@@ -1937,6 +2455,9 @@ extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let amazonOpenSearchServerlessDestinationDescription = self.amazonOpenSearchServerlessDestinationDescription {
+            try encodeContainer.encode(amazonOpenSearchServerlessDestinationDescription, forKey: .amazonOpenSearchServerlessDestinationDescription)
+        }
         if let amazonopensearchserviceDestinationDescription = self.amazonopensearchserviceDestinationDescription {
             try encodeContainer.encode(amazonopensearchserviceDestinationDescription, forKey: .amazonopensearchserviceDestinationDescription)
         }
@@ -1981,12 +2502,17 @@ extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
         splunkDestinationDescription = splunkDestinationDescriptionDecoded
         let httpEndpointDestinationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.HttpEndpointDestinationDescription.self, forKey: .httpEndpointDestinationDescription)
         httpEndpointDestinationDescription = httpEndpointDestinationDescriptionDecoded
+        let amazonOpenSearchServerlessDestinationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription.self, forKey: .amazonOpenSearchServerlessDestinationDescription)
+        amazonOpenSearchServerlessDestinationDescription = amazonOpenSearchServerlessDestinationDescriptionDecoded
     }
 }
 
 extension FirehoseClientTypes {
     /// Describes the destination for a delivery stream.
     public struct DestinationDescription: Swift.Equatable {
+        /// The destination in the Serverless offering for Amazon OpenSearch Service.
+        public var amazonOpenSearchServerlessDestinationDescription: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription?
+        /// The destination in Amazon OpenSearch Service.
         public var amazonopensearchserviceDestinationDescription: FirehoseClientTypes.AmazonopensearchserviceDestinationDescription?
         /// The ID of the destination.
         /// This member is required.
@@ -2005,6 +2531,7 @@ extension FirehoseClientTypes {
         public var splunkDestinationDescription: FirehoseClientTypes.SplunkDestinationDescription?
 
         public init (
+            amazonOpenSearchServerlessDestinationDescription: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription? = nil,
             amazonopensearchserviceDestinationDescription: FirehoseClientTypes.AmazonopensearchserviceDestinationDescription? = nil,
             destinationId: Swift.String? = nil,
             elasticsearchDestinationDescription: FirehoseClientTypes.ElasticsearchDestinationDescription? = nil,
@@ -2015,6 +2542,7 @@ extension FirehoseClientTypes {
             splunkDestinationDescription: FirehoseClientTypes.SplunkDestinationDescription? = nil
         )
         {
+            self.amazonOpenSearchServerlessDestinationDescription = amazonOpenSearchServerlessDestinationDescription
             self.amazonopensearchserviceDestinationDescription = amazonopensearchserviceDestinationDescription
             self.destinationId = destinationId
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
@@ -2054,7 +2582,7 @@ extension FirehoseClientTypes.DynamicPartitioningConfiguration: Swift.Codable {
 }
 
 extension FirehoseClientTypes {
-    /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see [https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html](https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html)
+    /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
     public struct DynamicPartitioningConfiguration: Swift.Equatable {
         /// Specifies that the dynamic partitioning is enabled for this Kinesis Data Firehose delivery stream.
         public var enabled: Swift.Bool?
@@ -2218,7 +2746,7 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Specify either ClusterEndpoint or DomainARN.
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the role specified in RoleARN. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Specify either ClusterEndpoint or DomainARN.
         public var domainARN: Swift.String?
         /// The Elasticsearch index name.
         /// This member is required.
@@ -2229,10 +2757,10 @@ extension FirehoseClientTypes {
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
         public var retryOptions: FirehoseClientTypes.ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see [Grant Kinesis Data Firehose Access to an Amazon S3 Destination](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3) and [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see [Grant Kinesis Data Firehose Access to an Amazon S3 Destination](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3) and [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var roleARN: Swift.String?
-        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see [Amazon S3 Backup for the Amazon ES Destination](https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-s3-backup). Default value is FailedDocumentsOnly. You can't change this backup mode after you create the delivery stream.
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix. For more information, see [Amazon S3 Backup for the Amazon ES Destination](https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-s3-backup). Default value is FailedDocumentsOnly. You can't change this backup mode after you create the delivery stream.
         public var s3BackupMode: FirehoseClientTypes.ElasticsearchS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         /// This member is required.
@@ -2376,7 +2904,7 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon ES.
         public var clusterEndpoint: Swift.String?
-        /// The ARN of the Amazon ES domain. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Kinesis Data Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
+        /// The ARN of the Amazon ES domain. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Kinesis Data Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
         public var domainARN: Swift.String?
         /// The Elasticsearch index name.
         public var indexName: Swift.String?
@@ -2386,13 +2914,13 @@ extension FirehoseClientTypes {
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
         /// The Amazon ES retry options.
         public var retryOptions: FirehoseClientTypes.ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var roleARN: Swift.String?
         /// The Amazon S3 backup mode.
         public var s3BackupMode: FirehoseClientTypes.ElasticsearchS3BackupMode?
         /// The Amazon S3 destination.
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
-        /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x, there's no value for TypeName.
+        /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value for TypeName.
         public var typeName: Swift.String?
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription?
@@ -2519,7 +3047,7 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Specify either ClusterEndpoint or DomainARN.
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Specify either ClusterEndpoint or DomainARN.
         public var domainARN: Swift.String?
         /// The Elasticsearch index name.
         public var indexName: Swift.String?
@@ -2529,7 +3057,7 @@ extension FirehoseClientTypes {
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
         public var retryOptions: FirehoseClientTypes.ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see [Grant Kinesis Data Firehose Access to an Amazon S3 Destination](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3) and [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see [Grant Kinesis Data Firehose Access to an Amazon S3 Destination](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3) and [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var roleARN: Swift.String?
         /// The Amazon S3 destination.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
@@ -2813,7 +3341,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationConfiguration: Swift.Codable 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Amazon S3.
     public struct ExtendedS3DestinationConfiguration: Swift.Equatable {
-        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
         /// The buffering option.
@@ -2824,7 +3352,7 @@ extension FirehoseClientTypes {
         public var compressionFormat: FirehoseClientTypes.CompressionFormat?
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public var dataFormatConversionConfiguration: FirehoseClientTypes.DataFormatConversionConfiguration?
-        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see [https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html](https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html)
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
         public var dynamicPartitioningConfiguration: FirehoseClientTypes.DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public var encryptionConfiguration: FirehoseClientTypes.EncryptionConfiguration?
@@ -2834,7 +3362,7 @@ extension FirehoseClientTypes {
         public var `prefix`: Swift.String?
         /// The data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var roleARN: Swift.String?
         /// The configuration for backup in Amazon S3.
@@ -2970,7 +3498,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationDescription: Swift.Codable {
 extension FirehoseClientTypes {
     /// Describes a destination in Amazon S3.
     public struct ExtendedS3DestinationDescription: Swift.Equatable {
-        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
         /// The buffering option.
@@ -2983,7 +3511,7 @@ extension FirehoseClientTypes {
         public var compressionFormat: FirehoseClientTypes.CompressionFormat?
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public var dataFormatConversionConfiguration: FirehoseClientTypes.DataFormatConversionConfiguration?
-        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see [https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html](https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html)
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
         public var dynamicPartitioningConfiguration: FirehoseClientTypes.DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         /// This member is required.
@@ -2994,7 +3522,7 @@ extension FirehoseClientTypes {
         public var `prefix`: Swift.String?
         /// The data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var roleARN: Swift.String?
         /// The configuration for backup in Amazon S3.
@@ -3130,7 +3658,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationUpdate: Swift.Codable {
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Amazon S3.
     public struct ExtendedS3DestinationUpdate: Swift.Equatable {
-        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var bucketARN: Swift.String?
         /// The buffering option.
         public var bufferingHints: FirehoseClientTypes.BufferingHints?
@@ -3140,7 +3668,7 @@ extension FirehoseClientTypes {
         public var compressionFormat: FirehoseClientTypes.CompressionFormat?
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public var dataFormatConversionConfiguration: FirehoseClientTypes.DataFormatConversionConfiguration?
-        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see [https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html](https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html)
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
         public var dynamicPartitioningConfiguration: FirehoseClientTypes.DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public var encryptionConfiguration: FirehoseClientTypes.EncryptionConfiguration?
@@ -3150,7 +3678,7 @@ extension FirehoseClientTypes {
         public var `prefix`: Swift.String?
         /// The data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var roleARN: Swift.String?
         /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
         public var s3BackupMode: FirehoseClientTypes.S3BackupMode?
@@ -4167,7 +4695,7 @@ extension FirehoseClientTypes.KMSEncryptionConfig: Swift.Codable {
 extension FirehoseClientTypes {
     /// Describes an encryption key for a destination in Amazon S3.
     public struct KMSEncryptionConfig: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var awskmsKeyARN: Swift.String?
 
@@ -4244,7 +4772,7 @@ extension FirehoseClientTypes {
         /// The ARN of the source Kinesis data stream. For more information, see [Amazon Kinesis Data Streams ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
         /// This member is required.
         public var kinesisStreamARN: Swift.String?
-        /// The ARN of the role that provides access to the source Kinesis data stream. For more information, see [AWS Identity and Access Management (IAM) ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam).
+        /// The ARN of the role that provides access to the source Kinesis data stream. For more information, see [Amazon Web Services Identity and Access Management (IAM) ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam).
         /// This member is required.
         public var roleARN: Swift.String?
 
@@ -4298,7 +4826,7 @@ extension FirehoseClientTypes {
         public var deliveryStartTimestamp: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see [Amazon Kinesis Data Streams ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
         public var kinesisStreamARN: Swift.String?
-        /// The ARN of the role used by the source Kinesis data stream. For more information, see [AWS Identity and Access Management (IAM) ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam).
+        /// The ARN of the role used by the source Kinesis data stream. For more information, see [Amazon Web Services Identity and Access Management (IAM) ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam).
         public var roleARN: Swift.String?
 
         public init (
@@ -5318,7 +5846,7 @@ extension FirehoseClientTypes.ProcessorParameter: Swift.Codable {
 extension FirehoseClientTypes {
     /// Describes the processor parameter.
     public struct ProcessorParameter: Swift.Equatable {
-        /// The name of the parameter.
+        /// The name of the parameter. Currently the following default values are supported: 3 for NumberOfRetries and 60 for the BufferIntervalInSeconds. The BufferSizeInMBs ranges between 0.2 MB and up to 3MB. The default buffering hint is 1MB for all destinations, except Splunk. For Splunk, the default buffering hint is 256 KB.
         /// This member is required.
         public var parameterName: FirehoseClientTypes.ProcessorParameterName?
         /// The parameter value.
@@ -5935,7 +6463,7 @@ extension FirehoseClientTypes {
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public var retryOptions: FirehoseClientTypes.RedshiftRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var roleARN: Swift.String?
         /// The configuration for backup in Amazon S3.
@@ -6072,7 +6600,7 @@ extension FirehoseClientTypes {
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public var retryOptions: FirehoseClientTypes.RedshiftRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var roleARN: Swift.String?
         /// The configuration for backup in Amazon S3.
@@ -6213,7 +6741,7 @@ extension FirehoseClientTypes {
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public var retryOptions: FirehoseClientTypes.RedshiftRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var roleARN: Swift.String?
         /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
         public var s3BackupMode: FirehoseClientTypes.RedshiftS3BackupMode?
@@ -6558,7 +7086,7 @@ extension FirehoseClientTypes.S3DestinationConfiguration: Swift.Codable {
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Amazon S3.
     public struct S3DestinationConfiguration: Swift.Equatable {
-        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
@@ -6573,7 +7101,7 @@ extension FirehoseClientTypes {
         public var errorOutputPrefix: Swift.String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in [Custom Prefixes for Amazon S3 Objects](https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html).
         public var `prefix`: Swift.String?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var roleARN: Swift.String?
 
@@ -6665,7 +7193,7 @@ extension FirehoseClientTypes.S3DestinationDescription: Swift.Codable {
 extension FirehoseClientTypes {
     /// Describes a destination in Amazon S3.
     public struct S3DestinationDescription: Swift.Equatable {
-        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
@@ -6683,7 +7211,7 @@ extension FirehoseClientTypes {
         public var errorOutputPrefix: Swift.String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in [Custom Prefixes for Amazon S3 Objects](https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html).
         public var `prefix`: Swift.String?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var roleARN: Swift.String?
 
@@ -6775,7 +7303,7 @@ extension FirehoseClientTypes.S3DestinationUpdate: Swift.Codable {
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Amazon S3.
     public struct S3DestinationUpdate: Swift.Equatable {
-        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var bucketARN: Swift.String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public var bufferingHints: FirehoseClientTypes.BufferingHints?
@@ -6789,7 +7317,7 @@ extension FirehoseClientTypes {
         public var errorOutputPrefix: Swift.String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in [Custom Prefixes for Amazon S3 Objects](https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html).
         public var `prefix`: Swift.String?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see [Amazon Resource Names (ARNs) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var roleARN: Swift.String?
 
         public init (
@@ -6868,15 +7396,15 @@ extension FirehoseClientTypes.SchemaConfiguration: Swift.Codable {
 extension FirehoseClientTypes {
     /// Specifies the schema to which you want Kinesis Data Firehose to configure your data before it writes it to Amazon S3. This parameter is required if Enabled is set to true.
     public struct SchemaConfiguration: Swift.Equatable {
-        /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS account ID is used by default.
+        /// The ID of the Amazon Web Services Glue Data Catalog. If you don't supply this, the Amazon Web Services account ID is used by default.
         public var catalogId: Swift.String?
-        /// Specifies the name of the AWS Glue database that contains the schema for the output data. If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the DatabaseName property is required and its value must be specified.
+        /// Specifies the name of the Amazon Web Services Glue database that contains the schema for the output data. If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the DatabaseName property is required and its value must be specified.
         public var databaseName: Swift.String?
-        /// If you don't specify an AWS Region, the default is the current Region.
+        /// If you don't specify an Amazon Web Services Region, the default is the current Region.
         public var region: Swift.String?
-        /// The role that Kinesis Data Firehose can use to access AWS Glue. This role must be in the same account you use for Kinesis Data Firehose. Cross-account roles aren't allowed. If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the RoleARN property is required and its value must be specified.
+        /// The role that Kinesis Data Firehose can use to access Amazon Web Services Glue. This role must be in the same account you use for Kinesis Data Firehose. Cross-account roles aren't allowed. If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the RoleARN property is required and its value must be specified.
         public var roleARN: Swift.String?
-        /// Specifies the AWS Glue table that contains the column information that constitutes your data schema. If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the TableName property is required and its value must be specified.
+        /// Specifies the Amazon Web Services Glue table that contains the column information that constitutes your data schema. If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the TableName property is required and its value must be specified.
         public var tableName: Swift.String?
         /// Specifies the table version for the output data schema. If you don't specify this version ID, or if you set it to LATEST, Kinesis Data Firehose uses the most recent version. This means that any updates to the table are automatically picked up.
         public var versionId: Swift.String?
@@ -7906,6 +8434,7 @@ public struct UntagDeliveryStreamOutputResponse: Swift.Equatable {
 
 extension UpdateDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonOpenSearchServerlessDestinationUpdate = "AmazonOpenSearchServerlessDestinationUpdate"
         case amazonopensearchserviceDestinationUpdate = "AmazonopensearchserviceDestinationUpdate"
         case currentDeliveryStreamVersionId = "CurrentDeliveryStreamVersionId"
         case deliveryStreamName = "DeliveryStreamName"
@@ -7920,6 +8449,9 @@ extension UpdateDestinationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let amazonOpenSearchServerlessDestinationUpdate = self.amazonOpenSearchServerlessDestinationUpdate {
+            try encodeContainer.encode(amazonOpenSearchServerlessDestinationUpdate, forKey: .amazonOpenSearchServerlessDestinationUpdate)
+        }
         if let amazonopensearchserviceDestinationUpdate = self.amazonopensearchserviceDestinationUpdate {
             try encodeContainer.encode(amazonopensearchserviceDestinationUpdate, forKey: .amazonopensearchserviceDestinationUpdate)
         }
@@ -7960,6 +8492,9 @@ extension UpdateDestinationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateDestinationInput: Swift.Equatable {
+    /// Describes an update for a destination in the Serverless offering for Amazon OpenSearch Service.
+    public var amazonOpenSearchServerlessDestinationUpdate: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate?
+    /// Describes an update for a destination in Amazon OpenSearch Service.
     public var amazonopensearchserviceDestinationUpdate: FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate?
     /// Obtain this value from the VersionId result of [DeliveryStreamDescription]. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
     /// This member is required.
@@ -7985,6 +8520,7 @@ public struct UpdateDestinationInput: Swift.Equatable {
     public var splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate?
 
     public init (
+        amazonOpenSearchServerlessDestinationUpdate: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate? = nil,
         amazonopensearchserviceDestinationUpdate: FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate? = nil,
         currentDeliveryStreamVersionId: Swift.String? = nil,
         deliveryStreamName: Swift.String? = nil,
@@ -7997,6 +8533,7 @@ public struct UpdateDestinationInput: Swift.Equatable {
         splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate? = nil
     )
     {
+        self.amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdate
         self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
         self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
         self.deliveryStreamName = deliveryStreamName
@@ -8021,10 +8558,12 @@ struct UpdateDestinationInputBody: Swift.Equatable {
     let amazonopensearchserviceDestinationUpdate: FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate?
     let splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate?
     let httpEndpointDestinationUpdate: FirehoseClientTypes.HttpEndpointDestinationUpdate?
+    let amazonOpenSearchServerlessDestinationUpdate: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate?
 }
 
 extension UpdateDestinationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonOpenSearchServerlessDestinationUpdate = "AmazonOpenSearchServerlessDestinationUpdate"
         case amazonopensearchserviceDestinationUpdate = "AmazonopensearchserviceDestinationUpdate"
         case currentDeliveryStreamVersionId = "CurrentDeliveryStreamVersionId"
         case deliveryStreamName = "DeliveryStreamName"
@@ -8059,6 +8598,8 @@ extension UpdateDestinationInputBody: Swift.Decodable {
         splunkDestinationUpdate = splunkDestinationUpdateDecoded
         let httpEndpointDestinationUpdateDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.HttpEndpointDestinationUpdate.self, forKey: .httpEndpointDestinationUpdate)
         httpEndpointDestinationUpdate = httpEndpointDestinationUpdateDecoded
+        let amazonOpenSearchServerlessDestinationUpdateDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate.self, forKey: .amazonOpenSearchServerlessDestinationUpdate)
+        amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdateDecoded
     }
 }
 

@@ -500,7 +500,7 @@ public struct CreateGroupInput: Swift.Equatable {
     ///
     /// * The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.
     ///
-    /// * The NotifcationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true.
+    /// * The NotificationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true.
     public var insightsConfiguration: XRayClientTypes.InsightsConfiguration?
     /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. The following restrictions apply to tags:
     ///
@@ -877,6 +877,102 @@ public struct DeleteGroupOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyName = "PolicyName"
+        case policyRevisionId = "PolicyRevisionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyRevisionId = self.policyRevisionId {
+            try encodeContainer.encode(policyRevisionId, forKey: .policyRevisionId)
+        }
+    }
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteResourcePolicy"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+    /// The name of the resource policy to delete.
+    /// This member is required.
+    public var policyName: Swift.String?
+    /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation. If the provided revision id does not match the latest policy revision id, an InvalidPolicyRevisionIdException exception is returned.
+    public var policyRevisionId: Swift.String?
+
+    public init (
+        policyName: Swift.String? = nil,
+        policyRevisionId: Swift.String? = nil
+    )
+    {
+        self.policyName = policyName
+        self.policyRevisionId = policyRevisionId
+    }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+    let policyName: Swift.String?
+    let policyRevisionId: Swift.String?
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyName = "PolicyName"
+        case policyRevisionId = "PolicyRevisionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let policyRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRevisionId)
+        policyRevisionId = policyRevisionIdDecoded
+    }
+}
+
+extension DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidPolicyRevisionIdException" : self = .invalidPolicyRevisionIdException(try InvalidPolicyRevisionIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case invalidPolicyRevisionIdException(InvalidPolicyRevisionIdException)
+    case invalidRequestException(InvalidRequestException)
+    case throttledException(ThrottledException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteSamplingRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ruleARN = "RuleARN"
@@ -1004,7 +1100,9 @@ extension DeleteSamplingRuleOutputResponseBody: Swift.Decodable {
 extension XRayClientTypes.Edge: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aliases = "Aliases"
+        case edgeType = "EdgeType"
         case endTime = "EndTime"
+        case receivedEventAgeHistogram = "ReceivedEventAgeHistogram"
         case referenceId = "ReferenceId"
         case responseTimeHistogram = "ResponseTimeHistogram"
         case startTime = "StartTime"
@@ -1019,8 +1117,17 @@ extension XRayClientTypes.Edge: Swift.Codable {
                 try aliasesContainer.encode(aliaslist0)
             }
         }
+        if let edgeType = self.edgeType {
+            try encodeContainer.encode(edgeType, forKey: .edgeType)
+        }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let receivedEventAgeHistogram = receivedEventAgeHistogram {
+            var receivedEventAgeHistogramContainer = encodeContainer.nestedUnkeyedContainer(forKey: .receivedEventAgeHistogram)
+            for histogram0 in receivedEventAgeHistogram {
+                try receivedEventAgeHistogramContainer.encode(histogram0)
+            }
         }
         if let referenceId = self.referenceId {
             try encodeContainer.encode(referenceId, forKey: .referenceId)
@@ -1071,19 +1178,36 @@ extension XRayClientTypes.Edge: Swift.Codable {
             }
         }
         aliases = aliasesDecoded0
+        let edgeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .edgeType)
+        edgeType = edgeTypeDecoded
+        let receivedEventAgeHistogramContainer = try containerValues.decodeIfPresent([XRayClientTypes.HistogramEntry?].self, forKey: .receivedEventAgeHistogram)
+        var receivedEventAgeHistogramDecoded0:[XRayClientTypes.HistogramEntry]? = nil
+        if let receivedEventAgeHistogramContainer = receivedEventAgeHistogramContainer {
+            receivedEventAgeHistogramDecoded0 = [XRayClientTypes.HistogramEntry]()
+            for structure0 in receivedEventAgeHistogramContainer {
+                if let structure0 = structure0 {
+                    receivedEventAgeHistogramDecoded0?.append(structure0)
+                }
+            }
+        }
+        receivedEventAgeHistogram = receivedEventAgeHistogramDecoded0
     }
 }
 
 extension XRayClientTypes {
-    /// Information about a connection between two services.
+    /// Information about a connection between two services. An edge can be a synchronous connection, such as typical call between client and service, or an asynchronous link, such as a Lambda function which retrieves an event from an SNS queue.
     public struct Edge: Swift.Equatable {
         /// Aliases for the edge.
         public var aliases: [XRayClientTypes.Alias]?
+        /// Describes an asynchronous connection, with a value of link.
+        public var edgeType: Swift.String?
         /// The end time of the last segment on the edge.
         public var endTime: ClientRuntime.Date?
+        /// A histogram that maps the spread of event age when received by consumers. Age is calculated each time an event is received. Only populated when EdgeType is link.
+        public var receivedEventAgeHistogram: [XRayClientTypes.HistogramEntry]?
         /// Identifier of the edge. Unique within a service map.
         public var referenceId: Swift.Int?
-        /// A histogram that maps the spread of client response times on an edge.
+        /// A histogram that maps the spread of client response times on an edge. Only populated for synchronous edges.
         public var responseTimeHistogram: [XRayClientTypes.HistogramEntry]?
         /// The start time of the first segment on the edge.
         public var startTime: ClientRuntime.Date?
@@ -1092,7 +1216,9 @@ extension XRayClientTypes {
 
         public init (
             aliases: [XRayClientTypes.Alias]? = nil,
+            edgeType: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
+            receivedEventAgeHistogram: [XRayClientTypes.HistogramEntry]? = nil,
             referenceId: Swift.Int? = nil,
             responseTimeHistogram: [XRayClientTypes.HistogramEntry]? = nil,
             startTime: ClientRuntime.Date? = nil,
@@ -1100,7 +1226,9 @@ extension XRayClientTypes {
         )
         {
             self.aliases = aliases
+            self.edgeType = edgeType
             self.endTime = endTime
+            self.receivedEventAgeHistogram = receivedEventAgeHistogram
             self.referenceId = referenceId
             self.responseTimeHistogram = responseTimeHistogram
             self.startTime = startTime
@@ -2855,9 +2983,9 @@ extension GetInsightSummariesInputBody: Swift.Decodable {
         var statesDecoded0:[XRayClientTypes.InsightState]? = nil
         if let statesContainer = statesContainer {
             statesDecoded0 = [XRayClientTypes.InsightState]()
-            for string0 in statesContainer {
-                if let string0 = string0 {
-                    statesDecoded0?.append(string0)
+            for enum0 in statesContainer {
+                if let enum0 = enum0 {
+                    statesDecoded0?.append(enum0)
                 }
             }
         }
@@ -4539,9 +4667,9 @@ extension XRayClientTypes.Insight: Swift.Codable {
         var categoriesDecoded0:[XRayClientTypes.InsightCategory]? = nil
         if let categoriesContainer = categoriesContainer {
             categoriesDecoded0 = [XRayClientTypes.InsightCategory]()
-            for string0 in categoriesContainer {
-                if let string0 = string0 {
-                    categoriesDecoded0?.append(string0)
+            for enum0 in categoriesContainer {
+                if let enum0 = enum0 {
+                    categoriesDecoded0?.append(enum0)
                 }
             }
         }
@@ -5012,9 +5140,9 @@ extension XRayClientTypes.InsightSummary: Swift.Codable {
         var categoriesDecoded0:[XRayClientTypes.InsightCategory]? = nil
         if let categoriesContainer = categoriesContainer {
             categoriesDecoded0 = [XRayClientTypes.InsightCategory]()
-            for string0 in categoriesContainer {
-                if let string0 = string0 {
-                    categoriesDecoded0?.append(string0)
+            for enum0 in categoriesContainer {
+                if let enum0 = enum0 {
+                    categoriesDecoded0?.append(enum0)
                 }
             }
         }
@@ -5191,6 +5319,58 @@ extension XRayClientTypes {
 
 }
 
+extension InvalidPolicyRevisionIdException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: InvalidPolicyRevisionIdExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A policy revision id was provided which does not match the latest policy revision. This exception is also if a policy revision id of 0 is provided via PutResourcePolicy and a policy with the same name already exists.
+public struct InvalidPolicyRevisionIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct InvalidPolicyRevisionIdExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidPolicyRevisionIdExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5240,6 +5420,137 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListResourcePoliciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListResourcePoliciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListResourcePolicies"
+    }
+}
+
+public struct ListResourcePoliciesInput: Swift.Equatable {
+    /// Not currently supported.
+    public var nextToken: Swift.String?
+
+    public init (
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+    }
+}
+
+struct ListResourcePoliciesInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+}
+
+extension ListResourcePoliciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListResourcePoliciesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListResourcePoliciesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListResourcePoliciesOutputError: Swift.Error, Swift.Equatable {
+    case invalidRequestException(InvalidRequestException)
+    case throttledException(ThrottledException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListResourcePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListResourcePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.resourcePolicies = output.resourcePolicies
+        } else {
+            self.nextToken = nil
+            self.resourcePolicies = nil
+        }
+    }
+}
+
+public struct ListResourcePoliciesOutputResponse: Swift.Equatable {
+    /// Pagination token. Not currently supported.
+    public var nextToken: Swift.String?
+    /// The list of resource policies in the target Amazon Web Services account.
+    public var resourcePolicies: [XRayClientTypes.ResourcePolicy]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        resourcePolicies: [XRayClientTypes.ResourcePolicy]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourcePolicies = resourcePolicies
+    }
+}
+
+struct ListResourcePoliciesOutputResponseBody: Swift.Equatable {
+    let resourcePolicies: [XRayClientTypes.ResourcePolicy]?
+    let nextToken: Swift.String?
+}
+
+extension ListResourcePoliciesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case resourcePolicies = "ResourcePolicies"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourcePoliciesContainer = try containerValues.decodeIfPresent([XRayClientTypes.ResourcePolicy?].self, forKey: .resourcePolicies)
+        var resourcePoliciesDecoded0:[XRayClientTypes.ResourcePolicy]? = nil
+        if let resourcePoliciesContainer = resourcePoliciesContainer {
+            resourcePoliciesDecoded0 = [XRayClientTypes.ResourcePolicy]()
+            for structure0 in resourcePoliciesContainer {
+                if let structure0 = structure0 {
+                    resourcePoliciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourcePolicies = resourcePoliciesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -5389,6 +5700,214 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension LockoutPreventionException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: LockoutPreventionExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The provided resource policy would prevent the caller of this request from calling PutResourcePolicy in the future.
+public struct LockoutPreventionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct LockoutPreventionExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension LockoutPreventionExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension MalformedPolicyDocumentException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: MalformedPolicyDocumentExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Invalid policy document provided in request.
+public struct MalformedPolicyDocumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct MalformedPolicyDocumentExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension MalformedPolicyDocumentExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension PolicyCountLimitExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PolicyCountLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Exceeded the maximum number of resource policies for a target Amazon Web Services account.
+public struct PolicyCountLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct PolicyCountLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PolicyCountLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension PolicySizeLimitExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PolicySizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Exceeded the maximum size for a resource policy.
+public struct PolicySizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct PolicySizeLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PolicySizeLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension PutEncryptionConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
@@ -5520,6 +6039,164 @@ extension PutEncryptionConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let encryptionConfigDecoded = try containerValues.decodeIfPresent(XRayClientTypes.EncryptionConfig.self, forKey: .encryptionConfig)
         encryptionConfig = encryptionConfigDecoded
+    }
+}
+
+extension PutResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bypassPolicyLockoutCheck = "BypassPolicyLockoutCheck"
+        case policyDocument = "PolicyDocument"
+        case policyName = "PolicyName"
+        case policyRevisionId = "PolicyRevisionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if bypassPolicyLockoutCheck != false {
+            try encodeContainer.encode(bypassPolicyLockoutCheck, forKey: .bypassPolicyLockoutCheck)
+        }
+        if let policyDocument = self.policyDocument {
+            try encodeContainer.encode(policyDocument, forKey: .policyDocument)
+        }
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyRevisionId = self.policyRevisionId {
+            try encodeContainer.encode(policyRevisionId, forKey: .policyRevisionId)
+        }
+    }
+}
+
+extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/PutResourcePolicy"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// A flag to indicate whether to bypass the resource policy lockout safety check. Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscriminately. Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request. The default value is false.
+    public var bypassPolicyLockoutCheck: Swift.Bool
+    /// The resource policy document, which can be up to 5kb in size.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The name of the resource policy. Must be unique within a specific Amazon Web Services account.
+    /// This member is required.
+    public var policyName: Swift.String?
+    /// Specifies a specific policy revision, to ensure an atomic create operation. By default the resource policy is created if it does not exist, or updated with an incremented revision id. The revision id is unique to each policy in the account. If the policy revision id does not match the latest revision id, the operation will fail with an InvalidPolicyRevisionIdException exception. You can also provide a PolicyRevisionId of 0. In this case, the operation will fail with an InvalidPolicyRevisionIdException exception if a resource policy with the same name already exists.
+    public var policyRevisionId: Swift.String?
+
+    public init (
+        bypassPolicyLockoutCheck: Swift.Bool = false,
+        policyDocument: Swift.String? = nil,
+        policyName: Swift.String? = nil,
+        policyRevisionId: Swift.String? = nil
+    )
+    {
+        self.bypassPolicyLockoutCheck = bypassPolicyLockoutCheck
+        self.policyDocument = policyDocument
+        self.policyName = policyName
+        self.policyRevisionId = policyRevisionId
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let policyName: Swift.String?
+    let policyDocument: Swift.String?
+    let policyRevisionId: Swift.String?
+    let bypassPolicyLockoutCheck: Swift.Bool
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bypassPolicyLockoutCheck = "BypassPolicyLockoutCheck"
+        case policyDocument = "PolicyDocument"
+        case policyName = "PolicyName"
+        case policyRevisionId = "PolicyRevisionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+        let policyRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRevisionId)
+        policyRevisionId = policyRevisionIdDecoded
+        let bypassPolicyLockoutCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutCheck) ?? false
+        bypassPolicyLockoutCheck = bypassPolicyLockoutCheckDecoded
+    }
+}
+
+extension PutResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidPolicyRevisionIdException" : self = .invalidPolicyRevisionIdException(try InvalidPolicyRevisionIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LockoutPreventionException" : self = .lockoutPreventionException(try LockoutPreventionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MalformedPolicyDocumentException" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PolicyCountLimitExceededException" : self = .policyCountLimitExceededException(try PolicyCountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PolicySizeLimitExceededException" : self = .policySizeLimitExceededException(try PolicySizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case invalidPolicyRevisionIdException(InvalidPolicyRevisionIdException)
+    case lockoutPreventionException(LockoutPreventionException)
+    case malformedPolicyDocumentException(MalformedPolicyDocumentException)
+    case policyCountLimitExceededException(PolicyCountLimitExceededException)
+    case policySizeLimitExceededException(PolicySizeLimitExceededException)
+    case throttledException(ThrottledException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+    /// The resource policy document, as provided in the PutResourcePolicyRequest.
+    public var resourcePolicy: XRayClientTypes.ResourcePolicy?
+
+    public init (
+        resourcePolicy: XRayClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
+    let resourcePolicy: XRayClientTypes.ResourcePolicy?
+}
+
+extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(XRayClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
     }
 }
 
@@ -5936,6 +6613,71 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
+}
+
+extension XRayClientTypes.ResourcePolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdatedTime = "LastUpdatedTime"
+        case policyDocument = "PolicyDocument"
+        case policyName = "PolicyName"
+        case policyRevisionId = "PolicyRevisionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let policyDocument = self.policyDocument {
+            try encodeContainer.encode(policyDocument, forKey: .policyDocument)
+        }
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyRevisionId = self.policyRevisionId {
+            try encodeContainer.encode(policyRevisionId, forKey: .policyRevisionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+        let policyRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRevisionId)
+        policyRevisionId = policyRevisionIdDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+    }
+}
+
+extension XRayClientTypes {
+    /// A resource policy grants one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy is associated with a specific Amazon Web Services account.
+    public struct ResourcePolicy: Swift.Equatable {
+        /// When the policy was last updated, in Unix time seconds.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The resource policy document, which can be up to 5kb in size.
+        public var policyDocument: Swift.String?
+        /// The name of the resource policy. Must be unique within a specific Amazon Web Services account.
+        public var policyName: Swift.String?
+        /// Returns the current policy revision id for this policy name.
+        public var policyRevisionId: Swift.String?
+
+        public init (
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            policyDocument: Swift.String? = nil,
+            policyName: Swift.String? = nil,
+            policyRevisionId: Swift.String? = nil
+        )
+        {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyRevisionId = policyRevisionId
+        }
+    }
+
 }
 
 extension XRayClientTypes.ResponseTimeRootCause: Swift.Codable {
@@ -7920,7 +8662,7 @@ extension XRayClientTypes {
         public var duration: Swift.Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
         public var id: Swift.String?
-        /// LimitExceeded is set to true when the trace has exceeded one of the defined quotas. For more information about quotas, see [Amazon Web Services X-Ray endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/xray.html).
+        /// LimitExceeded is set to true when the trace has exceeded the Trace document size limit. For more information about this limit and other X-Ray limits and quotas, see [Amazon Web Services X-Ray endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/xray.html).
         public var limitExceeded: Swift.Bool?
         /// Segment documents for the segments and subsegments that comprise the trace.
         public var segments: [XRayClientTypes.Segment]?
@@ -8599,7 +9341,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     ///
     /// * The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.
     ///
-    /// * The NotifcationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true.
+    /// * The NotificationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true.
     public var insightsConfiguration: XRayClientTypes.InsightsConfiguration?
 
     public init (

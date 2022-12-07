@@ -1695,6 +1695,7 @@ extension OrganizationsClientTypes {
         case missingPaymentInstrument
         case pendingBusinessValidationv
         case unknownBusinessValidation
+        case updateExistingResourcePolicyWithTagsNotSupported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CreateAccountFailureReason] {
@@ -1713,6 +1714,7 @@ extension OrganizationsClientTypes {
                 .missingPaymentInstrument,
                 .pendingBusinessValidationv,
                 .unknownBusinessValidation,
+                .updateExistingResourcePolicyWithTagsNotSupported,
                 .sdkUnknown("")
             ]
         }
@@ -1736,6 +1738,7 @@ extension OrganizationsClientTypes {
             case .missingPaymentInstrument: return "MISSING_PAYMENT_INSTRUMENT"
             case .pendingBusinessValidationv: return "PENDING_BUSINESS_VALIDATION"
             case .unknownBusinessValidation: return "UNKNOWN_BUSINESS_VALIDATION"
+            case .updateExistingResourcePolicyWithTagsNotSupported: return "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1818,7 +1821,7 @@ public struct CreateAccountInput: Swift.Equatable {
     public var email: Swift.String?
     /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [Activating Access to the Billing and Cost Management Console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
     public var iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling?
-    /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:
+    /// The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:
     ///
     /// * [Accessing and Administering the Member Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide
     ///
@@ -3443,6 +3446,80 @@ public struct DeletePolicyOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteResourcePolicyInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "AWSOrganizationsNotInUseException" : self = .aWSOrganizationsNotInUseException(try AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConstraintViolationException" : self = .constraintViolationException(try ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyNotFoundException" : self = .resourcePolicyNotFoundException(try ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedAPIEndpointException" : self = .unsupportedAPIEndpointException(try UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case aWSOrganizationsNotInUseException(AWSOrganizationsNotInUseException)
+    case concurrentModificationException(ConcurrentModificationException)
+    case constraintViolationException(ConstraintViolationException)
+    case resourcePolicyNotFoundException(ResourcePolicyNotFoundException)
+    case serviceException(ServiceException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeregisterDelegatedAdministratorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -4404,6 +4481,109 @@ extension DescribePolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Policy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+extension DescribeResourcePolicyInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension DescribeResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeResourcePolicyInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct DescribeResourcePolicyInputBody: Swift.Equatable {
+}
+
+extension DescribeResourcePolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "AWSOrganizationsNotInUseException" : self = .aWSOrganizationsNotInUseException(try AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConstraintViolationException" : self = .constraintViolationException(try ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyNotFoundException" : self = .resourcePolicyNotFoundException(try ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedAPIEndpointException" : self = .unsupportedAPIEndpointException(try UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DescribeResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case aWSOrganizationsNotInUseException(AWSOrganizationsNotInUseException)
+    case constraintViolationException(ConstraintViolationException)
+    case resourcePolicyNotFoundException(ResourcePolicyNotFoundException)
+    case serviceException(ServiceException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct DescribeResourcePolicyOutputResponse: Swift.Equatable {
+    /// A structure that contains details about the resource policy.
+    public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+
+    public init (
+        resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct DescribeResourcePolicyOutputResponseBody: Swift.Equatable {
+    let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+}
+
+extension DescribeResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
     }
 }
 
@@ -6589,6 +6769,7 @@ extension OrganizationsClientTypes {
         case invalidPartyTypeTarget
         case invalidPattern
         case invalidPatternTargetId
+        case invalidResourcePolicyJson
         case invalidRoleName
         case invalidSyntaxOrganization
         case invalidSyntaxPolicy
@@ -6601,6 +6782,9 @@ extension OrganizationsClientTypes {
         case movingAccountBetweenDifferentRoots
         case targetNotSupported
         case unrecognizedServicePrincipal
+        case unsupportedActionInResourcePolicy
+        case unsupportedPolicyTypeInResourcePolicy
+        case unsupportedResourceInResourcePolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InvalidInputExceptionReason] {
@@ -6617,6 +6801,7 @@ extension OrganizationsClientTypes {
                 .invalidPartyTypeTarget,
                 .invalidPattern,
                 .invalidPatternTargetId,
+                .invalidResourcePolicyJson,
                 .invalidRoleName,
                 .invalidSyntaxOrganization,
                 .invalidSyntaxPolicy,
@@ -6629,6 +6814,9 @@ extension OrganizationsClientTypes {
                 .movingAccountBetweenDifferentRoots,
                 .targetNotSupported,
                 .unrecognizedServicePrincipal,
+                .unsupportedActionInResourcePolicy,
+                .unsupportedPolicyTypeInResourcePolicy,
+                .unsupportedResourceInResourcePolicy,
                 .sdkUnknown("")
             ]
         }
@@ -6650,6 +6838,7 @@ extension OrganizationsClientTypes {
             case .invalidPartyTypeTarget: return "INVALID_PARTY_TYPE_TARGET"
             case .invalidPattern: return "INVALID_PATTERN"
             case .invalidPatternTargetId: return "INVALID_PATTERN_TARGET_ID"
+            case .invalidResourcePolicyJson: return "INVALID_RESOURCE_POLICY_JSON"
             case .invalidRoleName: return "INVALID_ROLE_NAME"
             case .invalidSyntaxOrganization: return "INVALID_SYNTAX_ORGANIZATION_ARN"
             case .invalidSyntaxPolicy: return "INVALID_SYNTAX_POLICY_ID"
@@ -6662,6 +6851,9 @@ extension OrganizationsClientTypes {
             case .movingAccountBetweenDifferentRoots: return "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
             case .targetNotSupported: return "TARGET_NOT_SUPPORTED"
             case .unrecognizedServicePrincipal: return "UNRECOGNIZED_SERVICE_PRINCIPAL"
+            case .unsupportedActionInResourcePolicy: return "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY"
+            case .unsupportedPolicyTypeInResourcePolicy: return "UNSUPPORTED_POLICY_TYPE_IN_RESOURCE_POLICY"
+            case .unsupportedResourceInResourcePolicy: return "UNSUPPORTED_RESOURCE_IN_RESOURCE_POLICY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7637,9 +7829,9 @@ extension ListCreateAccountStatusInputBody: Swift.Decodable {
         var statesDecoded0:[OrganizationsClientTypes.CreateAccountState]? = nil
         if let statesContainer = statesContainer {
             statesDecoded0 = [OrganizationsClientTypes.CreateAccountState]()
-            for string0 in statesContainer {
-                if let string0 = string0 {
-                    statesDecoded0?.append(string0)
+            for enum0 in statesContainer {
+                if let enum0 = enum0 {
+                    statesDecoded0?.append(enum0)
                 }
             }
         }
@@ -10985,6 +11177,155 @@ extension OrganizationsClientTypes {
 
 }
 
+extension PutResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tags0 in tags {
+                try tagsContainer.encode(tags0)
+            }
+        }
+    }
+}
+
+extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
+    /// This member is required.
+    public var content: Swift.String?
+    /// Updates the list of tags that you want to attach to the newly-created resource policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Calls with tags apply to the initial creation of the resource policy, otherwise an exception is thrown. If any one of the tags is invalid or if you exceed the allowed number of tags for the resource policy, then the entire request fails and the resource policy is not created.
+    public var tags: [OrganizationsClientTypes.Tag]?
+
+    public init (
+        content: Swift.String? = nil,
+        tags: [OrganizationsClientTypes.Tag]? = nil
+    )
+    {
+        self.content = content
+        self.tags = tags
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let content: Swift.String?
+    let tags: [OrganizationsClientTypes.Tag]?
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([OrganizationsClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[OrganizationsClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [OrganizationsClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension PutResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "AWSOrganizationsNotInUseException" : self = .aWSOrganizationsNotInUseException(try AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConstraintViolationException" : self = .constraintViolationException(try ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedAPIEndpointException" : self = .unsupportedAPIEndpointException(try UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case aWSOrganizationsNotInUseException(AWSOrganizationsNotInUseException)
+    case concurrentModificationException(ConcurrentModificationException)
+    case constraintViolationException(ConstraintViolationException)
+    case invalidInputException(InvalidInputException)
+    case serviceException(ServiceException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+    /// A structure that contains details about the resource policy.
+    public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+
+    public init (
+        resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
+    let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+}
+
+extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
 extension RegisterDelegatedAdministratorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -11190,6 +11531,148 @@ extension RemoveAccountFromOrganizationOutputResponse: ClientRuntime.HttpRespons
 public struct RemoveAccountFromOrganizationOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension OrganizationsClientTypes.ResourcePolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+        case resourcePolicySummary = "ResourcePolicySummary"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let resourcePolicySummary = self.resourcePolicySummary {
+            try encodeContainer.encode(resourcePolicySummary, forKey: .resourcePolicySummary)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourcePolicySummaryDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.ResourcePolicySummary.self, forKey: .resourcePolicySummary)
+        resourcePolicySummary = resourcePolicySummaryDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+    }
+}
+
+extension OrganizationsClientTypes {
+    /// A structure that contains details about a resource policy.
+    public struct ResourcePolicy: Swift.Equatable {
+        /// The policy text of the resource policy.
+        public var content: Swift.String?
+        /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+        public var resourcePolicySummary: OrganizationsClientTypes.ResourcePolicySummary?
+
+        public init (
+            content: Swift.String? = nil,
+            resourcePolicySummary: OrganizationsClientTypes.ResourcePolicySummary? = nil
+        )
+        {
+            self.content = content
+            self.resourcePolicySummary = resourcePolicySummary
+        }
+    }
+
+}
+
+extension ResourcePolicyNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ResourcePolicyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// We can't find a resource policy request with the parameter that you specified.
+public struct ResourcePolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ResourcePolicyNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourcePolicyNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension OrganizationsClientTypes.ResourcePolicySummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension OrganizationsClientTypes {
+    /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+    public struct ResourcePolicySummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the resource policy.
+        public var arn: Swift.String?
+        /// The unique identifier (ID) of the resource policy.
+        public var id: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.id = id
+        }
+    }
+
 }
 
 extension OrganizationsClientTypes.Root: Swift.Codable {

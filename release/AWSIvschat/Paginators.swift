@@ -3,6 +3,28 @@
 import ClientRuntime
 
 
+/// Paginate over `[ListLoggingConfigurationsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListLoggingConfigurationsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListLoggingConfigurationsOutputResponse`
+extension IvschatClient {
+    public func listLoggingConfigurationsPaginated(input: ListLoggingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutputResponse>(input: input, inputKey: \ListLoggingConfigurationsInput.nextToken, outputKey: \ListLoggingConfigurationsOutputResponse.nextToken, paginationFunction: self.listLoggingConfigurations(input:))
+    }
+}
+
+extension ListLoggingConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLoggingConfigurationsInput {
+        return ListLoggingConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
 /// Paginate over `[ListRoomsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -20,6 +42,7 @@ extension IvschatClient {
 extension ListRoomsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListRoomsInput {
         return ListRoomsInput(
+            loggingConfigurationIdentifier: self.loggingConfigurationIdentifier,
             maxResults: self.maxResults,
             messageReviewHandlerUri: self.messageReviewHandlerUri,
             name: self.name,

@@ -331,9 +331,9 @@ extension GrafanaClientTypes.AuthenticationDescription: Swift.Codable {
 extension GrafanaClientTypes {
     /// A structure containing information about the user authentication methods used by the workspace.
     public struct AuthenticationDescription: Swift.Equatable {
-        /// A structure containing information about how this workspace works with Amazon Web Services SSO.
+        /// A structure containing information about how this workspace works with IAM Identity Center.
         public var awsSso: GrafanaClientTypes.AwsSsoAuthentication?
-        /// Specifies whether this workspace uses Amazon Web Services SSO, SAML, or both methods to authenticate users to use the Grafana console in the Amazon Managed Grafana workspace.
+        /// Specifies whether this workspace uses IAM Identity Center, SAML, or both methods to authenticate users to use the Grafana console in the Amazon Managed Grafana workspace.
         /// This member is required.
         public var providers: [GrafanaClientTypes.AuthenticationProviderTypes]?
         /// A structure containing information about how this workspace works with SAML, including what attributes within the assertion are to be mapped to user information in the workspace.
@@ -425,9 +425,9 @@ extension GrafanaClientTypes.AuthenticationSummary: Swift.Codable {
 }
 
 extension GrafanaClientTypes {
-    /// A structure that describes whether the workspace uses SAML, Amazon Web Services SSO, or both methods for user authentication, and whether that authentication is fully configured.
+    /// A structure that describes whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication, and whether that authentication is fully configured.
     public struct AuthenticationSummary: Swift.Equatable {
-        /// Specifies whether the workspace uses SAML, Amazon Web Services SSO, or both methods for user authentication.
+        /// Specifies whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication.
         /// This member is required.
         public var providers: [GrafanaClientTypes.AuthenticationProviderTypes]?
         /// Specifies whether the workplace's user authentication method is fully configured.
@@ -465,9 +465,9 @@ extension GrafanaClientTypes.AwsSsoAuthentication: Swift.Codable {
 }
 
 extension GrafanaClientTypes {
-    /// A structure containing information about how this workspace works with Amazon Web Services SSO.
+    /// A structure containing information about how this workspace works with IAM Identity Center.
     public struct AwsSsoAuthentication: Swift.Equatable {
-        /// The ID of the Amazon Web Services SSO-managed application that is created by Amazon Managed Grafana.
+        /// The ID of the IAM Identity Center-managed application that is created by Amazon Managed Grafana.
         public var ssoClientId: Swift.String?
 
         public init (
@@ -587,16 +587,16 @@ extension CreateWorkspaceApiKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWorkspaceApiKeyInput: Swift.Equatable {
-    /// Specifies the name of the key to create. Key names must be unique to the workspace.
+    /// Specifies the name of the key. Keynames must be unique to the workspace.
     /// This member is required.
     public var keyName: Swift.String?
-    /// Specifies the permission level of the key. Valid Values: VIEWER | EDITOR | ADMIN
+    /// Specifies the permission level of the key. Valid values: VIEWER|EDITOR|ADMIN
     /// This member is required.
     public var keyRole: Swift.String?
     /// Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days.
     /// This member is required.
     public var secondsToLive: Swift.Int?
-    /// The ID of the workspace in which to create an API key.
+    /// The ID of the workspace to create an API key.
     /// This member is required.
     public var workspaceId: Swift.String?
 
@@ -695,7 +695,7 @@ extension CreateWorkspaceApiKeyOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct CreateWorkspaceApiKeyOutputResponse: Swift.Equatable {
-    /// The key token that was created. Use this value as a bearer token to authenticate HTTP requests to the workspace.
+    /// The key token. Use this value as a bearer token to authenticate HTTP requests to the workspace.
     /// This member is required.
     public var key: Swift.String?
     /// The name of the key that was created.
@@ -743,7 +743,7 @@ extension CreateWorkspaceApiKeyOutputResponseBody: Swift.Decodable {
 
 extension CreateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateWorkspaceInput: Swift.Encodable {
@@ -751,10 +751,12 @@ extension CreateWorkspaceInput: Swift.Encodable {
         case accountAccessType
         case authenticationProviders
         case clientToken
+        case configuration
         case organizationRoleName
         case permissionType
         case stackSetName
         case tags
+        case vpcConfiguration
         case workspaceDataSources
         case workspaceDescription
         case workspaceName
@@ -777,6 +779,9 @@ extension CreateWorkspaceInput: Swift.Encodable {
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
         if let organizationRoleName = self.organizationRoleName {
             try encodeContainer.encode(organizationRoleName, forKey: .organizationRoleName)
         }
@@ -791,6 +796,9 @@ extension CreateWorkspaceInput: Swift.Encodable {
             for (dictKey0, tagmap0) in tags {
                 try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let vpcConfiguration = self.vpcConfiguration {
+            try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
         }
         if let workspaceDataSources = workspaceDataSources {
             var workspaceDataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceDataSources)
@@ -832,20 +840,24 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
     /// This member is required.
     public var accountAccessType: GrafanaClientTypes.AccountAccessType?
-    /// Specifies whether this workspace uses SAML 2.0, Amazon Web Services Single Sign On, or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
+    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
     /// This member is required.
     public var authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]?
     /// A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
     public var clientToken: Swift.String?
+    /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
+    public var configuration: Swift.String?
     /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
     public var organizationRoleName: Swift.String?
-    /// If you specify SERVICE_MANAGED on AWS Grafana console, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. In CLI mode, the permissionType SERVICE_MANAGED will not create the IAM role for you. If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization that is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see [Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-manage-permissions.html).
+    /// If you specify SERVICE_MANAGED on AWS Grafana console, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. In the CLI mode, the permissionType SERVICE_MANAGED will not create the IAM role for you. The ability for the Amazon Managed Grafana to create the IAM role on behalf of the user is supported only in the Amazon Managed Grafana AWS console. Use only the CUSTOMER_MANAGED permission type when creating a workspace in the CLI. If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization that is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see [Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-manage-permissions.html).
     /// This member is required.
     public var permissionType: GrafanaClientTypes.PermissionType?
     /// The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
     public var stackSetName: Swift.String?
     /// The list of tags associated with the workspace.
     public var tags: [Swift.String:Swift.String]?
+    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
+    public var vpcConfiguration: GrafanaClientTypes.VpcConfiguration?
     /// Specify the Amazon Web Services data sources that you want to be queried in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data from these sources. You must still add them as data sources in the Grafana console in the workspace. If you don't specify a data source here, you can still add it as a data source in the workspace console later. However, you will then have to manually configure permissions for it.
     public var workspaceDataSources: [GrafanaClientTypes.DataSourceType]?
     /// A description for the workspace. This is used only to help you identify this workspace. Pattern: ^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$
@@ -863,10 +875,12 @@ public struct CreateWorkspaceInput: Swift.Equatable {
         accountAccessType: GrafanaClientTypes.AccountAccessType? = nil,
         authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]? = nil,
         clientToken: Swift.String? = nil,
+        configuration: Swift.String? = nil,
         organizationRoleName: Swift.String? = nil,
         permissionType: GrafanaClientTypes.PermissionType? = nil,
         stackSetName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        vpcConfiguration: GrafanaClientTypes.VpcConfiguration? = nil,
         workspaceDataSources: [GrafanaClientTypes.DataSourceType]? = nil,
         workspaceDescription: Swift.String? = nil,
         workspaceName: Swift.String? = nil,
@@ -878,10 +892,12 @@ public struct CreateWorkspaceInput: Swift.Equatable {
         self.accountAccessType = accountAccessType
         self.authenticationProviders = authenticationProviders
         self.clientToken = clientToken
+        self.configuration = configuration
         self.organizationRoleName = organizationRoleName
         self.permissionType = permissionType
         self.stackSetName = stackSetName
         self.tags = tags
+        self.vpcConfiguration = vpcConfiguration
         self.workspaceDataSources = workspaceDataSources
         self.workspaceDescription = workspaceDescription
         self.workspaceName = workspaceName
@@ -905,6 +921,8 @@ struct CreateWorkspaceInputBody: Swift.Equatable {
     let workspaceRoleArn: Swift.String?
     let authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]?
     let tags: [Swift.String:Swift.String]?
+    let vpcConfiguration: GrafanaClientTypes.VpcConfiguration?
+    let configuration: Swift.String?
 }
 
 extension CreateWorkspaceInputBody: Swift.Decodable {
@@ -912,10 +930,12 @@ extension CreateWorkspaceInputBody: Swift.Decodable {
         case accountAccessType
         case authenticationProviders
         case clientToken
+        case configuration
         case organizationRoleName
         case permissionType
         case stackSetName
         case tags
+        case vpcConfiguration
         case workspaceDataSources
         case workspaceDescription
         case workspaceName
@@ -997,6 +1017,10 @@ extension CreateWorkspaceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(GrafanaClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
@@ -1090,6 +1114,8 @@ extension GrafanaClientTypes {
         case sitewise
         /// Timestream
         case timestream
+        /// IoT TwinMaker
+        case twinmaker
         /// X-Ray
         case xray
         case sdkUnknown(Swift.String)
@@ -1103,6 +1129,7 @@ extension GrafanaClientTypes {
                 .redshift,
                 .sitewise,
                 .timestream,
+                .twinmaker,
                 .xray,
                 .sdkUnknown("")
             ]
@@ -1120,6 +1147,7 @@ extension GrafanaClientTypes {
             case .redshift: return "REDSHIFT"
             case .sitewise: return "SITEWISE"
             case .timestream: return "TIMESTREAM"
+            case .twinmaker: return "TWINMAKER"
             case .xray: return "XRAY"
             case let .sdkUnknown(s): return s
             }
@@ -1219,7 +1247,7 @@ extension DeleteWorkspaceApiKeyOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct DeleteWorkspaceApiKeyOutputResponse: Swift.Equatable {
-    /// The name of the API key that was deleted.
+    /// The name of the key that was deleted.
     /// This member is required.
     public var keyName: Swift.String?
     /// The ID of the workspace where the key was deleted.
@@ -1461,6 +1489,107 @@ extension DescribeWorkspaceAuthenticationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authenticationDecoded = try containerValues.decodeIfPresent(GrafanaClientTypes.AuthenticationDescription.self, forKey: .authentication)
         authentication = authenticationDecoded
+    }
+}
+
+extension DescribeWorkspaceConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workspaceId = workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/configuration"
+    }
+}
+
+public struct DescribeWorkspaceConfigurationInput: Swift.Equatable {
+    /// The ID of the workspace to get configuration information for.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.workspaceId = workspaceId
+    }
+}
+
+struct DescribeWorkspaceConfigurationInputBody: Swift.Equatable {
+}
+
+extension DescribeWorkspaceConfigurationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeWorkspaceConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeWorkspaceConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DescribeWorkspaceConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeWorkspaceConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeWorkspaceConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.configuration = output.configuration
+        } else {
+            self.configuration = nil
+        }
+    }
+}
+
+public struct DescribeWorkspaceConfigurationOutputResponse: Swift.Equatable {
+    /// The configuration string for the workspace that you requested. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
+    /// This member is required.
+    public var configuration: Swift.String?
+
+    public init (
+        configuration: Swift.String? = nil
+    )
+    {
+        self.configuration = configuration
+    }
+}
+
+struct DescribeWorkspaceConfigurationOutputResponseBody: Swift.Equatable {
+    let configuration: Swift.String?
+}
+
+extension DescribeWorkspaceConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
@@ -1714,11 +1843,11 @@ extension GrafanaClientTypes.IdpMetadata: Swift.Codable {
 }
 
 extension GrafanaClientTypes {
-    /// A structure containing the identity provider (IdP) metadata used to integrate the identity provider with this workspace. You can specify the metadata either by providing a URL to its location in the url parameter, or by specifying the full metadata in XML format in the xml parameter.
+    /// A structure containing the identity provider (IdP) metadata used to integrate the identity provider with this workspace. You can specify the metadata either by providing a URL to its location in the url parameter, or by specifying the full metadata in XML format in the xml parameter. Specifying both will cause an error.
     public enum IdpMetadata: Swift.Equatable, Swift.Hashable {
-        /// The URL of the location containing the metadata.
+        /// The URL of the location containing the IdP metadata.
         case url(Swift.String)
-        /// The actual full metadata file, in XML format.
+        /// The full IdP metadata, in XML format.
         case xml(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -1869,7 +1998,7 @@ public struct ListPermissionsInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// (Optional) Limits the results to only the user that matches this ID.
     public var userId: Swift.String?
-    /// (Optional) If you specify SSO_USER, then only the permissions of Amazon Web Services SSO users are returned. If you specify SSO_GROUP, only the permissions of Amazon Web Services SSO groups are returned.
+    /// (Optional) If you specify SSO_USER, then only the permissions of IAM Identity Center users are returned. If you specify SSO_GROUP, only the permissions of IAM Identity Center groups are returned.
     public var userType: GrafanaClientTypes.UserType?
     /// The ID of the workspace to list permissions for. This parameter is required.
     /// This member is required.
@@ -2295,9 +2424,9 @@ extension GrafanaClientTypes.PermissionEntry: Swift.Codable {
 }
 
 extension GrafanaClientTypes {
-    /// A structure containing the identity of one user or group and the Admin or Editor role that they have.
+    /// A structure containing the identity of one user or group and the Admin, Editor, or Viewer role that they have.
     public struct PermissionEntry: Swift.Equatable {
-        /// Specifies whether the user or group has the Admin or Editor role.
+        /// Specifies whether the user or group has the Admin, Editor, or Viewer role.
         /// This member is required.
         public var role: GrafanaClientTypes.Role?
         /// A structure with the ID of the user or group with this role.
@@ -2514,7 +2643,7 @@ extension GrafanaClientTypes.RoleValues: Swift.Codable {
 }
 
 extension GrafanaClientTypes {
-    /// This structure defines which groups defined in the SAML assertion attribute are to be mapped to the Grafana Admin and Editor roles in the workspace.
+    /// This structure defines which groups defined in the SAML assertion attribute are to be mapped to the Grafana Admin and Editor roles in the workspace. SAML authenticated users not part of Admin or Editor role groups have Viewer permission over the workspace.
     public struct RoleValues: Swift.Equatable {
         /// A list of groups from the SAML assertion attribute to grant the Grafana Admin role to.
         public var admin: [Swift.String]?
@@ -3424,7 +3553,7 @@ extension UpdateWorkspaceAuthenticationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateWorkspaceAuthenticationInput: Swift.Equatable {
-    /// Specifies whether this workspace uses SAML 2.0, Amazon Web Services Single Sign On, or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
+    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
     /// This member is required.
     public var authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]?
     /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.
@@ -3548,9 +3677,107 @@ extension UpdateWorkspaceAuthenticationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateWorkspaceConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+    }
+}
+
+extension UpdateWorkspaceConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workspaceId = workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/configuration"
+    }
+}
+
+public struct UpdateWorkspaceConfigurationInput: Swift.Equatable {
+    /// The new configuration string for the workspace. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
+    /// This member is required.
+    public var configuration: Swift.String?
+    /// The ID of the workspace to update.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        configuration: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.configuration = configuration
+        self.workspaceId = workspaceId
+    }
+}
+
+struct UpdateWorkspaceConfigurationInputBody: Swift.Equatable {
+    let configuration: Swift.String?
+}
+
+extension UpdateWorkspaceConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+extension UpdateWorkspaceConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateWorkspaceConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateWorkspaceConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateWorkspaceConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateWorkspaceConfigurationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceId: \(Swift.String(describing: workspaceId)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "UpdateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), permissionType: \(Swift.String(describing: permissionType)), removeVpcConfiguration: \(Swift.String(describing: removeVpcConfiguration)), stackSetName: \(Swift.String(describing: stackSetName)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceId: \(Swift.String(describing: workspaceId)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateWorkspaceInput: Swift.Encodable {
@@ -3558,7 +3785,9 @@ extension UpdateWorkspaceInput: Swift.Encodable {
         case accountAccessType
         case organizationRoleName
         case permissionType
+        case removeVpcConfiguration
         case stackSetName
+        case vpcConfiguration
         case workspaceDataSources
         case workspaceDescription
         case workspaceName
@@ -3578,8 +3807,14 @@ extension UpdateWorkspaceInput: Swift.Encodable {
         if let permissionType = self.permissionType {
             try encodeContainer.encode(permissionType.rawValue, forKey: .permissionType)
         }
+        if let removeVpcConfiguration = self.removeVpcConfiguration {
+            try encodeContainer.encode(removeVpcConfiguration, forKey: .removeVpcConfiguration)
+        }
         if let stackSetName = self.stackSetName {
             try encodeContainer.encode(stackSetName, forKey: .stackSetName)
+        }
+        if let vpcConfiguration = self.vpcConfiguration {
+            try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
         }
         if let workspaceDataSources = workspaceDataSources {
             var workspaceDataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceDataSources)
@@ -3627,8 +3862,12 @@ public struct UpdateWorkspaceInput: Swift.Equatable {
     public var organizationRoleName: Swift.String?
     /// If you specify Service Managed, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization and that account is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see [Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-manage-permissions.html)
     public var permissionType: GrafanaClientTypes.PermissionType?
+    /// Whether to remove the VPC configuration from the workspace. Setting this to true and providing a vpcConfiguration to set will return an error.
+    public var removeVpcConfiguration: Swift.Bool?
     /// The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
     public var stackSetName: Swift.String?
+    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
+    public var vpcConfiguration: GrafanaClientTypes.VpcConfiguration?
     /// Specify the Amazon Web Services data sources that you want to be queried in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data from these sources. You must still add them as data sources in the Grafana console in the workspace. If you don't specify a data source here, you can still add it as a data source later in the workspace console. However, you will then have to manually configure permissions for it.
     public var workspaceDataSources: [GrafanaClientTypes.DataSourceType]?
     /// A description for the workspace. This is used only to help you identify this workspace.
@@ -3649,7 +3888,9 @@ public struct UpdateWorkspaceInput: Swift.Equatable {
         accountAccessType: GrafanaClientTypes.AccountAccessType? = nil,
         organizationRoleName: Swift.String? = nil,
         permissionType: GrafanaClientTypes.PermissionType? = nil,
+        removeVpcConfiguration: Swift.Bool? = nil,
         stackSetName: Swift.String? = nil,
+        vpcConfiguration: GrafanaClientTypes.VpcConfiguration? = nil,
         workspaceDataSources: [GrafanaClientTypes.DataSourceType]? = nil,
         workspaceDescription: Swift.String? = nil,
         workspaceId: Swift.String? = nil,
@@ -3662,7 +3903,9 @@ public struct UpdateWorkspaceInput: Swift.Equatable {
         self.accountAccessType = accountAccessType
         self.organizationRoleName = organizationRoleName
         self.permissionType = permissionType
+        self.removeVpcConfiguration = removeVpcConfiguration
         self.stackSetName = stackSetName
+        self.vpcConfiguration = vpcConfiguration
         self.workspaceDataSources = workspaceDataSources
         self.workspaceDescription = workspaceDescription
         self.workspaceId = workspaceId
@@ -3684,6 +3927,8 @@ struct UpdateWorkspaceInputBody: Swift.Equatable {
     let workspaceNotificationDestinations: [GrafanaClientTypes.NotificationDestinationType]?
     let workspaceOrganizationalUnits: [Swift.String]?
     let workspaceRoleArn: Swift.String?
+    let vpcConfiguration: GrafanaClientTypes.VpcConfiguration?
+    let removeVpcConfiguration: Swift.Bool?
 }
 
 extension UpdateWorkspaceInputBody: Swift.Decodable {
@@ -3691,7 +3936,9 @@ extension UpdateWorkspaceInputBody: Swift.Decodable {
         case accountAccessType
         case organizationRoleName
         case permissionType
+        case removeVpcConfiguration
         case stackSetName
+        case vpcConfiguration
         case workspaceDataSources
         case workspaceDescription
         case workspaceName
@@ -3749,6 +3996,10 @@ extension UpdateWorkspaceInputBody: Swift.Decodable {
         workspaceOrganizationalUnits = workspaceOrganizationalUnitsDecoded0
         let workspaceRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceRoleArn)
         workspaceRoleArn = workspaceRoleArnDecoded
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(GrafanaClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
+        let removeVpcConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeVpcConfiguration)
+        removeVpcConfiguration = removeVpcConfigurationDecoded
     }
 }
 
@@ -4076,6 +4327,77 @@ extension GrafanaClientTypes {
     }
 }
 
+extension GrafanaClientTypes.VpcConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityGroupIds
+        case subnetIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupids0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupids0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for subnetids0 in subnetIds {
+                try subnetIdsContainer.encode(subnetids0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+    }
+}
+
+extension GrafanaClientTypes {
+    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
+    public struct VpcConfiguration: Swift.Equatable {
+        /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// The list of Amazon EC2 subnet IDs created in the Amazon VPC for your Grafana workspace to connect.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+
+        public init (
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        )
+        {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+
+}
+
 extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountAccessType
@@ -4099,6 +4421,7 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         case stackSetName
         case status
         case tags
+        case vpcConfiguration
         case workspaceRoleArn
     }
 
@@ -4178,6 +4501,9 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
             for (dictKey0, tagmap0) in tags {
                 try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let vpcConfiguration = self.vpcConfiguration {
+            try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
         }
         if let workspaceRoleArn = self.workspaceRoleArn {
             try encodeContainer.encode(workspaceRoleArn, forKey: .workspaceRoleArn)
@@ -4266,12 +4592,14 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(GrafanaClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
     }
 }
 
 extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 extension GrafanaClientTypes {
@@ -4279,7 +4607,7 @@ extension GrafanaClientTypes {
     public struct WorkspaceDescription: Swift.Equatable {
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If this is ORGANIZATION, the workspaceOrganizationalUnits parameter specifies which organizational units the workspace can access.
         public var accountAccessType: GrafanaClientTypes.AccountAccessType?
-        /// A structure that describes whether the workspace uses SAML, Amazon Web Services SSO, or both methods for user authentication.
+        /// A structure that describes whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication.
         /// This member is required.
         public var authentication: GrafanaClientTypes.AuthenticationSummary?
         /// The date that the workspace was created.
@@ -4327,6 +4655,8 @@ extension GrafanaClientTypes {
         public var status: GrafanaClientTypes.WorkspaceStatus?
         /// The list of tags associated with the workspace.
         public var tags: [Swift.String:Swift.String]?
+        /// The configuration for connecting to data sources in a private VPC (Amazon Virtual Private Cloud).
+        public var vpcConfiguration: GrafanaClientTypes.VpcConfiguration?
         /// The IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from. This role must already exist.
         public var workspaceRoleArn: Swift.String?
 
@@ -4352,6 +4682,7 @@ extension GrafanaClientTypes {
             stackSetName: Swift.String? = nil,
             status: GrafanaClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
+            vpcConfiguration: GrafanaClientTypes.VpcConfiguration? = nil,
             workspaceRoleArn: Swift.String? = nil
         )
         {
@@ -4376,6 +4707,7 @@ extension GrafanaClientTypes {
             self.stackSetName = stackSetName
             self.status = status
             self.tags = tags
+            self.vpcConfiguration = vpcConfiguration
             self.workspaceRoleArn = workspaceRoleArn
         }
     }

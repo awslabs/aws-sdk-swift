@@ -52,7 +52,10 @@ extension CloudWatchLogsClient {
 extension DescribeLogGroupsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeLogGroupsInput {
         return DescribeLogGroupsInput(
+            accountIdentifiers: self.accountIdentifiers,
+            includeLinkedAccounts: self.includeLinkedAccounts,
             limit: self.limit,
+            logGroupNamePattern: self.logGroupNamePattern,
             logGroupNamePrefix: self.logGroupNamePrefix,
             nextToken: token
         )}
@@ -86,6 +89,7 @@ extension DescribeLogStreamsInput: ClientRuntime.PaginateToken {
         return DescribeLogStreamsInput(
             descending: self.descending,
             limit: self.limit,
+            logGroupIdentifier: self.logGroupIdentifier,
             logGroupName: self.logGroupName,
             logStreamNamePrefix: self.logStreamNamePrefix,
             nextToken: token,
@@ -191,11 +195,13 @@ extension FilterLogEventsInput: ClientRuntime.PaginateToken {
             filterPattern: self.filterPattern,
             interleaved: self.interleaved,
             limit: self.limit,
+            logGroupIdentifier: self.logGroupIdentifier,
             logGroupName: self.logGroupName,
             logStreamNamePrefix: self.logStreamNamePrefix,
             logStreamNames: self.logStreamNames,
             nextToken: token,
-            startTime: self.startTime
+            startTime: self.startTime,
+            unmask: self.unmask
         )}
 }
 
@@ -218,11 +224,13 @@ extension GetLogEventsInput: ClientRuntime.PaginateToken {
         return GetLogEventsInput(
             endTime: self.endTime,
             limit: self.limit,
+            logGroupIdentifier: self.logGroupIdentifier,
             logGroupName: self.logGroupName,
             logStreamName: self.logStreamName,
             nextToken: token,
             startFromHead: self.startFromHead,
-            startTime: self.startTime
+            startTime: self.startTime,
+            unmask: self.unmask
         )}
 }
 

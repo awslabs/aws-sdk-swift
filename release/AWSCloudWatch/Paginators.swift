@@ -225,20 +225,13 @@ extension ListMetricsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListMetricsInput {
         return ListMetricsInput(
             dimensions: self.dimensions,
+            includeLinkedAccounts: self.includeLinkedAccounts,
             metricName: self.metricName,
             namespace: self.namespace,
             nextToken: token,
+            owningAccount: self.owningAccount,
             recentlyActive: self.recentlyActive
         )}
-}
-
-/// This paginator transforms the `AsyncSequence` returned by `listMetricsPaginated`
-/// to access the nested member `[CloudWatchClientTypes.Metric]`
-/// - Returns: `[CloudWatchClientTypes.Metric]`
-extension PaginatorSequence where Input == ListMetricsInput, Output == ListMetricsOutputResponse {
-    public func metrics() async throws -> [CloudWatchClientTypes.Metric] {
-        return try await self.asyncCompactMap { item in item.metrics }
-    }
 }
 
 /// Paginate over `[ListMetricStreamsOutputResponse]` results.

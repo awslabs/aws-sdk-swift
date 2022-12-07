@@ -192,9 +192,9 @@ extension IoTWirelessClientTypes.Accuracy: Swift.Codable {
 extension IoTWirelessClientTypes {
     /// The accuracy of the estimated position in meters. An empty value indicates that no position data is available. A value of ‘0.0’ value indicates that position data is available. This data corresponds to the position information that you specified instead of the position computed by solver.
     public struct Accuracy: Swift.Equatable {
-        /// The horizontal accuracy of the estimated position in meters.
+        /// The horizontal accuracy of the estimated position, which is the difference between the estimated location and the actual device location.
         public var horizontalAccuracy: Swift.Float?
-        /// The vertical accuracy of the estimated position in meters.
+        /// The vertical accuracy of the estimated position, which is the difference between the estimated altitude and actual device latitude in meters.
         public var verticalAccuracy: Swift.Float?
 
         public init (
@@ -207,6 +207,90 @@ extension IoTWirelessClientTypes {
         }
     }
 
+}
+
+extension IoTWirelessClientTypes.ApplicationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationName = "DestinationName"
+        case fPort = "FPort"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationName = self.destinationName {
+            try encodeContainer.encode(destinationName, forKey: .destinationName)
+        }
+        if let fPort = self.fPort {
+            try encodeContainer.encode(fPort, forKey: .fPort)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fPort)
+        fPort = fPortDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.ApplicationConfigType.self, forKey: .type)
+        type = typeDecoded
+        let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
+        destinationName = destinationNameDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// LoRaWAN application configuration, which can be used to perform geolocation.
+    public struct ApplicationConfig: Swift.Equatable {
+        /// The name of the position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
+        public var destinationName: Swift.String?
+        /// The Fport value.
+        public var fPort: Swift.Int?
+        /// Application type, which can be specified to obtain real-time position information of your LoRaWAN device.
+        public var type: IoTWirelessClientTypes.ApplicationConfigType?
+
+        public init (
+            destinationName: Swift.String? = nil,
+            fPort: Swift.Int? = nil,
+            type: IoTWirelessClientTypes.ApplicationConfigType? = nil
+        )
+        {
+            self.destinationName = destinationName
+            self.fPort = fPort
+            self.type = type
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes {
+    public enum ApplicationConfigType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case semtechgeolocation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationConfigType] {
+            return [
+                .semtechgeolocation,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .semtechgeolocation: return "SemtechGeolocation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationConfigType(rawValue: rawValue) ?? ApplicationConfigType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AssociateAwsAccountWithPartnerAccountInput: Swift.Encodable {
@@ -1159,6 +1243,385 @@ extension CancelMulticastGroupSessionOutputResponse: ClientRuntime.HttpResponseB
 public struct CancelMulticastGroupSessionOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension IoTWirelessClientTypes.CdmaLocalId: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cdmaChannel = "CdmaChannel"
+        case pnOffset = "PnOffset"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cdmaChannel = self.cdmaChannel {
+            try encodeContainer.encode(cdmaChannel, forKey: .cdmaChannel)
+        }
+        if let pnOffset = self.pnOffset {
+            try encodeContainer.encode(pnOffset, forKey: .pnOffset)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pnOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pnOffset)
+        pnOffset = pnOffsetDecoded
+        let cdmaChannelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cdmaChannel)
+        cdmaChannel = cdmaChannelDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// CDMA local ID information, which corresponds to the local identification parameters of a CDMA cell.
+    public struct CdmaLocalId: Swift.Equatable {
+        /// CDMA channel information.
+        /// This member is required.
+        public var cdmaChannel: Swift.Int?
+        /// Pseudo-noise offset, which is a characteristic of the signal from a cell on a radio tower.
+        /// This member is required.
+        public var pnOffset: Swift.Int?
+
+        public init (
+            cdmaChannel: Swift.Int? = nil,
+            pnOffset: Swift.Int? = nil
+        )
+        {
+            self.cdmaChannel = cdmaChannel
+            self.pnOffset = pnOffset
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.CdmaNmrObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseStationId = "BaseStationId"
+        case cdmaChannel = "CdmaChannel"
+        case pilotPower = "PilotPower"
+        case pnOffset = "PnOffset"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baseStationId = self.baseStationId {
+            try encodeContainer.encode(baseStationId, forKey: .baseStationId)
+        }
+        if let cdmaChannel = self.cdmaChannel {
+            try encodeContainer.encode(cdmaChannel, forKey: .cdmaChannel)
+        }
+        if let pilotPower = self.pilotPower {
+            try encodeContainer.encode(pilotPower, forKey: .pilotPower)
+        }
+        if let pnOffset = self.pnOffset {
+            try encodeContainer.encode(pnOffset, forKey: .pnOffset)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pnOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pnOffset)
+        pnOffset = pnOffsetDecoded
+        let cdmaChannelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cdmaChannel)
+        cdmaChannel = cdmaChannelDecoded
+        let pilotPowerDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pilotPower)
+        pilotPower = pilotPowerDecoded
+        let baseStationIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseStationId)
+        baseStationId = baseStationIdDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// CDMA object for network measurement reports.
+    public struct CdmaNmrObj: Swift.Equatable {
+        /// CDMA base station ID (BSID).
+        public var baseStationId: Swift.Int?
+        /// CDMA channel information.
+        /// This member is required.
+        public var cdmaChannel: Swift.Int?
+        /// Transmit power level of the pilot signal, measured in dBm (decibel-milliwatts).
+        public var pilotPower: Swift.Int?
+        /// Pseudo-noise offset, which is a characteristic of the signal from a cell on a radio tower.
+        /// This member is required.
+        public var pnOffset: Swift.Int?
+
+        public init (
+            baseStationId: Swift.Int? = nil,
+            cdmaChannel: Swift.Int? = nil,
+            pilotPower: Swift.Int? = nil,
+            pnOffset: Swift.Int? = nil
+        )
+        {
+            self.baseStationId = baseStationId
+            self.cdmaChannel = cdmaChannel
+            self.pilotPower = pilotPower
+            self.pnOffset = pnOffset
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.CdmaObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseLat = "BaseLat"
+        case baseLng = "BaseLng"
+        case baseStationId = "BaseStationId"
+        case cdmaLocalId = "CdmaLocalId"
+        case cdmaNmr = "CdmaNmr"
+        case networkId = "NetworkId"
+        case pilotPower = "PilotPower"
+        case registrationZone = "RegistrationZone"
+        case systemId = "SystemId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baseLat = self.baseLat {
+            try encodeContainer.encode(baseLat, forKey: .baseLat)
+        }
+        if let baseLng = self.baseLng {
+            try encodeContainer.encode(baseLng, forKey: .baseLng)
+        }
+        if let baseStationId = self.baseStationId {
+            try encodeContainer.encode(baseStationId, forKey: .baseStationId)
+        }
+        if let cdmaLocalId = self.cdmaLocalId {
+            try encodeContainer.encode(cdmaLocalId, forKey: .cdmaLocalId)
+        }
+        if let cdmaNmr = cdmaNmr {
+            var cdmaNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cdmaNmr)
+            for cdmanmrlist0 in cdmaNmr {
+                try cdmaNmrContainer.encode(cdmanmrlist0)
+            }
+        }
+        if let networkId = self.networkId {
+            try encodeContainer.encode(networkId, forKey: .networkId)
+        }
+        if let pilotPower = self.pilotPower {
+            try encodeContainer.encode(pilotPower, forKey: .pilotPower)
+        }
+        if let registrationZone = self.registrationZone {
+            try encodeContainer.encode(registrationZone, forKey: .registrationZone)
+        }
+        if let systemId = self.systemId {
+            try encodeContainer.encode(systemId, forKey: .systemId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let systemIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .systemId)
+        systemId = systemIdDecoded
+        let networkIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .networkId)
+        networkId = networkIdDecoded
+        let baseStationIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseStationId)
+        baseStationId = baseStationIdDecoded
+        let registrationZoneDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registrationZone)
+        registrationZone = registrationZoneDecoded
+        let cdmaLocalIdDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.CdmaLocalId.self, forKey: .cdmaLocalId)
+        cdmaLocalId = cdmaLocalIdDecoded
+        let pilotPowerDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pilotPower)
+        pilotPower = pilotPowerDecoded
+        let baseLatDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .baseLat)
+        baseLat = baseLatDecoded
+        let baseLngDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .baseLng)
+        baseLng = baseLngDecoded
+        let cdmaNmrContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.CdmaNmrObj?].self, forKey: .cdmaNmr)
+        var cdmaNmrDecoded0:[IoTWirelessClientTypes.CdmaNmrObj]? = nil
+        if let cdmaNmrContainer = cdmaNmrContainer {
+            cdmaNmrDecoded0 = [IoTWirelessClientTypes.CdmaNmrObj]()
+            for structure0 in cdmaNmrContainer {
+                if let structure0 = structure0 {
+                    cdmaNmrDecoded0?.append(structure0)
+                }
+            }
+        }
+        cdmaNmr = cdmaNmrDecoded0
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// CDMA (Code-division multiple access) object.
+    public struct CdmaObj: Swift.Equatable {
+        /// CDMA base station latitude in degrees.
+        public var baseLat: Swift.Float?
+        /// CDMA base station longtitude in degrees.
+        public var baseLng: Swift.Float?
+        /// CDMA base station ID (BSID).
+        /// This member is required.
+        public var baseStationId: Swift.Int?
+        /// CDMA local identification (local ID) parameters.
+        public var cdmaLocalId: IoTWirelessClientTypes.CdmaLocalId?
+        /// CDMA network measurement reports.
+        public var cdmaNmr: [IoTWirelessClientTypes.CdmaNmrObj]?
+        /// CDMA network ID (NID).
+        /// This member is required.
+        public var networkId: Swift.Int?
+        /// Transmit power level of the pilot signal, measured in dBm (decibel-milliwatts).
+        public var pilotPower: Swift.Int?
+        /// CDMA registration zone (RZ).
+        public var registrationZone: Swift.Int?
+        /// CDMA system ID (SID).
+        /// This member is required.
+        public var systemId: Swift.Int?
+
+        public init (
+            baseLat: Swift.Float? = nil,
+            baseLng: Swift.Float? = nil,
+            baseStationId: Swift.Int? = nil,
+            cdmaLocalId: IoTWirelessClientTypes.CdmaLocalId? = nil,
+            cdmaNmr: [IoTWirelessClientTypes.CdmaNmrObj]? = nil,
+            networkId: Swift.Int? = nil,
+            pilotPower: Swift.Int? = nil,
+            registrationZone: Swift.Int? = nil,
+            systemId: Swift.Int? = nil
+        )
+        {
+            self.baseLat = baseLat
+            self.baseLng = baseLng
+            self.baseStationId = baseStationId
+            self.cdmaLocalId = cdmaLocalId
+            self.cdmaNmr = cdmaNmr
+            self.networkId = networkId
+            self.pilotPower = pilotPower
+            self.registrationZone = registrationZone
+            self.systemId = systemId
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.CellTowers: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cdma = "Cdma"
+        case gsm = "Gsm"
+        case lte = "Lte"
+        case tdscdma = "Tdscdma"
+        case wcdma = "Wcdma"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cdma = cdma {
+            var cdmaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cdma)
+            for cdmalist0 in cdma {
+                try cdmaContainer.encode(cdmalist0)
+            }
+        }
+        if let gsm = gsm {
+            var gsmContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gsm)
+            for gsmlist0 in gsm {
+                try gsmContainer.encode(gsmlist0)
+            }
+        }
+        if let lte = lte {
+            var lteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lte)
+            for ltelist0 in lte {
+                try lteContainer.encode(ltelist0)
+            }
+        }
+        if let tdscdma = tdscdma {
+            var tdscdmaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tdscdma)
+            for tdscdmalist0 in tdscdma {
+                try tdscdmaContainer.encode(tdscdmalist0)
+            }
+        }
+        if let wcdma = wcdma {
+            var wcdmaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wcdma)
+            for wcdmalist0 in wcdma {
+                try wcdmaContainer.encode(wcdmalist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gsmContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.GsmObj?].self, forKey: .gsm)
+        var gsmDecoded0:[IoTWirelessClientTypes.GsmObj]? = nil
+        if let gsmContainer = gsmContainer {
+            gsmDecoded0 = [IoTWirelessClientTypes.GsmObj]()
+            for structure0 in gsmContainer {
+                if let structure0 = structure0 {
+                    gsmDecoded0?.append(structure0)
+                }
+            }
+        }
+        gsm = gsmDecoded0
+        let wcdmaContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.WcdmaObj?].self, forKey: .wcdma)
+        var wcdmaDecoded0:[IoTWirelessClientTypes.WcdmaObj]? = nil
+        if let wcdmaContainer = wcdmaContainer {
+            wcdmaDecoded0 = [IoTWirelessClientTypes.WcdmaObj]()
+            for structure0 in wcdmaContainer {
+                if let structure0 = structure0 {
+                    wcdmaDecoded0?.append(structure0)
+                }
+            }
+        }
+        wcdma = wcdmaDecoded0
+        let tdscdmaContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.TdscdmaObj?].self, forKey: .tdscdma)
+        var tdscdmaDecoded0:[IoTWirelessClientTypes.TdscdmaObj]? = nil
+        if let tdscdmaContainer = tdscdmaContainer {
+            tdscdmaDecoded0 = [IoTWirelessClientTypes.TdscdmaObj]()
+            for structure0 in tdscdmaContainer {
+                if let structure0 = structure0 {
+                    tdscdmaDecoded0?.append(structure0)
+                }
+            }
+        }
+        tdscdma = tdscdmaDecoded0
+        let lteContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.LteObj?].self, forKey: .lte)
+        var lteDecoded0:[IoTWirelessClientTypes.LteObj]? = nil
+        if let lteContainer = lteContainer {
+            lteDecoded0 = [IoTWirelessClientTypes.LteObj]()
+            for structure0 in lteContainer {
+                if let structure0 = structure0 {
+                    lteDecoded0?.append(structure0)
+                }
+            }
+        }
+        lte = lteDecoded0
+        let cdmaContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.CdmaObj?].self, forKey: .cdma)
+        var cdmaDecoded0:[IoTWirelessClientTypes.CdmaObj]? = nil
+        if let cdmaContainer = cdmaContainer {
+            cdmaDecoded0 = [IoTWirelessClientTypes.CdmaObj]()
+            for structure0 in cdmaContainer {
+                if let structure0 = structure0 {
+                    cdmaDecoded0?.append(structure0)
+                }
+            }
+        }
+        cdma = cdmaDecoded0
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// The cell towers that were used to perform the measurements.
+    public struct CellTowers: Swift.Equatable {
+        /// CDMA object information.
+        public var cdma: [IoTWirelessClientTypes.CdmaObj]?
+        /// GSM object information.
+        public var gsm: [IoTWirelessClientTypes.GsmObj]?
+        /// LTE object information.
+        public var lte: [IoTWirelessClientTypes.LteObj]?
+        /// TD-SCDMA object information.
+        public var tdscdma: [IoTWirelessClientTypes.TdscdmaObj]?
+        /// WCDMA object information.
+        public var wcdma: [IoTWirelessClientTypes.WcdmaObj]?
+
+        public init (
+            cdma: [IoTWirelessClientTypes.CdmaObj]? = nil,
+            gsm: [IoTWirelessClientTypes.GsmObj]? = nil,
+            lte: [IoTWirelessClientTypes.LteObj]? = nil,
+            tdscdma: [IoTWirelessClientTypes.TdscdmaObj]? = nil,
+            wcdma: [IoTWirelessClientTypes.WcdmaObj]? = nil
+        )
+        {
+            self.cdma = cdma
+            self.gsm = gsm
+            self.lte = lte
+            self.tdscdma = tdscdma
+            self.wcdma = wcdma
+        }
+    }
+
 }
 
 extension IoTWirelessClientTypes.CertificateList: Swift.Codable {
@@ -2615,6 +3078,7 @@ extension CreateWirelessDeviceInput: Swift.Encodable {
         case destinationName = "DestinationName"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case positioning = "Positioning"
         case tags = "Tags"
         case type = "Type"
     }
@@ -2635,6 +3099,9 @@ extension CreateWirelessDeviceInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let positioning = self.positioning {
+            try encodeContainer.encode(positioning.rawValue, forKey: .positioning)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -2666,6 +3133,8 @@ public struct CreateWirelessDeviceInput: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
     /// The name of the new resource.
     public var name: Swift.String?
+    /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
     /// The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
     /// The wireless device type.
@@ -2678,6 +3147,7 @@ public struct CreateWirelessDeviceInput: Swift.Equatable {
         destinationName: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANDevice? = nil,
         name: Swift.String? = nil,
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil,
         type: IoTWirelessClientTypes.WirelessDeviceType? = nil
     )
@@ -2687,6 +3157,7 @@ public struct CreateWirelessDeviceInput: Swift.Equatable {
         self.destinationName = destinationName
         self.loRaWAN = loRaWAN
         self.name = name
+        self.positioning = positioning
         self.tags = tags
         self.type = type
     }
@@ -2700,6 +3171,7 @@ struct CreateWirelessDeviceInputBody: Swift.Equatable {
     let clientRequestToken: Swift.String?
     let loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
     let tags: [IoTWirelessClientTypes.Tag]?
+    let positioning: IoTWirelessClientTypes.PositioningConfigStatus?
 }
 
 extension CreateWirelessDeviceInputBody: Swift.Decodable {
@@ -2709,6 +3181,7 @@ extension CreateWirelessDeviceInputBody: Swift.Decodable {
         case destinationName = "DestinationName"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case positioning = "Positioning"
         case tags = "Tags"
         case type = "Type"
     }
@@ -2738,6 +3211,8 @@ extension CreateWirelessDeviceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let positioningDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.PositioningConfigStatus.self, forKey: .positioning)
+        positioning = positioningDecoded
     }
 }
 
@@ -5411,6 +5886,7 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.FPorts: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applications = "Applications"
         case clockSync = "ClockSync"
         case fuota = "Fuota"
         case multicast = "Multicast"
@@ -5419,6 +5895,12 @@ extension IoTWirelessClientTypes.FPorts: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applications = applications {
+            var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
+            for applications0 in applications {
+                try applicationsContainer.encode(applications0)
+            }
+        }
         if let clockSync = self.clockSync {
             try encodeContainer.encode(clockSync, forKey: .clockSync)
         }
@@ -5443,12 +5925,25 @@ extension IoTWirelessClientTypes.FPorts: Swift.Codable {
         clockSync = clockSyncDecoded
         let positioningDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.Positioning.self, forKey: .positioning)
         positioning = positioningDecoded
+        let applicationsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.ApplicationConfig?].self, forKey: .applications)
+        var applicationsDecoded0:[IoTWirelessClientTypes.ApplicationConfig]? = nil
+        if let applicationsContainer = applicationsContainer {
+            applicationsDecoded0 = [IoTWirelessClientTypes.ApplicationConfig]()
+            for structure0 in applicationsContainer {
+                if let structure0 = structure0 {
+                    applicationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        applications = applicationsDecoded0
     }
 }
 
 extension IoTWirelessClientTypes {
     /// List of FPort assigned for different LoRaWAN application packages to use
     public struct FPorts: Swift.Equatable {
+        /// Optional LoRaWAN application information, which can be used for geolocation.
+        public var applications: [IoTWirelessClientTypes.ApplicationConfig]?
         /// The Fport value.
         public var clockSync: Swift.Int?
         /// The Fport value.
@@ -5459,12 +5954,14 @@ extension IoTWirelessClientTypes {
         public var positioning: IoTWirelessClientTypes.Positioning?
 
         public init (
+            applications: [IoTWirelessClientTypes.ApplicationConfig]? = nil,
             clockSync: Swift.Int? = nil,
             fuota: Swift.Int? = nil,
             multicast: Swift.Int? = nil,
             positioning: IoTWirelessClientTypes.Positioning? = nil
         )
         {
+            self.applications = applications
             self.clockSync = clockSync
             self.fuota = fuota
             self.multicast = multicast
@@ -6988,6 +7485,7 @@ extension GetPositionConfigurationInput: ClientRuntime.URLPathProvider {
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct GetPositionConfigurationInput: Swift.Equatable {
     /// Resource identifier used in a position configuration.
     /// This member is required.
@@ -7060,6 +7558,7 @@ extension GetPositionConfigurationOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct GetPositionConfigurationOutputResponse: Swift.Equatable {
     /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
     public var destination: Swift.String?
@@ -7096,6 +7595,182 @@ extension GetPositionConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetPositionEstimateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cellTowers = "CellTowers"
+        case gnss = "Gnss"
+        case ip = "Ip"
+        case timestamp = "Timestamp"
+        case wiFiAccessPoints = "WiFiAccessPoints"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cellTowers = self.cellTowers {
+            try encodeContainer.encode(cellTowers, forKey: .cellTowers)
+        }
+        if let gnss = self.gnss {
+            try encodeContainer.encode(gnss, forKey: .gnss)
+        }
+        if let ip = self.ip {
+            try encodeContainer.encode(ip, forKey: .ip)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+        if let wiFiAccessPoints = wiFiAccessPoints {
+            var wiFiAccessPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wiFiAccessPoints)
+            for wifiaccesspoints0 in wiFiAccessPoints {
+                try wiFiAccessPointsContainer.encode(wifiaccesspoints0)
+            }
+        }
+    }
+}
+
+extension GetPositionEstimateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/position-estimate"
+    }
+}
+
+public struct GetPositionEstimateInput: Swift.Equatable {
+    /// Retrieves an estimated device position by resolving measurement data from cellular radio towers. The position is resolved using HERE's cellular-based solver.
+    public var cellTowers: IoTWirelessClientTypes.CellTowers?
+    /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
+    public var gnss: IoTWirelessClientTypes.Gnss?
+    /// Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
+    public var ip: IoTWirelessClientTypes.Ip?
+    /// Optional information that specifies the time when the position information will be resolved. It uses the UNIX timestamp format. If not specified, the time at which the request was received will be used.
+    public var timestamp: ClientRuntime.Date?
+    /// Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver.
+    public var wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]?
+
+    public init (
+        cellTowers: IoTWirelessClientTypes.CellTowers? = nil,
+        gnss: IoTWirelessClientTypes.Gnss? = nil,
+        ip: IoTWirelessClientTypes.Ip? = nil,
+        timestamp: ClientRuntime.Date? = nil,
+        wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]? = nil
+    )
+    {
+        self.cellTowers = cellTowers
+        self.gnss = gnss
+        self.ip = ip
+        self.timestamp = timestamp
+        self.wiFiAccessPoints = wiFiAccessPoints
+    }
+}
+
+struct GetPositionEstimateInputBody: Swift.Equatable {
+    let wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]?
+    let cellTowers: IoTWirelessClientTypes.CellTowers?
+    let ip: IoTWirelessClientTypes.Ip?
+    let gnss: IoTWirelessClientTypes.Gnss?
+    let timestamp: ClientRuntime.Date?
+}
+
+extension GetPositionEstimateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cellTowers = "CellTowers"
+        case gnss = "Gnss"
+        case ip = "Ip"
+        case timestamp = "Timestamp"
+        case wiFiAccessPoints = "WiFiAccessPoints"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let wiFiAccessPointsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.WiFiAccessPoint?].self, forKey: .wiFiAccessPoints)
+        var wiFiAccessPointsDecoded0:[IoTWirelessClientTypes.WiFiAccessPoint]? = nil
+        if let wiFiAccessPointsContainer = wiFiAccessPointsContainer {
+            wiFiAccessPointsDecoded0 = [IoTWirelessClientTypes.WiFiAccessPoint]()
+            for structure0 in wiFiAccessPointsContainer {
+                if let structure0 = structure0 {
+                    wiFiAccessPointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        wiFiAccessPoints = wiFiAccessPointsDecoded0
+        let cellTowersDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.CellTowers.self, forKey: .cellTowers)
+        cellTowers = cellTowersDecoded
+        let ipDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.Ip.self, forKey: .ip)
+        ip = ipDecoded
+        let gnssDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.Gnss.self, forKey: .gnss)
+        gnss = gnssDecoded
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+    }
+}
+
+extension GetPositionEstimateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetPositionEstimateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetPositionEstimateOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPositionEstimateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            self.geoJsonPayload = data
+        } else {
+            self.geoJsonPayload = nil
+        }
+    }
+}
+
+public struct GetPositionEstimateOutputResponse: Swift.Equatable {
+    /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see [GeoJSON](https://geojson.org/).
+    public var geoJsonPayload: ClientRuntime.Data?
+
+    public init (
+        geoJsonPayload: ClientRuntime.Data? = nil
+    )
+    {
+        self.geoJsonPayload = geoJsonPayload
+    }
+}
+
+struct GetPositionEstimateOutputResponseBody: Swift.Equatable {
+    let geoJsonPayload: ClientRuntime.Data?
+}
+
+extension GetPositionEstimateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geoJsonPayload = "GeoJsonPayload"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let geoJsonPayloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .geoJsonPayload)
+        geoJsonPayload = geoJsonPayloadDecoded
+    }
+}
+
 extension GetPositionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -7120,6 +7795,7 @@ extension GetPositionInput: ClientRuntime.URLPathProvider {
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct GetPositionInput: Swift.Equatable {
     /// Resource identifier used to retrieve the position information.
     /// This member is required.
@@ -7200,6 +7876,7 @@ extension GetPositionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct GetPositionOutputResponse: Swift.Equatable {
     /// The accuracy of the estimated position in meters. An empty value indicates that no position data is available. A value of ‘0.0’ value indicates that position data is available. This data corresponds to the position information that you specified instead of the position computed by solver.
     public var accuracy: IoTWirelessClientTypes.Accuracy?
@@ -7569,6 +8246,126 @@ extension GetResourceLogLevelOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetResourcePositionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceType = resourceType else {
+                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetResourcePositionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceIdentifier = resourceIdentifier else {
+            return nil
+        }
+        return "/resource-positions/\(resourceIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetResourcePositionInput: Swift.Equatable {
+    /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+    /// This member is required.
+    public var resourceIdentifier: Swift.String?
+    /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway.
+    /// This member is required.
+    public var resourceType: IoTWirelessClientTypes.PositionResourceType?
+
+    public init (
+        resourceIdentifier: Swift.String? = nil,
+        resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
+    )
+    {
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceType = resourceType
+    }
+}
+
+struct GetResourcePositionInputBody: Swift.Equatable {
+}
+
+extension GetResourcePositionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetResourcePositionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetResourcePositionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetResourcePositionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourcePositionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            self.geoJsonPayload = data
+        } else {
+            self.geoJsonPayload = nil
+        }
+    }
+}
+
+public struct GetResourcePositionOutputResponse: Swift.Equatable {
+    /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see [GeoJSON](https://geojson.org/).
+    public var geoJsonPayload: ClientRuntime.Data?
+
+    public init (
+        geoJsonPayload: ClientRuntime.Data? = nil
+    )
+    {
+        self.geoJsonPayload = geoJsonPayload
+    }
+}
+
+struct GetResourcePositionOutputResponseBody: Swift.Equatable {
+    let geoJsonPayload: ClientRuntime.Data?
+}
+
+extension GetResourcePositionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geoJsonPayload = "GeoJsonPayload"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let geoJsonPayloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .geoJsonPayload)
+        geoJsonPayload = geoJsonPayloadDecoded
+    }
+}
+
 extension GetServiceEndpointInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -7923,6 +8720,7 @@ extension GetWirelessDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.id = output.id
             self.loRaWAN = output.loRaWAN
             self.name = output.name
+            self.positioning = output.positioning
             self.sidewalk = output.sidewalk
             self.thingArn = output.thingArn
             self.thingName = output.thingName
@@ -7934,6 +8732,7 @@ extension GetWirelessDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.id = nil
             self.loRaWAN = nil
             self.name = nil
+            self.positioning = nil
             self.sidewalk = nil
             self.thingArn = nil
             self.thingName = nil
@@ -7955,6 +8754,8 @@ public struct GetWirelessDeviceOutputResponse: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
     /// The name of the resource.
     public var name: Swift.String?
+    /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
     /// Sidewalk device object.
     public var sidewalk: IoTWirelessClientTypes.SidewalkDevice?
     /// The ARN of the thing associated with the wireless device.
@@ -7971,6 +8772,7 @@ public struct GetWirelessDeviceOutputResponse: Swift.Equatable {
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANDevice? = nil,
         name: Swift.String? = nil,
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkDevice? = nil,
         thingArn: Swift.String? = nil,
         thingName: Swift.String? = nil,
@@ -7983,6 +8785,7 @@ public struct GetWirelessDeviceOutputResponse: Swift.Equatable {
         self.id = id
         self.loRaWAN = loRaWAN
         self.name = name
+        self.positioning = positioning
         self.sidewalk = sidewalk
         self.thingArn = thingArn
         self.thingName = thingName
@@ -8001,6 +8804,7 @@ struct GetWirelessDeviceOutputResponseBody: Swift.Equatable {
     let thingArn: Swift.String?
     let loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
     let sidewalk: IoTWirelessClientTypes.SidewalkDevice?
+    let positioning: IoTWirelessClientTypes.PositioningConfigStatus?
 }
 
 extension GetWirelessDeviceOutputResponseBody: Swift.Decodable {
@@ -8011,6 +8815,7 @@ extension GetWirelessDeviceOutputResponseBody: Swift.Decodable {
         case id = "Id"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case positioning = "Positioning"
         case sidewalk = "Sidewalk"
         case thingArn = "ThingArn"
         case thingName = "ThingName"
@@ -8039,6 +8844,8 @@ extension GetWirelessDeviceOutputResponseBody: Swift.Decodable {
         loRaWAN = loRaWANDecoded
         let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkDevice.self, forKey: .sidewalk)
         sidewalk = sidewalkDecoded
+        let positioningDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.PositioningConfigStatus.self, forKey: .positioning)
+        positioning = positioningDecoded
     }
 }
 
@@ -8966,6 +9773,386 @@ extension GetWirelessGatewayTaskOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension IoTWirelessClientTypes.GlobalIdentity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geranCid = "GeranCid"
+        case lac = "Lac"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let geranCid = self.geranCid {
+            try encodeContainer.encode(geranCid, forKey: .geranCid)
+        }
+        if let lac = self.lac {
+            try encodeContainer.encode(lac, forKey: .lac)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lacDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lac)
+        lac = lacDecoded
+        let geranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .geranCid)
+        geranCid = geranCidDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Global identity information.
+    public struct GlobalIdentity: Swift.Equatable {
+        /// GERAN (GSM EDGE Radio Access Network) cell global identifier.
+        /// This member is required.
+        public var geranCid: Swift.Int?
+        /// Location area code of the global identity.
+        /// This member is required.
+        public var lac: Swift.Int?
+
+        public init (
+            geranCid: Swift.Int? = nil,
+            lac: Swift.Int? = nil
+        )
+        {
+            self.geranCid = geranCid
+            self.lac = lac
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.Gnss: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assistAltitude = "AssistAltitude"
+        case assistPosition = "AssistPosition"
+        case captureTime = "CaptureTime"
+        case captureTimeAccuracy = "CaptureTimeAccuracy"
+        case payload = "Payload"
+        case use2DSolver = "Use2DSolver"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assistAltitude = self.assistAltitude {
+            try encodeContainer.encode(assistAltitude, forKey: .assistAltitude)
+        }
+        if let assistPosition = assistPosition {
+            var assistPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assistPosition)
+            for assistposition0 in assistPosition {
+                try assistPositionContainer.encode(assistposition0)
+            }
+        }
+        if let captureTime = self.captureTime {
+            try encodeContainer.encode(captureTime, forKey: .captureTime)
+        }
+        if let captureTimeAccuracy = self.captureTimeAccuracy {
+            try encodeContainer.encode(captureTimeAccuracy, forKey: .captureTimeAccuracy)
+        }
+        if let payload = self.payload {
+            try encodeContainer.encode(payload, forKey: .payload)
+        }
+        if use2DSolver != false {
+            try encodeContainer.encode(use2DSolver, forKey: .use2DSolver)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payload)
+        payload = payloadDecoded
+        let captureTimeDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .captureTime)
+        captureTime = captureTimeDecoded
+        let captureTimeAccuracyDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .captureTimeAccuracy)
+        captureTimeAccuracy = captureTimeAccuracyDecoded
+        let assistPositionContainer = try containerValues.decodeIfPresent([Swift.Float?].self, forKey: .assistPosition)
+        var assistPositionDecoded0:[Swift.Float]? = nil
+        if let assistPositionContainer = assistPositionContainer {
+            assistPositionDecoded0 = [Swift.Float]()
+            for float0 in assistPositionContainer {
+                if let float0 = float0 {
+                    assistPositionDecoded0?.append(float0)
+                }
+            }
+        }
+        assistPosition = assistPositionDecoded0
+        let assistAltitudeDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .assistAltitude)
+        assistAltitude = assistAltitudeDecoded
+        let use2DSolverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .use2DSolver) ?? false
+        use2DSolver = use2DSolverDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Global navigation satellite system (GNSS) object used for positioning.
+    public struct Gnss: Swift.Equatable {
+        /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above the WGS84 reference ellipsoid.
+        public var assistAltitude: Swift.Float?
+        /// Optional assistance position information, specified using latitude and longitude values in degrees. The co-ordinates are inside the WGS84 reference frame.
+        public var assistPosition: [Swift.Float]?
+        /// Optional parameter that gives an estimate of the time when the GNSS scan information is taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
+        public var captureTime: Swift.Float?
+        /// Optional value that gives the capture time estimate accuracy, in seconds. If capture time accuracy is not specified, default value of 300 is used.
+        public var captureTimeAccuracy: Swift.Float?
+        /// Payload that contains the GNSS scan result, or NAV message, in hexadecimal notation.
+        /// This member is required.
+        public var payload: Swift.String?
+        /// Optional parameter that forces 2D solve, which modifies the positioning algorithm to a 2D solution problem. When this parameter is specified, the assistance altitude should have an accuracy of at least 10 meters.
+        public var use2DSolver: Swift.Bool
+
+        public init (
+            assistAltitude: Swift.Float? = nil,
+            assistPosition: [Swift.Float]? = nil,
+            captureTime: Swift.Float? = nil,
+            captureTimeAccuracy: Swift.Float? = nil,
+            payload: Swift.String? = nil,
+            use2DSolver: Swift.Bool = false
+        )
+        {
+            self.assistAltitude = assistAltitude
+            self.assistPosition = assistPosition
+            self.captureTime = captureTime
+            self.captureTimeAccuracy = captureTimeAccuracy
+            self.payload = payload
+            self.use2DSolver = use2DSolver
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.GsmLocalId: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bcch = "Bcch"
+        case bsic = "Bsic"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bcch = self.bcch {
+            try encodeContainer.encode(bcch, forKey: .bcch)
+        }
+        if let bsic = self.bsic {
+            try encodeContainer.encode(bsic, forKey: .bsic)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bsicDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bsic)
+        bsic = bsicDecoded
+        let bcchDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bcch)
+        bcch = bcchDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// GSM local ID information, which corresponds to the local identification parameters of a GSM cell.
+    public struct GsmLocalId: Swift.Equatable {
+        /// GSM broadcast control channel.
+        /// This member is required.
+        public var bcch: Swift.Int?
+        /// GSM base station identity code (BSIC).
+        /// This member is required.
+        public var bsic: Swift.Int?
+
+        public init (
+            bcch: Swift.Int? = nil,
+            bsic: Swift.Int? = nil
+        )
+        {
+            self.bcch = bcch
+            self.bsic = bsic
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.GsmNmrObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bcch = "Bcch"
+        case bsic = "Bsic"
+        case globalIdentity = "GlobalIdentity"
+        case rxLevel = "RxLevel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bcch = self.bcch {
+            try encodeContainer.encode(bcch, forKey: .bcch)
+        }
+        if let bsic = self.bsic {
+            try encodeContainer.encode(bsic, forKey: .bsic)
+        }
+        if let globalIdentity = self.globalIdentity {
+            try encodeContainer.encode(globalIdentity, forKey: .globalIdentity)
+        }
+        if let rxLevel = self.rxLevel {
+            try encodeContainer.encode(rxLevel, forKey: .rxLevel)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bsicDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bsic)
+        bsic = bsicDecoded
+        let bcchDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bcch)
+        bcch = bcchDecoded
+        let rxLevelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rxLevel)
+        rxLevel = rxLevelDecoded
+        let globalIdentityDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.GlobalIdentity.self, forKey: .globalIdentity)
+        globalIdentity = globalIdentityDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// GSM object for network measurement reports.
+    public struct GsmNmrObj: Swift.Equatable {
+        /// GSM broadcast control channel.
+        /// This member is required.
+        public var bcch: Swift.Int?
+        /// GSM base station identity code (BSIC).
+        /// This member is required.
+        public var bsic: Swift.Int?
+        /// Global identity information of the GSM object.
+        public var globalIdentity: IoTWirelessClientTypes.GlobalIdentity?
+        /// Rx level, which is the received signal power, measured in dBm (decibel-milliwatts).
+        public var rxLevel: Swift.Int?
+
+        public init (
+            bcch: Swift.Int? = nil,
+            bsic: Swift.Int? = nil,
+            globalIdentity: IoTWirelessClientTypes.GlobalIdentity? = nil,
+            rxLevel: Swift.Int? = nil
+        )
+        {
+            self.bcch = bcch
+            self.bsic = bsic
+            self.globalIdentity = globalIdentity
+            self.rxLevel = rxLevel
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.GsmObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geranCid = "GeranCid"
+        case gsmLocalId = "GsmLocalId"
+        case gsmNmr = "GsmNmr"
+        case gsmTimingAdvance = "GsmTimingAdvance"
+        case lac = "Lac"
+        case mcc = "Mcc"
+        case mnc = "Mnc"
+        case rxLevel = "RxLevel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let geranCid = self.geranCid {
+            try encodeContainer.encode(geranCid, forKey: .geranCid)
+        }
+        if let gsmLocalId = self.gsmLocalId {
+            try encodeContainer.encode(gsmLocalId, forKey: .gsmLocalId)
+        }
+        if let gsmNmr = gsmNmr {
+            var gsmNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gsmNmr)
+            for gsmnmrlist0 in gsmNmr {
+                try gsmNmrContainer.encode(gsmnmrlist0)
+            }
+        }
+        if let gsmTimingAdvance = self.gsmTimingAdvance {
+            try encodeContainer.encode(gsmTimingAdvance, forKey: .gsmTimingAdvance)
+        }
+        if let lac = self.lac {
+            try encodeContainer.encode(lac, forKey: .lac)
+        }
+        if let mcc = self.mcc {
+            try encodeContainer.encode(mcc, forKey: .mcc)
+        }
+        if let mnc = self.mnc {
+            try encodeContainer.encode(mnc, forKey: .mnc)
+        }
+        if let rxLevel = self.rxLevel {
+            try encodeContainer.encode(rxLevel, forKey: .rxLevel)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mccDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mcc)
+        mcc = mccDecoded
+        let mncDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mnc)
+        mnc = mncDecoded
+        let lacDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lac)
+        lac = lacDecoded
+        let geranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .geranCid)
+        geranCid = geranCidDecoded
+        let gsmLocalIdDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.GsmLocalId.self, forKey: .gsmLocalId)
+        gsmLocalId = gsmLocalIdDecoded
+        let gsmTimingAdvanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gsmTimingAdvance)
+        gsmTimingAdvance = gsmTimingAdvanceDecoded
+        let rxLevelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rxLevel)
+        rxLevel = rxLevelDecoded
+        let gsmNmrContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.GsmNmrObj?].self, forKey: .gsmNmr)
+        var gsmNmrDecoded0:[IoTWirelessClientTypes.GsmNmrObj]? = nil
+        if let gsmNmrContainer = gsmNmrContainer {
+            gsmNmrDecoded0 = [IoTWirelessClientTypes.GsmNmrObj]()
+            for structure0 in gsmNmrContainer {
+                if let structure0 = structure0 {
+                    gsmNmrDecoded0?.append(structure0)
+                }
+            }
+        }
+        gsmNmr = gsmNmrDecoded0
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// GSM object.
+    public struct GsmObj: Swift.Equatable {
+        /// GERAN (GSM EDGE Radio Access Network) Cell Global Identifier.
+        /// This member is required.
+        public var geranCid: Swift.Int?
+        /// GSM local identification (local ID) information.
+        public var gsmLocalId: IoTWirelessClientTypes.GsmLocalId?
+        /// GSM object for network measurement reports.
+        public var gsmNmr: [IoTWirelessClientTypes.GsmNmrObj]?
+        /// Timing advance value, which corresponds to the length of time a signal takes to reach the base station from a mobile phone.
+        public var gsmTimingAdvance: Swift.Int?
+        /// Location area code.
+        /// This member is required.
+        public var lac: Swift.Int?
+        /// Mobile Country Code.
+        /// This member is required.
+        public var mcc: Swift.Int?
+        /// Mobile Network Code.
+        /// This member is required.
+        public var mnc: Swift.Int?
+        /// Rx level, which is the received signal power, measured in dBm (decibel-milliwatts).
+        public var rxLevel: Swift.Int?
+
+        public init (
+            geranCid: Swift.Int? = nil,
+            gsmLocalId: IoTWirelessClientTypes.GsmLocalId? = nil,
+            gsmNmr: [IoTWirelessClientTypes.GsmNmrObj]? = nil,
+            gsmTimingAdvance: Swift.Int? = nil,
+            lac: Swift.Int? = nil,
+            mcc: Swift.Int? = nil,
+            mnc: Swift.Int? = nil,
+            rxLevel: Swift.Int? = nil
+        )
+        {
+            self.geranCid = geranCid
+            self.gsmLocalId = gsmLocalId
+            self.gsmNmr = gsmNmr
+            self.gsmTimingAdvance = gsmTimingAdvance
+            self.lac = lac
+            self.mcc = mcc
+            self.mnc = mnc
+            self.rxLevel = rxLevel
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes {
     public enum IdentifierType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deveui
@@ -9057,6 +10244,42 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension IoTWirelessClientTypes.Ip: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddress = "IpAddress"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// IP address used for resolving device location.
+    public struct Ip: Swift.Equatable {
+        /// IP address information.
+        /// This member is required.
+        public var ipAddress: Swift.String?
+
+        public init (
+            ipAddress: Swift.String? = nil
+        )
+        {
+            self.ipAddress = ipAddress
+        }
+    }
+
 }
 
 extension IoTWirelessClientTypes.JoinEventConfiguration: Swift.Codable {
@@ -10275,6 +11498,7 @@ extension ListPositionConfigurationsInput: ClientRuntime.URLPathProvider {
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct ListPositionConfigurationsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
     public var maxResults: Swift.Int
@@ -10347,6 +11571,7 @@ extension ListPositionConfigurationsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct ListPositionConfigurationsOutputResponse: Swift.Equatable {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
@@ -13012,6 +14237,271 @@ extension IoTWirelessClientTypes {
     }
 }
 
+extension IoTWirelessClientTypes.LteLocalId: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case earfcn = "Earfcn"
+        case pci = "Pci"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let earfcn = self.earfcn {
+            try encodeContainer.encode(earfcn, forKey: .earfcn)
+        }
+        if let pci = self.pci {
+            try encodeContainer.encode(pci, forKey: .pci)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pciDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pci)
+        pci = pciDecoded
+        let earfcnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .earfcn)
+        earfcn = earfcnDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// LTE local identification (local ID) information.
+    public struct LteLocalId: Swift.Equatable {
+        /// Evolved universal terrestrial radio access (E-UTRA) absolute radio frequency channel number (FCN).
+        /// This member is required.
+        public var earfcn: Swift.Int?
+        /// Physical cell ID.
+        /// This member is required.
+        public var pci: Swift.Int?
+
+        public init (
+            earfcn: Swift.Int? = nil,
+            pci: Swift.Int? = nil
+        )
+        {
+            self.earfcn = earfcn
+            self.pci = pci
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.LteNmrObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case earfcn = "Earfcn"
+        case eutranCid = "EutranCid"
+        case pci = "Pci"
+        case rsrp = "Rsrp"
+        case rsrq = "Rsrq"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let earfcn = self.earfcn {
+            try encodeContainer.encode(earfcn, forKey: .earfcn)
+        }
+        if let eutranCid = self.eutranCid {
+            try encodeContainer.encode(eutranCid, forKey: .eutranCid)
+        }
+        if let pci = self.pci {
+            try encodeContainer.encode(pci, forKey: .pci)
+        }
+        if let rsrp = self.rsrp {
+            try encodeContainer.encode(rsrp, forKey: .rsrp)
+        }
+        if let rsrq = self.rsrq {
+            try encodeContainer.encode(rsrq, forKey: .rsrq)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pciDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pci)
+        pci = pciDecoded
+        let earfcnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .earfcn)
+        earfcn = earfcnDecoded
+        let eutranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .eutranCid)
+        eutranCid = eutranCidDecoded
+        let rsrpDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rsrp)
+        rsrp = rsrpDecoded
+        let rsrqDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .rsrq)
+        rsrq = rsrqDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// LTE object for network measurement reports.
+    public struct LteNmrObj: Swift.Equatable {
+        /// E-UTRA (Evolved universal terrestrial Radio Access) absolute radio frequency channel Number (EARFCN).
+        /// This member is required.
+        public var earfcn: Swift.Int?
+        /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) cell global identifier (EUTRANCID).
+        /// This member is required.
+        public var eutranCid: Swift.Int?
+        /// Physical cell ID.
+        /// This member is required.
+        public var pci: Swift.Int?
+        /// Signal power of the reference signal received, measured in dBm (decibel-milliwatts).
+        public var rsrp: Swift.Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public var rsrq: Swift.Float?
+
+        public init (
+            earfcn: Swift.Int? = nil,
+            eutranCid: Swift.Int? = nil,
+            pci: Swift.Int? = nil,
+            rsrp: Swift.Int? = nil,
+            rsrq: Swift.Float? = nil
+        )
+        {
+            self.earfcn = earfcn
+            self.eutranCid = eutranCid
+            self.pci = pci
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.LteObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eutranCid = "EutranCid"
+        case lteLocalId = "LteLocalId"
+        case lteNmr = "LteNmr"
+        case lteTimingAdvance = "LteTimingAdvance"
+        case mcc = "Mcc"
+        case mnc = "Mnc"
+        case nrCapable = "NrCapable"
+        case rsrp = "Rsrp"
+        case rsrq = "Rsrq"
+        case tac = "Tac"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eutranCid = self.eutranCid {
+            try encodeContainer.encode(eutranCid, forKey: .eutranCid)
+        }
+        if let lteLocalId = self.lteLocalId {
+            try encodeContainer.encode(lteLocalId, forKey: .lteLocalId)
+        }
+        if let lteNmr = lteNmr {
+            var lteNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lteNmr)
+            for ltenmrlist0 in lteNmr {
+                try lteNmrContainer.encode(ltenmrlist0)
+            }
+        }
+        if let lteTimingAdvance = self.lteTimingAdvance {
+            try encodeContainer.encode(lteTimingAdvance, forKey: .lteTimingAdvance)
+        }
+        if let mcc = self.mcc {
+            try encodeContainer.encode(mcc, forKey: .mcc)
+        }
+        if let mnc = self.mnc {
+            try encodeContainer.encode(mnc, forKey: .mnc)
+        }
+        if nrCapable != false {
+            try encodeContainer.encode(nrCapable, forKey: .nrCapable)
+        }
+        if let rsrp = self.rsrp {
+            try encodeContainer.encode(rsrp, forKey: .rsrp)
+        }
+        if let rsrq = self.rsrq {
+            try encodeContainer.encode(rsrq, forKey: .rsrq)
+        }
+        if let tac = self.tac {
+            try encodeContainer.encode(tac, forKey: .tac)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mccDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mcc)
+        mcc = mccDecoded
+        let mncDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mnc)
+        mnc = mncDecoded
+        let eutranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .eutranCid)
+        eutranCid = eutranCidDecoded
+        let tacDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tac)
+        tac = tacDecoded
+        let lteLocalIdDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.LteLocalId.self, forKey: .lteLocalId)
+        lteLocalId = lteLocalIdDecoded
+        let lteTimingAdvanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lteTimingAdvance)
+        lteTimingAdvance = lteTimingAdvanceDecoded
+        let rsrpDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rsrp)
+        rsrp = rsrpDecoded
+        let rsrqDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .rsrq)
+        rsrq = rsrqDecoded
+        let nrCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .nrCapable) ?? false
+        nrCapable = nrCapableDecoded
+        let lteNmrContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.LteNmrObj?].self, forKey: .lteNmr)
+        var lteNmrDecoded0:[IoTWirelessClientTypes.LteNmrObj]? = nil
+        if let lteNmrContainer = lteNmrContainer {
+            lteNmrDecoded0 = [IoTWirelessClientTypes.LteNmrObj]()
+            for structure0 in lteNmrContainer {
+                if let structure0 = structure0 {
+                    lteNmrDecoded0?.append(structure0)
+                }
+            }
+        }
+        lteNmr = lteNmrDecoded0
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// LTE object.
+    public struct LteObj: Swift.Equatable {
+        /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) Cell Global Identifier.
+        /// This member is required.
+        public var eutranCid: Swift.Int?
+        /// LTE local identification (local ID) information.
+        public var lteLocalId: IoTWirelessClientTypes.LteLocalId?
+        /// LTE object for network measurement reports.
+        public var lteNmr: [IoTWirelessClientTypes.LteNmrObj]?
+        /// LTE timing advance.
+        public var lteTimingAdvance: Swift.Int?
+        /// Mobile Country Code.
+        /// This member is required.
+        public var mcc: Swift.Int?
+        /// Mobile Network Code.
+        /// This member is required.
+        public var mnc: Swift.Int?
+        /// Parameter that determines whether the LTE object is capable of supporting NR (new radio).
+        public var nrCapable: Swift.Bool
+        /// Signal power of the reference signal received, measured in dBm (decibel-milliwatts).
+        public var rsrp: Swift.Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public var rsrq: Swift.Float?
+        /// LTE tracking area code.
+        public var tac: Swift.Int?
+
+        public init (
+            eutranCid: Swift.Int? = nil,
+            lteLocalId: IoTWirelessClientTypes.LteLocalId? = nil,
+            lteNmr: [IoTWirelessClientTypes.LteNmrObj]? = nil,
+            lteTimingAdvance: Swift.Int? = nil,
+            mcc: Swift.Int? = nil,
+            mnc: Swift.Int? = nil,
+            nrCapable: Swift.Bool = false,
+            rsrp: Swift.Int? = nil,
+            rsrq: Swift.Float? = nil,
+            tac: Swift.Int? = nil
+        )
+        {
+            self.eutranCid = eutranCid
+            self.lteLocalId = lteLocalId
+            self.lteNmr = lteNmr
+            self.lteTimingAdvance = lteTimingAdvance
+            self.mcc = mcc
+            self.mnc = mnc
+            self.nrCapable = nrCapable
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+            self.tac = tac
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes.MessageDeliveryStatusEventConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sidewalk = "Sidewalk"
@@ -13042,7 +14532,7 @@ extension IoTWirelessClientTypes {
     public struct MessageDeliveryStatusEventConfiguration: Swift.Equatable {
         /// SidewalkEventNotificationConfigurations object, which is the event configuration object for Sidewalk-related event topics.
         public var sidewalk: IoTWirelessClientTypes.SidewalkEventNotificationConfigurations?
-        /// Denotes whether the wireless device ID device registration state event topic is enabled or disabled.
+        /// Denotes whether the wireless device ID message delivery status event topic is enabled or disabled.
         public var wirelessDeviceIdEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus?
 
         public init (
@@ -13854,6 +15344,38 @@ extension IoTWirelessClientTypes {
 
 }
 
+extension IoTWirelessClientTypes {
+    public enum PositioningConfigStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PositioningConfigStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PositioningConfigStatus(rawValue: rawValue) ?? PositioningConfigStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IoTWirelessClientTypes.ProximityEventConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sidewalk = "Sidewalk"
@@ -13975,6 +15497,7 @@ extension PutPositionConfigurationInput: ClientRuntime.URLPathProvider {
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct PutPositionConfigurationInput: Swift.Equatable {
     /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
     public var destination: Swift.String?
@@ -14056,6 +15579,7 @@ extension PutPositionConfigurationOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct PutPositionConfigurationOutputResponse: Swift.Equatable {
 
     public init () { }
@@ -15402,7 +16926,7 @@ extension IoTWirelessClientTypes.SidewalkSendDataToDevice: Swift.Codable {
 extension IoTWirelessClientTypes {
     /// Information about a Sidewalk router.
     public struct SidewalkSendDataToDevice: Swift.Equatable {
-        /// The duration of time in seconds for which you want to retry sending the ACK.
+        /// The duration of time in seconds to retry sending the ACK.
         public var ackModeRetryDurationSecs: Swift.Int?
         /// Sidewalk device message type. Default value is CUSTOM_COMMAND_ID_NOTIFY.
         public var messageType: IoTWirelessClientTypes.MessageType?
@@ -16137,6 +17661,260 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension IoTWirelessClientTypes.TdscdmaLocalId: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cellParams = "CellParams"
+        case uarfcn = "Uarfcn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cellParams = self.cellParams {
+            try encodeContainer.encode(cellParams, forKey: .cellParams)
+        }
+        if let uarfcn = self.uarfcn {
+            try encodeContainer.encode(uarfcn, forKey: .uarfcn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uarfcnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uarfcn)
+        uarfcn = uarfcnDecoded
+        let cellParamsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cellParams)
+        cellParams = cellParamsDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// TD-SCDMA local identification (local Id) information.
+    public struct TdscdmaLocalId: Swift.Equatable {
+        /// Cell parameters for TD-SCDMA.
+        /// This member is required.
+        public var cellParams: Swift.Int?
+        /// TD-SCDMA UTRA (Universal Terrestrial Radio Access Network) absolute RF channel number (UARFCN).
+        /// This member is required.
+        public var uarfcn: Swift.Int?
+
+        public init (
+            cellParams: Swift.Int? = nil,
+            uarfcn: Swift.Int? = nil
+        )
+        {
+            self.cellParams = cellParams
+            self.uarfcn = uarfcn
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.TdscdmaNmrObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cellParams = "CellParams"
+        case pathLoss = "PathLoss"
+        case rscp = "Rscp"
+        case uarfcn = "Uarfcn"
+        case utranCid = "UtranCid"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cellParams = self.cellParams {
+            try encodeContainer.encode(cellParams, forKey: .cellParams)
+        }
+        if let pathLoss = self.pathLoss {
+            try encodeContainer.encode(pathLoss, forKey: .pathLoss)
+        }
+        if let rscp = self.rscp {
+            try encodeContainer.encode(rscp, forKey: .rscp)
+        }
+        if let uarfcn = self.uarfcn {
+            try encodeContainer.encode(uarfcn, forKey: .uarfcn)
+        }
+        if let utranCid = self.utranCid {
+            try encodeContainer.encode(utranCid, forKey: .utranCid)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uarfcnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uarfcn)
+        uarfcn = uarfcnDecoded
+        let cellParamsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cellParams)
+        cellParams = cellParamsDecoded
+        let utranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .utranCid)
+        utranCid = utranCidDecoded
+        let rscpDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rscp)
+        rscp = rscpDecoded
+        let pathLossDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pathLoss)
+        pathLoss = pathLossDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// TD-SCDMA object for network measurement reports.
+    public struct TdscdmaNmrObj: Swift.Equatable {
+        /// Cell parameters for TD-SCDMA network measurement reports object.
+        /// This member is required.
+        public var cellParams: Swift.Int?
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
+        public var pathLoss: Swift.Int?
+        /// Code power of the received signal, measured in decibel-milliwatts (dBm).
+        public var rscp: Swift.Int?
+        /// TD-SCDMA UTRA (Universal Terrestrial Radio Access Network) absolute RF channel number.
+        /// This member is required.
+        public var uarfcn: Swift.Int?
+        /// UTRAN (UMTS Terrestrial Radio Access Network) cell global identifier.
+        public var utranCid: Swift.Int?
+
+        public init (
+            cellParams: Swift.Int? = nil,
+            pathLoss: Swift.Int? = nil,
+            rscp: Swift.Int? = nil,
+            uarfcn: Swift.Int? = nil,
+            utranCid: Swift.Int? = nil
+        )
+        {
+            self.cellParams = cellParams
+            self.pathLoss = pathLoss
+            self.rscp = rscp
+            self.uarfcn = uarfcn
+            self.utranCid = utranCid
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.TdscdmaObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lac = "Lac"
+        case mcc = "Mcc"
+        case mnc = "Mnc"
+        case pathLoss = "PathLoss"
+        case rscp = "Rscp"
+        case tdscdmaLocalId = "TdscdmaLocalId"
+        case tdscdmaNmr = "TdscdmaNmr"
+        case tdscdmaTimingAdvance = "TdscdmaTimingAdvance"
+        case utranCid = "UtranCid"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lac = self.lac {
+            try encodeContainer.encode(lac, forKey: .lac)
+        }
+        if let mcc = self.mcc {
+            try encodeContainer.encode(mcc, forKey: .mcc)
+        }
+        if let mnc = self.mnc {
+            try encodeContainer.encode(mnc, forKey: .mnc)
+        }
+        if let pathLoss = self.pathLoss {
+            try encodeContainer.encode(pathLoss, forKey: .pathLoss)
+        }
+        if let rscp = self.rscp {
+            try encodeContainer.encode(rscp, forKey: .rscp)
+        }
+        if let tdscdmaLocalId = self.tdscdmaLocalId {
+            try encodeContainer.encode(tdscdmaLocalId, forKey: .tdscdmaLocalId)
+        }
+        if let tdscdmaNmr = tdscdmaNmr {
+            var tdscdmaNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tdscdmaNmr)
+            for tdscdmanmrlist0 in tdscdmaNmr {
+                try tdscdmaNmrContainer.encode(tdscdmanmrlist0)
+            }
+        }
+        if let tdscdmaTimingAdvance = self.tdscdmaTimingAdvance {
+            try encodeContainer.encode(tdscdmaTimingAdvance, forKey: .tdscdmaTimingAdvance)
+        }
+        if let utranCid = self.utranCid {
+            try encodeContainer.encode(utranCid, forKey: .utranCid)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mccDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mcc)
+        mcc = mccDecoded
+        let mncDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mnc)
+        mnc = mncDecoded
+        let lacDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lac)
+        lac = lacDecoded
+        let utranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .utranCid)
+        utranCid = utranCidDecoded
+        let tdscdmaLocalIdDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.TdscdmaLocalId.self, forKey: .tdscdmaLocalId)
+        tdscdmaLocalId = tdscdmaLocalIdDecoded
+        let tdscdmaTimingAdvanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tdscdmaTimingAdvance)
+        tdscdmaTimingAdvance = tdscdmaTimingAdvanceDecoded
+        let rscpDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rscp)
+        rscp = rscpDecoded
+        let pathLossDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pathLoss)
+        pathLoss = pathLossDecoded
+        let tdscdmaNmrContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.TdscdmaNmrObj?].self, forKey: .tdscdmaNmr)
+        var tdscdmaNmrDecoded0:[IoTWirelessClientTypes.TdscdmaNmrObj]? = nil
+        if let tdscdmaNmrContainer = tdscdmaNmrContainer {
+            tdscdmaNmrDecoded0 = [IoTWirelessClientTypes.TdscdmaNmrObj]()
+            for structure0 in tdscdmaNmrContainer {
+                if let structure0 = structure0 {
+                    tdscdmaNmrDecoded0?.append(structure0)
+                }
+            }
+        }
+        tdscdmaNmr = tdscdmaNmrDecoded0
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// TD-SCDMA object.
+    public struct TdscdmaObj: Swift.Equatable {
+        /// Location Area Code.
+        public var lac: Swift.Int?
+        /// Mobile Country Code.
+        /// This member is required.
+        public var mcc: Swift.Int?
+        /// Mobile Network Code.
+        /// This member is required.
+        public var mnc: Swift.Int?
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
+        public var pathLoss: Swift.Int?
+        /// Signal power of the received signal (Received Signal Code Power), measured in decibel-milliwatts (dBm).
+        public var rscp: Swift.Int?
+        /// TD-SCDMA local identification (local ID) information.
+        public var tdscdmaLocalId: IoTWirelessClientTypes.TdscdmaLocalId?
+        /// TD-SCDMA object for network measurement reports.
+        public var tdscdmaNmr: [IoTWirelessClientTypes.TdscdmaNmrObj]?
+        /// TD-SCDMA Timing advance.
+        public var tdscdmaTimingAdvance: Swift.Int?
+        /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
+        /// This member is required.
+        public var utranCid: Swift.Int?
+
+        public init (
+            lac: Swift.Int? = nil,
+            mcc: Swift.Int? = nil,
+            mnc: Swift.Int? = nil,
+            pathLoss: Swift.Int? = nil,
+            rscp: Swift.Int? = nil,
+            tdscdmaLocalId: IoTWirelessClientTypes.TdscdmaLocalId? = nil,
+            tdscdmaNmr: [IoTWirelessClientTypes.TdscdmaNmrObj]? = nil,
+            tdscdmaTimingAdvance: Swift.Int? = nil,
+            utranCid: Swift.Int? = nil
+        )
+        {
+            self.lac = lac
+            self.mcc = mcc
+            self.mnc = mnc
+            self.pathLoss = pathLoss
+            self.rscp = rscp
+            self.tdscdmaLocalId = tdscdmaLocalId
+            self.tdscdmaNmr = tdscdmaNmr
+            self.tdscdmaTimingAdvance = tdscdmaTimingAdvance
+            self.utranCid = utranCid
+        }
+    }
+
+}
+
 extension TestWirelessDeviceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let id = id else {
@@ -16828,11 +18606,18 @@ public struct UpdateEventConfigurationByResourceTypesOutputResponse: Swift.Equat
 
 extension IoTWirelessClientTypes.UpdateFPorts: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applications = "Applications"
         case positioning = "Positioning"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applications = applications {
+            var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
+            for applications0 in applications {
+                try applicationsContainer.encode(applications0)
+            }
+        }
         if let positioning = self.positioning {
             try encodeContainer.encode(positioning, forKey: .positioning)
         }
@@ -16842,19 +18627,34 @@ extension IoTWirelessClientTypes.UpdateFPorts: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let positioningDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.Positioning.self, forKey: .positioning)
         positioning = positioningDecoded
+        let applicationsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.ApplicationConfig?].self, forKey: .applications)
+        var applicationsDecoded0:[IoTWirelessClientTypes.ApplicationConfig]? = nil
+        if let applicationsContainer = applicationsContainer {
+            applicationsDecoded0 = [IoTWirelessClientTypes.ApplicationConfig]()
+            for structure0 in applicationsContainer {
+                if let structure0 = structure0 {
+                    applicationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        applications = applicationsDecoded0
     }
 }
 
 extension IoTWirelessClientTypes {
     /// Object for updating the FPorts information.
     public struct UpdateFPorts: Swift.Equatable {
+        /// LoRaWAN application, which can be used for geolocation by activating positioning.
+        public var applications: [IoTWirelessClientTypes.ApplicationConfig]?
         /// Positioning FPorts for the ClockSync, Stream, and GNSS functions.
         public var positioning: IoTWirelessClientTypes.Positioning?
 
         public init (
+            applications: [IoTWirelessClientTypes.ApplicationConfig]? = nil,
             positioning: IoTWirelessClientTypes.Positioning? = nil
         )
         {
+            self.applications = applications
             self.positioning = positioning
         }
     }
@@ -17621,6 +19421,7 @@ extension UpdatePositionInput: ClientRuntime.URLPathProvider {
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct UpdatePositionInput: Swift.Equatable {
     /// The position information of the resource.
     /// This member is required.
@@ -17704,6 +19505,7 @@ extension UpdatePositionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
+@available(*, deprecated, message: "This operation is no longer supported.")
 public struct UpdatePositionOutputResponse: Swift.Equatable {
 
     public init () { }
@@ -17882,12 +19684,154 @@ public struct UpdateResourceEventConfigurationOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+public struct UpdateResourcePositionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateResourcePositionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateResourcePositionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateResourcePositionOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let geoJsonPayload = input.operationInput.geoJsonPayload {
+            let geoJsonPayloaddata = geoJsonPayload
+            let geoJsonPayloadbody = ClientRuntime.HttpBody.data(geoJsonPayloaddata)
+            input.builder.withBody(geoJsonPayloadbody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateResourcePositionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateResourcePositionOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension UpdateResourcePositionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geoJsonPayload = "GeoJsonPayload"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let geoJsonPayload = self.geoJsonPayload {
+            try encodeContainer.encode(geoJsonPayload.base64EncodedString(), forKey: .geoJsonPayload)
+        }
+    }
+}
+
+extension UpdateResourcePositionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceType = resourceType else {
+                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+            return items
+        }
+    }
+}
+
+extension UpdateResourcePositionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceIdentifier = resourceIdentifier else {
+            return nil
+        }
+        return "/resource-positions/\(resourceIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateResourcePositionInput: Swift.Equatable {
+    /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see [GeoJSON](https://geojson.org/).
+    public var geoJsonPayload: ClientRuntime.Data?
+    /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+    /// This member is required.
+    public var resourceIdentifier: Swift.String?
+    /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway.
+    /// This member is required.
+    public var resourceType: IoTWirelessClientTypes.PositionResourceType?
+
+    public init (
+        geoJsonPayload: ClientRuntime.Data? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
+    )
+    {
+        self.geoJsonPayload = geoJsonPayload
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceType = resourceType
+    }
+}
+
+struct UpdateResourcePositionInputBody: Swift.Equatable {
+    let geoJsonPayload: ClientRuntime.Data?
+}
+
+extension UpdateResourcePositionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geoJsonPayload = "GeoJsonPayload"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let geoJsonPayloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .geoJsonPayload)
+        geoJsonPayload = geoJsonPayloadDecoded
+    }
+}
+
+extension UpdateResourcePositionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateResourcePositionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateResourcePositionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateResourcePositionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateResourcePositionOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateWirelessDeviceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case destinationName = "DestinationName"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case positioning = "Positioning"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -17903,6 +19847,9 @@ extension UpdateWirelessDeviceInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let positioning = self.positioning {
+            try encodeContainer.encode(positioning.rawValue, forKey: .positioning)
         }
     }
 }
@@ -17928,13 +19875,16 @@ public struct UpdateWirelessDeviceInput: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice?
     /// The new name of the resource.
     public var name: Swift.String?
+    /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
 
     public init (
         description: Swift.String? = nil,
         destinationName: Swift.String? = nil,
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil
     )
     {
         self.description = description
@@ -17942,6 +19892,7 @@ public struct UpdateWirelessDeviceInput: Swift.Equatable {
         self.id = id
         self.loRaWAN = loRaWAN
         self.name = name
+        self.positioning = positioning
     }
 }
 
@@ -17950,6 +19901,7 @@ struct UpdateWirelessDeviceInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice?
+    let positioning: IoTWirelessClientTypes.PositioningConfigStatus?
 }
 
 extension UpdateWirelessDeviceInputBody: Swift.Decodable {
@@ -17958,6 +19910,7 @@ extension UpdateWirelessDeviceInputBody: Swift.Decodable {
         case destinationName = "DestinationName"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case positioning = "Positioning"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -17970,6 +19923,8 @@ extension UpdateWirelessDeviceInputBody: Swift.Decodable {
         description = descriptionDecoded
         let loRaWANDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.LoRaWANUpdateDevice.self, forKey: .loRaWAN)
         loRaWAN = loRaWANDecoded
+        let positioningDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.PositioningConfigStatus.self, forKey: .positioning)
+        positioning = positioningDecoded
     }
 }
 
@@ -18340,6 +20295,298 @@ extension ValidationExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension IoTWirelessClientTypes.WcdmaLocalId: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case psc = "Psc"
+        case uarfcndl = "Uarfcndl"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let psc = self.psc {
+            try encodeContainer.encode(psc, forKey: .psc)
+        }
+        if let uarfcndl = self.uarfcndl {
+            try encodeContainer.encode(uarfcndl, forKey: .uarfcndl)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uarfcndlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uarfcndl)
+        uarfcndl = uarfcndlDecoded
+        let pscDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .psc)
+        psc = pscDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// WCDMA local identification (local ID) information.
+    public struct WcdmaLocalId: Swift.Equatable {
+        /// Primary Scrambling Code.
+        /// This member is required.
+        public var psc: Swift.Int?
+        /// WCDMA UTRA Absolute RF Channel Number downlink.
+        /// This member is required.
+        public var uarfcndl: Swift.Int?
+
+        public init (
+            psc: Swift.Int? = nil,
+            uarfcndl: Swift.Int? = nil
+        )
+        {
+            self.psc = psc
+            self.uarfcndl = uarfcndl
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.WcdmaNmrObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pathLoss = "PathLoss"
+        case psc = "Psc"
+        case rscp = "Rscp"
+        case uarfcndl = "Uarfcndl"
+        case utranCid = "UtranCid"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pathLoss = self.pathLoss {
+            try encodeContainer.encode(pathLoss, forKey: .pathLoss)
+        }
+        if let psc = self.psc {
+            try encodeContainer.encode(psc, forKey: .psc)
+        }
+        if let rscp = self.rscp {
+            try encodeContainer.encode(rscp, forKey: .rscp)
+        }
+        if let uarfcndl = self.uarfcndl {
+            try encodeContainer.encode(uarfcndl, forKey: .uarfcndl)
+        }
+        if let utranCid = self.utranCid {
+            try encodeContainer.encode(utranCid, forKey: .utranCid)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uarfcndlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uarfcndl)
+        uarfcndl = uarfcndlDecoded
+        let pscDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .psc)
+        psc = pscDecoded
+        let utranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .utranCid)
+        utranCid = utranCidDecoded
+        let rscpDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rscp)
+        rscp = rscpDecoded
+        let pathLossDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pathLoss)
+        pathLoss = pathLossDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Network Measurement Reports.
+    public struct WcdmaNmrObj: Swift.Equatable {
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
+        public var pathLoss: Swift.Int?
+        /// Primary Scrambling Code.
+        /// This member is required.
+        public var psc: Swift.Int?
+        /// Received Signal Code Power (signal power) (dBm)
+        public var rscp: Swift.Int?
+        /// WCDMA UTRA Absolute RF Channel Number downlink.
+        /// This member is required.
+        public var uarfcndl: Swift.Int?
+        /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
+        /// This member is required.
+        public var utranCid: Swift.Int?
+
+        public init (
+            pathLoss: Swift.Int? = nil,
+            psc: Swift.Int? = nil,
+            rscp: Swift.Int? = nil,
+            uarfcndl: Swift.Int? = nil,
+            utranCid: Swift.Int? = nil
+        )
+        {
+            self.pathLoss = pathLoss
+            self.psc = psc
+            self.rscp = rscp
+            self.uarfcndl = uarfcndl
+            self.utranCid = utranCid
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.WcdmaObj: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lac = "Lac"
+        case mcc = "Mcc"
+        case mnc = "Mnc"
+        case pathLoss = "PathLoss"
+        case rscp = "Rscp"
+        case utranCid = "UtranCid"
+        case wcdmaLocalId = "WcdmaLocalId"
+        case wcdmaNmr = "WcdmaNmr"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lac = self.lac {
+            try encodeContainer.encode(lac, forKey: .lac)
+        }
+        if let mcc = self.mcc {
+            try encodeContainer.encode(mcc, forKey: .mcc)
+        }
+        if let mnc = self.mnc {
+            try encodeContainer.encode(mnc, forKey: .mnc)
+        }
+        if let pathLoss = self.pathLoss {
+            try encodeContainer.encode(pathLoss, forKey: .pathLoss)
+        }
+        if let rscp = self.rscp {
+            try encodeContainer.encode(rscp, forKey: .rscp)
+        }
+        if let utranCid = self.utranCid {
+            try encodeContainer.encode(utranCid, forKey: .utranCid)
+        }
+        if let wcdmaLocalId = self.wcdmaLocalId {
+            try encodeContainer.encode(wcdmaLocalId, forKey: .wcdmaLocalId)
+        }
+        if let wcdmaNmr = wcdmaNmr {
+            var wcdmaNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wcdmaNmr)
+            for wcdmanmrlist0 in wcdmaNmr {
+                try wcdmaNmrContainer.encode(wcdmanmrlist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mccDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mcc)
+        mcc = mccDecoded
+        let mncDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mnc)
+        mnc = mncDecoded
+        let lacDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lac)
+        lac = lacDecoded
+        let utranCidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .utranCid)
+        utranCid = utranCidDecoded
+        let wcdmaLocalIdDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.WcdmaLocalId.self, forKey: .wcdmaLocalId)
+        wcdmaLocalId = wcdmaLocalIdDecoded
+        let rscpDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rscp)
+        rscp = rscpDecoded
+        let pathLossDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pathLoss)
+        pathLoss = pathLossDecoded
+        let wcdmaNmrContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.WcdmaNmrObj?].self, forKey: .wcdmaNmr)
+        var wcdmaNmrDecoded0:[IoTWirelessClientTypes.WcdmaNmrObj]? = nil
+        if let wcdmaNmrContainer = wcdmaNmrContainer {
+            wcdmaNmrDecoded0 = [IoTWirelessClientTypes.WcdmaNmrObj]()
+            for structure0 in wcdmaNmrContainer {
+                if let structure0 = structure0 {
+                    wcdmaNmrDecoded0?.append(structure0)
+                }
+            }
+        }
+        wcdmaNmr = wcdmaNmrDecoded0
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// WCDMA.
+    public struct WcdmaObj: Swift.Equatable {
+        /// Location Area Code.
+        public var lac: Swift.Int?
+        /// Mobile Country Code.
+        /// This member is required.
+        public var mcc: Swift.Int?
+        /// Mobile Network Code.
+        /// This member is required.
+        public var mnc: Swift.Int?
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
+        public var pathLoss: Swift.Int?
+        /// Received Signal Code Power (signal power) (dBm).
+        public var rscp: Swift.Int?
+        /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
+        /// This member is required.
+        public var utranCid: Swift.Int?
+        /// WCDMA local ID information.
+        public var wcdmaLocalId: IoTWirelessClientTypes.WcdmaLocalId?
+        /// WCDMA object for network measurement reports.
+        public var wcdmaNmr: [IoTWirelessClientTypes.WcdmaNmrObj]?
+
+        public init (
+            lac: Swift.Int? = nil,
+            mcc: Swift.Int? = nil,
+            mnc: Swift.Int? = nil,
+            pathLoss: Swift.Int? = nil,
+            rscp: Swift.Int? = nil,
+            utranCid: Swift.Int? = nil,
+            wcdmaLocalId: IoTWirelessClientTypes.WcdmaLocalId? = nil,
+            wcdmaNmr: [IoTWirelessClientTypes.WcdmaNmrObj]? = nil
+        )
+        {
+            self.lac = lac
+            self.mcc = mcc
+            self.mnc = mnc
+            self.pathLoss = pathLoss
+            self.rscp = rscp
+            self.utranCid = utranCid
+            self.wcdmaLocalId = wcdmaLocalId
+            self.wcdmaNmr = wcdmaNmr
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.WiFiAccessPoint: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case macAddress = "MacAddress"
+        case rss = "Rss"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let macAddress = self.macAddress {
+            try encodeContainer.encode(macAddress, forKey: .macAddress)
+        }
+        if let rss = self.rss {
+            try encodeContainer.encode(rss, forKey: .rss)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let macAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .macAddress)
+        macAddress = macAddressDecoded
+        let rssDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rss)
+        rss = rssDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Wi-Fi access point.
+    public struct WiFiAccessPoint: Swift.Equatable {
+        /// Wi-Fi MAC Address.
+        /// This member is required.
+        public var macAddress: Swift.String?
+        /// Recived signal strength of the WLAN measurement data.
+        /// This member is required.
+        public var rss: Swift.Int?
+
+        public init (
+            macAddress: Swift.String? = nil,
+            rss: Swift.Int? = nil
+        )
+        {
+            self.macAddress = macAddress
+            self.rss = rss
+        }
+    }
+
 }
 
 extension IoTWirelessClientTypes {

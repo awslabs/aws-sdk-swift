@@ -953,6 +953,7 @@ extension InvalidTaskIdExceptionBody: Swift.Decodable {
 
 extension PollyClientTypes {
     public enum LanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case arAe
         case arb
         case caEs
         case cmnCn
@@ -970,6 +971,7 @@ extension PollyClientTypes {
         case esEs
         case esMx
         case esUs
+        case fiFi
         case frCa
         case frFr
         case hiIn
@@ -991,6 +993,7 @@ extension PollyClientTypes {
 
         public static var allCases: [LanguageCode] {
             return [
+                .arAe,
                 .arb,
                 .caEs,
                 .cmnCn,
@@ -1008,6 +1011,7 @@ extension PollyClientTypes {
                 .esEs,
                 .esMx,
                 .esUs,
+                .fiFi,
                 .frCa,
                 .frFr,
                 .hiIn,
@@ -1034,6 +1038,7 @@ extension PollyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .arAe: return "ar-AE"
             case .arb: return "arb"
             case .caEs: return "ca-ES"
             case .cmnCn: return "cmn-CN"
@@ -1051,6 +1056,7 @@ extension PollyClientTypes {
             case .esEs: return "es-ES"
             case .esMx: return "es-MX"
             case .esUs: return "es-US"
+            case .fiFi: return "fi-FI"
             case .frCa: return "fr-CA"
             case .frFr: return "fr-FR"
             case .hiIn: return "hi-IN"
@@ -2739,7 +2745,10 @@ extension SynthesizeSpeechInput {
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<SynthesizeSpeechOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: SynthesizeSpeechInputGETQueryItemMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(retryer: config.retryer))
@@ -2780,7 +2789,10 @@ extension SynthesizeSpeechInput {
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<SynthesizeSpeechOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3457,6 +3469,7 @@ extension PollyClientTypes {
         case geraint
         case giorgio
         case gwyneth
+        case hala
         case hannah
         case hans
         case hiujin
@@ -3491,6 +3504,7 @@ extension PollyClientTypes {
         case mizuki
         case naja
         case nicole
+        case ola
         case olivia
         case pedro
         case penelope
@@ -3538,6 +3552,7 @@ extension PollyClientTypes {
                 .geraint,
                 .giorgio,
                 .gwyneth,
+                .hala,
                 .hannah,
                 .hans,
                 .hiujin,
@@ -3572,6 +3587,7 @@ extension PollyClientTypes {
                 .mizuki,
                 .naja,
                 .nicole,
+                .ola,
                 .olivia,
                 .pedro,
                 .penelope,
@@ -3624,6 +3640,7 @@ extension PollyClientTypes {
             case .geraint: return "Geraint"
             case .giorgio: return "Giorgio"
             case .gwyneth: return "Gwyneth"
+            case .hala: return "Hala"
             case .hannah: return "Hannah"
             case .hans: return "Hans"
             case .hiujin: return "Hiujin"
@@ -3658,6 +3675,7 @@ extension PollyClientTypes {
             case .mizuki: return "Mizuki"
             case .naja: return "Naja"
             case .nicole: return "Nicole"
+            case .ola: return "Ola"
             case .olivia: return "Olivia"
             case .pedro: return "Pedro"
             case .penelope: return "Penelope"

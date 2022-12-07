@@ -19,6 +19,8 @@ public protocol WorkSpacesClientProtocol {
     func createConnectionAlias(input: CreateConnectionAliasInput) async throws -> CreateConnectionAliasOutputResponse
     /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using [AuthorizeIpRules]. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
     func createIpGroup(input: CreateIpGroupInput) async throws -> CreateIpGroupOutputResponse
+    /// Creates a Standby WorkSpace in a secondary region.
+    func createStandbyWorkspaces(input: CreateStandbyWorkspacesInput) async throws -> CreateStandbyWorkspacesOutputResponse
     /// Creates the specified tags for the specified WorkSpaces resource.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
     /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use [ DescribeWorkspaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html).
@@ -105,6 +107,8 @@ public protocol WorkSpacesClientProtocol {
     func migrateWorkspace(input: MigrateWorkspaceInput) async throws -> MigrateWorkspaceOutputResponse
     /// Modifies the configuration of Bring Your Own License (BYOL) for the specified account.
     func modifyAccount(input: ModifyAccountInput) async throws -> ModifyAccountOutputResponse
+    /// Modifies the properties of the certificate-based authentication you want to use with your WorkSpaces.
+    func modifyCertificateBasedAuthProperties(input: ModifyCertificateBasedAuthPropertiesInput) async throws -> ModifyCertificateBasedAuthPropertiesOutputResponse
     /// Modifies the properties of the specified Amazon WorkSpaces clients.
     func modifyClientProperties(input: ModifyClientPropertiesInput) async throws -> ModifyClientPropertiesOutputResponse
     /// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.

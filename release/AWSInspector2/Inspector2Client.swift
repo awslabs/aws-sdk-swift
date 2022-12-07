@@ -444,7 +444,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
         return result
     }
 
-    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization
+    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
     public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

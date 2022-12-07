@@ -834,9 +834,9 @@ extension LakeFormationClientTypes.BatchPermissionsRequestEntry: Swift.Codable {
         var permissionsDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
             permissionsDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsContainer {
-                if let string0 = string0 {
-                    permissionsDecoded0?.append(string0)
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -845,9 +845,9 @@ extension LakeFormationClientTypes.BatchPermissionsRequestEntry: Swift.Codable {
         var permissionsWithGrantOptionDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsWithGrantOptionContainer = permissionsWithGrantOptionContainer {
             permissionsWithGrantOptionDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsWithGrantOptionContainer {
-                if let string0 = string0 {
-                    permissionsWithGrantOptionDecoded0?.append(string0)
+            for enum0 in permissionsWithGrantOptionContainer {
+                if let enum0 = enum0 {
+                    permissionsWithGrantOptionDecoded0?.append(enum0)
                 }
             }
         }
@@ -1971,6 +1971,7 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
         case createTableDefaultPermissions = "CreateTableDefaultPermissions"
         case dataLakeAdmins = "DataLakeAdmins"
         case externalDataFilteringAllowList = "ExternalDataFilteringAllowList"
+        case parameters = "Parameters"
         case trustedResourceOwners = "TrustedResourceOwners"
     }
 
@@ -2007,6 +2008,12 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
             var externalDataFilteringAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalDataFilteringAllowList)
             for datalakeprincipallist0 in externalDataFilteringAllowList {
                 try externalDataFilteringAllowListContainer.encode(datalakeprincipallist0)
+            }
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, parametersmap0) in parameters {
+                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let trustedResourceOwners = trustedResourceOwners {
@@ -2052,6 +2059,17 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
             }
         }
         createTableDefaultPermissions = createTableDefaultPermissionsDecoded0
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:Swift.String]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:Swift.String]()
+            for (key0, parametersmapvalue0) in parametersContainer {
+                if let parametersmapvalue0 = parametersmapvalue0 {
+                    parametersDecoded0?[key0] = parametersmapvalue0
+                }
+            }
+        }
+        parameters = parametersDecoded0
         let trustedResourceOwnersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .trustedResourceOwners)
         var trustedResourceOwnersDecoded0:[Swift.String]? = nil
         if let trustedResourceOwnersContainer = trustedResourceOwnersContainer {
@@ -2097,7 +2115,7 @@ extension LakeFormationClientTypes {
         public var allowExternalDataFiltering: Swift.Bool?
         /// Lake Formation relies on a privileged process secured by Amazon EMR or the third party integrator to tag the user's role while assuming it. Lake Formation will publish the acceptable key-value pair, for example key = "LakeFormationTrustedCaller" and value = "TRUE" and the third party integrator must properly tag the temporary security credentials that will be used to call Lake Formation's administrative APIs.
         public var authorizedSessionTagValueList: [Swift.String]?
-        /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. You can override this default setting when you create a database. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see [Changing the Default Security Settings for Your Data Lake](https://docs.aws.amazon.com/lake-formation/latest/dg/change-settings.html).
+        /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see [Changing the Default Security Settings for Your Data Lake](https://docs.aws.amazon.com/lake-formation/latest/dg/change-settings.html).
         public var createDatabaseDefaultPermissions: [LakeFormationClientTypes.PrincipalPermissions]?
         /// Specifies whether access control on newly created table is managed by Lake Formation permissions or exclusively by IAM permissions. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see [Changing the Default Security Settings for Your Data Lake](https://docs.aws.amazon.com/lake-formation/latest/dg/change-settings.html).
         public var createTableDefaultPermissions: [LakeFormationClientTypes.PrincipalPermissions]?
@@ -2105,6 +2123,8 @@ extension LakeFormationClientTypes {
         public var dataLakeAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
         /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.>
         public var externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]?
+        /// A key-value map that provides an additional configuration on your data lake. CrossAccountVersion is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, and 3.
+        public var parameters: [Swift.String:Swift.String]?
         /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log. You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public var trustedResourceOwners: [Swift.String]?
 
@@ -2115,6 +2135,7 @@ extension LakeFormationClientTypes {
             createTableDefaultPermissions: [LakeFormationClientTypes.PrincipalPermissions]? = nil,
             dataLakeAdmins: [LakeFormationClientTypes.DataLakePrincipal]? = nil,
             externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]? = nil,
+            parameters: [Swift.String:Swift.String]? = nil,
             trustedResourceOwners: [Swift.String]? = nil
         )
         {
@@ -2124,6 +2145,7 @@ extension LakeFormationClientTypes {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.dataLakeAdmins = dataLakeAdmins
             self.externalDataFilteringAllowList = externalDataFilteringAllowList
+            self.parameters = parameters
             self.trustedResourceOwners = trustedResourceOwners
         }
     }
@@ -4692,9 +4714,9 @@ extension GetTemporaryGluePartitionCredentialsInputBody: Swift.Decodable {
         var permissionsDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
             permissionsDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsContainer {
-                if let string0 = string0 {
-                    permissionsDecoded0?.append(string0)
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -4707,9 +4729,9 @@ extension GetTemporaryGluePartitionCredentialsInputBody: Swift.Decodable {
         var supportedPermissionTypesDecoded0:[LakeFormationClientTypes.PermissionType]? = nil
         if let supportedPermissionTypesContainer = supportedPermissionTypesContainer {
             supportedPermissionTypesDecoded0 = [LakeFormationClientTypes.PermissionType]()
-            for string0 in supportedPermissionTypesContainer {
-                if let string0 = string0 {
-                    supportedPermissionTypesDecoded0?.append(string0)
+            for enum0 in supportedPermissionTypesContainer {
+                if let enum0 = enum0 {
+                    supportedPermissionTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -4916,9 +4938,9 @@ extension GetTemporaryGlueTableCredentialsInputBody: Swift.Decodable {
         var permissionsDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
             permissionsDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsContainer {
-                if let string0 = string0 {
-                    permissionsDecoded0?.append(string0)
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -4931,9 +4953,9 @@ extension GetTemporaryGlueTableCredentialsInputBody: Swift.Decodable {
         var supportedPermissionTypesDecoded0:[LakeFormationClientTypes.PermissionType]? = nil
         if let supportedPermissionTypesContainer = supportedPermissionTypesContainer {
             supportedPermissionTypesDecoded0 = [LakeFormationClientTypes.PermissionType]()
-            for string0 in supportedPermissionTypesContainer {
-                if let string0 = string0 {
-                    supportedPermissionTypesDecoded0?.append(string0)
+            for enum0 in supportedPermissionTypesContainer {
+                if let enum0 = enum0 {
+                    supportedPermissionTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -5522,9 +5544,9 @@ extension GrantPermissionsInputBody: Swift.Decodable {
         var permissionsDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
             permissionsDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsContainer {
-                if let string0 = string0 {
-                    permissionsDecoded0?.append(string0)
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -5533,9 +5555,9 @@ extension GrantPermissionsInputBody: Swift.Decodable {
         var permissionsWithGrantOptionDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsWithGrantOptionContainer = permissionsWithGrantOptionContainer {
             permissionsWithGrantOptionDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsWithGrantOptionContainer {
-                if let string0 = string0 {
-                    permissionsWithGrantOptionDecoded0?.append(string0)
+            for enum0 in permissionsWithGrantOptionContainer {
+                if let enum0 = enum0 {
+                    permissionsWithGrantOptionDecoded0?.append(enum0)
                 }
             }
         }
@@ -7512,9 +7534,9 @@ extension LakeFormationClientTypes.PrincipalPermissions: Swift.Codable {
         var permissionsDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
             permissionsDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsContainer {
-                if let string0 = string0 {
-                    permissionsDecoded0?.append(string0)
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -7586,9 +7608,9 @@ extension LakeFormationClientTypes.PrincipalResourcePermissions: Swift.Codable {
         var permissionsDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
             permissionsDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsContainer {
-                if let string0 = string0 {
-                    permissionsDecoded0?.append(string0)
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -7597,9 +7619,9 @@ extension LakeFormationClientTypes.PrincipalResourcePermissions: Swift.Codable {
         var permissionsWithGrantOptionDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsWithGrantOptionContainer = permissionsWithGrantOptionContainer {
             permissionsWithGrantOptionDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsWithGrantOptionContainer {
-                if let string0 = string0 {
-                    permissionsWithGrantOptionDecoded0?.append(string0)
+            for enum0 in permissionsWithGrantOptionContainer {
+                if let enum0 = enum0 {
+                    permissionsWithGrantOptionDecoded0?.append(enum0)
                 }
             }
         }
@@ -7897,7 +7919,7 @@ public struct RegisterResourceInput: Swift.Equatable {
     public var resourceArn: Swift.String?
     /// The identifier for the role that registers the resource.
     public var roleArn: Swift.String?
-    /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see [Using Service-Linked Roles for Lake Formation](https://docs-aws.amazon.com/lake-formation/latest/dg/service-linked-roles.html).
+    /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see [Using Service-Linked Roles for Lake Formation](https://docs.aws.amazon.com/lake-formation/latest/dg/service-linked-roles.html).
     public var useServiceLinkedRole: Swift.Bool?
 
     public init (
@@ -8580,9 +8602,9 @@ extension RevokePermissionsInputBody: Swift.Decodable {
         var permissionsDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
             permissionsDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsContainer {
-                if let string0 = string0 {
-                    permissionsDecoded0?.append(string0)
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -8591,9 +8613,9 @@ extension RevokePermissionsInputBody: Swift.Decodable {
         var permissionsWithGrantOptionDecoded0:[LakeFormationClientTypes.Permission]? = nil
         if let permissionsWithGrantOptionContainer = permissionsWithGrantOptionContainer {
             permissionsWithGrantOptionDecoded0 = [LakeFormationClientTypes.Permission]()
-            for string0 in permissionsWithGrantOptionContainer {
-                if let string0 = string0 {
-                    permissionsWithGrantOptionDecoded0?.append(string0)
+            for enum0 in permissionsWithGrantOptionContainer {
+                if let enum0 = enum0 {
+                    permissionsWithGrantOptionDecoded0?.append(enum0)
                 }
             }
         }

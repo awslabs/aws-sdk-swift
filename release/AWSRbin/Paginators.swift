@@ -20,9 +20,19 @@ extension RbinClient {
 extension ListRulesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListRulesInput {
         return ListRulesInput(
+            lockState: self.lockState,
             maxResults: self.maxResults,
             nextToken: token,
             resourceTags: self.resourceTags,
             resourceType: self.resourceType
         )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
+/// to access the nested member `[RbinClientTypes.RuleSummary]`
+/// - Returns: `[RbinClientTypes.RuleSummary]`
+extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutputResponse {
+    public func rules() async throws -> [RbinClientTypes.RuleSummary] {
+        return try await self.asyncCompactMap { item in item.rules }
+    }
 }

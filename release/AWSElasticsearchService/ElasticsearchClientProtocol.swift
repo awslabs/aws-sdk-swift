@@ -11,6 +11,8 @@ public protocol ElasticsearchClientProtocol {
     func addTags(input: AddTagsInput) async throws -> AddTagsOutputResponse
     /// Associates a package with an Amazon ES domain.
     func associatePackage(input: AssociatePackageInput) async throws -> AssociatePackageOutputResponse
+    /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    func authorizeVpcEndpointAccess(input: AuthorizeVpcEndpointAccessInput) async throws -> AuthorizeVpcEndpointAccessOutputResponse
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     func cancelElasticsearchServiceSoftwareUpdate(input: CancelElasticsearchServiceSoftwareUpdateInput) async throws -> CancelElasticsearchServiceSoftwareUpdateOutputResponse
     /// Creates a new Elasticsearch domain. For more information, see [Creating Elasticsearch Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains) in the Amazon Elasticsearch Service Developer Guide.
@@ -19,6 +21,8 @@ public protocol ElasticsearchClientProtocol {
     func createOutboundCrossClusterSearchConnection(input: CreateOutboundCrossClusterSearchConnectionInput) async throws -> CreateOutboundCrossClusterSearchConnectionOutputResponse
     /// Create a package for use with Amazon ES domains.
     func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutputResponse
+    /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
+    func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutputResponse
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     func deleteElasticsearchDomain(input: DeleteElasticsearchDomainInput) async throws -> DeleteElasticsearchDomainOutputResponse
     /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See [Deleting Elasticsearch Service Role](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr) in VPC Endpoints for Amazon Elasticsearch Service Domains.
@@ -29,6 +33,8 @@ public protocol ElasticsearchClientProtocol {
     func deleteOutboundCrossClusterSearchConnection(input: DeleteOutboundCrossClusterSearchConnectionInput) async throws -> DeleteOutboundCrossClusterSearchConnectionOutputResponse
     /// Delete the package.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutputResponse
+    /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutputResponse
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
     func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput) async throws -> DescribeDomainAutoTunesOutputResponse
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
@@ -51,6 +57,8 @@ public protocol ElasticsearchClientProtocol {
     func describeReservedElasticsearchInstanceOfferings(input: DescribeReservedElasticsearchInstanceOfferingsInput) async throws -> DescribeReservedElasticsearchInstanceOfferingsOutputResponse
     /// Returns information about reserved Elasticsearch instances for this account.
     func describeReservedElasticsearchInstances(input: DescribeReservedElasticsearchInstancesInput) async throws -> DescribeReservedElasticsearchInstancesOutputResponse
+    /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+    func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutputResponse
     /// Dissociates a package from the Amazon ES domain.
     func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutputResponse
     /// Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a [DomainName] to get all upgrade compatible Elasticsearch versions for that specific domain.
@@ -73,18 +81,28 @@ public protocol ElasticsearchClientProtocol {
     func listPackagesForDomain(input: ListPackagesForDomainInput) async throws -> ListPackagesForDomainOutputResponse
     /// Returns all tags for the given Elasticsearch domain.
     func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    /// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    func listVpcEndpointAccess(input: ListVpcEndpointAccessInput) async throws -> ListVpcEndpointAccessOutputResponse
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
+    func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutputResponse
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
+    func listVpcEndpointsForDomain(input: ListVpcEndpointsForDomainInput) async throws -> ListVpcEndpointsForDomainOutputResponse
     /// Allows you to purchase reserved Elasticsearch instances.
     func purchaseReservedElasticsearchInstanceOffering(input: PurchaseReservedElasticsearchInstanceOfferingInput) async throws -> PurchaseReservedElasticsearchInstanceOfferingOutputResponse
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request.
     func rejectInboundCrossClusterSearchConnection(input: RejectInboundCrossClusterSearchConnectionInput) async throws -> RejectInboundCrossClusterSearchConnectionOutputResponse
     /// Removes the specified set of tags from the specified Elasticsearch domain.
     func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutputResponse
+    /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutputResponse
     /// Schedules a service software update for an Amazon ES domain.
     func startElasticsearchServiceSoftwareUpdate(input: StartElasticsearchServiceSoftwareUpdateInput) async throws -> StartElasticsearchServiceSoftwareUpdateOutputResponse
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
     func updateElasticsearchDomainConfig(input: UpdateElasticsearchDomainConfigInput) async throws -> UpdateElasticsearchDomainConfigOutputResponse
     /// Updates a package for use with Amazon ES domains.
     func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutputResponse
+    /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutputResponse
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
     func upgradeElasticsearchDomain(input: UpgradeElasticsearchDomainInput) async throws -> UpgradeElasticsearchDomainOutputResponse
 }

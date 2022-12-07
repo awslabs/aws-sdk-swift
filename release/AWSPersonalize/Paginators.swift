@@ -290,6 +290,70 @@ extension PaginatorSequence where Input == ListFiltersInput, Output == ListFilte
     }
 }
 
+/// Paginate over `[ListMetricAttributionMetricsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListMetricAttributionMetricsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListMetricAttributionMetricsOutputResponse`
+extension PersonalizeClient {
+    public func listMetricAttributionMetricsPaginated(input: ListMetricAttributionMetricsInput) -> ClientRuntime.PaginatorSequence<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutputResponse>(input: input, inputKey: \ListMetricAttributionMetricsInput.nextToken, outputKey: \ListMetricAttributionMetricsOutputResponse.nextToken, paginationFunction: self.listMetricAttributionMetrics(input:))
+    }
+}
+
+extension ListMetricAttributionMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMetricAttributionMetricsInput {
+        return ListMetricAttributionMetricsInput(
+            maxResults: self.maxResults,
+            metricAttributionArn: self.metricAttributionArn,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listMetricAttributionMetricsPaginated`
+/// to access the nested member `[PersonalizeClientTypes.MetricAttribute]`
+/// - Returns: `[PersonalizeClientTypes.MetricAttribute]`
+extension PaginatorSequence where Input == ListMetricAttributionMetricsInput, Output == ListMetricAttributionMetricsOutputResponse {
+    public func metrics() async throws -> [PersonalizeClientTypes.MetricAttribute] {
+        return try await self.asyncCompactMap { item in item.metrics }
+    }
+}
+
+/// Paginate over `[ListMetricAttributionsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListMetricAttributionsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListMetricAttributionsOutputResponse`
+extension PersonalizeClient {
+    public func listMetricAttributionsPaginated(input: ListMetricAttributionsInput) -> ClientRuntime.PaginatorSequence<ListMetricAttributionsInput, ListMetricAttributionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListMetricAttributionsInput, ListMetricAttributionsOutputResponse>(input: input, inputKey: \ListMetricAttributionsInput.nextToken, outputKey: \ListMetricAttributionsOutputResponse.nextToken, paginationFunction: self.listMetricAttributions(input:))
+    }
+}
+
+extension ListMetricAttributionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMetricAttributionsInput {
+        return ListMetricAttributionsInput(
+            datasetGroupArn: self.datasetGroupArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listMetricAttributionsPaginated`
+/// to access the nested member `[PersonalizeClientTypes.MetricAttributionSummary]`
+/// - Returns: `[PersonalizeClientTypes.MetricAttributionSummary]`
+extension PaginatorSequence where Input == ListMetricAttributionsInput, Output == ListMetricAttributionsOutputResponse {
+    public func metricAttributions() async throws -> [PersonalizeClientTypes.MetricAttributionSummary] {
+        return try await self.asyncCompactMap { item in item.metricAttributions }
+    }
+}
+
 /// Paginate over `[ListRecipesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

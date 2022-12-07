@@ -2,6 +2,41 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagQueryConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagQueryConfiguration = self.tagQueryConfiguration {
+            try encodeContainer.encode(tagQueryConfiguration, forKey: .tagQueryConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagQueryConfigurationDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration.self, forKey: .tagQueryConfiguration)
+        tagQueryConfiguration = tagQueryConfigurationDecoded
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    /// Includes all of the Service Catalog AppRegistry settings.
+    public struct AppRegistryConfiguration: Swift.Equatable {
+        /// Includes the definition of a tagQuery.
+        public var tagQueryConfiguration: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration?
+
+        public init (
+            tagQueryConfiguration: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration? = nil
+        )
+        {
+            self.tagQueryConfiguration = tagQueryConfiguration
+        }
+    }
+
+}
+
 extension ServiceCatalogAppRegistryClientTypes.Application: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -587,7 +622,8 @@ extension ServiceCatalogAppRegistryClientTypes {
         public var arn: Swift.String?
         /// The unique identifier of the attribute group.
         public var id: Swift.String?
-        /// The name of the attribute group.
+        /// This field is no longer supported. We recommend you don't use the field when using ListAttributeGroupsForApplication. The name of the attribute group.
+        @available(*, deprecated, message: "This field is deprecated. We recommend not using the field when using ListAttributeGroupsForApplication.")
         public var name: Swift.String?
 
         public init (
@@ -2004,6 +2040,89 @@ extension GetAttributeGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configuration"
+    }
+}
+
+public struct GetConfigurationInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct GetConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetConfigurationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.configuration = output.configuration
+        } else {
+            self.configuration = nil
+        }
+    }
+}
+
+public struct GetConfigurationOutputResponse: Swift.Equatable {
+    /// Retrieves TagKey configuration from an account.
+    public var configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
+
+    public init (
+        configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration? = nil
+    )
+    {
+        self.configuration = configuration
+    }
+}
+
+struct GetConfigurationOutputResponseBody: Swift.Equatable {
+    let configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
+}
+
+extension GetConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
 extension ServiceCatalogAppRegistryClientTypes.Integrations: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceGroup
@@ -2605,7 +2724,7 @@ extension ListAttributeGroupsForApplicationOutputResponse: ClientRuntime.HttpRes
 }
 
 public struct ListAttributeGroupsForApplicationOutputResponse: Swift.Equatable {
-    /// The details related to a specific AttributeGroup.
+    /// The details related to a specific attribute group.
     public var attributeGroupsDetails: [ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]?
     /// The token to use to get the next page of results after a previous API call.
     public var nextToken: Swift.String?
@@ -2888,6 +3007,90 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension PutConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+    }
+}
+
+extension PutConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configuration"
+    }
+}
+
+public struct PutConfigurationInput: Swift.Equatable {
+    /// Associates a TagKey configuration to an account.
+    /// This member is required.
+    public var configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
+
+    public init (
+        configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration? = nil
+    )
+    {
+        self.configuration = configuration
+    }
+}
+
+struct PutConfigurationInputBody: Swift.Equatable {
+    let configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
+}
+
+extension PutConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+extension PutConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum PutConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct PutConfigurationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension ServiceCatalogAppRegistryClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -2948,6 +3151,41 @@ extension ServiceCatalogAppRegistryClientTypes {
             self.associationTime = associationTime
             self.integrations = integrations
             self.name = name
+        }
+    }
+
+}
+
+extension ServiceCatalogAppRegistryClientTypes.ResourceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagValue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagValue = self.tagValue {
+            try encodeContainer.encode(tagValue, forKey: .tagValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagValue)
+        tagValue = tagValueDecoded
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    /// The details related to the resource.
+    public struct ResourceDetails: Swift.Equatable {
+        /// The value of the tag.
+        public var tagValue: Swift.String?
+
+        public init (
+            tagValue: Swift.String? = nil
+        )
+        {
+            self.tagValue = tagValue
         }
     }
 
@@ -3056,6 +3294,8 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case name
+        case resourceDetails
+        case resourceType
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3066,6 +3306,12 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let resourceDetails = self.resourceDetails {
+            try encodeContainer.encode(resourceDetails, forKey: .resourceDetails)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3074,6 +3320,10 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo: Swift.Codable {
         name = nameDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceDetailsDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.ResourceDetails.self, forKey: .resourceDetails)
+        resourceDetails = resourceDetailsDecoded
     }
 }
 
@@ -3084,14 +3334,22 @@ extension ServiceCatalogAppRegistryClientTypes {
         public var arn: Swift.String?
         /// The name of the resource.
         public var name: Swift.String?
+        /// The details related to the resource.
+        public var resourceDetails: ServiceCatalogAppRegistryClientTypes.ResourceDetails?
+        /// Provides information about the Service Catalog App Registry resource type.
+        public var resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType?
 
         public init (
             arn: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            resourceDetails: ServiceCatalogAppRegistryClientTypes.ResourceDetails? = nil,
+            resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
         )
         {
             self.arn = arn
             self.name = name
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
         }
     }
 
@@ -3187,11 +3445,13 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 extension ServiceCatalogAppRegistryClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cfnStack
+        case resourceTagValue
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
                 .cfnStack,
+                .resourceTagValue,
                 .sdkUnknown("")
             ]
         }
@@ -3202,6 +3462,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cfnStack: return "CFN_STACK"
+            case .resourceTagValue: return "RESOURCE_TAG_VALUE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3421,6 +3682,41 @@ extension SyncResourceOutputResponseBody: Swift.Decodable {
         let actionTakenDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.SyncAction.self, forKey: .actionTaken)
         actionTaken = actionTakenDecoded
     }
+}
+
+extension ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagKey
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagKey = self.tagKey {
+            try encodeContainer.encode(tagKey, forKey: .tagKey)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagKey)
+        tagKey = tagKeyDecoded
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    /// The definition of tagQuery. Specifies which resources are associated with an application.
+    public struct TagQueryConfiguration: Swift.Equatable {
+        /// Condition in the IAM policy that associates resources to an application.
+        public var tagKey: Swift.String?
+
+        public init (
+            tagKey: Swift.String? = nil
+        )
+        {
+            self.tagKey = tagKey
+        }
+    }
+
 }
 
 extension TagResourceInput: Swift.Encodable {

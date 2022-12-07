@@ -1449,6 +1449,7 @@ extension MediaPackageVodClientTypes.DashPackage: Swift.Codable {
         case dashManifests = "dashManifests"
         case encryption = "encryption"
         case includeEncoderConfigurationInSegments = "includeEncoderConfigurationInSegments"
+        case includeIframeOnlyStream = "includeIframeOnlyStream"
         case periodTriggers = "periodTriggers"
         case segmentDurationSeconds = "segmentDurationSeconds"
         case segmentTemplateFormat = "segmentTemplateFormat"
@@ -1467,6 +1468,9 @@ extension MediaPackageVodClientTypes.DashPackage: Swift.Codable {
         }
         if let includeEncoderConfigurationInSegments = self.includeEncoderConfigurationInSegments {
             try encodeContainer.encode(includeEncoderConfigurationInSegments, forKey: .includeEncoderConfigurationInSegments)
+        }
+        if let includeIframeOnlyStream = self.includeIframeOnlyStream {
+            try encodeContainer.encode(includeIframeOnlyStream, forKey: .includeIframeOnlyStream)
         }
         if let periodTriggers = periodTriggers {
             var periodTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .periodTriggers)
@@ -1499,6 +1503,8 @@ extension MediaPackageVodClientTypes.DashPackage: Swift.Codable {
         encryption = encryptionDecoded
         let includeEncoderConfigurationInSegmentsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeEncoderConfigurationInSegments)
         includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegmentsDecoded
+        let includeIframeOnlyStreamDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeIframeOnlyStream)
+        includeIframeOnlyStream = includeIframeOnlyStreamDecoded
         let periodTriggersContainer = try containerValues.decodeIfPresent([MediaPackageVodClientTypes.__PeriodTriggersElement?].self, forKey: .periodTriggers)
         var periodTriggersDecoded0:[MediaPackageVodClientTypes.__PeriodTriggersElement]? = nil
         if let periodTriggersContainer = periodTriggersContainer {
@@ -1527,6 +1533,8 @@ extension MediaPackageVodClientTypes {
         public var encryption: MediaPackageVodClientTypes.DashEncryption?
         /// When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.
         public var includeEncoderConfigurationInSegments: Swift.Bool?
+        /// When enabled, an I-Frame only stream will be included in the output.
+        public var includeIframeOnlyStream: Swift.Bool?
         /// A list of triggers that controls when the outgoing Dynamic Adaptive Streaming over HTTP (DASH) Media Presentation Description (MPD) will be partitioned into multiple periods. If empty, the content will not be partitioned into more than one period. If the list contains "ADS", new periods will be created where the Asset contains SCTE-35 ad markers.
         public var periodTriggers: [MediaPackageVodClientTypes.__PeriodTriggersElement]?
         /// Duration (in seconds) of each segment. Actual segments will be rounded to the nearest multiple of the source segment duration.
@@ -1538,6 +1546,7 @@ extension MediaPackageVodClientTypes {
             dashManifests: [MediaPackageVodClientTypes.DashManifest]? = nil,
             encryption: MediaPackageVodClientTypes.DashEncryption? = nil,
             includeEncoderConfigurationInSegments: Swift.Bool? = nil,
+            includeIframeOnlyStream: Swift.Bool? = nil,
             periodTriggers: [MediaPackageVodClientTypes.__PeriodTriggersElement]? = nil,
             segmentDurationSeconds: Swift.Int? = nil,
             segmentTemplateFormat: MediaPackageVodClientTypes.SegmentTemplateFormat? = nil
@@ -1546,6 +1555,7 @@ extension MediaPackageVodClientTypes {
             self.dashManifests = dashManifests
             self.encryption = encryption
             self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
+            self.includeIframeOnlyStream = includeIframeOnlyStream
             self.periodTriggers = periodTriggers
             self.segmentDurationSeconds = segmentDurationSeconds
             self.segmentTemplateFormat = segmentTemplateFormat
