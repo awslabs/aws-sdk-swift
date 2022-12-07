@@ -106,7 +106,10 @@ func generateDependencies(_ deps: PackageDeps) {
     let crtSwiftDependency = dependency(
         url: "https://github.com/awslabs/aws-crt-swift",
         version: deps.awsCRTSwiftVersion,
-        branch: deps.awsCRTSwiftBranch, 
+        // if the branch is main, then don't use it. 
+        // this will fallback to the version
+        // REMOVE THIS ONCE WE FIX BUILD ERRORS CAUSED BY main
+        branch: deps.awsCRTSwiftBranch == "main" ? nil : deps.awsCRTSwiftBranch, 
         path: deps.awsCRTSwiftPath
     )
     let clientRuntimeDependency = dependency(
