@@ -71,26 +71,45 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - ubuntu-x64
-          - al2-x64
+        os:
+          - jammy
+          - amazonlinux2
+        swift:
+          - 5.5
+          - 5.6
+          - 5.7
+        exclude:
+          - os: jammy
+            swift: 5.5
+          - os: jammy
+            swift: 5.6
+    container:
+      image: swift:${{ matrix.swift }}-${{ matrix.os }}
     steps:
+      - name: Install openssl
+        run: |
+          if [ -x "$(command -v apt)" ]; then
+            apt-get update && apt-get install -y libssl-dev
+          else
+            yum install -y openssl-devel
+          fi
+      - name: Setup Environment
+        run: |
+          echo "AWS_SDK_REF_TO_BUILD=$GITHUB_REF_NAME" >> $GITHUB_ENV
       - name: Checkout Sources
         uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Setup Java
+        uses: actions/setup-java@v1
         with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        # todo: remove the aws credentials from the below command eventually once the CRT builder no longer requires aws credentials
-        run: |
-          aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
-          export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
-          docker pull $DOCKER_IMAGE
-          docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
-          --env GITHUB_REF \
-          --env GITHUB_HEAD_REF \
-          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
-          --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
-          --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
-          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
-          $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
+          java-version: 18
+      - name: Set References
+        run: ./scripts/steps/set_references.sh
+      - name: Install Dependencies
+        run: ./scripts/steps/install_dependencies.sh
+      - name: Perform Test Codegen
+        run: ./scripts/steps/perform_test_codegen.sh
+      - name: Post-Codegen Cleanup
+        run: ./scripts/steps/post_codegen_cleanup.sh
+      - name: Build and Test With Swift CLI
+        run: ./scripts/steps/build_and_test_with_swift_cli.sh
+
