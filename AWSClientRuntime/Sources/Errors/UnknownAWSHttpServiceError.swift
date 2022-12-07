@@ -7,6 +7,8 @@ import ClientRuntime
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
 public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
+    public var _errorCode: String?
+
     public var _isThrottling: Bool = false
     
     public var _statusCode: HttpStatusCode?
@@ -23,10 +25,16 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
 }
 
 extension UnknownAWSHttpServiceError {
-    public init(httpResponse: HttpResponse, message: String? = nil, requestID: String? = nil) {
+    public init(httpResponse: HttpResponse, message: String? = nil, requestID: String? = nil, errorCode: String? = nil) {
+        self._errorCode = errorCode
         self._statusCode = httpResponse.statusCode
         self._headers = httpResponse.headers
         self._requestID = requestID ?? httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         self._message = message
     }
+}
+
+extension UnknownAWSHttpServiceError: CodedError {
+
+    public var errorCode: String? { _errorCode }
 }
