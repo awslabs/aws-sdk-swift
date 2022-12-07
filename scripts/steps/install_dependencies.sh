@@ -9,6 +9,9 @@ set -x
 mkdir -p release
 
 # Generate Package.swift with branches set, if needed.
+# Unset the path vars used for CRT CI so they don't get used here
+unset AWS_CRT_SWIFT_CI_DIR
+unset SMITHY_SWIFT_CI_DIR
 swift ./scripts/generatePackageSwift.swift > Package.swift
 
 # Dump the manifest to the console
