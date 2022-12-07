@@ -55,10 +55,7 @@ func getPackageDependencies() -> PackageDeps? {
     // If env vars are set for package paths in the AWS CRT Builder script, use them
     // unless generating the manifest for release
     if let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"], let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
-        // Forcing the CRT path to be nil
-        // this will fallback to the version
-        // REMOVE THIS ONCE WE FIX BUILD ERRORS CAUSED BY main
-        // deps.awsCRTSwiftPath = awsCRTSwiftCIPath
+        deps.awsCRTSwiftPath = awsCRTSwiftCIPath
         deps.clientRuntimePath = smithySwiftCIPath
     }
     return deps
@@ -109,8 +106,10 @@ func generateDependencies(_ deps: PackageDeps) {
     let crtSwiftDependency = dependency(
         url: "https://github.com/awslabs/aws-crt-swift",
         version: deps.awsCRTSwiftVersion,
-        branch: deps.awsCRTSwiftBranch, 
-        path: deps.awsCRTSwiftPath
+        // Forcing the CRT to use the version
+        // REMOVE THIS ONCE WE FIX BUILD ERRORS CAUSED BY main
+        branch: nil, //deps.awsCRTSwiftBranch, 
+        path: nil //deps.awsCRTSwiftPath
     )
     let clientRuntimeDependency = dependency(
         url: "https://github.com/awslabs/smithy-swift",
