@@ -238,6 +238,65 @@ extension AddProfileKeyOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CustomerProfilesClientTypes.AdditionalSearchKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyName = "KeyName"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyName = self.keyName {
+            try encodeContainer.encode(keyName, forKey: .keyName)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for requestvaluelist0 in values {
+                try valuesContainer.encode(requestvaluelist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// A data type pair that consists of a KeyName and Values list that is used in conjunction with the [KeyName](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html#customerprofiles-SearchProfiles-request-KeyName) and [Values](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html#customerprofiles-SearchProfiles-request-Values) parameters to search for profiles using the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) API.
+    public struct AdditionalSearchKey: Swift.Equatable {
+        /// A searchable identifier of a customer profile.
+        /// This member is required.
+        public var keyName: Swift.String?
+        /// A list of key values.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init (
+            keyName: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.keyName = keyName
+            self.values = values
+        }
+    }
+
+}
+
 extension CustomerProfilesClientTypes.Address: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address1 = "Address1"
@@ -3300,6 +3359,63 @@ extension CustomerProfilesClientTypes {
             self.sourceFlowConfig = sourceFlowConfig
             self.tasks = tasks
             self.triggerConfig = triggerConfig
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes.FoundByKeyValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyName = "KeyName"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyName = self.keyName {
+            try encodeContainer.encode(keyName, forKey: .keyName)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for requestvaluelist0 in values {
+                try valuesContainer.encode(requestvaluelist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// A data type pair that consists of a KeyName and Values list that were used to find a profile returned in response to a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
+    public struct FoundByKeyValue: Swift.Equatable {
+        /// A searchable identifier of a customer profile.
+        public var keyName: Swift.String?
+        /// A list of key values.
+        public var values: [Swift.String]?
+
+        public init (
+            keyName: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.keyName = keyName
+            self.values = values
         }
     }
 
@@ -7486,6 +7602,38 @@ extension ListWorkflowsOutputResponseBody: Swift.Decodable {
 }
 
 extension CustomerProfilesClientTypes {
+    public enum LogicalOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case and
+        case or
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogicalOperator] {
+            return [
+                .and,
+                .or,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .and: return "AND"
+            case .or: return "OR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LogicalOperator(rawValue: rawValue) ?? LogicalOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
     public enum MarketoConnectorOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case addition
         case between
@@ -8097,9 +8245,9 @@ extension CustomerProfilesClientTypes.ObjectTypeKey: Swift.Codable {
         var standardIdentifiersDecoded0:[CustomerProfilesClientTypes.StandardIdentifier]? = nil
         if let standardIdentifiersContainer = standardIdentifiersContainer {
             standardIdentifiersDecoded0 = [CustomerProfilesClientTypes.StandardIdentifier]()
-            for string0 in standardIdentifiersContainer {
-                if let string0 = string0 {
-                    standardIdentifiersDecoded0?.append(string0)
+            for enum0 in standardIdentifiersContainer {
+                if let enum0 = enum0 {
+                    standardIdentifiersDecoded0?.append(enum0)
                 }
             }
         }
@@ -8254,6 +8402,7 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
         case businessPhoneNumber = "BusinessPhoneNumber"
         case emailAddress = "EmailAddress"
         case firstName = "FirstName"
+        case foundByItems = "FoundByItems"
         case gender = "Gender"
         case homePhoneNumber = "HomePhoneNumber"
         case lastName = "LastName"
@@ -8304,6 +8453,12 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
         }
         if let firstName = self.firstName {
             try encodeContainer.encode(firstName, forKey: .firstName)
+        }
+        if let foundByItems = foundByItems {
+            var foundByItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .foundByItems)
+            for foundbylist0 in foundByItems {
+                try foundByItemsContainer.encode(foundbylist0)
+            }
         }
         if let gender = self.gender {
             try encodeContainer.encode(gender.rawValue, forKey: .gender)
@@ -8395,6 +8550,17 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
             }
         }
         attributes = attributesDecoded0
+        let foundByItemsContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.FoundByKeyValue?].self, forKey: .foundByItems)
+        var foundByItemsDecoded0:[CustomerProfilesClientTypes.FoundByKeyValue]? = nil
+        if let foundByItemsContainer = foundByItemsContainer {
+            foundByItemsDecoded0 = [CustomerProfilesClientTypes.FoundByKeyValue]()
+            for structure0 in foundByItemsContainer {
+                if let structure0 = structure0 {
+                    foundByItemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        foundByItems = foundByItemsDecoded0
     }
 }
 
@@ -8423,6 +8589,15 @@ extension CustomerProfilesClientTypes {
         public var emailAddress: Swift.String?
         /// The customer’s first name.
         public var firstName: Swift.String?
+        /// A list of items used to find a profile returned in a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) response. An item is a key-value(s) pair that matches an attribute in the profile. If the optional AdditionalSearchKeys parameter was included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request, the FoundByItems list should be interpreted based on the LogicalOperator used in the request:
+        ///
+        /// * AND - The profile included in the response matched all of the search keys specified in the request. The FoundByItems will include all of the key-value(s) pairs that were specified in the request (as this is a requirement of AND search logic).
+        ///
+        /// * OR - The profile included in the response matched at least one of the search keys specified in the request. The FoundByItems will include each of the key-value(s) pairs that the profile was found by.
+        ///
+        ///
+        /// The OR relationship is the default behavior if the LogicalOperator parameter is not included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
+        public var foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]?
         /// The gender with which the customer identifies.
         public var gender: CustomerProfilesClientTypes.Gender?
         /// The customer’s home phone number.
@@ -8458,6 +8633,7 @@ extension CustomerProfilesClientTypes {
             businessPhoneNumber: Swift.String? = nil,
             emailAddress: Swift.String? = nil,
             firstName: Swift.String? = nil,
+            foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]? = nil,
             gender: CustomerProfilesClientTypes.Gender? = nil,
             homePhoneNumber: Swift.String? = nil,
             lastName: Swift.String? = nil,
@@ -8482,6 +8658,7 @@ extension CustomerProfilesClientTypes {
             self.businessPhoneNumber = businessPhoneNumber
             self.emailAddress = emailAddress
             self.firstName = firstName
+            self.foundByItems = foundByItems
             self.gender = gender
             self.homePhoneNumber = homePhoneNumber
             self.lastName = lastName
@@ -9876,14 +10053,25 @@ extension CustomerProfilesClientTypes {
 
 extension SearchProfilesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalSearchKeys = "AdditionalSearchKeys"
         case keyName = "KeyName"
+        case logicalOperator = "LogicalOperator"
         case values = "Values"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalSearchKeys = additionalSearchKeys {
+            var additionalSearchKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalSearchKeys)
+            for additionalsearchkeyslist0 in additionalSearchKeys {
+                try additionalSearchKeysContainer.encode(additionalsearchkeyslist0)
+            }
+        }
         if let keyName = self.keyName {
             try encodeContainer.encode(keyName, forKey: .keyName)
+        }
+        if let logicalOperator = self.logicalOperator {
+            try encodeContainer.encode(logicalOperator.rawValue, forKey: .logicalOperator)
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
@@ -9921,13 +10109,24 @@ extension SearchProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchProfilesInput: Swift.Equatable {
+    /// A list of AdditionalSearchKey objects that are each searchable identifiers of a profile. Each AdditionalSearchKey object contains a KeyName and a list of Values associated with that specific key (i.e., a key-value(s) pair). These additional search keys will be used in conjunction with the LogicalOperator and the required KeyName and Values parameters to search for profiles that satisfy the search criteria.
+    public var additionalSearchKeys: [CustomerProfilesClientTypes.AdditionalSearchKey]?
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
     /// A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId, _shopifyOrderId.
     /// This member is required.
     public var keyName: Swift.String?
-    /// The maximum number of objects returned per page.
+    /// Relationship between all specified search keys that will be used to search for profiles. This includes the required KeyName and Values parameters as well as any key-value(s) pairs specified in the AdditionalSearchKeys list. This parameter influences which profiles will be returned in the response in the following manner:
+    ///
+    /// * AND - The response only includes profiles that match all of the search keys.
+    ///
+    /// * OR - The response includes profiles that match at least one of the search keys.
+    ///
+    ///
+    /// The OR relationship is the default behavior if this parameter is not included in the request.
+    public var logicalOperator: CustomerProfilesClientTypes.LogicalOperator?
+    /// The maximum number of objects returned per page. The default is 20 if this parameter is not included in the request.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous SearchProfiles API call.
     public var nextToken: Swift.String?
@@ -9936,15 +10135,19 @@ public struct SearchProfilesInput: Swift.Equatable {
     public var values: [Swift.String]?
 
     public init (
+        additionalSearchKeys: [CustomerProfilesClientTypes.AdditionalSearchKey]? = nil,
         domainName: Swift.String? = nil,
         keyName: Swift.String? = nil,
+        logicalOperator: CustomerProfilesClientTypes.LogicalOperator? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         values: [Swift.String]? = nil
     )
     {
+        self.additionalSearchKeys = additionalSearchKeys
         self.domainName = domainName
         self.keyName = keyName
+        self.logicalOperator = logicalOperator
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.values = values
@@ -9954,11 +10157,15 @@ public struct SearchProfilesInput: Swift.Equatable {
 struct SearchProfilesInputBody: Swift.Equatable {
     let keyName: Swift.String?
     let values: [Swift.String]?
+    let additionalSearchKeys: [CustomerProfilesClientTypes.AdditionalSearchKey]?
+    let logicalOperator: CustomerProfilesClientTypes.LogicalOperator?
 }
 
 extension SearchProfilesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalSearchKeys = "AdditionalSearchKeys"
         case keyName = "KeyName"
+        case logicalOperator = "LogicalOperator"
         case values = "Values"
     }
 
@@ -9977,6 +10184,19 @@ extension SearchProfilesInputBody: Swift.Decodable {
             }
         }
         values = valuesDecoded0
+        let additionalSearchKeysContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.AdditionalSearchKey?].self, forKey: .additionalSearchKeys)
+        var additionalSearchKeysDecoded0:[CustomerProfilesClientTypes.AdditionalSearchKey]? = nil
+        if let additionalSearchKeysContainer = additionalSearchKeysContainer {
+            additionalSearchKeysDecoded0 = [CustomerProfilesClientTypes.AdditionalSearchKey]()
+            for structure0 in additionalSearchKeysContainer {
+                if let structure0 = structure0 {
+                    additionalSearchKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        additionalSearchKeys = additionalSearchKeysDecoded0
+        let logicalOperatorDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.LogicalOperator.self, forKey: .logicalOperator)
+        logicalOperator = logicalOperatorDecoded
     }
 }
 
@@ -10026,7 +10246,7 @@ extension SearchProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct SearchProfilesOutputResponse: Swift.Equatable {
-    /// The list of SearchProfiles instances.
+    /// The list of Profiles matching the search criteria.
     public var items: [CustomerProfilesClientTypes.Profile]?
     /// The pagination token from the previous SearchProfiles API call.
     public var nextToken: Swift.String?

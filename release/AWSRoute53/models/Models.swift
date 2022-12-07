@@ -2215,6 +2215,7 @@ extension Route53ClientTypes {
         case apNortheast2
         case apNortheast3
         case apSouth1
+        case apSouth2
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
@@ -2225,6 +2226,7 @@ extension Route53ClientTypes {
         case euCentral2
         case euNorth1
         case euSouth1
+        case euSouth2
         case euWest1
         case euWest2
         case euWest3
@@ -2250,6 +2252,7 @@ extension Route53ClientTypes {
                 .apNortheast2,
                 .apNortheast3,
                 .apSouth1,
+                .apSouth2,
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
@@ -2260,6 +2263,7 @@ extension Route53ClientTypes {
                 .euCentral2,
                 .euNorth1,
                 .euSouth1,
+                .euSouth2,
                 .euWest1,
                 .euWest2,
                 .euWest3,
@@ -2290,6 +2294,7 @@ extension Route53ClientTypes {
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
             case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
@@ -2300,6 +2305,7 @@ extension Route53ClientTypes {
             case .euCentral2: return "eu-central-2"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
@@ -16220,6 +16226,7 @@ extension Route53ClientTypes {
         case apNortheast2
         case apNortheast3
         case apSouth1
+        case apSouth2
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
@@ -16230,6 +16237,7 @@ extension Route53ClientTypes {
         case euCentral2
         case euNorth1
         case euSouth1
+        case euSouth2
         case euWest1
         case euWest2
         case euWest3
@@ -16250,6 +16258,7 @@ extension Route53ClientTypes {
                 .apNortheast2,
                 .apNortheast3,
                 .apSouth1,
+                .apSouth2,
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
@@ -16260,6 +16269,7 @@ extension Route53ClientTypes {
                 .euCentral2,
                 .euNorth1,
                 .euSouth1,
+                .euSouth2,
                 .euWest1,
                 .euWest2,
                 .euWest3,
@@ -16285,6 +16295,7 @@ extension Route53ClientTypes {
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
             case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
@@ -16295,6 +16306,7 @@ extension Route53ClientTypes {
             case .euCentral2: return "eu-central-2"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
@@ -18951,6 +18963,7 @@ extension Route53ClientTypes {
         case apNortheast2
         case apNortheast3
         case apSouth1
+        case apSouth2
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
@@ -18960,6 +18973,7 @@ extension Route53ClientTypes {
         case euCentral2
         case euNorth1
         case euSouth1
+        case euSouth2
         case euWest1
         case euWest2
         case euWest3
@@ -18985,6 +18999,7 @@ extension Route53ClientTypes {
                 .apNortheast2,
                 .apNortheast3,
                 .apSouth1,
+                .apSouth2,
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
@@ -18994,6 +19009,7 @@ extension Route53ClientTypes {
                 .euCentral2,
                 .euNorth1,
                 .euSouth1,
+                .euSouth2,
                 .euWest1,
                 .euWest2,
                 .euWest3,
@@ -19024,6 +19040,7 @@ extension Route53ClientTypes {
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
             case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
@@ -19033,6 +19050,7 @@ extension Route53ClientTypes {
             case .euCentral2: return "eu-central-2"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"

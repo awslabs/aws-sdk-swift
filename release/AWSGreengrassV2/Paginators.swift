@@ -152,6 +152,7 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
             historyFilter: self.historyFilter,
             maxResults: self.maxResults,
             nextToken: token,
+            parentTargetArn: self.parentTargetArn,
             targetArn: self.targetArn
         )}
 }

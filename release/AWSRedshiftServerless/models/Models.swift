@@ -166,6 +166,7 @@ extension ConvertRecoveryPointToSnapshotInput: Swift.Encodable {
         case recoveryPointId
         case retentionPeriod
         case snapshotName
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -178,6 +179,12 @@ extension ConvertRecoveryPointToSnapshotInput: Swift.Encodable {
         }
         if let snapshotName = self.snapshotName {
             try encodeContainer.encode(snapshotName, forKey: .snapshotName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglist0 in tags {
+                try tagsContainer.encode(taglist0)
+            }
         }
     }
 }
@@ -197,16 +204,20 @@ public struct ConvertRecoveryPointToSnapshotInput: Swift.Equatable {
     /// The name of the snapshot.
     /// This member is required.
     public var snapshotName: Swift.String?
+    /// An array of [Tag objects](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_Tag.html) to associate with the created snapshot.
+    public var tags: [RedshiftServerlessClientTypes.Tag]?
 
     public init (
         recoveryPointId: Swift.String? = nil,
         retentionPeriod: Swift.Int? = nil,
-        snapshotName: Swift.String? = nil
+        snapshotName: Swift.String? = nil,
+        tags: [RedshiftServerlessClientTypes.Tag]? = nil
     )
     {
         self.recoveryPointId = recoveryPointId
         self.retentionPeriod = retentionPeriod
         self.snapshotName = snapshotName
+        self.tags = tags
     }
 }
 
@@ -214,6 +225,7 @@ struct ConvertRecoveryPointToSnapshotInputBody: Swift.Equatable {
     let recoveryPointId: Swift.String?
     let snapshotName: Swift.String?
     let retentionPeriod: Swift.Int?
+    let tags: [RedshiftServerlessClientTypes.Tag]?
 }
 
 extension ConvertRecoveryPointToSnapshotInputBody: Swift.Decodable {
@@ -221,6 +233,7 @@ extension ConvertRecoveryPointToSnapshotInputBody: Swift.Decodable {
         case recoveryPointId
         case retentionPeriod
         case snapshotName
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -231,6 +244,17 @@ extension ConvertRecoveryPointToSnapshotInputBody: Swift.Decodable {
         snapshotName = snapshotNameDecoded
         let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod)
         retentionPeriod = retentionPeriodDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([RedshiftServerlessClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[RedshiftServerlessClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [RedshiftServerlessClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -249,6 +273,7 @@ extension ConvertRecoveryPointToSnapshotOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -260,6 +285,7 @@ public enum ConvertRecoveryPointToSnapshotOutputError: Swift.Error, Swift.Equata
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case tooManyTagsException(TooManyTagsException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -747,6 +773,7 @@ extension CreateSnapshotInput: Swift.Encodable {
         case namespaceName
         case retentionPeriod
         case snapshotName
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -759,6 +786,12 @@ extension CreateSnapshotInput: Swift.Encodable {
         }
         if let snapshotName = self.snapshotName {
             try encodeContainer.encode(snapshotName, forKey: .snapshotName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglist0 in tags {
+                try tagsContainer.encode(taglist0)
+            }
         }
     }
 }
@@ -778,16 +811,20 @@ public struct CreateSnapshotInput: Swift.Equatable {
     /// The name of the snapshot.
     /// This member is required.
     public var snapshotName: Swift.String?
+    /// An array of [Tag objects](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_Tag.html) to associate with the snapshot.
+    public var tags: [RedshiftServerlessClientTypes.Tag]?
 
     public init (
         namespaceName: Swift.String? = nil,
         retentionPeriod: Swift.Int? = nil,
-        snapshotName: Swift.String? = nil
+        snapshotName: Swift.String? = nil,
+        tags: [RedshiftServerlessClientTypes.Tag]? = nil
     )
     {
         self.namespaceName = namespaceName
         self.retentionPeriod = retentionPeriod
         self.snapshotName = snapshotName
+        self.tags = tags
     }
 }
 
@@ -795,6 +832,7 @@ struct CreateSnapshotInputBody: Swift.Equatable {
     let namespaceName: Swift.String?
     let snapshotName: Swift.String?
     let retentionPeriod: Swift.Int?
+    let tags: [RedshiftServerlessClientTypes.Tag]?
 }
 
 extension CreateSnapshotInputBody: Swift.Decodable {
@@ -802,6 +840,7 @@ extension CreateSnapshotInputBody: Swift.Decodable {
         case namespaceName
         case retentionPeriod
         case snapshotName
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -812,6 +851,17 @@ extension CreateSnapshotInputBody: Swift.Decodable {
         snapshotName = snapshotNameDecoded
         let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod)
         retentionPeriod = retentionPeriodDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([RedshiftServerlessClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[RedshiftServerlessClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [RedshiftServerlessClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -830,6 +880,7 @@ extension CreateSnapshotOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -841,6 +892,7 @@ public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case tooManyTagsException(TooManyTagsException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1061,6 +1113,7 @@ extension CreateWorkgroupInput: Swift.Encodable {
         case configParameters
         case enhancedVpcRouting
         case namespaceName
+        case port
         case publiclyAccessible
         case securityGroupIds
         case subnetIds
@@ -1084,6 +1137,9 @@ extension CreateWorkgroupInput: Swift.Encodable {
         }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
         }
         if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
@@ -1128,6 +1184,8 @@ public struct CreateWorkgroupInput: Swift.Equatable {
     /// The name of the namespace to associate with the workgroup.
     /// This member is required.
     public var namespaceName: Swift.String?
+    /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+    public var port: Swift.Int?
     /// A value that specifies whether the workgroup can be accessed from a public network.
     public var publiclyAccessible: Swift.Bool?
     /// An array of security group IDs to associate with the workgroup.
@@ -1145,6 +1203,7 @@ public struct CreateWorkgroupInput: Swift.Equatable {
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
         namespaceName: Swift.String? = nil,
+        port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -1156,6 +1215,7 @@ public struct CreateWorkgroupInput: Swift.Equatable {
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
         self.namespaceName = namespaceName
+        self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -1174,6 +1234,7 @@ struct CreateWorkgroupInputBody: Swift.Equatable {
     let subnetIds: [Swift.String]?
     let publiclyAccessible: Swift.Bool?
     let tags: [RedshiftServerlessClientTypes.Tag]?
+    let port: Swift.Int?
 }
 
 extension CreateWorkgroupInputBody: Swift.Decodable {
@@ -1182,6 +1243,7 @@ extension CreateWorkgroupInputBody: Swift.Decodable {
         case configParameters
         case enhancedVpcRouting
         case namespaceName
+        case port
         case publiclyAccessible
         case securityGroupIds
         case subnetIds
@@ -1245,6 +1307,8 @@ extension CreateWorkgroupInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
     }
 }
 
@@ -2264,7 +2328,7 @@ public struct GetCredentialsInput: Swift.Equatable {
     ///
     /// * Must be 1 to 64 alphanumeric characters or hyphens.
     ///
-    /// * Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.
+    /// * Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.
     ///
     /// * The first character must be a letter.
     ///
@@ -3019,6 +3083,119 @@ extension GetSnapshotOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetTableRestoreStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableRestoreRequestId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableRestoreRequestId = self.tableRestoreRequestId {
+            try encodeContainer.encode(tableRestoreRequestId, forKey: .tableRestoreRequestId)
+        }
+    }
+}
+
+extension GetTableRestoreStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetTableRestoreStatusInput: Swift.Equatable {
+    /// The ID of the RestoreTableFromSnapshot request to return status for.
+    /// This member is required.
+    public var tableRestoreRequestId: Swift.String?
+
+    public init (
+        tableRestoreRequestId: Swift.String? = nil
+    )
+    {
+        self.tableRestoreRequestId = tableRestoreRequestId
+    }
+}
+
+struct GetTableRestoreStatusInputBody: Swift.Equatable {
+    let tableRestoreRequestId: Swift.String?
+}
+
+extension GetTableRestoreStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableRestoreRequestId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableRestoreRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableRestoreRequestId)
+        tableRestoreRequestId = tableRestoreRequestIdDecoded
+    }
+}
+
+extension GetTableRestoreStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetTableRestoreStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetTableRestoreStatusOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetTableRestoreStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetTableRestoreStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tableRestoreStatus = output.tableRestoreStatus
+        } else {
+            self.tableRestoreStatus = nil
+        }
+    }
+}
+
+public struct GetTableRestoreStatusOutputResponse: Swift.Equatable {
+    /// The returned TableRestoreStatus object that contains information about the status of your RestoreTableFromSnapshot request.
+    public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
+
+    public init (
+        tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus? = nil
+    )
+    {
+        self.tableRestoreStatus = tableRestoreStatus
+    }
+}
+
+struct GetTableRestoreStatusOutputResponseBody: Swift.Equatable {
+    let tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
+}
+
+extension GetTableRestoreStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableRestoreStatus
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableRestoreStatusDecoded = try containerValues.decodeIfPresent(RedshiftServerlessClientTypes.TableRestoreStatus.self, forKey: .tableRestoreStatus)
+        tableRestoreStatus = tableRestoreStatusDecoded
+    }
+}
+
 extension GetUsageLimitInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case usageLimitId
@@ -3435,9 +3612,9 @@ extension ListEndpointAccessInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListEndpointAccessInput: Swift.Equatable {
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
-    /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in subsequent ListEndpointAccess operations, which returns results in the next page.
+    /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in following ListEndpointAccess operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The unique identifier of the virtual private cloud with access to Amazon Redshift Serverless.
     public var vpcId: Swift.String?
@@ -3582,9 +3759,9 @@ extension ListNamespacesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListNamespacesInput: Swift.Equatable {
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
-    /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in subsequent ListNamespaces operations, which returns results in the next page.
+    /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
@@ -3694,6 +3871,7 @@ extension ListNamespacesOutputResponseBody: Swift.Decodable {
 extension ListRecoveryPointsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
+        case namespaceArn
         case namespaceName
         case startTime
     }
@@ -3702,6 +3880,9 @@ extension ListRecoveryPointsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let namespaceArn = self.namespaceArn {
+            try encodeContainer.encode(namespaceArn, forKey: .namespaceArn)
         }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
@@ -3721,11 +3902,13 @@ extension ListRecoveryPointsInput: ClientRuntime.URLPathProvider {
 public struct ListRecoveryPointsInput: Swift.Equatable {
     /// The time when creation of the recovery point finished.
     public var endTime: ClientRuntime.Date?
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the namespace from which to list recovery points.
+    public var namespaceArn: Swift.String?
     /// The name of the namespace to list recovery points for.
     public var namespaceName: Swift.String?
-    /// If your initial ListRecoveryPoints operation returns a nextToken, you can include the returned nextToken in subsequent ListRecoveryPoints operations, which returns results in the next page.
+    /// If your initial ListRecoveryPoints operation returns a nextToken, you can include the returned nextToken in following ListRecoveryPoints operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The time when the recovery point's creation was initiated.
     public var startTime: ClientRuntime.Date?
@@ -3733,6 +3916,7 @@ public struct ListRecoveryPointsInput: Swift.Equatable {
     public init (
         endTime: ClientRuntime.Date? = nil,
         maxResults: Swift.Int? = nil,
+        namespaceArn: Swift.String? = nil,
         namespaceName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil
@@ -3740,6 +3924,7 @@ public struct ListRecoveryPointsInput: Swift.Equatable {
     {
         self.endTime = endTime
         self.maxResults = maxResults
+        self.namespaceArn = namespaceArn
         self.namespaceName = namespaceName
         self.nextToken = nextToken
         self.startTime = startTime
@@ -3750,11 +3935,13 @@ struct ListRecoveryPointsInputBody: Swift.Equatable {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let namespaceName: Swift.String?
+    let namespaceArn: Swift.String?
 }
 
 extension ListRecoveryPointsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
+        case namespaceArn
         case namespaceName
         case startTime
     }
@@ -3767,6 +3954,8 @@ extension ListRecoveryPointsInputBody: Swift.Decodable {
         endTime = endTimeDecoded
         let namespaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceName)
         namespaceName = namespaceNameDecoded
+        let namespaceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceArn)
+        namespaceArn = namespaceArnDecoded
     }
 }
 
@@ -3892,7 +4081,7 @@ extension ListSnapshotsInput: ClientRuntime.URLPathProvider {
 public struct ListSnapshotsInput: Swift.Equatable {
     /// The timestamp showing when the snapshot creation finished.
     public var endTime: ClientRuntime.Date?
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// The Amazon Resource Name (ARN) of the namespace from which to list all snapshots.
     public var namespaceArn: Swift.String?
@@ -4040,6 +4229,159 @@ extension ListSnapshotsOutputResponseBody: Swift.Decodable {
             }
         }
         snapshots = snapshotsDecoded0
+    }
+}
+
+extension ListTableRestoreStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespaceName
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespaceName = self.namespaceName {
+            try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+}
+
+extension ListTableRestoreStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTableRestoreStatusInput: Swift.Equatable {
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+    public var maxResults: Swift.Int?
+    /// The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
+    public var namespaceName: Swift.String?
+    /// If your initial ListTableRestoreStatus operation returns a nextToken, you can include the returned nextToken in following ListTableRestoreStatus operations. This will return results on the next page.
+    public var nextToken: Swift.String?
+    /// The workgroup from which to list all of the statuses of RestoreTableFromSnapshot operations.
+    public var workgroupName: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        namespaceName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.namespaceName = namespaceName
+        self.nextToken = nextToken
+        self.workgroupName = workgroupName
+    }
+}
+
+struct ListTableRestoreStatusInputBody: Swift.Equatable {
+    let namespaceName: Swift.String?
+    let workgroupName: Swift.String?
+}
+
+extension ListTableRestoreStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespaceName
+        case workgroupName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceName)
+        namespaceName = namespaceNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+    }
+}
+
+extension ListTableRestoreStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTableRestoreStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidPaginationException" : self = .invalidPaginationException(try InvalidPaginationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListTableRestoreStatusOutputError: Swift.Error, Swift.Equatable {
+    case invalidPaginationException(InvalidPaginationException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTableRestoreStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListTableRestoreStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.tableRestoreStatuses = output.tableRestoreStatuses
+        } else {
+            self.nextToken = nil
+            self.tableRestoreStatuses = nil
+        }
+    }
+}
+
+public struct ListTableRestoreStatusOutputResponse: Swift.Equatable {
+    /// If your initial ListTableRestoreStatus operation returns a nextToken, you can include the returned nextToken in following ListTableRestoreStatus operations. This will returns results on the next page.
+    public var nextToken: Swift.String?
+    /// The array of returned TableRestoreStatus objects.
+    public var tableRestoreStatuses: [RedshiftServerlessClientTypes.TableRestoreStatus]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        tableRestoreStatuses: [RedshiftServerlessClientTypes.TableRestoreStatus]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.tableRestoreStatuses = tableRestoreStatuses
+    }
+}
+
+struct ListTableRestoreStatusOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let tableRestoreStatuses: [RedshiftServerlessClientTypes.TableRestoreStatus]?
+}
+
+extension ListTableRestoreStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case tableRestoreStatuses
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let tableRestoreStatusesContainer = try containerValues.decodeIfPresent([RedshiftServerlessClientTypes.TableRestoreStatus?].self, forKey: .tableRestoreStatuses)
+        var tableRestoreStatusesDecoded0:[RedshiftServerlessClientTypes.TableRestoreStatus]? = nil
+        if let tableRestoreStatusesContainer = tableRestoreStatusesContainer {
+            tableRestoreStatusesDecoded0 = [RedshiftServerlessClientTypes.TableRestoreStatus]()
+            for structure0 in tableRestoreStatusesContainer {
+                if let structure0 = structure0 {
+                    tableRestoreStatusesDecoded0?.append(structure0)
+                }
+            }
+        }
+        tableRestoreStatuses = tableRestoreStatusesDecoded0
     }
 }
 
@@ -4195,7 +4537,7 @@ extension ListUsageLimitsInput: ClientRuntime.URLPathProvider {
 public struct ListUsageLimitsInput: Swift.Equatable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 100.
     public var maxResults: Swift.Int?
-    /// If your initial ListUsageLimits operation returns a nextToken, you can include the returned nextToken in subsequent ListUsageLimits operations, which returns results in the next page.
+    /// If your initial ListUsageLimits operation returns a nextToken, you can include the returned nextToken in following ListUsageLimits operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) associated with the resource whose usage limits you want to list.
     public var resourceArn: Swift.String?
@@ -4341,9 +4683,9 @@ extension ListWorkgroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListWorkgroupsInput: Swift.Equatable {
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
-    /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in subsequent ListNamespaces operations, which returns results in the next page.
+    /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
@@ -4883,6 +5225,7 @@ extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
 
 extension RedshiftServerlessClientTypes.RecoveryPoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespaceArn
         case namespaceName
         case recoveryPointCreateTime
         case recoveryPointId
@@ -4892,6 +5235,9 @@ extension RedshiftServerlessClientTypes.RecoveryPoint: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespaceArn = self.namespaceArn {
+            try encodeContainer.encode(namespaceArn, forKey: .namespaceArn)
+        }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
         }
@@ -4921,12 +5267,16 @@ extension RedshiftServerlessClientTypes.RecoveryPoint: Swift.Codable {
         namespaceName = namespaceNameDecoded
         let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
         workgroupName = workgroupNameDecoded
+        let namespaceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceArn)
+        namespaceArn = namespaceArnDecoded
     }
 }
 
 extension RedshiftServerlessClientTypes {
     /// The automatically created recovery point of a namespace. Recovery points are created every 30 minutes and kept for 24 hours.
     public struct RecoveryPoint: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the namespace the recovery point is associated with.
+        public var namespaceArn: Swift.String?
         /// The name of the namespace the recovery point is associated with.
         public var namespaceName: Swift.String?
         /// The time the recovery point is created.
@@ -4939,6 +5289,7 @@ extension RedshiftServerlessClientTypes {
         public var workgroupName: Swift.String?
 
         public init (
+            namespaceArn: Swift.String? = nil,
             namespaceName: Swift.String? = nil,
             recoveryPointCreateTime: ClientRuntime.Date? = nil,
             recoveryPointId: Swift.String? = nil,
@@ -4946,6 +5297,7 @@ extension RedshiftServerlessClientTypes {
             workgroupName: Swift.String? = nil
         )
         {
+            self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
             self.recoveryPointCreateTime = recoveryPointCreateTime
             self.recoveryPointId = recoveryPointId
@@ -5258,9 +5610,9 @@ public struct RestoreFromSnapshotInput: Swift.Equatable {
     public var namespaceName: Swift.String?
     /// The Amazon Web Services account that owns the snapshot.
     public var ownerAccount: Swift.String?
-    /// The Amazon Resource Name (ARN) of the snapshot to restore from.
+    /// The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:<region>:<account_id>:snapshot:<cluster_identifier>/<snapshot_identifier>.
     public var snapshotArn: Swift.String?
-    /// The name of the snapshot to restore from.
+    /// The name of the snapshot to restore from. Must not be specified at the same time as snapshotArn.
     public var snapshotName: Swift.String?
     /// The name of the workgroup used to restore the snapshot.
     /// This member is required.
@@ -5402,6 +5754,236 @@ extension RestoreFromSnapshotOutputResponseBody: Swift.Decodable {
         ownerAccount = ownerAccountDecoded
         let namespaceDecoded = try containerValues.decodeIfPresent(RedshiftServerlessClientTypes.Namespace.self, forKey: .namespace)
         namespace = namespaceDecoded
+    }
+}
+
+extension RestoreTableFromSnapshotInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activateCaseSensitiveIdentifier
+        case namespaceName
+        case newTableName
+        case snapshotName
+        case sourceDatabaseName
+        case sourceSchemaName
+        case sourceTableName
+        case targetDatabaseName
+        case targetSchemaName
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activateCaseSensitiveIdentifier = self.activateCaseSensitiveIdentifier {
+            try encodeContainer.encode(activateCaseSensitiveIdentifier, forKey: .activateCaseSensitiveIdentifier)
+        }
+        if let namespaceName = self.namespaceName {
+            try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let newTableName = self.newTableName {
+            try encodeContainer.encode(newTableName, forKey: .newTableName)
+        }
+        if let snapshotName = self.snapshotName {
+            try encodeContainer.encode(snapshotName, forKey: .snapshotName)
+        }
+        if let sourceDatabaseName = self.sourceDatabaseName {
+            try encodeContainer.encode(sourceDatabaseName, forKey: .sourceDatabaseName)
+        }
+        if let sourceSchemaName = self.sourceSchemaName {
+            try encodeContainer.encode(sourceSchemaName, forKey: .sourceSchemaName)
+        }
+        if let sourceTableName = self.sourceTableName {
+            try encodeContainer.encode(sourceTableName, forKey: .sourceTableName)
+        }
+        if let targetDatabaseName = self.targetDatabaseName {
+            try encodeContainer.encode(targetDatabaseName, forKey: .targetDatabaseName)
+        }
+        if let targetSchemaName = self.targetSchemaName {
+            try encodeContainer.encode(targetSchemaName, forKey: .targetSchemaName)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+}
+
+extension RestoreTableFromSnapshotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RestoreTableFromSnapshotInput: Swift.Equatable {
+    /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
+    public var activateCaseSensitiveIdentifier: Swift.Bool?
+    /// The namespace of the snapshot to restore from.
+    /// This member is required.
+    public var namespaceName: Swift.String?
+    /// The name of the table to create from the restore operation.
+    /// This member is required.
+    public var newTableName: Swift.String?
+    /// The name of the snapshot to restore the table from.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+    /// The name of the source database that contains the table being restored.
+    /// This member is required.
+    public var sourceDatabaseName: Swift.String?
+    /// The name of the source schema that contains the table being restored.
+    public var sourceSchemaName: Swift.String?
+    /// The name of the source table being restored.
+    /// This member is required.
+    public var sourceTableName: Swift.String?
+    /// The name of the database to restore the table to.
+    public var targetDatabaseName: Swift.String?
+    /// The name of the schema to restore the table to.
+    public var targetSchemaName: Swift.String?
+    /// The workgroup to restore the table to.
+    /// This member is required.
+    public var workgroupName: Swift.String?
+
+    public init (
+        activateCaseSensitiveIdentifier: Swift.Bool? = nil,
+        namespaceName: Swift.String? = nil,
+        newTableName: Swift.String? = nil,
+        snapshotName: Swift.String? = nil,
+        sourceDatabaseName: Swift.String? = nil,
+        sourceSchemaName: Swift.String? = nil,
+        sourceTableName: Swift.String? = nil,
+        targetDatabaseName: Swift.String? = nil,
+        targetSchemaName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifier
+        self.namespaceName = namespaceName
+        self.newTableName = newTableName
+        self.snapshotName = snapshotName
+        self.sourceDatabaseName = sourceDatabaseName
+        self.sourceSchemaName = sourceSchemaName
+        self.sourceTableName = sourceTableName
+        self.targetDatabaseName = targetDatabaseName
+        self.targetSchemaName = targetSchemaName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct RestoreTableFromSnapshotInputBody: Swift.Equatable {
+    let namespaceName: Swift.String?
+    let workgroupName: Swift.String?
+    let snapshotName: Swift.String?
+    let sourceDatabaseName: Swift.String?
+    let sourceSchemaName: Swift.String?
+    let sourceTableName: Swift.String?
+    let targetDatabaseName: Swift.String?
+    let targetSchemaName: Swift.String?
+    let newTableName: Swift.String?
+    let activateCaseSensitiveIdentifier: Swift.Bool?
+}
+
+extension RestoreTableFromSnapshotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activateCaseSensitiveIdentifier
+        case namespaceName
+        case newTableName
+        case snapshotName
+        case sourceDatabaseName
+        case sourceSchemaName
+        case sourceTableName
+        case targetDatabaseName
+        case targetSchemaName
+        case workgroupName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceName)
+        namespaceName = namespaceNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let snapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotName)
+        snapshotName = snapshotNameDecoded
+        let sourceDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDatabaseName)
+        sourceDatabaseName = sourceDatabaseNameDecoded
+        let sourceSchemaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceSchemaName)
+        sourceSchemaName = sourceSchemaNameDecoded
+        let sourceTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceTableName)
+        sourceTableName = sourceTableNameDecoded
+        let targetDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDatabaseName)
+        targetDatabaseName = targetDatabaseNameDecoded
+        let targetSchemaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetSchemaName)
+        targetSchemaName = targetSchemaNameDecoded
+        let newTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newTableName)
+        newTableName = newTableNameDecoded
+        let activateCaseSensitiveIdentifierDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activateCaseSensitiveIdentifier)
+        activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifierDecoded
+    }
+}
+
+extension RestoreTableFromSnapshotOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RestoreTableFromSnapshotOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum RestoreTableFromSnapshotOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreTableFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: RestoreTableFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tableRestoreStatus = output.tableRestoreStatus
+        } else {
+            self.tableRestoreStatus = nil
+        }
+    }
+}
+
+public struct RestoreTableFromSnapshotOutputResponse: Swift.Equatable {
+    /// The TableRestoreStatus object that contains the status of the restore operation.
+    public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
+
+    public init (
+        tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus? = nil
+    )
+    {
+        self.tableRestoreStatus = tableRestoreStatus
+    }
+}
+
+struct RestoreTableFromSnapshotOutputResponseBody: Swift.Equatable {
+    let tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
+}
+
+extension RestoreTableFromSnapshotOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableRestoreStatus
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableRestoreStatusDecoded = try containerValues.decodeIfPresent(RedshiftServerlessClientTypes.TableRestoreStatus.self, forKey: .tableRestoreStatus)
+        tableRestoreStatus = tableRestoreStatusDecoded
     }
 }
 
@@ -5749,6 +6331,181 @@ extension RedshiftServerlessClientTypes {
             self = SnapshotStatus(rawValue: rawValue) ?? SnapshotStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension RedshiftServerlessClientTypes.TableRestoreStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case namespaceName
+        case newTableName
+        case progressInMegaBytes
+        case requestTime
+        case snapshotName
+        case sourceDatabaseName
+        case sourceSchemaName
+        case sourceTableName
+        case status
+        case tableRestoreRequestId
+        case targetDatabaseName
+        case targetSchemaName
+        case totalDataInMegaBytes
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let namespaceName = self.namespaceName {
+            try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let newTableName = self.newTableName {
+            try encodeContainer.encode(newTableName, forKey: .newTableName)
+        }
+        if let progressInMegaBytes = self.progressInMegaBytes {
+            try encodeContainer.encode(progressInMegaBytes, forKey: .progressInMegaBytes)
+        }
+        if let requestTime = self.requestTime {
+            try encodeContainer.encodeTimestamp(requestTime, format: .epochSeconds, forKey: .requestTime)
+        }
+        if let snapshotName = self.snapshotName {
+            try encodeContainer.encode(snapshotName, forKey: .snapshotName)
+        }
+        if let sourceDatabaseName = self.sourceDatabaseName {
+            try encodeContainer.encode(sourceDatabaseName, forKey: .sourceDatabaseName)
+        }
+        if let sourceSchemaName = self.sourceSchemaName {
+            try encodeContainer.encode(sourceSchemaName, forKey: .sourceSchemaName)
+        }
+        if let sourceTableName = self.sourceTableName {
+            try encodeContainer.encode(sourceTableName, forKey: .sourceTableName)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let tableRestoreRequestId = self.tableRestoreRequestId {
+            try encodeContainer.encode(tableRestoreRequestId, forKey: .tableRestoreRequestId)
+        }
+        if let targetDatabaseName = self.targetDatabaseName {
+            try encodeContainer.encode(targetDatabaseName, forKey: .targetDatabaseName)
+        }
+        if let targetSchemaName = self.targetSchemaName {
+            try encodeContainer.encode(targetSchemaName, forKey: .targetSchemaName)
+        }
+        if let totalDataInMegaBytes = self.totalDataInMegaBytes {
+            try encodeContainer.encode(totalDataInMegaBytes, forKey: .totalDataInMegaBytes)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableRestoreRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableRestoreRequestId)
+        tableRestoreRequestId = tableRestoreRequestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let requestTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .requestTime)
+        requestTime = requestTimeDecoded
+        let namespaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceName)
+        namespaceName = namespaceNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let snapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotName)
+        snapshotName = snapshotNameDecoded
+        let progressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progressInMegaBytes)
+        progressInMegaBytes = progressInMegaBytesDecoded
+        let totalDataInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDataInMegaBytes)
+        totalDataInMegaBytes = totalDataInMegaBytesDecoded
+        let sourceDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDatabaseName)
+        sourceDatabaseName = sourceDatabaseNameDecoded
+        let sourceSchemaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceSchemaName)
+        sourceSchemaName = sourceSchemaNameDecoded
+        let sourceTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceTableName)
+        sourceTableName = sourceTableNameDecoded
+        let targetDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDatabaseName)
+        targetDatabaseName = targetDatabaseNameDecoded
+        let targetSchemaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetSchemaName)
+        targetSchemaName = targetSchemaNameDecoded
+        let newTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newTableName)
+        newTableName = newTableNameDecoded
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+    /// Contains information about a table restore request.
+    public struct TableRestoreStatus: Swift.Equatable {
+        /// A description of the status of the table restore request. Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
+        public var message: Swift.String?
+        /// The namespace of the table being restored from.
+        public var namespaceName: Swift.String?
+        /// The name of the table to create from the restore operation.
+        public var newTableName: Swift.String?
+        /// The amount of data restored to the new table so far, in megabytes (MB).
+        public var progressInMegaBytes: Swift.Int?
+        /// The time that the table restore request was made, in Universal Coordinated Time (UTC).
+        public var requestTime: ClientRuntime.Date?
+        /// The name of the snapshot being restored from.
+        public var snapshotName: Swift.String?
+        /// The name of the source database being restored from.
+        public var sourceDatabaseName: Swift.String?
+        /// The name of the source schema being restored from.
+        public var sourceSchemaName: Swift.String?
+        /// The name of the source table being restored from.
+        public var sourceTableName: Swift.String?
+        /// A value that describes the current state of the table restore request. Possible values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
+        public var status: Swift.String?
+        /// The ID of the RestoreTableFromSnapshot request.
+        public var tableRestoreRequestId: Swift.String?
+        /// The name of the database to restore to.
+        public var targetDatabaseName: Swift.String?
+        /// The name of the schema to restore to.
+        public var targetSchemaName: Swift.String?
+        /// The total amount of data to restore to the new table, in megabytes (MB).
+        public var totalDataInMegaBytes: Swift.Int?
+        /// The name of the workgroup being restored from.
+        public var workgroupName: Swift.String?
+
+        public init (
+            message: Swift.String? = nil,
+            namespaceName: Swift.String? = nil,
+            newTableName: Swift.String? = nil,
+            progressInMegaBytes: Swift.Int? = nil,
+            requestTime: ClientRuntime.Date? = nil,
+            snapshotName: Swift.String? = nil,
+            sourceDatabaseName: Swift.String? = nil,
+            sourceSchemaName: Swift.String? = nil,
+            sourceTableName: Swift.String? = nil,
+            status: Swift.String? = nil,
+            tableRestoreRequestId: Swift.String? = nil,
+            targetDatabaseName: Swift.String? = nil,
+            targetSchemaName: Swift.String? = nil,
+            totalDataInMegaBytes: Swift.Int? = nil,
+            workgroupName: Swift.String? = nil
+        )
+        {
+            self.message = message
+            self.namespaceName = namespaceName
+            self.newTableName = newTableName
+            self.progressInMegaBytes = progressInMegaBytes
+            self.requestTime = requestTime
+            self.snapshotName = snapshotName
+            self.sourceDatabaseName = sourceDatabaseName
+            self.sourceSchemaName = sourceSchemaName
+            self.sourceTableName = sourceTableName
+            self.status = status
+            self.tableRestoreRequestId = tableRestoreRequestId
+            self.targetDatabaseName = targetDatabaseName
+            self.targetSchemaName = targetSchemaName
+            self.totalDataInMegaBytes = totalDataInMegaBytes
+            self.workgroupName = workgroupName
+        }
+    }
+
 }
 
 extension RedshiftServerlessClientTypes.Tag: Swift.Codable {
@@ -6664,7 +7421,7 @@ extension UpdateUsageLimitInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateUsageLimitInput: Swift.Equatable {
-    /// The new limit amount. For more information about this parameter.
+    /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     public var amount: Swift.Int?
     /// The new action that Amazon Redshift Serverless takes when the limit is reached.
     public var breachAction: RedshiftServerlessClientTypes.UsageLimitBreachAction?
@@ -6782,6 +7539,7 @@ extension UpdateWorkgroupInput: Swift.Encodable {
         case baseCapacity
         case configParameters
         case enhancedVpcRouting
+        case port
         case publiclyAccessible
         case securityGroupIds
         case subnetIds
@@ -6801,6 +7559,9 @@ extension UpdateWorkgroupInput: Swift.Encodable {
         }
         if let enhancedVpcRouting = self.enhancedVpcRouting {
             try encodeContainer.encode(enhancedVpcRouting, forKey: .enhancedVpcRouting)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
         }
         if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
@@ -6836,6 +7597,8 @@ public struct UpdateWorkgroupInput: Swift.Equatable {
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     public var enhancedVpcRouting: Swift.Bool?
+    /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+    public var port: Swift.Int?
     /// A value that specifies whether the workgroup can be accessible from a public network.
     public var publiclyAccessible: Swift.Bool?
     /// An array of security group IDs to associate with the workgroup.
@@ -6850,6 +7613,7 @@ public struct UpdateWorkgroupInput: Swift.Equatable {
         baseCapacity: Swift.Int? = nil,
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -6859,6 +7623,7 @@ public struct UpdateWorkgroupInput: Swift.Equatable {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -6874,6 +7639,7 @@ struct UpdateWorkgroupInputBody: Swift.Equatable {
     let publiclyAccessible: Swift.Bool?
     let subnetIds: [Swift.String]?
     let securityGroupIds: [Swift.String]?
+    let port: Swift.Int?
 }
 
 extension UpdateWorkgroupInputBody: Swift.Decodable {
@@ -6881,6 +7647,7 @@ extension UpdateWorkgroupInputBody: Swift.Decodable {
         case baseCapacity
         case configParameters
         case enhancedVpcRouting
+        case port
         case publiclyAccessible
         case securityGroupIds
         case subnetIds
@@ -6930,6 +7697,8 @@ extension UpdateWorkgroupInputBody: Swift.Decodable {
             }
         }
         securityGroupIds = securityGroupIdsDecoded0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
     }
 }
 
@@ -7375,6 +8144,7 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         case endpoint
         case enhancedVpcRouting
         case namespaceName
+        case port
         case publiclyAccessible
         case securityGroupIds
         case status
@@ -7406,6 +8176,9 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
         }
         if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
@@ -7491,6 +8264,8 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         publiclyAccessible = publiclyAccessibleDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
     }
 }
 
@@ -7509,6 +8284,8 @@ extension RedshiftServerlessClientTypes {
         public var enhancedVpcRouting: Swift.Bool?
         /// The namespace the workgroup is associated with.
         public var namespaceName: Swift.String?
+        /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+        public var port: Swift.Int?
         /// A value that specifies whether the workgroup can be accessible from a public network
         public var publiclyAccessible: Swift.Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -7531,6 +8308,7 @@ extension RedshiftServerlessClientTypes {
             endpoint: RedshiftServerlessClientTypes.Endpoint? = nil,
             enhancedVpcRouting: Swift.Bool? = nil,
             namespaceName: Swift.String? = nil,
+            port: Swift.Int? = nil,
             publiclyAccessible: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: RedshiftServerlessClientTypes.WorkgroupStatus? = nil,
@@ -7546,6 +8324,7 @@ extension RedshiftServerlessClientTypes {
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
             self.namespaceName = namespaceName
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.status = status

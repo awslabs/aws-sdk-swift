@@ -172,6 +172,38 @@ extension PaginatorSequence where Input == ListServicesInput, Output == ListServ
     }
 }
 
+/// Paginate over `[ListServicesByNamespaceOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListServicesByNamespaceInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListServicesByNamespaceOutputResponse`
+extension ECSClient {
+    public func listServicesByNamespacePaginated(input: ListServicesByNamespaceInput) -> ClientRuntime.PaginatorSequence<ListServicesByNamespaceInput, ListServicesByNamespaceOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListServicesByNamespaceInput, ListServicesByNamespaceOutputResponse>(input: input, inputKey: \ListServicesByNamespaceInput.nextToken, outputKey: \ListServicesByNamespaceOutputResponse.nextToken, paginationFunction: self.listServicesByNamespace(input:))
+    }
+}
+
+extension ListServicesByNamespaceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServicesByNamespaceInput {
+        return ListServicesByNamespaceInput(
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listServicesByNamespacePaginated`
+/// to access the nested member `[Swift.String]`
+/// - Returns: `[Swift.String]`
+extension PaginatorSequence where Input == ListServicesByNamespaceInput, Output == ListServicesByNamespaceOutputResponse {
+    public func serviceArns() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.serviceArns }
+    }
+}
+
 /// Paginate over `[ListTaskDefinitionFamiliesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

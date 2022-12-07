@@ -388,10 +388,10 @@ public struct AssociatePrincipalWithPortfolioInput: Swift.Equatable {
     /// The portfolio identifier.
     /// This member is required.
     public var portfolioId: Swift.String?
-    /// The ARN of the principal (IAM user, role, or group).
+    /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if PrincipalType is IAM_PATTERN. You can associate multiple IAM patterns even if the account has no principal with that name. This is useful in Principal Name Sharing if you want to share a principal without creating it in the account that owns the portfolio.
     /// This member is required.
     public var principalARN: Swift.String?
-    /// The principal type. The supported value is IAM.
+    /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
     /// This member is required.
     public var principalType: ServiceCatalogClientTypes.PrincipalType?
 
@@ -1236,6 +1236,75 @@ extension ServiceCatalogClientTypes {
 
 }
 
+extension ServiceCatalogClientTypes.CodeStarParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case artifactPath = "ArtifactPath"
+        case branch = "Branch"
+        case connectionArn = "ConnectionArn"
+        case repository = "Repository"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let artifactPath = self.artifactPath {
+            try encodeContainer.encode(artifactPath, forKey: .artifactPath)
+        }
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let connectionArn = self.connectionArn {
+            try encodeContainer.encode(connectionArn, forKey: .connectionArn)
+        }
+        if let repository = self.repository {
+            try encodeContainer.encode(repository, forKey: .repository)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionArn)
+        connectionArn = connectionArnDecoded
+        let repositoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repository)
+        repository = repositoryDecoded
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let artifactPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .artifactPath)
+        artifactPath = artifactPathDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes {
+    /// The subtype containing details about the Codestar connection Type.
+    public struct CodeStarParameters: Swift.Equatable {
+        /// The absolute path wehre the artifact resides within the repo and branch, formatted as "folder/file.json."
+        /// This member is required.
+        public var artifactPath: Swift.String?
+        /// The specific branch where the artifact resides.
+        /// This member is required.
+        public var branch: Swift.String?
+        /// The CodeStar ARN, which is the connection between Service Catalog and the external repository.
+        /// This member is required.
+        public var connectionArn: Swift.String?
+        /// The specific repository where the product’s artifact-to-be-synced resides, formatted as "Account/Repo."
+        /// This member is required.
+        public var repository: Swift.String?
+
+        public init (
+            artifactPath: Swift.String? = nil,
+            branch: Swift.String? = nil,
+            connectionArn: Swift.String? = nil,
+            repository: Swift.String? = nil
+        )
+        {
+            self.artifactPath = artifactPath
+            self.branch = branch
+            self.connectionArn = connectionArn
+            self.repository = repository
+        }
+    }
+
+}
+
 extension ServiceCatalogClientTypes.ConstraintDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case constraintId = "ConstraintId"
@@ -1562,9 +1631,9 @@ extension CopyProductInputBody: Swift.Decodable {
         var copyOptionsDecoded0:[ServiceCatalogClientTypes.CopyOption]? = nil
         if let copyOptionsContainer = copyOptionsContainer {
             copyOptionsDecoded0 = [ServiceCatalogClientTypes.CopyOption]()
-            for string0 in copyOptionsContainer {
-                if let string0 = string0 {
-                    copyOptionsDecoded0?.append(string0)
+            for enum0 in copyOptionsContainer {
+                if let enum0 = enum0 {
+                    copyOptionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -2123,6 +2192,7 @@ extension CreatePortfolioShareInput: Swift.Encodable {
         case accountId = "AccountId"
         case organizationNode = "OrganizationNode"
         case portfolioId = "PortfolioId"
+        case sharePrincipals = "SharePrincipals"
         case shareTagOptions = "ShareTagOptions"
     }
 
@@ -2139,6 +2209,9 @@ extension CreatePortfolioShareInput: Swift.Encodable {
         }
         if let portfolioId = self.portfolioId {
             try encodeContainer.encode(portfolioId, forKey: .portfolioId)
+        }
+        if sharePrincipals != false {
+            try encodeContainer.encode(sharePrincipals, forKey: .sharePrincipals)
         }
         if shareTagOptions != false {
             try encodeContainer.encode(shareTagOptions, forKey: .shareTagOptions)
@@ -2168,6 +2241,8 @@ public struct CreatePortfolioShareInput: Swift.Equatable {
     /// The portfolio identifier.
     /// This member is required.
     public var portfolioId: Swift.String?
+    /// Enables or disables Principal sharing when creating the portfolio share. If this flag is not provided, principal sharing is disabled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the portfolio. Once shared, the share recipient can view associations of PrincipalType: IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
+    public var sharePrincipals: Swift.Bool
     /// Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
     public var shareTagOptions: Swift.Bool
 
@@ -2176,6 +2251,7 @@ public struct CreatePortfolioShareInput: Swift.Equatable {
         accountId: Swift.String? = nil,
         organizationNode: ServiceCatalogClientTypes.OrganizationNode? = nil,
         portfolioId: Swift.String? = nil,
+        sharePrincipals: Swift.Bool = false,
         shareTagOptions: Swift.Bool = false
     )
     {
@@ -2183,6 +2259,7 @@ public struct CreatePortfolioShareInput: Swift.Equatable {
         self.accountId = accountId
         self.organizationNode = organizationNode
         self.portfolioId = portfolioId
+        self.sharePrincipals = sharePrincipals
         self.shareTagOptions = shareTagOptions
     }
 }
@@ -2193,6 +2270,7 @@ struct CreatePortfolioShareInputBody: Swift.Equatable {
     let accountId: Swift.String?
     let organizationNode: ServiceCatalogClientTypes.OrganizationNode?
     let shareTagOptions: Swift.Bool
+    let sharePrincipals: Swift.Bool
 }
 
 extension CreatePortfolioShareInputBody: Swift.Decodable {
@@ -2201,6 +2279,7 @@ extension CreatePortfolioShareInputBody: Swift.Decodable {
         case accountId = "AccountId"
         case organizationNode = "OrganizationNode"
         case portfolioId = "PortfolioId"
+        case sharePrincipals = "SharePrincipals"
         case shareTagOptions = "ShareTagOptions"
     }
 
@@ -2216,6 +2295,8 @@ extension CreatePortfolioShareInputBody: Swift.Decodable {
         organizationNode = organizationNodeDecoded
         let shareTagOptionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shareTagOptions) ?? false
         shareTagOptions = shareTagOptionsDecoded
+        let sharePrincipalsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sharePrincipals) ?? false
+        sharePrincipals = sharePrincipalsDecoded
     }
 }
 
@@ -2300,6 +2381,7 @@ extension CreateProductInput: Swift.Encodable {
         case owner = "Owner"
         case productType = "ProductType"
         case provisioningArtifactParameters = "ProvisioningArtifactParameters"
+        case sourceConnection = "SourceConnection"
         case supportDescription = "SupportDescription"
         case supportEmail = "SupportEmail"
         case supportUrl = "SupportUrl"
@@ -2331,6 +2413,9 @@ extension CreateProductInput: Swift.Encodable {
         }
         if let provisioningArtifactParameters = self.provisioningArtifactParameters {
             try encodeContainer.encode(provisioningArtifactParameters, forKey: .provisioningArtifactParameters)
+        }
+        if let sourceConnection = self.sourceConnection {
+            try encodeContainer.encode(sourceConnection, forKey: .sourceConnection)
         }
         if let supportDescription = self.supportDescription {
             try encodeContainer.encode(supportDescription, forKey: .supportDescription)
@@ -2382,8 +2467,13 @@ public struct CreateProductInput: Swift.Equatable {
     /// This member is required.
     public var productType: ServiceCatalogClientTypes.ProductType?
     /// The configuration of the provisioning artifact.
-    /// This member is required.
     public var provisioningArtifactParameters: ServiceCatalogClientTypes.ProvisioningArtifactProperties?
+    /// Specifies connection details for the created product and syncs the product to the connection source artifact. This automatically manages the product's artifacts based on changes to the source. The SourceConnection parameter consists of the following sub-fields.
+    ///
+    /// * Type
+    ///
+    /// * ConnectionParamters
+    public var sourceConnection: ServiceCatalogClientTypes.SourceConnection?
     /// The support information about the product.
     public var supportDescription: Swift.String?
     /// The contact email for product support.
@@ -2402,6 +2492,7 @@ public struct CreateProductInput: Swift.Equatable {
         owner: Swift.String? = nil,
         productType: ServiceCatalogClientTypes.ProductType? = nil,
         provisioningArtifactParameters: ServiceCatalogClientTypes.ProvisioningArtifactProperties? = nil,
+        sourceConnection: ServiceCatalogClientTypes.SourceConnection? = nil,
         supportDescription: Swift.String? = nil,
         supportEmail: Swift.String? = nil,
         supportUrl: Swift.String? = nil,
@@ -2416,6 +2507,7 @@ public struct CreateProductInput: Swift.Equatable {
         self.owner = owner
         self.productType = productType
         self.provisioningArtifactParameters = provisioningArtifactParameters
+        self.sourceConnection = sourceConnection
         self.supportDescription = supportDescription
         self.supportEmail = supportEmail
         self.supportUrl = supportUrl
@@ -2436,6 +2528,7 @@ struct CreateProductInputBody: Swift.Equatable {
     let tags: [ServiceCatalogClientTypes.Tag]?
     let provisioningArtifactParameters: ServiceCatalogClientTypes.ProvisioningArtifactProperties?
     let idempotencyToken: Swift.String?
+    let sourceConnection: ServiceCatalogClientTypes.SourceConnection?
 }
 
 extension CreateProductInputBody: Swift.Decodable {
@@ -2448,6 +2541,7 @@ extension CreateProductInputBody: Swift.Decodable {
         case owner = "Owner"
         case productType = "ProductType"
         case provisioningArtifactParameters = "ProvisioningArtifactParameters"
+        case sourceConnection = "SourceConnection"
         case supportDescription = "SupportDescription"
         case supportEmail = "SupportEmail"
         case supportUrl = "SupportUrl"
@@ -2489,6 +2583,8 @@ extension CreateProductInputBody: Swift.Decodable {
         provisioningArtifactParameters = provisioningArtifactParametersDecoded
         let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
         idempotencyToken = idempotencyTokenDecoded
+        let sourceConnectionDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SourceConnection.self, forKey: .sourceConnection)
+        sourceConnection = sourceConnectionDecoded
     }
 }
 
@@ -3046,7 +3142,7 @@ extension CreateProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct CreateProvisioningArtifactOutputResponse: Swift.Equatable {
-    /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format. LoadTemplateFromURL Use the URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format. ImportFromPhysicalId Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
+    /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. LoadTemplateFromURL Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. ImportFromPhysicalId Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
     public var info: [Swift.String:Swift.String]?
     /// Information about the provisioning artifact.
     public var provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
@@ -6212,7 +6308,7 @@ extension DescribeProvisioningArtifactOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct DescribeProvisioningArtifactOutputResponse: Swift.Equatable {
-    /// The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.
+    /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.
     public var info: [Swift.String:Swift.String]?
     /// Information about the provisioning artifact.
     public var provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
@@ -7296,6 +7392,7 @@ extension DisassociatePrincipalFromPortfolioInput: Swift.Encodable {
         case acceptLanguage = "AcceptLanguage"
         case portfolioId = "PortfolioId"
         case principalARN = "PrincipalARN"
+        case principalType = "PrincipalType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7308,6 +7405,9 @@ extension DisassociatePrincipalFromPortfolioInput: Swift.Encodable {
         }
         if let principalARN = self.principalARN {
             try encodeContainer.encode(principalARN, forKey: .principalARN)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
         }
     }
 }
@@ -7330,19 +7430,23 @@ public struct DisassociatePrincipalFromPortfolioInput: Swift.Equatable {
     /// The portfolio identifier.
     /// This member is required.
     public var portfolioId: Swift.String?
-    /// The ARN of the principal (IAM user, role, or group).
+    /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if PrincipalType is IAM_PATTERN.
     /// This member is required.
     public var principalARN: Swift.String?
+    /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use no accountID.
+    public var principalType: ServiceCatalogClientTypes.PrincipalType?
 
     public init (
         acceptLanguage: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
-        principalARN: Swift.String? = nil
+        principalARN: Swift.String? = nil,
+        principalType: ServiceCatalogClientTypes.PrincipalType? = nil
     )
     {
         self.acceptLanguage = acceptLanguage
         self.portfolioId = portfolioId
         self.principalARN = principalARN
+        self.principalType = principalType
     }
 }
 
@@ -7350,6 +7454,7 @@ struct DisassociatePrincipalFromPortfolioInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let principalARN: Swift.String?
+    let principalType: ServiceCatalogClientTypes.PrincipalType?
 }
 
 extension DisassociatePrincipalFromPortfolioInputBody: Swift.Decodable {
@@ -7357,6 +7462,7 @@ extension DisassociatePrincipalFromPortfolioInputBody: Swift.Decodable {
         case acceptLanguage = "AcceptLanguage"
         case portfolioId = "PortfolioId"
         case principalARN = "PrincipalARN"
+        case principalType = "PrincipalType"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -7367,6 +7473,8 @@ extension DisassociatePrincipalFromPortfolioInputBody: Swift.Decodable {
         portfolioId = portfolioIdDecoded
         let principalARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalARN)
         principalARN = principalARNDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
     }
 }
 
@@ -8934,6 +9042,123 @@ extension InvalidStateExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes.LastSync: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastSuccessfulSyncProvisioningArtifactId = "LastSuccessfulSyncProvisioningArtifactId"
+        case lastSuccessfulSyncTime = "LastSuccessfulSyncTime"
+        case lastSyncStatus = "LastSyncStatus"
+        case lastSyncStatusMessage = "LastSyncStatusMessage"
+        case lastSyncTime = "LastSyncTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastSuccessfulSyncProvisioningArtifactId = self.lastSuccessfulSyncProvisioningArtifactId {
+            try encodeContainer.encode(lastSuccessfulSyncProvisioningArtifactId, forKey: .lastSuccessfulSyncProvisioningArtifactId)
+        }
+        if let lastSuccessfulSyncTime = self.lastSuccessfulSyncTime {
+            try encodeContainer.encodeTimestamp(lastSuccessfulSyncTime, format: .epochSeconds, forKey: .lastSuccessfulSyncTime)
+        }
+        if let lastSyncStatus = self.lastSyncStatus {
+            try encodeContainer.encode(lastSyncStatus.rawValue, forKey: .lastSyncStatus)
+        }
+        if let lastSyncStatusMessage = self.lastSyncStatusMessage {
+            try encodeContainer.encode(lastSyncStatusMessage, forKey: .lastSyncStatusMessage)
+        }
+        if let lastSyncTime = self.lastSyncTime {
+            try encodeContainer.encodeTimestamp(lastSyncTime, format: .epochSeconds, forKey: .lastSyncTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastSyncTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSyncTime)
+        lastSyncTime = lastSyncTimeDecoded
+        let lastSyncStatusDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.LastSyncStatus.self, forKey: .lastSyncStatus)
+        lastSyncStatus = lastSyncStatusDecoded
+        let lastSyncStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSyncStatusMessage)
+        lastSyncStatusMessage = lastSyncStatusMessageDecoded
+        let lastSuccessfulSyncTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSuccessfulSyncTime)
+        lastSuccessfulSyncTime = lastSuccessfulSyncTimeDecoded
+        let lastSuccessfulSyncProvisioningArtifactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSuccessfulSyncProvisioningArtifactId)
+        lastSuccessfulSyncProvisioningArtifactId = lastSuccessfulSyncProvisioningArtifactIdDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes {
+    /// Provides details about the product's connection sync and contains the following sub-fields.
+    ///
+    /// * LastSyncTime
+    ///
+    /// * LastSyncStatus
+    ///
+    /// * LastSyncStatusMessage
+    ///
+    /// * LastSuccessfulSyncTime
+    ///
+    /// * LastSuccessfulSyncProvisioningArtifactID
+    public struct LastSync: Swift.Equatable {
+        /// The ProvisioningArtifactID of the ProvisioningArtifact created from the latest successful sync.
+        public var lastSuccessfulSyncProvisioningArtifactId: Swift.String?
+        /// The time of the latest successful sync from the source repo artifact to the Service Catalog product.
+        public var lastSuccessfulSyncTime: ClientRuntime.Date?
+        /// The current status of the sync. Responses include SUCCEEDED or FAILED.
+        public var lastSyncStatus: ServiceCatalogClientTypes.LastSyncStatus?
+        /// The sync's status message.
+        public var lastSyncStatusMessage: Swift.String?
+        /// The time of the last attempted sync from the repository to the Service Catalog product.
+        public var lastSyncTime: ClientRuntime.Date?
+
+        public init (
+            lastSuccessfulSyncProvisioningArtifactId: Swift.String? = nil,
+            lastSuccessfulSyncTime: ClientRuntime.Date? = nil,
+            lastSyncStatus: ServiceCatalogClientTypes.LastSyncStatus? = nil,
+            lastSyncStatusMessage: Swift.String? = nil,
+            lastSyncTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.lastSuccessfulSyncProvisioningArtifactId = lastSuccessfulSyncProvisioningArtifactId
+            self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
+            self.lastSyncStatus = lastSyncStatus
+            self.lastSyncStatusMessage = lastSyncStatusMessage
+            self.lastSyncTime = lastSyncTime
+        }
+    }
+
+}
+
+extension ServiceCatalogClientTypes {
+    public enum LastSyncStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LastSyncStatus] {
+            return [
+                .failed,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LastSyncStatus(rawValue: rawValue) ?? LastSyncStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -10682,7 +10907,7 @@ extension ListPrincipalsForPortfolioOutputResponse: ClientRuntime.HttpResponseBi
 public struct ListPrincipalsForPortfolioOutputResponse: Swift.Equatable {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
-    /// The IAM principals (users or roles) associated with the portfolio.
+    /// The PrincipalARNs and corresponding PrincipalTypes associated with the portfolio.
     public var principals: [ServiceCatalogClientTypes.Principal]?
 
     public init (
@@ -12661,6 +12886,7 @@ extension ServiceCatalogClientTypes.PortfolioShareDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accepted = "Accepted"
         case principalId = "PrincipalId"
+        case sharePrincipals = "SharePrincipals"
         case shareTagOptions = "ShareTagOptions"
         case type = "Type"
     }
@@ -12672,6 +12898,9 @@ extension ServiceCatalogClientTypes.PortfolioShareDetail: Swift.Codable {
         }
         if let principalId = self.principalId {
             try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if sharePrincipals != false {
+            try encodeContainer.encode(sharePrincipals, forKey: .sharePrincipals)
         }
         if shareTagOptions != false {
             try encodeContainer.encode(shareTagOptions, forKey: .shareTagOptions)
@@ -12691,6 +12920,8 @@ extension ServiceCatalogClientTypes.PortfolioShareDetail: Swift.Codable {
         accepted = acceptedDecoded
         let shareTagOptionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shareTagOptions) ?? false
         shareTagOptions = shareTagOptionsDecoded
+        let sharePrincipalsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sharePrincipals) ?? false
+        sharePrincipals = sharePrincipalsDecoded
     }
 }
 
@@ -12699,8 +12930,10 @@ extension ServiceCatalogClientTypes {
     public struct PortfolioShareDetail: Swift.Equatable {
         /// Indicates whether the shared portfolio is imported by the recipient account. If the recipient is in an organization node, the share is automatically imported, and the field is always set to true.
         public var accepted: Swift.Bool
-        /// The identifier of the recipient entity that received the portfolio share. The recipient entities can be one of the following: 1. An external account. 2. An organziation member account. 3. An organzational unit (OU). 4. The organization itself. (This shares with every account in the organization).
+        /// The identifier of the recipient entity that received the portfolio share. The recipient entity can be one of the following: 1. An external account. 2. An organziation member account. 3. An organzational unit (OU). 4. The organization itself. (This shares with every account in the organization).
         public var principalId: Swift.String?
+        /// Indicates if Principal sharing is enabled or disabled for the portfolio share.
+        public var sharePrincipals: Swift.Bool
         /// Indicates whether TagOptions sharing is enabled or disabled for the portfolio share.
         public var shareTagOptions: Swift.Bool
         /// The type of the portfolio share.
@@ -12709,12 +12942,14 @@ extension ServiceCatalogClientTypes {
         public init (
             accepted: Swift.Bool = false,
             principalId: Swift.String? = nil,
+            sharePrincipals: Swift.Bool = false,
             shareTagOptions: Swift.Bool = false,
             type: ServiceCatalogClientTypes.DescribePortfolioShareType? = nil
         )
         {
             self.accepted = accepted
             self.principalId = principalId
+            self.sharePrincipals = sharePrincipals
             self.shareTagOptions = shareTagOptions
             self.type = type
         }
@@ -12785,9 +13020,9 @@ extension ServiceCatalogClientTypes.Principal: Swift.Codable {
 extension ServiceCatalogClientTypes {
     /// Information about a principal.
     public struct Principal: Swift.Equatable {
-        /// The ARN of the principal (IAM user, role, or group).
+        /// The ARN of the principal (IAM user, role, or group). This field allows for an ARN with no accountID if the PrincipalType is an IAM_PATTERN.
         public var principalARN: Swift.String?
-        /// The principal type. The supported value is IAM.
+        /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
         public var principalType: ServiceCatalogClientTypes.PrincipalType?
 
         public init (
@@ -12805,11 +13040,13 @@ extension ServiceCatalogClientTypes {
 extension ServiceCatalogClientTypes {
     public enum PrincipalType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case iam
+        case iamPattern
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PrincipalType] {
             return [
                 .iam,
+                .iamPattern,
                 .sdkUnknown("")
             ]
         }
@@ -12820,6 +13057,7 @@ extension ServiceCatalogClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .iam: return "IAM"
+            case .iamPattern: return "IAM_PATTERN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -12942,6 +13180,7 @@ extension ServiceCatalogClientTypes.ProductViewDetail: Swift.Codable {
         case createdTime = "CreatedTime"
         case productARN = "ProductARN"
         case productViewSummary = "ProductViewSummary"
+        case sourceConnection = "SourceConnection"
         case status = "Status"
     }
 
@@ -12955,6 +13194,9 @@ extension ServiceCatalogClientTypes.ProductViewDetail: Swift.Codable {
         }
         if let productViewSummary = self.productViewSummary {
             try encodeContainer.encode(productViewSummary, forKey: .productViewSummary)
+        }
+        if let sourceConnection = self.sourceConnection {
+            try encodeContainer.encode(sourceConnection, forKey: .sourceConnection)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -12971,6 +13213,8 @@ extension ServiceCatalogClientTypes.ProductViewDetail: Swift.Codable {
         productARN = productARNDecoded
         let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
         createdTime = createdTimeDecoded
+        let sourceConnectionDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SourceConnectionDetail.self, forKey: .sourceConnection)
+        sourceConnection = sourceConnectionDecoded
     }
 }
 
@@ -12983,6 +13227,8 @@ extension ServiceCatalogClientTypes {
         public var productARN: Swift.String?
         /// Summary information about the product view.
         public var productViewSummary: ServiceCatalogClientTypes.ProductViewSummary?
+        /// A top level ProductViewDetail response containing details about the product’s connection. Service Catalog returns this field for the CreateProduct, UpdateProduct, DescribeProductAsAdmin, and SearchProductAsAdmin APIs. This response contains the same fields as the ConnectionParameters request, with the addition of the LastSync response.
+        public var sourceConnection: ServiceCatalogClientTypes.SourceConnectionDetail?
         /// The status of the product.
         ///
         /// * AVAILABLE - The product is ready for use.
@@ -12996,12 +13242,14 @@ extension ServiceCatalogClientTypes {
             createdTime: ClientRuntime.Date? = nil,
             productARN: Swift.String? = nil,
             productViewSummary: ServiceCatalogClientTypes.ProductViewSummary? = nil,
+            sourceConnection: ServiceCatalogClientTypes.SourceConnectionDetail? = nil,
             status: ServiceCatalogClientTypes.Status? = nil
         )
         {
             self.createdTime = createdTime
             self.productARN = productARN
             self.productViewSummary = productViewSummary
+            self.sourceConnection = sourceConnection
             self.status = status
         }
     }
@@ -14164,7 +14412,7 @@ extension ServiceCatalogClientTypes {
         public var statusMessage: Swift.String?
         /// One or more tags.
         public var tags: [ServiceCatalogClientTypes.Tag]?
-        /// The time when the plan was last updated.
+        /// The UTC time stamp when the plan was last updated.
         public var updatedTime: ClientRuntime.Date?
 
         public init (
@@ -14516,6 +14764,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactDetail: Swift.Codable {
         case guidance = "Guidance"
         case id = "Id"
         case name = "Name"
+        case sourceRevision = "SourceRevision"
         case type = "Type"
     }
 
@@ -14539,6 +14788,9 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactDetail: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let sourceRevision = self.sourceRevision {
+            try encodeContainer.encode(sourceRevision, forKey: .sourceRevision)
+        }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
@@ -14560,6 +14812,8 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactDetail: Swift.Codable {
         active = activeDecoded
         let guidanceDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.ProvisioningArtifactGuidance.self, forKey: .guidance)
         guidance = guidanceDecoded
+        let sourceRevisionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRevision)
+        sourceRevision = sourceRevisionDecoded
     }
 }
 
@@ -14578,6 +14832,8 @@ extension ServiceCatalogClientTypes {
         public var id: Swift.String?
         /// The name of the provisioning artifact.
         public var name: Swift.String?
+        /// Specifies the revision of the external artifact that was used to automatically sync the Service Catalog product and create the provisioning artifact. Service Catalog includes this response parameter as a high level field to the existing ProvisioningArtifactDetail type, which is returned as part of the response for CreateProduct, UpdateProduct, DescribeProductAsAdmin, DescribeProvisioningArtifact, ListProvisioningArtifact, and UpdateProvisioningArticat APIs. This field only exists for Repo-Synced products.
+        public var sourceRevision: Swift.String?
         /// The type of provisioning artifact.
         ///
         /// * CLOUD_FORMATION_TEMPLATE - CloudFormation template
@@ -14594,6 +14850,7 @@ extension ServiceCatalogClientTypes {
             guidance: ServiceCatalogClientTypes.ProvisioningArtifactGuidance? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            sourceRevision: Swift.String? = nil,
             type: ServiceCatalogClientTypes.ProvisioningArtifactType? = nil
         )
         {
@@ -14603,6 +14860,7 @@ extension ServiceCatalogClientTypes {
             self.guidance = guidance
             self.id = id
             self.name = name
+            self.sourceRevision = sourceRevision
             self.type = type
         }
     }
@@ -14900,10 +15158,9 @@ extension ServiceCatalogClientTypes {
     public struct ProvisioningArtifactProperties: Swift.Equatable {
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public var description: Swift.String?
-        /// If set to true, Amazon Web Services Service Catalog stops validating the specified provisioning artifact even if it is invalid.
+        /// If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid.
         public var disableTemplateValidation: Swift.Bool
-        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
-        /// This member is required.
+        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
         public var info: [Swift.String:Swift.String]?
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public var name: Swift.String?
@@ -15966,9 +16223,9 @@ extension ServiceCatalogClientTypes.ResourceChange: Swift.Codable {
         var scopeDecoded0:[ServiceCatalogClientTypes.ResourceAttribute]? = nil
         if let scopeContainer = scopeContainer {
             scopeDecoded0 = [ServiceCatalogClientTypes.ResourceAttribute]()
-            for string0 in scopeContainer {
-                if let string0 = string0 {
-                    scopeDecoded0?.append(string0)
+            for enum0 in scopeContainer {
+                if let enum0 = enum0 {
+                    scopeDecoded0?.append(enum0)
                 }
             }
         }
@@ -17700,6 +17957,181 @@ extension ServiceCatalogClientTypes {
     }
 }
 
+extension ServiceCatalogClientTypes.SourceConnection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionParameters = "ConnectionParameters"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionParameters = self.connectionParameters {
+            try encodeContainer.encode(connectionParameters, forKey: .connectionParameters)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SourceType.self, forKey: .type)
+        type = typeDecoded
+        let connectionParametersDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SourceConnectionParameters.self, forKey: .connectionParameters)
+        connectionParameters = connectionParametersDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes {
+    /// A top level ProductViewDetail response containing details about the product’s connection. Service Catalog returns this field for the CreateProduct, UpdateProduct, DescribeProductAsAdmin, and SearchProductAsAdmin APIs. This response contains the same fields as the ConnectionParameters request, with the addition of the LastSync response.
+    public struct SourceConnection: Swift.Equatable {
+        /// The connection details based on the connection Type.
+        /// This member is required.
+        public var connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters?
+        /// The only supported SourceConnection type is Codestar.
+        public var type: ServiceCatalogClientTypes.SourceType?
+
+        public init (
+            connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters? = nil,
+            type: ServiceCatalogClientTypes.SourceType? = nil
+        )
+        {
+            self.connectionParameters = connectionParameters
+            self.type = type
+        }
+    }
+
+}
+
+extension ServiceCatalogClientTypes.SourceConnectionDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionParameters = "ConnectionParameters"
+        case lastSync = "LastSync"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionParameters = self.connectionParameters {
+            try encodeContainer.encode(connectionParameters, forKey: .connectionParameters)
+        }
+        if let lastSync = self.lastSync {
+            try encodeContainer.encode(lastSync, forKey: .lastSync)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SourceType.self, forKey: .type)
+        type = typeDecoded
+        let connectionParametersDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SourceConnectionParameters.self, forKey: .connectionParameters)
+        connectionParameters = connectionParametersDecoded
+        let lastSyncDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.LastSync.self, forKey: .lastSync)
+        lastSync = lastSyncDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes {
+    /// Provides details about the configured SourceConnection.
+    public struct SourceConnectionDetail: Swift.Equatable {
+        /// The connection details based on the connection Type.
+        public var connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters?
+        /// Provides details about the product's connection sync and contains the following sub-fields.
+        ///
+        /// * LastSyncTime
+        ///
+        /// * LastSyncStatus
+        ///
+        /// * LastSyncStatusMessage
+        ///
+        /// * LastSuccessfulSyncTime
+        ///
+        /// * LastSuccessfulSyncProvisioningArtifactID
+        public var lastSync: ServiceCatalogClientTypes.LastSync?
+        /// The only supported SourceConnection type is Codestar.
+        public var type: ServiceCatalogClientTypes.SourceType?
+
+        public init (
+            connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters? = nil,
+            lastSync: ServiceCatalogClientTypes.LastSync? = nil,
+            type: ServiceCatalogClientTypes.SourceType? = nil
+        )
+        {
+            self.connectionParameters = connectionParameters
+            self.lastSync = lastSync
+            self.type = type
+        }
+    }
+
+}
+
+extension ServiceCatalogClientTypes.SourceConnectionParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeStar = "CodeStar"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codeStar = self.codeStar {
+            try encodeContainer.encode(codeStar, forKey: .codeStar)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeStarDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.CodeStarParameters.self, forKey: .codeStar)
+        codeStar = codeStarDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes {
+    /// Provides connection details.
+    public struct SourceConnectionParameters: Swift.Equatable {
+        /// Provides ConnectionType details.
+        public var codeStar: ServiceCatalogClientTypes.CodeStarParameters?
+
+        public init (
+            codeStar: ServiceCatalogClientTypes.CodeStarParameters? = nil
+        )
+        {
+            self.codeStar = codeStar
+        }
+    }
+
+}
+
+extension ServiceCatalogClientTypes {
+    public enum SourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case codestar
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceType] {
+            return [
+                .codestar,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .codestar: return "CODESTAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SourceType(rawValue: rawValue) ?? SourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ServiceCatalogClientTypes.StackInstance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case account = "Account"
@@ -18693,6 +19125,7 @@ extension UpdatePortfolioShareInput: Swift.Encodable {
         case accountId = "AccountId"
         case organizationNode = "OrganizationNode"
         case portfolioId = "PortfolioId"
+        case sharePrincipals = "SharePrincipals"
         case shareTagOptions = "ShareTagOptions"
     }
 
@@ -18709,6 +19142,9 @@ extension UpdatePortfolioShareInput: Swift.Encodable {
         }
         if let portfolioId = self.portfolioId {
             try encodeContainer.encode(portfolioId, forKey: .portfolioId)
+        }
+        if let sharePrincipals = self.sharePrincipals {
+            try encodeContainer.encode(sharePrincipals, forKey: .sharePrincipals)
         }
         if let shareTagOptions = self.shareTagOptions {
             try encodeContainer.encode(shareTagOptions, forKey: .shareTagOptions)
@@ -18738,7 +19174,9 @@ public struct UpdatePortfolioShareInput: Swift.Equatable {
     /// The unique identifier of the portfolio for which the share will be updated.
     /// This member is required.
     public var portfolioId: Swift.String?
-    /// A flag to enable or disable TagOptions sharing for the portfolio share. If this field is not provided, the current state of TagOptions sharing on the portfolio share will not be modified.
+    /// A flag to enables or disables Principals sharing in the portfolio. If this field is not provided, the current state of the Principals sharing on the portfolio share will not be modified.
+    public var sharePrincipals: Swift.Bool?
+    /// Enables or disables TagOptions sharing for the portfolio share. If this field is not provided, the current state of TagOptions sharing on the portfolio share will not be modified.
     public var shareTagOptions: Swift.Bool?
 
     public init (
@@ -18746,6 +19184,7 @@ public struct UpdatePortfolioShareInput: Swift.Equatable {
         accountId: Swift.String? = nil,
         organizationNode: ServiceCatalogClientTypes.OrganizationNode? = nil,
         portfolioId: Swift.String? = nil,
+        sharePrincipals: Swift.Bool? = nil,
         shareTagOptions: Swift.Bool? = nil
     )
     {
@@ -18753,6 +19192,7 @@ public struct UpdatePortfolioShareInput: Swift.Equatable {
         self.accountId = accountId
         self.organizationNode = organizationNode
         self.portfolioId = portfolioId
+        self.sharePrincipals = sharePrincipals
         self.shareTagOptions = shareTagOptions
     }
 }
@@ -18763,6 +19203,7 @@ struct UpdatePortfolioShareInputBody: Swift.Equatable {
     let accountId: Swift.String?
     let organizationNode: ServiceCatalogClientTypes.OrganizationNode?
     let shareTagOptions: Swift.Bool?
+    let sharePrincipals: Swift.Bool?
 }
 
 extension UpdatePortfolioShareInputBody: Swift.Decodable {
@@ -18771,6 +19212,7 @@ extension UpdatePortfolioShareInputBody: Swift.Decodable {
         case accountId = "AccountId"
         case organizationNode = "OrganizationNode"
         case portfolioId = "PortfolioId"
+        case sharePrincipals = "SharePrincipals"
         case shareTagOptions = "ShareTagOptions"
     }
 
@@ -18786,6 +19228,8 @@ extension UpdatePortfolioShareInputBody: Swift.Decodable {
         organizationNode = organizationNodeDecoded
         let shareTagOptionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shareTagOptions)
         shareTagOptions = shareTagOptionsDecoded
+        let sharePrincipalsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sharePrincipals)
+        sharePrincipals = sharePrincipalsDecoded
     }
 }
 
@@ -18878,6 +19322,7 @@ extension UpdateProductInput: Swift.Encodable {
         case name = "Name"
         case owner = "Owner"
         case removeTags = "RemoveTags"
+        case sourceConnection = "SourceConnection"
         case supportDescription = "SupportDescription"
         case supportEmail = "SupportEmail"
         case supportUrl = "SupportUrl"
@@ -18914,6 +19359,9 @@ extension UpdateProductInput: Swift.Encodable {
             for tagkeys0 in removeTags {
                 try removeTagsContainer.encode(tagkeys0)
             }
+        }
+        if let sourceConnection = self.sourceConnection {
+            try encodeContainer.encode(sourceConnection, forKey: .sourceConnection)
         }
         if let supportDescription = self.supportDescription {
             try encodeContainer.encode(supportDescription, forKey: .supportDescription)
@@ -18957,6 +19405,12 @@ public struct UpdateProductInput: Swift.Equatable {
     public var owner: Swift.String?
     /// The tags to remove from the product.
     public var removeTags: [Swift.String]?
+    /// Specifies connection details for the updated product and syncs the product to the connection source artifact. This automatically manages the product's artifacts based on changes to the source. The SourceConnection parameter consists of the following sub-fields.
+    ///
+    /// * Type
+    ///
+    /// * ConnectionParamters
+    public var sourceConnection: ServiceCatalogClientTypes.SourceConnection?
     /// The updated support description for the product.
     public var supportDescription: Swift.String?
     /// The updated support email for the product.
@@ -18973,6 +19427,7 @@ public struct UpdateProductInput: Swift.Equatable {
         name: Swift.String? = nil,
         owner: Swift.String? = nil,
         removeTags: [Swift.String]? = nil,
+        sourceConnection: ServiceCatalogClientTypes.SourceConnection? = nil,
         supportDescription: Swift.String? = nil,
         supportEmail: Swift.String? = nil,
         supportUrl: Swift.String? = nil
@@ -18986,6 +19441,7 @@ public struct UpdateProductInput: Swift.Equatable {
         self.name = name
         self.owner = owner
         self.removeTags = removeTags
+        self.sourceConnection = sourceConnection
         self.supportDescription = supportDescription
         self.supportEmail = supportEmail
         self.supportUrl = supportUrl
@@ -19004,6 +19460,7 @@ struct UpdateProductInputBody: Swift.Equatable {
     let supportUrl: Swift.String?
     let addTags: [ServiceCatalogClientTypes.Tag]?
     let removeTags: [Swift.String]?
+    let sourceConnection: ServiceCatalogClientTypes.SourceConnection?
 }
 
 extension UpdateProductInputBody: Swift.Decodable {
@@ -19016,6 +19473,7 @@ extension UpdateProductInputBody: Swift.Decodable {
         case name = "Name"
         case owner = "Owner"
         case removeTags = "RemoveTags"
+        case sourceConnection = "SourceConnection"
         case supportDescription = "SupportDescription"
         case supportEmail = "SupportEmail"
         case supportUrl = "SupportUrl"
@@ -19063,6 +19521,8 @@ extension UpdateProductInputBody: Swift.Decodable {
             }
         }
         removeTags = removeTagsDecoded0
+        let sourceConnectionDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SourceConnection.self, forKey: .sourceConnection)
+        sourceConnection = sourceConnectionDecoded
     }
 }
 
@@ -19818,7 +20278,7 @@ extension UpdateProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct UpdateProvisioningArtifactOutputResponse: Swift.Equatable {
-    /// The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.
+    /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.
     public var info: [Swift.String:Swift.String]?
     /// Information about the provisioning artifact.
     public var provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?

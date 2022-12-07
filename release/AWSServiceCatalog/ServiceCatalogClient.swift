@@ -276,7 +276,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
         return result
     }
 
-    /// Associates the specified principal ARN with the specified portfolio.
+    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID, PrincipalARN, and PrincipalType parameters are required. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
     public func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfolioInput) async throws -> AssociatePrincipalWithPortfolioOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -615,7 +615,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
         return result
     }
 
-    /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead.
+    /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
     public func createPortfolioShare(input: CreatePortfolioShareInput) async throws -> CreatePortfolioShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1767,7 +1767,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
         return result
     }
 
-    /// Disassociates a previously associated principal ARN from a specified portfolio.
+    /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipalWithPortfolio call request details. For example, to disassociate an association created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio. For portfolios that have been shared with principal name sharing enabled: after disassociating a principal, share recipient accounts will no longer be able to provision products in this portfolio using a role matching the name of the associated principal.
     public func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput) async throws -> DisassociatePrincipalFromPortfolioOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2098,7 +2098,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
         return result
     }
 
-    /// Requests the import of a resource as a Amazon Web Services Service Catalog provisioned product that is associated to a Amazon Web Services Service Catalog product and provisioning artifact. Once imported, all supported Amazon Web Services Service Catalog governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Amazon Web Services Service Catalog product provisioning artifact. The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
+    /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provisioning artifact. Once imported, all supported Service Catalog governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact. The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
     public func importAsProvisionedProduct(input: ImportAsProvisionedProductInput) async throws -> ImportAsProvisionedProductOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2421,7 +2421,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
         return result
     }
 
-    /// Lists all principal ARNs associated with the specified portfolio.
+    /// Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
     public func listPrincipalsForPortfolio(input: ListPrincipalsForPortfolioInput) async throws -> ListPrincipalsForPortfolioOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3103,7 +3103,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
         return result
     }
 
-    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing for an existing portfolio share. The portfolio share cannot be updated if the  CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type. This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action.
+    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type. This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
     public func updatePortfolioShare(input: UpdatePortfolioShareInput) async throws -> UpdatePortfolioShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

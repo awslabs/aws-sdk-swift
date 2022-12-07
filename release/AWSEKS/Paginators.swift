@@ -23,7 +23,10 @@ extension DescribeAddonVersionsInput: ClientRuntime.PaginateToken {
             addonName: self.addonName,
             kubernetesVersion: self.kubernetesVersion,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            owners: self.owners,
+            publishers: self.publishers,
+            types: self.types
         )}
 }
 

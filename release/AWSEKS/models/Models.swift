@@ -112,7 +112,10 @@ extension EKSClientTypes.Addon: Swift.Codable {
         case clusterName
         case createdAt
         case health
+        case marketplaceInformation
         case modifiedAt
+        case owner
+        case publisher
         case serviceAccountRoleArn
         case status
         case tags
@@ -138,8 +141,17 @@ extension EKSClientTypes.Addon: Swift.Codable {
         if let health = self.health {
             try encodeContainer.encode(health, forKey: .health)
         }
+        if let marketplaceInformation = self.marketplaceInformation {
+            try encodeContainer.encode(marketplaceInformation, forKey: .marketplaceInformation)
+        }
         if let modifiedAt = self.modifiedAt {
             try encodeContainer.encodeTimestamp(modifiedAt, format: .epochSeconds, forKey: .modifiedAt)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let publisher = self.publisher {
+            try encodeContainer.encode(publisher, forKey: .publisher)
         }
         if let serviceAccountRoleArn = self.serviceAccountRoleArn {
             try encodeContainer.encode(serviceAccountRoleArn, forKey: .serviceAccountRoleArn)
@@ -186,6 +198,12 @@ extension EKSClientTypes.Addon: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let publisherDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publisher)
+        publisher = publisherDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let marketplaceInformationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.MarketplaceInformation.self, forKey: .marketplaceInformation)
+        marketplaceInformation = marketplaceInformationDecoded
     }
 }
 
@@ -204,8 +222,14 @@ extension EKSClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// An object representing the health of the add-on.
         public var health: EKSClientTypes.AddonHealth?
+        /// Information about an Amazon EKS add-on from the Amazon Web Services Marketplace.
+        public var marketplaceInformation: EKSClientTypes.MarketplaceInformation?
         /// The date and time that the add-on was last modified.
         public var modifiedAt: ClientRuntime.Date?
+        /// The owner of the add-on.
+        public var owner: Swift.String?
+        /// The publisher of the add-on.
+        public var publisher: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role that is bound to the Kubernetes service account used by the add-on.
         public var serviceAccountRoleArn: Swift.String?
         /// The status of the add-on.
@@ -220,7 +244,10 @@ extension EKSClientTypes {
             clusterName: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             health: EKSClientTypes.AddonHealth? = nil,
+            marketplaceInformation: EKSClientTypes.MarketplaceInformation? = nil,
             modifiedAt: ClientRuntime.Date? = nil,
+            owner: Swift.String? = nil,
+            publisher: Swift.String? = nil,
             serviceAccountRoleArn: Swift.String? = nil,
             status: EKSClientTypes.AddonStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -232,7 +259,10 @@ extension EKSClientTypes {
             self.clusterName = clusterName
             self.createdAt = createdAt
             self.health = health
+            self.marketplaceInformation = marketplaceInformation
             self.modifiedAt = modifiedAt
+            self.owner = owner
+            self.publisher = publisher
             self.serviceAccountRoleArn = serviceAccountRoleArn
             self.status = status
             self.tags = tags
@@ -292,6 +322,9 @@ extension EKSClientTypes.AddonInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addonName
         case addonVersions
+        case marketplaceInformation
+        case owner
+        case publisher
         case type
     }
 
@@ -305,6 +338,15 @@ extension EKSClientTypes.AddonInfo: Swift.Codable {
             for addonversioninfolist0 in addonVersions {
                 try addonVersionsContainer.encode(addonversioninfolist0)
             }
+        }
+        if let marketplaceInformation = self.marketplaceInformation {
+            try encodeContainer.encode(marketplaceInformation, forKey: .marketplaceInformation)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let publisher = self.publisher {
+            try encodeContainer.encode(publisher, forKey: .publisher)
         }
         if let type = self.type {
             try encodeContainer.encode(type, forKey: .type)
@@ -328,6 +370,12 @@ extension EKSClientTypes.AddonInfo: Swift.Codable {
             }
         }
         addonVersions = addonVersionsDecoded0
+        let publisherDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publisher)
+        publisher = publisherDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let marketplaceInformationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.MarketplaceInformation.self, forKey: .marketplaceInformation)
+        marketplaceInformation = marketplaceInformationDecoded
     }
 }
 
@@ -338,17 +386,29 @@ extension EKSClientTypes {
         public var addonName: Swift.String?
         /// An object representing information about available add-on versions and compatible Kubernetes versions.
         public var addonVersions: [EKSClientTypes.AddonVersionInfo]?
+        /// Information about the add-on from the Amazon Web Services Marketplace.
+        public var marketplaceInformation: EKSClientTypes.MarketplaceInformation?
+        /// The owner of the add-on.
+        public var owner: Swift.String?
+        /// The publisher of the add-on.
+        public var publisher: Swift.String?
         /// The type of the add-on.
         public var type: Swift.String?
 
         public init (
             addonName: Swift.String? = nil,
             addonVersions: [EKSClientTypes.AddonVersionInfo]? = nil,
+            marketplaceInformation: EKSClientTypes.MarketplaceInformation? = nil,
+            owner: Swift.String? = nil,
+            publisher: Swift.String? = nil,
             type: Swift.String? = nil
         )
         {
             self.addonName = addonName
             self.addonVersions = addonVersions
+            self.marketplaceInformation = marketplaceInformation
+            self.owner = owner
+            self.publisher = publisher
             self.type = type
         }
     }
@@ -527,6 +587,7 @@ extension EKSClientTypes.AddonVersionInfo: Swift.Codable {
         case addonVersion
         case architecture
         case compatibilities
+        case requiresConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -545,6 +606,9 @@ extension EKSClientTypes.AddonVersionInfo: Swift.Codable {
             for compatibilities0 in compatibilities {
                 try compatibilitiesContainer.encode(compatibilities0)
             }
+        }
+        if requiresConfiguration != false {
+            try encodeContainer.encode(requiresConfiguration, forKey: .requiresConfiguration)
         }
     }
 
@@ -574,6 +638,8 @@ extension EKSClientTypes.AddonVersionInfo: Swift.Codable {
             }
         }
         compatibilities = compatibilitiesDecoded0
+        let requiresConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requiresConfiguration) ?? false
+        requiresConfiguration = requiresConfigurationDecoded
     }
 }
 
@@ -586,16 +652,20 @@ extension EKSClientTypes {
         public var architecture: [Swift.String]?
         /// An object representing the compatibilities of a version.
         public var compatibilities: [EKSClientTypes.Compatibility]?
+        /// Whether the add-on requires configuration.
+        public var requiresConfiguration: Swift.Bool
 
         public init (
             addonVersion: Swift.String? = nil,
             architecture: [Swift.String]? = nil,
-            compatibilities: [EKSClientTypes.Compatibility]? = nil
+            compatibilities: [EKSClientTypes.Compatibility]? = nil,
+            requiresConfiguration: Swift.Bool = false
         )
         {
             self.addonVersion = addonVersion
             self.architecture = architecture
             self.compatibilities = compatibilities
+            self.requiresConfiguration = requiresConfiguration
         }
     }
 
@@ -1901,6 +1971,76 @@ extension EKSClientTypes {
 
 }
 
+extension EKSClientTypes.ControlPlanePlacementRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupName = self.groupName {
+            try encodeContainer.encode(groupName, forKey: .groupName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
+        groupName = groupNameDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide
+    public struct ControlPlanePlacementRequest: Swift.Equatable {
+        /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
+        public var groupName: Swift.String?
+
+        public init (
+            groupName: Swift.String? = nil
+        )
+        {
+            self.groupName = groupName
+        }
+    }
+
+}
+
+extension EKSClientTypes.ControlPlanePlacementResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupName = self.groupName {
+            try encodeContainer.encode(groupName, forKey: .groupName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
+        groupName = groupNameDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+    public struct ControlPlanePlacementResponse: Swift.Equatable {
+        /// The name of the placement group for the Kubernetes control plane instances.
+        public var groupName: Swift.String?
+
+        public init (
+            groupName: Swift.String? = nil
+        )
+        {
+            self.groupName = groupName
+        }
+    }
+
+}
+
 extension CreateAddonInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addonName
@@ -2184,7 +2324,7 @@ public struct CreateClusterInput: Swift.Equatable {
     /// The unique name to give to your cluster.
     /// This member is required.
     public var name: Swift.String?
-    /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review [Creating an Amazon EKS cluster on an Amazon Web Services Outpost](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster-outpost.html) in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
+    /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review [Local clusters for Amazon EKS on Amazon Web Services Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-overview.html) in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
     public var outpostConfig: EKSClientTypes.OutpostConfigRequest?
     /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see [Cluster VPC Considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) and [Cluster Security Group Considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
     /// This member is required.
@@ -3011,7 +3151,7 @@ public struct DeleteAddonInput: Swift.Equatable {
     /// The name of the cluster to delete the add-on from.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// Specifying this option preserves the add-on software on your cluster but Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with the add-on, it is not removed.
+    /// Specifying this option preserves the add-on software on your cluster but Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with the add-on, it isn't removed.
     public var preserve: Swift.Bool
 
     public init (
@@ -3646,6 +3786,12 @@ extension DescribeAddonVersionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
+            if let types = types {
+                types.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
             if let addonName = addonName {
                 let addonNameQueryItem = ClientRuntime.URLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
                 items.append(addonNameQueryItem)
@@ -3657,6 +3803,18 @@ extension DescribeAddonVersionsInput: ClientRuntime.QueryItemProvider {
             if let nextToken = nextToken {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
+            }
+            if let publishers = publishers {
+                publishers.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "publishers".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            if let owners = owners {
+                owners.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "owners".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
             }
             if let kubernetesVersion = kubernetesVersion {
                 let kubernetesVersionQueryItem = ClientRuntime.URLQueryItem(name: "kubernetesVersion".urlPercentEncoding(), value: Swift.String(kubernetesVersion).urlPercentEncoding())
@@ -3676,24 +3834,36 @@ extension DescribeAddonVersionsInput: ClientRuntime.URLPathProvider {
 public struct DescribeAddonVersionsInput: Swift.Equatable {
     /// The name of the add-on. The name must match one of the names returned by [ListAddons](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
     public var addonName: Swift.String?
-    /// The Kubernetes versions that the add-on can be used with.
+    /// The Kubernetes versions that you can use the add-on with.
     public var kubernetesVersion: Swift.String?
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated DescribeAddonVersionsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
+    /// The owner of the add-on. For valid owners, don't specify a value for this property.
+    public var owners: [Swift.String]?
+    /// The publisher of the add-on. For valid publishers, don't specify a value for this property.
+    public var publishers: [Swift.String]?
+    /// The type of the add-on. For valid types, don't specify a value for this property.
+    public var types: [Swift.String]?
 
     public init (
         addonName: Swift.String? = nil,
         kubernetesVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        owners: [Swift.String]? = nil,
+        publishers: [Swift.String]? = nil,
+        types: [Swift.String]? = nil
     )
     {
         self.addonName = addonName
         self.kubernetesVersion = kubernetesVersion
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.owners = owners
+        self.publishers = publishers
+        self.types = types
     }
 }
 
@@ -3748,7 +3918,7 @@ extension DescribeAddonVersionsOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct DescribeAddonVersionsOutputResponse: Swift.Equatable {
-    /// The list of available versions with Kubernetes version compatibility.
+    /// The list of available versions with Kubernetes version compatibility and other properties.
     public var addons: [EKSClientTypes.AddonInfo]?
     /// The nextToken value returned from a previous paginated DescribeAddonVersionsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
@@ -5540,7 +5710,7 @@ extension EKSClientTypes {
         public var id: Swift.String?
         /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both.
         public var name: Swift.String?
-        /// The launch template version number, $Latest, or $Default. If the value is $Latest, Amazon EKS uses the latest version of the launch template. If the value is $Default, Amazon EKS uses the default version of the launch template. Default: The default version of the launch template.
+        /// The version number of the launch template to use. If no version is specified, then the template's default version is used.
         public var version: Swift.String?
 
         public init (
@@ -6575,9 +6745,9 @@ extension EKSClientTypes.LogSetup: Swift.Codable {
         var typesDecoded0:[EKSClientTypes.LogType]? = nil
         if let typesContainer = typesContainer {
             typesDecoded0 = [EKSClientTypes.LogType]()
-            for string0 in typesContainer {
-                if let string0 = string0 {
-                    typesDecoded0?.append(string0)
+            for enum0 in typesContainer {
+                if let enum0 = enum0 {
+                    typesDecoded0?.append(enum0)
                 }
             }
         }
@@ -6690,6 +6860,51 @@ extension EKSClientTypes {
         )
         {
             self.clusterLogging = clusterLogging
+        }
+    }
+
+}
+
+extension EKSClientTypes.MarketplaceInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case productId
+        case productUrl
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let productId = self.productId {
+            try encodeContainer.encode(productId, forKey: .productId)
+        }
+        if let productUrl = self.productUrl {
+            try encodeContainer.encode(productUrl, forKey: .productUrl)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let productIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productId)
+        productId = productIdDecoded
+        let productUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productUrl)
+        productUrl = productUrlDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// Information about an Amazon EKS add-on from the Amazon Web Services Marketplace.
+    public struct MarketplaceInformation: Swift.Equatable {
+        /// The product ID from the Amazon Web Services Marketplace.
+        public var productId: Swift.String?
+        /// The product URL from the Amazon Web Services Marketplace.
+        public var productUrl: Swift.String?
+
+        public init (
+            productId: Swift.String? = nil,
+            productUrl: Swift.String? = nil
+        )
+        {
+            self.productId = productId
+            self.productUrl = productUrl
         }
     }
 
@@ -7723,6 +7938,7 @@ extension EKSClientTypes {
 extension EKSClientTypes.OutpostConfigRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlPlaneInstanceType
+        case controlPlanePlacement
         case outpostArns
     }
 
@@ -7730,6 +7946,9 @@ extension EKSClientTypes.OutpostConfigRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controlPlaneInstanceType = self.controlPlaneInstanceType {
             try encodeContainer.encode(controlPlaneInstanceType, forKey: .controlPlaneInstanceType)
+        }
+        if let controlPlanePlacement = self.controlPlanePlacement {
+            try encodeContainer.encode(controlPlanePlacement, forKey: .controlPlanePlacement)
         }
         if let outpostArns = outpostArns {
             var outpostArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outpostArns)
@@ -7754,34 +7973,31 @@ extension EKSClientTypes.OutpostConfigRequest: Swift.Codable {
         outpostArns = outpostArnsDecoded0
         let controlPlaneInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlPlaneInstanceType)
         controlPlaneInstanceType = controlPlaneInstanceTypeDecoded
+        let controlPlanePlacementDecoded = try containerValues.decodeIfPresent(EKSClientTypes.ControlPlanePlacementRequest.self, forKey: .controlPlanePlacement)
+        controlPlanePlacement = controlPlanePlacementDecoded
     }
 }
 
 extension EKSClientTypes {
-    /// The configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a cluster on an Outpost, review [Creating a local Amazon EKS cluster on an Amazon Web Services Outpost](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster-outpost.html) in the Amazon EKS User Guide. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
+    /// The configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a cluster on an Outpost, review [Creating a local cluster on an Outpost](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) in the Amazon EKS User Guide. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
     public struct OutpostConfigRequest: Swift.Equatable {
-        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. The instance type that you specify is used for all Kubernetes control plane instances. The instance type can't be changed after cluster creation. Choose an instance type based on the number of nodes that your cluster will have. If your cluster will have:
-        ///
-        /// * 1–20 nodes, then we recommend specifying a large instance type.
-        ///
-        /// * 21–100 nodes, then we recommend specifying an xlarge instance type.
-        ///
-        /// * 101–250 nodes, then we recommend specifying a 2xlarge instance type.
-        ///
-        ///
-        /// For a list of the available Amazon EC2 instance types, see Compute and storage in [Outposts rack features](http://aws.amazon.com/outposts/rack/features/). The control plane is not automatically scaled by Amazon EKS.
+        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. Choose an instance type based on the number of nodes that your cluster will have. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide. The instance type that you specify is used for all Kubernetes control plane instances. The instance type can't be changed after cluster creation. The control plane is not automatically scaled by Amazon EKS.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
+        /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+        public var controlPlanePlacement: EKSClientTypes.ControlPlanePlacementRequest?
         /// The ARN of the Outpost that you want to use for your local Amazon EKS cluster on Outposts. Only a single Outpost ARN is supported.
         /// This member is required.
         public var outpostArns: [Swift.String]?
 
         public init (
             controlPlaneInstanceType: Swift.String? = nil,
+            controlPlanePlacement: EKSClientTypes.ControlPlanePlacementRequest? = nil,
             outpostArns: [Swift.String]? = nil
         )
         {
             self.controlPlaneInstanceType = controlPlaneInstanceType
+            self.controlPlanePlacement = controlPlanePlacement
             self.outpostArns = outpostArns
         }
     }
@@ -7791,6 +8007,7 @@ extension EKSClientTypes {
 extension EKSClientTypes.OutpostConfigResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlPlaneInstanceType
+        case controlPlanePlacement
         case outpostArns
     }
 
@@ -7798,6 +8015,9 @@ extension EKSClientTypes.OutpostConfigResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controlPlaneInstanceType = self.controlPlaneInstanceType {
             try encodeContainer.encode(controlPlaneInstanceType, forKey: .controlPlaneInstanceType)
+        }
+        if let controlPlanePlacement = self.controlPlanePlacement {
+            try encodeContainer.encode(controlPlanePlacement, forKey: .controlPlanePlacement)
         }
         if let outpostArns = outpostArns {
             var outpostArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outpostArns)
@@ -7822,6 +8042,8 @@ extension EKSClientTypes.OutpostConfigResponse: Swift.Codable {
         outpostArns = outpostArnsDecoded0
         let controlPlaneInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlPlaneInstanceType)
         controlPlaneInstanceType = controlPlaneInstanceTypeDecoded
+        let controlPlanePlacementDecoded = try containerValues.decodeIfPresent(EKSClientTypes.ControlPlanePlacementResponse.self, forKey: .controlPlanePlacement)
+        controlPlanePlacement = controlPlanePlacementDecoded
     }
 }
 
@@ -7831,16 +8053,20 @@ extension EKSClientTypes {
         /// The Amazon EC2 instance type used for the control plane. The instance type is the same for all control plane instances.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
+        /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+        public var controlPlanePlacement: EKSClientTypes.ControlPlanePlacementResponse?
         /// The ARN of the Outpost that you specified for use with your local Amazon EKS cluster on Outposts.
         /// This member is required.
         public var outpostArns: [Swift.String]?
 
         public init (
             controlPlaneInstanceType: Swift.String? = nil,
+            controlPlanePlacement: EKSClientTypes.ControlPlanePlacementResponse? = nil,
             outpostArns: [Swift.String]? = nil
         )
         {
             self.controlPlaneInstanceType = controlPlaneInstanceType
+            self.controlPlanePlacement = controlPlanePlacement
             self.outpostArns = outpostArns
         }
     }
@@ -10196,7 +10422,7 @@ extension EKSClientTypes {
     public struct UpdateTaintsPayload: Swift.Equatable {
         /// Kubernetes taints to be added or updated.
         public var addOrUpdateTaints: [EKSClientTypes.Taint]?
-        /// Kubernetes taints to be removed.
+        /// Kubernetes taints to remove.
         public var removeTaints: [EKSClientTypes.Taint]?
 
         public init (
@@ -10349,14 +10575,7 @@ extension EKSClientTypes {
         public var endpointPublicAccess: Swift.Bool?
         /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
         public var publicAccessCidrs: [Swift.String]?
-        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes:
-        ///
-        /// * 1.14 Amazon EKS platform version eks.2 and earlier
-        ///
-        /// * 1.14 Amazon EKS platform version eks.3 and later
-        ///
-        ///
-        /// For more information, see [Amazon EKS security group considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide .
+        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes. For more information, see [Amazon EKS security group considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide .
         public var securityGroupIds: [Swift.String]?
         /// Specify subnets for your Amazon EKS nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your nodes and the Kubernetes control plane.
         public var subnetIds: [Swift.String]?

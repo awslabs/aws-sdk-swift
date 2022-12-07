@@ -4358,6 +4358,168 @@ extension CostExplorerClientTypes {
 
 }
 
+extension GenerationExistsException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GenerationExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A request to generate a recommendation is already in progress.
+public struct GenerationExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct GenerationExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension GenerationExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CostExplorerClientTypes {
+    public enum GenerationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case processing
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GenerationStatus] {
+            return [
+                .failed,
+                .processing,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GenerationStatus(rawValue: rawValue) ?? GenerationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CostExplorerClientTypes.GenerationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedCompletionTime = "EstimatedCompletionTime"
+        case generationCompletionTime = "GenerationCompletionTime"
+        case generationStartedTime = "GenerationStartedTime"
+        case generationStatus = "GenerationStatus"
+        case recommendationId = "RecommendationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedCompletionTime = self.estimatedCompletionTime {
+            try encodeContainer.encode(estimatedCompletionTime, forKey: .estimatedCompletionTime)
+        }
+        if let generationCompletionTime = self.generationCompletionTime {
+            try encodeContainer.encode(generationCompletionTime, forKey: .generationCompletionTime)
+        }
+        if let generationStartedTime = self.generationStartedTime {
+            try encodeContainer.encode(generationStartedTime, forKey: .generationStartedTime)
+        }
+        if let generationStatus = self.generationStatus {
+            try encodeContainer.encode(generationStatus.rawValue, forKey: .generationStatus)
+        }
+        if let recommendationId = self.recommendationId {
+            try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
+        recommendationId = recommendationIdDecoded
+        let generationStatusDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.GenerationStatus.self, forKey: .generationStatus)
+        generationStatus = generationStatusDecoded
+        let generationStartedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationStartedTime)
+        generationStartedTime = generationStartedTimeDecoded
+        let generationCompletionTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationCompletionTime)
+        generationCompletionTime = generationCompletionTimeDecoded
+        let estimatedCompletionTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedCompletionTime)
+        estimatedCompletionTime = estimatedCompletionTimeDecoded
+    }
+}
+
+extension CostExplorerClientTypes {
+    /// The summary of the Savings Plans recommendation generation.
+    public struct GenerationSummary: Swift.Equatable {
+        /// Indicates the estimated time for when the recommendation generation will complete.
+        public var estimatedCompletionTime: Swift.String?
+        /// Indicates the completion time of the recommendation generation.
+        public var generationCompletionTime: Swift.String?
+        /// Indicates the start time of the recommendation generation.
+        public var generationStartedTime: Swift.String?
+        /// Indicates whether the recommendation generation succeeded, is processing, or failed.
+        public var generationStatus: CostExplorerClientTypes.GenerationStatus?
+        /// Indicates the ID for this specific recommendation.
+        public var recommendationId: Swift.String?
+
+        public init (
+            estimatedCompletionTime: Swift.String? = nil,
+            generationCompletionTime: Swift.String? = nil,
+            generationStartedTime: Swift.String? = nil,
+            generationStatus: CostExplorerClientTypes.GenerationStatus? = nil,
+            recommendationId: Swift.String? = nil
+        )
+        {
+            self.estimatedCompletionTime = estimatedCompletionTime
+            self.generationCompletionTime = generationCompletionTime
+            self.generationStartedTime = generationStartedTime
+            self.generationStatus = generationStatus
+            self.recommendationId = recommendationId
+        }
+    }
+
+}
+
 extension GetAnomaliesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateInterval = "DateInterval"
@@ -9681,6 +9843,185 @@ extension ListCostCategoryDefinitionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generationStatus = "GenerationStatus"
+        case nextPageToken = "NextPageToken"
+        case pageSize = "PageSize"
+        case recommendationIds = "RecommendationIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let generationStatus = self.generationStatus {
+            try encodeContainer.encode(generationStatus.rawValue, forKey: .generationStatus)
+        }
+        if let nextPageToken = self.nextPageToken {
+            try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
+        }
+        if pageSize != 0 {
+            try encodeContainer.encode(pageSize, forKey: .pageSize)
+        }
+        if let recommendationIds = recommendationIds {
+            var recommendationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationIds)
+            for recommendationidlist0 in recommendationIds {
+                try recommendationIdsContainer.encode(recommendationidlist0)
+            }
+        }
+    }
+}
+
+extension ListSavingsPlansPurchaseRecommendationGenerationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Equatable {
+    /// The status of the recommendation generation.
+    public var generationStatus: CostExplorerClientTypes.GenerationStatus?
+    /// The token to retrieve the next set of results.
+    public var nextPageToken: Swift.String?
+    /// The number of recommendations that you want returned in a single response object.
+    public var pageSize: Swift.Int
+    /// The IDs for each specific recommendation.
+    public var recommendationIds: [Swift.String]?
+
+    public init (
+        generationStatus: CostExplorerClientTypes.GenerationStatus? = nil,
+        nextPageToken: Swift.String? = nil,
+        pageSize: Swift.Int = 0,
+        recommendationIds: [Swift.String]? = nil
+    )
+    {
+        self.generationStatus = generationStatus
+        self.nextPageToken = nextPageToken
+        self.pageSize = pageSize
+        self.recommendationIds = recommendationIds
+    }
+}
+
+struct ListSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Equatable {
+    let generationStatus: CostExplorerClientTypes.GenerationStatus?
+    let recommendationIds: [Swift.String]?
+    let pageSize: Swift.Int
+    let nextPageToken: Swift.String?
+}
+
+extension ListSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generationStatus = "GenerationStatus"
+        case nextPageToken = "NextPageToken"
+        case pageSize = "PageSize"
+        case recommendationIds = "RecommendationIds"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let generationStatusDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.GenerationStatus.self, forKey: .generationStatus)
+        generationStatus = generationStatusDecoded
+        let recommendationIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .recommendationIds)
+        var recommendationIdsDecoded0:[Swift.String]? = nil
+        if let recommendationIdsContainer = recommendationIdsContainer {
+            recommendationIdsDecoded0 = [Swift.String]()
+            for string0 in recommendationIdsContainer {
+                if let string0 = string0 {
+                    recommendationIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        recommendationIds = recommendationIdsDecoded0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        pageSize = pageSizeDecoded
+        let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
+        nextPageToken = nextPageTokenDecoded
+    }
+}
+
+extension ListSavingsPlansPurchaseRecommendationGenerationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListSavingsPlansPurchaseRecommendationGenerationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListSavingsPlansPurchaseRecommendationGenerationOutputError: Swift.Error, Swift.Equatable {
+    case invalidNextTokenException(InvalidNextTokenException)
+    case limitExceededException(LimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSavingsPlansPurchaseRecommendationGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.generationSummaryList = output.generationSummaryList
+            self.nextPageToken = output.nextPageToken
+        } else {
+            self.generationSummaryList = nil
+            self.nextPageToken = nil
+        }
+    }
+}
+
+public struct ListSavingsPlansPurchaseRecommendationGenerationOutputResponse: Swift.Equatable {
+    /// The list of historical recommendation generations.
+    public var generationSummaryList: [CostExplorerClientTypes.GenerationSummary]?
+    /// The token to retrieve the next set of results.
+    public var nextPageToken: Swift.String?
+
+    public init (
+        generationSummaryList: [CostExplorerClientTypes.GenerationSummary]? = nil,
+        nextPageToken: Swift.String? = nil
+    )
+    {
+        self.generationSummaryList = generationSummaryList
+        self.nextPageToken = nextPageToken
+    }
+}
+
+struct ListSavingsPlansPurchaseRecommendationGenerationOutputResponseBody: Swift.Equatable {
+    let generationSummaryList: [CostExplorerClientTypes.GenerationSummary]?
+    let nextPageToken: Swift.String?
+}
+
+extension ListSavingsPlansPurchaseRecommendationGenerationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generationSummaryList = "GenerationSummaryList"
+        case nextPageToken = "NextPageToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let generationSummaryListContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.GenerationSummary?].self, forKey: .generationSummaryList)
+        var generationSummaryListDecoded0:[CostExplorerClientTypes.GenerationSummary]? = nil
+        if let generationSummaryListContainer = generationSummaryListContainer {
+            generationSummaryListDecoded0 = [CostExplorerClientTypes.GenerationSummary]()
+            for structure0 in generationSummaryListContainer {
+                if let structure0 = structure0 {
+                    generationSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        generationSummaryList = generationSummaryListDecoded0
+        let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
+        nextPageToken = nextPageTokenDecoded
+    }
+}
+
 extension ListTagsForResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -13343,6 +13684,121 @@ extension CostExplorerClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension StartSavingsPlansPurchaseRecommendationGenerationInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension StartSavingsPlansPurchaseRecommendationGenerationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartSavingsPlansPurchaseRecommendationGenerationInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct StartSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Equatable {
+}
+
+extension StartSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StartSavingsPlansPurchaseRecommendationGenerationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartSavingsPlansPurchaseRecommendationGenerationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "GenerationExistsException" : self = .generationExistsException(try GenerationExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartSavingsPlansPurchaseRecommendationGenerationOutputError: Swift.Error, Swift.Equatable {
+    case generationExistsException(GenerationExistsException)
+    case limitExceededException(LimitExceededException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartSavingsPlansPurchaseRecommendationGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.estimatedCompletionTime = output.estimatedCompletionTime
+            self.generationStartedTime = output.generationStartedTime
+            self.recommendationId = output.recommendationId
+        } else {
+            self.estimatedCompletionTime = nil
+            self.generationStartedTime = nil
+            self.recommendationId = nil
+        }
+    }
+}
+
+public struct StartSavingsPlansPurchaseRecommendationGenerationOutputResponse: Swift.Equatable {
+    /// The estimated time for when the recommendation generation will complete.
+    public var estimatedCompletionTime: Swift.String?
+    /// The start time of the recommendation generation.
+    public var generationStartedTime: Swift.String?
+    /// The ID for this specific recommendation.
+    public var recommendationId: Swift.String?
+
+    public init (
+        estimatedCompletionTime: Swift.String? = nil,
+        generationStartedTime: Swift.String? = nil,
+        recommendationId: Swift.String? = nil
+    )
+    {
+        self.estimatedCompletionTime = estimatedCompletionTime
+        self.generationStartedTime = generationStartedTime
+        self.recommendationId = recommendationId
+    }
+}
+
+struct StartSavingsPlansPurchaseRecommendationGenerationOutputResponseBody: Swift.Equatable {
+    let recommendationId: Swift.String?
+    let generationStartedTime: Swift.String?
+    let estimatedCompletionTime: Swift.String?
+}
+
+extension StartSavingsPlansPurchaseRecommendationGenerationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedCompletionTime = "EstimatedCompletionTime"
+        case generationStartedTime = "GenerationStartedTime"
+        case recommendationId = "RecommendationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
+        recommendationId = recommendationIdDecoded
+        let generationStartedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationStartedTime)
+        generationStartedTime = generationStartedTimeDecoded
+        let estimatedCompletionTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedCompletionTime)
+        estimatedCompletionTime = estimatedCompletionTimeDecoded
     }
 }
 

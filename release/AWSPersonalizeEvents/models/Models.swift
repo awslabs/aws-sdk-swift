@@ -9,6 +9,7 @@ extension PersonalizeEventsClientTypes.Event: Swift.Codable {
         case eventValue
         case impression
         case itemId
+        case metricAttribution
         case properties
         case recommendationId
         case sentAt
@@ -33,6 +34,9 @@ extension PersonalizeEventsClientTypes.Event: Swift.Codable {
         }
         if let itemId = self.itemId {
             try encodeContainer.encode(itemId, forKey: .itemId)
+        }
+        if let metricAttribution = self.metricAttribution {
+            try encodeContainer.encode(metricAttribution, forKey: .metricAttribution)
         }
         if let properties = self.properties {
             try encodeContainer.encode(properties, forKey: .properties)
@@ -72,6 +76,14 @@ extension PersonalizeEventsClientTypes.Event: Swift.Codable {
             }
         }
         impression = impressionDecoded0
+        let metricAttributionDecoded = try containerValues.decodeIfPresent(PersonalizeEventsClientTypes.MetricAttribution.self, forKey: .metricAttribution)
+        metricAttribution = metricAttributionDecoded
+    }
+}
+
+extension PersonalizeEventsClientTypes.Event: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -85,13 +97,15 @@ extension PersonalizeEventsClientTypes {
         public var eventType: Swift.String?
         /// The event value that corresponds to the EVENT_VALUE field of the Interactions schema.
         public var eventValue: Swift.Float?
-        /// A list of item IDs that represents the sequence of items you have shown the user. For example, ["itemId1", "itemId2", "itemId3"].
+        /// A list of item IDs that represents the sequence of items you have shown the user. For example, ["itemId1", "itemId2", "itemId3"]. Provide a list of items to manually record impressions data for an event. For more information on recording impressions data, see [Recording impressions data](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#putevents-including-impressions-data).
         public var impression: [Swift.String]?
         /// The item ID key that corresponds to the ITEM_ID field of the Interactions schema.
         public var itemId: Swift.String?
+        /// Contains information about the metric attribution associated with an event. For more information about metric attributions, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
+        public var metricAttribution: PersonalizeEventsClientTypes.MetricAttribution?
         /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, other than movie ID (itemId) and rating (eventValue) , you might also send the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example, {"numberOfRatings": "12"} The keys use camel case names that match the fields in the Interactions schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Interactions schema.
         public var properties: Swift.String?
-        /// The ID of the recommendation.
+        /// The ID of the list of recommendations that contains the item the user interacted with. Provide a recommendationId to have Amazon Personalize implicitly record the recommendations you show your user as impressions data. Or provide a recommendationId if you use a metric attribution to measure the impact of recommendations. For more information on recording impressions data, see [Recording impressions data](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#putevents-including-impressions-data). For more information on creating a metric attribution see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
         public var recommendationId: Swift.String?
         /// The timestamp (in Unix time) on the client side when the event occurred.
         /// This member is required.
@@ -103,6 +117,7 @@ extension PersonalizeEventsClientTypes {
             eventValue: Swift.Float? = nil,
             impression: [Swift.String]? = nil,
             itemId: Swift.String? = nil,
+            metricAttribution: PersonalizeEventsClientTypes.MetricAttribution? = nil,
             properties: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
             sentAt: ClientRuntime.Date? = nil
@@ -113,6 +128,7 @@ extension PersonalizeEventsClientTypes {
             self.eventValue = eventValue
             self.impression = impression
             self.itemId = itemId
+            self.metricAttribution = metricAttribution
             self.properties = properties
             self.recommendationId = recommendationId
             self.sentAt = sentAt
@@ -198,6 +214,11 @@ extension PersonalizeEventsClientTypes.Item: Swift.Codable {
     }
 }
 
+extension PersonalizeEventsClientTypes.Item: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Item(itemId: \(Swift.String(describing: itemId)), properties: \"CONTENT_REDACTED\")"}
+}
+
 extension PersonalizeEventsClientTypes {
     /// Represents item metadata added to an Items dataset using the PutItems API. For more information see [Importing Items Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
     public struct Item: Swift.Equatable {
@@ -217,6 +238,47 @@ extension PersonalizeEventsClientTypes {
         }
     }
 
+}
+
+extension PersonalizeEventsClientTypes.MetricAttribution: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventAttributionSource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventAttributionSource = self.eventAttributionSource {
+            try encodeContainer.encode(eventAttributionSource, forKey: .eventAttributionSource)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventAttributionSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventAttributionSource)
+        eventAttributionSource = eventAttributionSourceDecoded
+    }
+}
+
+extension PersonalizeEventsClientTypes {
+    /// Contains information about a metric attribution associated with an event. For more information about metric attributions, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
+    public struct MetricAttribution: Swift.Equatable {
+        /// The source of the event, such as a third party.
+        /// This member is required.
+        public var eventAttributionSource: Swift.String?
+
+        public init (
+            eventAttributionSource: Swift.String? = nil
+        )
+        {
+            self.eventAttributionSource = eventAttributionSource
+        }
+    }
+
+}
+
+extension PutEventsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutEventsInput(eventList: \(Swift.String(describing: eventList)), sessionId: \(Swift.String(describing: sessionId)), trackingId: \(Swift.String(describing: trackingId)), userId: \"CONTENT_REDACTED\")"}
 }
 
 extension PutEventsInput: Swift.Encodable {
@@ -694,6 +756,11 @@ extension PersonalizeEventsClientTypes.User: Swift.Codable {
         let propertiesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .properties)
         properties = propertiesDecoded
     }
+}
+
+extension PersonalizeEventsClientTypes.User: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "User(userId: \(Swift.String(describing: userId)), properties: \"CONTENT_REDACTED\")"}
 }
 
 extension PersonalizeEventsClientTypes {

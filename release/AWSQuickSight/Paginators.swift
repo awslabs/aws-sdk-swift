@@ -458,3 +458,69 @@ extension PaginatorSequence where Input == SearchDashboardsInput, Output == Sear
         return try await self.asyncCompactMap { item in item.dashboardSummaryList }
     }
 }
+
+/// Paginate over `[SearchDataSetsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[SearchDataSetsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `SearchDataSetsOutputResponse`
+extension QuickSightClient {
+    public func searchDataSetsPaginated(input: SearchDataSetsInput) -> ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutputResponse>(input: input, inputKey: \SearchDataSetsInput.nextToken, outputKey: \SearchDataSetsOutputResponse.nextToken, paginationFunction: self.searchDataSets(input:))
+    }
+}
+
+extension SearchDataSetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchDataSetsInput {
+        return SearchDataSetsInput(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `searchDataSetsPaginated`
+/// to access the nested member `[QuickSightClientTypes.DataSetSummary]`
+/// - Returns: `[QuickSightClientTypes.DataSetSummary]`
+extension PaginatorSequence where Input == SearchDataSetsInput, Output == SearchDataSetsOutputResponse {
+    public func dataSetSummaries() async throws -> [QuickSightClientTypes.DataSetSummary] {
+        return try await self.asyncCompactMap { item in item.dataSetSummaries }
+    }
+}
+
+/// Paginate over `[SearchDataSourcesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[SearchDataSourcesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `SearchDataSourcesOutputResponse`
+extension QuickSightClient {
+    public func searchDataSourcesPaginated(input: SearchDataSourcesInput) -> ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutputResponse>(input: input, inputKey: \SearchDataSourcesInput.nextToken, outputKey: \SearchDataSourcesOutputResponse.nextToken, paginationFunction: self.searchDataSources(input:))
+    }
+}
+
+extension SearchDataSourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchDataSourcesInput {
+        return SearchDataSourcesInput(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `searchDataSourcesPaginated`
+/// to access the nested member `[QuickSightClientTypes.DataSourceSummary]`
+/// - Returns: `[QuickSightClientTypes.DataSourceSummary]`
+extension PaginatorSequence where Input == SearchDataSourcesInput, Output == SearchDataSourcesOutputResponse {
+    public func dataSourceSummaries() async throws -> [QuickSightClientTypes.DataSourceSummary] {
+        return try await self.asyncCompactMap { item in item.dataSourceSummaries }
+    }
+}

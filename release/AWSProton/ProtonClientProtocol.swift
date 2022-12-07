@@ -175,7 +175,7 @@ public protocol ProtonClientProtocol {
     func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutputResponse
     /// List provisioned resources for a service instance with details.
     func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutputResponse
-    /// List service instances with summary data.
+    /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutputResponse
     /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutputResponse

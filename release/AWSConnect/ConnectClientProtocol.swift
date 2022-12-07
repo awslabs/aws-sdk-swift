@@ -217,6 +217,8 @@ public protocol ConnectClientProtocol {
     func listUserHierarchyGroups(input: ListUserHierarchyGroupsInput) async throws -> ListUserHierarchyGroupsOutputResponse
     /// Provides summary information about the users for the specified Amazon Connect instance.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
+    /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
+    func monitorContact(input: MonitorContactInput) async throws -> MonitorContactOutputResponse
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see [Agent status](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-agent-status.html) and [Set your next status](https://docs.aws.amazon.com/connect/latest/adminguide/set-next-status.html) in the Amazon Connect Administrator Guide.
     func putUserStatus(input: PutUserStatusInput) async throws -> PutUserStatusOutputResponse
     /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect console. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.

@@ -15,11 +15,15 @@ public protocol RbinClientProtocol {
     func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
     /// Lists the tags assigned to a retention rule.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Locks a retention rule. A locked retention rule can't be modified or deleted.
+    func lockRule(input: LockRuleInput) async throws -> LockRuleOutputResponse
     /// Assigns tags to the specified retention rule.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    /// Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted only after the unlock delay period expires.
+    func unlockRule(input: UnlockRuleInput) async throws -> UnlockRuleOutputResponse
     /// Unassigns a tag from a retention rule.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
-    /// Updates an existing Recycle Bin retention rule. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule) in the Amazon Elastic Compute Cloud User Guide.
+    /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule) in the Amazon Elastic Compute Cloud User Guide.
     func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutputResponse
 }
 

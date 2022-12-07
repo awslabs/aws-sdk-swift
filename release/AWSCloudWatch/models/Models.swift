@@ -1952,8 +1952,8 @@ extension DescribeAlarmHistoryInputBody: Swift.Decodable {
                 var alarmTypesBuffer:[CloudWatchClientTypes.AlarmType]? = nil
                 if let alarmTypesContainer = alarmTypesContainer {
                     alarmTypesBuffer = [CloudWatchClientTypes.AlarmType]()
-                    for stringContainer0 in alarmTypesContainer {
-                        alarmTypesBuffer?.append(stringContainer0)
+                    for enumContainer0 in alarmTypesContainer {
+                        alarmTypesBuffer?.append(enumContainer0)
                     }
                 }
                 alarmTypes = alarmTypesBuffer
@@ -2444,8 +2444,8 @@ extension DescribeAlarmsInputBody: Swift.Decodable {
                 var alarmTypesBuffer:[CloudWatchClientTypes.AlarmType]? = nil
                 if let alarmTypesContainer = alarmTypesContainer {
                     alarmTypesBuffer = [CloudWatchClientTypes.AlarmType]()
-                    for stringContainer0 in alarmTypesContainer {
-                        alarmTypesBuffer?.append(stringContainer0)
+                    for enumContainer0 in alarmTypesContainer {
+                        alarmTypesBuffer?.append(enumContainer0)
                     }
                 }
                 alarmTypes = alarmTypesBuffer
@@ -2725,8 +2725,8 @@ extension DescribeAnomalyDetectorsInputBody: Swift.Decodable {
                 var anomalyDetectorTypesBuffer:[CloudWatchClientTypes.AnomalyDetectorType]? = nil
                 if let anomalyDetectorTypesContainer = anomalyDetectorTypesContainer {
                     anomalyDetectorTypesBuffer = [CloudWatchClientTypes.AnomalyDetectorType]()
-                    for stringContainer0 in anomalyDetectorTypesContainer {
-                        anomalyDetectorTypesBuffer?.append(stringContainer0)
+                    for enumContainer0 in anomalyDetectorTypesContainer {
+                        anomalyDetectorTypesBuffer?.append(enumContainer0)
                     }
                 }
                 anomalyDetectorTypes = anomalyDetectorTypesBuffer
@@ -4504,8 +4504,8 @@ extension GetMetricStatisticsInputBody: Swift.Decodable {
                 var statisticsBuffer:[CloudWatchClientTypes.Statistic]? = nil
                 if let statisticsContainer = statisticsContainer {
                     statisticsBuffer = [CloudWatchClientTypes.Statistic]()
-                    for stringContainer0 in statisticsContainer {
-                        statisticsBuffer?.append(stringContainer0)
+                    for enumContainer0 in statisticsContainer {
+                        statisticsBuffer?.append(enumContainer0)
                     }
                 }
                 statistics = statisticsBuffer
@@ -4750,7 +4750,7 @@ public struct GetMetricStreamOutputResponse: Swift.Equatable {
     public var creationDate: ClientRuntime.Date?
     /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are not streamed by this metric stream. In this case, all other metric namespaces in the account are streamed by this metric stream.
     public var excludeFilters: [CloudWatchClientTypes.MetricStreamFilter]?
-    /// The ARN of the Amazon Kinesis Firehose delivery stream that is used by this metric stream.
+    /// The ARN of the Amazon Kinesis Data Firehose delivery stream that is used by this metric stream.
     public var firehoseArn: Swift.String?
     /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are streamed by this metric stream.
     public var includeFilters: [CloudWatchClientTypes.MetricStreamFilter]?
@@ -6312,6 +6312,9 @@ extension ListMetricsInput: Swift.Encodable {
                 try dimensionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if includeLinkedAccounts != false {
+            try container.encode(includeLinkedAccounts, forKey: ClientRuntime.Key("IncludeLinkedAccounts"))
+        }
         if let metricName = metricName {
             try container.encode(metricName, forKey: ClientRuntime.Key("MetricName"))
         }
@@ -6320,6 +6323,9 @@ extension ListMetricsInput: Swift.Encodable {
         }
         if let nextToken = nextToken {
             try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        if let owningAccount = owningAccount {
+            try container.encode(owningAccount, forKey: ClientRuntime.Key("OwningAccount"))
         }
         if let recentlyActive = recentlyActive {
             try container.encode(recentlyActive, forKey: ClientRuntime.Key("RecentlyActive"))
@@ -6338,27 +6344,35 @@ extension ListMetricsInput: ClientRuntime.URLPathProvider {
 public struct ListMetricsInput: Swift.Equatable {
     /// The dimensions to filter against. Only the dimensions that match exactly will be returned.
     public var dimensions: [CloudWatchClientTypes.DimensionFilter]?
+    /// If you are using this operation in a monitoring account, specify true to include metrics from source accounts in the returned data. The default is false.
+    public var includeLinkedAccounts: Swift.Bool
     /// The name of the metric to filter against. Only the metrics with names that match exactly will be returned.
     public var metricName: Swift.String?
     /// The metric namespace to filter against. Only the namespace that matches exactly will be returned.
     public var namespace: Swift.String?
     /// The token returned by a previous call to indicate that there is more data available.
     public var nextToken: Swift.String?
+    /// When you use this operation in a monitoring account, use this field to return metrics only from one source account. To do so, specify that source account ID in this field, and also specify true for IncludeLinkedAccounts.
+    public var owningAccount: Swift.String?
     /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 40 minutes more than the specified time interval.
     public var recentlyActive: CloudWatchClientTypes.RecentlyActive?
 
     public init (
         dimensions: [CloudWatchClientTypes.DimensionFilter]? = nil,
+        includeLinkedAccounts: Swift.Bool = false,
         metricName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
+        owningAccount: Swift.String? = nil,
         recentlyActive: CloudWatchClientTypes.RecentlyActive? = nil
     )
     {
         self.dimensions = dimensions
+        self.includeLinkedAccounts = includeLinkedAccounts
         self.metricName = metricName
         self.namespace = namespace
         self.nextToken = nextToken
+        self.owningAccount = owningAccount
         self.recentlyActive = recentlyActive
     }
 }
@@ -6369,14 +6383,18 @@ struct ListMetricsInputBody: Swift.Equatable {
     let dimensions: [CloudWatchClientTypes.DimensionFilter]?
     let nextToken: Swift.String?
     let recentlyActive: CloudWatchClientTypes.RecentlyActive?
+    let includeLinkedAccounts: Swift.Bool
+    let owningAccount: Swift.String?
 }
 
 extension ListMetricsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensions = "Dimensions"
+        case includeLinkedAccounts = "IncludeLinkedAccounts"
         case metricName = "MetricName"
         case namespace = "Namespace"
         case nextToken = "NextToken"
+        case owningAccount = "OwningAccount"
         case recentlyActive = "RecentlyActive"
     }
 
@@ -6409,6 +6427,10 @@ extension ListMetricsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let recentlyActiveDecoded = try containerValues.decodeIfPresent(CloudWatchClientTypes.RecentlyActive.self, forKey: .recentlyActive)
         recentlyActive = recentlyActiveDecoded
+        let includeLinkedAccountsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .includeLinkedAccounts)
+        includeLinkedAccounts = includeLinkedAccountsDecoded
+        let owningAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningAccount)
+        owningAccount = owningAccountDecoded
     }
 }
 
@@ -6443,9 +6465,11 @@ extension ListMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: ListMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
             self.nextToken = output.nextToken
+            self.owningAccounts = output.owningAccounts
         } else {
             self.metrics = nil
             self.nextToken = nil
+            self.owningAccounts = nil
         }
     }
 }
@@ -6455,26 +6479,32 @@ public struct ListMetricsOutputResponse: Swift.Equatable {
     public var metrics: [CloudWatchClientTypes.Metric]?
     /// The token that marks the start of the next batch of returned results.
     public var nextToken: Swift.String?
+    /// If you are using this operation in a monitoring account, this array contains the account IDs of the source accounts where the metrics in the returned data are from. This field is a 1:1 mapping between each metric that is returned and the ID of the owning account.
+    public var owningAccounts: [Swift.String]?
 
     public init (
         metrics: [CloudWatchClientTypes.Metric]? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        owningAccounts: [Swift.String]? = nil
     )
     {
         self.metrics = metrics
         self.nextToken = nextToken
+        self.owningAccounts = owningAccounts
     }
 }
 
 struct ListMetricsOutputResponseBody: Swift.Equatable {
     let metrics: [CloudWatchClientTypes.Metric]?
     let nextToken: Swift.String?
+    let owningAccounts: [Swift.String]?
 }
 
 extension ListMetricsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metrics = "Metrics"
         case nextToken = "NextToken"
+        case owningAccounts = "OwningAccounts"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -6501,6 +6531,25 @@ extension ListMetricsOutputResponseBody: Swift.Decodable {
         }
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        if containerValues.contains(.owningAccounts) {
+            struct KeyVal0{struct member{}}
+            let owningAccountsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .owningAccounts)
+            if let owningAccountsWrappedContainer = owningAccountsWrappedContainer {
+                let owningAccountsContainer = try owningAccountsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var owningAccountsBuffer:[Swift.String]? = nil
+                if let owningAccountsContainer = owningAccountsContainer {
+                    owningAccountsBuffer = [Swift.String]()
+                    for stringContainer0 in owningAccountsContainer {
+                        owningAccountsBuffer?.append(stringContainer0)
+                    }
+                }
+                owningAccounts = owningAccountsBuffer
+            } else {
+                owningAccounts = []
+            }
+        } else {
+            owningAccounts = nil
+        }
     }
 }
 
@@ -7426,9 +7475,9 @@ extension CloudWatchClientTypes.MetricDataQuery: Swift.Codable {
 }
 
 extension CloudWatchClientTypes {
-    /// This structure is used in both GetMetricData and PutMetricAlarm. The supported use of this structure is different for those two operations. When used in GetMetricData, it indicates the metric data to return, and whether this call is just retrieving a batch set of data for one metric, or is performing a Metrics Insights query or a math expression. A single GetMetricData call can include up to 500 MetricDataQuery structures. When used in PutMetricAlarm, it enables you to create an alarm based on a metric math expression. Each MetricDataQuery in the array specifies either a metric to retrieve, or a math expression to be performed on retrieved metrics. A single PutMetricAlarm call can include up to 20 MetricDataQuery structures in the array. The 20 structures can include as many as 10 structures that contain a MetricStat parameter to retrieve a metric, and as many as 10 structures that contain the Expression parameter to perform a math expression. Of those Expression structures, one must have True as the value for ReturnData. The result of this expression is the value the alarm watches. Any expression used in a PutMetricAlarm operation must return a single time series. For more information, see [Metric Math Syntax and Functions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax) in the Amazon CloudWatch User Guide. Some of the parameters of this structure also have different uses whether you are using this structure in a GetMetricData operation or a PutMetricAlarm operation. These differences are explained in the following parameter list.
+    /// This structure is used in both GetMetricData and PutMetricAlarm. The supported use of this structure is different for those two operations. When used in GetMetricData, it indicates the metric data to return, and whether this call is just retrieving a batch set of data for one metric, or is performing a Metrics Insights query or a math expression. A single GetMetricData call can include up to 500 MetricDataQuery structures. When used in PutMetricAlarm, it enables you to create an alarm based on a metric math expression. Each MetricDataQuery in the array specifies either a metric to retrieve, or a math expression to be performed on retrieved metrics. A single PutMetricAlarm call can include up to 20 MetricDataQuery structures in the array. The 20 structures can include as many as 10 structures that contain a MetricStat parameter to retrieve a metric, and as many as 10 structures that contain the Expression parameter to perform a math expression. Of those Expression structures, one must have true as the value for ReturnData. The result of this expression is the value the alarm watches. Any expression used in a PutMetricAlarm operation must return a single time series. For more information, see [Metric Math Syntax and Functions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax) in the Amazon CloudWatch User Guide. Some of the parameters of this structure also have different uses whether you are using this structure in a GetMetricData operation or a PutMetricAlarm operation. These differences are explained in the following parameter list.
     public struct MetricDataQuery: Swift.Equatable {
-        /// The ID of the account where the metrics are located, if this is a cross-account alarm. Use this field only for PutMetricAlarm operations. It is not used in GetMetricData operations.
+        /// The ID of the account where the metrics are located. If you are performing a GetMetricData operation in a monitoring account, use this to specify which account to retrieve this metric from. If you are performing a PutMetricAlarm operation, use this to specify which account contains the metric that the alarm is watching.
         public var accountId: Swift.String?
         /// This field can contain either a Metrics Insights query, or a metric math expression to be performed on the returned data. For more information about Metrics Insights queries, see [Metrics Insights query components and syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-metrics-insights-querylanguage) in the Amazon CloudWatch User Guide. A math expression can use the Id of the other metrics or queries to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see [Metric Math Syntax and Functions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax) in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public var expression: Swift.String?
@@ -7441,7 +7490,7 @@ extension CloudWatchClientTypes {
         public var metricStat: CloudWatchClientTypes.MetricStat?
         /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second.
         public var period: Swift.Int?
-        /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify False. If you omit this, the default of True is used. When used in PutMetricAlarm, specify True for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
+        /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify false. If you omit this, the default of true is used. When used in PutMetricAlarm, specify true for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public var returnData: Swift.Bool?
 
         public init (
@@ -7871,7 +7920,7 @@ extension CloudWatchClientTypes.MetricMathAnomalyDetector: Swift.Codable {
 extension CloudWatchClientTypes {
     /// Indicates the CloudWatch math expression that provides the time series the anomaly detector uses as input. The designated math expression must return a single time series.
     public struct MetricMathAnomalyDetector: Swift.Equatable {
-        /// An array of metric data query structures that enables you to create an anomaly detector based on the result of a metric math expression. Each item in MetricDataQueries gets a metric or performs a math expression. One item in MetricDataQueries is the expression that provides the time series that the anomaly detector uses as input. Designate the expression by setting ReturnData to True for this object in the array. For all other expressions and metrics, set ReturnData to False. The designated expression must return a single time series.
+        /// An array of metric data query structures that enables you to create an anomaly detector based on the result of a metric math expression. Each item in MetricDataQueries gets a metric or performs a math expression. One item in MetricDataQueries is the expression that provides the time series that the anomaly detector uses as input. Designate the expression by setting ReturnData to true for this object in the array. For all other expressions and metrics, set ReturnData to false. The designated expression must return a single time series.
         public var metricDataQueries: [CloudWatchClientTypes.MetricDataQuery]?
 
         public init (
@@ -10003,7 +10052,7 @@ extension PutMetricStreamInput: ClientRuntime.URLPathProvider {
 public struct PutMetricStreamInput: Swift.Equatable {
     /// If you specify this parameter, the stream sends metrics from all metric namespaces except for the namespaces that you specify here. You cannot include ExcludeFilters and IncludeFilters in the same operation.
     public var excludeFilters: [CloudWatchClientTypes.MetricStreamFilter]?
-    /// The ARN of the Amazon Kinesis Firehose delivery stream to use for this metric stream. This Amazon Kinesis Firehose delivery stream must already exist and must be in the same account as the metric stream.
+    /// The ARN of the Amazon Kinesis Data Firehose delivery stream to use for this metric stream. This Amazon Kinesis Data Firehose delivery stream must already exist and must be in the same account as the metric stream.
     /// This member is required.
     public var firehoseArn: Swift.String?
     /// If you specify this parameter, the stream sends only the metrics from the metric namespaces that you specify here. You cannot include IncludeFilters and ExcludeFilters in the same operation.
@@ -10014,14 +10063,14 @@ public struct PutMetricStreamInput: Swift.Equatable {
     /// The output format for the stream. Valid values are json and opentelemetry0.7. For more information about metric stream output formats, see [ Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
     /// This member is required.
     public var outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat?
-    /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions:
+    /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Data Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions:
     ///
     /// * firehose:PutRecord
     ///
     /// * firehose:PutRecordBatch
     /// This member is required.
     public var roleArn: Swift.String?
-    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to have the metric stream also send additional statistics in the stream. This array can have up to 100 members. For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). If the OutputFormat is opentelemetry0.7, you can stream percentile statistics such as p95, p99.9 and so on.
+    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to have the metric stream also send additional statistics in the stream. This array can have up to 100 members. For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). If the OutputFormat is opentelemetry0.7, you can stream percentile statistics such as p95, p99.9, and so on.
     public var statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]?
     /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. You can use this parameter only when you are creating a new metric stream. If you are using this operation to update an existing metric stream, any tags you specify in this parameter are ignored. To change the tags of an existing metric stream, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
     public var tags: [CloudWatchClientTypes.Tag]?
@@ -11029,6 +11078,7 @@ extension CloudWatchClientTypes {
 extension CloudWatchClientTypes {
     public enum StatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case complete
+        case forbidden
         case internalError
         case partialData
         case sdkUnknown(Swift.String)
@@ -11036,6 +11086,7 @@ extension CloudWatchClientTypes {
         public static var allCases: [StatusCode] {
             return [
                 .complete,
+                .forbidden,
                 .internalError,
                 .partialData,
                 .sdkUnknown("")
@@ -11048,6 +11099,7 @@ extension CloudWatchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .complete: return "Complete"
+            case .forbidden: return "Forbidden"
             case .internalError: return "InternalError"
             case .partialData: return "PartialData"
             case let .sdkUnknown(s): return s

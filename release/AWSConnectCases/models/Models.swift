@@ -925,7 +925,7 @@ extension CreateCaseInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateCaseInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The unique identifier of the Cases domain.
     /// This member is required.
@@ -1705,6 +1705,7 @@ extension CreateTemplateInput: Swift.Encodable {
         case layoutConfiguration
         case name
         case requiredFields
+        case status
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1723,6 +1724,9 @@ extension CreateTemplateInput: Swift.Encodable {
             for requiredfieldlist0 in requiredFields {
                 try requiredFieldsContainer.encode(requiredfieldlist0)
             }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
         }
     }
 }
@@ -1749,13 +1753,16 @@ public struct CreateTemplateInput: Swift.Equatable {
     public var name: Swift.String?
     /// A list of fields that must contain a value for a case to be successfully created with this template.
     public var requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    /// The status of the template.
+    public var status: ConnectCasesClientTypes.TemplateStatus?
 
     public init (
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
         layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration? = nil,
         name: Swift.String? = nil,
-        requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil
+        requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
+        status: ConnectCasesClientTypes.TemplateStatus? = nil
     )
     {
         self.description = description
@@ -1763,6 +1770,7 @@ public struct CreateTemplateInput: Swift.Equatable {
         self.layoutConfiguration = layoutConfiguration
         self.name = name
         self.requiredFields = requiredFields
+        self.status = status
     }
 }
 
@@ -1771,6 +1779,7 @@ struct CreateTemplateInputBody: Swift.Equatable {
     let description: Swift.String?
     let layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration?
     let requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    let status: ConnectCasesClientTypes.TemplateStatus?
 }
 
 extension CreateTemplateInputBody: Swift.Decodable {
@@ -1779,6 +1788,7 @@ extension CreateTemplateInputBody: Swift.Decodable {
         case layoutConfiguration
         case name
         case requiredFields
+        case status
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1800,6 +1810,8 @@ extension CreateTemplateInputBody: Swift.Decodable {
             }
         }
         requiredFields = requiredFieldsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.TemplateStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
@@ -3545,6 +3557,7 @@ extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
             self.layoutConfiguration = output.layoutConfiguration
             self.name = output.name
             self.requiredFields = output.requiredFields
+            self.status = output.status
             self.tags = output.tags
             self.templateArn = output.templateArn
             self.templateId = output.templateId
@@ -3553,6 +3566,7 @@ extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
             self.layoutConfiguration = nil
             self.name = nil
             self.requiredFields = nil
+            self.status = nil
             self.tags = nil
             self.templateArn = nil
             self.templateId = nil
@@ -3570,6 +3584,9 @@ public struct GetTemplateOutputResponse: Swift.Equatable {
     public var name: Swift.String?
     /// A list of fields that must contain a value for a case to be successfully created with this template.
     public var requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    /// The status of the template.
+    /// This member is required.
+    public var status: ConnectCasesClientTypes.TemplateStatus?
     /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String?]?
     /// The Amazon Resource Name (ARN) of the template.
@@ -3584,6 +3601,7 @@ public struct GetTemplateOutputResponse: Swift.Equatable {
         layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration? = nil,
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
+        status: ConnectCasesClientTypes.TemplateStatus? = nil,
         tags: [Swift.String:Swift.String?]? = nil,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
@@ -3593,6 +3611,7 @@ public struct GetTemplateOutputResponse: Swift.Equatable {
         self.layoutConfiguration = layoutConfiguration
         self.name = name
         self.requiredFields = requiredFields
+        self.status = status
         self.tags = tags
         self.templateArn = templateArn
         self.templateId = templateId
@@ -3607,6 +3626,7 @@ struct GetTemplateOutputResponseBody: Swift.Equatable {
     let layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration?
     let requiredFields: [ConnectCasesClientTypes.RequiredField]?
     let tags: [Swift.String:Swift.String?]?
+    let status: ConnectCasesClientTypes.TemplateStatus?
 }
 
 extension GetTemplateOutputResponseBody: Swift.Decodable {
@@ -3615,6 +3635,7 @@ extension GetTemplateOutputResponseBody: Swift.Decodable {
         case layoutConfiguration
         case name
         case requiredFields
+        case status
         case tags
         case templateArn
         case templateId
@@ -3652,6 +3673,8 @@ extension GetTemplateOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.TemplateStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
@@ -4782,6 +4805,12 @@ extension ListTemplatesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            if let status = status {
+                status.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
             return items
         }
     }
@@ -4804,16 +4833,20 @@ public struct ListTemplatesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
+    /// A list of status values to filter on.
+    public var status: [ConnectCasesClientTypes.TemplateStatus]?
 
     public init (
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        status: [ConnectCasesClientTypes.TemplateStatus]? = nil
     )
     {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.status = status
     }
 }
 
@@ -6203,9 +6236,43 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension ConnectCasesClientTypes {
+    /// Status of a template
+    public enum TemplateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TemplateStatus] {
+            return [
+                .active,
+                .inactive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .inactive: return "Inactive"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TemplateStatus(rawValue: rawValue) ?? TemplateStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectCasesClientTypes.TemplateSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
+        case status
         case templateArn
         case templateId
     }
@@ -6214,6 +6281,9 @@ extension ConnectCasesClientTypes.TemplateSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
         }
         if let templateArn = self.templateArn {
             try encodeContainer.encode(templateArn, forKey: .templateArn)
@@ -6231,6 +6301,8 @@ extension ConnectCasesClientTypes.TemplateSummary: Swift.Codable {
         templateArn = templateArnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.TemplateStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
@@ -6240,6 +6312,9 @@ extension ConnectCasesClientTypes {
         /// The template name.
         /// This member is required.
         public var name: Swift.String?
+        /// The status of the template.
+        /// This member is required.
+        public var status: ConnectCasesClientTypes.TemplateStatus?
         /// The Amazon Resource Name (ARN) of the template.
         /// This member is required.
         public var templateArn: Swift.String?
@@ -6249,11 +6324,13 @@ extension ConnectCasesClientTypes {
 
         public init (
             name: Swift.String? = nil,
+            status: ConnectCasesClientTypes.TemplateStatus? = nil,
             templateArn: Swift.String? = nil,
             templateId: Swift.String? = nil
         )
         {
             self.name = name
+            self.status = status
             self.templateArn = templateArn
             self.templateId = templateId
         }
@@ -6730,6 +6807,7 @@ extension UpdateLayoutOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
@@ -6742,6 +6820,7 @@ public enum UpdateLayoutOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -6763,6 +6842,7 @@ extension UpdateTemplateInput: Swift.Encodable {
         case layoutConfiguration
         case name
         case requiredFields
+        case status
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6781,6 +6861,9 @@ extension UpdateTemplateInput: Swift.Encodable {
             for requiredfieldlist0 in requiredFields {
                 try requiredFieldsContainer.encode(requiredfieldlist0)
             }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
         }
     }
 }
@@ -6809,6 +6892,8 @@ public struct UpdateTemplateInput: Swift.Equatable {
     public var name: Swift.String?
     /// A list of fields that must contain a value for a case to be successfully created with this template.
     public var requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    /// The status of the template.
+    public var status: ConnectCasesClientTypes.TemplateStatus?
     /// A unique identifier for the template.
     /// This member is required.
     public var templateId: Swift.String?
@@ -6819,6 +6904,7 @@ public struct UpdateTemplateInput: Swift.Equatable {
         layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration? = nil,
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
+        status: ConnectCasesClientTypes.TemplateStatus? = nil,
         templateId: Swift.String? = nil
     )
     {
@@ -6827,6 +6913,7 @@ public struct UpdateTemplateInput: Swift.Equatable {
         self.layoutConfiguration = layoutConfiguration
         self.name = name
         self.requiredFields = requiredFields
+        self.status = status
         self.templateId = templateId
     }
 }
@@ -6836,6 +6923,7 @@ struct UpdateTemplateInputBody: Swift.Equatable {
     let description: Swift.String?
     let layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration?
     let requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    let status: ConnectCasesClientTypes.TemplateStatus?
 }
 
 extension UpdateTemplateInputBody: Swift.Decodable {
@@ -6844,6 +6932,7 @@ extension UpdateTemplateInputBody: Swift.Decodable {
         case layoutConfiguration
         case name
         case requiredFields
+        case status
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -6865,6 +6954,8 @@ extension UpdateTemplateInputBody: Swift.Decodable {
             }
         }
         requiredFields = requiredFieldsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.TemplateStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 

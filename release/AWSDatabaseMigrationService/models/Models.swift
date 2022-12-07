@@ -1451,7 +1451,7 @@ public struct CreateEndpointInput: Swift.Equatable {
     /// The type of endpoint. Valid values are source and target.
     /// This member is required.
     public var endpointType: DatabaseMigrationClientTypes.ReplicationEndpointTypeValue?
-    /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", and "neptune".
+    /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", and "babelfish".
     /// This member is required.
     public var engineName: Swift.String?
     /// The external table definition.
@@ -2258,6 +2258,7 @@ extension CreateReplicationInstanceInput: Swift.Encodable {
         case engineVersion = "EngineVersion"
         case kmsKeyId = "KmsKeyId"
         case multiAZ = "MultiAZ"
+        case networkType = "NetworkType"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
         case replicationInstanceClass = "ReplicationInstanceClass"
@@ -2290,6 +2291,9 @@ extension CreateReplicationInstanceInput: Swift.Encodable {
         }
         if let multiAZ = self.multiAZ {
             try encodeContainer.encode(multiAZ, forKey: .multiAZ)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType, forKey: .networkType)
         }
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
@@ -2346,6 +2350,8 @@ public struct CreateReplicationInstanceInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
     public var multiAZ: Swift.Bool?
+    /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+    public var networkType: Swift.String?
     /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi Default: A 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true.
@@ -2382,6 +2388,7 @@ public struct CreateReplicationInstanceInput: Swift.Equatable {
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
+        networkType: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         replicationInstanceClass: Swift.String? = nil,
@@ -2399,6 +2406,7 @@ public struct CreateReplicationInstanceInput: Swift.Equatable {
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
         self.multiAZ = multiAZ
+        self.networkType = networkType
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
         self.replicationInstanceClass = replicationInstanceClass
@@ -2426,6 +2434,7 @@ struct CreateReplicationInstanceInputBody: Swift.Equatable {
     let publiclyAccessible: Swift.Bool?
     let dnsNameServers: Swift.String?
     let resourceIdentifier: Swift.String?
+    let networkType: Swift.String?
 }
 
 extension CreateReplicationInstanceInputBody: Swift.Decodable {
@@ -2437,6 +2446,7 @@ extension CreateReplicationInstanceInputBody: Swift.Decodable {
         case engineVersion = "EngineVersion"
         case kmsKeyId = "KmsKeyId"
         case multiAZ = "MultiAZ"
+        case networkType = "NetworkType"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
         case replicationInstanceClass = "ReplicationInstanceClass"
@@ -2497,6 +2507,8 @@ extension CreateReplicationInstanceInputBody: Swift.Decodable {
         dnsNameServers = dnsNameServersDecoded
         let resourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceIdentifier)
         resourceIdentifier = resourceIdentifierDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
+        networkType = networkTypeDecoded
     }
 }
 
@@ -9724,9 +9736,9 @@ extension DatabaseMigrationClientTypes {
         public var endpointIdentifier: Swift.String?
         /// The type of endpoint. Valid values are source and target.
         public var endpointType: DatabaseMigrationClientTypes.ReplicationEndpointTypeValue?
-        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
         public var engineDisplayName: Swift.String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
         public var engineName: Swift.String?
         /// Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account.
         public var externalId: Swift.String?
@@ -12576,7 +12588,7 @@ public struct ModifyEndpointInput: Swift.Equatable {
     public var endpointIdentifier: Swift.String?
     /// The type of endpoint. Valid values are source and target.
     public var endpointType: DatabaseMigrationClientTypes.ReplicationEndpointTypeValue?
-    /// The type of engine for the endpoint. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+    /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
     public var engineName: Swift.String?
     /// If this attribute is Y, the current call to ModifyEndpoint replaces all existing endpoint settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyEndpoint does two things:
     ///
@@ -13117,6 +13129,7 @@ extension ModifyReplicationInstanceInput: Swift.Encodable {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case engineVersion = "EngineVersion"
         case multiAZ = "MultiAZ"
+        case networkType = "NetworkType"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case replicationInstanceArn = "ReplicationInstanceArn"
         case replicationInstanceClass = "ReplicationInstanceClass"
@@ -13143,6 +13156,9 @@ extension ModifyReplicationInstanceInput: Swift.Encodable {
         }
         if let multiAZ = self.multiAZ {
             try encodeContainer.encode(multiAZ, forKey: .multiAZ)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType, forKey: .networkType)
         }
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
@@ -13191,6 +13207,8 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
     public var multiAZ: Swift.Bool?
+    /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+    public var networkType: Swift.String?
     /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
     public var preferredMaintenanceWindow: Swift.String?
     /// The Amazon Resource Name (ARN) of the replication instance.
@@ -13210,6 +13228,7 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
+        networkType: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         replicationInstanceArn: Swift.String? = nil,
         replicationInstanceClass: Swift.String? = nil,
@@ -13223,6 +13242,7 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.engineVersion = engineVersion
         self.multiAZ = multiAZ
+        self.networkType = networkType
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.replicationInstanceArn = replicationInstanceArn
         self.replicationInstanceClass = replicationInstanceClass
@@ -13243,6 +13263,7 @@ struct ModifyReplicationInstanceInputBody: Swift.Equatable {
     let allowMajorVersionUpgrade: Swift.Bool
     let autoMinorVersionUpgrade: Swift.Bool?
     let replicationInstanceIdentifier: Swift.String?
+    let networkType: Swift.String?
 }
 
 extension ModifyReplicationInstanceInputBody: Swift.Decodable {
@@ -13253,6 +13274,7 @@ extension ModifyReplicationInstanceInputBody: Swift.Decodable {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case engineVersion = "EngineVersion"
         case multiAZ = "MultiAZ"
+        case networkType = "NetworkType"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case replicationInstanceArn = "ReplicationInstanceArn"
         case replicationInstanceClass = "ReplicationInstanceClass"
@@ -13293,6 +13315,8 @@ extension ModifyReplicationInstanceInputBody: Swift.Decodable {
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let replicationInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationInstanceIdentifier)
         replicationInstanceIdentifier = replicationInstanceIdentifierDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
+        networkType = networkTypeDecoded
     }
 }
 
@@ -14645,7 +14669,7 @@ extension DatabaseMigrationClientTypes {
         public var allowSelectNestedTables: Swift.Bool?
         /// Specifies the ID of the destination for the archived redo logs. This value should be the same as a number in the dest_id column of the v$archived_log view. If you work with an additional redo log destination, use the AdditionalArchivedLogDestId option to specify the additional destination ID. Doing this improves performance by ensuring that the correct logs are accessed from the outset.
         public var archivedLogDestId: Swift.Int?
-        /// When this field is set to Y, DMS only accesses the archived redo logs. If the archived redo logs are stored on Oracle ASM only, the DMS user account needs to be granted ASM privileges.
+        /// When this field is set to Y, DMS only accesses the archived redo logs. If the archived redo logs are stored on Automatic Storage Management (ASM) only, the DMS user account needs to be granted ASM privileges.
         public var archivedLogsOnly: Swift.Bool?
         /// For an Oracle source endpoint, your Oracle Automatic Storage Management (ASM) password. You can set this value from the  asm_user_password  value. You set this value as part of the comma-separated value that you set to the Password request parameter when you create the endpoint to access transaction logs using Binary Reader. For more information, see [Configuration for change data capture (CDC) on an Oracle source database](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration).
         public var asmPassword: Swift.String?
@@ -14687,9 +14711,9 @@ extension DatabaseMigrationClientTypes {
         public var retryInterval: Swift.Int?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the Oracle endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
         public var secretsManagerAccessRoleArn: Swift.String?
-        /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUserName, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
+        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUserName, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
         public var secretsManagerOracleAsmAccessRoleArn: Swift.String?
-        /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret that contains the Oracle ASM connection details for the Oracle endpoint.
+        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret that contains the Oracle ASM connection details for the Oracle endpoint.
         public var secretsManagerOracleAsmSecretId: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Oracle endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
@@ -16514,12 +16538,14 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         case instanceCreateTime = "InstanceCreateTime"
         case kmsKeyId = "KmsKeyId"
         case multiAZ = "MultiAZ"
+        case networkType = "NetworkType"
         case pendingModifiedValues = "PendingModifiedValues"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
         case replicationInstanceArn = "ReplicationInstanceArn"
         case replicationInstanceClass = "ReplicationInstanceClass"
         case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+        case replicationInstanceIpv6Addresses = "ReplicationInstanceIpv6Addresses"
         case replicationInstancePrivateIpAddress = "ReplicationInstancePrivateIpAddress"
         case replicationInstancePrivateIpAddresses = "ReplicationInstancePrivateIpAddresses"
         case replicationInstancePublicIpAddress = "ReplicationInstancePublicIpAddress"
@@ -16559,6 +16585,9 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         if multiAZ != false {
             try encodeContainer.encode(multiAZ, forKey: .multiAZ)
         }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType, forKey: .networkType)
+        }
         if let pendingModifiedValues = self.pendingModifiedValues {
             try encodeContainer.encode(pendingModifiedValues, forKey: .pendingModifiedValues)
         }
@@ -16576,6 +16605,12 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         }
         if let replicationInstanceIdentifier = self.replicationInstanceIdentifier {
             try encodeContainer.encode(replicationInstanceIdentifier, forKey: .replicationInstanceIdentifier)
+        }
+        if let replicationInstanceIpv6Addresses = replicationInstanceIpv6Addresses {
+            var replicationInstanceIpv6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationInstanceIpv6Addresses)
+            for replicationinstanceipv6addresslist0 in replicationInstanceIpv6Addresses {
+                try replicationInstanceIpv6AddressesContainer.encode(replicationinstanceipv6addresslist0)
+            }
         }
         if let replicationInstancePrivateIpAddress = self.replicationInstancePrivateIpAddress {
             try encodeContainer.encode(replicationInstancePrivateIpAddress, forKey: .replicationInstancePrivateIpAddress)
@@ -16679,6 +16714,17 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
             }
         }
         replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddressesDecoded0
+        let replicationInstanceIpv6AddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .replicationInstanceIpv6Addresses)
+        var replicationInstanceIpv6AddressesDecoded0:[Swift.String]? = nil
+        if let replicationInstanceIpv6AddressesContainer = replicationInstanceIpv6AddressesContainer {
+            replicationInstanceIpv6AddressesDecoded0 = [Swift.String]()
+            for string0 in replicationInstanceIpv6AddressesContainer {
+                if let string0 = string0 {
+                    replicationInstanceIpv6AddressesDecoded0?.append(string0)
+                }
+            }
+        }
+        replicationInstanceIpv6Addresses = replicationInstanceIpv6AddressesDecoded0
         let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
         publiclyAccessible = publiclyAccessibleDecoded
         let secondaryAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secondaryAvailabilityZone)
@@ -16687,6 +16733,8 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         freeUntil = freeUntilDecoded
         let dnsNameServersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsNameServers)
         dnsNameServers = dnsNameServersDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
+        networkType = networkTypeDecoded
     }
 }
 
@@ -16711,6 +16759,8 @@ extension DatabaseMigrationClientTypes {
         public var kmsKeyId: Swift.String?
         /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public var multiAZ: Swift.Bool
+        /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+        public var networkType: Swift.String?
         /// The pending modification values.
         public var pendingModifiedValues: DatabaseMigrationClientTypes.ReplicationPendingModifiedValues?
         /// The maintenance window times for the replication instance. Any pending upgrades to the replication instance are performed during this time.
@@ -16732,6 +16782,8 @@ extension DatabaseMigrationClientTypes {
         ///
         /// Example: myrepinstance
         public var replicationInstanceIdentifier: Swift.String?
+        /// One or more IPv6 addresses for the replication instance.
+        public var replicationInstanceIpv6Addresses: [Swift.String]?
         /// The private IP address of the replication instance.
         @available(*, deprecated)
         public var replicationInstancePrivateIpAddress: Swift.String?
@@ -16787,12 +16839,14 @@ extension DatabaseMigrationClientTypes {
             instanceCreateTime: ClientRuntime.Date? = nil,
             kmsKeyId: Swift.String? = nil,
             multiAZ: Swift.Bool = false,
+            networkType: Swift.String? = nil,
             pendingModifiedValues: DatabaseMigrationClientTypes.ReplicationPendingModifiedValues? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             publiclyAccessible: Swift.Bool = false,
             replicationInstanceArn: Swift.String? = nil,
             replicationInstanceClass: Swift.String? = nil,
             replicationInstanceIdentifier: Swift.String? = nil,
+            replicationInstanceIpv6Addresses: [Swift.String]? = nil,
             replicationInstancePrivateIpAddress: Swift.String? = nil,
             replicationInstancePrivateIpAddresses: [Swift.String]? = nil,
             replicationInstancePublicIpAddress: Swift.String? = nil,
@@ -16812,12 +16866,14 @@ extension DatabaseMigrationClientTypes {
             self.instanceCreateTime = instanceCreateTime
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.pendingModifiedValues = pendingModifiedValues
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationInstanceClass = replicationInstanceClass
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.replicationInstanceIpv6Addresses = replicationInstanceIpv6Addresses
             self.replicationInstancePrivateIpAddress = replicationInstancePrivateIpAddress
             self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
             self.replicationInstancePublicIpAddress = replicationInstancePublicIpAddress
@@ -16891,6 +16947,7 @@ extension DatabaseMigrationClientTypes.ReplicationPendingModifiedValues: Swift.C
         case allocatedStorage = "AllocatedStorage"
         case engineVersion = "EngineVersion"
         case multiAZ = "MultiAZ"
+        case networkType = "NetworkType"
         case replicationInstanceClass = "ReplicationInstanceClass"
     }
 
@@ -16904,6 +16961,9 @@ extension DatabaseMigrationClientTypes.ReplicationPendingModifiedValues: Swift.C
         }
         if let multiAZ = self.multiAZ {
             try encodeContainer.encode(multiAZ, forKey: .multiAZ)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType, forKey: .networkType)
         }
         if let replicationInstanceClass = self.replicationInstanceClass {
             try encodeContainer.encode(replicationInstanceClass, forKey: .replicationInstanceClass)
@@ -16920,6 +16980,8 @@ extension DatabaseMigrationClientTypes.ReplicationPendingModifiedValues: Swift.C
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
+        networkType = networkTypeDecoded
     }
 }
 
@@ -16932,6 +16994,8 @@ extension DatabaseMigrationClientTypes {
         public var engineVersion: Swift.String?
         /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public var multiAZ: Swift.Bool?
+        /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+        public var networkType: Swift.String?
         /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For more information on the settings and capacities for the available replication instance classes, see [ Selecting the right DMS replication instance for your migration](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
         public var replicationInstanceClass: Swift.String?
 
@@ -16939,12 +17003,14 @@ extension DatabaseMigrationClientTypes {
             allocatedStorage: Swift.Int? = nil,
             engineVersion: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
+            networkType: Swift.String? = nil,
             replicationInstanceClass: Swift.String? = nil
         )
         {
             self.allocatedStorage = allocatedStorage
             self.engineVersion = engineVersion
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.replicationInstanceClass = replicationInstanceClass
         }
     }
@@ -16957,6 +17023,7 @@ extension DatabaseMigrationClientTypes.ReplicationSubnetGroup: Swift.Codable {
         case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
         case subnetGroupStatus = "SubnetGroupStatus"
         case subnets = "Subnets"
+        case supportedNetworkTypes = "SupportedNetworkTypes"
         case vpcId = "VpcId"
     }
 
@@ -16975,6 +17042,12 @@ extension DatabaseMigrationClientTypes.ReplicationSubnetGroup: Swift.Codable {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
             for subnetlist0 in subnets {
                 try subnetsContainer.encode(subnetlist0)
+            }
+        }
+        if let supportedNetworkTypes = supportedNetworkTypes {
+            var supportedNetworkTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedNetworkTypes)
+            for stringlist0 in supportedNetworkTypes {
+                try supportedNetworkTypesContainer.encode(stringlist0)
             }
         }
         if let vpcId = self.vpcId {
@@ -17003,6 +17076,17 @@ extension DatabaseMigrationClientTypes.ReplicationSubnetGroup: Swift.Codable {
             }
         }
         subnets = subnetsDecoded0
+        let supportedNetworkTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .supportedNetworkTypes)
+        var supportedNetworkTypesDecoded0:[Swift.String]? = nil
+        if let supportedNetworkTypesContainer = supportedNetworkTypesContainer {
+            supportedNetworkTypesDecoded0 = [Swift.String]()
+            for string0 in supportedNetworkTypesContainer {
+                if let string0 = string0 {
+                    supportedNetworkTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        supportedNetworkTypes = supportedNetworkTypesDecoded0
     }
 }
 
@@ -17017,6 +17101,8 @@ extension DatabaseMigrationClientTypes {
         public var subnetGroupStatus: Swift.String?
         /// The subnets that are in the subnet group.
         public var subnets: [DatabaseMigrationClientTypes.Subnet]?
+        /// The IP addressing protocol supported by the subnet group. This is used by a replication instance with values such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+        public var supportedNetworkTypes: [Swift.String]?
         /// The ID of the VPC.
         public var vpcId: Swift.String?
 
@@ -17025,6 +17111,7 @@ extension DatabaseMigrationClientTypes {
             replicationSubnetGroupIdentifier: Swift.String? = nil,
             subnetGroupStatus: Swift.String? = nil,
             subnets: [DatabaseMigrationClientTypes.Subnet]? = nil,
+            supportedNetworkTypes: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -17032,6 +17119,7 @@ extension DatabaseMigrationClientTypes {
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
     }
@@ -18595,7 +18683,7 @@ extension DatabaseMigrationClientTypes {
         public var cdcInsertsOnly: Swift.Bool?
         /// Maximum length of the interval, defined in seconds, after which to output a file to Amazon S3. When CdcMaxBatchInterval and CdcMinFileSize are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 60 seconds.
         public var cdcMaxBatchInterval: Swift.Int?
-        /// Minimum file size, defined in megabytes, to reach for a file output to Amazon S3. When CdcMinFileSize and CdcMaxBatchInterval are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 32 MB.
+        /// Minimum file size, defined in kilobytes, to reach for a file output to Amazon S3. When CdcMinFileSize and CdcMaxBatchInterval are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 32 MB.
         public var cdcMinFileSize: Swift.Int?
         /// Specifies the folder path of CDC files. For an S3 source, this setting is required if a task captures change data; otherwise, it's optional. If CdcPath is set, DMS reads CDC files from this path and replicates the data changes to the target endpoint. For an S3 target if you set [PreserveTransactions](https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-PreserveTransactions) to true, DMS verifies that you have set this parameter to a folder path on your S3 target where DMS can save the transaction order for the CDC load. DMS creates this CDC folder path in either your S3 target working directory or the S3 target location specified by [BucketFolder](https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-BucketFolder) and [BucketName](https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-BucketName). For example, if you specify CdcPath as MyChangedData, and you specify BucketName as MyTargetBucket but do not specify BucketFolder, DMS creates the CDC folder path following: MyTargetBucket/MyChangedData. If you specify the same CdcPath, and you specify BucketName as MyTargetBucket and BucketFolder as MyTargetData, DMS creates the CDC folder path following: MyTargetBucket/MyTargetData/MyChangedData. For more information on CDC including transaction order on an S3 target, see [Capturing data changes (CDC) including transaction order on the S3 target](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.EndpointSettings.CdcPath). This setting is supported in DMS versions 3.4.2 and later.
         public var cdcPath: Swift.String?
@@ -20129,9 +20217,9 @@ extension DatabaseMigrationClientTypes {
     public struct SupportedEndpointType: Swift.Equatable {
         /// The type of endpoint. Valid values are source and target.
         public var endpointType: DatabaseMigrationClientTypes.ReplicationEndpointTypeValue?
-        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
         public var engineDisplayName: Swift.String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
         public var engineName: Swift.String?
         /// The earliest DMS engine version that supports this endpoint engine. Note that endpoint engines released with DMS versions earlier than 3.1.1 do not return a value for this parameter.
         public var replicationInstanceEngineMinimumVersion: Swift.String?
@@ -20258,6 +20346,10 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.TableStatistics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appliedDdls = "AppliedDdls"
+        case appliedDeletes = "AppliedDeletes"
+        case appliedInserts = "AppliedInserts"
+        case appliedUpdates = "AppliedUpdates"
         case ddls = "Ddls"
         case deletes = "Deletes"
         case fullLoadCondtnlChkFailedRows = "FullLoadCondtnlChkFailedRows"
@@ -20281,6 +20373,18 @@ extension DatabaseMigrationClientTypes.TableStatistics: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appliedDdls = self.appliedDdls {
+            try encodeContainer.encode(appliedDdls, forKey: .appliedDdls)
+        }
+        if let appliedDeletes = self.appliedDeletes {
+            try encodeContainer.encode(appliedDeletes, forKey: .appliedDeletes)
+        }
+        if let appliedInserts = self.appliedInserts {
+            try encodeContainer.encode(appliedInserts, forKey: .appliedInserts)
+        }
+        if let appliedUpdates = self.appliedUpdates {
+            try encodeContainer.encode(appliedUpdates, forKey: .appliedUpdates)
+        }
         if ddls != 0 {
             try encodeContainer.encode(ddls, forKey: .ddls)
         }
@@ -20354,6 +20458,14 @@ extension DatabaseMigrationClientTypes.TableStatistics: Swift.Codable {
         updates = updatesDecoded
         let ddlsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ddls) ?? 0
         ddls = ddlsDecoded
+        let appliedInsertsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .appliedInserts)
+        appliedInserts = appliedInsertsDecoded
+        let appliedDeletesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .appliedDeletes)
+        appliedDeletes = appliedDeletesDecoded
+        let appliedUpdatesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .appliedUpdates)
+        appliedUpdates = appliedUpdatesDecoded
+        let appliedDdlsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .appliedDdls)
+        appliedDdls = appliedDdlsDecoded
         let fullLoadRowsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fullLoadRows) ?? 0
         fullLoadRows = fullLoadRowsDecoded
         let fullLoadCondtnlChkFailedRowsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fullLoadCondtnlChkFailedRows) ?? 0
@@ -20386,6 +20498,14 @@ extension DatabaseMigrationClientTypes.TableStatistics: Swift.Codable {
 extension DatabaseMigrationClientTypes {
     /// Provides a collection of table statistics in response to a request by the DescribeTableStatistics operation.
     public struct TableStatistics: Swift.Equatable {
+        /// The number of data definition language (DDL) statements used to build and modify the structure of your tables applied on the target.
+        public var appliedDdls: Swift.Int?
+        /// The number of delete actions applied on a target table.
+        public var appliedDeletes: Swift.Int?
+        /// The number of insert actions applied on a target table.
+        public var appliedInserts: Swift.Int?
+        /// The number of update actions applied on a target table.
+        public var appliedUpdates: Swift.Int?
         /// The data definition language (DDL) used to build and modify the structure of your tables.
         public var ddls: Swift.Int
         /// The number of delete actions performed on a table.
@@ -20448,6 +20568,10 @@ extension DatabaseMigrationClientTypes {
         public var validationSuspendedRecords: Swift.Int
 
         public init (
+            appliedDdls: Swift.Int? = nil,
+            appliedDeletes: Swift.Int? = nil,
+            appliedInserts: Swift.Int? = nil,
+            appliedUpdates: Swift.Int? = nil,
             ddls: Swift.Int = 0,
             deletes: Swift.Int = 0,
             fullLoadCondtnlChkFailedRows: Swift.Int = 0,
@@ -20469,6 +20593,10 @@ extension DatabaseMigrationClientTypes {
             validationSuspendedRecords: Swift.Int = 0
         )
         {
+            self.appliedDdls = appliedDdls
+            self.appliedDeletes = appliedDeletes
+            self.appliedInserts = appliedInserts
+            self.appliedUpdates = appliedUpdates
             self.ddls = ddls
             self.deletes = deletes
             self.fullLoadCondtnlChkFailedRows = fullLoadCondtnlChkFailedRows

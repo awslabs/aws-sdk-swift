@@ -95,14 +95,20 @@ public protocol IoTWirelessClientProtocol {
     func getNetworkAnalyzerConfiguration(input: GetNetworkAnalyzerConfigurationInput) async throws -> GetNetworkAnalyzerConfigurationOutputResponse
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     func getPartnerAccount(input: GetPartnerAccountInput) async throws -> GetPartnerAccountOutputResponse
-    /// Get the position information for a given resource.
+    /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     func getPosition(input: GetPositionInput) async throws -> GetPositionOutputResponse
-    /// Get position configuration for a given resource.
+    /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     func getPositionConfiguration(input: GetPositionConfigurationInput) async throws -> GetPositionConfigurationOutputResponse
+    /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
+    func getPositionEstimate(input: GetPositionEstimateInput) async throws -> GetPositionEstimateOutputResponse
     /// Get the event configuration for a particular resource identifier.
     func getResourceEventConfiguration(input: GetResourceEventConfigurationInput) async throws -> GetResourceEventConfigurationOutputResponse
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     func getResourceLogLevel(input: GetResourceLogLevelInput) async throws -> GetResourceLogLevelOutputResponse
+    /// Get the position information for a given wireless device or a wireless gateway resource. The postion information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    func getResourcePosition(input: GetResourcePositionInput) async throws -> GetResourcePositionOutputResponse
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     func getServiceEndpoint(input: GetServiceEndpointInput) async throws -> GetServiceEndpointOutputResponse
     /// Gets information about a service profile.
@@ -139,7 +145,8 @@ public protocol IoTWirelessClientProtocol {
     func listNetworkAnalyzerConfigurations(input: ListNetworkAnalyzerConfigurationsInput) async throws -> ListNetworkAnalyzerConfigurationsOutputResponse
     /// Lists the partner accounts associated with your AWS account.
     func listPartnerAccounts(input: ListPartnerAccountsInput) async throws -> ListPartnerAccountsOutputResponse
-    /// List position configurations for a given resource, such as positioning solvers.
+    /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     func listPositionConfigurations(input: ListPositionConfigurationsInput) async throws -> ListPositionConfigurationsOutputResponse
     /// List queued messages in the downlink queue.
     func listQueuedMessages(input: ListQueuedMessagesInput) async throws -> ListQueuedMessagesOutputResponse
@@ -153,7 +160,8 @@ public protocol IoTWirelessClientProtocol {
     func listWirelessGateways(input: ListWirelessGatewaysInput) async throws -> ListWirelessGatewaysOutputResponse
     /// List the wireless gateway tasks definitions registered to your AWS account.
     func listWirelessGatewayTaskDefinitions(input: ListWirelessGatewayTaskDefinitionsInput) async throws -> ListWirelessGatewayTaskDefinitionsOutputResponse
-    /// Put position configuration for a given resource.
+    /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     func putPositionConfiguration(input: PutPositionConfigurationInput) async throws -> PutPositionConfigurationOutputResponse
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
     func putResourceLogLevel(input: PutResourceLogLevelInput) async throws -> PutResourceLogLevelOutputResponse
@@ -193,10 +201,13 @@ public protocol IoTWirelessClientProtocol {
     func updateNetworkAnalyzerConfiguration(input: UpdateNetworkAnalyzerConfigurationInput) async throws -> UpdateNetworkAnalyzerConfigurationOutputResponse
     /// Updates properties of a partner account.
     func updatePartnerAccount(input: UpdatePartnerAccountInput) async throws -> UpdatePartnerAccountOutputResponse
-    /// Update the position information of a resource.
+    /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     func updatePosition(input: UpdatePositionInput) async throws -> UpdatePositionOutputResponse
     /// Update the event configuration for a particular resource identifier.
     func updateResourceEventConfiguration(input: UpdateResourceEventConfigurationInput) async throws -> UpdateResourceEventConfigurationOutputResponse
+    /// Update the position information of a given wireless device or a wireless gateway resource. The postion coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    func updateResourcePosition(input: UpdateResourcePositionInput) async throws -> UpdateResourcePositionOutputResponse
     /// Updates properties of a wireless device.
     func updateWirelessDevice(input: UpdateWirelessDeviceInput) async throws -> UpdateWirelessDeviceOutputResponse
     /// Updates properties of a wireless gateway.

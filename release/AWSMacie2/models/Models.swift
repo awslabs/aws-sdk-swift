@@ -795,6 +795,39 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
+    /// The status of the automated sensitive data discovery configuration for an Amazon Macie account. Valid values are:
+    public enum AutomatedDiscoveryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomatedDiscoveryStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AutomatedDiscoveryStatus(rawValue: rawValue) ?? AutomatedDiscoveryStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Macie2ClientTypes {
     /// Specifies whether occurrences of sensitive data can be retrieved for a finding. Possible values are:
     public enum AvailabilityCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available
@@ -1101,7 +1134,7 @@ extension BatchGetCustomDataIdentifiersOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct BatchGetCustomDataIdentifiersOutputResponse: Swift.Equatable {
-    /// An array of objects, one for each custom data identifier that meets the criteria specified in the request.
+    /// An array of objects, one for each custom data identifier that matches the criteria specified in the request.
     public var customDataIdentifiers: [Macie2ClientTypes.BatchGetCustomDataIdentifierSummary]?
     /// An array of custom data identifier IDs, one for each custom data identifier that was specified in the request but doesn't correlate to an existing custom data identifier.
     public var notFoundIdentifierIds: [Swift.String]?
@@ -1192,7 +1225,7 @@ extension Macie2ClientTypes.BlockPublicAccess: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about the block public access settings for an S3 bucket. These settings can apply to a bucket at the account level or bucket level. For detailed information about each setting, see [Blocking public access to your Amazon S3 storage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) in the Amazon Simple Storage Service User Guide.
+    /// Provides information about the block public access settings for an S3 bucket. These settings can apply to a bucket at the account or bucket level. For detailed information about each setting, see [Blocking public access to your Amazon S3 storage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) in the Amazon Simple Storage Service User Guide.
     public struct BlockPublicAccess: Swift.Equatable {
         /// Specifies whether Amazon S3 blocks public access control lists (ACLs) for the bucket and objects in the bucket.
         public var blockPublicAcls: Swift.Bool?
@@ -1448,9 +1481,9 @@ extension Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads: Swi
 extension Macie2ClientTypes {
     /// Provides information about the number of S3 buckets whose bucket policies do or don't require server-side encryption of objects when objects are uploaded to the buckets.
     public struct BucketCountPolicyAllowsUnencryptedObjectUploads: Swift.Equatable {
-        /// The total number of buckets that don't have a bucket policy or have a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, the policy doesn't require PutObject requests to include the x-amz-server-side-encryption header and it doesn't require the value for that header to be AES256 or aws:kms.
+        /// The total number of buckets that don't have a bucket policy or have a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, the policy doesn't require PutObject requests to include a valid server-side encryption header: the x-amz-server-side-encryption header with a value of AES256 or aws:kms, or the x-amz-server-side-encryption-customer-algorithm header with a value of AES256.
         public var allowsUnencryptedObjectUploads: Swift.Int?
-        /// The total number of buckets whose bucket policies require server-side encryption of new objects. PutObject requests for these buckets must include the x-amz-server-side-encryption header and the value for that header must be AES256 or aws:kms.
+        /// The total number of buckets whose bucket policies require server-side encryption of new objects. PutObject requests for these buckets must include a valid server-side encryption header: the x-amz-server-side-encryption header with a value of AES256 or aws:kms, or the x-amz-server-side-encryption-customer-algorithm header with a value of AES256.
         public var deniesUnencryptedObjectUploads: Swift.Int?
         /// The total number of buckets that Amazon Macie wasn't able to evaluate server-side encryption requirements for. Macie can't determine whether the bucket policies for these buckets require server-side encryption of new objects.
         public var unknown: Swift.Int?
@@ -1655,12 +1688,14 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
         case errorCode = "errorCode"
         case errorMessage = "errorMessage"
         case jobDetails = "jobDetails"
+        case lastAutomatedDiscoveryTime = "lastAutomatedDiscoveryTime"
         case lastUpdated = "lastUpdated"
         case objectCount = "objectCount"
         case objectCountByEncryptionType = "objectCountByEncryptionType"
         case publicAccess = "publicAccess"
         case region = "region"
         case replicationDetails = "replicationDetails"
+        case sensitivityScore = "sensitivityScore"
         case serverSideEncryption = "serverSideEncryption"
         case sharedAccess = "sharedAccess"
         case sizeInBytes = "sizeInBytes"
@@ -1703,6 +1738,9 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
         if let jobDetails = self.jobDetails {
             try encodeContainer.encode(jobDetails, forKey: .jobDetails)
         }
+        if let lastAutomatedDiscoveryTime = self.lastAutomatedDiscoveryTime {
+            try encodeContainer.encodeTimestamp(lastAutomatedDiscoveryTime, format: .dateTime, forKey: .lastAutomatedDiscoveryTime)
+        }
         if let lastUpdated = self.lastUpdated {
             try encodeContainer.encodeTimestamp(lastUpdated, format: .dateTime, forKey: .lastUpdated)
         }
@@ -1720,6 +1758,9 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
         }
         if let replicationDetails = self.replicationDetails {
             try encodeContainer.encode(replicationDetails, forKey: .replicationDetails)
+        }
+        if let sensitivityScore = self.sensitivityScore {
+            try encodeContainer.encode(sensitivityScore, forKey: .sensitivityScore)
         }
         if let serverSideEncryption = self.serverSideEncryption {
             try encodeContainer.encode(serverSideEncryption, forKey: .serverSideEncryption)
@@ -1772,6 +1813,8 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
         errorMessage = errorMessageDecoded
         let jobDetailsDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.JobDetails.self, forKey: .jobDetails)
         jobDetails = jobDetailsDecoded
+        let lastAutomatedDiscoveryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastAutomatedDiscoveryTime)
+        lastAutomatedDiscoveryTime = lastAutomatedDiscoveryTimeDecoded
         let lastUpdatedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdated)
         lastUpdated = lastUpdatedDecoded
         let objectCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectCount)
@@ -1784,6 +1827,8 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
         region = regionDecoded
         let replicationDetailsDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.ReplicationDetails.self, forKey: .replicationDetails)
         replicationDetails = replicationDetailsDecoded
+        let sensitivityScoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sensitivityScore)
+        sensitivityScore = sensitivityScoreDecoded
         let serverSideEncryptionDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.BucketServerSideEncryption.self, forKey: .serverSideEncryption)
         serverSideEncryption = serverSideEncryptionDecoded
         let sharedAccessDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SharedAccess.self, forKey: .sharedAccess)
@@ -1813,21 +1858,24 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. If an error occurs when Macie attempts to retrieve and process information about the bucket or the bucket's objects, the value for the versioning property is false and the value for most other properties is null. Exceptions are accountId, bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify the cause of the error, refer to the errorCode and errorMessage values.
+    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. If an error occurs when Macie attempts to retrieve and process metadata from Amazon S3 for the bucket and the bucket's objects, the value for the versioning property is false and the value for most other properties is null. Key exceptions are accountId, bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify the cause of the error, refer to the errorCode and errorMessage values.
     public struct BucketMetadata: Swift.Equatable {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are uploaded to the bucket. Possible values are:
         ///
-        /// * FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include the x-amz-server-side-encryption header and the value for that header must be AES256 or aws:kms.
+        /// * FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include a valid server-side encryption header.
         ///
-        /// * TRUE - The bucket doesn't have a bucket policy or it has a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, it doesn't require PutObject requests to include the x-amz-server-side-encryption header and it doesn't require the value for that header to be AES256 or aws:kms.
+        /// * TRUE - The bucket doesn't have a bucket policy or it has a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, it doesn't require PutObject requests to include a valid server-side encryption header.
         ///
         /// * UNKNOWN - Amazon Macie can't determine whether the bucket policy requires server-side encryption of new objects.
+        ///
+        ///
+        /// Valid server-side encryption headers are: x-amz-server-side-encryption with a value of AES256 or aws:kms, and x-amz-server-side-encryption-customer-algorithm with a value of AES256.
         public var allowsUnencryptedObjectUploads: Macie2ClientTypes.AllowsUnencryptedObjectUploads?
         /// The Amazon Resource Name (ARN) of the bucket.
         public var bucketArn: Swift.String?
-        /// The date and time, in UTC and extended ISO 8601 format, when the bucket was created.
+        /// The date and time, in UTC and extended ISO 8601 format, when the bucket was created, or changes such as edits to the bucket's policy were most recently made to the bucket.
         public var bucketCreatedAt: ClientRuntime.Date?
         /// The name of the bucket.
         public var bucketName: Swift.String?
@@ -1841,6 +1889,8 @@ extension Macie2ClientTypes {
         public var errorMessage: Swift.String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze data in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently performed automated sensitive data discovery for the bucket. This value is null if automated sensitive data discovery is currently disabled for your account.
+        public var lastAutomatedDiscoveryTime: ClientRuntime.Date?
         /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently retrieved both bucket and object metadata from Amazon S3 for the bucket.
         public var lastUpdated: ClientRuntime.Date?
         /// The total number of objects in the bucket.
@@ -1853,6 +1903,8 @@ extension Macie2ClientTypes {
         public var region: Swift.String?
         /// Specifies whether the bucket is configured to replicate one or more objects to buckets for other Amazon Web Services accounts and, if so, which accounts.
         public var replicationDetails: Macie2ClientTypes.ReplicationDetails?
+        /// The sensitivity score for the bucket, ranging from -1 (no analysis due to an error) to 100 (sensitive). This value is null if automated sensitive data discovery is currently disabled for your account.
+        public var sensitivityScore: Swift.Int?
         /// Specifies whether the bucket encrypts new objects by default and, if so, the type of server-side encryption that's used.
         public var serverSideEncryption: Macie2ClientTypes.BucketServerSideEncryption?
         /// Specifies whether the bucket is shared with another Amazon Web Services account. Possible values are:
@@ -1889,12 +1941,14 @@ extension Macie2ClientTypes {
             errorCode: Macie2ClientTypes.BucketMetadataErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             jobDetails: Macie2ClientTypes.JobDetails? = nil,
+            lastAutomatedDiscoveryTime: ClientRuntime.Date? = nil,
             lastUpdated: ClientRuntime.Date? = nil,
             objectCount: Swift.Int? = nil,
             objectCountByEncryptionType: Macie2ClientTypes.ObjectCountByEncryptionType? = nil,
             publicAccess: Macie2ClientTypes.BucketPublicAccess? = nil,
             region: Swift.String? = nil,
             replicationDetails: Macie2ClientTypes.ReplicationDetails? = nil,
+            sensitivityScore: Swift.Int? = nil,
             serverSideEncryption: Macie2ClientTypes.BucketServerSideEncryption? = nil,
             sharedAccess: Macie2ClientTypes.SharedAccess? = nil,
             sizeInBytes: Swift.Int? = nil,
@@ -1915,12 +1969,14 @@ extension Macie2ClientTypes {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.jobDetails = jobDetails
+            self.lastAutomatedDiscoveryTime = lastAutomatedDiscoveryTime
             self.lastUpdated = lastUpdated
             self.objectCount = objectCount
             self.objectCountByEncryptionType = objectCountByEncryptionType
             self.publicAccess = publicAccess
             self.region = region
             self.replicationDetails = replicationDetails
+            self.sensitivityScore = sensitivityScore
             self.serverSideEncryption = serverSideEncryption
             self.sharedAccess = sharedAccess
             self.sizeInBytes = sizeInBytes
@@ -1935,7 +1991,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// The error code for an error that prevented Amazon Macie from retrieving and processing information about an S3 bucket and the bucket's objects.
+    /// The error code for an error that prevented Amazon Macie from retrieving and processing metadata from Amazon S3 for an S3 bucket and the bucket's objects.
     public enum BucketMetadataErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
         case sdkUnknown(Swift.String)
@@ -2184,7 +2240,7 @@ extension Macie2ClientTypes.BucketSortCriteria: Swift.Codable {
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a query for information about S3 buckets.
     public struct BucketSortCriteria: Swift.Equatable {
-        /// The name of the bucket property to sort the results by. This value can be one of the following properties that Amazon Macie defines as bucket metadata: accountId, bucketName, classifiableObjectCount, classifiableSizeInBytes, objectCount, or sizeInBytes.
+        /// The name of the bucket property to sort the results by. This value can be one of the following properties that Amazon Macie defines as bucket metadata: accountId, bucketName, classifiableObjectCount, classifiableSizeInBytes, objectCount, sensitivityScore, or sizeInBytes.
         public var attributeName: Swift.String?
         /// The sort order to apply to the results, based on the value specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public var orderBy: Macie2ClientTypes.OrderBy?
@@ -2196,6 +2252,71 @@ extension Macie2ClientTypes {
         {
             self.attributeName = attributeName
             self.orderBy = orderBy
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.BucketStatisticsBySensitivity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case classificationError = "classificationError"
+        case notClassified = "notClassified"
+        case notSensitive = "notSensitive"
+        case sensitive = "sensitive"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let classificationError = self.classificationError {
+            try encodeContainer.encode(classificationError, forKey: .classificationError)
+        }
+        if let notClassified = self.notClassified {
+            try encodeContainer.encode(notClassified, forKey: .notClassified)
+        }
+        if let notSensitive = self.notSensitive {
+            try encodeContainer.encode(notSensitive, forKey: .notSensitive)
+        }
+        if let sensitive = self.sensitive {
+            try encodeContainer.encode(sensitive, forKey: .sensitive)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let classificationErrorDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityAggregations.self, forKey: .classificationError)
+        classificationError = classificationErrorDecoded
+        let notClassifiedDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityAggregations.self, forKey: .notClassified)
+        notClassified = notClassifiedDecoded
+        let notSensitiveDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityAggregations.self, forKey: .notSensitive)
+        notSensitive = notSensitiveDecoded
+        let sensitiveDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityAggregations.self, forKey: .sensitive)
+        sensitive = sensitiveDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets, grouped by bucket sensitivity score (sensitivityScore). If automated sensitive data discovery is currently disabled for your account, the value for each metric is 0.
+    public struct BucketStatisticsBySensitivity: Swift.Equatable {
+        /// The aggregated statistical data for all buckets that have a sensitivity score of -1.
+        public var classificationError: Macie2ClientTypes.SensitivityAggregations?
+        /// The aggregated statistical data for all buckets that have a sensitivity score of 50.
+        public var notClassified: Macie2ClientTypes.SensitivityAggregations?
+        /// The aggregated statistical data for all buckets that have a sensitivity score of 0-49.
+        public var notSensitive: Macie2ClientTypes.SensitivityAggregations?
+        /// The aggregated statistical data for all buckets that have a sensitivity score of 51-100.
+        public var sensitive: Macie2ClientTypes.SensitivityAggregations?
+
+        public init (
+            classificationError: Macie2ClientTypes.SensitivityAggregations? = nil,
+            notClassified: Macie2ClientTypes.SensitivityAggregations? = nil,
+            notSensitive: Macie2ClientTypes.SensitivityAggregations? = nil,
+            sensitive: Macie2ClientTypes.SensitivityAggregations? = nil
+        )
+        {
+            self.classificationError = classificationError
+            self.notClassified = notClassified
+            self.notSensitive = notSensitive
+            self.sensitive = sensitive
         }
     }
 
@@ -2312,13 +2433,13 @@ extension Macie2ClientTypes.ClassificationDetails: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about a sensitive data finding and the details of the finding.
     public struct ClassificationDetails: Swift.Equatable {
-        /// The path to the folder or file (in Amazon S3) that contains the corresponding sensitive data discovery result for the finding. If a finding applies to a large archive or compressed file, this value is the path to a folder. Otherwise, this value is the path to a file.
+        /// The path to the folder or file in Amazon S3 that contains the corresponding sensitive data discovery result for the finding. If a finding applies to a large archive or compressed file, this value is the path to a folder. Otherwise, this value is the path to a file.
         public var detailedResultsLocation: Swift.String?
-        /// The Amazon Resource Name (ARN) of the classification job that produced the finding.
+        /// The Amazon Resource Name (ARN) of the classification job that produced the finding. This value is null if the origin of the finding (originType) is AUTOMATED_SENSITIVE_DATA_DISCOVERY.
         public var jobArn: Swift.String?
-        /// The unique identifier for the classification job that produced the finding.
+        /// The unique identifier for the classification job that produced the finding. This value is null if the origin of the finding (originType) is AUTOMATED_SENSITIVE_DATA_DISCOVERY.
         public var jobId: Swift.String?
-        /// Specifies how Amazon Macie found the sensitive data that produced the finding: SENSITIVE_DATA_DISCOVERY_JOB, for a classification job.
+        /// Specifies how Amazon Macie found the sensitive data that produced the finding. Possible values are: SENSITIVE_DATA_DISCOVERY_JOB, for a classification job; and, AUTOMATED_SENSITIVE_DATA_DISCOVERY, for automated sensitive data discovery.
         public var originType: Macie2ClientTypes.OriginType?
         /// The status and other details of the finding.
         public var result: Macie2ClientTypes.ClassificationResult?
@@ -2361,7 +2482,7 @@ extension Macie2ClientTypes.ClassificationExportConfiguration: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies where to store data classification results, and the encryption settings to use when storing results in that location. Currently, you can store classification results only in an S3 bucket.
+    /// Specifies where to store data classification results, and the encryption settings to use when storing results in that location. The location must be an S3 bucket.
     public struct ClassificationExportConfiguration: Swift.Equatable {
         /// The S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket.
         public var s3Destination: Macie2ClientTypes.S3Destination?
@@ -2565,6 +2686,87 @@ extension Macie2ClientTypes {
         }
     }
 
+}
+
+extension Macie2ClientTypes.ClassificationScopeSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "id"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides information about the classification scope for an Amazon Macie account. Macie uses the scope's settings when it performs automated sensitive data discovery for the account.
+    public struct ClassificationScopeSummary: Swift.Equatable {
+        /// The unique identifier for the classification scope.
+        public var id: Swift.String?
+        /// The name of the classification scope.
+        public var name: Swift.String?
+
+        public init (
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.id = id
+            self.name = name
+        }
+    }
+
+}
+
+extension Macie2ClientTypes {
+    /// Specifies how to apply changes to the S3 bucket exclusion list defined by the classification scope for an Amazon Macie account. Valid values are:
+    public enum ClassificationScopeUpdateOperation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case add
+        case remove
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClassificationScopeUpdateOperation] {
+            return [
+                .add,
+                .remove,
+                .replace,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "ADD"
+            case .remove: return "REMOVE"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ClassificationScopeUpdateOperation(rawValue: rawValue) ?? ClassificationScopeUpdateOperation.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ConflictException {
@@ -3473,7 +3675,7 @@ extension CreateFindingsFilterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateFindingsFilterInput: Swift.Equatable {
-    /// The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
+    /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
     /// This member is required.
     public var action: Macie2ClientTypes.FindingsFilterAction?
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
@@ -4009,9 +4211,9 @@ extension CreateSampleFindingsInputBody: Swift.Decodable {
         var findingTypesDecoded0:[Macie2ClientTypes.FindingType]? = nil
         if let findingTypesContainer = findingTypesContainer {
             findingTypesDecoded0 = [Macie2ClientTypes.FindingType]()
-            for string0 in findingTypesContainer {
-                if let string0 = string0 {
-                    findingTypesDecoded0?.append(string0)
+            for enum0 in findingTypesContainer {
+                if let enum0 = enum0 {
+                    findingTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -4565,6 +4767,39 @@ extension Macie2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DataIdentifierSeverity(rawValue: rawValue) ?? DataIdentifierSeverity.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Macie2ClientTypes {
+    /// The type of data identifier that detected a specific type of sensitive data in an S3 bucket. Possible values are:
+    public enum DataIdentifierType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case custom
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataIdentifierType] {
+            return [
+                .custom,
+                .managed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .managed: return "MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataIdentifierType(rawValue: rawValue) ?? DataIdentifierType.sdkUnknown(rawValue)
         }
     }
 }
@@ -5417,7 +5652,7 @@ extension DescribeBucketsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeBucketsOutputResponse: Swift.Equatable {
-    /// An array of objects, one for each bucket that meets the filter criteria specified in the request.
+    /// An array of objects, one for each bucket that matches the filter criteria specified in the request.
     public var buckets: [Macie2ClientTypes.BucketMetadata]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
@@ -5966,6 +6201,91 @@ extension Macie2ClientTypes {
         )
         {
             self.value = value
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.Detection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case count = "count"
+        case id = "id"
+        case name = "name"
+        case suppressed = "suppressed"
+        case type = "type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let suppressed = self.suppressed {
+            try encodeContainer.encode(suppressed, forKey: .suppressed)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let suppressedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .suppressed)
+        suppressed = suppressedDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.DataIdentifierType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides information about a type of sensitive data that Amazon Macie found in an S3 bucket while performing automated sensitive data discovery for the bucket. The information also specifies the custom data identifier or managed data identifier that detected the data. This information is available only if automated sensitive data discovery is currently enabled for your account.
+    public struct Detection: Swift.Equatable {
+        /// If the sensitive data was detected by a custom data identifier, the Amazon Resource Name (ARN) of the custom data identifier that detected the data. Otherwise, this value is null.
+        public var arn: Swift.String?
+        /// The total number of occurrences of the sensitive data.
+        public var count: Swift.Int?
+        /// The unique identifier for the custom data identifier or managed data identifier that detected the sensitive data. For additional details about a specified managed data identifier, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
+        public var id: Swift.String?
+        /// The name of the custom data identifier or managed data identifier that detected the sensitive data. For a managed data identifier, this value is the same as the unique identifier (id).
+        public var name: Swift.String?
+        /// Specifies whether occurrences of this type of sensitive data are excluded (true) or included (false) in the bucket's sensitivity score.
+        public var suppressed: Swift.Bool?
+        /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
+        public var type: Macie2ClientTypes.DataIdentifierType?
+
+        public init (
+            arn: Swift.String? = nil,
+            count: Swift.Int? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            suppressed: Swift.Bool? = nil,
+            type: Macie2ClientTypes.DataIdentifierType? = nil
+        )
+        {
+            self.arn = arn
+            self.count = count
+            self.id = id
+            self.name = name
+            self.suppressed = suppressed
+            self.type = type
         }
     }
 
@@ -6615,7 +6935,7 @@ public struct EnableOrganizationAdminAccountOutputResponse: Swift.Equatable {
 }
 
 extension Macie2ClientTypes {
-    /// The type of server-side encryption that's used to encrypt an S3 object or objects in an S3 bucket. Valid values are:
+    /// The type of server-side encryption that's used to encrypt an S3 object or objects in an S3 bucket. Possible values are:
     public enum EncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aes256
         case `none`
@@ -6893,9 +7213,9 @@ extension Macie2ClientTypes {
         public var category: Macie2ClientTypes.FindingCategory?
         /// The details of a sensitive data finding. This value is null for a policy finding.
         public var classificationDetails: Macie2ClientTypes.ClassificationDetails?
-        /// The total number of occurrences of the finding. For sensitive data findings, this value is always 1. All sensitive data findings are considered new (unique) because they derive from individual classification jobs.
+        /// The total number of occurrences of the finding. For sensitive data findings, this value is always 1. All sensitive data findings are considered unique.
         public var count: Swift.Int?
-        /// The date and time, in UTC and extended ISO 8601 format, when the finding was created.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie created the finding.
         public var createdAt: ClientRuntime.Date?
         /// The description of the finding.
         public var description: Swift.String?
@@ -6919,7 +7239,7 @@ extension Macie2ClientTypes {
         public var title: Swift.String?
         /// The type of the finding.
         public var type: Macie2ClientTypes.FindingType?
-        /// The date and time, in UTC and extended ISO 8601 format, when the finding was last updated. For sensitive data findings, this value is the same as the value for the createdAt property. All sensitive data findings are considered new (unique) because they derive from individual classification jobs.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie last updated the finding. For sensitive data findings, this value is the same as the value for the createdAt property. All sensitive data findings are considered new.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -7097,7 +7417,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// The category of the finding. Valid values are:
+    /// The category of the finding. Possible values are:
     public enum FindingCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case classification
         case policy
@@ -7291,7 +7611,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// The type of finding. For details about each type, see [Types of Amazon Macie findings](https://docs.aws.amazon.com/macie/latest/user/findings-types.html) in the Amazon Macie User Guide. Valid values are:
+    /// The type of finding. For details about each type, see [Types of Amazon Macie findings](https://docs.aws.amazon.com/macie/latest/user/findings-types.html) in the Amazon Macie User Guide. Possible values are:
     public enum FindingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case policyIamuserS3blockpublicaccessdisabled
         case policyIamuserS3bucketencryptiondisabled
@@ -7348,7 +7668,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// The action to perform on findings that meet the filter criteria. To suppress (automatically archive) findings that meet the criteria, set this value to ARCHIVE. Valid values are:
+    /// The action to perform on findings that match the filter criteria. To suppress (automatically archive) findings that match the criteria, set this value to ARCHIVE. Valid values are:
     public enum FindingsFilterAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case archive
         case noop
@@ -7438,7 +7758,7 @@ extension Macie2ClientTypes.FindingsFilterListItem: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about a findings filter.
     public struct FindingsFilterListItem: Swift.Equatable {
-        /// The action that's performed on findings that meet the filter criteria. Possible values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
+        /// The action that's performed on findings that match the filter criteria. Possible values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
         public var action: Macie2ClientTypes.FindingsFilterAction?
         /// The Amazon Resource Name (ARN) of the filter.
         public var arn: Swift.String?
@@ -7753,6 +8073,145 @@ extension GetAllowListOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetAutomatedDiscoveryConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/automated-discovery/configuration"
+    }
+}
+
+public struct GetAutomatedDiscoveryConfigurationInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct GetAutomatedDiscoveryConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetAutomatedDiscoveryConfigurationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetAutomatedDiscoveryConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetAutomatedDiscoveryConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetAutomatedDiscoveryConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAutomatedDiscoveryConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetAutomatedDiscoveryConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.classificationScopeId = output.classificationScopeId
+            self.disabledAt = output.disabledAt
+            self.firstEnabledAt = output.firstEnabledAt
+            self.lastUpdatedAt = output.lastUpdatedAt
+            self.sensitivityInspectionTemplateId = output.sensitivityInspectionTemplateId
+            self.status = output.status
+        } else {
+            self.classificationScopeId = nil
+            self.disabledAt = nil
+            self.firstEnabledAt = nil
+            self.lastUpdatedAt = nil
+            self.sensitivityInspectionTemplateId = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetAutomatedDiscoveryConfigurationOutputResponse: Swift.Equatable {
+    /// The unique identifier for the classification scope that's used when performing automated sensitive data discovery for the account. The classification scope specifies S3 buckets to exclude from automated sensitive data discovery.
+    public var classificationScopeId: Swift.String?
+    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently disabled for the account. This value is null if automated sensitive data discovery wasn't enabled and subsequently disabled for the account.
+    public var disabledAt: ClientRuntime.Date?
+    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was initially enabled for the account. This value is null if automated sensitive data discovery has never been enabled for the account.
+    public var firstEnabledAt: ClientRuntime.Date?
+    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently enabled or disabled for the account.
+    public var lastUpdatedAt: ClientRuntime.Date?
+    /// The unique identifier for the sensitivity inspection template that's used when performing automated sensitive data discovery for the account. The template specifies which allow lists, custom data identifiers, and managed data identifiers to use when analyzing data.
+    public var sensitivityInspectionTemplateId: Swift.String?
+    /// The current status of the automated sensitive data discovery configuration for the account. Possible values are: ENABLED, use the specified settings to perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
+    public var status: Macie2ClientTypes.AutomatedDiscoveryStatus?
+
+    public init (
+        classificationScopeId: Swift.String? = nil,
+        disabledAt: ClientRuntime.Date? = nil,
+        firstEnabledAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: ClientRuntime.Date? = nil,
+        sensitivityInspectionTemplateId: Swift.String? = nil,
+        status: Macie2ClientTypes.AutomatedDiscoveryStatus? = nil
+    )
+    {
+        self.classificationScopeId = classificationScopeId
+        self.disabledAt = disabledAt
+        self.firstEnabledAt = firstEnabledAt
+        self.lastUpdatedAt = lastUpdatedAt
+        self.sensitivityInspectionTemplateId = sensitivityInspectionTemplateId
+        self.status = status
+    }
+}
+
+struct GetAutomatedDiscoveryConfigurationOutputResponseBody: Swift.Equatable {
+    let classificationScopeId: Swift.String?
+    let disabledAt: ClientRuntime.Date?
+    let firstEnabledAt: ClientRuntime.Date?
+    let lastUpdatedAt: ClientRuntime.Date?
+    let sensitivityInspectionTemplateId: Swift.String?
+    let status: Macie2ClientTypes.AutomatedDiscoveryStatus?
+}
+
+extension GetAutomatedDiscoveryConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case classificationScopeId = "classificationScopeId"
+        case disabledAt = "disabledAt"
+        case firstEnabledAt = "firstEnabledAt"
+        case lastUpdatedAt = "lastUpdatedAt"
+        case sensitivityInspectionTemplateId = "sensitivityInspectionTemplateId"
+        case status = "status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let classificationScopeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .classificationScopeId)
+        classificationScopeId = classificationScopeIdDecoded
+        let disabledAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .disabledAt)
+        disabledAt = disabledAtDecoded
+        let firstEnabledAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .firstEnabledAt)
+        firstEnabledAt = firstEnabledAtDecoded
+        let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedAt)
+        lastUpdatedAt = lastUpdatedAtDecoded
+        let sensitivityInspectionTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sensitivityInspectionTemplateId)
+        sensitivityInspectionTemplateId = sensitivityInspectionTemplateIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.AutomatedDiscoveryStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 extension GetBucketStatisticsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "accountId"
@@ -7845,6 +8304,7 @@ extension GetBucketStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
             self.bucketCountByEncryptionType = output.bucketCountByEncryptionType
             self.bucketCountByObjectEncryptionRequirement = output.bucketCountByObjectEncryptionRequirement
             self.bucketCountBySharedAccessType = output.bucketCountBySharedAccessType
+            self.bucketStatisticsBySensitivity = output.bucketStatisticsBySensitivity
             self.classifiableObjectCount = output.classifiableObjectCount
             self.classifiableSizeInBytes = output.classifiableSizeInBytes
             self.lastUpdated = output.lastUpdated
@@ -7859,6 +8319,7 @@ extension GetBucketStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
             self.bucketCountByEncryptionType = nil
             self.bucketCountByObjectEncryptionRequirement = nil
             self.bucketCountBySharedAccessType = nil
+            self.bucketStatisticsBySensitivity = nil
             self.classifiableObjectCount = nil
             self.classifiableSizeInBytes = nil
             self.lastUpdated = nil
@@ -7882,17 +8343,19 @@ public struct GetBucketStatisticsOutputResponse: Swift.Equatable {
     public var bucketCountByObjectEncryptionRequirement: Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads?
     /// The total number of buckets that are or aren't shared with another Amazon Web Services account.
     public var bucketCountBySharedAccessType: Macie2ClientTypes.BucketCountBySharedAccessType?
+    /// The aggregated sensitive data discovery statistics for the buckets. If automated sensitive data discovery is currently disabled for your account, the value for each statistic is 0.
+    public var bucketStatisticsBySensitivity: Macie2ClientTypes.BucketStatisticsBySensitivity?
     /// The total number of objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format.
     public var classifiableObjectCount: Swift.Int?
-    /// The total storage size, in bytes, of all the objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for any of the buckets, Macie calculates this value based on the size of the latest version of each applicable object in those buckets. This value doesn't reflect the storage size of all versions of all applicable objects in the buckets.
+    /// The total storage size, in bytes, of all the objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each applicable object in the buckets. This value doesn't reflect the storage size of all versions of all applicable objects in the buckets.
     public var classifiableSizeInBytes: Swift.Int?
     /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently retrieved both bucket and object metadata from Amazon S3 for the buckets.
     public var lastUpdated: ClientRuntime.Date?
     /// The total number of objects in the buckets.
     public var objectCount: Swift.Int?
-    /// The total storage size, in bytes, of the buckets. If versioning is enabled for any of the buckets, Amazon Macie calculates this value based on the size of the latest version of each object in those buckets. This value doesn't reflect the storage size of all versions of the objects in the buckets.
+    /// The total storage size, in bytes, of the buckets. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each object in the buckets. This value doesn't reflect the storage size of all versions of the objects in the buckets.
     public var sizeInBytes: Swift.Int?
-    /// The total storage size, in bytes, of the objects that are compressed (.gz, .gzip, .zip) files in the buckets. If versioning is enabled for any of the buckets, Amazon Macie calculates this value based on the size of the latest version of each applicable object in those buckets. This value doesn't reflect the storage size of all versions of the applicable objects in the buckets.
+    /// The total storage size, in bytes, of the objects that are compressed (.gz, .gzip, .zip) files in the buckets. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each applicable object in the buckets. This value doesn't reflect the storage size of all versions of the applicable objects in the buckets.
     public var sizeInBytesCompressed: Swift.Int?
     /// The total number of objects that Amazon Macie can't analyze in the buckets. These objects don't use a supported storage class or don't have a file name extension for a supported file or storage format.
     public var unclassifiableObjectCount: Macie2ClientTypes.ObjectLevelStatistics?
@@ -7905,6 +8368,7 @@ public struct GetBucketStatisticsOutputResponse: Swift.Equatable {
         bucketCountByEncryptionType: Macie2ClientTypes.BucketCountByEncryptionType? = nil,
         bucketCountByObjectEncryptionRequirement: Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads? = nil,
         bucketCountBySharedAccessType: Macie2ClientTypes.BucketCountBySharedAccessType? = nil,
+        bucketStatisticsBySensitivity: Macie2ClientTypes.BucketStatisticsBySensitivity? = nil,
         classifiableObjectCount: Swift.Int? = nil,
         classifiableSizeInBytes: Swift.Int? = nil,
         lastUpdated: ClientRuntime.Date? = nil,
@@ -7920,6 +8384,7 @@ public struct GetBucketStatisticsOutputResponse: Swift.Equatable {
         self.bucketCountByEncryptionType = bucketCountByEncryptionType
         self.bucketCountByObjectEncryptionRequirement = bucketCountByObjectEncryptionRequirement
         self.bucketCountBySharedAccessType = bucketCountBySharedAccessType
+        self.bucketStatisticsBySensitivity = bucketStatisticsBySensitivity
         self.classifiableObjectCount = classifiableObjectCount
         self.classifiableSizeInBytes = classifiableSizeInBytes
         self.lastUpdated = lastUpdated
@@ -7937,6 +8402,7 @@ struct GetBucketStatisticsOutputResponseBody: Swift.Equatable {
     let bucketCountByEncryptionType: Macie2ClientTypes.BucketCountByEncryptionType?
     let bucketCountByObjectEncryptionRequirement: Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads?
     let bucketCountBySharedAccessType: Macie2ClientTypes.BucketCountBySharedAccessType?
+    let bucketStatisticsBySensitivity: Macie2ClientTypes.BucketStatisticsBySensitivity?
     let classifiableObjectCount: Swift.Int?
     let classifiableSizeInBytes: Swift.Int?
     let lastUpdated: ClientRuntime.Date?
@@ -7954,6 +8420,7 @@ extension GetBucketStatisticsOutputResponseBody: Swift.Decodable {
         case bucketCountByEncryptionType = "bucketCountByEncryptionType"
         case bucketCountByObjectEncryptionRequirement = "bucketCountByObjectEncryptionRequirement"
         case bucketCountBySharedAccessType = "bucketCountBySharedAccessType"
+        case bucketStatisticsBySensitivity = "bucketStatisticsBySensitivity"
         case classifiableObjectCount = "classifiableObjectCount"
         case classifiableSizeInBytes = "classifiableSizeInBytes"
         case lastUpdated = "lastUpdated"
@@ -7976,6 +8443,8 @@ extension GetBucketStatisticsOutputResponseBody: Swift.Decodable {
         bucketCountByObjectEncryptionRequirement = bucketCountByObjectEncryptionRequirementDecoded
         let bucketCountBySharedAccessTypeDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.BucketCountBySharedAccessType.self, forKey: .bucketCountBySharedAccessType)
         bucketCountBySharedAccessType = bucketCountBySharedAccessTypeDecoded
+        let bucketStatisticsBySensitivityDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.BucketStatisticsBySensitivity.self, forKey: .bucketStatisticsBySensitivity)
+        bucketStatisticsBySensitivity = bucketStatisticsBySensitivityDecoded
         let classifiableObjectCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .classifiableObjectCount)
         classifiableObjectCount = classifiableObjectCountDecoded
         let classifiableSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .classifiableSizeInBytes)
@@ -8087,6 +8556,128 @@ extension GetClassificationExportConfigurationOutputResponseBody: Swift.Decodabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.ClassificationExportConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
+    }
+}
+
+extension GetClassificationScopeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/classification-scopes/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct GetClassificationScopeInput: Swift.Equatable {
+    /// The unique identifier for the Amazon Macie resource that the request applies to.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init (
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetClassificationScopeInputBody: Swift.Equatable {
+}
+
+extension GetClassificationScopeInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetClassificationScopeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetClassificationScopeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetClassificationScopeOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetClassificationScopeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetClassificationScopeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.id = output.id
+            self.name = output.name
+            self.s3 = output.s3
+        } else {
+            self.id = nil
+            self.name = nil
+            self.s3 = nil
+        }
+    }
+}
+
+public struct GetClassificationScopeOutputResponse: Swift.Equatable {
+    /// The unique identifier for the classification scope.
+    public var id: Swift.String?
+    /// The name of the classification scope.
+    public var name: Swift.String?
+    /// The S3 buckets that are excluded from automated sensitive data discovery.
+    public var s3: Macie2ClientTypes.S3ClassificationScope?
+
+    public init (
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        s3: Macie2ClientTypes.S3ClassificationScope? = nil
+    )
+    {
+        self.id = id
+        self.name = name
+        self.s3 = s3
+    }
+}
+
+struct GetClassificationScopeOutputResponseBody: Swift.Equatable {
+    let id: Swift.String?
+    let name: Swift.String?
+    let s3: Macie2ClientTypes.S3ClassificationScope?
+}
+
+extension GetClassificationScopeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "id"
+        case name = "name"
+        case s3 = "s3"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let s3Decoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3ClassificationScope.self, forKey: .s3)
+        s3 = s3Decoded
     }
 }
 
@@ -8482,7 +9073,7 @@ extension GetFindingStatisticsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct GetFindingStatisticsOutputResponse: Swift.Equatable {
-    /// An array of objects, one for each group of findings that meet the filter criteria specified in the request.
+    /// An array of objects, one for each group of findings that matches the filter criteria specified in the request.
     public var countsByGroup: [Macie2ClientTypes.GroupCount]?
 
     public init (
@@ -8611,7 +9202,7 @@ extension GetFindingsFilterOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetFindingsFilterOutputResponse: Swift.Equatable {
-    /// The action that's performed on findings that meet the filter criteria (findingCriteria). Possible values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
+    /// The action that's performed on findings that match the filter criteria (findingCriteria). Possible values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
     public var action: Macie2ClientTypes.FindingsFilterAction?
     /// The Amazon Resource Name (ARN) of the filter.
     public var arn: Swift.String?
@@ -8823,7 +9414,7 @@ extension GetFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetFindingsOutputResponse: Swift.Equatable {
-    /// An array of objects, one for each finding that meets the criteria specified in the request.
+    /// An array of objects, one for each finding that matches the criteria specified in the request.
     public var findings: [Macie2ClientTypes.Finding]?
 
     public init (
@@ -9474,6 +10065,152 @@ extension GetMemberOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetResourceProfileInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetResourceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/resource-profiles"
+    }
+}
+
+public struct GetResourceProfileInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct GetResourceProfileInputBody: Swift.Equatable {
+}
+
+extension GetResourceProfileInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetResourceProfileOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetResourceProfileOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetResourceProfileOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetResourceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.profileUpdatedAt = output.profileUpdatedAt
+            self.sensitivityScore = output.sensitivityScore
+            self.sensitivityScoreOverridden = output.sensitivityScoreOverridden
+            self.statistics = output.statistics
+        } else {
+            self.profileUpdatedAt = nil
+            self.sensitivityScore = nil
+            self.sensitivityScoreOverridden = nil
+            self.statistics = nil
+        }
+    }
+}
+
+public struct GetResourceProfileOutputResponse: Swift.Equatable {
+    /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently recalculated sensitive data discovery statistics and details for the bucket. If the bucket's sensitivity score is calculated automatically, this includes the score.
+    public var profileUpdatedAt: ClientRuntime.Date?
+    /// The current sensitivity score for the bucket, ranging from -1 (no analysis due to an error) to 100 (sensitive). By default, this score is calculated automatically based on the amount of data that Amazon Macie has analyzed in the bucket and the amount of sensitive data that Macie has found in the bucket.
+    public var sensitivityScore: Swift.Int?
+    /// Specifies whether the bucket's current sensitivity score was set manually. If this value is true, the score was manually changed to 100. If this value is false, the score was calculated automatically by Amazon Macie.
+    public var sensitivityScoreOverridden: Swift.Bool?
+    /// The sensitive data discovery statistics for the bucket. The statistics capture the results of automated sensitive data discovery activities that Amazon Macie has performed for the bucket.
+    public var statistics: Macie2ClientTypes.ResourceStatistics?
+
+    public init (
+        profileUpdatedAt: ClientRuntime.Date? = nil,
+        sensitivityScore: Swift.Int? = nil,
+        sensitivityScoreOverridden: Swift.Bool? = nil,
+        statistics: Macie2ClientTypes.ResourceStatistics? = nil
+    )
+    {
+        self.profileUpdatedAt = profileUpdatedAt
+        self.sensitivityScore = sensitivityScore
+        self.sensitivityScoreOverridden = sensitivityScoreOverridden
+        self.statistics = statistics
+    }
+}
+
+struct GetResourceProfileOutputResponseBody: Swift.Equatable {
+    let profileUpdatedAt: ClientRuntime.Date?
+    let sensitivityScore: Swift.Int?
+    let sensitivityScoreOverridden: Swift.Bool?
+    let statistics: Macie2ClientTypes.ResourceStatistics?
+}
+
+extension GetResourceProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileUpdatedAt = "profileUpdatedAt"
+        case sensitivityScore = "sensitivityScore"
+        case sensitivityScoreOverridden = "sensitivityScoreOverridden"
+        case statistics = "statistics"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .profileUpdatedAt)
+        profileUpdatedAt = profileUpdatedAtDecoded
+        let sensitivityScoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sensitivityScore)
+        sensitivityScore = sensitivityScoreDecoded
+        let sensitivityScoreOverriddenDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sensitivityScoreOverridden)
+        sensitivityScoreOverridden = sensitivityScoreOverriddenDecoded
+        let statisticsDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.ResourceStatistics.self, forKey: .statistics)
+        statistics = statisticsDecoded
+    }
+}
+
 extension GetRevealConfigurationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/reveal-configuration"
@@ -9685,9 +10422,9 @@ extension GetSensitiveDataOccurrencesAvailabilityOutputResponseBody: Swift.Decod
         var reasonsDecoded0:[Macie2ClientTypes.UnavailabilityReasonCode]? = nil
         if let reasonsContainer = reasonsContainer {
             reasonsDecoded0 = [Macie2ClientTypes.UnavailabilityReasonCode]()
-            for string0 in reasonsContainer {
-                if let string0 = string0 {
-                    reasonsDecoded0?.append(string0)
+            for enum0 in reasonsContainer {
+                if let enum0 = enum0 {
+                    reasonsDecoded0?.append(enum0)
                 }
             }
         }
@@ -9838,6 +10575,148 @@ extension GetSensitiveDataOccurrencesOutputResponseBody: Swift.Decodable {
         sensitiveDataOccurrences = sensitiveDataOccurrencesDecoded0
         let statusDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RevealRequestStatus.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+extension GetSensitivityInspectionTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/templates/sensitivity-inspections/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct GetSensitivityInspectionTemplateInput: Swift.Equatable {
+    /// The unique identifier for the Amazon Macie resource that the request applies to.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init (
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetSensitivityInspectionTemplateInputBody: Swift.Equatable {
+}
+
+extension GetSensitivityInspectionTemplateInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetSensitivityInspectionTemplateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetSensitivityInspectionTemplateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetSensitivityInspectionTemplateOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSensitivityInspectionTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetSensitivityInspectionTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.excludes = output.excludes
+            self.includes = output.includes
+            self.name = output.name
+            self.sensitivityInspectionTemplateId = output.sensitivityInspectionTemplateId
+        } else {
+            self.description = nil
+            self.excludes = nil
+            self.includes = nil
+            self.name = nil
+            self.sensitivityInspectionTemplateId = nil
+        }
+    }
+}
+
+public struct GetSensitivityInspectionTemplateOutputResponse: Swift.Equatable {
+    /// The custom description of the template.
+    public var description: Swift.String?
+    /// The managed data identifiers that are explicitly excluded (not used) when analyzing data.
+    public var excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
+    /// The allow lists, custom data identifiers, and managed data identifiers that are included (used) when analyzing data.
+    public var includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
+    /// The name of the template.
+    public var name: Swift.String?
+    /// The unique identifier for the template.
+    public var sensitivityInspectionTemplateId: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes? = nil,
+        includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes? = nil,
+        name: Swift.String? = nil,
+        sensitivityInspectionTemplateId: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.excludes = excludes
+        self.includes = includes
+        self.name = name
+        self.sensitivityInspectionTemplateId = sensitivityInspectionTemplateId
+    }
+}
+
+struct GetSensitivityInspectionTemplateOutputResponseBody: Swift.Equatable {
+    let description: Swift.String?
+    let excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
+    let includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
+    let name: Swift.String?
+    let sensitivityInspectionTemplateId: Swift.String?
+}
+
+extension GetSensitivityInspectionTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case excludes = "excludes"
+        case includes = "includes"
+        case name = "name"
+        case sensitivityInspectionTemplateId = "sensitivityInspectionTemplateId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let excludesDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityInspectionTemplateExcludes.self, forKey: .excludes)
+        excludes = excludesDecoded
+        let includesDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityInspectionTemplateIncludes.self, forKey: .includes)
+        includes = includesDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let sensitivityInspectionTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sensitivityInspectionTemplateId)
+        sensitivityInspectionTemplateId = sensitivityInspectionTemplateIdDecoded
     }
 }
 
@@ -10002,7 +10881,7 @@ extension GetUsageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetUsageStatisticsOutputResponse: Swift.Equatable {
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
-    /// An array of objects that contains the results of the query. Each object contains the data for an account that meets the filter criteria specified in the request.
+    /// An array of objects that contains the results of the query. Each object contains the data for an account that matches the filter criteria specified in the request.
     public var records: [Macie2ClientTypes.UsageRecord]?
     /// The inclusive time period that the usage data applies to. Possible values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days.
     public var timeRange: Macie2ClientTypes.TimeRange?
@@ -11156,6 +12035,8 @@ extension Macie2ClientTypes.JobSummary: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketCriteriaDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3BucketCriteriaForJob.self, forKey: .bucketCriteria)
+        bucketCriteria = bucketCriteriaDecoded
         let bucketDefinitionsContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.S3BucketDefinitionForJob?].self, forKey: .bucketDefinitions)
         var bucketDefinitionsDecoded0:[Macie2ClientTypes.S3BucketDefinitionForJob]? = nil
         if let bucketDefinitionsContainer = bucketDefinitionsContainer {
@@ -11181,8 +12062,6 @@ extension Macie2ClientTypes.JobSummary: Swift.Codable {
         name = nameDecoded
         let userPausedDetailsDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.UserPausedDetails.self, forKey: .userPausedDetails)
         userPausedDetails = userPausedDetailsDecoded
-        let bucketCriteriaDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3BucketCriteriaForJob.self, forKey: .bucketCriteria)
-        bucketCriteria = bucketCriteriaDecoded
     }
 }
 
@@ -11669,7 +12548,7 @@ extension ListClassificationJobsOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct ListClassificationJobsOutputResponse: Swift.Equatable {
-    /// An array of objects, one for each job that meets the filter criteria specified in the request.
+    /// An array of objects, one for each job that matches the filter criteria specified in the request.
     public var items: [Macie2ClientTypes.JobSummary]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
@@ -11708,6 +12587,142 @@ extension ListClassificationJobsOutputResponseBody: Swift.Decodable {
             }
         }
         items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListClassificationScopesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let name = name {
+                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+                items.append(nameQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListClassificationScopesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/classification-scopes"
+    }
+}
+
+public struct ListClassificationScopesInput: Swift.Equatable {
+    /// The name of the classification scope to retrieve the unique identifier for.
+    public var name: Swift.String?
+    /// The nextToken string that specifies which page of results to return in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init (
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.nextToken = nextToken
+    }
+}
+
+struct ListClassificationScopesInputBody: Swift.Equatable {
+}
+
+extension ListClassificationScopesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListClassificationScopesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListClassificationScopesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListClassificationScopesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListClassificationScopesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListClassificationScopesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.classificationScopes = output.classificationScopes
+            self.nextToken = output.nextToken
+        } else {
+            self.classificationScopes = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListClassificationScopesOutputResponse: Swift.Equatable {
+    /// An array that specifies the unique identifier and name of the classification scope for the account.
+    public var classificationScopes: [Macie2ClientTypes.ClassificationScopeSummary]?
+    /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+    public var nextToken: Swift.String?
+
+    public init (
+        classificationScopes: [Macie2ClientTypes.ClassificationScopeSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.classificationScopes = classificationScopes
+        self.nextToken = nextToken
+    }
+}
+
+struct ListClassificationScopesOutputResponseBody: Swift.Equatable {
+    let classificationScopes: [Macie2ClientTypes.ClassificationScopeSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListClassificationScopesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case classificationScopes = "classificationScopes"
+        case nextToken = "nextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let classificationScopesContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.ClassificationScopeSummary?].self, forKey: .classificationScopes)
+        var classificationScopesDecoded0:[Macie2ClientTypes.ClassificationScopeSummary]? = nil
+        if let classificationScopesContainer = classificationScopesContainer {
+            classificationScopesDecoded0 = [Macie2ClientTypes.ClassificationScopeSummary]()
+            for structure0 in classificationScopesContainer {
+                if let structure0 = structure0 {
+                    classificationScopesDecoded0?.append(structure0)
+                }
+            }
+        }
+        classificationScopes = classificationScopesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -12141,7 +13156,7 @@ extension ListFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListFindingsOutputResponse: Swift.Equatable {
-    /// An array of strings, where each string is the unique identifier for a finding that meets the filter criteria specified in the request.
+    /// An array of strings, where each string is the unique identifier for a finding that matches the filter criteria specified in the request.
     public var findingIds: [Swift.String]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
@@ -12819,7 +13834,7 @@ extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListMembersOutputResponse: Swift.Equatable {
-    /// An array of objects, one for each account that's associated with the administrator account and meets the criteria specified in the request.
+    /// An array of objects, one for each account that's associated with the administrator account and matches the criteria specified in the request.
     public var members: [Macie2ClientTypes.Member]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
@@ -13002,6 +14017,436 @@ extension ListOrganizationAdminAccountsOutputResponseBody: Swift.Decodable {
         adminAccounts = adminAccountsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension ListResourceProfileArtifactsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension ListResourceProfileArtifactsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/resource-profiles/artifacts"
+    }
+}
+
+public struct ListResourceProfileArtifactsInput: Swift.Equatable {
+    /// The nextToken string that specifies which page of results to return in a paginated response.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListResourceProfileArtifactsInputBody: Swift.Equatable {
+}
+
+extension ListResourceProfileArtifactsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListResourceProfileArtifactsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListResourceProfileArtifactsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListResourceProfileArtifactsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListResourceProfileArtifactsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListResourceProfileArtifactsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.artifacts = output.artifacts
+            self.nextToken = output.nextToken
+        } else {
+            self.artifacts = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListResourceProfileArtifactsOutputResponse: Swift.Equatable {
+    /// An array of objects, one for each S3 object that Amazon Macie selected for analysis.
+    public var artifacts: [Macie2ClientTypes.ResourceProfileArtifact]?
+    /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+    public var nextToken: Swift.String?
+
+    public init (
+        artifacts: [Macie2ClientTypes.ResourceProfileArtifact]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.artifacts = artifacts
+        self.nextToken = nextToken
+    }
+}
+
+struct ListResourceProfileArtifactsOutputResponseBody: Swift.Equatable {
+    let artifacts: [Macie2ClientTypes.ResourceProfileArtifact]?
+    let nextToken: Swift.String?
+}
+
+extension ListResourceProfileArtifactsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case artifacts = "artifacts"
+        case nextToken = "nextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let artifactsContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.ResourceProfileArtifact?].self, forKey: .artifacts)
+        var artifactsDecoded0:[Macie2ClientTypes.ResourceProfileArtifact]? = nil
+        if let artifactsContainer = artifactsContainer {
+            artifactsDecoded0 = [Macie2ClientTypes.ResourceProfileArtifact]()
+            for structure0 in artifactsContainer {
+                if let structure0 = structure0 {
+                    artifactsDecoded0?.append(structure0)
+                }
+            }
+        }
+        artifacts = artifactsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListResourceProfileDetectionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension ListResourceProfileDetectionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/resource-profiles/detections"
+    }
+}
+
+public struct ListResourceProfileDetectionsInput: Swift.Equatable {
+    /// The maximum number of items to include in each page of a paginated response.
+    public var maxResults: Swift.Int?
+    /// The nextToken string that specifies which page of results to return in a paginated response.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListResourceProfileDetectionsInputBody: Swift.Equatable {
+}
+
+extension ListResourceProfileDetectionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListResourceProfileDetectionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListResourceProfileDetectionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListResourceProfileDetectionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListResourceProfileDetectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListResourceProfileDetectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.detections = output.detections
+            self.nextToken = output.nextToken
+        } else {
+            self.detections = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListResourceProfileDetectionsOutputResponse: Swift.Equatable {
+    /// An array of objects, one for each type of sensitive data that Amazon Macie found in the bucket. Each object reports the number of occurrences of the specified type and provides information about the custom data identifier or managed data identifier that detected the data.
+    public var detections: [Macie2ClientTypes.Detection]?
+    /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+    public var nextToken: Swift.String?
+
+    public init (
+        detections: [Macie2ClientTypes.Detection]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.detections = detections
+        self.nextToken = nextToken
+    }
+}
+
+struct ListResourceProfileDetectionsOutputResponseBody: Swift.Equatable {
+    let detections: [Macie2ClientTypes.Detection]?
+    let nextToken: Swift.String?
+}
+
+extension ListResourceProfileDetectionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detections = "detections"
+        case nextToken = "nextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detectionsContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.Detection?].self, forKey: .detections)
+        var detectionsDecoded0:[Macie2ClientTypes.Detection]? = nil
+        if let detectionsContainer = detectionsContainer {
+            detectionsDecoded0 = [Macie2ClientTypes.Detection]()
+            for structure0 in detectionsContainer {
+                if let structure0 = structure0 {
+                    detectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        detections = detectionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSensitivityInspectionTemplatesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListSensitivityInspectionTemplatesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/templates/sensitivity-inspections"
+    }
+}
+
+public struct ListSensitivityInspectionTemplatesInput: Swift.Equatable {
+    /// The maximum number of items to include in each page of a paginated response.
+    public var maxResults: Swift.Int?
+    /// The nextToken string that specifies which page of results to return in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListSensitivityInspectionTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListSensitivityInspectionTemplatesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListSensitivityInspectionTemplatesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListSensitivityInspectionTemplatesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListSensitivityInspectionTemplatesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSensitivityInspectionTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListSensitivityInspectionTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.sensitivityInspectionTemplates = output.sensitivityInspectionTemplates
+        } else {
+            self.nextToken = nil
+            self.sensitivityInspectionTemplates = nil
+        }
+    }
+}
+
+public struct ListSensitivityInspectionTemplatesOutputResponse: Swift.Equatable {
+    /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+    public var nextToken: Swift.String?
+    /// An array that specifies the unique identifier and name of the sensitivity inspection template for the account.
+    public var sensitivityInspectionTemplates: [Macie2ClientTypes.SensitivityInspectionTemplatesEntry]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        sensitivityInspectionTemplates: [Macie2ClientTypes.SensitivityInspectionTemplatesEntry]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.sensitivityInspectionTemplates = sensitivityInspectionTemplates
+    }
+}
+
+struct ListSensitivityInspectionTemplatesOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let sensitivityInspectionTemplates: [Macie2ClientTypes.SensitivityInspectionTemplatesEntry]?
+}
+
+extension ListSensitivityInspectionTemplatesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "nextToken"
+        case sensitivityInspectionTemplates = "sensitivityInspectionTemplates"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let sensitivityInspectionTemplatesContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.SensitivityInspectionTemplatesEntry?].self, forKey: .sensitivityInspectionTemplates)
+        var sensitivityInspectionTemplatesDecoded0:[Macie2ClientTypes.SensitivityInspectionTemplatesEntry]? = nil
+        if let sensitivityInspectionTemplatesContainer = sensitivityInspectionTemplatesContainer {
+            sensitivityInspectionTemplatesDecoded0 = [Macie2ClientTypes.SensitivityInspectionTemplatesEntry]()
+            for structure0 in sensitivityInspectionTemplatesContainer {
+                if let structure0 = structure0 {
+                    sensitivityInspectionTemplatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sensitivityInspectionTemplates = sensitivityInspectionTemplatesDecoded0
     }
 }
 
@@ -13232,8 +14677,10 @@ extension Macie2ClientTypes.MatchingBucket: Swift.Codable {
         case errorCode = "errorCode"
         case errorMessage = "errorMessage"
         case jobDetails = "jobDetails"
+        case lastAutomatedDiscoveryTime = "lastAutomatedDiscoveryTime"
         case objectCount = "objectCount"
         case objectCountByEncryptionType = "objectCountByEncryptionType"
+        case sensitivityScore = "sensitivityScore"
         case sizeInBytes = "sizeInBytes"
         case sizeInBytesCompressed = "sizeInBytesCompressed"
         case unclassifiableObjectCount = "unclassifiableObjectCount"
@@ -13263,11 +14710,17 @@ extension Macie2ClientTypes.MatchingBucket: Swift.Codable {
         if let jobDetails = self.jobDetails {
             try encodeContainer.encode(jobDetails, forKey: .jobDetails)
         }
+        if let lastAutomatedDiscoveryTime = self.lastAutomatedDiscoveryTime {
+            try encodeContainer.encodeTimestamp(lastAutomatedDiscoveryTime, format: .dateTime, forKey: .lastAutomatedDiscoveryTime)
+        }
         if let objectCount = self.objectCount {
             try encodeContainer.encode(objectCount, forKey: .objectCount)
         }
         if let objectCountByEncryptionType = self.objectCountByEncryptionType {
             try encodeContainer.encode(objectCountByEncryptionType, forKey: .objectCountByEncryptionType)
+        }
+        if let sensitivityScore = self.sensitivityScore {
+            try encodeContainer.encode(sensitivityScore, forKey: .sensitivityScore)
         }
         if let sizeInBytes = self.sizeInBytes {
             try encodeContainer.encode(sizeInBytes, forKey: .sizeInBytes)
@@ -13299,10 +14752,14 @@ extension Macie2ClientTypes.MatchingBucket: Swift.Codable {
         errorMessage = errorMessageDecoded
         let jobDetailsDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.JobDetails.self, forKey: .jobDetails)
         jobDetails = jobDetailsDecoded
+        let lastAutomatedDiscoveryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastAutomatedDiscoveryTime)
+        lastAutomatedDiscoveryTime = lastAutomatedDiscoveryTimeDecoded
         let objectCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectCount)
         objectCount = objectCountDecoded
         let objectCountByEncryptionTypeDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.ObjectCountByEncryptionType.self, forKey: .objectCountByEncryptionType)
         objectCountByEncryptionType = objectCountByEncryptionTypeDecoded
+        let sensitivityScoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sensitivityScore)
+        sensitivityScore = sensitivityScoreDecoded
         let sizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInBytes)
         sizeInBytes = sizeInBytesDecoded
         let sizeInBytesCompressedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInBytesCompressed)
@@ -13315,7 +14772,7 @@ extension Macie2ClientTypes.MatchingBucket: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. If an error occurs when Macie attempts to retrieve and process information about the bucket or the bucket's objects, the value for most of these properties is null. Exceptions are accountId and bucketName. To identify the cause of the error, refer to the errorCode and errorMessage values.
+    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. If an error occurs when Macie attempts to retrieve and process information about the bucket or the bucket's objects, the value for most of these properties is null. Key exceptions are accountId and bucketName. To identify the cause of the error, refer to the errorCode and errorMessage values.
     public struct MatchingBucket: Swift.Equatable {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
@@ -13331,10 +14788,14 @@ extension Macie2ClientTypes {
         public var errorMessage: Swift.String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently performed automated sensitive data discovery for the bucket. This value is null if automated sensitive data discovery is currently disabled for your account.
+        public var lastAutomatedDiscoveryTime: ClientRuntime.Date?
         /// The total number of objects in the bucket.
         public var objectCount: Swift.Int?
-        /// The total number of objects that are in the bucket, grouped by server-side encryption type. This includes a grouping that reports the total number of objects that aren't encrypted or use client-side encryption.
+        /// The total number of objects in the bucket, grouped by server-side encryption type. This includes a grouping that reports the total number of objects that aren't encrypted or use client-side encryption.
         public var objectCountByEncryptionType: Macie2ClientTypes.ObjectCountByEncryptionType?
+        /// The current sensitivity score for the bucket, ranging from -1 (no analysis due to an error) to 100 (sensitive). This value is null if automated sensitive data discovery is currently disabled for your account.
+        public var sensitivityScore: Swift.Int?
         /// The total storage size, in bytes, of the bucket. If versioning is enabled for the bucket, Amazon Macie calculates this value based on the size of the latest version of each object in the bucket. This value doesn't reflect the storage size of all versions of each object in the bucket.
         public var sizeInBytes: Swift.Int?
         /// The total storage size, in bytes, of the objects that are compressed (.gz, .gzip, .zip) files in the bucket. If versioning is enabled for the bucket, Amazon Macie calculates this value based on the size of the latest version of each applicable object in the bucket. This value doesn't reflect the storage size of all versions of each applicable object in the bucket.
@@ -13352,8 +14813,10 @@ extension Macie2ClientTypes {
             errorCode: Macie2ClientTypes.BucketMetadataErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             jobDetails: Macie2ClientTypes.JobDetails? = nil,
+            lastAutomatedDiscoveryTime: ClientRuntime.Date? = nil,
             objectCount: Swift.Int? = nil,
             objectCountByEncryptionType: Macie2ClientTypes.ObjectCountByEncryptionType? = nil,
+            sensitivityScore: Swift.Int? = nil,
             sizeInBytes: Swift.Int? = nil,
             sizeInBytesCompressed: Swift.Int? = nil,
             unclassifiableObjectCount: Macie2ClientTypes.ObjectLevelStatistics? = nil,
@@ -13367,8 +14830,10 @@ extension Macie2ClientTypes {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.jobDetails = jobDetails
+            self.lastAutomatedDiscoveryTime = lastAutomatedDiscoveryTime
             self.objectCount = objectCount
             self.objectCountByEncryptionType = objectCountByEncryptionType
+            self.sensitivityScore = sensitivityScore
             self.sizeInBytes = sizeInBytes
             self.sizeInBytesCompressed = sizeInBytesCompressed
             self.unclassifiableObjectCount = unclassifiableObjectCount
@@ -13682,7 +15147,7 @@ extension Macie2ClientTypes.ObjectLevelStatistics: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about the total storage size (in bytes) or number of objects that Amazon Macie can't analyze in one or more S3 buckets. In a BucketMetadata or MatchingBucket object, this data is for a specific bucket. In a GetBucketStatisticsResponse object, this data is aggregated for the buckets in the query results. If versioning is enabled for a bucket, total storage size values are based on the size of the latest version of each applicable object in the bucket.
+    /// Provides information about the total storage size (in bytes) or number of objects that Amazon Macie can't analyze in one or more S3 buckets. In a BucketMetadata or MatchingBucket object, this data is for a specific bucket. In a GetBucketStatisticsResponse object, this data is aggregated for all the buckets in the query results. If versioning is enabled for a bucket, storage size values are based on the size of the latest version of each applicable object in the bucket.
     public struct ObjectLevelStatistics: Swift.Equatable {
         /// The total storage size (in bytes) or number of objects that Amazon Macie can't analyze because the objects don't have a file name extension for a supported file or storage format.
         public var fileType: Swift.Int?
@@ -13873,13 +15338,15 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies how Amazon Macie found the sensitive data that produced a finding. The only possible value is:
+    /// Specifies how Amazon Macie found the sensitive data that produced a finding. Possible values are:
     public enum OriginType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automatedSensitiveDataDiscovery
         case sensitiveDataDiscoveryJob
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OriginType] {
             return [
+                .automatedSensitiveDataDiscovery,
                 .sensitiveDataDiscoveryJob,
                 .sdkUnknown("")
             ]
@@ -13890,6 +15357,7 @@ extension Macie2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .automatedSensitiveDataDiscovery: return "AUTOMATED_SENSITIVE_DATA_DISCOVERY"
             case .sensitiveDataDiscoveryJob: return "SENSITIVE_DATA_DISCOVERY_JOB"
             case let .sdkUnknown(s): return s
             }
@@ -14505,6 +15973,184 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension Macie2ClientTypes.ResourceProfileArtifact: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case classificationResultStatus = "classificationResultStatus"
+        case sensitive = "sensitive"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let classificationResultStatus = self.classificationResultStatus {
+            try encodeContainer.encode(classificationResultStatus, forKey: .classificationResultStatus)
+        }
+        if let sensitive = self.sensitive {
+            try encodeContainer.encode(sensitive, forKey: .sensitive)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let classificationResultStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .classificationResultStatus)
+        classificationResultStatus = classificationResultStatusDecoded
+        let sensitiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sensitive)
+        sensitive = sensitiveDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides information about an S3 object that Amazon Macie selected for analysis while performing automated sensitive data discovery for an S3 bucket, and the status and results of the analysis. This information is available only if automated sensitive data discovery is currently enabled for your account.
+    public struct ResourceProfileArtifact: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the object.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The status of the analysis. Possible values are:
+        ///
+        /// * COMPLETE - Amazon Macie successfully completed its analysis of the object.
+        ///
+        /// * PARTIAL - Macie analyzed only a subset of data in the object. For example, the object is an archive file that contains files in an unsupported format.
+        ///
+        /// * SKIPPED - Macie wasn't able to analyze the object. For example, the object is a malformed file.
+        /// This member is required.
+        public var classificationResultStatus: Swift.String?
+        /// Specifies whether Amazon Macie found sensitive data in the object.
+        public var sensitive: Swift.Bool?
+
+        public init (
+            arn: Swift.String? = nil,
+            classificationResultStatus: Swift.String? = nil,
+            sensitive: Swift.Bool? = nil
+        )
+        {
+            self.arn = arn
+            self.classificationResultStatus = classificationResultStatus
+            self.sensitive = sensitive
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.ResourceStatistics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case totalBytesClassified = "totalBytesClassified"
+        case totalDetections = "totalDetections"
+        case totalDetectionsSuppressed = "totalDetectionsSuppressed"
+        case totalItemsClassified = "totalItemsClassified"
+        case totalItemsSensitive = "totalItemsSensitive"
+        case totalItemsSkipped = "totalItemsSkipped"
+        case totalItemsSkippedInvalidEncryption = "totalItemsSkippedInvalidEncryption"
+        case totalItemsSkippedInvalidKms = "totalItemsSkippedInvalidKms"
+        case totalItemsSkippedPermissionDenied = "totalItemsSkippedPermissionDenied"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let totalBytesClassified = self.totalBytesClassified {
+            try encodeContainer.encode(totalBytesClassified, forKey: .totalBytesClassified)
+        }
+        if let totalDetections = self.totalDetections {
+            try encodeContainer.encode(totalDetections, forKey: .totalDetections)
+        }
+        if let totalDetectionsSuppressed = self.totalDetectionsSuppressed {
+            try encodeContainer.encode(totalDetectionsSuppressed, forKey: .totalDetectionsSuppressed)
+        }
+        if let totalItemsClassified = self.totalItemsClassified {
+            try encodeContainer.encode(totalItemsClassified, forKey: .totalItemsClassified)
+        }
+        if let totalItemsSensitive = self.totalItemsSensitive {
+            try encodeContainer.encode(totalItemsSensitive, forKey: .totalItemsSensitive)
+        }
+        if let totalItemsSkipped = self.totalItemsSkipped {
+            try encodeContainer.encode(totalItemsSkipped, forKey: .totalItemsSkipped)
+        }
+        if let totalItemsSkippedInvalidEncryption = self.totalItemsSkippedInvalidEncryption {
+            try encodeContainer.encode(totalItemsSkippedInvalidEncryption, forKey: .totalItemsSkippedInvalidEncryption)
+        }
+        if let totalItemsSkippedInvalidKms = self.totalItemsSkippedInvalidKms {
+            try encodeContainer.encode(totalItemsSkippedInvalidKms, forKey: .totalItemsSkippedInvalidKms)
+        }
+        if let totalItemsSkippedPermissionDenied = self.totalItemsSkippedPermissionDenied {
+            try encodeContainer.encode(totalItemsSkippedPermissionDenied, forKey: .totalItemsSkippedPermissionDenied)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let totalBytesClassifiedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalBytesClassified)
+        totalBytesClassified = totalBytesClassifiedDecoded
+        let totalDetectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDetections)
+        totalDetections = totalDetectionsDecoded
+        let totalDetectionsSuppressedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDetectionsSuppressed)
+        totalDetectionsSuppressed = totalDetectionsSuppressedDecoded
+        let totalItemsClassifiedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalItemsClassified)
+        totalItemsClassified = totalItemsClassifiedDecoded
+        let totalItemsSensitiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalItemsSensitive)
+        totalItemsSensitive = totalItemsSensitiveDecoded
+        let totalItemsSkippedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalItemsSkipped)
+        totalItemsSkipped = totalItemsSkippedDecoded
+        let totalItemsSkippedInvalidEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalItemsSkippedInvalidEncryption)
+        totalItemsSkippedInvalidEncryption = totalItemsSkippedInvalidEncryptionDecoded
+        let totalItemsSkippedInvalidKmsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalItemsSkippedInvalidKms)
+        totalItemsSkippedInvalidKms = totalItemsSkippedInvalidKmsDecoded
+        let totalItemsSkippedPermissionDeniedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalItemsSkippedPermissionDenied)
+        totalItemsSkippedPermissionDenied = totalItemsSkippedPermissionDeniedDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides statistical data for sensitive data discovery metrics that apply to an S3 bucket that Amazon Macie monitors and analyzes for your account. The statistics capture the results of automated sensitive data discovery activities that Macie has performed for the bucket. The data is available only if automated sensitive data discovery is currently enabled for your account.
+    public struct ResourceStatistics: Swift.Equatable {
+        /// The total amount of data, in bytes, that Amazon Macie has analyzed in the bucket.
+        public var totalBytesClassified: Swift.Int?
+        /// The total number of occurrences of sensitive data that Amazon Macie has found in the bucket's objects. This includes occurrences that are currently suppressed by the sensitivity scoring settings for the bucket (totalDetectionsSuppressed).
+        public var totalDetections: Swift.Int?
+        /// The total number of occurrences of sensitive data that are currently suppressed by the sensitivity scoring settings for the bucket. These represent occurrences of sensitive data that Amazon Macie found in the bucket's objects, but the occurrences were manually suppressed. By default, suppressed occurrences are excluded from the bucket's sensitivity score.
+        public var totalDetectionsSuppressed: Swift.Int?
+        /// The total number of objects that Amazon Macie has analyzed in the bucket.
+        public var totalItemsClassified: Swift.Int?
+        /// The total number of the bucket's objects that Amazon Macie has found sensitive data in.
+        public var totalItemsSensitive: Swift.Int?
+        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket due to an error or issue. For example, the object is a malformed file. This value includes objects that Macie hasn't analyzed for reasons reported by other statistics in the ResourceStatistics object.
+        public var totalItemsSkipped: Swift.Int?
+        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because the objects are encrypted with a key that Macie isn't allowed to use.
+        public var totalItemsSkippedInvalidEncryption: Swift.Int?
+        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because the objects are encrypted with an KMS key that was disabled or deleted.
+        public var totalItemsSkippedInvalidKms: Swift.Int?
+        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because Macie isn't allowed to access the objects.
+        public var totalItemsSkippedPermissionDenied: Swift.Int?
+
+        public init (
+            totalBytesClassified: Swift.Int? = nil,
+            totalDetections: Swift.Int? = nil,
+            totalDetectionsSuppressed: Swift.Int? = nil,
+            totalItemsClassified: Swift.Int? = nil,
+            totalItemsSensitive: Swift.Int? = nil,
+            totalItemsSkipped: Swift.Int? = nil,
+            totalItemsSkippedInvalidEncryption: Swift.Int? = nil,
+            totalItemsSkippedInvalidKms: Swift.Int? = nil,
+            totalItemsSkippedPermissionDenied: Swift.Int? = nil
+        )
+        {
+            self.totalBytesClassified = totalBytesClassified
+            self.totalDetections = totalDetections
+            self.totalDetectionsSuppressed = totalDetectionsSuppressed
+            self.totalItemsClassified = totalItemsClassified
+            self.totalItemsSensitive = totalItemsSensitive
+            self.totalItemsSkipped = totalItemsSkipped
+            self.totalItemsSkippedInvalidEncryption = totalItemsSkippedInvalidEncryption
+            self.totalItemsSkippedInvalidKms = totalItemsSkippedInvalidKms
+            self.totalItemsSkippedPermissionDenied = totalItemsSkippedPermissionDenied
+        }
+    }
+
+}
+
 extension Macie2ClientTypes.ResourcesAffected: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Bucket = "s3Bucket"
@@ -14743,11 +16389,14 @@ extension Macie2ClientTypes {
     public struct S3Bucket: Swift.Equatable {
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are uploaded to the bucket. Possible values are:
         ///
-        /// * FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include the x-amz-server-side-encryption header and the value for that header must be AES256 or aws:kms.
+        /// * FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include a valid server-side encryption header.
         ///
-        /// * TRUE - The bucket doesn't have a bucket policy or it has a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, it doesn't require PutObject requests to include the x-amz-server-side-encryption header and it doesn't require the value for that header to be AES256 or aws:kms.
+        /// * TRUE - The bucket doesn't have a bucket policy or it has a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, it doesn't require PutObject requests to include a valid server-side encryption header.
         ///
-        /// * UNKNOWN - Amazon Macie can't determine whether the bucket policy requires server-side encryption of objects.
+        /// * UNKNOWN - Amazon Macie can't determine whether the bucket policy requires server-side encryption of new objects.
+        ///
+        ///
+        /// Valid server-side encryption headers are: x-amz-server-side-encryption with a value of AES256 or aws:kms, and x-amz-server-side-encryption-customer-algorithm with a value of AES256.
         public var allowsUnencryptedObjectUploads: Macie2ClientTypes.AllowsUnencryptedObjectUploads?
         /// The Amazon Resource Name (ARN) of the bucket.
         public var arn: Swift.String?
@@ -14937,6 +16586,191 @@ extension Macie2ClientTypes {
 
 }
 
+extension Macie2ClientTypes.S3ClassificationScope: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludes = "excludes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let excludes = self.excludes {
+            try encodeContainer.encode(excludes, forKey: .excludes)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let excludesDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3ClassificationScopeExclusion.self, forKey: .excludes)
+        excludes = excludesDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies the S3 buckets that are excluded from automated sensitive data discovery for an Amazon Macie account.
+    public struct S3ClassificationScope: Swift.Equatable {
+        /// The S3 buckets that are excluded.
+        /// This member is required.
+        public var excludes: Macie2ClientTypes.S3ClassificationScopeExclusion?
+
+        public init (
+            excludes: Macie2ClientTypes.S3ClassificationScopeExclusion? = nil
+        )
+        {
+            self.excludes = excludes
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.S3ClassificationScopeExclusion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketNames = "bucketNames"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketNames = bucketNames {
+            var bucketNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketNames)
+            for __listofs3bucketname0 in bucketNames {
+                try bucketNamesContainer.encode(__listofs3bucketname0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .bucketNames)
+        var bucketNamesDecoded0:[Swift.String]? = nil
+        if let bucketNamesContainer = bucketNamesContainer {
+            bucketNamesDecoded0 = [Swift.String]()
+            for string0 in bucketNamesContainer {
+                if let string0 = string0 {
+                    bucketNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        bucketNames = bucketNamesDecoded0
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies the names of the S3 buckets that are excluded from automated sensitive data discovery.
+    public struct S3ClassificationScopeExclusion: Swift.Equatable {
+        /// An array of strings, one for each S3 bucket that is excluded. Each string is the full name of an excluded bucket.
+        /// This member is required.
+        public var bucketNames: [Swift.String]?
+
+        public init (
+            bucketNames: [Swift.String]? = nil
+        )
+        {
+            self.bucketNames = bucketNames
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.S3ClassificationScopeExclusionUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketNames = "bucketNames"
+        case operation = "operation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketNames = bucketNames {
+            var bucketNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketNames)
+            for __listofs3bucketname0 in bucketNames {
+                try bucketNamesContainer.encode(__listofs3bucketname0)
+            }
+        }
+        if let operation = self.operation {
+            try encodeContainer.encode(operation.rawValue, forKey: .operation)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .bucketNames)
+        var bucketNamesDecoded0:[Swift.String]? = nil
+        if let bucketNamesContainer = bucketNamesContainer {
+            bucketNamesDecoded0 = [Swift.String]()
+            for string0 in bucketNamesContainer {
+                if let string0 = string0 {
+                    bucketNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        bucketNames = bucketNamesDecoded0
+        let operationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.ClassificationScopeUpdateOperation.self, forKey: .operation)
+        operation = operationDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies S3 buckets to add or remove from the exclusion list defined by the classification scope for an Amazon Macie account.
+    public struct S3ClassificationScopeExclusionUpdate: Swift.Equatable {
+        /// Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an S3 bucket. Values are case sensitive.
+        /// This member is required.
+        public var bucketNames: [Swift.String]?
+        /// Specifies how to apply the changes to the exclusion list. Valid values are:
+        ///
+        /// * ADD - Append the specified bucket names to the current list.
+        ///
+        /// * REMOVE - Remove the specified bucket names from the current list.
+        ///
+        /// * REPLACE - Overwrite the current list with the specified list of bucket names. If you specify this value, Amazon Macie removes all existing names from the list and adds all the specified names to the list.
+        /// This member is required.
+        public var operation: Macie2ClientTypes.ClassificationScopeUpdateOperation?
+
+        public init (
+            bucketNames: [Swift.String]? = nil,
+            operation: Macie2ClientTypes.ClassificationScopeUpdateOperation? = nil
+        )
+        {
+            self.bucketNames = bucketNames
+            self.operation = operation
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.S3ClassificationScopeUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludes = "excludes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let excludes = self.excludes {
+            try encodeContainer.encode(excludes, forKey: .excludes)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let excludesDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3ClassificationScopeExclusionUpdate.self, forKey: .excludes)
+        excludes = excludesDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies changes to the list of S3 buckets that are excluded from automated sensitive data discovery for an Amazon Macie account.
+    public struct S3ClassificationScopeUpdate: Swift.Equatable {
+        /// The names of the S3 buckets to add or remove from the list.
+        /// This member is required.
+        public var excludes: Macie2ClientTypes.S3ClassificationScopeExclusionUpdate?
+
+        public init (
+            excludes: Macie2ClientTypes.S3ClassificationScopeExclusionUpdate? = nil
+        )
+        {
+            self.excludes = excludes
+        }
+    }
+
+}
+
 extension Macie2ClientTypes.S3Destination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketName = "bucketName"
@@ -15019,6 +16853,8 @@ extension Macie2ClientTypes.S3JobDefinition: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketCriteriaDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3BucketCriteriaForJob.self, forKey: .bucketCriteria)
+        bucketCriteria = bucketCriteriaDecoded
         let bucketDefinitionsContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.S3BucketDefinitionForJob?].self, forKey: .bucketDefinitions)
         var bucketDefinitionsDecoded0:[Macie2ClientTypes.S3BucketDefinitionForJob]? = nil
         if let bucketDefinitionsContainer = bucketDefinitionsContainer {
@@ -15032,8 +16868,6 @@ extension Macie2ClientTypes.S3JobDefinition: Swift.Codable {
         bucketDefinitions = bucketDefinitionsDecoded0
         let scopingDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.Scoping.self, forKey: .scoping)
         scoping = scopingDecoded
-        let bucketCriteriaDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3BucketCriteriaForJob.self, forKey: .bucketCriteria)
-        bucketCriteria = bucketCriteriaDecoded
     }
 }
 
@@ -15652,7 +17486,7 @@ extension SearchResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct SearchResourcesOutputResponse: Swift.Equatable {
-    /// An array of objects, one for each resource that meets the filter criteria specified in the request.
+    /// An array of objects, one for each resource that matches the filter criteria specified in the request.
     public var matchingResources: [Macie2ClientTypes.MatchingResource]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
@@ -16150,6 +17984,254 @@ extension Macie2ClientTypes {
             self = SensitiveDataItemCategory(rawValue: rawValue) ?? SensitiveDataItemCategory.sdkUnknown(rawValue)
         }
     }
+}
+
+extension Macie2ClientTypes.SensitivityAggregations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case classifiableSizeInBytes = "classifiableSizeInBytes"
+        case publiclyAccessibleCount = "publiclyAccessibleCount"
+        case totalCount = "totalCount"
+        case totalSizeInBytes = "totalSizeInBytes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let classifiableSizeInBytes = self.classifiableSizeInBytes {
+            try encodeContainer.encode(classifiableSizeInBytes, forKey: .classifiableSizeInBytes)
+        }
+        if let publiclyAccessibleCount = self.publiclyAccessibleCount {
+            try encodeContainer.encode(publiclyAccessibleCount, forKey: .publiclyAccessibleCount)
+        }
+        if let totalCount = self.totalCount {
+            try encodeContainer.encode(totalCount, forKey: .totalCount)
+        }
+        if let totalSizeInBytes = self.totalSizeInBytes {
+            try encodeContainer.encode(totalSizeInBytes, forKey: .totalSizeInBytes)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let classifiableSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .classifiableSizeInBytes)
+        classifiableSizeInBytes = classifiableSizeInBytesDecoded
+        let publiclyAccessibleCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .publiclyAccessibleCount)
+        publiclyAccessibleCount = publiclyAccessibleCountDecoded
+        let totalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCount)
+        totalCount = totalCountDecoded
+        let totalSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSizeInBytes)
+        totalSizeInBytes = totalSizeInBytesDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets. Each field contains aggregated data for all the buckets that have a sensitivity score (sensitivityScore) of a specified value or within a specified range (BucketStatisticsBySensitivity). If automated sensitive data discovery is currently disabled for your account, the value for each field is 0.
+    public struct SensitivityAggregations: Swift.Equatable {
+        /// The total storage size, in bytes, of all the objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each applicable object in the buckets. This value doesn't reflect the storage size of all versions of all applicable objects in the buckets.
+        public var classifiableSizeInBytes: Swift.Int?
+        /// The total number of buckets that are publicly accessible based on a combination of permissions settings for each bucket.
+        public var publiclyAccessibleCount: Swift.Int?
+        /// The total number of buckets.
+        public var totalCount: Swift.Int?
+        /// The total storage size, in bytes, of the buckets. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each object in the buckets. This value doesn't reflect the storage size of all versions of the objects in the buckets.
+        public var totalSizeInBytes: Swift.Int?
+
+        public init (
+            classifiableSizeInBytes: Swift.Int? = nil,
+            publiclyAccessibleCount: Swift.Int? = nil,
+            totalCount: Swift.Int? = nil,
+            totalSizeInBytes: Swift.Int? = nil
+        )
+        {
+            self.classifiableSizeInBytes = classifiableSizeInBytes
+            self.publiclyAccessibleCount = publiclyAccessibleCount
+            self.totalCount = totalCount
+            self.totalSizeInBytes = totalSizeInBytes
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.SensitivityInspectionTemplateExcludes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedDataIdentifierIds = "managedDataIdentifierIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let managedDataIdentifierIds = managedDataIdentifierIds {
+            var managedDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedDataIdentifierIds)
+            for __listof__string0 in managedDataIdentifierIds {
+                try managedDataIdentifierIdsContainer.encode(__listof__string0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let managedDataIdentifierIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .managedDataIdentifierIds)
+        var managedDataIdentifierIdsDecoded0:[Swift.String]? = nil
+        if let managedDataIdentifierIdsContainer = managedDataIdentifierIdsContainer {
+            managedDataIdentifierIdsDecoded0 = [Swift.String]()
+            for string0 in managedDataIdentifierIdsContainer {
+                if let string0 = string0 {
+                    managedDataIdentifierIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        managedDataIdentifierIds = managedDataIdentifierIdsDecoded0
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies managed data identifiers to exclude (not use) when performing automated sensitive data discovery for an Amazon Macie account. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
+    public struct SensitivityInspectionTemplateExcludes: Swift.Equatable {
+        /// An array of unique identifiers, one for each managed data identifier to exclude. To retrieve a list of valid values, use the ListManagedDataIdentifiers operation.
+        public var managedDataIdentifierIds: [Swift.String]?
+
+        public init (
+            managedDataIdentifierIds: [Swift.String]? = nil
+        )
+        {
+            self.managedDataIdentifierIds = managedDataIdentifierIds
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.SensitivityInspectionTemplateIncludes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowListIds = "allowListIds"
+        case customDataIdentifierIds = "customDataIdentifierIds"
+        case managedDataIdentifierIds = "managedDataIdentifierIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowListIds = allowListIds {
+            var allowListIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowListIds)
+            for __listof__string0 in allowListIds {
+                try allowListIdsContainer.encode(__listof__string0)
+            }
+        }
+        if let customDataIdentifierIds = customDataIdentifierIds {
+            var customDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDataIdentifierIds)
+            for __listof__string0 in customDataIdentifierIds {
+                try customDataIdentifierIdsContainer.encode(__listof__string0)
+            }
+        }
+        if let managedDataIdentifierIds = managedDataIdentifierIds {
+            var managedDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedDataIdentifierIds)
+            for __listof__string0 in managedDataIdentifierIds {
+                try managedDataIdentifierIdsContainer.encode(__listof__string0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowListIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowListIds)
+        var allowListIdsDecoded0:[Swift.String]? = nil
+        if let allowListIdsContainer = allowListIdsContainer {
+            allowListIdsDecoded0 = [Swift.String]()
+            for string0 in allowListIdsContainer {
+                if let string0 = string0 {
+                    allowListIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowListIds = allowListIdsDecoded0
+        let customDataIdentifierIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .customDataIdentifierIds)
+        var customDataIdentifierIdsDecoded0:[Swift.String]? = nil
+        if let customDataIdentifierIdsContainer = customDataIdentifierIdsContainer {
+            customDataIdentifierIdsDecoded0 = [Swift.String]()
+            for string0 in customDataIdentifierIdsContainer {
+                if let string0 = string0 {
+                    customDataIdentifierIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        customDataIdentifierIds = customDataIdentifierIdsDecoded0
+        let managedDataIdentifierIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .managedDataIdentifierIds)
+        var managedDataIdentifierIdsDecoded0:[Swift.String]? = nil
+        if let managedDataIdentifierIdsContainer = managedDataIdentifierIdsContainer {
+            managedDataIdentifierIdsDecoded0 = [Swift.String]()
+            for string0 in managedDataIdentifierIdsContainer {
+                if let string0 = string0 {
+                    managedDataIdentifierIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        managedDataIdentifierIds = managedDataIdentifierIdsDecoded0
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies the allow lists, custom data identifiers, and managed data identifiers to include (use) when performing automated sensitive data discovery for an Amazon Macie account. The configuration must specify at least one custom data identifier or managed data identifier. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
+    public struct SensitivityInspectionTemplateIncludes: Swift.Equatable {
+        /// An array of unique identifiers, one for each allow list to include.
+        public var allowListIds: [Swift.String]?
+        /// An array of unique identifiers, one for each custom data identifier to include.
+        public var customDataIdentifierIds: [Swift.String]?
+        /// An array of unique identifiers, one for each managed data identifier to include. Amazon Macie uses these managed data identifiers in addition to managed data identifiers that are subsequently released and recommended for automated sensitive data discovery. To retrieve a list of valid values for the managed data identifiers that are currently available, use the ListManagedDataIdentifiers operation.
+        public var managedDataIdentifierIds: [Swift.String]?
+
+        public init (
+            allowListIds: [Swift.String]? = nil,
+            customDataIdentifierIds: [Swift.String]? = nil,
+            managedDataIdentifierIds: [Swift.String]? = nil
+        )
+        {
+            self.allowListIds = allowListIds
+            self.customDataIdentifierIds = customDataIdentifierIds
+            self.managedDataIdentifierIds = managedDataIdentifierIds
+        }
+    }
+
+}
+
+extension Macie2ClientTypes.SensitivityInspectionTemplatesEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "id"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides information about the sensitivity inspection template for an Amazon Macie account. Macie uses the template's settings when it performs automated sensitive data discovery for the account.
+    public struct SensitivityInspectionTemplatesEntry: Swift.Equatable {
+        /// The unique identifier for the sensitivity inspection template for the account.
+        public var id: Swift.String?
+        /// The name of the sensitivity inspection template for the account.
+        public var name: Swift.String?
+
+        public init (
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.id = id
+            self.name = name
+        }
+    }
+
 }
 
 extension Macie2ClientTypes.ServerSideEncryption: Swift.Codable {
@@ -16975,6 +19057,51 @@ extension Macie2ClientTypes {
             self = StorageClass(rawValue: rawValue) ?? StorageClass.sdkUnknown(rawValue)
         }
     }
+}
+
+extension Macie2ClientTypes.SuppressDataIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "id"
+        case type = "type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.DataIdentifierType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to start excluding or including in an S3 bucket's sensitivity score.
+    public struct SuppressDataIdentifier: Swift.Equatable {
+        /// The unique identifier for the custom data identifier or managed data identifier that detected the type of sensitive data to exclude or include in the score.
+        public var id: Swift.String?
+        /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
+        public var type: Macie2ClientTypes.DataIdentifierType?
+
+        public init (
+            id: Swift.String? = nil,
+            type: Macie2ClientTypes.DataIdentifierType? = nil
+        )
+        {
+            self.id = id
+            self.type = type
+        }
+    }
+
 }
 
 extension Macie2ClientTypes.TagCriterionForJob: Swift.Codable {
@@ -18081,6 +20208,92 @@ extension UpdateAllowListOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateAutomatedDiscoveryConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+}
+
+extension UpdateAutomatedDiscoveryConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/automated-discovery/configuration"
+    }
+}
+
+public struct UpdateAutomatedDiscoveryConfigurationInput: Swift.Equatable {
+    /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, start or resume automated sensitive data discovery activities for the account; and, DISABLED, stop performing automated sensitive data discovery activities for the account. When you enable automated sensitive data discovery for the first time, Amazon Macie uses default configuration settings to determine which data sources to analyze and which managed data identifiers to use. To change these settings, use the UpdateClassificationScope and UpdateSensitivityInspectionTemplate operations, respectively. If you change the settings and subsequently disable the configuration, Amazon Macie retains your changes.
+    /// This member is required.
+    public var status: Macie2ClientTypes.AutomatedDiscoveryStatus?
+
+    public init (
+        status: Macie2ClientTypes.AutomatedDiscoveryStatus? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct UpdateAutomatedDiscoveryConfigurationInputBody: Swift.Equatable {
+    let status: Macie2ClientTypes.AutomatedDiscoveryStatus?
+}
+
+extension UpdateAutomatedDiscoveryConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.AutomatedDiscoveryStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension UpdateAutomatedDiscoveryConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateAutomatedDiscoveryConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateAutomatedDiscoveryConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateAutomatedDiscoveryConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateAutomatedDiscoveryConfigurationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateClassificationJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobStatus = "jobStatus"
@@ -18187,6 +20400,101 @@ public struct UpdateClassificationJobOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateClassificationScopeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3 = "s3"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3 = self.s3 {
+            try encodeContainer.encode(s3, forKey: .s3)
+        }
+    }
+}
+
+extension UpdateClassificationScopeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/classification-scopes/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateClassificationScopeInput: Swift.Equatable {
+    /// The unique identifier for the Amazon Macie resource that the request applies to.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The S3 buckets to add or remove from the exclusion list defined by the classification scope.
+    public var s3: Macie2ClientTypes.S3ClassificationScopeUpdate?
+
+    public init (
+        id: Swift.String? = nil,
+        s3: Macie2ClientTypes.S3ClassificationScopeUpdate? = nil
+    )
+    {
+        self.id = id
+        self.s3 = s3
+    }
+}
+
+struct UpdateClassificationScopeInputBody: Swift.Equatable {
+    let s3: Macie2ClientTypes.S3ClassificationScopeUpdate?
+}
+
+extension UpdateClassificationScopeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3 = "s3"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3Decoded = try containerValues.decodeIfPresent(Macie2ClientTypes.S3ClassificationScopeUpdate.self, forKey: .s3)
+        s3 = s3Decoded
+    }
+}
+
+extension UpdateClassificationScopeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateClassificationScopeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateClassificationScopeOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateClassificationScopeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateClassificationScopeOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateFindingsFilterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action = "action"
@@ -18230,7 +20538,7 @@ extension UpdateFindingsFilterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFindingsFilterInput: Swift.Equatable {
-    /// The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
+    /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
     public var action: Macie2ClientTypes.FindingsFilterAction?
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
@@ -18268,11 +20576,11 @@ public struct UpdateFindingsFilterInput: Swift.Equatable {
 
 struct UpdateFindingsFilterInputBody: Swift.Equatable {
     let action: Macie2ClientTypes.FindingsFilterAction?
+    let clientToken: Swift.String?
     let description: Swift.String?
     let findingCriteria: Macie2ClientTypes.FindingCriteria?
     let name: Swift.String?
     let position: Swift.Int?
-    let clientToken: Swift.String?
 }
 
 extension UpdateFindingsFilterInputBody: Swift.Decodable {
@@ -18289,6 +20597,8 @@ extension UpdateFindingsFilterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.FindingsFilterAction.self, forKey: .action)
         action = actionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let findingCriteriaDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.FindingCriteria.self, forKey: .findingCriteria)
@@ -18297,8 +20607,6 @@ extension UpdateFindingsFilterInputBody: Swift.Decodable {
         name = nameDecoded
         let positionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .position)
         position = positionDecoded
-        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
-        clientToken = clientTokenDecoded
     }
 }
 
@@ -18682,6 +20990,236 @@ public struct UpdateOrganizationConfigurationOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateResourceProfileDetectionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case suppressDataIdentifiers = "suppressDataIdentifiers"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let suppressDataIdentifiers = suppressDataIdentifiers {
+            var suppressDataIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suppressDataIdentifiers)
+            for __listofsuppressdataidentifier0 in suppressDataIdentifiers {
+                try suppressDataIdentifiersContainer.encode(__listofsuppressdataidentifier0)
+            }
+        }
+    }
+}
+
+extension UpdateResourceProfileDetectionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension UpdateResourceProfileDetectionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/resource-profiles/detections"
+    }
+}
+
+public struct UpdateResourceProfileDetectionsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// An array of objects, one for each custom data identifier or managed data identifier that detected the type of sensitive data to start excluding or including in the bucket's score. To start including all sensitive data types in the score, don't specify any values for this array.
+    public var suppressDataIdentifiers: [Macie2ClientTypes.SuppressDataIdentifier]?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        suppressDataIdentifiers: [Macie2ClientTypes.SuppressDataIdentifier]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.suppressDataIdentifiers = suppressDataIdentifiers
+    }
+}
+
+struct UpdateResourceProfileDetectionsInputBody: Swift.Equatable {
+    let suppressDataIdentifiers: [Macie2ClientTypes.SuppressDataIdentifier]?
+}
+
+extension UpdateResourceProfileDetectionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case suppressDataIdentifiers = "suppressDataIdentifiers"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let suppressDataIdentifiersContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.SuppressDataIdentifier?].self, forKey: .suppressDataIdentifiers)
+        var suppressDataIdentifiersDecoded0:[Macie2ClientTypes.SuppressDataIdentifier]? = nil
+        if let suppressDataIdentifiersContainer = suppressDataIdentifiersContainer {
+            suppressDataIdentifiersDecoded0 = [Macie2ClientTypes.SuppressDataIdentifier]()
+            for structure0 in suppressDataIdentifiersContainer {
+                if let structure0 = structure0 {
+                    suppressDataIdentifiersDecoded0?.append(structure0)
+                }
+            }
+        }
+        suppressDataIdentifiers = suppressDataIdentifiersDecoded0
+    }
+}
+
+extension UpdateResourceProfileDetectionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateResourceProfileDetectionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateResourceProfileDetectionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateResourceProfileDetectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateResourceProfileDetectionsOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension UpdateResourceProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sensitivityScoreOverride = "sensitivityScoreOverride"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sensitivityScoreOverride = self.sensitivityScoreOverride {
+            try encodeContainer.encode(sensitivityScoreOverride, forKey: .sensitivityScoreOverride)
+        }
+    }
+}
+
+extension UpdateResourceProfileInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension UpdateResourceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/resource-profiles"
+    }
+}
+
+public struct UpdateResourceProfileInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The new sensitivity score for the bucket. Valid values are: 100, assign the maximum score and apply the Sensitive label to the bucket; and, null (empty), assign a score that Amazon Macie calculates automatically after you submit the request.
+    public var sensitivityScoreOverride: Swift.Int?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        sensitivityScoreOverride: Swift.Int? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sensitivityScoreOverride = sensitivityScoreOverride
+    }
+}
+
+struct UpdateResourceProfileInputBody: Swift.Equatable {
+    let sensitivityScoreOverride: Swift.Int?
+}
+
+extension UpdateResourceProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sensitivityScoreOverride = "sensitivityScoreOverride"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sensitivityScoreOverrideDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sensitivityScoreOverride)
+        sensitivityScoreOverride = sensitivityScoreOverrideDecoded
+    }
+}
+
+extension UpdateResourceProfileOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateResourceProfileOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateResourceProfileOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateResourceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateResourceProfileOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateRevealConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "configuration"
@@ -18799,6 +21337,125 @@ extension UpdateRevealConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateSensitivityInspectionTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case excludes = "excludes"
+        case includes = "includes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let excludes = self.excludes {
+            try encodeContainer.encode(excludes, forKey: .excludes)
+        }
+        if let includes = self.includes {
+            try encodeContainer.encode(includes, forKey: .includes)
+        }
+    }
+}
+
+extension UpdateSensitivityInspectionTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/templates/sensitivity-inspections/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateSensitivityInspectionTemplateInput: Swift.Equatable {
+    /// A custom description of the template.
+    public var description: Swift.String?
+    /// The managed data identifiers to explicitly exclude (not use) when analyzing data. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
+    public var excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
+    /// The unique identifier for the Amazon Macie resource that the request applies to.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The allow lists, custom data identifiers, and managed data identifiers to include (use) when analyzing data.
+    public var includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
+
+    public init (
+        description: Swift.String? = nil,
+        excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes? = nil,
+        id: Swift.String? = nil,
+        includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes? = nil
+    )
+    {
+        self.description = description
+        self.excludes = excludes
+        self.id = id
+        self.includes = includes
+    }
+}
+
+struct UpdateSensitivityInspectionTemplateInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
+    let includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
+}
+
+extension UpdateSensitivityInspectionTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case excludes = "excludes"
+        case includes = "includes"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let excludesDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityInspectionTemplateExcludes.self, forKey: .excludes)
+        excludes = excludesDecoded
+        let includesDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.SensitivityInspectionTemplateIncludes.self, forKey: .includes)
+        includes = includesDecoded
+    }
+}
+
+extension UpdateSensitivityInspectionTemplateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateSensitivityInspectionTemplateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateSensitivityInspectionTemplateOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateSensitivityInspectionTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateSensitivityInspectionTemplateOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension Macie2ClientTypes.UsageByAccount: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currency = "currency"
@@ -18845,7 +21502,7 @@ extension Macie2ClientTypes {
         public var estimatedCost: Swift.String?
         /// The current value for the quota that corresponds to the metric specified by the type field.
         public var serviceLimit: Macie2ClientTypes.ServiceLimit?
-        /// The name of the metric. Possible values are: DATA_INVENTORY_EVALUATION, for monitoring S3 buckets; and, SENSITIVE_DATA_DISCOVERY, for analyzing S3 objects to detect sensitive data.
+        /// The name of the metric. Possible values are: AUTOMATED_OBJECT_MONITORING, to monitor S3 objects for automated sensitive data discovery; AUTOMATED_SENSITIVE_DATA_DISCOVERY, to analyze S3 objects for automated sensitive data discovery; DATA_INVENTORY_EVALUATION, to monitor S3 buckets; and, SENSITIVE_DATA_DISCOVERY, to run classification jobs.
         public var type: Macie2ClientTypes.UsageType?
 
         public init (
@@ -18867,6 +21524,7 @@ extension Macie2ClientTypes {
 extension Macie2ClientTypes.UsageRecord: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "accountId"
+        case automatedDiscoveryFreeTrialStartDate = "automatedDiscoveryFreeTrialStartDate"
         case freeTrialStartDate = "freeTrialStartDate"
         case usage = "usage"
     }
@@ -18875,6 +21533,9 @@ extension Macie2ClientTypes.UsageRecord: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let automatedDiscoveryFreeTrialStartDate = self.automatedDiscoveryFreeTrialStartDate {
+            try encodeContainer.encodeTimestamp(automatedDiscoveryFreeTrialStartDate, format: .dateTime, forKey: .automatedDiscoveryFreeTrialStartDate)
         }
         if let freeTrialStartDate = self.freeTrialStartDate {
             try encodeContainer.encodeTimestamp(freeTrialStartDate, format: .dateTime, forKey: .freeTrialStartDate)
@@ -18891,6 +21552,8 @@ extension Macie2ClientTypes.UsageRecord: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
+        let automatedDiscoveryFreeTrialStartDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .automatedDiscoveryFreeTrialStartDate)
+        automatedDiscoveryFreeTrialStartDate = automatedDiscoveryFreeTrialStartDateDecoded
         let freeTrialStartDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .freeTrialStartDate)
         freeTrialStartDate = freeTrialStartDateDecoded
         let usageContainer = try containerValues.decodeIfPresent([Macie2ClientTypes.UsageByAccount?].self, forKey: .usage)
@@ -18912,18 +21575,22 @@ extension Macie2ClientTypes {
     public struct UsageRecord: Swift.Equatable {
         /// The unique identifier for the Amazon Web Services account that the data applies to.
         public var accountId: Swift.String?
-        /// The date and time, in UTC and extended ISO 8601 format, when the free trial started for the account.
+        /// The date and time, in UTC and extended ISO 8601 format, when the free trial of automated sensitive data discovery started for the account. If the account is a member account in an organization, this value is the same as the value for the organization's Amazon Macie administrator account.
+        public var automatedDiscoveryFreeTrialStartDate: ClientRuntime.Date?
+        /// The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie free trial started for the account.
         public var freeTrialStartDate: ClientRuntime.Date?
         /// An array of objects that contains usage data and quotas for the account. Each object contains the data for a specific usage metric and the corresponding quota.
         public var usage: [Macie2ClientTypes.UsageByAccount]?
 
         public init (
             accountId: Swift.String? = nil,
+            automatedDiscoveryFreeTrialStartDate: ClientRuntime.Date? = nil,
             freeTrialStartDate: ClientRuntime.Date? = nil,
             usage: [Macie2ClientTypes.UsageByAccount]? = nil
         )
         {
             self.accountId = accountId
+            self.automatedDiscoveryFreeTrialStartDate = automatedDiscoveryFreeTrialStartDate
             self.freeTrialStartDate = freeTrialStartDate
             self.usage = usage
         }
@@ -18985,7 +21652,7 @@ extension Macie2ClientTypes {
         ///
         /// * accountId - The unique identifier for an Amazon Web Services account.
         ///
-        /// * freeTrialStartDate - The date and time, in UTC and extended ISO 8601 format, when the free trial started for an account.
+        /// * freeTrialStartDate - The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie free trial started for an account.
         ///
         /// * serviceLimit - A Boolean (true or false) value that indicates whether an account has reached its monthly quota.
         ///
@@ -19215,7 +21882,7 @@ extension Macie2ClientTypes {
         public var currency: Macie2ClientTypes.Currency?
         /// The estimated value for the metric.
         public var estimatedCost: Swift.String?
-        /// The name of the metric. Possible values are: DATA_INVENTORY_EVALUATION, for monitoring S3 buckets; and, SENSITIVE_DATA_DISCOVERY, for analyzing S3 objects to detect sensitive data.
+        /// The name of the metric. Possible values are: AUTOMATED_OBJECT_MONITORING, to monitor S3 objects for automated sensitive data discovery; AUTOMATED_SENSITIVE_DATA_DISCOVERY, to analyze S3 objects for automated sensitive data discovery; DATA_INVENTORY_EVALUATION, to monitor S3 buckets; and, SENSITIVE_DATA_DISCOVERY, to run classification jobs.
         public var type: Macie2ClientTypes.UsageType?
 
         public init (
@@ -19235,12 +21902,16 @@ extension Macie2ClientTypes {
 extension Macie2ClientTypes {
     /// The name of an Amazon Macie usage metric for an account. Possible values are:
     public enum UsageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automatedObjectMonitoring
+        case automatedSensitiveDataDiscovery
         case dataInventoryEvaluation
         case sensitiveDataDiscovery
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UsageType] {
             return [
+                .automatedObjectMonitoring,
+                .automatedSensitiveDataDiscovery,
                 .dataInventoryEvaluation,
                 .sensitiveDataDiscovery,
                 .sdkUnknown("")
@@ -19252,6 +21923,8 @@ extension Macie2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .automatedObjectMonitoring: return "AUTOMATED_OBJECT_MONITORING"
+            case .automatedSensitiveDataDiscovery: return "AUTOMATED_SENSITIVE_DATA_DISCOVERY"
             case .dataInventoryEvaluation: return "DATA_INVENTORY_EVALUATION"
             case .sensitiveDataDiscovery: return "SENSITIVE_DATA_DISCOVERY"
             case let .sdkUnknown(s): return s

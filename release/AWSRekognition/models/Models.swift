@@ -677,7 +677,7 @@ extension RekognitionClientTypes {
     public struct CelebrityRecognition: Swift.Equatable {
         /// Information about a recognized celebrity.
         public var celebrity: RekognitionClientTypes.CelebrityDetail?
-        /// The time, in milliseconds from the start of the video, that the celebrity was recognized.
+        /// The time, in milliseconds from the start of the video, that the celebrity was recognized. Note that Timestamp is not guaranteed to be accurate to the individual frame where the celebrity first appears.
         public var timestamp: Swift.Int
 
         public init (
@@ -1330,7 +1330,7 @@ extension RekognitionClientTypes {
     public struct ContentModerationDetection: Swift.Equatable {
         /// The content moderation label detected by in the stored video.
         public var moderationLabel: RekognitionClientTypes.ModerationLabel?
-        /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected.
+        /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the moderated content first appears.
         public var timestamp: Swift.Int
 
         public init (
@@ -5111,9 +5111,9 @@ extension DetectFacesInputBody: Swift.Decodable {
         var attributesDecoded0:[RekognitionClientTypes.Attribute]? = nil
         if let attributesContainer = attributesContainer {
             attributesDecoded0 = [RekognitionClientTypes.Attribute]()
-            for string0 in attributesContainer {
-                if let string0 = string0 {
-                    attributesDecoded0?.append(string0)
+            for enum0 in attributesContainer {
+                if let enum0 = enum0 {
+                    attributesDecoded0?.append(enum0)
                 }
             }
         }
@@ -5217,15 +5217,336 @@ extension DetectFacesOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension DetectLabelsInput: Swift.Encodable {
+extension RekognitionClientTypes {
+    public enum DetectLabelsFeatureName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case generalLabels
+        case imageProperties
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectLabelsFeatureName] {
+            return [
+                .generalLabels,
+                .imageProperties,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .generalLabels: return "GENERAL_LABELS"
+            case .imageProperties: return "IMAGE_PROPERTIES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DetectLabelsFeatureName(rawValue: rawValue) ?? DetectLabelsFeatureName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RekognitionClientTypes.DetectLabelsImageBackground: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case image = "Image"
-        case maxLabels = "MaxLabels"
-        case minConfidence = "MinConfidence"
+        case dominantColors = "DominantColors"
+        case quality = "Quality"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dominantColors = dominantColors {
+            var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
+            for dominantcolors0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolors0)
+            }
+        }
+        if let quality = self.quality {
+            try encodeContainer.encode(quality, forKey: .quality)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let qualityDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsImageQuality.self, forKey: .quality)
+        quality = qualityDecoded
+        let dominantColorsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.DominantColor?].self, forKey: .dominantColors)
+        var dominantColorsDecoded0:[RekognitionClientTypes.DominantColor]? = nil
+        if let dominantColorsContainer = dominantColorsContainer {
+            dominantColorsDecoded0 = [RekognitionClientTypes.DominantColor]()
+            for structure0 in dominantColorsContainer {
+                if let structure0 = structure0 {
+                    dominantColorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dominantColors = dominantColorsDecoded0
+    }
+}
+
+extension RekognitionClientTypes {
+    /// The background of the image with regard to image quality and dominant colors.
+    public struct DetectLabelsImageBackground: Swift.Equatable {
+        /// The dominant colors found in the background of an image, defined with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
+        public var dominantColors: [RekognitionClientTypes.DominantColor]?
+        /// The quality of the image background as defined by brightness and sharpness.
+        public var quality: RekognitionClientTypes.DetectLabelsImageQuality?
+
+        public init (
+            dominantColors: [RekognitionClientTypes.DominantColor]? = nil,
+            quality: RekognitionClientTypes.DetectLabelsImageQuality? = nil
+        )
+        {
+            self.dominantColors = dominantColors
+            self.quality = quality
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.DetectLabelsImageForeground: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dominantColors = "DominantColors"
+        case quality = "Quality"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dominantColors = dominantColors {
+            var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
+            for dominantcolors0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolors0)
+            }
+        }
+        if let quality = self.quality {
+            try encodeContainer.encode(quality, forKey: .quality)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let qualityDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsImageQuality.self, forKey: .quality)
+        quality = qualityDecoded
+        let dominantColorsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.DominantColor?].self, forKey: .dominantColors)
+        var dominantColorsDecoded0:[RekognitionClientTypes.DominantColor]? = nil
+        if let dominantColorsContainer = dominantColorsContainer {
+            dominantColorsDecoded0 = [RekognitionClientTypes.DominantColor]()
+            for structure0 in dominantColorsContainer {
+                if let structure0 = structure0 {
+                    dominantColorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dominantColors = dominantColorsDecoded0
+    }
+}
+
+extension RekognitionClientTypes {
+    /// The foreground of the image with regard to image quality and dominant colors.
+    public struct DetectLabelsImageForeground: Swift.Equatable {
+        /// The dominant colors found in the foreground of an image, defined with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
+        public var dominantColors: [RekognitionClientTypes.DominantColor]?
+        /// The quality of the image foreground as defined by brightness and sharpness.
+        public var quality: RekognitionClientTypes.DetectLabelsImageQuality?
+
+        public init (
+            dominantColors: [RekognitionClientTypes.DominantColor]? = nil,
+            quality: RekognitionClientTypes.DetectLabelsImageQuality? = nil
+        )
+        {
+            self.dominantColors = dominantColors
+            self.quality = quality
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.DetectLabelsImageProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case background = "Background"
+        case dominantColors = "DominantColors"
+        case foreground = "Foreground"
+        case quality = "Quality"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let background = self.background {
+            try encodeContainer.encode(background, forKey: .background)
+        }
+        if let dominantColors = dominantColors {
+            var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
+            for dominantcolors0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolors0)
+            }
+        }
+        if let foreground = self.foreground {
+            try encodeContainer.encode(foreground, forKey: .foreground)
+        }
+        if let quality = self.quality {
+            try encodeContainer.encode(quality, forKey: .quality)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let qualityDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsImageQuality.self, forKey: .quality)
+        quality = qualityDecoded
+        let dominantColorsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.DominantColor?].self, forKey: .dominantColors)
+        var dominantColorsDecoded0:[RekognitionClientTypes.DominantColor]? = nil
+        if let dominantColorsContainer = dominantColorsContainer {
+            dominantColorsDecoded0 = [RekognitionClientTypes.DominantColor]()
+            for structure0 in dominantColorsContainer {
+                if let structure0 = structure0 {
+                    dominantColorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dominantColors = dominantColorsDecoded0
+        let foregroundDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsImageForeground.self, forKey: .foreground)
+        foreground = foregroundDecoded
+        let backgroundDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsImageBackground.self, forKey: .background)
+        background = backgroundDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Information about the quality and dominant colors of an input image. Quality and color information is returned for the entire image, foreground, and background.
+    public struct DetectLabelsImageProperties: Swift.Equatable {
+        /// Information about the properties of an image’s background, including the background’s quality and dominant colors, including the quality and dominant colors of the image.
+        public var background: RekognitionClientTypes.DetectLabelsImageBackground?
+        /// Information about the dominant colors found in an image, described with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
+        public var dominantColors: [RekognitionClientTypes.DominantColor]?
+        /// Information about the properties of an image’s foreground, including the foreground’s quality and dominant colors, including the quality and dominant colors of the image.
+        public var foreground: RekognitionClientTypes.DetectLabelsImageForeground?
+        /// Information about the quality of the image foreground as defined by brightness, sharpness, and contrast. The higher the value the greater the brightness, sharpness, and contrast respectively.
+        public var quality: RekognitionClientTypes.DetectLabelsImageQuality?
+
+        public init (
+            background: RekognitionClientTypes.DetectLabelsImageBackground? = nil,
+            dominantColors: [RekognitionClientTypes.DominantColor]? = nil,
+            foreground: RekognitionClientTypes.DetectLabelsImageForeground? = nil,
+            quality: RekognitionClientTypes.DetectLabelsImageQuality? = nil
+        )
+        {
+            self.background = background
+            self.dominantColors = dominantColors
+            self.foreground = foreground
+            self.quality = quality
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.DetectLabelsImagePropertiesSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxDominantColors = "MaxDominantColors"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if maxDominantColors != 0 {
+            try encodeContainer.encode(maxDominantColors, forKey: .maxDominantColors)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDominantColorsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxDominantColors) ?? 0
+        maxDominantColors = maxDominantColorsDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Settings for the IMAGE_PROPERTIES feature type.
+    public struct DetectLabelsImagePropertiesSettings: Swift.Equatable {
+        /// The maximum number of dominant colors to return when detecting labels in an image. The default value is 10.
+        public var maxDominantColors: Swift.Int
+
+        public init (
+            maxDominantColors: Swift.Int = 0
+        )
+        {
+            self.maxDominantColors = maxDominantColors
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.DetectLabelsImageQuality: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case brightness = "Brightness"
+        case contrast = "Contrast"
+        case sharpness = "Sharpness"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let brightness = self.brightness {
+            try encodeContainer.encode(brightness, forKey: .brightness)
+        }
+        if let contrast = self.contrast {
+            try encodeContainer.encode(contrast, forKey: .contrast)
+        }
+        if let sharpness = self.sharpness {
+            try encodeContainer.encode(sharpness, forKey: .sharpness)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let brightnessDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .brightness)
+        brightness = brightnessDecoded
+        let sharpnessDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .sharpness)
+        sharpness = sharpnessDecoded
+        let contrastDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .contrast)
+        contrast = contrastDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// The quality of an image provided for label detection, with regard to brightness, sharpness, and contrast.
+    public struct DetectLabelsImageQuality: Swift.Equatable {
+        /// The brightness of an image provided for label detection.
+        public var brightness: Swift.Float?
+        /// The contrast of an image provided for label detection.
+        public var contrast: Swift.Float?
+        /// The sharpness of an image provided for label detection.
+        public var sharpness: Swift.Float?
+
+        public init (
+            brightness: Swift.Float? = nil,
+            contrast: Swift.Float? = nil,
+            sharpness: Swift.Float? = nil
+        )
+        {
+            self.brightness = brightness
+            self.contrast = contrast
+            self.sharpness = sharpness
+        }
+    }
+
+}
+
+extension DetectLabelsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case features = "Features"
+        case image = "Image"
+        case maxLabels = "MaxLabels"
+        case minConfidence = "MinConfidence"
+        case settings = "Settings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for detectlabelsfeaturelist0 in features {
+                try featuresContainer.encode(detectlabelsfeaturelist0.rawValue)
+            }
+        }
         if let image = self.image {
             try encodeContainer.encode(image, forKey: .image)
         }
@@ -5234,6 +5555,9 @@ extension DetectLabelsInput: Swift.Encodable {
         }
         if let minConfidence = self.minConfidence {
             try encodeContainer.encode(minConfidence, forKey: .minConfidence)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
         }
     }
 }
@@ -5245,6 +5569,8 @@ extension DetectLabelsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DetectLabelsInput: Swift.Equatable {
+    /// A list of the types of analysis to perform. Specifying GENERAL_LABELS uses the label detection feature, while specifying IMAGE_PROPERTIES returns information regarding image color and quality. If no option is specified GENERAL_LABELS is used by default.
+    public var features: [RekognitionClientTypes.DetectLabelsFeatureName]?
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
     /// This member is required.
     public var image: RekognitionClientTypes.Image?
@@ -5252,16 +5578,22 @@ public struct DetectLabelsInput: Swift.Equatable {
     public var maxLabels: Swift.Int?
     /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
     public var minConfidence: Swift.Float?
+    /// A list of the filters to be applied to returned detected labels and image properties. Specified filters can be inclusive, exclusive, or a combination of both. Filters can be used for individual labels or label categories. The exact label names or label categories must be supplied. For a full list of labels and label categories, see LINK HERE.
+    public var settings: RekognitionClientTypes.DetectLabelsSettings?
 
     public init (
+        features: [RekognitionClientTypes.DetectLabelsFeatureName]? = nil,
         image: RekognitionClientTypes.Image? = nil,
         maxLabels: Swift.Int? = nil,
-        minConfidence: Swift.Float? = nil
+        minConfidence: Swift.Float? = nil,
+        settings: RekognitionClientTypes.DetectLabelsSettings? = nil
     )
     {
+        self.features = features
         self.image = image
         self.maxLabels = maxLabels
         self.minConfidence = minConfidence
+        self.settings = settings
     }
 }
 
@@ -5269,13 +5601,17 @@ struct DetectLabelsInputBody: Swift.Equatable {
     let image: RekognitionClientTypes.Image?
     let maxLabels: Swift.Int?
     let minConfidence: Swift.Float?
+    let features: [RekognitionClientTypes.DetectLabelsFeatureName]?
+    let settings: RekognitionClientTypes.DetectLabelsSettings?
 }
 
 extension DetectLabelsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case features = "Features"
         case image = "Image"
         case maxLabels = "MaxLabels"
         case minConfidence = "MinConfidence"
+        case settings = "Settings"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -5286,6 +5622,19 @@ extension DetectLabelsInputBody: Swift.Decodable {
         maxLabels = maxLabelsDecoded
         let minConfidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .minConfidence)
         minConfidence = minConfidenceDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.DetectLabelsFeatureName?].self, forKey: .features)
+        var featuresDecoded0:[RekognitionClientTypes.DetectLabelsFeatureName]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [RekognitionClientTypes.DetectLabelsFeatureName]()
+            for enum0 in featuresContainer {
+                if let enum0 = enum0 {
+                    featuresDecoded0?.append(enum0)
+                }
+            }
+        }
+        features = featuresDecoded0
+        let settingsDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsSettings.self, forKey: .settings)
+        settings = settingsDecoded
     }
 }
 
@@ -5331,10 +5680,12 @@ extension DetectLabelsOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: DetectLabelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.imageProperties = output.imageProperties
             self.labelModelVersion = output.labelModelVersion
             self.labels = output.labels
             self.orientationCorrection = output.orientationCorrection
         } else {
+            self.imageProperties = nil
             self.labelModelVersion = nil
             self.labels = nil
             self.orientationCorrection = nil
@@ -5343,6 +5694,8 @@ extension DetectLabelsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DetectLabelsOutputResponse: Swift.Equatable {
+    /// Information about the properties of the input image, such as brightness, sharpness, contrast, and dominant colors.
+    public var imageProperties: RekognitionClientTypes.DetectLabelsImageProperties?
     /// Version number of the label detection model that was used to detect labels.
     public var labelModelVersion: Swift.String?
     /// An array of labels for the real-world objects detected.
@@ -5351,11 +5704,13 @@ public struct DetectLabelsOutputResponse: Swift.Equatable {
     public var orientationCorrection: RekognitionClientTypes.OrientationCorrection?
 
     public init (
+        imageProperties: RekognitionClientTypes.DetectLabelsImageProperties? = nil,
         labelModelVersion: Swift.String? = nil,
         labels: [RekognitionClientTypes.Label]? = nil,
         orientationCorrection: RekognitionClientTypes.OrientationCorrection? = nil
     )
     {
+        self.imageProperties = imageProperties
         self.labelModelVersion = labelModelVersion
         self.labels = labels
         self.orientationCorrection = orientationCorrection
@@ -5366,10 +5721,12 @@ struct DetectLabelsOutputResponseBody: Swift.Equatable {
     let labels: [RekognitionClientTypes.Label]?
     let orientationCorrection: RekognitionClientTypes.OrientationCorrection?
     let labelModelVersion: Swift.String?
+    let imageProperties: RekognitionClientTypes.DetectLabelsImageProperties?
 }
 
 extension DetectLabelsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageProperties = "ImageProperties"
         case labelModelVersion = "LabelModelVersion"
         case labels = "Labels"
         case orientationCorrection = "OrientationCorrection"
@@ -5392,7 +5749,54 @@ extension DetectLabelsOutputResponseBody: Swift.Decodable {
         orientationCorrection = orientationCorrectionDecoded
         let labelModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .labelModelVersion)
         labelModelVersion = labelModelVersionDecoded
+        let imagePropertiesDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsImageProperties.self, forKey: .imageProperties)
+        imageProperties = imagePropertiesDecoded
     }
+}
+
+extension RekognitionClientTypes.DetectLabelsSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generalLabels = "GeneralLabels"
+        case imageProperties = "ImageProperties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let generalLabels = self.generalLabels {
+            try encodeContainer.encode(generalLabels, forKey: .generalLabels)
+        }
+        if let imageProperties = self.imageProperties {
+            try encodeContainer.encode(imageProperties, forKey: .imageProperties)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let generalLabelsDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.GeneralLabelsSettings.self, forKey: .generalLabels)
+        generalLabels = generalLabelsDecoded
+        let imagePropertiesDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.DetectLabelsImagePropertiesSettings.self, forKey: .imageProperties)
+        imageProperties = imagePropertiesDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Settings for the DetectLabels request. Settings can include filters for both GENERAL_LABELS and IMAGE_PROPERTIES. GENERAL_LABELS filters can be inclusive or exclusive and applied to individual labels or label categories. IMAGE_PROPERTIES filters allow specification of a maximum number of dominant colors.
+    public struct DetectLabelsSettings: Swift.Equatable {
+        /// Contains the specified filters for GENERAL_LABELS.
+        public var generalLabels: RekognitionClientTypes.GeneralLabelsSettings?
+        /// Contains the chosen number of maximum dominant colors in an image.
+        public var imageProperties: RekognitionClientTypes.DetectLabelsImagePropertiesSettings?
+
+        public init (
+            generalLabels: RekognitionClientTypes.GeneralLabelsSettings? = nil,
+            imageProperties: RekognitionClientTypes.DetectLabelsImagePropertiesSettings? = nil
+        )
+        {
+            self.generalLabels = generalLabels
+            self.imageProperties = imageProperties
+        }
+    }
+
 }
 
 extension DetectModerationLabelsInput: Swift.Encodable {
@@ -6149,6 +6553,101 @@ public struct DistributeDatasetEntriesOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension RekognitionClientTypes.DominantColor: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blue = "Blue"
+        case cssColor = "CSSColor"
+        case green = "Green"
+        case hexCode = "HexCode"
+        case pixelPercent = "PixelPercent"
+        case red = "Red"
+        case simplifiedColor = "SimplifiedColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blue = self.blue {
+            try encodeContainer.encode(blue, forKey: .blue)
+        }
+        if let cssColor = self.cssColor {
+            try encodeContainer.encode(cssColor, forKey: .cssColor)
+        }
+        if let green = self.green {
+            try encodeContainer.encode(green, forKey: .green)
+        }
+        if let hexCode = self.hexCode {
+            try encodeContainer.encode(hexCode, forKey: .hexCode)
+        }
+        if let pixelPercent = self.pixelPercent {
+            try encodeContainer.encode(pixelPercent, forKey: .pixelPercent)
+        }
+        if let red = self.red {
+            try encodeContainer.encode(red, forKey: .red)
+        }
+        if let simplifiedColor = self.simplifiedColor {
+            try encodeContainer.encode(simplifiedColor, forKey: .simplifiedColor)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let redDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .red)
+        red = redDecoded
+        let blueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .blue)
+        blue = blueDecoded
+        let greenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .green)
+        green = greenDecoded
+        let hexCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hexCode)
+        hexCode = hexCodeDecoded
+        let cssColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cssColor)
+        cssColor = cssColorDecoded
+        let simplifiedColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .simplifiedColor)
+        simplifiedColor = simplifiedColorDecoded
+        let pixelPercentDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .pixelPercent)
+        pixelPercent = pixelPercentDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// A description of the dominant colors in an image.
+    public struct DominantColor: Swift.Equatable {
+        /// The Blue RGB value for a dominant color.
+        public var blue: Swift.Int?
+        /// The CSS color name of a dominant color.
+        public var cssColor: Swift.String?
+        /// The Green RGB value for a dominant color.
+        public var green: Swift.Int?
+        /// The Hex code equivalent of the RGB values for a dominant color.
+        public var hexCode: Swift.String?
+        /// The percentage of image pixels that have a given dominant color.
+        public var pixelPercent: Swift.Float?
+        /// The Red RGB value for a dominant color.
+        public var red: Swift.Int?
+        /// One of 12 simplified color names applied to a dominant color.
+        public var simplifiedColor: Swift.String?
+
+        public init (
+            blue: Swift.Int? = nil,
+            cssColor: Swift.String? = nil,
+            green: Swift.Int? = nil,
+            hexCode: Swift.String? = nil,
+            pixelPercent: Swift.Float? = nil,
+            red: Swift.Int? = nil,
+            simplifiedColor: Swift.String? = nil
+        )
+        {
+            self.blue = blue
+            self.cssColor = cssColor
+            self.green = green
+            self.hexCode = hexCode
+            self.pixelPercent = pixelPercent
+            self.red = red
+            self.simplifiedColor = simplifiedColor
+        }
+    }
+
+}
+
 extension RekognitionClientTypes.Emotion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case confidence = "Confidence"
@@ -6802,7 +7301,7 @@ extension RekognitionClientTypes {
     public struct FaceDetection: Swift.Equatable {
         /// The face properties for the detected face.
         public var face: RekognitionClientTypes.FaceDetail?
-        /// Time, in milliseconds from the start of the video, that the face was detected.
+        /// Time, in milliseconds from the start of the video, that the face was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the face first appears.
         public var timestamp: Swift.Int
 
         public init (
@@ -7059,6 +7558,119 @@ extension RekognitionClientTypes {
             self = GenderType(rawValue: rawValue) ?? GenderType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension RekognitionClientTypes.GeneralLabelsSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case labelCategoryExclusionFilters = "LabelCategoryExclusionFilters"
+        case labelCategoryInclusionFilters = "LabelCategoryInclusionFilters"
+        case labelExclusionFilters = "LabelExclusionFilters"
+        case labelInclusionFilters = "LabelInclusionFilters"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let labelCategoryExclusionFilters = labelCategoryExclusionFilters {
+            var labelCategoryExclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelCategoryExclusionFilters)
+            for generallabelsfilterlist0 in labelCategoryExclusionFilters {
+                try labelCategoryExclusionFiltersContainer.encode(generallabelsfilterlist0)
+            }
+        }
+        if let labelCategoryInclusionFilters = labelCategoryInclusionFilters {
+            var labelCategoryInclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelCategoryInclusionFilters)
+            for generallabelsfilterlist0 in labelCategoryInclusionFilters {
+                try labelCategoryInclusionFiltersContainer.encode(generallabelsfilterlist0)
+            }
+        }
+        if let labelExclusionFilters = labelExclusionFilters {
+            var labelExclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelExclusionFilters)
+            for generallabelsfilterlist0 in labelExclusionFilters {
+                try labelExclusionFiltersContainer.encode(generallabelsfilterlist0)
+            }
+        }
+        if let labelInclusionFilters = labelInclusionFilters {
+            var labelInclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelInclusionFilters)
+            for generallabelsfilterlist0 in labelInclusionFilters {
+                try labelInclusionFiltersContainer.encode(generallabelsfilterlist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let labelInclusionFiltersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .labelInclusionFilters)
+        var labelInclusionFiltersDecoded0:[Swift.String]? = nil
+        if let labelInclusionFiltersContainer = labelInclusionFiltersContainer {
+            labelInclusionFiltersDecoded0 = [Swift.String]()
+            for string0 in labelInclusionFiltersContainer {
+                if let string0 = string0 {
+                    labelInclusionFiltersDecoded0?.append(string0)
+                }
+            }
+        }
+        labelInclusionFilters = labelInclusionFiltersDecoded0
+        let labelExclusionFiltersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .labelExclusionFilters)
+        var labelExclusionFiltersDecoded0:[Swift.String]? = nil
+        if let labelExclusionFiltersContainer = labelExclusionFiltersContainer {
+            labelExclusionFiltersDecoded0 = [Swift.String]()
+            for string0 in labelExclusionFiltersContainer {
+                if let string0 = string0 {
+                    labelExclusionFiltersDecoded0?.append(string0)
+                }
+            }
+        }
+        labelExclusionFilters = labelExclusionFiltersDecoded0
+        let labelCategoryInclusionFiltersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .labelCategoryInclusionFilters)
+        var labelCategoryInclusionFiltersDecoded0:[Swift.String]? = nil
+        if let labelCategoryInclusionFiltersContainer = labelCategoryInclusionFiltersContainer {
+            labelCategoryInclusionFiltersDecoded0 = [Swift.String]()
+            for string0 in labelCategoryInclusionFiltersContainer {
+                if let string0 = string0 {
+                    labelCategoryInclusionFiltersDecoded0?.append(string0)
+                }
+            }
+        }
+        labelCategoryInclusionFilters = labelCategoryInclusionFiltersDecoded0
+        let labelCategoryExclusionFiltersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .labelCategoryExclusionFilters)
+        var labelCategoryExclusionFiltersDecoded0:[Swift.String]? = nil
+        if let labelCategoryExclusionFiltersContainer = labelCategoryExclusionFiltersContainer {
+            labelCategoryExclusionFiltersDecoded0 = [Swift.String]()
+            for string0 in labelCategoryExclusionFiltersContainer {
+                if let string0 = string0 {
+                    labelCategoryExclusionFiltersDecoded0?.append(string0)
+                }
+            }
+        }
+        labelCategoryExclusionFilters = labelCategoryExclusionFiltersDecoded0
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual l abels or entire label categories.
+    public struct GeneralLabelsSettings: Swift.Equatable {
+        /// The label categories that should be excluded from the return from DetectLabels.
+        public var labelCategoryExclusionFilters: [Swift.String]?
+        /// The label categories that should be included in the return from DetectLabels.
+        public var labelCategoryInclusionFilters: [Swift.String]?
+        /// The labels that should be excluded from the return from DetectLabels.
+        public var labelExclusionFilters: [Swift.String]?
+        /// The labels that should be included in the return from DetectLabels.
+        public var labelInclusionFilters: [Swift.String]?
+
+        public init (
+            labelCategoryExclusionFilters: [Swift.String]? = nil,
+            labelCategoryInclusionFilters: [Swift.String]? = nil,
+            labelExclusionFilters: [Swift.String]? = nil,
+            labelInclusionFilters: [Swift.String]? = nil
+        )
+        {
+            self.labelCategoryExclusionFilters = labelCategoryExclusionFilters
+            self.labelCategoryInclusionFilters = labelCategoryInclusionFilters
+            self.labelExclusionFilters = labelExclusionFilters
+            self.labelInclusionFilters = labelInclusionFilters
+        }
+    }
+
 }
 
 extension RekognitionClientTypes.Geometry: Swift.Codable {
@@ -9153,9 +9765,9 @@ extension RekognitionClientTypes.HumanLoopDataAttributes: Swift.Codable {
         var contentClassifiersDecoded0:[RekognitionClientTypes.ContentClassifier]? = nil
         if let contentClassifiersContainer = contentClassifiersContainer {
             contentClassifiersDecoded0 = [RekognitionClientTypes.ContentClassifier]()
-            for string0 in contentClassifiersContainer {
-                if let string0 = string0 {
-                    contentClassifiersDecoded0?.append(string0)
+            for enum0 in contentClassifiersContainer {
+                if let enum0 = enum0 {
+                    contentClassifiersDecoded0?.append(enum0)
                 }
             }
         }
@@ -9619,9 +10231,9 @@ extension IndexFacesInputBody: Swift.Decodable {
         var detectionAttributesDecoded0:[RekognitionClientTypes.Attribute]? = nil
         if let detectionAttributesContainer = detectionAttributesContainer {
             detectionAttributesDecoded0 = [RekognitionClientTypes.Attribute]()
-            for string0 in detectionAttributesContainer {
-                if let string0 = string0 {
-                    detectionAttributesDecoded0?.append(string0)
+            for enum0 in detectionAttributesContainer {
+                if let enum0 = enum0 {
+                    detectionAttributesDecoded0?.append(enum0)
                 }
             }
         }
@@ -9773,6 +10385,7 @@ extension RekognitionClientTypes.Instance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case boundingBox = "BoundingBox"
         case confidence = "Confidence"
+        case dominantColors = "DominantColors"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9783,6 +10396,12 @@ extension RekognitionClientTypes.Instance: Swift.Codable {
         if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
+        if let dominantColors = dominantColors {
+            var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
+            for dominantcolors0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolors0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -9791,6 +10410,17 @@ extension RekognitionClientTypes.Instance: Swift.Codable {
         boundingBox = boundingBoxDecoded
         let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
         confidence = confidenceDecoded
+        let dominantColorsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.DominantColor?].self, forKey: .dominantColors)
+        var dominantColorsDecoded0:[RekognitionClientTypes.DominantColor]? = nil
+        if let dominantColorsContainer = dominantColorsContainer {
+            dominantColorsDecoded0 = [RekognitionClientTypes.DominantColor]()
+            for structure0 in dominantColorsContainer {
+                if let structure0 = structure0 {
+                    dominantColorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dominantColors = dominantColorsDecoded0
     }
 }
 
@@ -9801,14 +10431,18 @@ extension RekognitionClientTypes {
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// The confidence that Amazon Rekognition has in the accuracy of the bounding box.
         public var confidence: Swift.Float?
+        /// The dominant colors found in an individual instance of a label.
+        public var dominantColors: [RekognitionClientTypes.DominantColor]?
 
         public init (
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
-            confidence: Swift.Float? = nil
+            confidence: Swift.Float? = nil,
+            dominantColors: [RekognitionClientTypes.DominantColor]? = nil
         )
         {
             self.boundingBox = boundingBox
             self.confidence = confidence
+            self.dominantColors = dominantColors
         }
     }
 
@@ -10336,11 +10970,11 @@ extension RekognitionClientTypes.KinesisVideoStreamStartSelector: Swift.Codable 
 }
 
 extension RekognitionClientTypes {
-    /// Specifies the starting point in a Kinesis stream to start processing. You can use the producer timestamp or the fragment number. For more information, see [Fragment](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html).
+    /// Specifies the starting point in a Kinesis stream to start processing. You can use the producer timestamp or the fragment number. One of either producer timestamp or fragment number is required. If you use the producer timestamp, you must put the time in milliseconds. For more information about fragment numbers, see [Fragment](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html).
     public struct KinesisVideoStreamStartSelector: Swift.Equatable {
         /// The unique identifier of the fragment. This value monotonically increases based on the ingestion order.
         public var fragmentNumber: Swift.String?
-        /// The timestamp from the producer corresponding to the fragment.
+        /// The timestamp from the producer corresponding to the fragment, in milliseconds, expressed in unix time format.
         public var producerTimestamp: Swift.Int?
 
         public init (
@@ -10431,6 +11065,8 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Label: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aliases = "Aliases"
+        case categories = "Categories"
         case confidence = "Confidence"
         case instances = "Instances"
         case name = "Name"
@@ -10439,6 +11075,18 @@ extension RekognitionClientTypes.Label: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aliases = aliases {
+            var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
+            for labelaliases0 in aliases {
+                try aliasesContainer.encode(labelaliases0)
+            }
+        }
+        if let categories = categories {
+            var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
+            for labelcategories0 in categories {
+                try categoriesContainer.encode(labelcategories0)
+            }
+        }
         if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
@@ -10487,12 +11135,38 @@ extension RekognitionClientTypes.Label: Swift.Codable {
             }
         }
         parents = parentsDecoded0
+        let aliasesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.LabelAlias?].self, forKey: .aliases)
+        var aliasesDecoded0:[RekognitionClientTypes.LabelAlias]? = nil
+        if let aliasesContainer = aliasesContainer {
+            aliasesDecoded0 = [RekognitionClientTypes.LabelAlias]()
+            for structure0 in aliasesContainer {
+                if let structure0 = structure0 {
+                    aliasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        aliases = aliasesDecoded0
+        let categoriesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.LabelCategory?].self, forKey: .categories)
+        var categoriesDecoded0:[RekognitionClientTypes.LabelCategory]? = nil
+        if let categoriesContainer = categoriesContainer {
+            categoriesDecoded0 = [RekognitionClientTypes.LabelCategory]()
+            for structure0 in categoriesContainer {
+                if let structure0 = structure0 {
+                    categoriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        categories = categoriesDecoded0
     }
 }
 
 extension RekognitionClientTypes {
     /// Structure containing details about the detected label, including the name, detected instances, parent labels, and level of confidence.
     public struct Label: Swift.Equatable {
+        /// A list of potential aliases for a given label.
+        public var aliases: [RekognitionClientTypes.LabelAlias]?
+        /// A list of the categories associated with a given label.
+        public var categories: [RekognitionClientTypes.LabelCategory]?
         /// Level of confidence.
         public var confidence: Swift.Float?
         /// If Label represents an object, Instances contains the bounding boxes for each instance of the detected object. Bounding boxes are returned for common object labels such as people, cars, furniture, apparel or pets.
@@ -10503,16 +11177,90 @@ extension RekognitionClientTypes {
         public var parents: [RekognitionClientTypes.Parent]?
 
         public init (
+            aliases: [RekognitionClientTypes.LabelAlias]? = nil,
+            categories: [RekognitionClientTypes.LabelCategory]? = nil,
             confidence: Swift.Float? = nil,
             instances: [RekognitionClientTypes.Instance]? = nil,
             name: Swift.String? = nil,
             parents: [RekognitionClientTypes.Parent]? = nil
         )
         {
+            self.aliases = aliases
+            self.categories = categories
             self.confidence = confidence
             self.instances = instances
             self.name = name
             self.parents = parents
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.LabelAlias: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// A potential alias of for a given label.
+    public struct LabelAlias: Swift.Equatable {
+        /// The name of an alias for a given label.
+        public var name: Swift.String?
+
+        public init (
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.LabelCategory: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// The category that applies to a given label.
+    public struct LabelCategory: Swift.Equatable {
+        /// The name of a category that applies to a given label.
+        public var name: Swift.String?
+
+        public init (
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
         }
     }
 
@@ -10548,7 +11296,7 @@ extension RekognitionClientTypes {
     public struct LabelDetection: Swift.Equatable {
         /// Details about the detected label.
         public var label: RekognitionClientTypes.Label?
-        /// Time, in milliseconds from the start of the video, that the label was detected.
+        /// Time, in milliseconds from the start of the video, that the label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the label first appears.
         public var timestamp: Swift.Int
 
         public init (
@@ -12498,7 +13246,7 @@ extension RekognitionClientTypes {
     public struct PersonDetection: Swift.Equatable {
         /// Details about a person whose path was tracked in a video.
         public var person: RekognitionClientTypes.PersonDetail?
-        /// The time, in milliseconds from the start of the video, that the person's path was tracked.
+        /// The time, in milliseconds from the start of the video, that the person's path was tracked. Note that Timestamp is not guaranteed to be accurate to the individual frame where the person's path first appears.
         public var timestamp: Swift.Int
 
         public init (
@@ -13317,9 +14065,9 @@ extension RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes: Swi
         var requiredEquipmentTypesDecoded0:[RekognitionClientTypes.ProtectiveEquipmentType]? = nil
         if let requiredEquipmentTypesContainer = requiredEquipmentTypesContainer {
             requiredEquipmentTypesDecoded0 = [RekognitionClientTypes.ProtectiveEquipmentType]()
-            for string0 in requiredEquipmentTypesContainer {
-                if let string0 = string0 {
-                    requiredEquipmentTypesDecoded0?.append(string0)
+            for enum0 in requiredEquipmentTypesContainer {
+                if let enum0 = enum0 {
+                    requiredEquipmentTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -16539,9 +17287,9 @@ extension StartSegmentDetectionInputBody: Swift.Decodable {
         var segmentTypesDecoded0:[RekognitionClientTypes.SegmentType]? = nil
         if let segmentTypesContainer = segmentTypesContainer {
             segmentTypesDecoded0 = [RekognitionClientTypes.SegmentType]()
-            for string0 in segmentTypesContainer {
-                if let string0 = string0 {
-                    segmentTypesDecoded0?.append(string0)
+            for enum0 in segmentTypesContainer {
+                if let enum0 = enum0 {
+                    segmentTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -16694,7 +17442,7 @@ public struct StartStreamProcessorInput: Swift.Equatable {
     /// The name of the stream processor to start processing.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies the starting point in the Kinesis stream to start processing. You can use the producer timestamp or the fragment number. For more information, see [Fragment](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html). This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
+    /// Specifies the starting point in the Kinesis stream to start processing. You can use the producer timestamp or the fragment number. If you use the producer timestamp, you must put the time in milliseconds. For more information about fragment numbers, see [Fragment](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html). This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
     public var startSelector: RekognitionClientTypes.StreamProcessingStartSelector?
     /// Specifies when to stop processing the stream. You can specify a maximum amount of time to process the video. This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
     public var stopSelector: RekognitionClientTypes.StreamProcessingStopSelector?
@@ -17322,9 +18070,9 @@ extension RekognitionClientTypes.StreamProcessingStartSelector: Swift.Codable {
 }
 
 extension RekognitionClientTypes {
-    ///
+    /// This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
     public struct StreamProcessingStartSelector: Swift.Equatable {
-        /// Specifies the starting point in the stream to start processing. This can be done with a timestamp or a fragment number in a Kinesis stream.
+        /// Specifies the starting point in the stream to start processing. This can be done with a producer timestamp or a fragment number in a Kinesis stream.
         public var kvsStreamStartSelector: RekognitionClientTypes.KinesisVideoStreamStartSelector?
 
         public init (
@@ -18241,7 +18989,7 @@ extension RekognitionClientTypes {
     public struct TextDetectionResult: Swift.Equatable {
         /// Details about text detected in a video.
         public var textDetection: RekognitionClientTypes.TextDetection?
-        /// The time, in milliseconds from the start of the video, that the text was detected.
+        /// The time, in milliseconds from the start of the video, that the text was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the text first appears.
         public var timestamp: Swift.Int
 
         public init (
@@ -18486,9 +19234,9 @@ extension RekognitionClientTypes.UnindexedFace: Swift.Codable {
         var reasonsDecoded0:[RekognitionClientTypes.Reason]? = nil
         if let reasonsContainer = reasonsContainer {
             reasonsDecoded0 = [RekognitionClientTypes.Reason]()
-            for string0 in reasonsContainer {
-                if let string0 = string0 {
-                    reasonsDecoded0?.append(string0)
+            for enum0 in reasonsContainer {
+                if let enum0 = enum0 {
+                    reasonsDecoded0?.append(enum0)
                 }
             }
         }
@@ -18862,9 +19610,9 @@ extension UpdateStreamProcessorInputBody: Swift.Decodable {
         var parametersToDeleteDecoded0:[RekognitionClientTypes.StreamProcessorParameterToDelete]? = nil
         if let parametersToDeleteContainer = parametersToDeleteContainer {
             parametersToDeleteDecoded0 = [RekognitionClientTypes.StreamProcessorParameterToDelete]()
-            for string0 in parametersToDeleteContainer {
-                if let string0 = string0 {
-                    parametersToDeleteDecoded0?.append(string0)
+            for enum0 in parametersToDeleteContainer {
+                if let enum0 = enum0 {
+                    parametersToDeleteDecoded0?.append(enum0)
                 }
             }
         }

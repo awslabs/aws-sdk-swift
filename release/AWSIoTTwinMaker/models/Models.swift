@@ -307,11 +307,287 @@ extension BatchPutPropertyValuesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension IoTTwinMakerClientTypes.BundleInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bundleNames
+        case pricingTier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bundleNames = bundleNames {
+            var bundleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bundleNames)
+            for pricingbundles0 in bundleNames {
+                try bundleNamesContainer.encode(pricingbundles0)
+            }
+        }
+        if let pricingTier = self.pricingTier {
+            try encodeContainer.encode(pricingTier.rawValue, forKey: .pricingTier)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bundleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .bundleNames)
+        var bundleNamesDecoded0:[Swift.String]? = nil
+        if let bundleNamesContainer = bundleNamesContainer {
+            bundleNamesDecoded0 = [Swift.String]()
+            for string0 in bundleNamesContainer {
+                if let string0 = string0 {
+                    bundleNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        bundleNames = bundleNamesDecoded0
+        let pricingTierDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PricingTier.self, forKey: .pricingTier)
+        pricingTier = pricingTierDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// Information about pricing bundle.
+    public struct BundleInformation: Swift.Equatable {
+        /// The bundle names.
+        /// This member is required.
+        public var bundleNames: [Swift.String]?
+        /// The pricing tier.
+        public var pricingTier: IoTTwinMakerClientTypes.PricingTier?
+
+        public init (
+            bundleNames: [Swift.String]? = nil,
+            pricingTier: IoTTwinMakerClientTypes.PricingTier? = nil
+        )
+        {
+            self.bundleNames = bundleNames
+            self.pricingTier = pricingTier
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes.ColumnDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.ColumnType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// A description of the column in the query results.
+    public struct ColumnDescription: Swift.Equatable {
+        /// The name of the column description.
+        public var name: Swift.String?
+        /// The type of the column description.
+        public var type: IoTTwinMakerClientTypes.ColumnType?
+
+        public init (
+            name: Swift.String? = nil,
+            type: IoTTwinMakerClientTypes.ColumnType? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum ColumnType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case edge
+        case node
+        case value
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColumnType] {
+            return [
+                .edge,
+                .node,
+                .value,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .edge: return "EDGE"
+            case .node: return "NODE"
+            case .value: return "VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ColumnType(rawValue: rawValue) ?? ColumnType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTTwinMakerClientTypes.ComponentPropertyGroupRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupType
+        case propertyNames
+        case updateType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupType = self.groupType {
+            try encodeContainer.encode(groupType.rawValue, forKey: .groupType)
+        }
+        if let propertyNames = propertyNames {
+            var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
+            for propertynames0 in propertyNames {
+                try propertyNamesContainer.encode(propertynames0)
+            }
+        }
+        if let updateType = self.updateType {
+            try encodeContainer.encode(updateType.rawValue, forKey: .updateType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupTypeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.GroupType.self, forKey: .groupType)
+        groupType = groupTypeDecoded
+        let propertyNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .propertyNames)
+        var propertyNamesDecoded0:[Swift.String]? = nil
+        if let propertyNamesContainer = propertyNamesContainer {
+            propertyNamesDecoded0 = [Swift.String]()
+            for string0 in propertyNamesContainer {
+                if let string0 = string0 {
+                    propertyNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        propertyNames = propertyNamesDecoded0
+        let updateTypeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PropertyGroupUpdateType.self, forKey: .updateType)
+        updateType = updateTypeDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    ///
+    public struct ComponentPropertyGroupRequest: Swift.Equatable {
+        /// The group type.
+        public var groupType: IoTTwinMakerClientTypes.GroupType?
+        /// The property names.
+        public var propertyNames: [Swift.String]?
+        /// The update type.
+        public var updateType: IoTTwinMakerClientTypes.PropertyGroupUpdateType?
+
+        public init (
+            groupType: IoTTwinMakerClientTypes.GroupType? = nil,
+            propertyNames: [Swift.String]? = nil,
+            updateType: IoTTwinMakerClientTypes.PropertyGroupUpdateType? = nil
+        )
+        {
+            self.groupType = groupType
+            self.propertyNames = propertyNames
+            self.updateType = updateType
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes.ComponentPropertyGroupResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupType
+        case isInherited
+        case propertyNames
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupType = self.groupType {
+            try encodeContainer.encode(groupType.rawValue, forKey: .groupType)
+        }
+        if let isInherited = self.isInherited {
+            try encodeContainer.encode(isInherited, forKey: .isInherited)
+        }
+        if let propertyNames = propertyNames {
+            var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
+            for propertynames0 in propertyNames {
+                try propertyNamesContainer.encode(propertynames0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupTypeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.GroupType.self, forKey: .groupType)
+        groupType = groupTypeDecoded
+        let propertyNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .propertyNames)
+        var propertyNamesDecoded0:[Swift.String]? = nil
+        if let propertyNamesContainer = propertyNamesContainer {
+            propertyNamesDecoded0 = [Swift.String]()
+            for string0 in propertyNamesContainer {
+                if let string0 = string0 {
+                    propertyNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        propertyNames = propertyNamesDecoded0
+        let isInheritedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isInherited)
+        isInherited = isInheritedDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The component property group response.
+    public struct ComponentPropertyGroupResponse: Swift.Equatable {
+        /// The group type.
+        /// This member is required.
+        public var groupType: IoTTwinMakerClientTypes.GroupType?
+        /// A Boolean value that specifies whether the property group is inherited from a parent entity
+        /// This member is required.
+        public var isInherited: Swift.Bool?
+        /// The names of properties
+        /// This member is required.
+        public var propertyNames: [Swift.String]?
+
+        public init (
+            groupType: IoTTwinMakerClientTypes.GroupType? = nil,
+            isInherited: Swift.Bool? = nil,
+            propertyNames: [Swift.String]? = nil
+        )
+        {
+            self.groupType = groupType
+            self.isInherited = isInherited
+            self.propertyNames = propertyNames
+        }
+    }
+
+}
+
 extension IoTTwinMakerClientTypes.ComponentRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentTypeId
         case description
         case properties
+        case propertyGroups
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -326,6 +602,12 @@ extension IoTTwinMakerClientTypes.ComponentRequest: Swift.Codable {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
             for (dictKey0, propertyrequests0) in properties {
                 try propertiesContainer.encode(propertyrequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let propertyGroups = propertyGroups {
+            var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
+            for (dictKey0, componentpropertygrouprequests0) in propertyGroups {
+                try propertyGroupsContainer.encode(componentpropertygrouprequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -347,6 +629,17 @@ extension IoTTwinMakerClientTypes.ComponentRequest: Swift.Codable {
             }
         }
         properties = propertiesDecoded0
+        let propertyGroupsContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest?].self, forKey: .propertyGroups)
+        var propertyGroupsDecoded0: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil
+        if let propertyGroupsContainer = propertyGroupsContainer {
+            propertyGroupsDecoded0 = [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]()
+            for (key0, componentpropertygrouprequest0) in propertyGroupsContainer {
+                if let componentpropertygrouprequest0 = componentpropertygrouprequest0 {
+                    propertyGroupsDecoded0?[key0] = componentpropertygrouprequest0
+                }
+            }
+        }
+        propertyGroups = propertyGroupsDecoded0
     }
 }
 
@@ -359,16 +652,20 @@ extension IoTTwinMakerClientTypes {
         public var description: Swift.String?
         /// An object that maps strings to the properties to set in the component type. Each string in the mapping must be unique to this object.
         public var properties: [Swift.String:IoTTwinMakerClientTypes.PropertyRequest]?
+        /// The property groups.
+        public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]?
 
         public init (
             componentTypeId: Swift.String? = nil,
             description: Swift.String? = nil,
-            properties: [Swift.String:IoTTwinMakerClientTypes.PropertyRequest]? = nil
+            properties: [Swift.String:IoTTwinMakerClientTypes.PropertyRequest]? = nil,
+            propertyGroups: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil
         )
         {
             self.componentTypeId = componentTypeId
             self.description = description
             self.properties = properties
+            self.propertyGroups = propertyGroups
         }
     }
 
@@ -381,6 +678,7 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
         case definedIn
         case description
         case properties
+        case propertyGroups
         case status
     }
 
@@ -402,6 +700,12 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
             for (dictKey0, propertyresponses0) in properties {
                 try propertiesContainer.encode(propertyresponses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let propertyGroups = propertyGroups {
+            var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
+            for (dictKey0, componentpropertygroupresponses0) in propertyGroups {
+                try propertyGroupsContainer.encode(componentpropertygroupresponses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -432,6 +736,17 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
             }
         }
         properties = propertiesDecoded0
+        let propertyGroupsContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupResponse?].self, forKey: .propertyGroups)
+        var propertyGroupsDecoded0: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]? = nil
+        if let propertyGroupsContainer = propertyGroupsContainer {
+            propertyGroupsDecoded0 = [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]()
+            for (key0, componentpropertygroupresponse0) in propertyGroupsContainer {
+                if let componentpropertygroupresponse0 = componentpropertygroupresponse0 {
+                    propertyGroupsDecoded0?[key0] = componentpropertygroupresponse0
+                }
+            }
+        }
+        propertyGroups = propertyGroupsDecoded0
     }
 }
 
@@ -448,6 +763,8 @@ extension IoTTwinMakerClientTypes {
         public var description: Swift.String?
         /// An object that maps strings to the properties to set in the component type. Each string in the mapping must be unique to this object.
         public var properties: [Swift.String:IoTTwinMakerClientTypes.PropertyResponse]?
+        /// The property groups.
+        public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]?
         /// The status of the component type.
         public var status: IoTTwinMakerClientTypes.Status?
 
@@ -457,6 +774,7 @@ extension IoTTwinMakerClientTypes {
             definedIn: Swift.String? = nil,
             description: Swift.String? = nil,
             properties: [Swift.String:IoTTwinMakerClientTypes.PropertyResponse]? = nil,
+            propertyGroups: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil
         )
         {
@@ -465,6 +783,7 @@ extension IoTTwinMakerClientTypes {
             self.definedIn = definedIn
             self.description = description
             self.properties = properties
+            self.propertyGroups = propertyGroups
             self.status = status
         }
     }
@@ -564,6 +883,7 @@ extension IoTTwinMakerClientTypes.ComponentUpdateRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentTypeId
         case description
+        case propertyGroupUpdates
         case propertyUpdates
         case updateType
     }
@@ -575,6 +895,12 @@ extension IoTTwinMakerClientTypes.ComponentUpdateRequest: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let propertyGroupUpdates = propertyGroupUpdates {
+            var propertyGroupUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroupUpdates)
+            for (dictKey0, componentpropertygrouprequests0) in propertyGroupUpdates {
+                try propertyGroupUpdatesContainer.encode(componentpropertygrouprequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let propertyUpdates = propertyUpdates {
             var propertyUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyUpdates)
@@ -606,6 +932,17 @@ extension IoTTwinMakerClientTypes.ComponentUpdateRequest: Swift.Codable {
             }
         }
         propertyUpdates = propertyUpdatesDecoded0
+        let propertyGroupUpdatesContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest?].self, forKey: .propertyGroupUpdates)
+        var propertyGroupUpdatesDecoded0: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil
+        if let propertyGroupUpdatesContainer = propertyGroupUpdatesContainer {
+            propertyGroupUpdatesDecoded0 = [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]()
+            for (key0, componentpropertygrouprequest0) in propertyGroupUpdatesContainer {
+                if let componentpropertygrouprequest0 = componentpropertygrouprequest0 {
+                    propertyGroupUpdatesDecoded0?[key0] = componentpropertygrouprequest0
+                }
+            }
+        }
+        propertyGroupUpdates = propertyGroupUpdatesDecoded0
     }
 }
 
@@ -616,6 +953,8 @@ extension IoTTwinMakerClientTypes {
         public var componentTypeId: Swift.String?
         /// The description of the component type.
         public var description: Swift.String?
+        /// The property group updates.
+        public var propertyGroupUpdates: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]?
         /// An object that maps strings to the properties to set in the component type update. Each string in the mapping must be unique to this object.
         public var propertyUpdates: [Swift.String:IoTTwinMakerClientTypes.PropertyRequest]?
         /// The update type of the component update request.
@@ -624,12 +963,14 @@ extension IoTTwinMakerClientTypes {
         public init (
             componentTypeId: Swift.String? = nil,
             description: Swift.String? = nil,
+            propertyGroupUpdates: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil,
             propertyUpdates: [Swift.String:IoTTwinMakerClientTypes.PropertyRequest]? = nil,
             updateType: IoTTwinMakerClientTypes.ComponentUpdateType? = nil
         )
         {
             self.componentTypeId = componentTypeId
             self.description = description
+            self.propertyGroupUpdates = propertyGroupUpdates
             self.propertyUpdates = propertyUpdates
             self.updateType = updateType
         }
@@ -835,6 +1176,7 @@ extension CreateComponentTypeInput: Swift.Encodable {
         case functions
         case isSingleton
         case propertyDefinitions
+        case propertyGroups
         case tags
     }
 
@@ -862,6 +1204,12 @@ extension CreateComponentTypeInput: Swift.Encodable {
             var propertyDefinitionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyDefinitions)
             for (dictKey0, propertydefinitionsrequest0) in propertyDefinitions {
                 try propertyDefinitionsContainer.encode(propertydefinitionsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let propertyGroups = propertyGroups {
+            var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
+            for (dictKey0, propertygroupsrequest0) in propertyGroups {
+                try propertyGroupsContainer.encode(propertygroupsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
@@ -899,6 +1247,8 @@ public struct CreateComponentTypeInput: Swift.Equatable {
     public var isSingleton: Swift.Bool?
     /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
     public var propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]?
+    ///
+    public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
     /// Metadata that you can use to manage the component type.
     public var tags: [Swift.String:Swift.String]?
     /// The ID of the workspace that contains the component type.
@@ -912,6 +1262,7 @@ public struct CreateComponentTypeInput: Swift.Equatable {
         functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]? = nil,
         isSingleton: Swift.Bool? = nil,
         propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]? = nil,
+        propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workspaceId: Swift.String? = nil
     )
@@ -922,6 +1273,7 @@ public struct CreateComponentTypeInput: Swift.Equatable {
         self.functions = functions
         self.isSingleton = isSingleton
         self.propertyDefinitions = propertyDefinitions
+        self.propertyGroups = propertyGroups
         self.tags = tags
         self.workspaceId = workspaceId
     }
@@ -934,6 +1286,7 @@ struct CreateComponentTypeInputBody: Swift.Equatable {
     let extendsFrom: [Swift.String]?
     let functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]?
     let tags: [Swift.String:Swift.String]?
+    let propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
 }
 
 extension CreateComponentTypeInputBody: Swift.Decodable {
@@ -943,6 +1296,7 @@ extension CreateComponentTypeInputBody: Swift.Decodable {
         case functions
         case isSingleton
         case propertyDefinitions
+        case propertyGroups
         case tags
     }
 
@@ -996,6 +1350,17 @@ extension CreateComponentTypeInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let propertyGroupsContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.PropertyGroupRequest?].self, forKey: .propertyGroups)
+        var propertyGroupsDecoded0: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]? = nil
+        if let propertyGroupsContainer = propertyGroupsContainer {
+            propertyGroupsDecoded0 = [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]()
+            for (key0, propertygrouprequest0) in propertyGroupsContainer {
+                if let propertygrouprequest0 = propertygrouprequest0 {
+                    propertyGroupsDecoded0?[key0] = propertygrouprequest0
+                }
+            }
+        }
+        propertyGroups = propertyGroupsDecoded0
     }
 }
 
@@ -2683,6 +3048,202 @@ extension IoTTwinMakerClientTypes {
 
 }
 
+extension ExecuteQueryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case queryStatement
+        case workspaceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let queryStatement = self.queryStatement {
+            try encodeContainer.encode(queryStatement, forKey: .queryStatement)
+        }
+        if let workspaceId = self.workspaceId {
+            try encodeContainer.encode(workspaceId, forKey: .workspaceId)
+        }
+    }
+}
+
+extension ExecuteQueryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/queries/execution"
+    }
+}
+
+public struct ExecuteQueryInput: Swift.Equatable {
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
+    public var maxResults: Swift.Int?
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
+    /// The query statement.
+    /// This member is required.
+    public var queryStatement: Swift.String?
+    /// The ID of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        queryStatement: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.queryStatement = queryStatement
+        self.workspaceId = workspaceId
+    }
+}
+
+struct ExecuteQueryInputBody: Swift.Equatable {
+    let workspaceId: Swift.String?
+    let queryStatement: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ExecuteQueryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case queryStatement
+        case workspaceId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
+        workspaceId = workspaceIdDecoded
+        let queryStatementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryStatement)
+        queryStatement = queryStatementDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ExecuteQueryOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ExecuteQueryOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "QueryTimeoutException" : self = .queryTimeoutException(try QueryTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ExecuteQueryOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case queryTimeoutException(QueryTimeoutException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ExecuteQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ExecuteQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.columnDescriptions = output.columnDescriptions
+            self.nextToken = output.nextToken
+            self.rows = output.rows
+        } else {
+            self.columnDescriptions = nil
+            self.nextToken = nil
+            self.rows = nil
+        }
+    }
+}
+
+public struct ExecuteQueryOutputResponse: Swift.Equatable {
+    /// A list of ColumnDescription objects.
+    public var columnDescriptions: [IoTTwinMakerClientTypes.ColumnDescription]?
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
+    /// Represents a single row in the query results.
+    public var rows: [IoTTwinMakerClientTypes.Row]?
+
+    public init (
+        columnDescriptions: [IoTTwinMakerClientTypes.ColumnDescription]? = nil,
+        nextToken: Swift.String? = nil,
+        rows: [IoTTwinMakerClientTypes.Row]? = nil
+    )
+    {
+        self.columnDescriptions = columnDescriptions
+        self.nextToken = nextToken
+        self.rows = rows
+    }
+}
+
+struct ExecuteQueryOutputResponseBody: Swift.Equatable {
+    let columnDescriptions: [IoTTwinMakerClientTypes.ColumnDescription]?
+    let rows: [IoTTwinMakerClientTypes.Row]?
+    let nextToken: Swift.String?
+}
+
+extension ExecuteQueryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnDescriptions
+        case nextToken
+        case rows
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnDescriptionsContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.ColumnDescription?].self, forKey: .columnDescriptions)
+        var columnDescriptionsDecoded0:[IoTTwinMakerClientTypes.ColumnDescription]? = nil
+        if let columnDescriptionsContainer = columnDescriptionsContainer {
+            columnDescriptionsDecoded0 = [IoTTwinMakerClientTypes.ColumnDescription]()
+            for structure0 in columnDescriptionsContainer {
+                if let structure0 = structure0 {
+                    columnDescriptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        columnDescriptions = columnDescriptionsDecoded0
+        let rowsContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.Row?].self, forKey: .rows)
+        var rowsDecoded0:[IoTTwinMakerClientTypes.Row]? = nil
+        if let rowsContainer = rowsContainer {
+            rowsDecoded0 = [IoTTwinMakerClientTypes.Row]()
+            for structure0 in rowsContainer {
+                if let structure0 = structure0 {
+                    rowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rows = rowsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension IoTTwinMakerClientTypes.FunctionRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case implementedBy
@@ -2881,6 +3442,7 @@ extension GetComponentTypeOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -2891,6 +3453,7 @@ public enum GetComponentTypeOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2910,6 +3473,7 @@ extension GetComponentTypeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.isSchemaInitialized = output.isSchemaInitialized
             self.isSingleton = output.isSingleton
             self.propertyDefinitions = output.propertyDefinitions
+            self.propertyGroups = output.propertyGroups
             self.status = output.status
             self.updateDateTime = output.updateDateTime
             self.workspaceId = output.workspaceId
@@ -2924,6 +3488,7 @@ extension GetComponentTypeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.isSchemaInitialized = nil
             self.isSingleton = nil
             self.propertyDefinitions = nil
+            self.propertyGroups = nil
             self.status = nil
             self.updateDateTime = nil
             self.workspaceId = nil
@@ -2955,6 +3520,8 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
     public var isSingleton: Swift.Bool?
     /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
     public var propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionResponse]?
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
+    public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]?
     /// The current status of the component type.
     public var status: IoTTwinMakerClientTypes.Status?
     /// The date and time when the component was last updated.
@@ -2975,6 +3542,7 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
         isSchemaInitialized: Swift.Bool? = nil,
         isSingleton: Swift.Bool? = nil,
         propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionResponse]? = nil,
+        propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]? = nil,
         status: IoTTwinMakerClientTypes.Status? = nil,
         updateDateTime: ClientRuntime.Date? = nil,
         workspaceId: Swift.String? = nil
@@ -2990,6 +3558,7 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
         self.isSchemaInitialized = isSchemaInitialized
         self.isSingleton = isSingleton
         self.propertyDefinitions = propertyDefinitions
+        self.propertyGroups = propertyGroups
         self.status = status
         self.updateDateTime = updateDateTime
         self.workspaceId = workspaceId
@@ -3010,6 +3579,7 @@ struct GetComponentTypeOutputResponseBody: Swift.Equatable {
     let isAbstract: Swift.Bool?
     let isSchemaInitialized: Swift.Bool?
     let status: IoTTwinMakerClientTypes.Status?
+    let propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]?
 }
 
 extension GetComponentTypeOutputResponseBody: Swift.Decodable {
@@ -3024,6 +3594,7 @@ extension GetComponentTypeOutputResponseBody: Swift.Decodable {
         case isSchemaInitialized
         case isSingleton
         case propertyDefinitions
+        case propertyGroups
         case status
         case updateDateTime
         case workspaceId
@@ -3084,6 +3655,17 @@ extension GetComponentTypeOutputResponseBody: Swift.Decodable {
         isSchemaInitialized = isSchemaInitializedDecoded
         let statusDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+        let propertyGroupsContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.PropertyGroupResponse?].self, forKey: .propertyGroups)
+        var propertyGroupsDecoded0: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]? = nil
+        if let propertyGroupsContainer = propertyGroupsContainer {
+            propertyGroupsDecoded0 = [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]()
+            for (key0, propertygroupresponse0) in propertyGroupsContainer {
+                if let propertygroupresponse0 = propertygroupresponse0 {
+                    propertyGroupsDecoded0?[key0] = propertygroupresponse0
+                }
+            }
+        }
+        propertyGroups = propertyGroupsDecoded0
     }
 }
 
@@ -3315,6 +3897,106 @@ extension GetEntityOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetPricingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/pricingplan"
+    }
+}
+
+public struct GetPricingPlanInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct GetPricingPlanInputBody: Swift.Equatable {
+}
+
+extension GetPricingPlanInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetPricingPlanOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetPricingPlanOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetPricingPlanOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPricingPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetPricingPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.currentPricingPlan = output.currentPricingPlan
+            self.pendingPricingPlan = output.pendingPricingPlan
+        } else {
+            self.currentPricingPlan = nil
+            self.pendingPricingPlan = nil
+        }
+    }
+}
+
+public struct GetPricingPlanOutputResponse: Swift.Equatable {
+    /// The chosen pricing plan for the current billing cycle.
+    /// This member is required.
+    public var currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+    /// The pending pricing plan.
+    public var pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+
+    public init (
+        currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil,
+        pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil
+    )
+    {
+        self.currentPricingPlan = currentPricingPlan
+        self.pendingPricingPlan = pendingPricingPlan
+    }
+}
+
+struct GetPricingPlanOutputResponseBody: Swift.Equatable {
+    let currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+    let pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+}
+
+extension GetPricingPlanOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentPricingPlan
+        case pendingPricingPlan
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currentPricingPlanDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PricingPlan.self, forKey: .currentPricingPlan)
+        currentPricingPlan = currentPricingPlanDecoded
+        let pendingPricingPlanDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PricingPlan.self, forKey: .pendingPricingPlan)
+        pendingPricingPlan = pendingPricingPlanDecoded
+    }
+}
+
 extension GetPropertyValueHistoryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName
@@ -3399,13 +4081,13 @@ public struct GetPropertyValueHistoryInput: Swift.Equatable {
     /// The date and time of the latest property value to return.
     @available(*, deprecated, message: "This field is deprecated and will throw an error in the future. Use endTime instead.")
     public var endDateTime: ClientRuntime.Date?
-    /// The ISO8601 DateTime of the latest property value to return. For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/roci/latest/roci-api/API_PropertyValue.html).
+    /// The ISO8601 DateTime of the latest property value to return. For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
     public var endTime: Swift.String?
     /// The ID of the entity.
     public var entityId: Swift.String?
     /// An object that specifies the interpolation type and the interval over which to interpolate data.
     public var interpolation: IoTTwinMakerClientTypes.InterpolationParameters?
-    /// The maximum number of results to return.
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
@@ -3419,7 +4101,7 @@ public struct GetPropertyValueHistoryInput: Swift.Equatable {
     /// The date and time of the earliest property value to return.
     @available(*, deprecated, message: "This field is deprecated and will throw an error in the future. Use startTime instead.")
     public var startDateTime: ClientRuntime.Date?
-    /// The ISO8601 DateTime of the earliest property value to return. For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/roci/latest/roci-api/API_PropertyValue.html).
+    /// The ISO8601 DateTime of the earliest property value to return. For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
     public var startTime: Swift.String?
     /// The ID of the workspace.
     /// This member is required.
@@ -3641,7 +4323,11 @@ extension GetPropertyValueInput: Swift.Encodable {
         case componentName
         case componentTypeId
         case entityId
+        case maxResults
+        case nextToken
+        case propertyGroupName
         case selectedProperties
+        case tabularConditions
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3655,11 +4341,23 @@ extension GetPropertyValueInput: Swift.Encodable {
         if let entityId = self.entityId {
             try encodeContainer.encode(entityId, forKey: .entityId)
         }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let propertyGroupName = self.propertyGroupName {
+            try encodeContainer.encode(propertyGroupName, forKey: .propertyGroupName)
+        }
         if let selectedProperties = selectedProperties {
             var selectedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedProperties)
             for selectedpropertylist0 in selectedProperties {
                 try selectedPropertiesContainer.encode(selectedpropertylist0)
             }
+        }
+        if let tabularConditions = self.tabularConditions {
+            try encodeContainer.encode(tabularConditions, forKey: .tabularConditions)
         }
     }
 }
@@ -3680,9 +4378,17 @@ public struct GetPropertyValueInput: Swift.Equatable {
     public var componentTypeId: Swift.String?
     /// The ID of the entity whose property values the operation returns.
     public var entityId: Swift.String?
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
+    public var maxResults: Swift.Int?
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
+    /// The property group name.
+    public var propertyGroupName: Swift.String?
     /// The properties whose values the operation returns.
     /// This member is required.
     public var selectedProperties: [Swift.String]?
+    /// The tabular conditions.
+    public var tabularConditions: IoTTwinMakerClientTypes.TabularConditions?
     /// The ID of the workspace whose values the operation returns.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -3691,14 +4397,22 @@ public struct GetPropertyValueInput: Swift.Equatable {
         componentName: Swift.String? = nil,
         componentTypeId: Swift.String? = nil,
         entityId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        propertyGroupName: Swift.String? = nil,
         selectedProperties: [Swift.String]? = nil,
+        tabularConditions: IoTTwinMakerClientTypes.TabularConditions? = nil,
         workspaceId: Swift.String? = nil
     )
     {
         self.componentName = componentName
         self.componentTypeId = componentTypeId
         self.entityId = entityId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.propertyGroupName = propertyGroupName
         self.selectedProperties = selectedProperties
+        self.tabularConditions = tabularConditions
         self.workspaceId = workspaceId
     }
 }
@@ -3708,6 +4422,10 @@ struct GetPropertyValueInputBody: Swift.Equatable {
     let componentTypeId: Swift.String?
     let entityId: Swift.String?
     let selectedProperties: [Swift.String]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let propertyGroupName: Swift.String?
+    let tabularConditions: IoTTwinMakerClientTypes.TabularConditions?
 }
 
 extension GetPropertyValueInputBody: Swift.Decodable {
@@ -3715,7 +4433,11 @@ extension GetPropertyValueInputBody: Swift.Decodable {
         case componentName
         case componentTypeId
         case entityId
+        case maxResults
+        case nextToken
+        case propertyGroupName
         case selectedProperties
+        case tabularConditions
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3737,6 +4459,14 @@ extension GetPropertyValueInputBody: Swift.Decodable {
             }
         }
         selectedProperties = selectedPropertiesDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let propertyGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .propertyGroupName)
+        propertyGroupName = propertyGroupNameDecoded
+        let tabularConditionsDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.TabularConditions.self, forKey: .tabularConditions)
+        tabularConditions = tabularConditionsDecoded
     }
 }
 
@@ -3780,33 +4510,48 @@ extension GetPropertyValueOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: GetPropertyValueOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
             self.propertyValues = output.propertyValues
+            self.tabularPropertyValues = output.tabularPropertyValues
         } else {
+            self.nextToken = nil
             self.propertyValues = nil
+            self.tabularPropertyValues = nil
         }
     }
 }
 
 public struct GetPropertyValueOutputResponse: Swift.Equatable {
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
     /// An object that maps strings to the properties and latest property values in the response. Each string in the mapping must be unique to this object.
-    /// This member is required.
     public var propertyValues: [Swift.String:IoTTwinMakerClientTypes.PropertyLatestValue]?
+    /// A table of property values.
+    public var tabularPropertyValues: [[[Swift.String:IoTTwinMakerClientTypes.DataValue]]]?
 
     public init (
-        propertyValues: [Swift.String:IoTTwinMakerClientTypes.PropertyLatestValue]? = nil
+        nextToken: Swift.String? = nil,
+        propertyValues: [Swift.String:IoTTwinMakerClientTypes.PropertyLatestValue]? = nil,
+        tabularPropertyValues: [[[Swift.String:IoTTwinMakerClientTypes.DataValue]]]? = nil
     )
     {
+        self.nextToken = nextToken
         self.propertyValues = propertyValues
+        self.tabularPropertyValues = tabularPropertyValues
     }
 }
 
 struct GetPropertyValueOutputResponseBody: Swift.Equatable {
     let propertyValues: [Swift.String:IoTTwinMakerClientTypes.PropertyLatestValue]?
+    let nextToken: Swift.String?
+    let tabularPropertyValues: [[[Swift.String:IoTTwinMakerClientTypes.DataValue]]]?
 }
 
 extension GetPropertyValueOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
         case propertyValues
+        case tabularPropertyValues
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3822,6 +4567,37 @@ extension GetPropertyValueOutputResponseBody: Swift.Decodable {
             }
         }
         propertyValues = propertyValuesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let tabularPropertyValuesContainer = try containerValues.decodeIfPresent([[[Swift.String: IoTTwinMakerClientTypes.DataValue?]?]?].self, forKey: .tabularPropertyValues)
+        var tabularPropertyValuesDecoded0:[[[Swift.String:IoTTwinMakerClientTypes.DataValue]]]? = nil
+        if let tabularPropertyValuesContainer = tabularPropertyValuesContainer {
+            tabularPropertyValuesDecoded0 = [[[Swift.String:IoTTwinMakerClientTypes.DataValue]]]()
+            for list0 in tabularPropertyValuesContainer {
+                var list0Decoded0: [[Swift.String: IoTTwinMakerClientTypes.DataValue]]? = nil
+                if let list0 = list0 {
+                    list0Decoded0 = [[Swift.String: IoTTwinMakerClientTypes.DataValue]]()
+                    for map1 in list0 {
+                        var list0Decoded1: [Swift.String: IoTTwinMakerClientTypes.DataValue]? = nil
+                        if let map1 = map1 {
+                            list0Decoded1 = [Swift.String: IoTTwinMakerClientTypes.DataValue]()
+                            for (key2, datavalue2) in map1 {
+                                if let datavalue2 = datavalue2 {
+                                    list0Decoded1?[key2] = datavalue2
+                                }
+                            }
+                        }
+                        if let list0Decoded1 = list0Decoded1 {
+                            list0Decoded0?.append(list0Decoded1)
+                        }
+                    }
+                }
+                if let list0Decoded0 = list0Decoded0 {
+                    tabularPropertyValuesDecoded0?.append(list0Decoded0)
+                }
+            }
+        }
+        tabularPropertyValues = tabularPropertyValuesDecoded0
     }
 }
 
@@ -4188,6 +4964,35 @@ extension GetWorkspaceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension IoTTwinMakerClientTypes {
+    public enum GroupType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case tabular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupType] {
+            return [
+                .tabular,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .tabular: return "TABULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GroupType(rawValue: rawValue) ?? GroupType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4443,7 +5248,7 @@ extension ListComponentTypesInput: ClientRuntime.URLPathProvider {
 public struct ListComponentTypesInput: Swift.Equatable {
     /// A list of objects that filter the request.
     public var filters: [IoTTwinMakerClientTypes.ListComponentTypesFilter]?
-    /// The maximum number of results to display.
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
@@ -4701,7 +5506,7 @@ extension ListEntitiesInput: ClientRuntime.URLPathProvider {
 public struct ListEntitiesInput: Swift.Equatable {
     /// A list of objects that filter the request. Only one object is accepted as a valid input.
     public var filters: [IoTTwinMakerClientTypes.ListEntitiesFilter]?
-    /// The maximum number of results to display.
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
@@ -5027,7 +5832,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The maximum number of results to display.
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
@@ -5179,7 +5984,7 @@ extension ListWorkspacesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListWorkspacesInput: Swift.Equatable {
-    /// The maximum number of results to display.
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
@@ -5303,6 +6108,84 @@ extension ListWorkspacesOutputResponseBody: Swift.Decodable {
 }
 
 extension IoTTwinMakerClientTypes {
+    public enum Order: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Order] {
+            return [
+                .ascending,
+                .descending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Order(rawValue: rawValue) ?? Order.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTTwinMakerClientTypes.OrderBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case order
+        case propertyName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+        if let propertyName = self.propertyName {
+            try encodeContainer.encode(propertyName, forKey: .propertyName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orderDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.Order.self, forKey: .order)
+        order = orderDecoded
+        let propertyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .propertyName)
+        propertyName = propertyNameDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// Filter criteria that orders the return output. It can be sorted in ascending or descending order.
+    public struct OrderBy: Swift.Equatable {
+        /// The set order that filters results.
+        public var order: IoTTwinMakerClientTypes.Order?
+        /// The property name.
+        /// This member is required.
+        public var propertyName: Swift.String?
+
+        public init (
+            order: IoTTwinMakerClientTypes.Order? = nil,
+            propertyName: Swift.String? = nil
+        )
+        {
+            self.order = order
+            self.propertyName = propertyName
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes {
     public enum OrderByTime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ascending
         case descending
@@ -5408,6 +6291,168 @@ extension IoTTwinMakerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ParentEntityUpdateType(rawValue: rawValue) ?? ParentEntityUpdateType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum PricingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case basic
+        case standard
+        case tieredBundle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PricingMode] {
+            return [
+                .basic,
+                .standard,
+                .tieredBundle,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .standard: return "STANDARD"
+            case .tieredBundle: return "TIERED_BUNDLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PricingMode(rawValue: rawValue) ?? PricingMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTTwinMakerClientTypes.PricingPlan: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case billableEntityCount
+        case bundleInformation
+        case effectiveDateTime
+        case pricingMode
+        case updateDateTime
+        case updateReason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let billableEntityCount = self.billableEntityCount {
+            try encodeContainer.encode(billableEntityCount, forKey: .billableEntityCount)
+        }
+        if let bundleInformation = self.bundleInformation {
+            try encodeContainer.encode(bundleInformation, forKey: .bundleInformation)
+        }
+        if let effectiveDateTime = self.effectiveDateTime {
+            try encodeContainer.encodeTimestamp(effectiveDateTime, format: .epochSeconds, forKey: .effectiveDateTime)
+        }
+        if let pricingMode = self.pricingMode {
+            try encodeContainer.encode(pricingMode.rawValue, forKey: .pricingMode)
+        }
+        if let updateDateTime = self.updateDateTime {
+            try encodeContainer.encodeTimestamp(updateDateTime, format: .epochSeconds, forKey: .updateDateTime)
+        }
+        if let updateReason = self.updateReason {
+            try encodeContainer.encode(updateReason.rawValue, forKey: .updateReason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let billableEntityCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .billableEntityCount)
+        billableEntityCount = billableEntityCountDecoded
+        let bundleInformationDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.BundleInformation.self, forKey: .bundleInformation)
+        bundleInformation = bundleInformationDecoded
+        let effectiveDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .effectiveDateTime)
+        effectiveDateTime = effectiveDateTimeDecoded
+        let pricingModeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PricingMode.self, forKey: .pricingMode)
+        pricingMode = pricingModeDecoded
+        let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
+        updateDateTime = updateDateTimeDecoded
+        let updateReasonDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.UpdateReason.self, forKey: .updateReason)
+        updateReason = updateReasonDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The pricing plan.
+    public struct PricingPlan: Swift.Equatable {
+        /// The billable entity count.
+        public var billableEntityCount: Swift.Int?
+        /// The pricing plan's bundle information.
+        public var bundleInformation: IoTTwinMakerClientTypes.BundleInformation?
+        /// The effective date and time of the pricing plan.
+        /// This member is required.
+        public var effectiveDateTime: ClientRuntime.Date?
+        /// The pricing mode.
+        /// This member is required.
+        public var pricingMode: IoTTwinMakerClientTypes.PricingMode?
+        /// The set date and time for updating a pricing plan.
+        /// This member is required.
+        public var updateDateTime: ClientRuntime.Date?
+        /// The update reason, for changing a pricing plan.
+        /// This member is required.
+        public var updateReason: IoTTwinMakerClientTypes.UpdateReason?
+
+        public init (
+            billableEntityCount: Swift.Int? = nil,
+            bundleInformation: IoTTwinMakerClientTypes.BundleInformation? = nil,
+            effectiveDateTime: ClientRuntime.Date? = nil,
+            pricingMode: IoTTwinMakerClientTypes.PricingMode? = nil,
+            updateDateTime: ClientRuntime.Date? = nil,
+            updateReason: IoTTwinMakerClientTypes.UpdateReason? = nil
+        )
+        {
+            self.billableEntityCount = billableEntityCount
+            self.bundleInformation = bundleInformation
+            self.effectiveDateTime = effectiveDateTime
+            self.pricingMode = pricingMode
+            self.updateDateTime = updateDateTime
+            self.updateReason = updateReason
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum PricingTier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case tier1
+        case tier2
+        case tier3
+        case tier4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PricingTier] {
+            return [
+                .tier1,
+                .tier2,
+                .tier3,
+                .tier4,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .tier1: return "TIER_1"
+            case .tier2: return "TIER_2"
+            case .tier3: return "TIER_3"
+            case .tier4: return "TIER_4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PricingTier(rawValue: rawValue) ?? PricingTier.sdkUnknown(rawValue)
         }
     }
 }
@@ -5717,6 +6762,168 @@ extension IoTTwinMakerClientTypes {
         }
     }
 
+}
+
+extension IoTTwinMakerClientTypes.PropertyGroupRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupType
+        case propertyNames
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupType = self.groupType {
+            try encodeContainer.encode(groupType.rawValue, forKey: .groupType)
+        }
+        if let propertyNames = propertyNames {
+            var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
+            for propertynames0 in propertyNames {
+                try propertyNamesContainer.encode(propertynames0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupTypeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.GroupType.self, forKey: .groupType)
+        groupType = groupTypeDecoded
+        let propertyNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .propertyNames)
+        var propertyNamesDecoded0:[Swift.String]? = nil
+        if let propertyNamesContainer = propertyNamesContainer {
+            propertyNamesDecoded0 = [Swift.String]()
+            for string0 in propertyNamesContainer {
+                if let string0 = string0 {
+                    propertyNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        propertyNames = propertyNamesDecoded0
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    ///
+    public struct PropertyGroupRequest: Swift.Equatable {
+        /// The group type.
+        public var groupType: IoTTwinMakerClientTypes.GroupType?
+        /// The names of properties.
+        public var propertyNames: [Swift.String]?
+
+        public init (
+            groupType: IoTTwinMakerClientTypes.GroupType? = nil,
+            propertyNames: [Swift.String]? = nil
+        )
+        {
+            self.groupType = groupType
+            self.propertyNames = propertyNames
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes.PropertyGroupResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupType
+        case isInherited
+        case propertyNames
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupType = self.groupType {
+            try encodeContainer.encode(groupType.rawValue, forKey: .groupType)
+        }
+        if let isInherited = self.isInherited {
+            try encodeContainer.encode(isInherited, forKey: .isInherited)
+        }
+        if let propertyNames = propertyNames {
+            var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
+            for propertynames0 in propertyNames {
+                try propertyNamesContainer.encode(propertynames0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupTypeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.GroupType.self, forKey: .groupType)
+        groupType = groupTypeDecoded
+        let propertyNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .propertyNames)
+        var propertyNamesDecoded0:[Swift.String]? = nil
+        if let propertyNamesContainer = propertyNamesContainer {
+            propertyNamesDecoded0 = [Swift.String]()
+            for string0 in propertyNamesContainer {
+                if let string0 = string0 {
+                    propertyNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        propertyNames = propertyNamesDecoded0
+        let isInheritedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isInherited)
+        isInherited = isInheritedDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The property group response
+    public struct PropertyGroupResponse: Swift.Equatable {
+        /// The group types.
+        /// This member is required.
+        public var groupType: IoTTwinMakerClientTypes.GroupType?
+        /// A Boolean value that specifies whether the property group is inherited from a parent entity
+        /// This member is required.
+        public var isInherited: Swift.Bool?
+        /// The names of properties.
+        /// This member is required.
+        public var propertyNames: [Swift.String]?
+
+        public init (
+            groupType: IoTTwinMakerClientTypes.GroupType? = nil,
+            isInherited: Swift.Bool? = nil,
+            propertyNames: [Swift.String]? = nil
+        )
+        {
+            self.groupType = groupType
+            self.isInherited = isInherited
+            self.propertyNames = propertyNames
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum PropertyGroupUpdateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case create
+        case delete
+        case update
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropertyGroupUpdateType] {
+            return [
+                .create,
+                .delete,
+                .update,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .create: return "CREATE"
+            case .delete: return "DELETE"
+            case .update: return "UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PropertyGroupUpdateType(rawValue: rawValue) ?? PropertyGroupUpdateType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTTwinMakerClientTypes.PropertyLatestValue: Swift.Codable {
@@ -6094,6 +7301,58 @@ extension IoTTwinMakerClientTypes {
 
 }
 
+extension QueryTimeoutException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: QueryTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The query timeout exception.
+public struct QueryTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = true
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct QueryTimeoutExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension QueryTimeoutExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension IoTTwinMakerClientTypes.Relationship: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case relationshipType
@@ -6234,6 +7493,53 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension IoTTwinMakerClientTypes.Row: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rowData
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rowData = rowData {
+            var rowDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowData)
+            for rowdata0 in rowData {
+                try rowDataContainer.encode(rowdata0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rowDataContainer = try containerValues.decodeIfPresent([ClientRuntime.Document?].self, forKey: .rowData)
+        var rowDataDecoded0:[ClientRuntime.Document]? = nil
+        if let rowDataContainer = rowDataContainer {
+            rowDataDecoded0 = [ClientRuntime.Document]()
+            for document0 in rowDataContainer {
+                if let document0 = document0 {
+                    rowDataDecoded0?.append(document0)
+                }
+            }
+        }
+        rowData = rowDataDecoded0
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// Represents a single row in the query results.
+    public struct Row: Swift.Equatable {
+        /// The data in a row of query results.
+        public var rowData: [ClientRuntime.Document]?
+
+        public init (
+            rowData: [ClientRuntime.Document]? = nil
+        )
+        {
+            self.rowData = rowData
+        }
+    }
+
 }
 
 extension IoTTwinMakerClientTypes.SceneSummary: Swift.Codable {
@@ -6491,6 +7797,75 @@ extension IoTTwinMakerClientTypes {
         {
             self.error = error
             self.state = state
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes.TabularConditions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case orderBy
+        case propertyFilters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let orderBy = orderBy {
+            var orderByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderBy)
+            for orderbylist0 in orderBy {
+                try orderByContainer.encode(orderbylist0)
+            }
+        }
+        if let propertyFilters = propertyFilters {
+            var propertyFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyFilters)
+            for propertyfilters0 in propertyFilters {
+                try propertyFiltersContainer.encode(propertyfilters0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orderByContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.OrderBy?].self, forKey: .orderBy)
+        var orderByDecoded0:[IoTTwinMakerClientTypes.OrderBy]? = nil
+        if let orderByContainer = orderByContainer {
+            orderByDecoded0 = [IoTTwinMakerClientTypes.OrderBy]()
+            for structure0 in orderByContainer {
+                if let structure0 = structure0 {
+                    orderByDecoded0?.append(structure0)
+                }
+            }
+        }
+        orderBy = orderByDecoded0
+        let propertyFiltersContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.PropertyFilter?].self, forKey: .propertyFilters)
+        var propertyFiltersDecoded0:[IoTTwinMakerClientTypes.PropertyFilter]? = nil
+        if let propertyFiltersContainer = propertyFiltersContainer {
+            propertyFiltersDecoded0 = [IoTTwinMakerClientTypes.PropertyFilter]()
+            for structure0 in propertyFiltersContainer {
+                if let structure0 = structure0 {
+                    propertyFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        propertyFilters = propertyFiltersDecoded0
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The tabular conditions.
+    public struct TabularConditions: Swift.Equatable {
+        /// Filter criteria that orders the output. It can be sorted in ascending or descending order.
+        public var orderBy: [IoTTwinMakerClientTypes.OrderBy]?
+        /// You can filter the request using various logical operators and a key-value format. For example: {"key": "serverType", "value": "webServer"}
+        public var propertyFilters: [IoTTwinMakerClientTypes.PropertyFilter]?
+
+        public init (
+            orderBy: [IoTTwinMakerClientTypes.OrderBy]? = nil,
+            propertyFilters: [IoTTwinMakerClientTypes.PropertyFilter]? = nil
+        )
+        {
+            self.orderBy = orderBy
+            self.propertyFilters = propertyFilters
         }
     }
 
@@ -6856,6 +8231,7 @@ extension UpdateComponentTypeInput: Swift.Encodable {
         case functions
         case isSingleton
         case propertyDefinitions
+        case propertyGroups
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6882,6 +8258,12 @@ extension UpdateComponentTypeInput: Swift.Encodable {
             var propertyDefinitionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyDefinitions)
             for (dictKey0, propertydefinitionsrequest0) in propertyDefinitions {
                 try propertyDefinitionsContainer.encode(propertydefinitionsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let propertyGroups = propertyGroups {
+            var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
+            for (dictKey0, propertygroupsrequest0) in propertyGroups {
+                try propertyGroupsContainer.encode(propertygroupsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6913,6 +8295,8 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
     public var isSingleton: Swift.Bool?
     /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
     public var propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]?
+    /// The property groups
+    public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
     /// The ID of the workspace that contains the component type.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -6924,6 +8308,7 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
         functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]? = nil,
         isSingleton: Swift.Bool? = nil,
         propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]? = nil,
+        propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -6933,6 +8318,7 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
         self.functions = functions
         self.isSingleton = isSingleton
         self.propertyDefinitions = propertyDefinitions
+        self.propertyGroups = propertyGroups
         self.workspaceId = workspaceId
     }
 }
@@ -6943,6 +8329,7 @@ struct UpdateComponentTypeInputBody: Swift.Equatable {
     let propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]?
     let extendsFrom: [Swift.String]?
     let functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]?
+    let propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
 }
 
 extension UpdateComponentTypeInputBody: Swift.Decodable {
@@ -6952,6 +8339,7 @@ extension UpdateComponentTypeInputBody: Swift.Decodable {
         case functions
         case isSingleton
         case propertyDefinitions
+        case propertyGroups
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -6993,6 +8381,17 @@ extension UpdateComponentTypeInputBody: Swift.Decodable {
             }
         }
         functions = functionsDecoded0
+        let propertyGroupsContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.PropertyGroupRequest?].self, forKey: .propertyGroups)
+        var propertyGroupsDecoded0: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]? = nil
+        if let propertyGroupsContainer = propertyGroupsContainer {
+            propertyGroupsDecoded0 = [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]()
+            for (key0, propertygrouprequest0) in propertyGroupsContainer {
+                if let propertygrouprequest0 = propertygrouprequest0 {
+                    propertyGroupsDecoded0?[key0] = propertygrouprequest0
+                }
+            }
+        }
+        propertyGroups = propertyGroupsDecoded0
     }
 }
 
@@ -7298,6 +8697,199 @@ extension UpdateEntityOutputResponseBody: Swift.Decodable {
         updateDateTime = updateDateTimeDecoded
         let stateDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.State.self, forKey: .state)
         state = stateDecoded
+    }
+}
+
+extension UpdatePricingPlanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bundleNames
+        case pricingMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bundleNames = bundleNames {
+            var bundleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bundleNames)
+            for pricingbundles0 in bundleNames {
+                try bundleNamesContainer.encode(pricingbundles0)
+            }
+        }
+        if let pricingMode = self.pricingMode {
+            try encodeContainer.encode(pricingMode.rawValue, forKey: .pricingMode)
+        }
+    }
+}
+
+extension UpdatePricingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/pricingplan"
+    }
+}
+
+public struct UpdatePricingPlanInput: Swift.Equatable {
+    /// The bundle names.
+    public var bundleNames: [Swift.String]?
+    /// The pricing mode.
+    /// This member is required.
+    public var pricingMode: IoTTwinMakerClientTypes.PricingMode?
+
+    public init (
+        bundleNames: [Swift.String]? = nil,
+        pricingMode: IoTTwinMakerClientTypes.PricingMode? = nil
+    )
+    {
+        self.bundleNames = bundleNames
+        self.pricingMode = pricingMode
+    }
+}
+
+struct UpdatePricingPlanInputBody: Swift.Equatable {
+    let pricingMode: IoTTwinMakerClientTypes.PricingMode?
+    let bundleNames: [Swift.String]?
+}
+
+extension UpdatePricingPlanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bundleNames
+        case pricingMode
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pricingModeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PricingMode.self, forKey: .pricingMode)
+        pricingMode = pricingModeDecoded
+        let bundleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .bundleNames)
+        var bundleNamesDecoded0:[Swift.String]? = nil
+        if let bundleNamesContainer = bundleNamesContainer {
+            bundleNamesDecoded0 = [Swift.String]()
+            for string0 in bundleNamesContainer {
+                if let string0 = string0 {
+                    bundleNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        bundleNames = bundleNamesDecoded0
+    }
+}
+
+extension UpdatePricingPlanOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdatePricingPlanOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdatePricingPlanOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePricingPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdatePricingPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.currentPricingPlan = output.currentPricingPlan
+            self.pendingPricingPlan = output.pendingPricingPlan
+        } else {
+            self.currentPricingPlan = nil
+            self.pendingPricingPlan = nil
+        }
+    }
+}
+
+public struct UpdatePricingPlanOutputResponse: Swift.Equatable {
+    /// Update the current pricing plan.
+    /// This member is required.
+    public var currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+    /// Update the pending pricing plan.
+    public var pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+
+    public init (
+        currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil,
+        pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil
+    )
+    {
+        self.currentPricingPlan = currentPricingPlan
+        self.pendingPricingPlan = pendingPricingPlan
+    }
+}
+
+struct UpdatePricingPlanOutputResponseBody: Swift.Equatable {
+    let currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+    let pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
+}
+
+extension UpdatePricingPlanOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentPricingPlan
+        case pendingPricingPlan
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currentPricingPlanDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PricingPlan.self, forKey: .currentPricingPlan)
+        currentPricingPlan = currentPricingPlanDecoded
+        let pendingPricingPlanDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.PricingPlan.self, forKey: .pendingPricingPlan)
+        pendingPricingPlan = pendingPricingPlanDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum UpdateReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `default`
+        case entityCountUpdate
+        case overwritten
+        case pricingModeUpdate
+        case pricingTierUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateReason] {
+            return [
+                .default,
+                .entityCountUpdate,
+                .overwritten,
+                .pricingModeUpdate,
+                .pricingTierUpdate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .entityCountUpdate: return "ENTITY_COUNT_UPDATE"
+            case .overwritten: return "OVERWRITTEN"
+            case .pricingModeUpdate: return "PRICING_MODE_UPDATE"
+            case .pricingTierUpdate: return "PRICING_TIER_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateReason(rawValue: rawValue) ?? UpdateReason.sdkUnknown(rawValue)
+        }
     }
 }
 

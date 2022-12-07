@@ -13,6 +13,8 @@ public protocol XRayClientProtocol {
     func createSamplingRule(input: CreateSamplingRuleInput) async throws -> CreateSamplingRuleOutputResponse
     /// Deletes a group resource.
     func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
+    /// Deletes a resource policy from the target Amazon Web Services account.
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     /// Deletes a sampling rule.
     func deleteSamplingRule(input: DeleteSamplingRuleInput) async throws -> DeleteSamplingRuleOutputResponse
     /// Retrieves the current encryption configuration for X-Ray data.
@@ -43,10 +45,14 @@ public protocol XRayClientProtocol {
     func getTraceGraph(input: GetTraceGraphInput) async throws -> GetTraceGraphOutputResponse
     /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com: service("api.example.com") This filter expression finds traces that have an annotation named account with the value 12345: annotation.account = "12345" For a full list of indexed fields and keywords that you can use in filter expressions, see [Using Filter Expressions](https://docs.aws.amazon.com/xray/latest/devguide/xray-console-filters.html) in the Amazon Web Services X-Ray Developer Guide.
     func getTraceSummaries(input: GetTraceSummariesInput) async throws -> GetTraceSummariesOutputResponse
+    /// Returns the list of resource policies in the target Amazon Web Services account.
+    func listResourcePolicies(input: ListResourcePoliciesInput) async throws -> ListResourcePoliciesOutputResponse
     /// Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Updates the encryption configuration for X-Ray data.
     func putEncryptionConfig(input: PutEncryptionConfigInput) async throws -> PutEncryptionConfigOutputResponse
+    /// Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB.
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     /// Used by the Amazon Web Services X-Ray daemon to upload telemetry.
     func putTelemetryRecords(input: PutTelemetryRecordsInput) async throws -> PutTelemetryRecordsOutputResponse
     /// Uploads segment documents to Amazon Web Services X-Ray. The [X-Ray SDK](https://docs.aws.amazon.com/xray/index.html) generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see [Amazon Web Services X-Ray Segment Documents](https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html) in the Amazon Web Services X-Ray Developer Guide. Required segment document fields

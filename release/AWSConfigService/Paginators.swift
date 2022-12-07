@@ -207,6 +207,7 @@ extension DescribeConfigRulesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeConfigRulesInput {
         return DescribeConfigRulesInput(
             configRuleNames: self.configRuleNames,
+            filters: self.filters,
             nextToken: token
         )}
 }
@@ -783,6 +784,7 @@ extension GetComplianceDetailsByResourceInput: ClientRuntime.PaginateToken {
         return GetComplianceDetailsByResourceInput(
             complianceTypes: self.complianceTypes,
             nextToken: token,
+            resourceEvaluationId: self.resourceEvaluationId,
             resourceId: self.resourceId,
             resourceType: self.resourceType
         )}
@@ -1069,6 +1071,38 @@ extension ListDiscoveredResourcesInput: ClientRuntime.PaginateToken {
 extension PaginatorSequence where Input == ListDiscoveredResourcesInput, Output == ListDiscoveredResourcesOutputResponse {
     public func resourceIdentifiers() async throws -> [ConfigClientTypes.ResourceIdentifier] {
         return try await self.asyncCompactMap { item in item.resourceIdentifiers }
+    }
+}
+
+/// Paginate over `[ListResourceEvaluationsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListResourceEvaluationsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListResourceEvaluationsOutputResponse`
+extension ConfigClient {
+    public func listResourceEvaluationsPaginated(input: ListResourceEvaluationsInput) -> ClientRuntime.PaginatorSequence<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse>(input: input, inputKey: \ListResourceEvaluationsInput.nextToken, outputKey: \ListResourceEvaluationsOutputResponse.nextToken, paginationFunction: self.listResourceEvaluations(input:))
+    }
+}
+
+extension ListResourceEvaluationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceEvaluationsInput {
+        return ListResourceEvaluationsInput(
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listResourceEvaluationsPaginated`
+/// to access the nested member `[ConfigClientTypes.ResourceEvaluation]`
+/// - Returns: `[ConfigClientTypes.ResourceEvaluation]`
+extension PaginatorSequence where Input == ListResourceEvaluationsInput, Output == ListResourceEvaluationsOutputResponse {
+    public func resourceEvaluations() async throws -> [ConfigClientTypes.ResourceEvaluation] {
+        return try await self.asyncCompactMap { item in item.resourceEvaluations }
     }
 }
 

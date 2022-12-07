@@ -90,7 +90,7 @@ extension AccessDeniedException {
     }
 }
 
-///
+/// You don't have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
 public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1578,7 +1578,7 @@ extension KendraClientTypes.BatchGetDocumentStatusResponseError: Swift.Codable {
 extension KendraClientTypes {
     /// Provides a response when the status of a document could not be retrieved.
     public struct BatchGetDocumentStatusResponseError: Swift.Equatable {
-        /// The unique identifier of the document whose status could not be retrieved.
+        /// The identifier of the document whose status could not be retrieved.
         public var documentId: Swift.String?
         /// Indicates the source of the error.
         public var errorCode: KendraClientTypes.ErrorCode?
@@ -1827,7 +1827,7 @@ extension KendraClientTypes {
         public var errorCode: KendraClientTypes.ErrorCode?
         /// A description of the reason why the document could not be indexed.
         public var errorMessage: Swift.String?
-        /// The unique identifier of the document.
+        /// The identifier of the document.
         public var id: Swift.String?
 
         public init (
@@ -2040,7 +2040,7 @@ extension KendraClientTypes {
         /// * passphrase—A set of characters that act like a password.
         ///
         ///
-        /// You create an application in Box to generate the keys or credentials required for the secret. For more information, see [Authentication for a Box data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-box.html#box-authentication).
+        /// You create an application in Box to generate the keys or credentials required for the secret. For more information, see [Using a Box data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-box.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Box tasks to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Box fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Box field names must exist in your Box custom metadata.
@@ -2254,7 +2254,7 @@ extension KendraClientTypes {
         /// The Unix timestamp of the date and time that the result was clicked.
         /// This member is required.
         public var clickTime: ClientRuntime.Date?
-        /// The unique identifier of the search result that was clicked.
+        /// The identifier of the search result that was clicked.
         /// This member is required.
         public var resultId: Swift.String?
 
@@ -2346,7 +2346,7 @@ extension KendraClientTypes {
         /// The column that contains the contents of the document.
         /// This member is required.
         public var documentDataColumnName: Swift.String?
-        /// The column that provides the document's unique identifier.
+        /// The column that provides the document's identifier.
         /// This member is required.
         public var documentIdColumnName: Swift.String?
         /// The column that contains the title of the document.
@@ -2448,7 +2448,7 @@ extension ConflictException {
     }
 }
 
-///
+/// A conflict occurred with the request. Please fix any inconsistences with your resources and try again.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2967,7 +2967,7 @@ extension KendraClientTypes {
         public var pageConfiguration: KendraClientTypes.ConfluencePageConfiguration?
         /// Configuration information to connect to your Confluence URL instance via a web proxy. You can use this option for Confluence Server. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a web proxy server that requires basic authentication of user name and password. To store web proxy credentials, you use a secret in Secrets Manager. It is recommended that you follow best security practices when configuring your web proxy. This includes setting up throttling, setting up logging and monitoring, and applying security patches on a regular basis. If you use your web proxy with multiple data sources, sync jobs that occur at the same time could strain the load on your proxy. It is recommended you prepare your proxy beforehand for any security and load requirements.
         public var proxyConfiguration: KendraClientTypes.ProxyConfiguration?
-        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the user name and password required to connect to the Confluence instance. If you use Confluence Cloud, you use a generated API token as the password. For more information, see [Using a Confluence data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-confluence.html). You can also provide authentication credentials in the form of a personal access token. For more information, see [Authentication for a Confluence data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-confluence.html#confluence-authentication).
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the user name and password required to connect to the Confluence instance. If you use Confluence Cloud, you use a generated API token as the password. You can also provide authentication credentials in the form of a personal access token. For more information, see [Using a Confluence data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-confluence.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// The URL of your Confluence instance. Use the full URL of the server. For example, https://server.example.com:port/. You can also use an IP address, for example, https://192.168.1.113/.
@@ -4551,7 +4551,7 @@ extension CreateFaqOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateFaqOutputResponse: Swift.Equatable {
-    /// The unique identifier of the FAQ.
+    /// The identifier of the FAQ.
     public var id: Swift.String?
 
     public init (
@@ -4807,7 +4807,7 @@ extension CreateIndexOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateIndexOutputResponse: Swift.Equatable {
-    /// The unique identifier of the index. Use this identifier when you query an index, set up a data source, or index a document.
+    /// The identifier of the index. Use this identifier when you query an index, set up a data source, or index a document.
     public var id: Swift.String?
 
     public init (
@@ -5017,7 +5017,7 @@ extension CreateQuerySuggestionsBlockListOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct CreateQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
-    /// The unique identifier of the created block list.
+    /// The identifier of the created block list.
     public var id: Swift.String?
 
     public init (
@@ -5227,7 +5227,7 @@ extension CreateThesaurusOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateThesaurusOutputResponse: Swift.Equatable {
-    /// The unique identifier of the thesaurus.
+    /// The identifier of the thesaurus.
     public var id: Swift.String?
 
     public init (
@@ -5680,11 +5680,11 @@ extension KendraClientTypes.DataSourceSummary: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Summary information for an Amazon Kendra data source. Returned in a call to the DescribeDataSource API.
+    /// Summary information for a Amazon Kendra data source.
     public struct DataSourceSummary: Swift.Equatable {
         /// The UNIX datetime that the data source was created.
         public var createdAt: ClientRuntime.Date?
-        /// The unique identifier for the data source.
+        /// The identifier for the data source.
         public var id: Swift.String?
         /// The code for a language. This shows a supported language for all documents in the data source. English is supported by default. For more information on supported languages, including their codes, see [Adding documents in languages other than English](https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html).
         public var languageCode: Swift.String?
@@ -5791,7 +5791,7 @@ extension KendraClientTypes {
         public var errorCode: KendraClientTypes.ErrorCode?
         /// If the Status field is set to ERROR, the ErrorMessage field contains a description of the error that caused the synchronization to fail.
         public var errorMessage: Swift.String?
-        /// A unique identifier for the synchronization job.
+        /// A identifier for the synchronization job.
         public var executionId: Swift.String?
         /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a data source connector.
         public var metrics: KendraClientTypes.DataSourceSyncJobMetrics?
@@ -9733,7 +9733,7 @@ extension KendraClientTypes {
         public var contentType: KendraClientTypes.ContentType?
         /// The list of [principal](https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html) lists that define the hierarchy for which documents users should have access to.
         public var hierarchicalAccessControlList: [KendraClientTypes.HierarchicalPrincipal]?
-        /// A unique identifier of the document in the index. Note, each document ID must be unique per index. You cannot create a data source to index your documents with their unique IDs and then use the BatchPutDocument API to index the same documents, or vice versa. You can delete a data source and then use the BatchPutDocument API to index the same documents, or vice versa.
+        /// A identifier of the document in the index. Note, each document ID must be unique per index. You cannot create a data source to index your documents with their unique IDs and then use the BatchPutDocument API to index the same documents, or vice versa. You can delete a data source and then use the BatchPutDocument API to index the same documents, or vice versa.
         /// This member is required.
         public var id: Swift.String?
         /// Information required to find a specific file in an Amazon S3 bucket.
@@ -9982,7 +9982,7 @@ extension KendraClientTypes {
         public var dateValue: ClientRuntime.Date?
         /// A long integer value.
         public var longValue: Swift.Int?
-        /// A list of strings.
+        /// A list of strings. The default maximum length or number of strings is 10.
         public var stringListValue: [Swift.String]?
         /// A string, such as "department".
         public var stringValue: Swift.String?
@@ -10165,7 +10165,7 @@ extension KendraClientTypes {
         ///
         /// * If dataSourceId and jobExecutionId are provided, but version is not, the version defaults to "0".
         public var attributes: [KendraClientTypes.DocumentAttribute]?
-        /// The unique identifier of the document.
+        /// The identifier of the document.
         /// This member is required.
         public var documentId: Swift.String?
 
@@ -11264,7 +11264,7 @@ extension KendraClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The file type used to create the FAQ.
         public var fileFormat: KendraClientTypes.FaqFileFormat?
-        /// The unique identifier of the FAQ.
+        /// The identifier of the FAQ.
         public var id: Swift.String?
         /// The code for a language. This shows a supported language for the FAQ document as part of the summary information for FAQs. English is supported by default. For more information on supported languages, including their codes, see [Adding documents in languages other than English](https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html).
         public var languageCode: Swift.String?
@@ -11587,7 +11587,7 @@ extension GetQuerySuggestionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetQuerySuggestionsOutputResponse: Swift.Equatable {
-    /// The unique identifier for a list of query suggestions for an index.
+    /// The identifier for a list of query suggestions for an index.
     public var querySuggestionsId: Swift.String?
     /// A list of query suggestions for an index.
     public var suggestions: [KendraClientTypes.Suggestion]?
@@ -12233,7 +12233,7 @@ extension KendraClientTypes {
         public var saaSConfiguration: KendraClientTypes.SaaSConfiguration?
         /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the key-value pairs required to connect to your GitHub. The secret must contain a JSON structure with the following keys:
         ///
-        /// * githubToken—The access token created in GitHub. For more information on creating a token in GitHub, see [Authentication for a GitHub data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-github.html#github-authentication).
+        /// * personalToken—The access token created in GitHub. For more information on creating a token in GitHub, see [Using a GitHub data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-github.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// The type of GitHub service you want to connect to—GitHub Enterprise Cloud (SaaS) or GitHub Enterprise Server (on premises).
@@ -13016,11 +13016,11 @@ extension KendraClientTypes {
         /// The Unix timestamp when the index was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
-        /// Indicates whether the index is a enterprise edition index or a developer edition index.
+        /// Indicates whether the index is a Enterprise Edition index or a Developer Edition index.
         public var edition: KendraClientTypes.IndexEdition?
-        /// A unique identifier for the index. Use this to identify the index when you are using APIs such as Query, DescribeIndex, UpdateIndex, and DeleteIndex.
+        /// A identifier for the index. Use this to identify the index when you are using APIs such as Query, DescribeIndex, UpdateIndex, and DeleteIndex.
         public var id: Swift.String?
-        /// The identifier of the index.
+        /// The name of the index.
         public var name: Swift.String?
         /// The current status of the index. When the status is ACTIVE, the index is ready to search.
         /// This member is required.
@@ -13244,7 +13244,7 @@ extension InternalServerException {
     }
 }
 
-///
+/// An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [ Support](http://aws.amazon.com/aws.amazon.com/contact-us) for help.
 public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -13340,7 +13340,7 @@ extension InvalidRequestException {
     }
 }
 
-/// The input to the request is not valid.
+/// The input to the request is not valid. Please provide the correct input and try again.
 public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -13673,7 +13673,7 @@ extension KendraClientTypes {
         ///
         /// * jiraId—The Jira username.
         ///
-        /// * jiraCredentials—The Jira API token. For more information on creating an API token in Jira, see [ Authentication for a Jira data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-jira.html#jira-authentication).
+        /// * jiraCredentials—The Jira API token. For more information on creating an API token in Jira, see [ Using a Jira data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-jira.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// Specify which statuses to crawl in your Jira data source. You can specify one or more of these options to crawl.
@@ -14295,7 +14295,7 @@ public struct ListDataSourcesInput: Swift.Equatable {
     public var indexId: Swift.String?
     /// The maximum number of data source connectors to return.
     public var maxResults: Swift.Int?
-    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of data source connectors (DataSourceSummaryItems).
+    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of data source connectors.
     public var nextToken: Swift.String?
 
     public init (
@@ -15299,9 +15299,9 @@ extension ListIndicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListIndicesInput: Swift.Equatable {
-    /// The maximum number of data sources to return.
+    /// The maximum number of indices to return.
     public var maxResults: Swift.Int?
-    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of indexes (DataSourceSummaryItems).
+    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of indexes.
     public var nextToken: Swift.String?
 
     public init (
@@ -16877,7 +16877,7 @@ public struct QueryInput: Swift.Equatable {
     public var documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]?
     /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. This helps your users narrow their search.
     public var facets: [KendraClientTypes.Facet]?
-    /// The unique identifier of the index to search. The identifier is returned in the response from the CreateIndex API.
+    /// The identifier of the index to search. The identifier is returned in the response from the CreateIndex API.
     /// This member is required.
     public var indexId: Swift.String?
     /// Query results are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
@@ -16886,7 +16886,7 @@ public struct QueryInput: Swift.Equatable {
     public var pageSize: Swift.Int?
     /// Sets the type of query. Only results for the specified query type are returned.
     public var queryResultTypeFilter: KendraClientTypes.QueryResultType?
-    /// The text to search for.
+    /// The input query text for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries.
     public var queryText: Swift.String?
     /// An array of document attributes to include in the response. You can limit the response to include certain document attributes. By default all document attributes are included in the response.
     public var requestedDocumentAttributes: [Swift.String]?
@@ -17082,7 +17082,7 @@ extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct QueryOutputResponse: Swift.Equatable {
     /// Contains the facet results. A FacetResult contains the counts for each attribute key that was specified in the Facets input parameter.
     public var facetResults: [KendraClientTypes.FacetResult]?
-    /// The unique identifier for the search. You use QueryId to identify the search when using the feedback API.
+    /// The identifier for the search. You use QueryId to identify the search when using the feedback API.
     public var queryId: Swift.String?
     /// The results of the search.
     public var resultItems: [KendraClientTypes.QueryResultItem]?
@@ -17183,6 +17183,38 @@ extension QueryOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension KendraClientTypes {
+    public enum QueryResultFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case table
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryResultFormat] {
+            return [
+                .table,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .table: return "TABLE"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryResultFormat(rawValue: rawValue) ?? QueryResultFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KendraClientTypes.QueryResultItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalAttributes = "AdditionalAttributes"
@@ -17192,8 +17224,10 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
         case documentTitle = "DocumentTitle"
         case documentURI = "DocumentURI"
         case feedbackToken = "FeedbackToken"
+        case format = "Format"
         case id = "Id"
         case scoreAttributes = "ScoreAttributes"
+        case tableExcerpt = "TableExcerpt"
         case type = "Type"
     }
 
@@ -17226,11 +17260,17 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
         if let feedbackToken = self.feedbackToken {
             try encodeContainer.encode(feedbackToken, forKey: .feedbackToken)
         }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
         if let scoreAttributes = self.scoreAttributes {
             try encodeContainer.encode(scoreAttributes, forKey: .scoreAttributes)
+        }
+        if let tableExcerpt = self.tableExcerpt {
+            try encodeContainer.encode(tableExcerpt, forKey: .tableExcerpt)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -17243,6 +17283,8 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
         id = idDecoded
         let typeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.QueryResultType.self, forKey: .type)
         type = typeDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(KendraClientTypes.QueryResultFormat.self, forKey: .format)
+        format = formatDecoded
         let additionalAttributesContainer = try containerValues.decodeIfPresent([KendraClientTypes.AdditionalResultAttribute?].self, forKey: .additionalAttributes)
         var additionalAttributesDecoded0:[KendraClientTypes.AdditionalResultAttribute]? = nil
         if let additionalAttributesContainer = additionalAttributesContainer {
@@ -17277,6 +17319,8 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
         scoreAttributes = scoreAttributesDecoded
         let feedbackTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .feedbackToken)
         feedbackToken = feedbackTokenDecoded
+        let tableExcerptDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TableExcerpt.self, forKey: .tableExcerpt)
+        tableExcerpt = tableExcerptDecoded
     }
 }
 
@@ -17289,19 +17333,23 @@ extension KendraClientTypes {
         public var documentAttributes: [KendraClientTypes.DocumentAttribute]?
         /// An extract of the text in the document. Contains information about highlighting the relevant terms in the excerpt.
         public var documentExcerpt: KendraClientTypes.TextWithHighlights?
-        /// The unique identifier for the document.
+        /// The identifier for the document.
         public var documentId: Swift.String?
         /// The title of the document. Contains the text of the title and information for highlighting the relevant terms in the title.
         public var documentTitle: KendraClientTypes.TextWithHighlights?
         /// The URI of the original location of the document.
         public var documentURI: Swift.String?
-        /// A token that identifies a particular result from a particular query. Use this token to provide click-through feedback for the result. For more information, see [ Submitting feedback ](https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html).
+        /// A token that identifies a particular result from a particular query. Use this token to provide click-through feedback for the result. For more information, see [Submitting feedback ](https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html).
         public var feedbackToken: Swift.String?
-        /// The unique identifier for the query result.
+        /// If the Type of document within the response is ANSWER, then it is either a TABLE answer or TEXT answer. If it's a table answer, a table excerpt is returned in TableExcerpt. If it's a text answer, a text excerpt is returned in DocumentExcerpt.
+        public var format: KendraClientTypes.QueryResultFormat?
+        /// The identifier for the query result.
         public var id: Swift.String?
         /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result matches the query.
         public var scoreAttributes: KendraClientTypes.ScoreAttributes?
-        /// The type of document.
+        /// An excerpt from a table within a document.
+        public var tableExcerpt: KendraClientTypes.TableExcerpt?
+        /// The type of document within the response. For example, a response could include a question-answer that's relevant to the query.
         public var type: KendraClientTypes.QueryResultType?
 
         public init (
@@ -17312,8 +17360,10 @@ extension KendraClientTypes {
             documentTitle: KendraClientTypes.TextWithHighlights? = nil,
             documentURI: Swift.String? = nil,
             feedbackToken: Swift.String? = nil,
+            format: KendraClientTypes.QueryResultFormat? = nil,
             id: Swift.String? = nil,
             scoreAttributes: KendraClientTypes.ScoreAttributes? = nil,
+            tableExcerpt: KendraClientTypes.TableExcerpt? = nil,
             type: KendraClientTypes.QueryResultType? = nil
         )
         {
@@ -17324,8 +17374,10 @@ extension KendraClientTypes {
             self.documentTitle = documentTitle
             self.documentURI = documentURI
             self.feedbackToken = feedbackToken
+            self.format = format
             self.id = id
             self.scoreAttributes = scoreAttributes
+            self.tableExcerpt = tableExcerpt
             self.type = type
         }
     }
@@ -17709,7 +17761,7 @@ extension KendraClientTypes {
         public var messageFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
         /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the key-value pairs that are required to connect to your Quip. The secret must contain a JSON structure with the following keys:
         ///
-        /// * accessToken—The token created in Quip. For more information, see [Authentication for a Quip data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-slack.html#quip-authentication).
+        /// * accessToken—The token created in Quip. For more information, see [Using a Quip data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-slack.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Quip threads to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Quip fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Quip field names must exist in your Quip custom metadata.
@@ -17899,7 +17951,7 @@ extension KendraClientTypes {
         /// Whether to document was relevant or not relevant to the search.
         /// This member is required.
         public var relevanceValue: KendraClientTypes.RelevanceType?
-        /// The unique identifier of the search result that the user provided relevance feedback for.
+        /// The identifier of the search result that the user provided relevance feedback for.
         /// This member is required.
         public var resultId: Swift.String?
 
@@ -17964,7 +18016,7 @@ extension ResourceAlreadyExistException {
     }
 }
 
-///
+/// The resource you want to use already exists. Please check you have provided the correct resource and try again.
 public struct ResourceAlreadyExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -18016,7 +18068,7 @@ extension ResourceInUseException {
     }
 }
 
-///
+/// The resource you want to use is currently in use. Please check you have provided the correct resource and try again.
 public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -18068,7 +18120,7 @@ extension ResourceNotFoundException {
     }
 }
 
-///
+/// The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -18120,7 +18172,7 @@ extension ResourceUnavailableException {
     }
 }
 
-///
+/// The resource you want to use isn't available. Please check you have provided the correct resource and try again.
 public struct ResourceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -19517,7 +19569,7 @@ extension KendraClientTypes {
         public var hostUrl: Swift.String?
         /// Configuration information for crawling knowledge articles in the ServiceNow site.
         public var knowledgeArticleConfiguration: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration?
-        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the user name and password required to connect to the ServiceNow instance. You can also provide OAuth authentication credentials of user name, password, client ID, and client secret. For more information, see [Authentication for a ServiceNow data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html#servicenow-authentication).
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the user name and password required to connect to the ServiceNow instance. You can also provide OAuth authentication credentials of user name, password, client ID, and client secret. For more information, see [Using a ServiceNow data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// Configuration information for crawling service catalogs in the ServiceNow site.
@@ -19817,7 +19869,7 @@ extension ServiceQuotaExceededException {
     }
 }
 
-///
+/// You have exceeded the set limits for your Amazon Kendra service. Please see Quotas[hyperlink Kendra Quotas pg] for more information, or contact [ Support](http://aws.amazon.com/aws.amazon.com/contact-us) to inquire about an increase of limits.
 public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -20016,7 +20068,7 @@ extension KendraClientTypes {
         public var inclusionPatterns: [Swift.String]?
         /// Configuration information to connect to your Microsoft SharePoint site URLs via instance via a web proxy. You can use this option for SharePoint Server. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a web proxy server that requires basic authentication of user name and password. To store web proxy credentials, you use a secret in Secrets Manager. It is recommended that you follow best security practices when configuring your web proxy. This includes setting up throttling, setting up logging and monitoring, and applying security patches on a regular basis. If you use your web proxy with multiple data sources, sync jobs that occur at the same time could strain the load on your proxy. It is recommended you prepare your proxy beforehand for any security and load requirements.
         public var proxyConfiguration: KendraClientTypes.ProxyConfiguration?
-        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the user name and password required to connect to the SharePoint instance. If you use SharePoint Server, you also need to provide the sever domain name as part of the credentials. For more information, see [Using a Microsoft SharePoint Data Source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html). You can also provide OAuth authentication credentials of user name, password, client ID, and client secret. For more information, see [Authentication for a SharePoint data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html#sharepoint-authentication).
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the user name and password required to connect to the SharePoint instance. If you use SharePoint Server, you also need to provide the sever domain name as part of the credentials. For more information, see [Using a Microsoft SharePoint Data Source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html). You can also provide OAuth authentication credentials of user name, password, client ID, and client secret. For more information, see [Using a SharePoint data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// The version of Microsoft SharePoint that you use.
@@ -20871,7 +20923,7 @@ extension KendraClientTypes.Status: Swift.Codable {
 extension KendraClientTypes {
     /// Provides information about the status of documents submitted for indexing.
     public struct Status: Swift.Equatable {
-        /// The unique identifier of the document.
+        /// The identifier of the document.
         public var documentId: Swift.String?
         /// The current status of a document. If the document was submitted for deletion, the status is NOT_FOUND after the document is deleted.
         public var documentStatus: KendraClientTypes.DocumentStatus?
@@ -21176,9 +21228,9 @@ extension KendraClientTypes.Suggestion: Swift.Codable {
 extension KendraClientTypes {
     /// A single query suggestion.
     public struct Suggestion: Swift.Equatable {
-        /// The unique UUID (universally unique identifier) of a single query suggestion.
+        /// The UUID (universally unique identifier) of a single query suggestion.
         public var id: Swift.String?
-        /// The value for the unique UUID (universally unique identifier) of a single query suggestion. The value is the text string of a suggestion.
+        /// The value for the UUID (universally unique identifier) of a single query suggestion. The value is the text string of a suggestion.
         public var value: KendraClientTypes.SuggestionValue?
 
         public init (
@@ -21325,6 +21377,175 @@ extension KendraClientTypes {
         )
         {
             self.text = text
+        }
+    }
+
+}
+
+extension KendraClientTypes.TableCell: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case header = "Header"
+        case highlighted = "Highlighted"
+        case topAnswer = "TopAnswer"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if header != false {
+            try encodeContainer.encode(header, forKey: .header)
+        }
+        if highlighted != false {
+            try encodeContainer.encode(highlighted, forKey: .highlighted)
+        }
+        if topAnswer != false {
+            try encodeContainer.encode(topAnswer, forKey: .topAnswer)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let topAnswerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .topAnswer) ?? false
+        topAnswer = topAnswerDecoded
+        let highlightedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .highlighted) ?? false
+        highlighted = highlightedDecoded
+        let headerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .header) ?? false
+        header = headerDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Provides information about a table cell in a table excerpt.
+    public struct TableCell: Swift.Equatable {
+        /// TRUE means that the table cell should be treated as a header.
+        public var header: Swift.Bool
+        /// TRUE means that the table cell has a high enough confidence and is relevant to the query, so the value or content should be highlighted.
+        public var highlighted: Swift.Bool
+        /// TRUE if the response of the table cell is the top answer. This is the cell value or content with the highest confidence score or is the most relevant to the query.
+        public var topAnswer: Swift.Bool
+        /// The actual value or content within a table cell. A table cell could contain a date value of a year, or a string value of text, for example.
+        public var value: Swift.String?
+
+        public init (
+            header: Swift.Bool = false,
+            highlighted: Swift.Bool = false,
+            topAnswer: Swift.Bool = false,
+            value: Swift.String? = nil
+        )
+        {
+            self.header = header
+            self.highlighted = highlighted
+            self.topAnswer = topAnswer
+            self.value = value
+        }
+    }
+
+}
+
+extension KendraClientTypes.TableExcerpt: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rows = "Rows"
+        case totalNumberOfRows = "TotalNumberOfRows"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rows = rows {
+            var rowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rows)
+            for tablerowlist0 in rows {
+                try rowsContainer.encode(tablerowlist0)
+            }
+        }
+        if let totalNumberOfRows = self.totalNumberOfRows {
+            try encodeContainer.encode(totalNumberOfRows, forKey: .totalNumberOfRows)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rowsContainer = try containerValues.decodeIfPresent([KendraClientTypes.TableRow?].self, forKey: .rows)
+        var rowsDecoded0:[KendraClientTypes.TableRow]? = nil
+        if let rowsContainer = rowsContainer {
+            rowsDecoded0 = [KendraClientTypes.TableRow]()
+            for structure0 in rowsContainer {
+                if let structure0 = structure0 {
+                    rowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rows = rowsDecoded0
+        let totalNumberOfRowsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNumberOfRows)
+        totalNumberOfRows = totalNumberOfRowsDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// An excerpt from a table within a document. The table excerpt displays up to five columns and three rows, depending on how many table cells are relevant to the query and how many columns are available in the original table. The top most relevant cell is displayed in the table excerpt, along with the next most relevant cells.
+    public struct TableExcerpt: Swift.Equatable {
+        /// A list of rows in the table excerpt.
+        public var rows: [KendraClientTypes.TableRow]?
+        /// A count of the number of rows in the original table within the document.
+        public var totalNumberOfRows: Swift.Int?
+
+        public init (
+            rows: [KendraClientTypes.TableRow]? = nil,
+            totalNumberOfRows: Swift.Int? = nil
+        )
+        {
+            self.rows = rows
+            self.totalNumberOfRows = totalNumberOfRows
+        }
+    }
+
+}
+
+extension KendraClientTypes.TableRow: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cells = "Cells"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cells = cells {
+            var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
+            for tablecelllist0 in cells {
+                try cellsContainer.encode(tablecelllist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cellsContainer = try containerValues.decodeIfPresent([KendraClientTypes.TableCell?].self, forKey: .cells)
+        var cellsDecoded0:[KendraClientTypes.TableCell]? = nil
+        if let cellsContainer = cellsContainer {
+            cellsDecoded0 = [KendraClientTypes.TableCell]()
+            for structure0 in cellsContainer {
+                if let structure0 = structure0 {
+                    cellsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cells = cellsDecoded0
+    }
+}
+
+extension KendraClientTypes {
+    /// Information about a row in a table excerpt.
+    public struct TableRow: Swift.Equatable {
+        /// A list of table cells in a row.
+        public var cells: [KendraClientTypes.TableCell]?
+
+        public init (
+            cells: [KendraClientTypes.TableCell]? = nil
+        )
+        {
+            self.cells = cells
         }
     }
 
@@ -21765,7 +21986,7 @@ extension ThrottlingException {
     }
 }
 
-///
+/// The request was denied due to request throttling. Please reduce the number of requests and try again.
 public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -23519,7 +23740,7 @@ extension ValidationException {
     }
 }
 
-///
+/// The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

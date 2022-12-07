@@ -712,6 +712,53 @@ extension ApiLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension AppSyncClientTypes.AppSyncRuntime: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case runtimeVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let runtimeVersion = self.runtimeVersion {
+            try encodeContainer.encode(runtimeVersion, forKey: .runtimeVersion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.RuntimeName.self, forKey: .name)
+        name = nameDecoded
+        let runtimeVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeVersion)
+        runtimeVersion = runtimeVersionDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
+    public struct AppSyncRuntime: Swift.Equatable {
+        /// The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS.
+        /// This member is required.
+        public var name: AppSyncClientTypes.RuntimeName?
+        /// The version of the runtime to use. Currently, the only allowed version is 1.0.0.
+        /// This member is required.
+        public var runtimeVersion: Swift.String?
+
+        public init (
+            name: AppSyncClientTypes.RuntimeName? = nil,
+            runtimeVersion: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.runtimeVersion = runtimeVersion
+        }
+    }
+
+}
+
 extension AssociateApiInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiId
@@ -1035,15 +1082,66 @@ extension AppSyncClientTypes {
 
 }
 
+extension AppSyncClientTypes.BadRequestDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeErrors
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codeErrors = codeErrors {
+            var codeErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeErrors)
+            for codeerrors0 in codeErrors {
+                try codeErrorsContainer.encode(codeerrors0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeErrorsContainer = try containerValues.decodeIfPresent([AppSyncClientTypes.CodeError?].self, forKey: .codeErrors)
+        var codeErrorsDecoded0:[AppSyncClientTypes.CodeError]? = nil
+        if let codeErrorsContainer = codeErrorsContainer {
+            codeErrorsDecoded0 = [AppSyncClientTypes.CodeError]()
+            for structure0 in codeErrorsContainer {
+                if let structure0 = structure0 {
+                    codeErrorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeErrors = codeErrorsDecoded0
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Provides further details for the reason behind the bad request. For reason type CODE_ERROR, the detail will contain a list of code errors.
+    public struct BadRequestDetail: Swift.Equatable {
+        /// Contains the list of errors in the request.
+        public var codeErrors: [AppSyncClientTypes.CodeError]?
+
+        public init (
+            codeErrors: [AppSyncClientTypes.CodeError]? = nil
+        )
+        {
+            self.codeErrors = codeErrors
+        }
+    }
+
+}
+
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.detail = output.detail
             self.message = output.message
+            self.reason = output.reason
         } else {
+            self.detail = nil
             self.message = nil
+            self.reason = nil
         }
         self._headers = httpResponse.headers
         self._statusCode = httpResponse.statusCode
@@ -1061,29 +1159,75 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// Provides further details for the reason behind the bad request. For reason type CODE_ERROR, the detail will contain a list of code errors.
+    public var detail: AppSyncClientTypes.BadRequestDetail?
     public var message: Swift.String?
+    /// Provides context for the cause of the bad request. The only supported value is CODE_ERROR.
+    public var reason: AppSyncClientTypes.BadRequestReason?
 
     public init (
-        message: Swift.String? = nil
+        detail: AppSyncClientTypes.BadRequestDetail? = nil,
+        message: Swift.String? = nil,
+        reason: AppSyncClientTypes.BadRequestReason? = nil
     )
     {
+        self.detail = detail
         self.message = message
+        self.reason = reason
     }
 }
 
 struct BadRequestExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let reason: AppSyncClientTypes.BadRequestReason?
+    let detail: AppSyncClientTypes.BadRequestDetail?
 }
 
 extension BadRequestExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detail
         case message
+        case reason
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.BadRequestReason.self, forKey: .reason)
+        reason = reasonDecoded
+        let detailDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.BadRequestDetail.self, forKey: .detail)
+        detail = detailDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Provides context for the cause of the bad request. The only supported value is CODE_ERROR.
+    public enum BadRequestReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case codeError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BadRequestReason] {
+            return [
+                .codeError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .codeError: return "CODE_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BadRequestReason(rawValue: rawValue) ?? BadRequestReason.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -1140,6 +1284,116 @@ extension AppSyncClientTypes {
         {
             self.cachingKeys = cachingKeys
             self.ttl = ttl
+        }
+    }
+
+}
+
+extension AppSyncClientTypes.CodeError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorType
+        case location
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorType = self.errorType {
+            try encodeContainer.encode(errorType, forKey: .errorType)
+        }
+        if let location = self.location {
+            try encodeContainer.encode(location, forKey: .location)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorType)
+        errorType = errorTypeDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let locationDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.CodeErrorLocation.self, forKey: .location)
+        location = locationDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Describes an AppSync error.
+    public struct CodeError: Swift.Equatable {
+        /// The type of code error. Examples include, but aren't limited to: LINT_ERROR, PARSER_ERROR.
+        public var errorType: Swift.String?
+        /// The line, column, and span location of the error in the code.
+        public var location: AppSyncClientTypes.CodeErrorLocation?
+        /// A user presentable error. Examples include, but aren't limited to: Parsing error: Unterminated string literal.
+        public var value: Swift.String?
+
+        public init (
+            errorType: Swift.String? = nil,
+            location: AppSyncClientTypes.CodeErrorLocation? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.errorType = errorType
+            self.location = location
+            self.value = value
+        }
+    }
+
+}
+
+extension AppSyncClientTypes.CodeErrorLocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case column
+        case line
+        case span
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if column != 0 {
+            try encodeContainer.encode(column, forKey: .column)
+        }
+        if line != 0 {
+            try encodeContainer.encode(line, forKey: .line)
+        }
+        if span != 0 {
+            try encodeContainer.encode(span, forKey: .span)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .line) ?? 0
+        line = lineDecoded
+        let columnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .column) ?? 0
+        column = columnDecoded
+        let spanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .span) ?? 0
+        span = spanDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Describes the location of the error in a code sample.
+    public struct CodeErrorLocation: Swift.Equatable {
+        /// The column number in the code. Defaults to 0 if unknown.
+        public var column: Swift.Int
+        /// The line number in the code. Defaults to 0 if unknown.
+        public var line: Swift.Int
+        /// The span/length of the error. Defaults to -1 if unknown.
+        public var span: Swift.Int
+
+        public init (
+            column: Swift.Int = 0,
+            line: Swift.Int = 0,
+            span: Swift.Int = 0
+        )
+        {
+            self.column = column
+            self.line = line
+            self.span = span
         }
     }
 
@@ -2060,6 +2314,7 @@ extension CreateDomainNameOutputResponseBody: Swift.Decodable {
 
 extension CreateFunctionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
         case dataSourceName
         case description
         case functionVersion
@@ -2067,11 +2322,15 @@ extension CreateFunctionInput: Swift.Encodable {
         case name
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
         if let dataSourceName = self.dataSourceName {
             try encodeContainer.encode(dataSourceName, forKey: .dataSourceName)
         }
@@ -2093,6 +2352,9 @@ extension CreateFunctionInput: Swift.Encodable {
         if let responseMappingTemplate = self.responseMappingTemplate {
             try encodeContainer.encode(responseMappingTemplate, forKey: .responseMappingTemplate)
         }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
+        }
         if let syncConfig = self.syncConfig {
             try encodeContainer.encode(syncConfig, forKey: .syncConfig)
         }
@@ -2112,13 +2374,14 @@ public struct CreateFunctionInput: Swift.Equatable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
+    /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+    public var code: Swift.String?
     /// The FunctionDataSource name.
     /// This member is required.
     public var dataSourceName: Swift.String?
     /// The Function description.
     public var description: Swift.String?
-    /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
-    /// This member is required.
+    /// The version of the request mapping template. Currently, the supported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
     public var functionVersion: Swift.String?
     /// The maximum batching size for a resolver.
     public var maxBatchSize: Swift.Int
@@ -2129,11 +2392,14 @@ public struct CreateFunctionInput: Swift.Equatable {
     public var requestMappingTemplate: Swift.String?
     /// The Function response mapping template.
     public var responseMappingTemplate: Swift.String?
+    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
+    public var runtime: AppSyncClientTypes.AppSyncRuntime?
     /// Describes a Sync configuration for a resolver. Specifies which Conflict Detection strategy and Resolution strategy to use when the resolver is invoked.
     public var syncConfig: AppSyncClientTypes.SyncConfig?
 
     public init (
         apiId: Swift.String? = nil,
+        code: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         description: Swift.String? = nil,
         functionVersion: Swift.String? = nil,
@@ -2141,10 +2407,12 @@ public struct CreateFunctionInput: Swift.Equatable {
         name: Swift.String? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
+        runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil
     )
     {
         self.apiId = apiId
+        self.code = code
         self.dataSourceName = dataSourceName
         self.description = description
         self.functionVersion = functionVersion
@@ -2152,6 +2420,7 @@ public struct CreateFunctionInput: Swift.Equatable {
         self.name = name
         self.requestMappingTemplate = requestMappingTemplate
         self.responseMappingTemplate = responseMappingTemplate
+        self.runtime = runtime
         self.syncConfig = syncConfig
     }
 }
@@ -2165,10 +2434,13 @@ struct CreateFunctionInputBody: Swift.Equatable {
     let functionVersion: Swift.String?
     let syncConfig: AppSyncClientTypes.SyncConfig?
     let maxBatchSize: Swift.Int
+    let runtime: AppSyncClientTypes.AppSyncRuntime?
+    let code: Swift.String?
 }
 
 extension CreateFunctionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
         case dataSourceName
         case description
         case functionVersion
@@ -2176,6 +2448,7 @@ extension CreateFunctionInputBody: Swift.Decodable {
         case name
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
@@ -2197,6 +2470,10 @@ extension CreateFunctionInputBody: Swift.Decodable {
         syncConfig = syncConfigDecoded
         let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
         maxBatchSize = maxBatchSizeDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
     }
 }
 
@@ -2514,6 +2791,7 @@ extension CreateGraphqlApiOutputResponseBody: Swift.Decodable {
 extension CreateResolverInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachingConfig
+        case code
         case dataSourceName
         case fieldName
         case kind
@@ -2521,6 +2799,7 @@ extension CreateResolverInput: Swift.Encodable {
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
@@ -2528,6 +2807,9 @@ extension CreateResolverInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cachingConfig = self.cachingConfig {
             try encodeContainer.encode(cachingConfig, forKey: .cachingConfig)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
         }
         if let dataSourceName = self.dataSourceName {
             try encodeContainer.encode(dataSourceName, forKey: .dataSourceName)
@@ -2549,6 +2831,9 @@ extension CreateResolverInput: Swift.Encodable {
         }
         if let responseMappingTemplate = self.responseMappingTemplate {
             try encodeContainer.encode(responseMappingTemplate, forKey: .responseMappingTemplate)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
         }
         if let syncConfig = self.syncConfig {
             try encodeContainer.encode(syncConfig, forKey: .syncConfig)
@@ -2574,6 +2859,8 @@ public struct CreateResolverInput: Swift.Equatable {
     public var apiId: Swift.String?
     /// The caching configuration for the resolver.
     public var cachingConfig: AppSyncClientTypes.CachingConfig?
+    /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+    public var code: Swift.String?
     /// The name of the data source for which the resolver is being created.
     public var dataSourceName: Swift.String?
     /// The name of the field to attach the resolver to.
@@ -2593,6 +2880,8 @@ public struct CreateResolverInput: Swift.Equatable {
     public var requestMappingTemplate: Swift.String?
     /// The mapping template to use for responses from the data source.
     public var responseMappingTemplate: Swift.String?
+    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
+    public var runtime: AppSyncClientTypes.AppSyncRuntime?
     /// The SyncConfig for a resolver attached to a versioned data source.
     public var syncConfig: AppSyncClientTypes.SyncConfig?
     /// The name of the Type.
@@ -2602,6 +2891,7 @@ public struct CreateResolverInput: Swift.Equatable {
     public init (
         apiId: Swift.String? = nil,
         cachingConfig: AppSyncClientTypes.CachingConfig? = nil,
+        code: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
@@ -2609,12 +2899,14 @@ public struct CreateResolverInput: Swift.Equatable {
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
+        runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil,
         typeName: Swift.String? = nil
     )
     {
         self.apiId = apiId
         self.cachingConfig = cachingConfig
+        self.code = code
         self.dataSourceName = dataSourceName
         self.fieldName = fieldName
         self.kind = kind
@@ -2622,6 +2914,7 @@ public struct CreateResolverInput: Swift.Equatable {
         self.pipelineConfig = pipelineConfig
         self.requestMappingTemplate = requestMappingTemplate
         self.responseMappingTemplate = responseMappingTemplate
+        self.runtime = runtime
         self.syncConfig = syncConfig
         self.typeName = typeName
     }
@@ -2637,11 +2930,14 @@ struct CreateResolverInputBody: Swift.Equatable {
     let syncConfig: AppSyncClientTypes.SyncConfig?
     let cachingConfig: AppSyncClientTypes.CachingConfig?
     let maxBatchSize: Swift.Int
+    let runtime: AppSyncClientTypes.AppSyncRuntime?
+    let code: Swift.String?
 }
 
 extension CreateResolverInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachingConfig
+        case code
         case dataSourceName
         case fieldName
         case kind
@@ -2649,6 +2945,7 @@ extension CreateResolverInputBody: Swift.Decodable {
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
@@ -2672,6 +2969,10 @@ extension CreateResolverInputBody: Swift.Decodable {
         cachingConfig = cachingConfigDecoded
         let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
         maxBatchSize = maxBatchSizeDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
     }
 }
 
@@ -2686,6 +2987,7 @@ extension CreateResolverOutputError: ClientRuntime.HttpResponseBinding {
 extension CreateResolverOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2696,6 +2998,7 @@ extension CreateResolverOutputError {
 }
 
 public enum CreateResolverOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
     case concurrentModificationException(ConcurrentModificationException)
     case internalFailureException(InternalFailureException)
     case notFoundException(NotFoundException)
@@ -3620,6 +3923,7 @@ extension DeleteResolverOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteResolverOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3630,6 +3934,7 @@ extension DeleteResolverOutputError {
 }
 
 public enum DeleteResolverOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
     case concurrentModificationException(ConcurrentModificationException)
     case internalFailureException(InternalFailureException)
     case notFoundException(NotFoundException)
@@ -4071,7 +4376,7 @@ extension AppSyncClientTypes.ErrorDetail: Swift.Codable {
 }
 
 extension AppSyncClientTypes {
-    /// Contains the list of errors generated when attempting to evaluate a mapping template.
+    /// Contains the list of errors generated. When using JavaScript, this will apply to the request or response function evaluation.
     public struct ErrorDetail: Swift.Equatable {
         /// The error payload.
         public var message: Swift.String?
@@ -4084,6 +4389,245 @@ extension AppSyncClientTypes {
         }
     }
 
+}
+
+extension AppSyncClientTypes.EvaluateCodeErrorDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeErrors
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codeErrors = codeErrors {
+            var codeErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeErrors)
+            for codeerrors0 in codeErrors {
+                try codeErrorsContainer.encode(codeerrors0)
+            }
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let codeErrorsContainer = try containerValues.decodeIfPresent([AppSyncClientTypes.CodeError?].self, forKey: .codeErrors)
+        var codeErrorsDecoded0:[AppSyncClientTypes.CodeError]? = nil
+        if let codeErrorsContainer = codeErrorsContainer {
+            codeErrorsDecoded0 = [AppSyncClientTypes.CodeError]()
+            for structure0 in codeErrorsContainer {
+                if let structure0 = structure0 {
+                    codeErrorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeErrors = codeErrorsDecoded0
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Contains the list of errors from a code evaluation response.
+    public struct EvaluateCodeErrorDetail: Swift.Equatable {
+        /// Contains the list of CodeError objects.
+        public var codeErrors: [AppSyncClientTypes.CodeError]?
+        /// The error payload.
+        public var message: Swift.String?
+
+        public init (
+            codeErrors: [AppSyncClientTypes.CodeError]? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.codeErrors = codeErrors
+            self.message = message
+        }
+    }
+
+}
+
+extension EvaluateCodeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case context
+        case function
+        case runtime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let context = self.context {
+            try encodeContainer.encode(context, forKey: .context)
+        }
+        if let function = self.function {
+            try encodeContainer.encode(function, forKey: .function)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
+        }
+    }
+}
+
+extension EvaluateCodeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/dataplane-evaluatecode"
+    }
+}
+
+public struct EvaluateCodeInput: Swift.Equatable {
+    /// The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS.
+    /// This member is required.
+    public var code: Swift.String?
+    /// The map that holds all of the contextual information for your resolver invocation. A context is required for this action.
+    /// This member is required.
+    public var context: Swift.String?
+    /// The function within the code to be evaluated. If provided, the valid values are request and response.
+    public var function: Swift.String?
+    /// The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported.
+    /// This member is required.
+    public var runtime: AppSyncClientTypes.AppSyncRuntime?
+
+    public init (
+        code: Swift.String? = nil,
+        context: Swift.String? = nil,
+        function: Swift.String? = nil,
+        runtime: AppSyncClientTypes.AppSyncRuntime? = nil
+    )
+    {
+        self.code = code
+        self.context = context
+        self.function = function
+        self.runtime = runtime
+    }
+}
+
+struct EvaluateCodeInputBody: Swift.Equatable {
+    let runtime: AppSyncClientTypes.AppSyncRuntime?
+    let code: Swift.String?
+    let context: Swift.String?
+    let function: Swift.String?
+}
+
+extension EvaluateCodeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case context
+        case function
+        case runtime
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let contextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .context)
+        context = contextDecoded
+        let functionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .function)
+        function = functionDecoded
+    }
+}
+
+extension EvaluateCodeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension EvaluateCodeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum EvaluateCodeOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case internalFailureException(InternalFailureException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EvaluateCodeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: EvaluateCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.error = output.error
+            self.evaluationResult = output.evaluationResult
+            self.logs = output.logs
+        } else {
+            self.error = nil
+            self.evaluationResult = nil
+            self.logs = nil
+        }
+    }
+}
+
+public struct EvaluateCodeOutputResponse: Swift.Equatable {
+    /// Contains the payload of the response error.
+    public var error: AppSyncClientTypes.EvaluateCodeErrorDetail?
+    /// The result of the evaluation operation.
+    public var evaluationResult: Swift.String?
+    /// A list of logs that were generated by calls to util.log.info and util.log.error in the evaluated code.
+    public var logs: [Swift.String]?
+
+    public init (
+        error: AppSyncClientTypes.EvaluateCodeErrorDetail? = nil,
+        evaluationResult: Swift.String? = nil,
+        logs: [Swift.String]? = nil
+    )
+    {
+        self.error = error
+        self.evaluationResult = evaluationResult
+        self.logs = logs
+    }
+}
+
+struct EvaluateCodeOutputResponseBody: Swift.Equatable {
+    let evaluationResult: Swift.String?
+    let error: AppSyncClientTypes.EvaluateCodeErrorDetail?
+    let logs: [Swift.String]?
+}
+
+extension EvaluateCodeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case error
+        case evaluationResult
+        case logs
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationResultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationResult)
+        evaluationResult = evaluationResultDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EvaluateCodeErrorDetail.self, forKey: .error)
+        error = errorDecoded
+        let logsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logs)
+        var logsDecoded0:[Swift.String]? = nil
+        if let logsContainer = logsContainer {
+            logsDecoded0 = [Swift.String]()
+            for string0 in logsContainer {
+                if let string0 = string0 {
+                    logsDecoded0?.append(string0)
+                }
+            }
+        }
+        logs = logsDecoded0
+    }
 }
 
 extension EvaluateMappingTemplateInput: Swift.Encodable {
@@ -4181,9 +4725,11 @@ extension EvaluateMappingTemplateOutputResponse: ClientRuntime.HttpResponseBindi
             let output: EvaluateMappingTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.evaluationResult = output.evaluationResult
+            self.logs = output.logs
         } else {
             self.error = nil
             self.evaluationResult = nil
+            self.logs = nil
         }
     }
 }
@@ -4193,26 +4739,32 @@ public struct EvaluateMappingTemplateOutputResponse: Swift.Equatable {
     public var error: AppSyncClientTypes.ErrorDetail?
     /// The mapping template; this can be a request or response template.
     public var evaluationResult: Swift.String?
+    /// A list of logs that were generated by calls to util.log.info and util.log.error in the evaluated code.
+    public var logs: [Swift.String]?
 
     public init (
         error: AppSyncClientTypes.ErrorDetail? = nil,
-        evaluationResult: Swift.String? = nil
+        evaluationResult: Swift.String? = nil,
+        logs: [Swift.String]? = nil
     )
     {
         self.error = error
         self.evaluationResult = evaluationResult
+        self.logs = logs
     }
 }
 
 struct EvaluateMappingTemplateOutputResponseBody: Swift.Equatable {
     let evaluationResult: Swift.String?
     let error: AppSyncClientTypes.ErrorDetail?
+    let logs: [Swift.String]?
 }
 
 extension EvaluateMappingTemplateOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case error
         case evaluationResult
+        case logs
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -4221,6 +4773,17 @@ extension EvaluateMappingTemplateOutputResponseBody: Swift.Decodable {
         evaluationResult = evaluationResultDecoded
         let errorDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ErrorDetail.self, forKey: .error)
         error = errorDecoded
+        let logsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logs)
+        var logsDecoded0:[Swift.String]? = nil
+        if let logsContainer = logsContainer {
+            logsDecoded0 = [Swift.String]()
+            for string0 in logsContainer {
+                if let string0 = string0 {
+                    logsDecoded0?.append(string0)
+                }
+            }
+        }
+        logs = logsDecoded0
     }
 }
 
@@ -4334,6 +4897,7 @@ public struct FlushApiCacheOutputResponse: Swift.Equatable {
 
 extension AppSyncClientTypes.FunctionConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
         case dataSourceName
         case description
         case functionArn
@@ -4343,11 +4907,15 @@ extension AppSyncClientTypes.FunctionConfiguration: Swift.Codable {
         case name
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
         if let dataSourceName = self.dataSourceName {
             try encodeContainer.encode(dataSourceName, forKey: .dataSourceName)
         }
@@ -4374,6 +4942,9 @@ extension AppSyncClientTypes.FunctionConfiguration: Swift.Codable {
         }
         if let responseMappingTemplate = self.responseMappingTemplate {
             try encodeContainer.encode(responseMappingTemplate, forKey: .responseMappingTemplate)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
         }
         if let syncConfig = self.syncConfig {
             try encodeContainer.encode(syncConfig, forKey: .syncConfig)
@@ -4402,12 +4973,18 @@ extension AppSyncClientTypes.FunctionConfiguration: Swift.Codable {
         syncConfig = syncConfigDecoded
         let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
         maxBatchSize = maxBatchSizeDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
     }
 }
 
 extension AppSyncClientTypes {
     /// A function is a reusable entity. You can use multiple functions to compose the resolver logic.
     public struct FunctionConfiguration: Swift.Equatable {
+        /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public var code: Swift.String?
         /// The name of the DataSource.
         public var dataSourceName: Swift.String?
         /// The Function description.
@@ -4426,10 +5003,13 @@ extension AppSyncClientTypes {
         public var requestMappingTemplate: Swift.String?
         /// The Function response mapping template.
         public var responseMappingTemplate: Swift.String?
+        /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
+        public var runtime: AppSyncClientTypes.AppSyncRuntime?
         /// Describes a Sync configuration for a resolver. Specifies which Conflict Detection strategy and Resolution strategy to use when the resolver is invoked.
         public var syncConfig: AppSyncClientTypes.SyncConfig?
 
         public init (
+            code: Swift.String? = nil,
             dataSourceName: Swift.String? = nil,
             description: Swift.String? = nil,
             functionArn: Swift.String? = nil,
@@ -4439,9 +5019,11 @@ extension AppSyncClientTypes {
             name: Swift.String? = nil,
             requestMappingTemplate: Swift.String? = nil,
             responseMappingTemplate: Swift.String? = nil,
+            runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
             syncConfig: AppSyncClientTypes.SyncConfig? = nil
         )
         {
+            self.code = code
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionArn = functionArn
@@ -4451,6 +5033,7 @@ extension AppSyncClientTypes {
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
         }
     }
@@ -7869,6 +8452,7 @@ extension AppSyncClientTypes {
 extension AppSyncClientTypes.Resolver: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachingConfig
+        case code
         case dataSourceName
         case fieldName
         case kind
@@ -7877,6 +8461,7 @@ extension AppSyncClientTypes.Resolver: Swift.Codable {
         case requestMappingTemplate
         case resolverArn
         case responseMappingTemplate
+        case runtime
         case syncConfig
         case typeName
     }
@@ -7885,6 +8470,9 @@ extension AppSyncClientTypes.Resolver: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cachingConfig = self.cachingConfig {
             try encodeContainer.encode(cachingConfig, forKey: .cachingConfig)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
         }
         if let dataSourceName = self.dataSourceName {
             try encodeContainer.encode(dataSourceName, forKey: .dataSourceName)
@@ -7909,6 +8497,9 @@ extension AppSyncClientTypes.Resolver: Swift.Codable {
         }
         if let responseMappingTemplate = self.responseMappingTemplate {
             try encodeContainer.encode(responseMappingTemplate, forKey: .responseMappingTemplate)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
         }
         if let syncConfig = self.syncConfig {
             try encodeContainer.encode(syncConfig, forKey: .syncConfig)
@@ -7942,6 +8533,10 @@ extension AppSyncClientTypes.Resolver: Swift.Codable {
         cachingConfig = cachingConfigDecoded
         let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
         maxBatchSize = maxBatchSizeDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
     }
 }
 
@@ -7950,6 +8545,8 @@ extension AppSyncClientTypes {
     public struct Resolver: Swift.Equatable {
         /// The caching configuration for the resolver.
         public var cachingConfig: AppSyncClientTypes.CachingConfig?
+        /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public var code: Swift.String?
         /// The resolver data source name.
         public var dataSourceName: Swift.String?
         /// The resolver field name.
@@ -7970,6 +8567,8 @@ extension AppSyncClientTypes {
         public var resolverArn: Swift.String?
         /// The response mapping template.
         public var responseMappingTemplate: Swift.String?
+        /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
+        public var runtime: AppSyncClientTypes.AppSyncRuntime?
         /// The SyncConfig for a resolver attached to a versioned data source.
         public var syncConfig: AppSyncClientTypes.SyncConfig?
         /// The resolver type name.
@@ -7977,6 +8576,7 @@ extension AppSyncClientTypes {
 
         public init (
             cachingConfig: AppSyncClientTypes.CachingConfig? = nil,
+            code: Swift.String? = nil,
             dataSourceName: Swift.String? = nil,
             fieldName: Swift.String? = nil,
             kind: AppSyncClientTypes.ResolverKind? = nil,
@@ -7985,11 +8585,13 @@ extension AppSyncClientTypes {
             requestMappingTemplate: Swift.String? = nil,
             resolverArn: Swift.String? = nil,
             responseMappingTemplate: Swift.String? = nil,
+            runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
             syncConfig: AppSyncClientTypes.SyncConfig? = nil,
             typeName: Swift.String? = nil
         )
         {
             self.cachingConfig = cachingConfig
+            self.code = code
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
@@ -7998,6 +8600,7 @@ extension AppSyncClientTypes {
             self.requestMappingTemplate = requestMappingTemplate
             self.resolverArn = resolverArn
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
             self.typeName = typeName
         }
@@ -8033,6 +8636,35 @@ extension AppSyncClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResolverKind(rawValue: rawValue) ?? ResolverKind.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+    public enum RuntimeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case appsyncJs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeName] {
+            return [
+                .appsyncJs,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .appsyncJs: return "APPSYNC_JS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RuntimeName(rawValue: rawValue) ?? RuntimeName.sdkUnknown(rawValue)
         }
     }
 }
@@ -9293,6 +9925,7 @@ extension UpdateDomainNameOutputResponseBody: Swift.Decodable {
 
 extension UpdateFunctionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
         case dataSourceName
         case description
         case functionVersion
@@ -9300,11 +9933,15 @@ extension UpdateFunctionInput: Swift.Encodable {
         case name
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
         if let dataSourceName = self.dataSourceName {
             try encodeContainer.encode(dataSourceName, forKey: .dataSourceName)
         }
@@ -9325,6 +9962,9 @@ extension UpdateFunctionInput: Swift.Encodable {
         }
         if let responseMappingTemplate = self.responseMappingTemplate {
             try encodeContainer.encode(responseMappingTemplate, forKey: .responseMappingTemplate)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
         }
         if let syncConfig = self.syncConfig {
             try encodeContainer.encode(syncConfig, forKey: .syncConfig)
@@ -9348,6 +9988,8 @@ public struct UpdateFunctionInput: Swift.Equatable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
+    /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+    public var code: Swift.String?
     /// The FunctionDataSource name.
     /// This member is required.
     public var dataSourceName: Swift.String?
@@ -9356,8 +9998,7 @@ public struct UpdateFunctionInput: Swift.Equatable {
     /// The function ID.
     /// This member is required.
     public var functionId: Swift.String?
-    /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
-    /// This member is required.
+    /// The version of the request mapping template. Currently, the supported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
     public var functionVersion: Swift.String?
     /// The maximum batching size for a resolver.
     public var maxBatchSize: Swift.Int
@@ -9368,11 +10009,14 @@ public struct UpdateFunctionInput: Swift.Equatable {
     public var requestMappingTemplate: Swift.String?
     /// The Function request mapping template.
     public var responseMappingTemplate: Swift.String?
+    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
+    public var runtime: AppSyncClientTypes.AppSyncRuntime?
     /// Describes a Sync configuration for a resolver. Specifies which Conflict Detection strategy and Resolution strategy to use when the resolver is invoked.
     public var syncConfig: AppSyncClientTypes.SyncConfig?
 
     public init (
         apiId: Swift.String? = nil,
+        code: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
@@ -9381,10 +10025,12 @@ public struct UpdateFunctionInput: Swift.Equatable {
         name: Swift.String? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
+        runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil
     )
     {
         self.apiId = apiId
+        self.code = code
         self.dataSourceName = dataSourceName
         self.description = description
         self.functionId = functionId
@@ -9393,6 +10039,7 @@ public struct UpdateFunctionInput: Swift.Equatable {
         self.name = name
         self.requestMappingTemplate = requestMappingTemplate
         self.responseMappingTemplate = responseMappingTemplate
+        self.runtime = runtime
         self.syncConfig = syncConfig
     }
 }
@@ -9406,10 +10053,13 @@ struct UpdateFunctionInputBody: Swift.Equatable {
     let functionVersion: Swift.String?
     let syncConfig: AppSyncClientTypes.SyncConfig?
     let maxBatchSize: Swift.Int
+    let runtime: AppSyncClientTypes.AppSyncRuntime?
+    let code: Swift.String?
 }
 
 extension UpdateFunctionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
         case dataSourceName
         case description
         case functionVersion
@@ -9417,6 +10067,7 @@ extension UpdateFunctionInputBody: Swift.Decodable {
         case name
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
@@ -9438,6 +10089,10 @@ extension UpdateFunctionInputBody: Swift.Decodable {
         syncConfig = syncConfigDecoded
         let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
         maxBatchSize = maxBatchSizeDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
     }
 }
 
@@ -9738,12 +10393,14 @@ extension UpdateGraphqlApiOutputResponseBody: Swift.Decodable {
 extension UpdateResolverInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachingConfig
+        case code
         case dataSourceName
         case kind
         case maxBatchSize
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
@@ -9751,6 +10408,9 @@ extension UpdateResolverInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cachingConfig = self.cachingConfig {
             try encodeContainer.encode(cachingConfig, forKey: .cachingConfig)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
         }
         if let dataSourceName = self.dataSourceName {
             try encodeContainer.encode(dataSourceName, forKey: .dataSourceName)
@@ -9769,6 +10429,9 @@ extension UpdateResolverInput: Swift.Encodable {
         }
         if let responseMappingTemplate = self.responseMappingTemplate {
             try encodeContainer.encode(responseMappingTemplate, forKey: .responseMappingTemplate)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
         }
         if let syncConfig = self.syncConfig {
             try encodeContainer.encode(syncConfig, forKey: .syncConfig)
@@ -9797,6 +10460,8 @@ public struct UpdateResolverInput: Swift.Equatable {
     public var apiId: Swift.String?
     /// The caching configuration for the resolver.
     public var cachingConfig: AppSyncClientTypes.CachingConfig?
+    /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+    public var code: Swift.String?
     /// The new data source name.
     public var dataSourceName: Swift.String?
     /// The new field name.
@@ -9816,6 +10481,8 @@ public struct UpdateResolverInput: Swift.Equatable {
     public var requestMappingTemplate: Swift.String?
     /// The new response mapping template.
     public var responseMappingTemplate: Swift.String?
+    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
+    public var runtime: AppSyncClientTypes.AppSyncRuntime?
     /// The SyncConfig for a resolver attached to a versioned data source.
     public var syncConfig: AppSyncClientTypes.SyncConfig?
     /// The new type name.
@@ -9825,6 +10492,7 @@ public struct UpdateResolverInput: Swift.Equatable {
     public init (
         apiId: Swift.String? = nil,
         cachingConfig: AppSyncClientTypes.CachingConfig? = nil,
+        code: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
@@ -9832,12 +10500,14 @@ public struct UpdateResolverInput: Swift.Equatable {
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
+        runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil,
         typeName: Swift.String? = nil
     )
     {
         self.apiId = apiId
         self.cachingConfig = cachingConfig
+        self.code = code
         self.dataSourceName = dataSourceName
         self.fieldName = fieldName
         self.kind = kind
@@ -9845,6 +10515,7 @@ public struct UpdateResolverInput: Swift.Equatable {
         self.pipelineConfig = pipelineConfig
         self.requestMappingTemplate = requestMappingTemplate
         self.responseMappingTemplate = responseMappingTemplate
+        self.runtime = runtime
         self.syncConfig = syncConfig
         self.typeName = typeName
     }
@@ -9859,17 +10530,21 @@ struct UpdateResolverInputBody: Swift.Equatable {
     let syncConfig: AppSyncClientTypes.SyncConfig?
     let cachingConfig: AppSyncClientTypes.CachingConfig?
     let maxBatchSize: Swift.Int
+    let runtime: AppSyncClientTypes.AppSyncRuntime?
+    let code: Swift.String?
 }
 
 extension UpdateResolverInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachingConfig
+        case code
         case dataSourceName
         case kind
         case maxBatchSize
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
+        case runtime
         case syncConfig
     }
 
@@ -9891,6 +10566,10 @@ extension UpdateResolverInputBody: Swift.Decodable {
         cachingConfig = cachingConfigDecoded
         let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
         maxBatchSize = maxBatchSizeDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
+        runtime = runtimeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
     }
 }
 
@@ -9905,6 +10584,7 @@ extension UpdateResolverOutputError: ClientRuntime.HttpResponseBinding {
 extension UpdateResolverOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -9915,6 +10595,7 @@ extension UpdateResolverOutputError {
 }
 
 public enum UpdateResolverOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
     case concurrentModificationException(ConcurrentModificationException)
     case internalFailureException(InternalFailureException)
     case notFoundException(NotFoundException)

@@ -8805,6 +8805,7 @@ extension CloudFormationClientTypes {
         case servicetimeout
         case throttling
         case unknown
+        case unsupportedtarget
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HandlerErrorCode] {
@@ -8827,6 +8828,7 @@ extension CloudFormationClientTypes {
                 .servicetimeout,
                 .throttling,
                 .unknown,
+                .unsupportedtarget,
                 .sdkUnknown("")
             ]
         }
@@ -8854,6 +8856,7 @@ extension CloudFormationClientTypes {
             case .servicetimeout: return "NotStabilized"
             case .throttling: return "Throttling"
             case .unknown: return "Unknown"
+            case .unsupportedtarget: return "UnsupportedTarget"
             case let .sdkUnknown(s): return s
             }
         }

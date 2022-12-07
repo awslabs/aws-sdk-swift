@@ -206,7 +206,7 @@ public struct LicenseManagerUserSubscriptionsClientLogHandlerFactory: ClientRunt
 }
 
 extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptionsClientProtocol {
-    /// Associates the user to an EC2 instance to utilize user-based subscriptions.
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     public func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -478,7 +478,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
         return result
     }
 
-    /// Starts a product subscription for a user with the specified identity provider.
+    /// Starts a product subscription for a user with the specified identity provider. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     public func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -542,6 +542,40 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates additional product configuration settings for the registered identity provider.
+    public func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateIdentityProviderSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "license-manager-user-subscriptions")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(id: "updateIdentityProviderSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse>())
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

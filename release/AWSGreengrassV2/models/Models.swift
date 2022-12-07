@@ -1902,6 +1902,7 @@ extension CreateDeploymentInput: Swift.Encodable {
         case deploymentName
         case deploymentPolicies
         case iotJobConfiguration
+        case parentTargetArn
         case tags
         case targetArn
     }
@@ -1925,6 +1926,9 @@ extension CreateDeploymentInput: Swift.Encodable {
         }
         if let iotJobConfiguration = self.iotJobConfiguration {
             try encodeContainer.encode(iotJobConfiguration, forKey: .iotJobConfiguration)
+        }
+        if let parentTargetArn = self.parentTargetArn {
+            try encodeContainer.encode(parentTargetArn, forKey: .parentTargetArn)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1955,9 +1959,11 @@ public struct CreateDeploymentInput: Swift.Equatable {
     public var deploymentPolicies: GreengrassV2ClientTypes.DeploymentPolicies?
     /// The job configuration for the deployment configuration. The job configuration specifies the rollout, timeout, and stop configurations for the deployment configuration.
     public var iotJobConfiguration: GreengrassV2ClientTypes.DeploymentIoTJobConfiguration?
+    /// The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) within a subdeployment.
+    public var parentTargetArn: Swift.String?
     /// A list of key-value pairs that contain metadata for the resource. For more information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html) in the IoT Greengrass V2 Developer Guide.
     public var tags: [Swift.String:Swift.String]?
-    /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the target IoT thing or thing group.
+    /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the target IoT thing or thing group. When creating a subdeployment, the targetARN can only be a thing group.
     /// This member is required.
     public var targetArn: Swift.String?
 
@@ -1967,6 +1973,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
         deploymentName: Swift.String? = nil,
         deploymentPolicies: GreengrassV2ClientTypes.DeploymentPolicies? = nil,
         iotJobConfiguration: GreengrassV2ClientTypes.DeploymentIoTJobConfiguration? = nil,
+        parentTargetArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         targetArn: Swift.String? = nil
     )
@@ -1976,6 +1983,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
         self.deploymentName = deploymentName
         self.deploymentPolicies = deploymentPolicies
         self.iotJobConfiguration = iotJobConfiguration
+        self.parentTargetArn = parentTargetArn
         self.tags = tags
         self.targetArn = targetArn
     }
@@ -1987,6 +1995,7 @@ struct CreateDeploymentInputBody: Swift.Equatable {
     let components: [Swift.String:GreengrassV2ClientTypes.ComponentDeploymentSpecification]?
     let iotJobConfiguration: GreengrassV2ClientTypes.DeploymentIoTJobConfiguration?
     let deploymentPolicies: GreengrassV2ClientTypes.DeploymentPolicies?
+    let parentTargetArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
 }
@@ -1998,6 +2007,7 @@ extension CreateDeploymentInputBody: Swift.Decodable {
         case deploymentName
         case deploymentPolicies
         case iotJobConfiguration
+        case parentTargetArn
         case tags
         case targetArn
     }
@@ -2023,6 +2033,8 @@ extension CreateDeploymentInputBody: Swift.Decodable {
         iotJobConfiguration = iotJobConfigurationDecoded
         let deploymentPoliciesDecoded = try containerValues.decodeIfPresent(GreengrassV2ClientTypes.DeploymentPolicies.self, forKey: .deploymentPolicies)
         deploymentPolicies = deploymentPoliciesDecoded
+        let parentTargetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentTargetArn)
+        parentTargetArn = parentTargetArnDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -2360,6 +2372,7 @@ extension GreengrassV2ClientTypes.Deployment: Swift.Codable {
         case deploymentName
         case deploymentStatus
         case isLatestForTarget
+        case parentTargetArn
         case revisionId
         case targetArn
     }
@@ -2380,6 +2393,9 @@ extension GreengrassV2ClientTypes.Deployment: Swift.Codable {
         }
         if isLatestForTarget != false {
             try encodeContainer.encode(isLatestForTarget, forKey: .isLatestForTarget)
+        }
+        if let parentTargetArn = self.parentTargetArn {
+            try encodeContainer.encode(parentTargetArn, forKey: .parentTargetArn)
         }
         if let revisionId = self.revisionId {
             try encodeContainer.encode(revisionId, forKey: .revisionId)
@@ -2405,6 +2421,8 @@ extension GreengrassV2ClientTypes.Deployment: Swift.Codable {
         deploymentStatus = deploymentStatusDecoded
         let isLatestForTargetDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatestForTarget) ?? false
         isLatestForTarget = isLatestForTargetDecoded
+        let parentTargetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentTargetArn)
+        parentTargetArn = parentTargetArnDecoded
     }
 }
 
@@ -2421,9 +2439,11 @@ extension GreengrassV2ClientTypes {
         public var deploymentStatus: GreengrassV2ClientTypes.DeploymentStatus?
         /// Whether or not the deployment is the latest revision for its target.
         public var isLatestForTarget: Swift.Bool
+        /// The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) within a subdeployment.
+        public var parentTargetArn: Swift.String?
         /// The revision number of the deployment.
         public var revisionId: Swift.String?
-        /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the target IoT thing or thing group.
+        /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the target IoT thing or thing group. When creating a subdeployment, the targetARN can only be a thing group.
         public var targetArn: Swift.String?
 
         public init (
@@ -2432,6 +2452,7 @@ extension GreengrassV2ClientTypes {
             deploymentName: Swift.String? = nil,
             deploymentStatus: GreengrassV2ClientTypes.DeploymentStatus? = nil,
             isLatestForTarget: Swift.Bool = false,
+            parentTargetArn: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             targetArn: Swift.String? = nil
         )
@@ -2441,6 +2462,7 @@ extension GreengrassV2ClientTypes {
             self.deploymentName = deploymentName
             self.deploymentStatus = deploymentStatus
             self.isLatestForTarget = isLatestForTarget
+            self.parentTargetArn = parentTargetArn
             self.revisionId = revisionId
             self.targetArn = targetArn
         }
@@ -4041,6 +4063,7 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.iotJobConfiguration = output.iotJobConfiguration
             self.iotJobId = output.iotJobId
             self.isLatestForTarget = output.isLatestForTarget
+            self.parentTargetArn = output.parentTargetArn
             self.revisionId = output.revisionId
             self.tags = output.tags
             self.targetArn = output.targetArn
@@ -4055,6 +4078,7 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.iotJobConfiguration = nil
             self.iotJobId = nil
             self.isLatestForTarget = false
+            self.parentTargetArn = nil
             self.revisionId = nil
             self.tags = nil
             self.targetArn = nil
@@ -4083,6 +4107,8 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
     public var iotJobId: Swift.String?
     /// Whether or not the deployment is the latest revision for its target.
     public var isLatestForTarget: Swift.Bool
+    /// The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) within a subdeployment.
+    public var parentTargetArn: Swift.String?
     /// The revision number of the deployment.
     public var revisionId: Swift.String?
     /// A list of key-value pairs that contain metadata for the resource. For more information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html) in the IoT Greengrass V2 Developer Guide.
@@ -4101,6 +4127,7 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
         iotJobConfiguration: GreengrassV2ClientTypes.DeploymentIoTJobConfiguration? = nil,
         iotJobId: Swift.String? = nil,
         isLatestForTarget: Swift.Bool = false,
+        parentTargetArn: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         targetArn: Swift.String? = nil
@@ -4116,6 +4143,7 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
         self.iotJobConfiguration = iotJobConfiguration
         self.iotJobId = iotJobId
         self.isLatestForTarget = isLatestForTarget
+        self.parentTargetArn = parentTargetArn
         self.revisionId = revisionId
         self.tags = tags
         self.targetArn = targetArn
@@ -4135,6 +4163,7 @@ struct GetDeploymentOutputResponseBody: Swift.Equatable {
     let iotJobConfiguration: GreengrassV2ClientTypes.DeploymentIoTJobConfiguration?
     let creationTimestamp: ClientRuntime.Date?
     let isLatestForTarget: Swift.Bool
+    let parentTargetArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4150,6 +4179,7 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
         case iotJobConfiguration
         case iotJobId
         case isLatestForTarget
+        case parentTargetArn
         case revisionId
         case tags
         case targetArn
@@ -4190,6 +4220,8 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
         creationTimestamp = creationTimestampDecoded
         let isLatestForTargetDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatestForTarget) ?? false
         isLatestForTarget = isLatestForTargetDecoded
+        let parentTargetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentTargetArn)
+        parentTargetArn = parentTargetArnDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -6273,6 +6305,10 @@ extension ListDeploymentsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            if let parentTargetArn = parentTargetArn {
+                let parentTargetArnQueryItem = ClientRuntime.URLQueryItem(name: "parentTargetArn".urlPercentEncoding(), value: Swift.String(parentTargetArn).urlPercentEncoding())
+                items.append(parentTargetArnQueryItem)
+            }
             if let targetArn = targetArn {
                 let targetArnQueryItem = ClientRuntime.URLQueryItem(name: "targetArn".urlPercentEncoding(), value: Swift.String(targetArn).urlPercentEncoding())
                 items.append(targetArnQueryItem)
@@ -6302,6 +6338,8 @@ public struct ListDeploymentsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?
+    /// The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) within a subdeployment.
+    public var parentTargetArn: Swift.String?
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the target IoT thing or thing group.
     public var targetArn: Swift.String?
 
@@ -6309,12 +6347,14 @@ public struct ListDeploymentsInput: Swift.Equatable {
         historyFilter: GreengrassV2ClientTypes.DeploymentHistoryFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        parentTargetArn: Swift.String? = nil,
         targetArn: Swift.String? = nil
     )
     {
         self.historyFilter = historyFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.parentTargetArn = parentTargetArn
         self.targetArn = targetArn
     }
 }

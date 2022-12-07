@@ -26,7 +26,7 @@ public protocol ConnectCasesClientProtocol {
     func createLayout(input: CreateLayoutInput) async throws -> CreateLayoutOutputResponse
     /// Creates a related item (comments, tasks, and contacts) and associates it with a case. A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.
     func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutputResponse
-    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template.
+    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
     func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutputResponse
     /// Returns information about a specific case if it exists.
     func getCase(input: GetCaseInput) async throws -> GetCaseOutputResponse
@@ -68,7 +68,7 @@ public protocol ConnectCasesClientProtocol {
     func updateField(input: UpdateFieldInput) async throws -> UpdateFieldOutputResponse
     /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. Title and Status fields cannot be part of layouts because they are not configurable.
     func updateLayout(input: UpdateLayoutInput) async throws -> UpdateLayoutOutputResponse
-    /// Updates the attributes of an existing template. The template attributes that can be modified include name, description, layouts, and requiredFields. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved.
+    /// Updates the attributes of an existing template. The template attributes that can be modified include name, description, layoutConfiguration, requiredFields, and status. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved.
     func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutputResponse
 }
 

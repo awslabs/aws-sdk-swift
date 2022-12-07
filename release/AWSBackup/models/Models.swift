@@ -175,6 +175,8 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         case creationDate = "CreationDate"
         case expectedCompletionDate = "ExpectedCompletionDate"
         case iamRoleArn = "IamRoleArn"
+        case isParent = "IsParent"
+        case parentJobId = "ParentJobId"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
@@ -227,6 +229,12 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         }
         if let iamRoleArn = self.iamRoleArn {
             try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if isParent != false {
+            try encodeContainer.encode(isParent, forKey: .isParent)
+        }
+        if let parentJobId = self.parentJobId {
+            try encodeContainer.encode(parentJobId, forKey: .parentJobId)
         }
         if let percentDone = self.percentDone {
             try encodeContainer.encode(percentDone, forKey: .percentDone)
@@ -302,6 +310,10 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         backupOptions = backupOptionsDecoded0
         let backupTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupType)
         backupType = backupTypeDecoded
+        let parentJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentJobId)
+        parentJobId = parentJobIdDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
     }
 }
 
@@ -334,6 +346,10 @@ extension BackupClientTypes {
         public var expectedCompletionDate: ClientRuntime.Date?
         /// Specifies the IAM role ARN used to create the target recovery point. IAM roles other than the default role must include either AWSBackup or AwsBackup in the role name. For example, arn:aws:iam::123456789012:role/AWSBackupRDSAccess. Role names without those strings lack permissions to perform backup jobs.
         public var iamRoleArn: Swift.String?
+        /// This is a boolean value indicating this is a parent (composite) backup job.
+        public var isParent: Swift.Bool
+        /// This uniquely identifies a request to Backup to back up a resource. The return will be the parent (composite) job ID.
+        public var parentJobId: Swift.String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
         public var percentDone: Swift.String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -363,6 +379,8 @@ extension BackupClientTypes {
             creationDate: ClientRuntime.Date? = nil,
             expectedCompletionDate: ClientRuntime.Date? = nil,
             iamRoleArn: Swift.String? = nil,
+            isParent: Swift.Bool = false,
+            parentJobId: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
@@ -385,6 +403,8 @@ extension BackupClientTypes {
             self.creationDate = creationDate
             self.expectedCompletionDate = expectedCompletionDate
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
@@ -405,6 +425,7 @@ extension BackupClientTypes {
         case created
         case expired
         case failed
+        case partial
         case pending
         case running
         case sdkUnknown(Swift.String)
@@ -417,6 +438,7 @@ extension BackupClientTypes {
                 .created,
                 .expired,
                 .failed,
+                .partial,
                 .pending,
                 .running,
                 .sdkUnknown("")
@@ -434,6 +456,7 @@ extension BackupClientTypes {
             case .created: return "CREATED"
             case .expired: return "EXPIRED"
             case .failed: return "FAILED"
+            case .partial: return "PARTIAL"
             case .pending: return "PENDING"
             case .running: return "RUNNING"
             case let .sdkUnknown(s): return s
@@ -903,7 +926,7 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public var scheduleExpression: Swift.String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors.
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         /// This member is required.
@@ -1051,7 +1074,7 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public var scheduleExpression: Swift.String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors.
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         /// This member is required.
@@ -1544,6 +1567,105 @@ extension BackupClientTypes {
         }
     }
 
+}
+
+extension CancelLegalHoldInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let cancelDescription = cancelDescription else {
+                let message = "Creating a URL Query Item failed. cancelDescription is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let cancelDescriptionQueryItem = ClientRuntime.URLQueryItem(name: "cancelDescription".urlPercentEncoding(), value: Swift.String(cancelDescription).urlPercentEncoding())
+            items.append(cancelDescriptionQueryItem)
+            if let retainRecordInDays = retainRecordInDays {
+                let retainRecordInDaysQueryItem = ClientRuntime.URLQueryItem(name: "retainRecordInDays".urlPercentEncoding(), value: Swift.String(retainRecordInDays).urlPercentEncoding())
+                items.append(retainRecordInDaysQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension CancelLegalHoldInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let legalHoldId = legalHoldId else {
+            return nil
+        }
+        return "/legal-holds/\(legalHoldId.urlPercentEncoding())"
+    }
+}
+
+public struct CancelLegalHoldInput: Swift.Equatable {
+    /// String describing the reason for removing the legal hold.
+    /// This member is required.
+    public var cancelDescription: Swift.String?
+    /// Legal hold ID required to remove the specified legal hold on a recovery point.
+    /// This member is required.
+    public var legalHoldId: Swift.String?
+    /// The integer amount in days specifying amount of days after this API operation to remove legal hold.
+    public var retainRecordInDays: Swift.Int?
+
+    public init (
+        cancelDescription: Swift.String? = nil,
+        legalHoldId: Swift.String? = nil,
+        retainRecordInDays: Swift.Int? = nil
+    )
+    {
+        self.cancelDescription = cancelDescription
+        self.legalHoldId = legalHoldId
+        self.retainRecordInDays = retainRecordInDays
+    }
+}
+
+struct CancelLegalHoldInputBody: Swift.Equatable {
+}
+
+extension CancelLegalHoldInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CancelLegalHoldOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CancelLegalHoldOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CancelLegalHoldOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case invalidResourceStateException(InvalidResourceStateException)
+    case missingParameterValueException(MissingParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct CancelLegalHoldOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension BackupClientTypes.Condition: Swift.Codable {
@@ -2058,13 +2180,18 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
         case backupSizeInBytes = "BackupSizeInBytes"
+        case childJobsInState = "ChildJobsInState"
         case completionDate = "CompletionDate"
+        case compositeMemberIdentifier = "CompositeMemberIdentifier"
         case copyJobId = "CopyJobId"
         case createdBy = "CreatedBy"
         case creationDate = "CreationDate"
         case destinationBackupVaultArn = "DestinationBackupVaultArn"
         case destinationRecoveryPointArn = "DestinationRecoveryPointArn"
         case iamRoleArn = "IamRoleArn"
+        case isParent = "IsParent"
+        case numberOfChildJobs = "NumberOfChildJobs"
+        case parentJobId = "ParentJobId"
         case resourceArn = "ResourceArn"
         case resourceType = "ResourceType"
         case sourceBackupVaultArn = "SourceBackupVaultArn"
@@ -2081,8 +2208,17 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         if let backupSizeInBytes = self.backupSizeInBytes {
             try encodeContainer.encode(backupSizeInBytes, forKey: .backupSizeInBytes)
         }
+        if let childJobsInState = childJobsInState {
+            var childJobsInStateContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .childJobsInState)
+            for (dictKey0, copyjobchildjobsinstate0) in childJobsInState {
+                try childJobsInStateContainer.encode(copyjobchildjobsinstate0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let completionDate = self.completionDate {
             try encodeContainer.encodeTimestamp(completionDate, format: .epochSeconds, forKey: .completionDate)
+        }
+        if let compositeMemberIdentifier = self.compositeMemberIdentifier {
+            try encodeContainer.encode(compositeMemberIdentifier, forKey: .compositeMemberIdentifier)
         }
         if let copyJobId = self.copyJobId {
             try encodeContainer.encode(copyJobId, forKey: .copyJobId)
@@ -2101,6 +2237,15 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         }
         if let iamRoleArn = self.iamRoleArn {
             try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if isParent != false {
+            try encodeContainer.encode(isParent, forKey: .isParent)
+        }
+        if let numberOfChildJobs = self.numberOfChildJobs {
+            try encodeContainer.encode(numberOfChildJobs, forKey: .numberOfChildJobs)
+        }
+        if let parentJobId = self.parentJobId {
+            try encodeContainer.encode(parentJobId, forKey: .parentJobId)
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
@@ -2154,6 +2299,25 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         createdBy = createdByDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let parentJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentJobId)
+        parentJobId = parentJobIdDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
+        let compositeMemberIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .compositeMemberIdentifier)
+        compositeMemberIdentifier = compositeMemberIdentifierDecoded
+        let numberOfChildJobsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfChildJobs)
+        numberOfChildJobs = numberOfChildJobsDecoded
+        let childJobsInStateContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .childJobsInState)
+        var childJobsInStateDecoded0: [Swift.String:Swift.Int]? = nil
+        if let childJobsInStateContainer = childJobsInStateContainer {
+            childJobsInStateDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, long0) in childJobsInStateContainer {
+                if let long0 = long0 {
+                    childJobsInStateDecoded0?[key0] = long0
+                }
+            }
+        }
+        childJobsInState = childJobsInStateDecoded0
     }
 }
 
@@ -2164,8 +2328,12 @@ extension BackupClientTypes {
         public var accountId: Swift.String?
         /// The size, in bytes, of a copy job.
         public var backupSizeInBytes: Swift.Int?
+        /// This returns the statistics of the included child (nested) copy jobs.
+        public var childJobsInState: [Swift.String:Swift.Int]?
         /// The date and time a copy job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var completionDate: ClientRuntime.Date?
+        /// This is the identifier of a resource within a composite group, such as nested (child) recovery point belonging to a composite (parent) stack. The ID is transferred from the [ logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax) within a stack.
+        public var compositeMemberIdentifier: Swift.String?
         /// Uniquely identifies a copy job.
         public var copyJobId: Swift.String?
         /// Contains information about the backup plan and rule that Backup used to initiate the recovery point backup.
@@ -2178,6 +2346,12 @@ extension BackupClientTypes {
         public var destinationRecoveryPointArn: Swift.String?
         /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public var iamRoleArn: Swift.String?
+        /// This is a boolean value indicating this is a parent (composite) copy job.
+        public var isParent: Swift.Bool
+        /// This is the number of child (nested) copy jobs.
+        public var numberOfChildJobs: Swift.Int?
+        /// This uniquely identifies a request to Backup to copy a resource. The return will be the parent (composite) job ID.
+        public var parentJobId: Swift.String?
         /// The Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public var resourceArn: Swift.String?
         /// The type of Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
@@ -2194,13 +2368,18 @@ extension BackupClientTypes {
         public init (
             accountId: Swift.String? = nil,
             backupSizeInBytes: Swift.Int? = nil,
+            childJobsInState: [Swift.String:Swift.Int]? = nil,
             completionDate: ClientRuntime.Date? = nil,
+            compositeMemberIdentifier: Swift.String? = nil,
             copyJobId: Swift.String? = nil,
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
             creationDate: ClientRuntime.Date? = nil,
             destinationBackupVaultArn: Swift.String? = nil,
             destinationRecoveryPointArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
+            isParent: Swift.Bool = false,
+            numberOfChildJobs: Swift.Int? = nil,
+            parentJobId: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             sourceBackupVaultArn: Swift.String? = nil,
@@ -2211,13 +2390,18 @@ extension BackupClientTypes {
         {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
+            self.childJobsInState = childJobsInState
             self.completionDate = completionDate
+            self.compositeMemberIdentifier = compositeMemberIdentifier
             self.copyJobId = copyJobId
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.destinationRecoveryPointArn = destinationRecoveryPointArn
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.numberOfChildJobs = numberOfChildJobs
+            self.parentJobId = parentJobId
             self.resourceArn = resourceArn
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
@@ -2234,6 +2418,7 @@ extension BackupClientTypes {
         case completed
         case created
         case failed
+        case partial
         case running
         case sdkUnknown(Swift.String)
 
@@ -2242,6 +2427,7 @@ extension BackupClientTypes {
                 .completed,
                 .created,
                 .failed,
+                .partial,
                 .running,
                 .sdkUnknown("")
             ]
@@ -2255,6 +2441,7 @@ extension BackupClientTypes {
             case .completed: return "COMPLETED"
             case .created: return "CREATED"
             case .failed: return "FAILED"
+            case .partial: return "PARTIAL"
             case .running: return "RUNNING"
             case let .sdkUnknown(s): return s
             }
@@ -3024,6 +3211,249 @@ extension CreateFrameworkOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateLegalHoldInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateLegalHoldInput(description: \(Swift.String(describing: description)), idempotencyToken: \(Swift.String(describing: idempotencyToken)), recoveryPointSelection: \(Swift.String(describing: recoveryPointSelection)), title: \(Swift.String(describing: title)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateLegalHoldInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case idempotencyToken = "IdempotencyToken"
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case tags = "Tags"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let recoveryPointSelection = self.recoveryPointSelection {
+            try encodeContainer.encode(recoveryPointSelection, forKey: .recoveryPointSelection)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+}
+
+extension CreateLegalHoldInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/legal-holds"
+    }
+}
+
+public struct CreateLegalHoldInput: Swift.Equatable {
+    /// This is the string description of the legal hold.
+    /// This member is required.
+    public var description: Swift.String?
+    /// This is a user-chosen string used to distinguish between otherwise identical calls. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+    public var idempotencyToken: Swift.String?
+    /// This specifies criteria to assign a set of resources, such as resource types or backup vaults.
+    public var recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
+    /// Optional tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /.
+    public var tags: [Swift.String:Swift.String]?
+    /// This is the string title of the legal hold.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
+        recoveryPointSelection: BackupClientTypes.RecoveryPointSelection? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        title: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.idempotencyToken = idempotencyToken
+        self.recoveryPointSelection = recoveryPointSelection
+        self.tags = tags
+        self.title = title
+    }
+}
+
+struct CreateLegalHoldInputBody: Swift.Equatable {
+    let title: Swift.String?
+    let description: Swift.String?
+    let idempotencyToken: Swift.String?
+    let recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateLegalHoldInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case idempotencyToken = "IdempotencyToken"
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case tags = "Tags"
+        case title = "Title"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateLegalHoldOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateLegalHoldOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateLegalHoldOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case missingParameterValueException(MissingParameterValueException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDate = output.creationDate
+            self.description = output.description
+            self.legalHoldArn = output.legalHoldArn
+            self.legalHoldId = output.legalHoldId
+            self.recoveryPointSelection = output.recoveryPointSelection
+            self.status = output.status
+            self.title = output.title
+        } else {
+            self.creationDate = nil
+            self.description = nil
+            self.legalHoldArn = nil
+            self.legalHoldId = nil
+            self.recoveryPointSelection = nil
+            self.status = nil
+            self.title = nil
+        }
+    }
+}
+
+public struct CreateLegalHoldOutputResponse: Swift.Equatable {
+    /// Time in number format when legal hold was created.
+    public var creationDate: ClientRuntime.Date?
+    /// This is the returned string description of the legal hold.
+    public var description: Swift.String?
+    /// This is the ARN (Amazon Resource Number) of the created legal hold.
+    public var legalHoldArn: Swift.String?
+    /// Legal hold ID returned for the specified legal hold on a recovery point.
+    public var legalHoldId: Swift.String?
+    /// This specifies criteria to assign a set of resources, such as resource types or backup vaults.
+    public var recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
+    /// This displays the status of the legal hold returned after creating the legal hold. Statuses can be ACTIVE, PENDING, CANCELED, CANCELING, or FAILED.
+    public var status: BackupClientTypes.LegalHoldStatus?
+    /// This is the string title of the legal hold returned after creating the legal hold.
+    public var title: Swift.String?
+
+    public init (
+        creationDate: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        legalHoldArn: Swift.String? = nil,
+        legalHoldId: Swift.String? = nil,
+        recoveryPointSelection: BackupClientTypes.RecoveryPointSelection? = nil,
+        status: BackupClientTypes.LegalHoldStatus? = nil,
+        title: Swift.String? = nil
+    )
+    {
+        self.creationDate = creationDate
+        self.description = description
+        self.legalHoldArn = legalHoldArn
+        self.legalHoldId = legalHoldId
+        self.recoveryPointSelection = recoveryPointSelection
+        self.status = status
+        self.title = title
+    }
+}
+
+struct CreateLegalHoldOutputResponseBody: Swift.Equatable {
+    let title: Swift.String?
+    let status: BackupClientTypes.LegalHoldStatus?
+    let description: Swift.String?
+    let legalHoldId: Swift.String?
+    let legalHoldArn: Swift.String?
+    let creationDate: ClientRuntime.Date?
+    let recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
+}
+
+extension CreateLegalHoldOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate = "CreationDate"
+        case description = "Description"
+        case legalHoldArn = "LegalHoldArn"
+        case legalHoldId = "LegalHoldId"
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case status = "Status"
+        case title = "Title"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.LegalHoldStatus.self, forKey: .status)
+        status = statusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let legalHoldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .legalHoldId)
+        legalHoldId = legalHoldIdDecoded
+        let legalHoldArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .legalHoldArn)
+        legalHoldArn = legalHoldArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+    }
+}
+
 extension CreateReportPlanInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case idempotencyToken = "IdempotencyToken"
@@ -3235,6 +3665,53 @@ extension CreateReportPlanOutputResponseBody: Swift.Decodable {
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
     }
+}
+
+extension BackupClientTypes.DateRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fromDate = "FromDate"
+        case toDate = "ToDate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fromDate = self.fromDate {
+            try encodeContainer.encodeTimestamp(fromDate, format: .epochSeconds, forKey: .fromDate)
+        }
+        if let toDate = self.toDate {
+            try encodeContainer.encodeTimestamp(toDate, format: .epochSeconds, forKey: .toDate)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .fromDate)
+        fromDate = fromDateDecoded
+        let toDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .toDate)
+        toDate = toDateDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a resource filter containing FromDate: DateTime and ToDate: DateTime. Both values are required. Future DateTime values are not permitted. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds ((milliseconds are optional). For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    public struct DateRange: Swift.Equatable {
+        /// This value is the beginning date, inclusive. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds (milliseconds are optional).
+        /// This member is required.
+        public var fromDate: ClientRuntime.Date?
+        /// This value is the end date, inclusive. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds (milliseconds are optional).
+        /// This member is required.
+        public var toDate: ClientRuntime.Date?
+
+        public init (
+            fromDate: ClientRuntime.Date? = nil,
+            toDate: ClientRuntime.Date? = nil
+        )
+        {
+            self.fromDate = fromDate
+            self.toDate = toDate
+        }
+    }
+
 }
 
 extension DeleteBackupPlanInput: ClientRuntime.URLPathProvider {
@@ -4105,11 +4582,15 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
             self.bytesTransferred = output.bytesTransferred
+            self.childJobsInState = output.childJobsInState
             self.completionDate = output.completionDate
             self.createdBy = output.createdBy
             self.creationDate = output.creationDate
             self.expectedCompletionDate = output.expectedCompletionDate
             self.iamRoleArn = output.iamRoleArn
+            self.isParent = output.isParent
+            self.numberOfChildJobs = output.numberOfChildJobs
+            self.parentJobId = output.parentJobId
             self.percentDone = output.percentDone
             self.recoveryPointArn = output.recoveryPointArn
             self.resourceArn = output.resourceArn
@@ -4126,11 +4607,15 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.backupVaultArn = nil
             self.backupVaultName = nil
             self.bytesTransferred = nil
+            self.childJobsInState = nil
             self.completionDate = nil
             self.createdBy = nil
             self.creationDate = nil
             self.expectedCompletionDate = nil
             self.iamRoleArn = nil
+            self.isParent = false
+            self.numberOfChildJobs = nil
+            self.parentJobId = nil
             self.percentDone = nil
             self.recoveryPointArn = nil
             self.resourceArn = nil
@@ -4159,6 +4644,8 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
     public var backupVaultName: Swift.String?
     /// The size in bytes transferred to a backup vault at the time that the job status was queried.
     public var bytesTransferred: Swift.Int?
+    /// This returns the statistics of the included child (nested) backup jobs.
+    public var childJobsInState: [Swift.String:Swift.Int]?
     /// The date and time that a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var completionDate: ClientRuntime.Date?
     /// Contains identifying information about the creation of a backup job, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
@@ -4169,6 +4656,12 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
     public var expectedCompletionDate: ClientRuntime.Date?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
+    /// This returns the boolean value that a backup job is a parent (composite) job.
+    public var isParent: Swift.Bool
+    /// This returns the number of child (nested) backup jobs.
+    public var numberOfChildJobs: Swift.Int?
+    /// This returns the parent (composite) resource backup job ID.
+    public var parentJobId: Swift.String?
     /// Contains an estimated percentage that is complete of a job at the time the job status was queried.
     public var percentDone: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -4193,11 +4686,15 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         bytesTransferred: Swift.Int? = nil,
+        childJobsInState: [Swift.String:Swift.Int]? = nil,
         completionDate: ClientRuntime.Date? = nil,
         createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
         creationDate: ClientRuntime.Date? = nil,
         expectedCompletionDate: ClientRuntime.Date? = nil,
         iamRoleArn: Swift.String? = nil,
+        isParent: Swift.Bool = false,
+        numberOfChildJobs: Swift.Int? = nil,
+        parentJobId: Swift.String? = nil,
         percentDone: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
@@ -4215,11 +4712,15 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
         self.backupVaultArn = backupVaultArn
         self.backupVaultName = backupVaultName
         self.bytesTransferred = bytesTransferred
+        self.childJobsInState = childJobsInState
         self.completionDate = completionDate
         self.createdBy = createdBy
         self.creationDate = creationDate
         self.expectedCompletionDate = expectedCompletionDate
         self.iamRoleArn = iamRoleArn
+        self.isParent = isParent
+        self.numberOfChildJobs = numberOfChildJobs
+        self.parentJobId = parentJobId
         self.percentDone = percentDone
         self.recoveryPointArn = recoveryPointArn
         self.resourceArn = resourceArn
@@ -4251,6 +4752,10 @@ struct DescribeBackupJobOutputResponseBody: Swift.Equatable {
     let startBy: ClientRuntime.Date?
     let backupOptions: [Swift.String:Swift.String]?
     let backupType: Swift.String?
+    let parentJobId: Swift.String?
+    let isParent: Swift.Bool
+    let numberOfChildJobs: Swift.Int?
+    let childJobsInState: [Swift.String:Swift.Int]?
 }
 
 extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
@@ -4263,11 +4768,15 @@ extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
         case backupVaultArn = "BackupVaultArn"
         case backupVaultName = "BackupVaultName"
         case bytesTransferred = "BytesTransferred"
+        case childJobsInState = "ChildJobsInState"
         case completionDate = "CompletionDate"
         case createdBy = "CreatedBy"
         case creationDate = "CreationDate"
         case expectedCompletionDate = "ExpectedCompletionDate"
         case iamRoleArn = "IamRoleArn"
+        case isParent = "IsParent"
+        case numberOfChildJobs = "NumberOfChildJobs"
+        case parentJobId = "ParentJobId"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
@@ -4328,6 +4837,23 @@ extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
         backupOptions = backupOptionsDecoded0
         let backupTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupType)
         backupType = backupTypeDecoded
+        let parentJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentJobId)
+        parentJobId = parentJobIdDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
+        let numberOfChildJobsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfChildJobs)
+        numberOfChildJobs = numberOfChildJobsDecoded
+        let childJobsInStateContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .childJobsInState)
+        var childJobsInStateDecoded0: [Swift.String:Swift.Int]? = nil
+        if let childJobsInStateContainer = childJobsInStateContainer {
+            childJobsInStateDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, long0) in childJobsInStateContainer {
+                if let long0 = long0 {
+                    childJobsInStateDecoded0?[key0] = long0
+                }
+            }
+        }
+        childJobsInState = childJobsInStateDecoded0
     }
 }
 
@@ -4708,7 +5234,7 @@ extension DescribeFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeFrameworkOutputResponse: Swift.Equatable {
-    /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
     public var creationTime: ClientRuntime.Date?
     /// The deployment status of a framework. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
     public var deploymentStatus: Swift.String?
@@ -5110,13 +5636,16 @@ extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding
             self.backupVaultName = output.backupVaultName
             self.calculatedLifecycle = output.calculatedLifecycle
             self.completionDate = output.completionDate
+            self.compositeMemberIdentifier = output.compositeMemberIdentifier
             self.createdBy = output.createdBy
             self.creationDate = output.creationDate
             self.encryptionKeyArn = output.encryptionKeyArn
             self.iamRoleArn = output.iamRoleArn
             self.isEncrypted = output.isEncrypted
+            self.isParent = output.isParent
             self.lastRestoreTime = output.lastRestoreTime
             self.lifecycle = output.lifecycle
+            self.parentRecoveryPointArn = output.parentRecoveryPointArn
             self.recoveryPointArn = output.recoveryPointArn
             self.resourceArn = output.resourceArn
             self.resourceType = output.resourceType
@@ -5130,13 +5659,16 @@ extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding
             self.backupVaultName = nil
             self.calculatedLifecycle = nil
             self.completionDate = nil
+            self.compositeMemberIdentifier = nil
             self.createdBy = nil
             self.creationDate = nil
             self.encryptionKeyArn = nil
             self.iamRoleArn = nil
             self.isEncrypted = false
+            self.isParent = false
             self.lastRestoreTime = nil
             self.lifecycle = nil
+            self.parentRecoveryPointArn = nil
             self.recoveryPointArn = nil
             self.resourceArn = nil
             self.resourceType = nil
@@ -5159,6 +5691,8 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
     public var calculatedLifecycle: BackupClientTypes.CalculatedLifecycle?
     /// The date and time that a job to create a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var completionDate: ClientRuntime.Date?
+    /// This is the identifier of a resource within a composite group, such as nested (child) recovery point belonging to a composite (parent) stack. The ID is transferred from the [ logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax) within a stack.
+    public var compositeMemberIdentifier: Swift.String?
     /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan used to create it.
     public var createdBy: BackupClientTypes.RecoveryPointCreator?
     /// The date and time that a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -5169,10 +5703,14 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
     public var iamRoleArn: Swift.String?
     /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
     public var isEncrypted: Swift.Bool
+    /// This returns the boolean value that a recovery point is a parent (composite) job.
+    public var isParent: Swift.Bool
     /// The date and time that a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastRestoreTime: ClientRuntime.Date?
     /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
     public var lifecycle: BackupClientTypes.Lifecycle?
+    /// This is an ARN that uniquely identifies a parent (composite) recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    public var parentRecoveryPointArn: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
     /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
@@ -5181,7 +5719,7 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
     public var resourceType: Swift.String?
     /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
     public var sourceBackupVaultArn: Swift.String?
-    /// A status code specifying the state of the recovery point. PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see [UpdateBackupPlan](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_UpdateBackupPlan.html). You can also increase your backup plan window using the Console by choosing and editing your backup plan. EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see [ Step 3: Delete the recovery points](https://docs.aws.amazon.com/aws-backup/latest/devguide/gs-cleanup-resources.html#cleanup-backups) in the Clean up resources section of Getting started.
+    /// A status code specifying the state of the recovery point. PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see [UpdateBackupPlan](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_UpdateBackupPlan.html). You can also increase your backup plan window using the Console by choosing and editing your backup plan. EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see [ Step 3: Delete the recovery points](https://docs.aws.amazon.com/aws-backup/latest/devguide/gs-cleanup-resources.html#cleanup-backups) in the Clean up resources section of Getting started. STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted.
     public var status: BackupClientTypes.RecoveryPointStatus?
     /// A status message explaining the reason for the recovery point deletion failure.
     public var statusMessage: Swift.String?
@@ -5194,13 +5732,16 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
         backupVaultName: Swift.String? = nil,
         calculatedLifecycle: BackupClientTypes.CalculatedLifecycle? = nil,
         completionDate: ClientRuntime.Date? = nil,
+        compositeMemberIdentifier: Swift.String? = nil,
         createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
         creationDate: ClientRuntime.Date? = nil,
         encryptionKeyArn: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
         isEncrypted: Swift.Bool = false,
+        isParent: Swift.Bool = false,
         lastRestoreTime: ClientRuntime.Date? = nil,
         lifecycle: BackupClientTypes.Lifecycle? = nil,
+        parentRecoveryPointArn: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceType: Swift.String? = nil,
@@ -5215,13 +5756,16 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
         self.backupVaultName = backupVaultName
         self.calculatedLifecycle = calculatedLifecycle
         self.completionDate = completionDate
+        self.compositeMemberIdentifier = compositeMemberIdentifier
         self.createdBy = createdBy
         self.creationDate = creationDate
         self.encryptionKeyArn = encryptionKeyArn
         self.iamRoleArn = iamRoleArn
         self.isEncrypted = isEncrypted
+        self.isParent = isParent
         self.lastRestoreTime = lastRestoreTime
         self.lifecycle = lifecycle
+        self.parentRecoveryPointArn = parentRecoveryPointArn
         self.recoveryPointArn = recoveryPointArn
         self.resourceArn = resourceArn
         self.resourceType = resourceType
@@ -5252,6 +5796,9 @@ struct DescribeRecoveryPointOutputResponseBody: Swift.Equatable {
     let isEncrypted: Swift.Bool
     let storageClass: BackupClientTypes.StorageClass?
     let lastRestoreTime: ClientRuntime.Date?
+    let parentRecoveryPointArn: Swift.String?
+    let compositeMemberIdentifier: Swift.String?
+    let isParent: Swift.Bool
 }
 
 extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
@@ -5261,13 +5808,16 @@ extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
         case backupVaultName = "BackupVaultName"
         case calculatedLifecycle = "CalculatedLifecycle"
         case completionDate = "CompletionDate"
+        case compositeMemberIdentifier = "CompositeMemberIdentifier"
         case createdBy = "CreatedBy"
         case creationDate = "CreationDate"
         case encryptionKeyArn = "EncryptionKeyArn"
         case iamRoleArn = "IamRoleArn"
         case isEncrypted = "IsEncrypted"
+        case isParent = "IsParent"
         case lastRestoreTime = "LastRestoreTime"
         case lifecycle = "Lifecycle"
+        case parentRecoveryPointArn = "ParentRecoveryPointArn"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
         case resourceType = "ResourceType"
@@ -5317,6 +5867,12 @@ extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
         storageClass = storageClassDecoded
         let lastRestoreTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRestoreTime)
         lastRestoreTime = lastRestoreTimeDecoded
+        let parentRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentRecoveryPointArn)
+        parentRecoveryPointArn = parentRecoveryPointArnDecoded
+        let compositeMemberIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .compositeMemberIdentifier)
+        compositeMemberIdentifier = compositeMemberIdentifierDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
     }
 }
 
@@ -5851,6 +6407,85 @@ extension DescribeRestoreJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DisassociateRecoveryPointFromParentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let backupVaultName = backupVaultName else {
+            return nil
+        }
+        guard let recoveryPointArn = recoveryPointArn else {
+            return nil
+        }
+        return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())/parentAssociation"
+    }
+}
+
+public struct DisassociateRecoveryPointFromParentInput: Swift.Equatable {
+    /// This is the name of a logical container where the child (nested) recovery point is stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// This is the Amazon Resource Name (ARN) that uniquely identifies the child (nested) recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+
+    public init (
+        backupVaultName: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil
+    )
+    {
+        self.backupVaultName = backupVaultName
+        self.recoveryPointArn = recoveryPointArn
+    }
+}
+
+struct DisassociateRecoveryPointFromParentInputBody: Swift.Equatable {
+}
+
+extension DisassociateRecoveryPointFromParentInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DisassociateRecoveryPointFromParentOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DisassociateRecoveryPointFromParentOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DisassociateRecoveryPointFromParentOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case invalidRequestException(InvalidRequestException)
+    case missingParameterValueException(MissingParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateRecoveryPointFromParentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DisassociateRecoveryPointFromParentOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DisassociateRecoveryPointInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let backupVaultName = backupVaultName else {
@@ -6084,7 +6719,7 @@ extension BackupClientTypes.Framework: Swift.Codable {
 extension BackupClientTypes {
     /// Contains detailed information about a framework. Frameworks contain controls, which evaluate and report on your backup events and resources. Frameworks generate daily compliance results.
     public struct Framework: Swift.Equatable {
-        /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
         public var creationTime: ClientRuntime.Date?
         /// The deployment status of a framework. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
         public var deploymentStatus: Swift.String?
@@ -7007,13 +7642,203 @@ extension GetBackupVaultNotificationsOutputResponseBody: Swift.Decodable {
         var backupVaultEventsDecoded0:[BackupClientTypes.BackupVaultEvent]? = nil
         if let backupVaultEventsContainer = backupVaultEventsContainer {
             backupVaultEventsDecoded0 = [BackupClientTypes.BackupVaultEvent]()
-            for string0 in backupVaultEventsContainer {
-                if let string0 = string0 {
-                    backupVaultEventsDecoded0?.append(string0)
+            for enum0 in backupVaultEventsContainer {
+                if let enum0 = enum0 {
+                    backupVaultEventsDecoded0?.append(enum0)
                 }
             }
         }
         backupVaultEvents = backupVaultEventsDecoded0
+    }
+}
+
+extension GetLegalHoldInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let legalHoldId = legalHoldId else {
+            return nil
+        }
+        return "/legal-holds/\(legalHoldId.urlPercentEncoding())"
+    }
+}
+
+public struct GetLegalHoldInput: Swift.Equatable {
+    /// This is the ID required to use GetLegalHold. This unique ID is associated with a specific legal hold.
+    /// This member is required.
+    public var legalHoldId: Swift.String?
+
+    public init (
+        legalHoldId: Swift.String? = nil
+    )
+    {
+        self.legalHoldId = legalHoldId
+    }
+}
+
+struct GetLegalHoldInputBody: Swift.Equatable {
+}
+
+extension GetLegalHoldInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetLegalHoldOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetLegalHoldOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetLegalHoldOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case missingParameterValueException(MissingParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.cancelDescription = output.cancelDescription
+            self.cancellationDate = output.cancellationDate
+            self.creationDate = output.creationDate
+            self.description = output.description
+            self.legalHoldArn = output.legalHoldArn
+            self.legalHoldId = output.legalHoldId
+            self.recoveryPointSelection = output.recoveryPointSelection
+            self.retainRecordUntil = output.retainRecordUntil
+            self.status = output.status
+            self.title = output.title
+        } else {
+            self.cancelDescription = nil
+            self.cancellationDate = nil
+            self.creationDate = nil
+            self.description = nil
+            self.legalHoldArn = nil
+            self.legalHoldId = nil
+            self.recoveryPointSelection = nil
+            self.retainRecordUntil = nil
+            self.status = nil
+            self.title = nil
+        }
+    }
+}
+
+public struct GetLegalHoldOutputResponse: Swift.Equatable {
+    /// String describing the reason for removing the legal hold.
+    public var cancelDescription: Swift.String?
+    /// Time in number when legal hold was cancelled.
+    public var cancellationDate: ClientRuntime.Date?
+    /// Time in number format when legal hold was created.
+    public var creationDate: ClientRuntime.Date?
+    /// This is the returned string description of the legal hold.
+    public var description: Swift.String?
+    /// This is the returned framework ARN for the specified legal hold. An Amazon Resource Name (ARN) uniquely identifies a resource. The format of the ARN depends on the resource type.
+    public var legalHoldArn: Swift.String?
+    /// This is the returned ID associated with a specified legal hold.
+    public var legalHoldId: Swift.String?
+    /// This specifies criteria to assign a set of resources, such as resource types or backup vaults.
+    public var recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
+    /// This is the date and time until which the legal hold record will be retained.
+    public var retainRecordUntil: ClientRuntime.Date?
+    /// This is the status of the legal hold. Statuses can be ACTIVE, CREATING, CANCELED, and CANCELING.
+    public var status: BackupClientTypes.LegalHoldStatus?
+    /// This is the string title of the legal hold.
+    public var title: Swift.String?
+
+    public init (
+        cancelDescription: Swift.String? = nil,
+        cancellationDate: ClientRuntime.Date? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        legalHoldArn: Swift.String? = nil,
+        legalHoldId: Swift.String? = nil,
+        recoveryPointSelection: BackupClientTypes.RecoveryPointSelection? = nil,
+        retainRecordUntil: ClientRuntime.Date? = nil,
+        status: BackupClientTypes.LegalHoldStatus? = nil,
+        title: Swift.String? = nil
+    )
+    {
+        self.cancelDescription = cancelDescription
+        self.cancellationDate = cancellationDate
+        self.creationDate = creationDate
+        self.description = description
+        self.legalHoldArn = legalHoldArn
+        self.legalHoldId = legalHoldId
+        self.recoveryPointSelection = recoveryPointSelection
+        self.retainRecordUntil = retainRecordUntil
+        self.status = status
+        self.title = title
+    }
+}
+
+struct GetLegalHoldOutputResponseBody: Swift.Equatable {
+    let title: Swift.String?
+    let status: BackupClientTypes.LegalHoldStatus?
+    let description: Swift.String?
+    let cancelDescription: Swift.String?
+    let legalHoldId: Swift.String?
+    let legalHoldArn: Swift.String?
+    let creationDate: ClientRuntime.Date?
+    let cancellationDate: ClientRuntime.Date?
+    let retainRecordUntil: ClientRuntime.Date?
+    let recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
+}
+
+extension GetLegalHoldOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cancelDescription = "CancelDescription"
+        case cancellationDate = "CancellationDate"
+        case creationDate = "CreationDate"
+        case description = "Description"
+        case legalHoldArn = "LegalHoldArn"
+        case legalHoldId = "LegalHoldId"
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case retainRecordUntil = "RetainRecordUntil"
+        case status = "Status"
+        case title = "Title"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.LegalHoldStatus.self, forKey: .status)
+        status = statusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let cancelDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cancelDescription)
+        cancelDescription = cancelDescriptionDecoded
+        let legalHoldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .legalHoldId)
+        legalHoldId = legalHoldIdDecoded
+        let legalHoldArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .legalHoldArn)
+        legalHoldArn = legalHoldArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let cancellationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .cancellationDate)
+        cancellationDate = cancellationDateDecoded
+        let retainRecordUntilDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .retainRecordUntil)
+        retainRecordUntil = retainRecordUntilDecoded
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
     }
 }
 
@@ -7514,6 +8339,139 @@ extension InvalidResourceStateExceptionBody: Swift.Decodable {
     }
 }
 
+extension BackupClientTypes.LegalHold: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cancellationDate = "CancellationDate"
+        case creationDate = "CreationDate"
+        case description = "Description"
+        case legalHoldArn = "LegalHoldArn"
+        case legalHoldId = "LegalHoldId"
+        case status = "Status"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cancellationDate = self.cancellationDate {
+            try encodeContainer.encodeTimestamp(cancellationDate, format: .epochSeconds, forKey: .cancellationDate)
+        }
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let legalHoldArn = self.legalHoldArn {
+            try encodeContainer.encode(legalHoldArn, forKey: .legalHoldArn)
+        }
+        if let legalHoldId = self.legalHoldId {
+            try encodeContainer.encode(legalHoldId, forKey: .legalHoldId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.LegalHoldStatus.self, forKey: .status)
+        status = statusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let legalHoldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .legalHoldId)
+        legalHoldId = legalHoldIdDecoded
+        let legalHoldArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .legalHoldArn)
+        legalHoldArn = legalHoldArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let cancellationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .cancellationDate)
+        cancellationDate = cancellationDateDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// A legal hold is an administrative tool that helps prevent backups from being deleted while under a hold. While the hold is in place, backups under a hold cannot be deleted and lifecycle policies that would alter the backup status (such as transition to cold storage) are delayed until the legal hold is removed. A backup can have more than one legal hold. Legal holds are applied to one or more backups (also known as recovery points). These backups can be filtered by resource types and by resource IDs.
+    public struct LegalHold: Swift.Equatable {
+        /// This is the time in number format when legal hold was cancelled.
+        public var cancellationDate: ClientRuntime.Date?
+        /// This is the time in number format when legal hold was created.
+        public var creationDate: ClientRuntime.Date?
+        /// This is the description of a legal hold.
+        public var description: Swift.String?
+        /// This is an Amazon Resource Number (ARN) that uniquely identifies the legal hold; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public var legalHoldArn: Swift.String?
+        /// ID of specific legal hold on one or more recovery points.
+        public var legalHoldId: Swift.String?
+        /// This is the status of the legal hold. Statuses can be ACTIVE, CREATING, CANCELED, and CANCELING.
+        public var status: BackupClientTypes.LegalHoldStatus?
+        /// This is the title of a legal hold.
+        public var title: Swift.String?
+
+        public init (
+            cancellationDate: ClientRuntime.Date? = nil,
+            creationDate: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            legalHoldArn: Swift.String? = nil,
+            legalHoldId: Swift.String? = nil,
+            status: BackupClientTypes.LegalHoldStatus? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.cancellationDate = cancellationDate
+            self.creationDate = creationDate
+            self.description = description
+            self.legalHoldArn = legalHoldArn
+            self.legalHoldId = legalHoldId
+            self.status = status
+            self.title = title
+        }
+    }
+
+}
+
+extension BackupClientTypes {
+    public enum LegalHoldStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case canceled
+        case canceling
+        case creating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LegalHoldStatus] {
+            return [
+                .active,
+                .canceled,
+                .canceling,
+                .creating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .canceled: return "CANCELED"
+            case .canceling: return "CANCELING"
+            case .creating: return "CREATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LegalHoldStatus(rawValue: rawValue) ?? LegalHoldStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BackupClientTypes.Lifecycle: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deleteAfterDays = "DeleteAfterDays"
@@ -7668,6 +8626,10 @@ extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
                 let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
                 items.append(byResourceArnQueryItem)
             }
+            if let byParentJobId = byParentJobId {
+                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+                items.append(byParentJobIdQueryItem)
+            }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
@@ -7712,6 +8674,8 @@ public struct ListBackupJobsInput: Swift.Equatable {
     public var byCreatedAfter: ClientRuntime.Date?
     /// Returns only backup jobs that were created before the specified date.
     public var byCreatedBefore: ClientRuntime.Date?
+    /// This is a filter to list child (nested) jobs based on parent job ID.
+    public var byParentJobId: Swift.String?
     /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
     public var byResourceArn: Swift.String?
     /// Returns only backup jobs for the specified resources:
@@ -7754,6 +8718,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
         byCompleteBefore: ClientRuntime.Date? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
+        byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
         byState: BackupClientTypes.BackupJobState? = nil,
@@ -7767,6 +8732,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
         self.byCompleteBefore = byCompleteBefore
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
+        self.byParentJobId = byParentJobId
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
         self.byState = byState
@@ -8600,6 +9566,10 @@ extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
                 let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
                 items.append(byResourceArnQueryItem)
             }
+            if let byParentJobId = byParentJobId {
+                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+                items.append(byParentJobIdQueryItem)
+            }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
@@ -8644,6 +9614,8 @@ public struct ListCopyJobsInput: Swift.Equatable {
     public var byCreatedBefore: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var byDestinationVaultArn: Swift.String?
+    /// This is a filter to list child (nested) jobs based on parent job ID.
+    public var byParentJobId: Swift.String?
     /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
     public var byResourceArn: Swift.String?
     /// Returns only backup jobs for the specified resources:
@@ -8686,6 +9658,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
         byDestinationVaultArn: Swift.String? = nil,
+        byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
         byState: BackupClientTypes.CopyJobState? = nil,
@@ -8699,6 +9672,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
         self.byDestinationVaultArn = byDestinationVaultArn
+        self.byParentJobId = byParentJobId
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
         self.byState = byState
@@ -8932,6 +9906,138 @@ extension ListFrameworksOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListLegalHoldsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListLegalHoldsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/legal-holds"
+    }
+}
+
+public struct ListLegalHoldsInput: Swift.Equatable {
+    /// The maximum number of resource list items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLegalHoldsInputBody: Swift.Equatable {
+}
+
+extension ListLegalHoldsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListLegalHoldsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListLegalHoldsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListLegalHoldsOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListLegalHoldsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListLegalHoldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.legalHolds = output.legalHolds
+            self.nextToken = output.nextToken
+        } else {
+            self.legalHolds = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListLegalHoldsOutputResponse: Swift.Equatable {
+    /// This is an array of returned legal holds, both active and previous.
+    public var legalHolds: [BackupClientTypes.LegalHold]?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        legalHolds: [BackupClientTypes.LegalHold]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.legalHolds = legalHolds
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLegalHoldsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let legalHolds: [BackupClientTypes.LegalHold]?
+}
+
+extension ListLegalHoldsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case legalHolds = "LegalHolds"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let legalHoldsContainer = try containerValues.decodeIfPresent([BackupClientTypes.LegalHold?].self, forKey: .legalHolds)
+        var legalHoldsDecoded0:[BackupClientTypes.LegalHold]? = nil
+        if let legalHoldsContainer = legalHoldsContainer {
+            legalHoldsDecoded0 = [BackupClientTypes.LegalHold]()
+            for structure0 in legalHoldsContainer {
+                if let structure0 = structure0 {
+                    legalHoldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        legalHolds = legalHoldsDecoded0
+    }
+}
+
 extension ListProtectedResourcesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9092,6 +10198,10 @@ extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.QueryItemProvider 
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
+            if let byParentRecoveryPointArn = byParentRecoveryPointArn {
+                let byParentRecoveryPointArnQueryItem = ClientRuntime.URLQueryItem(name: "parentRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byParentRecoveryPointArn).urlPercentEncoding())
+                items.append(byParentRecoveryPointArnQueryItem)
+            }
             if let byCreatedAfter = byCreatedAfter {
                 let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
                 items.append(byCreatedAfterQueryItem)
@@ -9120,6 +10230,8 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
     public var byCreatedAfter: ClientRuntime.Date?
     /// Returns only recovery points that were created before the specified timestamp.
     public var byCreatedBefore: ClientRuntime.Date?
+    /// This returns only recovery points that match the specified parent (composite) recovery point Amazon Resource Name (ARN).
+    public var byParentRecoveryPointArn: Swift.String?
     /// Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
     public var byResourceArn: Swift.String?
     /// Returns only recovery points that match the specified resource type.
@@ -9134,6 +10246,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
         byBackupPlanId: Swift.String? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
+        byParentRecoveryPointArn: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -9144,6 +10257,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
         self.byBackupPlanId = byBackupPlanId
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
+        self.byParentRecoveryPointArn = byParentRecoveryPointArn
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
         self.maxResults = maxResults
@@ -9245,6 +10359,148 @@ extension ListRecoveryPointsByBackupVaultOutputResponseBody: Swift.Decodable {
             }
         }
         recoveryPoints = recoveryPointsDecoded0
+    }
+}
+
+extension ListRecoveryPointsByLegalHoldInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRecoveryPointsByLegalHoldInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let legalHoldId = legalHoldId else {
+            return nil
+        }
+        return "/legal-holds/\(legalHoldId.urlPercentEncoding())/recovery-points"
+    }
+}
+
+public struct ListRecoveryPointsByLegalHoldInput: Swift.Equatable {
+    /// This is the ID of the legal hold.
+    /// This member is required.
+    public var legalHoldId: Swift.String?
+    /// This is the maximum number of resource list items to be returned.
+    public var maxResults: Swift.Int?
+    /// This is the next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        legalHoldId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.legalHoldId = legalHoldId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListRecoveryPointsByLegalHoldInputBody: Swift.Equatable {
+}
+
+extension ListRecoveryPointsByLegalHoldInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRecoveryPointsByLegalHoldOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListRecoveryPointsByLegalHoldOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListRecoveryPointsByLegalHoldOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case missingParameterValueException(MissingParameterValueException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRecoveryPointsByLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListRecoveryPointsByLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.recoveryPoints = output.recoveryPoints
+        } else {
+            self.nextToken = nil
+            self.recoveryPoints = nil
+        }
+    }
+}
+
+public struct ListRecoveryPointsByLegalHoldOutputResponse: Swift.Equatable {
+    /// This return is the next item following a partial list of returned resources.
+    public var nextToken: Swift.String?
+    /// This is a list of the recovery points returned by ListRecoveryPointsByLegalHold.
+    public var recoveryPoints: [BackupClientTypes.RecoveryPointMember]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        recoveryPoints: [BackupClientTypes.RecoveryPointMember]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.recoveryPoints = recoveryPoints
+    }
+}
+
+struct ListRecoveryPointsByLegalHoldOutputResponseBody: Swift.Equatable {
+    let recoveryPoints: [BackupClientTypes.RecoveryPointMember]?
+    let nextToken: Swift.String?
+}
+
+extension ListRecoveryPointsByLegalHoldOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case recoveryPoints = "RecoveryPoints"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recoveryPointsContainer = try containerValues.decodeIfPresent([BackupClientTypes.RecoveryPointMember?].self, forKey: .recoveryPoints)
+        var recoveryPointsDecoded0:[BackupClientTypes.RecoveryPointMember]? = nil
+        if let recoveryPointsContainer = recoveryPointsContainer {
+            recoveryPointsDecoded0 = [BackupClientTypes.RecoveryPointMember]()
+            for structure0 in recoveryPointsContainer {
+                if let structure0 = structure0 {
+                    recoveryPointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recoveryPoints = recoveryPointsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -9484,6 +10740,7 @@ extension ListReportJobsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -9492,6 +10749,7 @@ extension ListReportJobsOutputError {
 
 public enum ListReportJobsOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -10410,7 +11668,7 @@ public struct PutBackupVaultNotificationsInput: Swift.Equatable {
     /// * S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED
     ///
     ///
-    /// Ignore the list below because it includes deprecated events. Refer to the list above.
+    /// The list below shows items that are deprecated events (for reference) and are no longer in use. They are no longer supported and will not return statuses or notifications. Refer to the list above for current supported events.
     /// This member is required.
     public var backupVaultEvents: [BackupClientTypes.BackupVaultEvent]?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -10451,9 +11709,9 @@ extension PutBackupVaultNotificationsInputBody: Swift.Decodable {
         var backupVaultEventsDecoded0:[BackupClientTypes.BackupVaultEvent]? = nil
         if let backupVaultEventsContainer = backupVaultEventsContainer {
             backupVaultEventsDecoded0 = [BackupClientTypes.BackupVaultEvent]()
-            for string0 in backupVaultEventsContainer {
-                if let string0 = string0 {
-                    backupVaultEventsDecoded0?.append(string0)
+            for enum0 in backupVaultEventsContainer {
+                if let enum0 = enum0 {
+                    backupVaultEventsDecoded0?.append(enum0)
                 }
             }
         }
@@ -10506,13 +11764,16 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         case backupVaultName = "BackupVaultName"
         case calculatedLifecycle = "CalculatedLifecycle"
         case completionDate = "CompletionDate"
+        case compositeMemberIdentifier = "CompositeMemberIdentifier"
         case createdBy = "CreatedBy"
         case creationDate = "CreationDate"
         case encryptionKeyArn = "EncryptionKeyArn"
         case iamRoleArn = "IamRoleArn"
         case isEncrypted = "IsEncrypted"
+        case isParent = "IsParent"
         case lastRestoreTime = "LastRestoreTime"
         case lifecycle = "Lifecycle"
+        case parentRecoveryPointArn = "ParentRecoveryPointArn"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
         case resourceType = "ResourceType"
@@ -10538,6 +11799,9 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         if let completionDate = self.completionDate {
             try encodeContainer.encodeTimestamp(completionDate, format: .epochSeconds, forKey: .completionDate)
         }
+        if let compositeMemberIdentifier = self.compositeMemberIdentifier {
+            try encodeContainer.encode(compositeMemberIdentifier, forKey: .compositeMemberIdentifier)
+        }
         if let createdBy = self.createdBy {
             try encodeContainer.encode(createdBy, forKey: .createdBy)
         }
@@ -10553,11 +11817,17 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         if isEncrypted != false {
             try encodeContainer.encode(isEncrypted, forKey: .isEncrypted)
         }
+        if isParent != false {
+            try encodeContainer.encode(isParent, forKey: .isParent)
+        }
         if let lastRestoreTime = self.lastRestoreTime {
             try encodeContainer.encodeTimestamp(lastRestoreTime, format: .epochSeconds, forKey: .lastRestoreTime)
         }
         if let lifecycle = self.lifecycle {
             try encodeContainer.encode(lifecycle, forKey: .lifecycle)
+        }
+        if let parentRecoveryPointArn = self.parentRecoveryPointArn {
+            try encodeContainer.encode(parentRecoveryPointArn, forKey: .parentRecoveryPointArn)
         }
         if let recoveryPointArn = self.recoveryPointArn {
             try encodeContainer.encode(recoveryPointArn, forKey: .recoveryPointArn)
@@ -10617,6 +11887,12 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         isEncrypted = isEncryptedDecoded
         let lastRestoreTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRestoreTime)
         lastRestoreTime = lastRestoreTimeDecoded
+        let parentRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentRecoveryPointArn)
+        parentRecoveryPointArn = parentRecoveryPointArnDecoded
+        let compositeMemberIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .compositeMemberIdentifier)
+        compositeMemberIdentifier = compositeMemberIdentifierDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
     }
 }
 
@@ -10633,6 +11909,8 @@ extension BackupClientTypes {
         public var calculatedLifecycle: BackupClientTypes.CalculatedLifecycle?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var completionDate: ClientRuntime.Date?
+        /// This is the identifier of a resource within a composite group, such as nested (child) recovery point belonging to a composite (parent) stack. The ID is transferred from the [ logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax) within a stack.
+        public var compositeMemberIdentifier: Swift.String?
         /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
         public var createdBy: BackupClientTypes.RecoveryPointCreator?
         /// The date and time a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -10643,10 +11921,14 @@ extension BackupClientTypes {
         public var iamRoleArn: Swift.String?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public var isEncrypted: Swift.Bool
+        /// This is a boolean value indicating this is a parent (composite) recovery point.
+        public var isParent: Swift.Bool
         /// The date and time a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var lastRestoreTime: ClientRuntime.Date?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
         public var lifecycle: BackupClientTypes.Lifecycle?
+        /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery point.
+        public var parentRecoveryPointArn: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var recoveryPointArn: Swift.String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -10666,13 +11948,16 @@ extension BackupClientTypes {
             backupVaultName: Swift.String? = nil,
             calculatedLifecycle: BackupClientTypes.CalculatedLifecycle? = nil,
             completionDate: ClientRuntime.Date? = nil,
+            compositeMemberIdentifier: Swift.String? = nil,
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
             creationDate: ClientRuntime.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             isEncrypted: Swift.Bool = false,
+            isParent: Swift.Bool = false,
             lastRestoreTime: ClientRuntime.Date? = nil,
             lifecycle: BackupClientTypes.Lifecycle? = nil,
+            parentRecoveryPointArn: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil,
@@ -10686,13 +11971,16 @@ extension BackupClientTypes {
             self.backupVaultName = backupVaultName
             self.calculatedLifecycle = calculatedLifecycle
             self.completionDate = completionDate
+            self.compositeMemberIdentifier = compositeMemberIdentifier
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
             self.iamRoleArn = iamRoleArn
             self.isEncrypted = isEncrypted
+            self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
             self.lifecycle = lifecycle
+            self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -10710,6 +11998,8 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         case backupVaultName = "BackupVaultName"
         case creationDate = "CreationDate"
         case encryptionKeyArn = "EncryptionKeyArn"
+        case isParent = "IsParent"
+        case parentRecoveryPointArn = "ParentRecoveryPointArn"
         case recoveryPointArn = "RecoveryPointArn"
         case status = "Status"
         case statusMessage = "StatusMessage"
@@ -10728,6 +12018,12 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         }
         if let encryptionKeyArn = self.encryptionKeyArn {
             try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
+        if isParent != false {
+            try encodeContainer.encode(isParent, forKey: .isParent)
+        }
+        if let parentRecoveryPointArn = self.parentRecoveryPointArn {
+            try encodeContainer.encode(parentRecoveryPointArn, forKey: .parentRecoveryPointArn)
         }
         if let recoveryPointArn = self.recoveryPointArn {
             try encodeContainer.encode(recoveryPointArn, forKey: .recoveryPointArn)
@@ -10756,6 +12052,10 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         backupSizeBytes = backupSizeBytesDecoded
         let backupVaultNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultName)
         backupVaultName = backupVaultNameDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
+        let parentRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentRecoveryPointArn)
+        parentRecoveryPointArn = parentRecoveryPointArnDecoded
     }
 }
 
@@ -10770,6 +12070,10 @@ extension BackupClientTypes {
         public var creationDate: ClientRuntime.Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public var encryptionKeyArn: Swift.String?
+        /// This is a boolean value indicating this is a parent (composite) recovery point.
+        public var isParent: Swift.Bool
+        /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery point.
+        public var parentRecoveryPointArn: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var recoveryPointArn: Swift.String?
         /// A status code specifying the state of the recovery point.
@@ -10782,6 +12086,8 @@ extension BackupClientTypes {
             backupVaultName: Swift.String? = nil,
             creationDate: ClientRuntime.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
+            isParent: Swift.Bool = false,
+            parentRecoveryPointArn: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
             status: BackupClientTypes.RecoveryPointStatus? = nil,
             statusMessage: Swift.String? = nil
@@ -10791,6 +12097,8 @@ extension BackupClientTypes {
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.isParent = isParent
+            self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.status = status
             self.statusMessage = statusMessage
@@ -10859,6 +12167,120 @@ extension BackupClientTypes {
             self.backupPlanId = backupPlanId
             self.backupPlanVersion = backupPlanVersion
             self.backupRuleId = backupRuleId
+        }
+    }
+
+}
+
+extension BackupClientTypes.RecoveryPointMember: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recoveryPointArn = "RecoveryPointArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recoveryPointArn = self.recoveryPointArn {
+            try encodeContainer.encode(recoveryPointArn, forKey: .recoveryPointArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recoveryPointArn)
+        recoveryPointArn = recoveryPointArnDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a recovery point which is a child (nested) recovery point of a parent (composite) recovery point. These recovery points can be disassociated from their parent (composite) recovery point, in which case they will no longer be a member.
+    public struct RecoveryPointMember: Swift.Equatable {
+        /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery point.
+        public var recoveryPointArn: Swift.String?
+
+        public init (
+            recoveryPointArn: Swift.String? = nil
+        )
+        {
+            self.recoveryPointArn = recoveryPointArn
+        }
+    }
+
+}
+
+extension BackupClientTypes.RecoveryPointSelection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dateRange = "DateRange"
+        case resourceIdentifiers = "ResourceIdentifiers"
+        case vaultNames = "VaultNames"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dateRange = self.dateRange {
+            try encodeContainer.encode(dateRange, forKey: .dateRange)
+        }
+        if let resourceIdentifiers = resourceIdentifiers {
+            var resourceIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIdentifiers)
+            for resourceidentifiers0 in resourceIdentifiers {
+                try resourceIdentifiersContainer.encode(resourceidentifiers0)
+            }
+        }
+        if let vaultNames = vaultNames {
+            var vaultNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vaultNames)
+            for vaultnames0 in vaultNames {
+                try vaultNamesContainer.encode(vaultnames0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vaultNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vaultNames)
+        var vaultNamesDecoded0:[Swift.String]? = nil
+        if let vaultNamesContainer = vaultNamesContainer {
+            vaultNamesDecoded0 = [Swift.String]()
+            for string0 in vaultNamesContainer {
+                if let string0 = string0 {
+                    vaultNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        vaultNames = vaultNamesDecoded0
+        let resourceIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIdentifiers)
+        var resourceIdentifiersDecoded0:[Swift.String]? = nil
+        if let resourceIdentifiersContainer = resourceIdentifiersContainer {
+            resourceIdentifiersDecoded0 = [Swift.String]()
+            for string0 in resourceIdentifiersContainer {
+                if let string0 = string0 {
+                    resourceIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceIdentifiers = resourceIdentifiersDecoded0
+        let dateRangeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.DateRange.self, forKey: .dateRange)
+        dateRange = dateRangeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This specifies criteria to assign a set of resources, such as resource types or backup vaults.
+    public struct RecoveryPointSelection: Swift.Equatable {
+        /// This is a resource filter containing FromDate: DateTime and ToDate: DateTime. Both values are required. Future DateTime values are not permitted. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds ((milliseconds are optional). For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var dateRange: BackupClientTypes.DateRange?
+        /// These are the resources included in the resource selection (including type of resources and vaults).
+        public var resourceIdentifiers: [Swift.String]?
+        /// These are the names of the vaults in which the selected recovery points are contained.
+        public var vaultNames: [Swift.String]?
+
+        public init (
+            dateRange: BackupClientTypes.DateRange? = nil,
+            resourceIdentifiers: [Swift.String]? = nil,
+            vaultNames: [Swift.String]? = nil
+        )
+        {
+            self.dateRange = dateRange
+            self.resourceIdentifiers = resourceIdentifiers
+            self.vaultNames = vaultNames
         }
     }
 
@@ -11249,13 +12671,22 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.ReportSetting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accounts = "Accounts"
         case frameworkArns = "FrameworkArns"
         case numberOfFrameworks = "NumberOfFrameworks"
+        case organizationUnits = "OrganizationUnits"
+        case regions = "Regions"
         case reportTemplate = "ReportTemplate"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accounts = accounts {
+            var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
+            for stringlist0 in accounts {
+                try accountsContainer.encode(stringlist0)
+            }
+        }
         if let frameworkArns = frameworkArns {
             var frameworkArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .frameworkArns)
             for stringlist0 in frameworkArns {
@@ -11264,6 +12695,18 @@ extension BackupClientTypes.ReportSetting: Swift.Codable {
         }
         if numberOfFrameworks != 0 {
             try encodeContainer.encode(numberOfFrameworks, forKey: .numberOfFrameworks)
+        }
+        if let organizationUnits = organizationUnits {
+            var organizationUnitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationUnits)
+            for stringlist0 in organizationUnits {
+                try organizationUnitsContainer.encode(stringlist0)
+            }
+        }
+        if let regions = regions {
+            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
+            for stringlist0 in regions {
+                try regionsContainer.encode(stringlist0)
+            }
         }
         if let reportTemplate = self.reportTemplate {
             try encodeContainer.encode(reportTemplate, forKey: .reportTemplate)
@@ -11287,28 +12730,73 @@ extension BackupClientTypes.ReportSetting: Swift.Codable {
         frameworkArns = frameworkArnsDecoded0
         let numberOfFrameworksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfFrameworks) ?? 0
         numberOfFrameworks = numberOfFrameworksDecoded
+        let accountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accounts)
+        var accountsDecoded0:[Swift.String]? = nil
+        if let accountsContainer = accountsContainer {
+            accountsDecoded0 = [Swift.String]()
+            for string0 in accountsContainer {
+                if let string0 = string0 {
+                    accountsDecoded0?.append(string0)
+                }
+            }
+        }
+        accounts = accountsDecoded0
+        let organizationUnitsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .organizationUnits)
+        var organizationUnitsDecoded0:[Swift.String]? = nil
+        if let organizationUnitsContainer = organizationUnitsContainer {
+            organizationUnitsDecoded0 = [Swift.String]()
+            for string0 in organizationUnitsContainer {
+                if let string0 = string0 {
+                    organizationUnitsDecoded0?.append(string0)
+                }
+            }
+        }
+        organizationUnits = organizationUnitsDecoded0
+        let regionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regions)
+        var regionsDecoded0:[Swift.String]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [Swift.String]()
+            for string0 in regionsContainer {
+                if let string0 = string0 {
+                    regionsDecoded0?.append(string0)
+                }
+            }
+        }
+        regions = regionsDecoded0
     }
 }
 
 extension BackupClientTypes {
     /// Contains detailed information about a report setting.
     public struct ReportSetting: Swift.Equatable {
+        /// These are the accounts to be included in the report.
+        public var accounts: [Swift.String]?
         /// The Amazon Resource Names (ARNs) of the frameworks a report covers.
         public var frameworkArns: [Swift.String]?
         /// The number of frameworks a report covers.
         public var numberOfFrameworks: Swift.Int
+        /// These are the Organizational Units to be included in the report.
+        public var organizationUnits: [Swift.String]?
+        /// These are the Regions to be included in the report.
+        public var regions: [Swift.String]?
         /// Identifies the report template for the report. Reports are built using a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
         /// This member is required.
         public var reportTemplate: Swift.String?
 
         public init (
+            accounts: [Swift.String]? = nil,
             frameworkArns: [Swift.String]? = nil,
             numberOfFrameworks: Swift.Int = 0,
+            organizationUnits: [Swift.String]? = nil,
+            regions: [Swift.String]? = nil,
             reportTemplate: Swift.String? = nil
         )
         {
+            self.accounts = accounts
             self.frameworkArns = frameworkArns
             self.numberOfFrameworks = numberOfFrameworks
+            self.organizationUnits = organizationUnits
+            self.regions = regions
             self.reportTemplate = reportTemplate
         }
     }
@@ -11755,7 +13243,7 @@ public struct StartBackupJobInput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.
+    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors.
     public var startWindowMinutes: Swift.Int?
 
     public init (
@@ -11888,10 +13376,12 @@ extension StartBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: StartBackupJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupJobId = output.backupJobId
             self.creationDate = output.creationDate
+            self.isParent = output.isParent
             self.recoveryPointArn = output.recoveryPointArn
         } else {
             self.backupJobId = nil
             self.creationDate = nil
+            self.isParent = false
             self.recoveryPointArn = nil
         }
     }
@@ -11902,17 +13392,21 @@ public struct StartBackupJobOutputResponse: Swift.Equatable {
     public var backupJobId: Swift.String?
     /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: ClientRuntime.Date?
+    /// This is a returned boolean value indicating this is a parent (composite) backup job.
+    public var isParent: Swift.Bool
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
 
     public init (
         backupJobId: Swift.String? = nil,
         creationDate: ClientRuntime.Date? = nil,
+        isParent: Swift.Bool = false,
         recoveryPointArn: Swift.String? = nil
     )
     {
         self.backupJobId = backupJobId
         self.creationDate = creationDate
+        self.isParent = isParent
         self.recoveryPointArn = recoveryPointArn
     }
 }
@@ -11921,12 +13415,14 @@ struct StartBackupJobOutputResponseBody: Swift.Equatable {
     let backupJobId: Swift.String?
     let recoveryPointArn: Swift.String?
     let creationDate: ClientRuntime.Date?
+    let isParent: Swift.Bool
 }
 
 extension StartBackupJobOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupJobId = "BackupJobId"
         case creationDate = "CreationDate"
+        case isParent = "IsParent"
         case recoveryPointArn = "RecoveryPointArn"
     }
 
@@ -11938,6 +13434,8 @@ extension StartBackupJobOutputResponseBody: Swift.Decodable {
         recoveryPointArn = recoveryPointArnDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
     }
 }
 
@@ -12092,9 +13590,11 @@ extension StartCopyJobOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: StartCopyJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyJobId = output.copyJobId
             self.creationDate = output.creationDate
+            self.isParent = output.isParent
         } else {
             self.copyJobId = nil
             self.creationDate = nil
+            self.isParent = false
         }
     }
 }
@@ -12104,26 +13604,32 @@ public struct StartCopyJobOutputResponse: Swift.Equatable {
     public var copyJobId: Swift.String?
     /// The date and time that a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: ClientRuntime.Date?
+    /// This is a returned boolean value indicating this is a parent (composite) copy job.
+    public var isParent: Swift.Bool
 
     public init (
         copyJobId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil
+        creationDate: ClientRuntime.Date? = nil,
+        isParent: Swift.Bool = false
     )
     {
         self.copyJobId = copyJobId
         self.creationDate = creationDate
+        self.isParent = isParent
     }
 }
 
 struct StartCopyJobOutputResponseBody: Swift.Equatable {
     let copyJobId: Swift.String?
     let creationDate: ClientRuntime.Date?
+    let isParent: Swift.Bool
 }
 
 extension StartCopyJobOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyJobId = "CopyJobId"
         case creationDate = "CreationDate"
+        case isParent = "IsParent"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -12132,6 +13638,8 @@ extension StartCopyJobOutputResponseBody: Swift.Decodable {
         copyJobId = copyJobIdDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
+        isParent = isParentDecoded
     }
 }
 
@@ -12303,7 +13811,7 @@ extension StartRestoreJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartRestoreJobInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+    /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartRestoreJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     public var idempotencyToken: Swift.String?
@@ -13127,7 +14635,7 @@ extension UpdateFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateFrameworkOutputResponse: Swift.Equatable {
-    /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
     public var creationTime: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var frameworkArn: Swift.String?

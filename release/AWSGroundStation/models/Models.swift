@@ -731,7 +731,7 @@ extension GroundStationClientTypes {
         public var contactId: Swift.String?
         /// Status of a contact.
         public var contactStatus: GroundStationClientTypes.ContactStatus?
-        /// End time of a contact.
+        /// End time of a contact in UTC.
         public var endTime: ClientRuntime.Date?
         /// Error message of a contact.
         public var errorMessage: Swift.String?
@@ -749,7 +749,7 @@ extension GroundStationClientTypes {
         public var region: Swift.String?
         /// ARN of a satellite.
         public var satelliteArn: Swift.String?
-        /// Start time of a contact.
+        /// Start time of a contact in UTC.
         public var startTime: ClientRuntime.Date?
         /// Tags assigned to a contact.
         public var tags: [Swift.String:Swift.String]?
@@ -1179,6 +1179,218 @@ extension CreateDataflowEndpointGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataflowEndpointGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataflowEndpointGroupId)
         dataflowEndpointGroupId = dataflowEndpointGroupIdDecoded
+    }
+}
+
+extension CreateEphemerisInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case ephemeris
+        case expirationTime
+        case kmsKeyArn
+        case name
+        case priority
+        case satelliteId
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let ephemeris = self.ephemeris {
+            try encodeContainer.encode(ephemeris, forKey: .ephemeris)
+        }
+        if let expirationTime = self.expirationTime {
+            try encodeContainer.encodeTimestamp(expirationTime, format: .epochSeconds, forKey: .expirationTime)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let priority = self.priority {
+            try encodeContainer.encode(priority, forKey: .priority)
+        }
+        if let satelliteId = self.satelliteId {
+            try encodeContainer.encode(satelliteId, forKey: .satelliteId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsmap0) in tags {
+                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateEphemerisInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ephemeris"
+    }
+}
+
+public struct CreateEphemerisInput: Swift.Equatable {
+    /// Whether to set the ephemeris status to ENABLED after validation. Setting this to false will set the ephemeris status to DISABLED after validation.
+    public var enabled: Swift.Bool?
+    /// Ephemeris data.
+    public var ephemeris: GroundStationClientTypes.EphemerisData?
+    /// An overall expiration time for the ephemeris in UTC, after which it will become EXPIRED.
+    public var expirationTime: ClientRuntime.Date?
+    /// The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
+    public var kmsKeyArn: Swift.String?
+    /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+    public var priority: Swift.Int?
+    /// AWS Ground Station satellite ID for this ephemeris.
+    /// This member is required.
+    public var satelliteId: Swift.String?
+    /// Tags assigned to an ephemeris.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        enabled: Swift.Bool? = nil,
+        ephemeris: GroundStationClientTypes.EphemerisData? = nil,
+        expirationTime: ClientRuntime.Date? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        satelliteId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.enabled = enabled
+        self.ephemeris = ephemeris
+        self.expirationTime = expirationTime
+        self.kmsKeyArn = kmsKeyArn
+        self.name = name
+        self.priority = priority
+        self.satelliteId = satelliteId
+        self.tags = tags
+    }
+}
+
+struct CreateEphemerisInputBody: Swift.Equatable {
+    let satelliteId: Swift.String?
+    let enabled: Swift.Bool?
+    let priority: Swift.Int?
+    let expirationTime: ClientRuntime.Date?
+    let name: Swift.String?
+    let kmsKeyArn: Swift.String?
+    let ephemeris: GroundStationClientTypes.EphemerisData?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEphemerisInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case ephemeris
+        case expirationTime
+        case kmsKeyArn
+        case name
+        case priority
+        case satelliteId
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let satelliteIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .satelliteId)
+        satelliteId = satelliteIdDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
+        priority = priorityDecoded
+        let expirationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expirationTime)
+        expirationTime = expirationTimeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let ephemerisDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisData.self, forKey: .ephemeris)
+        ephemeris = ephemerisDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateEphemerisOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateEphemerisOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateEphemerisOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ephemerisId = output.ephemerisId
+        } else {
+            self.ephemerisId = nil
+        }
+    }
+}
+
+public struct CreateEphemerisOutputResponse: Swift.Equatable {
+    /// The AWS Ground Station ephemeris ID.
+    public var ephemerisId: Swift.String?
+
+    public init (
+        ephemerisId: Swift.String? = nil
+    )
+    {
+        self.ephemerisId = ephemerisId
+    }
+}
+
+struct CreateEphemerisOutputResponseBody: Swift.Equatable {
+    let ephemerisId: Swift.String?
+}
+
+extension CreateEphemerisOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ephemerisId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ephemerisIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ephemerisId)
+        ephemerisId = ephemerisIdDecoded
     }
 }
 
@@ -1920,6 +2132,104 @@ extension DeleteDataflowEndpointGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteEphemerisInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let ephemerisId = ephemerisId else {
+            return nil
+        }
+        return "/ephemeris/\(ephemerisId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteEphemerisInput: Swift.Equatable {
+    /// The AWS Ground Station ephemeris ID.
+    /// This member is required.
+    public var ephemerisId: Swift.String?
+
+    public init (
+        ephemerisId: Swift.String? = nil
+    )
+    {
+        self.ephemerisId = ephemerisId
+    }
+}
+
+struct DeleteEphemerisInputBody: Swift.Equatable {
+}
+
+extension DeleteEphemerisInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteEphemerisOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteEphemerisOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteEphemerisOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DeleteEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ephemerisId = output.ephemerisId
+        } else {
+            self.ephemerisId = nil
+        }
+    }
+}
+
+public struct DeleteEphemerisOutputResponse: Swift.Equatable {
+    /// The AWS Ground Station ephemeris ID.
+    public var ephemerisId: Swift.String?
+
+    public init (
+        ephemerisId: Swift.String? = nil
+    )
+    {
+        self.ephemerisId = ephemerisId
+    }
+}
+
+struct DeleteEphemerisOutputResponseBody: Swift.Equatable {
+    let ephemerisId: Swift.String?
+}
+
+extension DeleteEphemerisOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ephemerisId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ephemerisIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ephemerisId)
+        ephemerisId = ephemerisIdDecoded
+    }
+}
+
 extension DeleteMissionProfileInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let missionProfileId = missionProfileId else {
@@ -2223,7 +2533,7 @@ public struct DescribeContactOutputResponse: Swift.Equatable {
     public var contactStatus: GroundStationClientTypes.ContactStatus?
     /// List describing source and destination details for each dataflow edge.
     public var dataflowList: [GroundStationClientTypes.DataflowDetail]?
-    /// End time of a contact.
+    /// End time of a contact in UTC.
     public var endTime: ClientRuntime.Date?
     /// Error message for a contact.
     public var errorMessage: Swift.String?
@@ -2241,7 +2551,7 @@ public struct DescribeContactOutputResponse: Swift.Equatable {
     public var region: Swift.String?
     /// ARN of a satellite.
     public var satelliteArn: Swift.String?
-    /// Start time of a contact.
+    /// Start time of a contact in UTC.
     public var startTime: ClientRuntime.Date?
     /// Tags assigned to a contact.
     public var tags: [Swift.String:Swift.String]?
@@ -2363,6 +2673,203 @@ extension DescribeContactOutputResponseBody: Swift.Decodable {
             }
         }
         dataflowList = dataflowListDecoded0
+    }
+}
+
+extension DescribeEphemerisInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let ephemerisId = ephemerisId else {
+            return nil
+        }
+        return "/ephemeris/\(ephemerisId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeEphemerisInput: Swift.Equatable {
+    /// The AWS Ground Station ephemeris ID.
+    /// This member is required.
+    public var ephemerisId: Swift.String?
+
+    public init (
+        ephemerisId: Swift.String? = nil
+    )
+    {
+        self.ephemerisId = ephemerisId
+    }
+}
+
+struct DescribeEphemerisInputBody: Swift.Equatable {
+}
+
+extension DescribeEphemerisInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeEphemerisOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeEphemerisOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DescribeEphemerisOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.enabled = output.enabled
+            self.ephemerisId = output.ephemerisId
+            self.invalidReason = output.invalidReason
+            self.name = output.name
+            self.priority = output.priority
+            self.satelliteId = output.satelliteId
+            self.status = output.status
+            self.suppliedData = output.suppliedData
+            self.tags = output.tags
+        } else {
+            self.creationTime = nil
+            self.enabled = nil
+            self.ephemerisId = nil
+            self.invalidReason = nil
+            self.name = nil
+            self.priority = nil
+            self.satelliteId = nil
+            self.status = nil
+            self.suppliedData = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct DescribeEphemerisOutputResponse: Swift.Equatable {
+    /// The time the ephemeris was uploaded in UTC.
+    public var creationTime: ClientRuntime.Date?
+    /// Whether or not the ephemeris is enabled.
+    public var enabled: Swift.Bool?
+    /// The AWS Ground Station ephemeris ID.
+    public var ephemerisId: Swift.String?
+    /// Reason that an ephemeris failed validation. Only provided for ephemerides with INVALID status.
+    public var invalidReason: GroundStationClientTypes.EphemerisInvalidReason?
+    /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+    public var name: Swift.String?
+    /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+    public var priority: Swift.Int?
+    /// The AWS Ground Station satellite ID associated with ephemeris.
+    public var satelliteId: Swift.String?
+    /// The status of the ephemeris.
+    public var status: GroundStationClientTypes.EphemerisStatus?
+    /// Supplied ephemeris data.
+    public var suppliedData: GroundStationClientTypes.EphemerisTypeDescription?
+    /// Tags assigned to an ephemeris.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        creationTime: ClientRuntime.Date? = nil,
+        enabled: Swift.Bool? = nil,
+        ephemerisId: Swift.String? = nil,
+        invalidReason: GroundStationClientTypes.EphemerisInvalidReason? = nil,
+        name: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        satelliteId: Swift.String? = nil,
+        status: GroundStationClientTypes.EphemerisStatus? = nil,
+        suppliedData: GroundStationClientTypes.EphemerisTypeDescription? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.enabled = enabled
+        self.ephemerisId = ephemerisId
+        self.invalidReason = invalidReason
+        self.name = name
+        self.priority = priority
+        self.satelliteId = satelliteId
+        self.status = status
+        self.suppliedData = suppliedData
+        self.tags = tags
+    }
+}
+
+struct DescribeEphemerisOutputResponseBody: Swift.Equatable {
+    let ephemerisId: Swift.String?
+    let satelliteId: Swift.String?
+    let status: GroundStationClientTypes.EphemerisStatus?
+    let priority: Swift.Int?
+    let creationTime: ClientRuntime.Date?
+    let enabled: Swift.Bool?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let suppliedData: GroundStationClientTypes.EphemerisTypeDescription?
+    let invalidReason: GroundStationClientTypes.EphemerisInvalidReason?
+}
+
+extension DescribeEphemerisOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case enabled
+        case ephemerisId
+        case invalidReason
+        case name
+        case priority
+        case satelliteId
+        case status
+        case suppliedData
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ephemerisIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ephemerisId)
+        ephemerisId = ephemerisIdDecoded
+        let satelliteIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .satelliteId)
+        satelliteId = satelliteIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisStatus.self, forKey: .status)
+        status = statusDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
+        priority = priorityDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let suppliedDataDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisTypeDescription.self, forKey: .suppliedData)
+        suppliedData = suppliedDataDecoded
+        let invalidReasonDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisInvalidReason.self, forKey: .invalidReason)
+        invalidReason = invalidReasonDecoded
     }
 }
 
@@ -2584,7 +3091,7 @@ extension GroundStationClientTypes {
     public struct EndpointDetails: Swift.Equatable {
         /// A dataflow endpoint.
         public var endpoint: GroundStationClientTypes.DataflowEndpoint?
-        /// Endpoint security details.
+        /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public var securityDetails: GroundStationClientTypes.SecurityDetails?
 
         public init (
@@ -2638,6 +3145,428 @@ extension GroundStationClientTypes {
             self = EndpointStatus(rawValue: rawValue) ?? EndpointStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension GroundStationClientTypes.EphemerisData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oem
+        case sdkUnknown
+        case tle
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .oem(oem):
+                try container.encode(oem, forKey: .oem)
+            case let .tle(tle):
+                try container.encode(tle, forKey: .tle)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let tleDecoded = try values.decodeIfPresent(GroundStationClientTypes.TLEEphemeris.self, forKey: .tle)
+        if let tle = tleDecoded {
+            self = .tle(tle)
+            return
+        }
+        let oemDecoded = try values.decodeIfPresent(GroundStationClientTypes.OEMEphemeris.self, forKey: .oem)
+        if let oem = oemDecoded {
+            self = .oem(oem)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Ephemeris data.
+    public enum EphemerisData: Swift.Equatable {
+        /// Two-line element set (TLE) ephemeris.
+        case tle(GroundStationClientTypes.TLEEphemeris)
+        /// Ephemeris data in Orbit Ephemeris Message (OEM) format.
+        case oem(GroundStationClientTypes.OEMEphemeris)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension GroundStationClientTypes.EphemerisDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ephemerisData
+        case sourceS3Object
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ephemerisData = self.ephemerisData {
+            try encodeContainer.encode(ephemerisData, forKey: .ephemerisData)
+        }
+        if let sourceS3Object = self.sourceS3Object {
+            try encodeContainer.encode(sourceS3Object, forKey: .sourceS3Object)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceS3ObjectDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.S3Object.self, forKey: .sourceS3Object)
+        sourceS3Object = sourceS3ObjectDecoded
+        let ephemerisDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ephemerisData)
+        ephemerisData = ephemerisDataDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Description of ephemeris.
+    public struct EphemerisDescription: Swift.Equatable {
+        /// Supplied ephemeris data.
+        public var ephemerisData: Swift.String?
+        /// Source S3 object used for the ephemeris.
+        public var sourceS3Object: GroundStationClientTypes.S3Object?
+
+        public init (
+            ephemerisData: Swift.String? = nil,
+            sourceS3Object: GroundStationClientTypes.S3Object? = nil
+        )
+        {
+            self.ephemerisData = ephemerisData
+            self.sourceS3Object = sourceS3Object
+        }
+    }
+
+}
+
+extension GroundStationClientTypes {
+    public enum EphemerisInvalidReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// Provided KMS key is invalid
+        case kmsKeyInvalid
+        /// Provided spacecraft identifiers such as spacecraft NORAD Id are invalid
+        case metadataInvalid
+        /// Start, end, or expiration time(s) are invalid for the provided ephemeris
+        case timeRangeInvalid
+        /// Provided ephemeris defines invalid spacecraft trajectory
+        case trajectoryInvalid
+        /// Internal Service Error occurred while processing ephemeris
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EphemerisInvalidReason] {
+            return [
+                .kmsKeyInvalid,
+                .metadataInvalid,
+                .timeRangeInvalid,
+                .trajectoryInvalid,
+                .validationError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsKeyInvalid: return "KMS_KEY_INVALID"
+            case .metadataInvalid: return "METADATA_INVALID"
+            case .timeRangeInvalid: return "TIME_RANGE_INVALID"
+            case .trajectoryInvalid: return "TRAJECTORY_INVALID"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EphemerisInvalidReason(rawValue: rawValue) ?? EphemerisInvalidReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GroundStationClientTypes.EphemerisItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case enabled
+        case ephemerisId
+        case name
+        case priority
+        case sourceS3Object
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let ephemerisId = self.ephemerisId {
+            try encodeContainer.encode(ephemerisId, forKey: .ephemerisId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let priority = self.priority {
+            try encodeContainer.encode(priority, forKey: .priority)
+        }
+        if let sourceS3Object = self.sourceS3Object {
+            try encodeContainer.encode(sourceS3Object, forKey: .sourceS3Object)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ephemerisIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ephemerisId)
+        ephemerisId = ephemerisIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisStatus.self, forKey: .status)
+        status = statusDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
+        priority = priorityDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let sourceS3ObjectDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.S3Object.self, forKey: .sourceS3Object)
+        sourceS3Object = sourceS3ObjectDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Ephemeris item.
+    public struct EphemerisItem: Swift.Equatable {
+        /// The time the ephemeris was uploaded in UTC.
+        public var creationTime: ClientRuntime.Date?
+        /// Whether or not the ephemeris is enabled.
+        public var enabled: Swift.Bool?
+        /// The AWS Ground Station ephemeris ID.
+        public var ephemerisId: Swift.String?
+        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        public var name: Swift.String?
+        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        public var priority: Swift.Int?
+        /// Source S3 object used for the ephemeris.
+        public var sourceS3Object: GroundStationClientTypes.S3Object?
+        /// The status of the ephemeris.
+        public var status: GroundStationClientTypes.EphemerisStatus?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            enabled: Swift.Bool? = nil,
+            ephemerisId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            priority: Swift.Int? = nil,
+            sourceS3Object: GroundStationClientTypes.S3Object? = nil,
+            status: GroundStationClientTypes.EphemerisStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.enabled = enabled
+            self.ephemerisId = ephemerisId
+            self.name = name
+            self.priority = priority
+            self.sourceS3Object = sourceS3Object
+            self.status = status
+        }
+    }
+
+}
+
+extension GroundStationClientTypes.EphemerisMetaData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ephemerisId
+        case epoch
+        case name
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ephemerisId = self.ephemerisId {
+            try encodeContainer.encode(ephemerisId, forKey: .ephemerisId)
+        }
+        if let epoch = self.epoch {
+            try encodeContainer.encodeTimestamp(epoch, format: .epochSeconds, forKey: .epoch)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisSource.self, forKey: .source)
+        source = sourceDecoded
+        let ephemerisIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ephemerisId)
+        ephemerisId = ephemerisIdDecoded
+        let epochDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .epoch)
+        epoch = epochDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Metadata describing a particular ephemeris.
+    public struct EphemerisMetaData: Swift.Equatable {
+        /// UUID of a customer-provided ephemeris. This field is not populated for default ephemerides from Space Track.
+        public var ephemerisId: Swift.String?
+        /// The epoch of a default, ephemeris from Space Track in UTC. This field is not populated for customer-provided ephemerides.
+        public var epoch: ClientRuntime.Date?
+        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris. A name is only returned for customer-provider ephemerides that have a name associated.
+        public var name: Swift.String?
+        /// The EphemerisSource that generated a given ephemeris.
+        /// This member is required.
+        public var source: GroundStationClientTypes.EphemerisSource?
+
+        public init (
+            ephemerisId: Swift.String? = nil,
+            epoch: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            source: GroundStationClientTypes.EphemerisSource? = nil
+        )
+        {
+            self.ephemerisId = ephemerisId
+            self.epoch = epoch
+            self.name = name
+            self.source = source
+        }
+    }
+
+}
+
+extension GroundStationClientTypes {
+    public enum EphemerisSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case customerProvided
+        case spaceTrack
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EphemerisSource] {
+            return [
+                .customerProvided,
+                .spaceTrack,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .customerProvided: return "CUSTOMER_PROVIDED"
+            case .spaceTrack: return "SPACE_TRACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EphemerisSource(rawValue: rawValue) ?? EphemerisSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+    public enum EphemerisStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case error
+        case expired
+        case invalid
+        case validating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EphemerisStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .error,
+                .expired,
+                .invalid,
+                .validating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .error: return "ERROR"
+            case .expired: return "EXPIRED"
+            case .invalid: return "INVALID"
+            case .validating: return "VALIDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EphemerisStatus(rawValue: rawValue) ?? EphemerisStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GroundStationClientTypes.EphemerisTypeDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oem
+        case sdkUnknown
+        case tle
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .oem(oem):
+                try container.encode(oem, forKey: .oem)
+            case let .tle(tle):
+                try container.encode(tle, forKey: .tle)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let tleDecoded = try values.decodeIfPresent(GroundStationClientTypes.EphemerisDescription.self, forKey: .tle)
+        if let tle = tleDecoded {
+            self = .tle(tle)
+            return
+        }
+        let oemDecoded = try values.decodeIfPresent(GroundStationClientTypes.EphemerisDescription.self, forKey: .oem)
+        if let oem = oemDecoded {
+            self = .oem(oem)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension GroundStationClientTypes {
+    ///
+    public enum EphemerisTypeDescription: Swift.Equatable {
+        /// Description of ephemeris.
+        case tle(GroundStationClientTypes.EphemerisDescription)
+        /// Description of ephemeris.
+        case oem(GroundStationClientTypes.EphemerisDescription)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension GroundStationClientTypes.Frequency: Swift.Codable {
@@ -3545,11 +4474,13 @@ extension GetSatelliteOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: GetSatelliteOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.currentEphemeris = output.currentEphemeris
             self.groundStations = output.groundStations
             self.noradSatelliteID = output.noradSatelliteID
             self.satelliteArn = output.satelliteArn
             self.satelliteId = output.satelliteId
         } else {
+            self.currentEphemeris = nil
             self.groundStations = nil
             self.noradSatelliteID = 0
             self.satelliteArn = nil
@@ -3560,6 +4491,8 @@ extension GetSatelliteOutputResponse: ClientRuntime.HttpResponseBinding {
 
 ///
 public struct GetSatelliteOutputResponse: Swift.Equatable {
+    /// The current ephemeris being used to compute the trajectory of the satellite.
+    public var currentEphemeris: GroundStationClientTypes.EphemerisMetaData?
     /// A list of ground stations to which the satellite is on-boarded.
     public var groundStations: [Swift.String]?
     /// NORAD satellite ID number.
@@ -3570,12 +4503,14 @@ public struct GetSatelliteOutputResponse: Swift.Equatable {
     public var satelliteId: Swift.String?
 
     public init (
+        currentEphemeris: GroundStationClientTypes.EphemerisMetaData? = nil,
         groundStations: [Swift.String]? = nil,
         noradSatelliteID: Swift.Int = 0,
         satelliteArn: Swift.String? = nil,
         satelliteId: Swift.String? = nil
     )
     {
+        self.currentEphemeris = currentEphemeris
         self.groundStations = groundStations
         self.noradSatelliteID = noradSatelliteID
         self.satelliteArn = satelliteArn
@@ -3588,10 +4523,12 @@ struct GetSatelliteOutputResponseBody: Swift.Equatable {
     let satelliteArn: Swift.String?
     let noradSatelliteID: Swift.Int
     let groundStations: [Swift.String]?
+    let currentEphemeris: GroundStationClientTypes.EphemerisMetaData?
 }
 
 extension GetSatelliteOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentEphemeris
         case groundStations
         case noradSatelliteID
         case satelliteArn
@@ -3617,6 +4554,8 @@ extension GetSatelliteOutputResponseBody: Swift.Decodable {
             }
         }
         groundStations = groundStationsDecoded0
+        let currentEphemerisDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisMetaData.self, forKey: .currentEphemeris)
+        currentEphemeris = currentEphemerisDecoded
     }
 }
 
@@ -3925,7 +4864,7 @@ extension ListContactsInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct ListContactsInput: Swift.Equatable {
-    /// End time of a contact.
+    /// End time of a contact in UTC.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
     /// Name of a ground station.
@@ -3938,7 +4877,7 @@ public struct ListContactsInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// ARN of a satellite.
     public var satelliteArn: Swift.String?
-    /// Start time of a contact.
+    /// Start time of a contact in UTC.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
     /// Status of a contact reservation.
@@ -4240,6 +5179,215 @@ extension ListDataflowEndpointGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         dataflowEndpointGroupList = dataflowEndpointGroupListDecoded0
+    }
+}
+
+extension ListEphemeridesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case satelliteId
+        case startTime
+        case statusList
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let satelliteId = self.satelliteId {
+            try encodeContainer.encode(satelliteId, forKey: .satelliteId)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let statusList = statusList {
+            var statusListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statusList)
+            for ephemerisstatuslist0 in statusList {
+                try statusListContainer.encode(ephemerisstatuslist0.rawValue)
+            }
+        }
+    }
+}
+
+extension ListEphemeridesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListEphemeridesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ephemerides"
+    }
+}
+
+public struct ListEphemeridesInput: Swift.Equatable {
+    /// The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// Maximum number of ephemerides to return.
+    public var maxResults: Swift.Int?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+    /// The AWS Ground Station satellite ID to list ephemeris for.
+    /// This member is required.
+    public var satelliteId: Swift.String?
+    /// The start time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+    /// The list of ephemeris status to return.
+    public var statusList: [GroundStationClientTypes.EphemerisStatus]?
+
+    public init (
+        endTime: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        satelliteId: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        statusList: [GroundStationClientTypes.EphemerisStatus]? = nil
+    )
+    {
+        self.endTime = endTime
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.satelliteId = satelliteId
+        self.startTime = startTime
+        self.statusList = statusList
+    }
+}
+
+struct ListEphemeridesInputBody: Swift.Equatable {
+    let satelliteId: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let statusList: [GroundStationClientTypes.EphemerisStatus]?
+}
+
+extension ListEphemeridesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case satelliteId
+        case startTime
+        case statusList
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let satelliteIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .satelliteId)
+        satelliteId = satelliteIdDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let statusListContainer = try containerValues.decodeIfPresent([GroundStationClientTypes.EphemerisStatus?].self, forKey: .statusList)
+        var statusListDecoded0:[GroundStationClientTypes.EphemerisStatus]? = nil
+        if let statusListContainer = statusListContainer {
+            statusListDecoded0 = [GroundStationClientTypes.EphemerisStatus]()
+            for string0 in statusListContainer {
+                if let string0 = string0 {
+                    statusListDecoded0?.append(string0)
+                }
+            }
+        }
+        statusList = statusListDecoded0
+    }
+}
+
+extension ListEphemeridesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListEphemeridesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListEphemeridesOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListEphemeridesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListEphemeridesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ephemerides = output.ephemerides
+            self.nextToken = output.nextToken
+        } else {
+            self.ephemerides = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEphemeridesOutputResponse: Swift.Equatable {
+    /// List of ephemerides.
+    public var ephemerides: [GroundStationClientTypes.EphemerisItem]?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+
+    public init (
+        ephemerides: [GroundStationClientTypes.EphemerisItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.ephemerides = ephemerides
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEphemeridesOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let ephemerides: [GroundStationClientTypes.EphemerisItem]?
+}
+
+extension ListEphemeridesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ephemerides
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let ephemeridesContainer = try containerValues.decodeIfPresent([GroundStationClientTypes.EphemerisItem?].self, forKey: .ephemerides)
+        var ephemeridesDecoded0:[GroundStationClientTypes.EphemerisItem]? = nil
+        if let ephemeridesContainer = ephemeridesContainer {
+            ephemeridesDecoded0 = [GroundStationClientTypes.EphemerisItem]()
+            for structure0 in ephemeridesContainer {
+                if let structure0 = structure0 {
+                    ephemeridesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ephemerides = ephemeridesDecoded0
     }
 }
 
@@ -4833,6 +5981,51 @@ extension GroundStationClientTypes {
 
 }
 
+extension GroundStationClientTypes.OEMEphemeris: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oemData
+        case s3Object
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let oemData = self.oemData {
+            try encodeContainer.encode(oemData, forKey: .oemData)
+        }
+        if let s3Object = self.s3Object {
+            try encodeContainer.encode(s3Object, forKey: .s3Object)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3ObjectDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.S3Object.self, forKey: .s3Object)
+        s3Object = s3ObjectDecoded
+        let oemDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .oemData)
+        oemData = oemDataDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Ephemeris data in Orbit Ephemeris Message (OEM) format.
+    public struct OEMEphemeris: Swift.Equatable {
+        /// The data for an OEM ephemeris, supplied directly in the request rather than through an S3 object.
+        public var oemData: Swift.String?
+        /// Identifies the S3 object to be used as the ephemeris.
+        public var s3Object: GroundStationClientTypes.S3Object?
+
+        public init (
+            oemData: Swift.String? = nil,
+            s3Object: GroundStationClientTypes.S3Object? = nil
+        )
+        {
+            self.oemData = oemData
+            self.s3Object = s3Object
+        }
+    }
+
+}
+
 extension GroundStationClientTypes {
     public enum Polarization: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case leftHand
@@ -4912,7 +6105,7 @@ extension ReserveContactInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct ReserveContactInput: Swift.Equatable {
-    /// End time of a contact.
+    /// End time of a contact in UTC.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
     /// Name of a ground station.
@@ -4924,7 +6117,7 @@ public struct ReserveContactInput: Swift.Equatable {
     /// ARN of a satellite
     /// This member is required.
     public var satelliteArn: Swift.String?
-    /// Start time of a contact.
+    /// Start time of a contact in UTC.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
     /// Tags assigned to a contact.
@@ -5175,6 +6368,61 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension GroundStationClientTypes.S3Object: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket
+        case key
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucket = self.bucket {
+            try encodeContainer.encode(bucket, forKey: .bucket)
+        }
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Object stored in S3 containing ephemeris data.
+    public struct S3Object: Swift.Equatable {
+        /// An Amazon S3 Bucket name.
+        public var bucket: Swift.String?
+        /// An Amazon S3 key for the ephemeris.
+        public var key: Swift.String?
+        /// For versioned S3 objects, the version to use for the ephemeris.
+        public var version: Swift.String?
+
+        public init (
+            bucket: Swift.String? = nil,
+            key: Swift.String? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.bucket = bucket
+            self.key = key
+            self.version = version
+        }
+    }
+
+}
+
 extension GroundStationClientTypes.S3RecordingConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketArn
@@ -5262,7 +6510,7 @@ extension GroundStationClientTypes {
     public struct S3RecordingDetails: Swift.Equatable {
         /// ARN of the bucket used.
         public var bucketArn: Swift.String?
-        /// Template of the S3 key used.
+        /// Key template used for the S3 Recording Configuration
         public var keyTemplate: Swift.String?
 
         public init (
@@ -5279,6 +6527,7 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes.SatelliteListItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentEphemeris
         case groundStations
         case noradSatelliteID
         case satelliteArn
@@ -5287,6 +6536,9 @@ extension GroundStationClientTypes.SatelliteListItem: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currentEphemeris = self.currentEphemeris {
+            try encodeContainer.encode(currentEphemeris, forKey: .currentEphemeris)
+        }
         if let groundStations = groundStations {
             var groundStationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groundStations)
             for groundstationidlist0 in groundStations {
@@ -5323,12 +6575,16 @@ extension GroundStationClientTypes.SatelliteListItem: Swift.Codable {
             }
         }
         groundStations = groundStationsDecoded0
+        let currentEphemerisDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.EphemerisMetaData.self, forKey: .currentEphemeris)
+        currentEphemeris = currentEphemerisDecoded
     }
 }
 
 extension GroundStationClientTypes {
     /// Item in a list of satellites.
     public struct SatelliteListItem: Swift.Equatable {
+        /// The current ephemeris being used to compute the trajectory of the satellite.
+        public var currentEphemeris: GroundStationClientTypes.EphemerisMetaData?
         /// A list of ground stations to which the satellite is on-boarded.
         public var groundStations: [Swift.String]?
         /// NORAD satellite ID number.
@@ -5339,12 +6595,14 @@ extension GroundStationClientTypes {
         public var satelliteId: Swift.String?
 
         public init (
+            currentEphemeris: GroundStationClientTypes.EphemerisMetaData? = nil,
             groundStations: [Swift.String]? = nil,
             noradSatelliteID: Swift.Int = 0,
             satelliteArn: Swift.String? = nil,
             satelliteId: Swift.String? = nil
         )
         {
+            self.currentEphemeris = currentEphemeris
             self.groundStations = groundStations
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
@@ -5523,7 +6781,7 @@ extension GroundStationClientTypes.Source: Swift.Codable {
 extension GroundStationClientTypes {
     /// Dataflow details for the source side.
     public struct Source: Swift.Equatable {
-        /// Additional details for a Config, if type is dataflow endpoint or antenna demod decode.
+        /// Additional details for a Config, if type is dataflow-endpoint or antenna-downlink-demod-decode
         public var configDetails: GroundStationClientTypes.ConfigDetails?
         /// UUID of a Config.
         public var configId: Swift.String?
@@ -5606,6 +6864,121 @@ extension GroundStationClientTypes {
             self.bandwidth = bandwidth
             self.centerFrequency = centerFrequency
             self.polarization = polarization
+        }
+    }
+
+}
+
+extension GroundStationClientTypes.TLEData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tleLine1
+        case tleLine2
+        case validTimeRange
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tleLine1 = self.tleLine1 {
+            try encodeContainer.encode(tleLine1, forKey: .tleLine1)
+        }
+        if let tleLine2 = self.tleLine2 {
+            try encodeContainer.encode(tleLine2, forKey: .tleLine2)
+        }
+        if let validTimeRange = self.validTimeRange {
+            try encodeContainer.encode(validTimeRange, forKey: .validTimeRange)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tleLine1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tleLine1)
+        tleLine1 = tleLine1Decoded
+        let tleLine2Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tleLine2)
+        tleLine2 = tleLine2Decoded
+        let validTimeRangeDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.TimeRange.self, forKey: .validTimeRange)
+        validTimeRange = validTimeRangeDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Two-line element set (TLE) data.
+    public struct TLEData: Swift.Equatable {
+        /// First line of two-line element set (TLE) data.
+        /// This member is required.
+        public var tleLine1: Swift.String?
+        /// Second line of two-line element set (TLE) data.
+        /// This member is required.
+        public var tleLine2: Swift.String?
+        /// The valid time range for the TLE. Gaps or overlap are not permitted.
+        /// This member is required.
+        public var validTimeRange: GroundStationClientTypes.TimeRange?
+
+        public init (
+            tleLine1: Swift.String? = nil,
+            tleLine2: Swift.String? = nil,
+            validTimeRange: GroundStationClientTypes.TimeRange? = nil
+        )
+        {
+            self.tleLine1 = tleLine1
+            self.tleLine2 = tleLine2
+            self.validTimeRange = validTimeRange
+        }
+    }
+
+}
+
+extension GroundStationClientTypes.TLEEphemeris: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Object
+        case tleData
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Object = self.s3Object {
+            try encodeContainer.encode(s3Object, forKey: .s3Object)
+        }
+        if let tleData = tleData {
+            var tleDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tleData)
+            for tledatalist0 in tleData {
+                try tleDataContainer.encode(tledatalist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3ObjectDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.S3Object.self, forKey: .s3Object)
+        s3Object = s3ObjectDecoded
+        let tleDataContainer = try containerValues.decodeIfPresent([GroundStationClientTypes.TLEData?].self, forKey: .tleData)
+        var tleDataDecoded0:[GroundStationClientTypes.TLEData]? = nil
+        if let tleDataContainer = tleDataContainer {
+            tleDataDecoded0 = [GroundStationClientTypes.TLEData]()
+            for structure0 in tleDataContainer {
+                if let structure0 = structure0 {
+                    tleDataDecoded0?.append(structure0)
+                }
+            }
+        }
+        tleData = tleDataDecoded0
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Two-line element set (TLE) ephemeris.
+    public struct TLEEphemeris: Swift.Equatable {
+        /// Identifies the S3 object to be used as the ephemeris.
+        public var s3Object: GroundStationClientTypes.S3Object?
+        /// The data for a TLE ephemeris, supplied directly in the request rather than through an S3 object.
+        public var tleData: [GroundStationClientTypes.TLEData]?
+
+        public init (
+            s3Object: GroundStationClientTypes.S3Object? = nil,
+            tleData: [GroundStationClientTypes.TLEData]? = nil
+        )
+        {
+            self.s3Object = s3Object
+            self.tleData = tleData
         }
     }
 
@@ -5715,6 +7088,53 @@ extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct TagResourceOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension GroundStationClientTypes.TimeRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// A time range with a start and end time.
+    public struct TimeRange: Swift.Equatable {
+        /// Time in UTC at which the time range ends.
+        /// This member is required.
+        public var endTime: ClientRuntime.Date?
+        /// Time in UTC at which the time range starts.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+
+        public init (
+            endTime: ClientRuntime.Date? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+
 }
 
 extension GroundStationClientTypes.TrackingConfig: Swift.Codable {
@@ -6007,6 +7427,153 @@ extension UpdateConfigOutputResponseBody: Swift.Decodable {
         configType = configTypeDecoded
         let configArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configArn)
         configArn = configArnDecoded
+    }
+}
+
+extension UpdateEphemerisInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case name
+        case priority
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let priority = self.priority {
+            try encodeContainer.encode(priority, forKey: .priority)
+        }
+    }
+}
+
+extension UpdateEphemerisInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let ephemerisId = ephemerisId else {
+            return nil
+        }
+        return "/ephemeris/\(ephemerisId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateEphemerisInput: Swift.Equatable {
+    /// Whether the ephemeris is enabled or not. Changing this value will not require the ephemeris to be re-validated.
+    /// This member is required.
+    public var enabled: Swift.Bool?
+    /// The AWS Ground Station ephemeris ID.
+    /// This member is required.
+    public var ephemerisId: Swift.String?
+    /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+    public var name: Swift.String?
+    /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+    public var priority: Swift.Int?
+
+    public init (
+        enabled: Swift.Bool? = nil,
+        ephemerisId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        priority: Swift.Int? = nil
+    )
+    {
+        self.enabled = enabled
+        self.ephemerisId = ephemerisId
+        self.name = name
+        self.priority = priority
+    }
+}
+
+struct UpdateEphemerisInputBody: Swift.Equatable {
+    let enabled: Swift.Bool?
+    let name: Swift.String?
+    let priority: Swift.Int?
+}
+
+extension UpdateEphemerisInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case name
+        case priority
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
+        priority = priorityDecoded
+    }
+}
+
+extension UpdateEphemerisOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateEphemerisOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateEphemerisOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ephemerisId = output.ephemerisId
+        } else {
+            self.ephemerisId = nil
+        }
+    }
+}
+
+public struct UpdateEphemerisOutputResponse: Swift.Equatable {
+    /// The AWS Ground Station ephemeris ID.
+    public var ephemerisId: Swift.String?
+
+    public init (
+        ephemerisId: Swift.String? = nil
+    )
+    {
+        self.ephemerisId = ephemerisId
+    }
+}
+
+struct UpdateEphemerisOutputResponseBody: Swift.Equatable {
+    let ephemerisId: Swift.String?
+}
+
+extension UpdateEphemerisOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ephemerisId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ephemerisIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ephemerisId)
+        ephemerisId = ephemerisIdDecoded
     }
 }
 

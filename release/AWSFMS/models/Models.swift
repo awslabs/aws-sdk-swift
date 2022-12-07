@@ -11106,11 +11106,13 @@ extension FMSClientTypes {
 
 extension FMSClientTypes {
     public enum ThirdPartyFirewall: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fortigateCloudNativeFirewall
         case paloAltoNetworksCloudNgfw
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ThirdPartyFirewall] {
             return [
+                .fortigateCloudNativeFirewall,
                 .paloAltoNetworksCloudNgfw,
                 .sdkUnknown("")
             ]
@@ -11121,6 +11123,7 @@ extension FMSClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .fortigateCloudNativeFirewall: return "FORTIGATE_CLOUD_NATIVE_FIREWALL"
             case .paloAltoNetworksCloudNgfw: return "PALO_ALTO_NETWORKS_CLOUD_NGFW"
             case let .sdkUnknown(s): return s
             }

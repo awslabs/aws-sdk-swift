@@ -17227,9 +17227,9 @@ extension MediaLiveClientTypes.HlsGroupSettings: Swift.Codable {
         var adMarkersDecoded0:[MediaLiveClientTypes.HlsAdMarkers]? = nil
         if let adMarkersContainer = adMarkersContainer {
             adMarkersDecoded0 = [MediaLiveClientTypes.HlsAdMarkers]()
-            for string0 in adMarkersContainer {
-                if let string0 = string0 {
-                    adMarkersDecoded0?.append(string0)
+            for enum0 in adMarkersContainer {
+                if let enum0 = enum0 {
+                    adMarkersDecoded0?.append(enum0)
                 }
             }
         }
@@ -30420,9 +30420,9 @@ extension MediaLiveClientTypes.RtmpGroupSettings: Swift.Codable {
         var adMarkersDecoded0:[MediaLiveClientTypes.RtmpAdMarkers]? = nil
         if let adMarkersContainer = adMarkersContainer {
             adMarkersDecoded0 = [MediaLiveClientTypes.RtmpAdMarkers]()
-            for string0 in adMarkersContainer {
-                if let string0 = string0 {
-                    adMarkersDecoded0?.append(string0)
+            for enum0 in adMarkersContainer {
+                if let enum0 = enum0 {
+                    adMarkersDecoded0?.append(enum0)
                 }
             }
         }

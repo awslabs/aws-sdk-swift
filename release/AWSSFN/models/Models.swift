@@ -687,7 +687,7 @@ extension CreateActivityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateActivityInput: Swift.Equatable {
-    /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the AWS Step Functions Developer Guide. A name must not contain:
+    /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. A name must not contain:
     ///
     /// * white space
     ///
@@ -703,7 +703,7 @@ public struct CreateActivityInput: Swift.Equatable {
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
     /// This member is required.
     public var name: Swift.String?
-    /// The list of tags to add to a resource. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the AWS Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+    /// The list of tags to add to a resource. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     public var tags: [SFNClientTypes.Tag]?
 
     public init (
@@ -879,7 +879,7 @@ public struct CreateStateMachineInput: Swift.Equatable {
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     /// This member is required.
     public var definition: Swift.String?
-    /// Defines what execution history events are logged and where they are logged. By default, the level is set to OFF. For more information see [Log Levels](https://docs.aws.amazon.com/step-functions/latest/dg/cloudwatch-log-level.html) in the AWS Step Functions User Guide.
+    /// Defines what execution history events are logged and where they are logged. By default, the level is set to OFF. For more information see [Log Levels](https://docs.aws.amazon.com/step-functions/latest/dg/cloudwatch-log-level.html) in the Step Functions User Guide.
     public var loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     /// The name of the state machine. A name must not contain:
     ///
@@ -900,9 +900,9 @@ public struct CreateStateMachineInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the AWS Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+    /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     public var tags: [SFNClientTypes.Tag]?
-    /// Selects whether AWS X-Ray tracing is enabled.
+    /// Selects whether X-Ray tracing is enabled.
     public var tracingConfiguration: SFNClientTypes.TracingConfiguration?
     /// Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
     public var type: SFNClientTypes.StateMachineType?
@@ -1209,6 +1209,7 @@ extension DeleteStateMachineOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -1216,6 +1217,7 @@ extension DeleteStateMachineOutputError {
 
 public enum DeleteStateMachineOutputError: Swift.Error, Swift.Equatable {
     case invalidArn(InvalidArn)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1452,7 +1454,7 @@ public enum DescribeExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeExecutionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeExecutionOutputResponse(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), startDate: \(Swift.String(describing: startDate)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
+        "DescribeExecutionOutputResponse(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), startDate: \(Swift.String(describing: startDate)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1461,9 +1463,12 @@ extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: DescribeExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.cause = output.cause
+            self.error = output.error
             self.executionArn = output.executionArn
             self.input = output.input
             self.inputDetails = output.inputDetails
+            self.mapRunArn = output.mapRunArn
             self.name = output.name
             self.output = output.output
             self.outputDetails = output.outputDetails
@@ -1473,9 +1478,12 @@ extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.stopDate = output.stopDate
             self.traceHeader = output.traceHeader
         } else {
+            self.cause = nil
+            self.error = nil
             self.executionArn = nil
             self.input = nil
             self.inputDetails = nil
+            self.mapRunArn = nil
             self.name = nil
             self.output = nil
             self.outputDetails = nil
@@ -1489,6 +1497,10 @@ extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeExecutionOutputResponse: Swift.Equatable {
+    /// The cause string if the state machine execution failed.
+    public var cause: Swift.String?
+    /// The error string if the state machine execution failed.
+    public var error: Swift.String?
     /// The Amazon Resource Name (ARN) that identifies the execution.
     /// This member is required.
     public var executionArn: Swift.String?
@@ -1496,6 +1508,8 @@ public struct DescribeExecutionOutputResponse: Swift.Equatable {
     public var input: Swift.String?
     /// Provides details about execution input or output.
     public var inputDetails: SFNClientTypes.CloudWatchEventsExecutionDataDetails?
+    /// The Amazon Resource Name (ARN) that identifies a Map Run, which dispatched this execution.
+    public var mapRunArn: Swift.String?
     /// The name of the execution. A name must not contain:
     ///
     /// * white space
@@ -1526,13 +1540,16 @@ public struct DescribeExecutionOutputResponse: Swift.Equatable {
     public var status: SFNClientTypes.ExecutionStatus?
     /// If the execution has already ended, the date the execution stopped.
     public var stopDate: ClientRuntime.Date?
-    /// The AWS X-Ray trace header that was passed to the execution.
+    /// The X-Ray trace header that was passed to the execution.
     public var traceHeader: Swift.String?
 
     public init (
+        cause: Swift.String? = nil,
+        error: Swift.String? = nil,
         executionArn: Swift.String? = nil,
         input: Swift.String? = nil,
         inputDetails: SFNClientTypes.CloudWatchEventsExecutionDataDetails? = nil,
+        mapRunArn: Swift.String? = nil,
         name: Swift.String? = nil,
         output: Swift.String? = nil,
         outputDetails: SFNClientTypes.CloudWatchEventsExecutionDataDetails? = nil,
@@ -1543,9 +1560,12 @@ public struct DescribeExecutionOutputResponse: Swift.Equatable {
         traceHeader: Swift.String? = nil
     )
     {
+        self.cause = cause
+        self.error = error
         self.executionArn = executionArn
         self.input = input
         self.inputDetails = inputDetails
+        self.mapRunArn = mapRunArn
         self.name = name
         self.output = output
         self.outputDetails = outputDetails
@@ -1569,13 +1589,19 @@ struct DescribeExecutionOutputResponseBody: Swift.Equatable {
     let output: Swift.String?
     let outputDetails: SFNClientTypes.CloudWatchEventsExecutionDataDetails?
     let traceHeader: Swift.String?
+    let mapRunArn: Swift.String?
+    let error: Swift.String?
+    let cause: Swift.String?
 }
 
 extension DescribeExecutionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cause
+        case error
         case executionArn
         case input
         case inputDetails
+        case mapRunArn
         case name
         case output
         case outputDetails
@@ -1610,6 +1636,224 @@ extension DescribeExecutionOutputResponseBody: Swift.Decodable {
         outputDetails = outputDetailsDecoded
         let traceHeaderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .traceHeader)
         traceHeader = traceHeaderDecoded
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+        let causeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cause)
+        cause = causeDecoded
+    }
+}
+
+extension DescribeMapRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mapRunArn = self.mapRunArn {
+            try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
+        }
+    }
+}
+
+extension DescribeMapRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMapRunInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) that identifies a Map Run.
+    /// This member is required.
+    public var mapRunArn: Swift.String?
+
+    public init (
+        mapRunArn: Swift.String? = nil
+    )
+    {
+        self.mapRunArn = mapRunArn
+    }
+}
+
+struct DescribeMapRunInputBody: Swift.Equatable {
+    let mapRunArn: Swift.String?
+}
+
+extension DescribeMapRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+    }
+}
+
+extension DescribeMapRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeMapRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DescribeMapRunOutputError: Swift.Error, Swift.Equatable {
+    case invalidArn(InvalidArn)
+    case resourceNotFound(ResourceNotFound)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeMapRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeMapRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.executionArn = output.executionArn
+            self.executionCounts = output.executionCounts
+            self.itemCounts = output.itemCounts
+            self.mapRunArn = output.mapRunArn
+            self.maxConcurrency = output.maxConcurrency
+            self.startDate = output.startDate
+            self.status = output.status
+            self.stopDate = output.stopDate
+            self.toleratedFailureCount = output.toleratedFailureCount
+            self.toleratedFailurePercentage = output.toleratedFailurePercentage
+        } else {
+            self.executionArn = nil
+            self.executionCounts = nil
+            self.itemCounts = nil
+            self.mapRunArn = nil
+            self.maxConcurrency = 0
+            self.startDate = nil
+            self.status = nil
+            self.stopDate = nil
+            self.toleratedFailureCount = 0
+            self.toleratedFailurePercentage = 0.0
+        }
+    }
+}
+
+public struct DescribeMapRunOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) that identifies the execution in which the Map Run was started.
+    /// This member is required.
+    public var executionArn: Swift.String?
+    /// A JSON object that contains information about the total number of child workflow executions for the Map Run, and the count of child workflow executions for each status, such as failed and succeeded.
+    /// This member is required.
+    public var executionCounts: SFNClientTypes.MapRunExecutionCounts?
+    /// A JSON object that contains information about the total number of items, and the item count for each processing status, such as pending and failed.
+    /// This member is required.
+    public var itemCounts: SFNClientTypes.MapRunItemCounts?
+    /// The Amazon Resource Name (ARN) that identifies a Map Run.
+    /// This member is required.
+    public var mapRunArn: Swift.String?
+    /// The maximum number of child workflow executions configured to run in parallel for the Map Run at the same time.
+    /// This member is required.
+    public var maxConcurrency: Swift.Int
+    /// The date when the Map Run was started.
+    /// This member is required.
+    public var startDate: ClientRuntime.Date?
+    /// The current status of the Map Run.
+    /// This member is required.
+    public var status: SFNClientTypes.MapRunStatus?
+    /// The date when the Map Run was stopped.
+    public var stopDate: ClientRuntime.Date?
+    /// The maximum number of failed child workflow executions before the Map Run fails.
+    /// This member is required.
+    public var toleratedFailureCount: Swift.Int
+    /// The maximum percentage of failed child workflow executions before the Map Run fails.
+    /// This member is required.
+    public var toleratedFailurePercentage: Swift.Float
+
+    public init (
+        executionArn: Swift.String? = nil,
+        executionCounts: SFNClientTypes.MapRunExecutionCounts? = nil,
+        itemCounts: SFNClientTypes.MapRunItemCounts? = nil,
+        mapRunArn: Swift.String? = nil,
+        maxConcurrency: Swift.Int = 0,
+        startDate: ClientRuntime.Date? = nil,
+        status: SFNClientTypes.MapRunStatus? = nil,
+        stopDate: ClientRuntime.Date? = nil,
+        toleratedFailureCount: Swift.Int = 0,
+        toleratedFailurePercentage: Swift.Float = 0.0
+    )
+    {
+        self.executionArn = executionArn
+        self.executionCounts = executionCounts
+        self.itemCounts = itemCounts
+        self.mapRunArn = mapRunArn
+        self.maxConcurrency = maxConcurrency
+        self.startDate = startDate
+        self.status = status
+        self.stopDate = stopDate
+        self.toleratedFailureCount = toleratedFailureCount
+        self.toleratedFailurePercentage = toleratedFailurePercentage
+    }
+}
+
+struct DescribeMapRunOutputResponseBody: Swift.Equatable {
+    let mapRunArn: Swift.String?
+    let executionArn: Swift.String?
+    let status: SFNClientTypes.MapRunStatus?
+    let startDate: ClientRuntime.Date?
+    let stopDate: ClientRuntime.Date?
+    let maxConcurrency: Swift.Int
+    let toleratedFailurePercentage: Swift.Float
+    let toleratedFailureCount: Swift.Int
+    let itemCounts: SFNClientTypes.MapRunItemCounts?
+    let executionCounts: SFNClientTypes.MapRunExecutionCounts?
+}
+
+extension DescribeMapRunOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionArn
+        case executionCounts
+        case itemCounts
+        case mapRunArn
+        case maxConcurrency
+        case startDate
+        case status
+        case stopDate
+        case toleratedFailureCount
+        case toleratedFailurePercentage
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+        let executionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionArn)
+        executionArn = executionArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunStatus.self, forKey: .status)
+        status = statusDecoded
+        let startDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDate)
+        startDate = startDateDecoded
+        let stopDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .stopDate)
+        stopDate = stopDateDecoded
+        let maxConcurrencyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrency) ?? 0
+        maxConcurrency = maxConcurrencyDecoded
+        let toleratedFailurePercentageDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .toleratedFailurePercentage) ?? 0.0
+        toleratedFailurePercentage = toleratedFailurePercentageDecoded
+        let toleratedFailureCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toleratedFailureCount) ?? 0
+        toleratedFailureCount = toleratedFailureCountDecoded
+        let itemCountsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunItemCounts.self, forKey: .itemCounts)
+        itemCounts = itemCountsDecoded
+        let executionCountsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunExecutionCounts.self, forKey: .executionCounts)
+        executionCounts = executionCountsDecoded
     }
 }
 
@@ -1687,7 +1931,7 @@ public enum DescribeStateMachineForExecutionOutputError: Swift.Error, Swift.Equa
 
 extension DescribeStateMachineForExecutionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineForExecutionOutputResponse(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineForExecutionOutputResponse(label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeStateMachineForExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1697,7 +1941,9 @@ extension DescribeStateMachineForExecutionOutputResponse: ClientRuntime.HttpResp
             let data = reader.toBytes().toData()
             let output: DescribeStateMachineForExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.definition = output.definition
+            self.label = output.label
             self.loggingConfiguration = output.loggingConfiguration
+            self.mapRunArn = output.mapRunArn
             self.name = output.name
             self.roleArn = output.roleArn
             self.stateMachineArn = output.stateMachineArn
@@ -1705,7 +1951,9 @@ extension DescribeStateMachineForExecutionOutputResponse: ClientRuntime.HttpResp
             self.updateDate = output.updateDate
         } else {
             self.definition = nil
+            self.label = nil
             self.loggingConfiguration = nil
+            self.mapRunArn = nil
             self.name = nil
             self.roleArn = nil
             self.stateMachineArn = nil
@@ -1719,8 +1967,12 @@ public struct DescribeStateMachineForExecutionOutputResponse: Swift.Equatable {
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     /// This member is required.
     public var definition: Swift.String?
+    /// A user-defined or an auto-generated string that identifies a Map state. This ﬁeld is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
+    public var label: Swift.String?
     /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
     public var loggingConfiguration: SFNClientTypes.LoggingConfiguration?
+    /// The Amazon Resource Name (ARN) of the Map Run that started the child workflow execution. This field is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
+    public var mapRunArn: Swift.String?
     /// The name of the state machine associated with the execution.
     /// This member is required.
     public var name: Swift.String?
@@ -1730,7 +1982,7 @@ public struct DescribeStateMachineForExecutionOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the state machine associated with the execution.
     /// This member is required.
     public var stateMachineArn: Swift.String?
-    /// Selects whether AWS X-Ray tracing is enabled.
+    /// Selects whether X-Ray tracing is enabled.
     public var tracingConfiguration: SFNClientTypes.TracingConfiguration?
     /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
     /// This member is required.
@@ -1738,7 +1990,9 @@ public struct DescribeStateMachineForExecutionOutputResponse: Swift.Equatable {
 
     public init (
         definition: Swift.String? = nil,
+        label: Swift.String? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
+        mapRunArn: Swift.String? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
@@ -1747,7 +2001,9 @@ public struct DescribeStateMachineForExecutionOutputResponse: Swift.Equatable {
     )
     {
         self.definition = definition
+        self.label = label
         self.loggingConfiguration = loggingConfiguration
+        self.mapRunArn = mapRunArn
         self.name = name
         self.roleArn = roleArn
         self.stateMachineArn = stateMachineArn
@@ -1764,12 +2020,16 @@ struct DescribeStateMachineForExecutionOutputResponseBody: Swift.Equatable {
     let updateDate: ClientRuntime.Date?
     let loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     let tracingConfiguration: SFNClientTypes.TracingConfiguration?
+    let mapRunArn: Swift.String?
+    let label: Swift.String?
 }
 
 extension DescribeStateMachineForExecutionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case definition
+        case label
         case loggingConfiguration
+        case mapRunArn
         case name
         case roleArn
         case stateMachineArn
@@ -1793,6 +2053,10 @@ extension DescribeStateMachineForExecutionOutputResponseBody: Swift.Decodable {
         loggingConfiguration = loggingConfigurationDecoded
         let tracingConfigurationDecoded = try containerValues.decodeIfPresent(SFNClientTypes.TracingConfiguration.self, forKey: .tracingConfiguration)
         tracingConfiguration = tracingConfigurationDecoded
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+        let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
+        label = labelDecoded
     }
 }
 
@@ -1870,7 +2134,7 @@ public enum DescribeStateMachineOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStateMachineOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineOutputResponse(creationDate: \(Swift.String(describing: creationDate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineOutputResponse(creationDate: \(Swift.String(describing: creationDate)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1881,6 +2145,7 @@ extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding 
             let output: DescribeStateMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.definition = output.definition
+            self.label = output.label
             self.loggingConfiguration = output.loggingConfiguration
             self.name = output.name
             self.roleArn = output.roleArn
@@ -1891,6 +2156,7 @@ extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding 
         } else {
             self.creationDate = nil
             self.definition = nil
+            self.label = nil
             self.loggingConfiguration = nil
             self.name = nil
             self.roleArn = nil
@@ -1909,6 +2175,8 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     /// This member is required.
     public var definition: Swift.String?
+    /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
+    public var label: Swift.String?
     /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
     public var loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     /// The name of the state machine. A name must not contain:
@@ -1927,7 +2195,7 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to AWS resources.)
+    /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to Amazon Web Services resources.)
     /// This member is required.
     public var roleArn: Swift.String?
     /// The Amazon Resource Name (ARN) that identifies the state machine.
@@ -1935,7 +2203,7 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     public var stateMachineArn: Swift.String?
     /// The current status of the state machine.
     public var status: SFNClientTypes.StateMachineStatus?
-    /// Selects whether AWS X-Ray tracing is enabled.
+    /// Selects whether X-Ray tracing is enabled.
     public var tracingConfiguration: SFNClientTypes.TracingConfiguration?
     /// The type of the state machine (STANDARD or EXPRESS).
     /// This member is required.
@@ -1944,6 +2212,7 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     public init (
         creationDate: ClientRuntime.Date? = nil,
         definition: Swift.String? = nil,
+        label: Swift.String? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -1955,6 +2224,7 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     {
         self.creationDate = creationDate
         self.definition = definition
+        self.label = label
         self.loggingConfiguration = loggingConfiguration
         self.name = name
         self.roleArn = roleArn
@@ -1975,12 +2245,14 @@ struct DescribeStateMachineOutputResponseBody: Swift.Equatable {
     let creationDate: ClientRuntime.Date?
     let loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     let tracingConfiguration: SFNClientTypes.TracingConfiguration?
+    let label: Swift.String?
 }
 
 extension DescribeStateMachineOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationDate
         case definition
+        case label
         case loggingConfiguration
         case name
         case roleArn
@@ -2010,6 +2282,8 @@ extension DescribeStateMachineOutputResponseBody: Swift.Decodable {
         loggingConfiguration = loggingConfigurationDecoded
         let tracingConfigurationDecoded = try containerValues.decodeIfPresent(SFNClientTypes.TracingConfiguration.self, forKey: .tracingConfiguration)
         tracingConfiguration = tracingConfigurationDecoded
+        let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
+        label = labelDecoded
     }
 }
 
@@ -2272,6 +2546,8 @@ extension ExecutionLimitExceededBody: Swift.Decodable {
 extension SFNClientTypes.ExecutionListItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executionArn
+        case itemCount
+        case mapRunArn
         case name
         case startDate
         case stateMachineArn
@@ -2283,6 +2559,12 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let executionArn = self.executionArn {
             try encodeContainer.encode(executionArn, forKey: .executionArn)
+        }
+        if let itemCount = self.itemCount {
+            try encodeContainer.encode(itemCount, forKey: .itemCount)
+        }
+        if let mapRunArn = self.mapRunArn {
+            try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -2315,6 +2597,10 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         startDate = startDateDecoded
         let stopDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .stopDate)
         stopDate = stopDateDecoded
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
+        itemCount = itemCountDecoded
     }
 }
 
@@ -2324,6 +2610,10 @@ extension SFNClientTypes {
         /// The Amazon Resource Name (ARN) that identifies the execution.
         /// This member is required.
         public var executionArn: Swift.String?
+        /// The total number of items processed in a child workflow execution. This field is returned only if mapRunArn was specified in the ListExecutions API action. If stateMachineArn was specified in ListExecutions, the itemCount field isn't returned.
+        public var itemCount: Swift.Int?
+        /// The Amazon Resource Name (ARN) of a Map Run. This field is returned only if mapRunArn was specified in the ListExecutions API action. If stateMachineArn was specified in ListExecutions, the mapRunArn isn't returned.
+        public var mapRunArn: Swift.String?
         /// The name of the execution. A name must not contain:
         ///
         /// * white space
@@ -2354,6 +2644,8 @@ extension SFNClientTypes {
 
         public init (
             executionArn: Swift.String? = nil,
+            itemCount: Swift.Int? = nil,
+            mapRunArn: Swift.String? = nil,
             name: Swift.String? = nil,
             startDate: ClientRuntime.Date? = nil,
             stateMachineArn: Swift.String? = nil,
@@ -2362,6 +2654,8 @@ extension SFNClientTypes {
         )
         {
             self.executionArn = executionArn
+            self.itemCount = itemCount
+            self.mapRunArn = mapRunArn
             self.name = name
             self.startDate = startDate
             self.stateMachineArn = stateMachineArn
@@ -2415,7 +2709,7 @@ extension SFNClientTypes {
         public var input: Swift.String?
         /// Contains details about the input for an execution history event.
         public var inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails?
-        /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
+        /// The Amazon Resource Name (ARN) of the IAM role used for executing Lambda tasks.
         public var roleArn: Swift.String?
 
         public init (
@@ -2922,6 +3216,8 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         case mapIterationFailedEventDetails
         case mapIterationStartedEventDetails
         case mapIterationSucceededEventDetails
+        case mapRunFailedEventDetails
+        case mapRunStartedEventDetails
         case mapStateStartedEventDetails
         case previousEventId
         case stateEnteredEventDetails
@@ -3005,6 +3301,12 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         }
         if let mapIterationSucceededEventDetails = self.mapIterationSucceededEventDetails {
             try encodeContainer.encode(mapIterationSucceededEventDetails, forKey: .mapIterationSucceededEventDetails)
+        }
+        if let mapRunFailedEventDetails = self.mapRunFailedEventDetails {
+            try encodeContainer.encode(mapRunFailedEventDetails, forKey: .mapRunFailedEventDetails)
+        }
+        if let mapRunStartedEventDetails = self.mapRunStartedEventDetails {
+            try encodeContainer.encode(mapRunStartedEventDetails, forKey: .mapRunStartedEventDetails)
         }
         if let mapStateStartedEventDetails = self.mapStateStartedEventDetails {
             try encodeContainer.encode(mapStateStartedEventDetails, forKey: .mapStateStartedEventDetails)
@@ -3124,6 +3426,10 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         stateEnteredEventDetails = stateEnteredEventDetailsDecoded
         let stateExitedEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.StateExitedEventDetails.self, forKey: .stateExitedEventDetails)
         stateExitedEventDetails = stateExitedEventDetailsDecoded
+        let mapRunStartedEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunStartedEventDetails.self, forKey: .mapRunStartedEventDetails)
+        mapRunStartedEventDetails = mapRunStartedEventDetailsDecoded
+        let mapRunFailedEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunFailedEventDetails.self, forKey: .mapRunFailedEventDetails)
+        mapRunFailedEventDetails = mapRunFailedEventDetailsDecoded
     }
 }
 
@@ -3155,17 +3461,17 @@ extension SFNClientTypes {
         /// The id of the event. Events are numbered sequentially, starting at one.
         /// This member is required.
         public var id: Swift.Int
-        /// Contains details about a lambda function that failed during an execution.
+        /// Contains details about a Lambda function that failed during an execution.
         public var lambdaFunctionFailedEventDetails: SFNClientTypes.LambdaFunctionFailedEventDetails?
-        /// Contains details about a failed lambda function schedule event that occurred during an execution.
+        /// Contains details about a failed Lambda function schedule event that occurred during an execution.
         public var lambdaFunctionScheduleFailedEventDetails: SFNClientTypes.LambdaFunctionScheduleFailedEventDetails?
-        /// Contains details about a lambda function scheduled during an execution.
+        /// Contains details about a Lambda function scheduled during an execution.
         public var lambdaFunctionScheduledEventDetails: SFNClientTypes.LambdaFunctionScheduledEventDetails?
         /// Contains details about a lambda function that failed to start during an execution.
         public var lambdaFunctionStartFailedEventDetails: SFNClientTypes.LambdaFunctionStartFailedEventDetails?
-        /// Contains details about a lambda function that terminated successfully during an execution.
+        /// Contains details about a Lambda function that terminated successfully during an execution.
         public var lambdaFunctionSucceededEventDetails: SFNClientTypes.LambdaFunctionSucceededEventDetails?
-        /// Contains details about a lambda function timeout that occurred during an execution.
+        /// Contains details about a Lambda function timeout that occurred during an execution.
         public var lambdaFunctionTimedOutEventDetails: SFNClientTypes.LambdaFunctionTimedOutEventDetails?
         /// Contains details about an iteration of a Map state that was aborted.
         public var mapIterationAbortedEventDetails: SFNClientTypes.MapIterationEventDetails?
@@ -3175,6 +3481,10 @@ extension SFNClientTypes {
         public var mapIterationStartedEventDetails: SFNClientTypes.MapIterationEventDetails?
         /// Contains details about an iteration of a Map state that succeeded.
         public var mapIterationSucceededEventDetails: SFNClientTypes.MapIterationEventDetails?
+        /// Contains error and cause details about a Map Run that failed.
+        public var mapRunFailedEventDetails: SFNClientTypes.MapRunFailedEventDetails?
+        /// Contains details, such as mapRunArn, and the start date and time of a Map Run. mapRunArn is the Amazon Resource Name (ARN) of the Map Run that was started.
+        public var mapRunStartedEventDetails: SFNClientTypes.MapRunStartedEventDetails?
         /// Contains details about Map state that was started.
         public var mapStateStartedEventDetails: SFNClientTypes.MapStateStartedEventDetails?
         /// The id of the previous event.
@@ -3229,6 +3539,8 @@ extension SFNClientTypes {
             mapIterationFailedEventDetails: SFNClientTypes.MapIterationEventDetails? = nil,
             mapIterationStartedEventDetails: SFNClientTypes.MapIterationEventDetails? = nil,
             mapIterationSucceededEventDetails: SFNClientTypes.MapIterationEventDetails? = nil,
+            mapRunFailedEventDetails: SFNClientTypes.MapRunFailedEventDetails? = nil,
+            mapRunStartedEventDetails: SFNClientTypes.MapRunStartedEventDetails? = nil,
             mapStateStartedEventDetails: SFNClientTypes.MapStateStartedEventDetails? = nil,
             previousEventId: Swift.Int = 0,
             stateEnteredEventDetails: SFNClientTypes.StateEnteredEventDetails? = nil,
@@ -3267,6 +3579,8 @@ extension SFNClientTypes {
             self.mapIterationFailedEventDetails = mapIterationFailedEventDetails
             self.mapIterationStartedEventDetails = mapIterationStartedEventDetails
             self.mapIterationSucceededEventDetails = mapIterationSucceededEventDetails
+            self.mapRunFailedEventDetails = mapRunFailedEventDetails
+            self.mapRunStartedEventDetails = mapRunStartedEventDetails
             self.mapStateStartedEventDetails = mapStateStartedEventDetails
             self.previousEventId = previousEventId
             self.stateEnteredEventDetails = stateEnteredEventDetails
@@ -3348,6 +3662,10 @@ extension SFNClientTypes {
         case mapiterationfailed
         case mapiterationstarted
         case mapiterationsucceeded
+        case maprunaborted
+        case maprunfailed
+        case maprunstarted
+        case maprunsucceeded
         case mapstateaborted
         case mapstateentered
         case mapstateexited
@@ -3407,6 +3725,10 @@ extension SFNClientTypes {
                 .mapiterationfailed,
                 .mapiterationstarted,
                 .mapiterationsucceeded,
+                .maprunaborted,
+                .maprunfailed,
+                .maprunstarted,
+                .maprunsucceeded,
                 .mapstateaborted,
                 .mapstateentered,
                 .mapstateexited,
@@ -3471,6 +3793,10 @@ extension SFNClientTypes {
             case .mapiterationfailed: return "MapIterationFailed"
             case .mapiterationstarted: return "MapIterationStarted"
             case .mapiterationsucceeded: return "MapIterationSucceeded"
+            case .maprunaborted: return "MapRunAborted"
+            case .maprunfailed: return "MapRunFailed"
+            case .maprunstarted: return "MapRunStarted"
+            case .maprunsucceeded: return "MapRunSucceeded"
             case .mapstateaborted: return "MapStateAborted"
             case .mapstateentered: return "MapStateEntered"
             case .mapstateexited: return "MapStateExited"
@@ -3529,7 +3855,7 @@ extension InvalidArn {
     }
 }
 
-/// The provided Amazon Resource Name (ARN) is invalid.
+/// The provided Amazon Resource Name (ARN) is not valid.
 public struct InvalidArn: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3581,7 +3907,7 @@ extension InvalidDefinition {
     }
 }
 
-/// The provided Amazon States Language definition is invalid.
+/// The provided Amazon States Language definition is not valid.
 public struct InvalidDefinition: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3633,7 +3959,7 @@ extension InvalidExecutionInput {
     }
 }
 
-/// The provided JSON input data is invalid.
+/// The provided JSON input data is not valid.
 public struct InvalidExecutionInput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3737,7 +4063,7 @@ extension InvalidName {
     }
 }
 
-/// The provided name is invalid.
+/// The provided name is not valid.
 public struct InvalidName: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3789,7 +4115,7 @@ extension InvalidOutput {
     }
 }
 
-/// The provided JSON output data is invalid.
+/// The provided JSON output data is not valid.
 public struct InvalidOutput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3841,7 +4167,7 @@ extension InvalidToken {
     }
 }
 
-/// The provided token is invalid.
+/// The provided token is not valid.
 public struct InvalidToken: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3959,7 +4285,7 @@ extension SFNClientTypes.LambdaFunctionFailedEventDetails: Swift.CustomDebugStri
 }
 
 extension SFNClientTypes {
-    /// Contains details about a lambda function that failed during an execution.
+    /// Contains details about a Lambda function that failed during an execution.
     public struct LambdaFunctionFailedEventDetails: Swift.Equatable {
         /// A more detailed explanation of the cause of the failure.
         public var cause: Swift.String?
@@ -4009,7 +4335,7 @@ extension SFNClientTypes.LambdaFunctionScheduleFailedEventDetails: Swift.CustomD
 }
 
 extension SFNClientTypes {
-    /// Contains details about a failed lambda function schedule event that occurred during an execution.
+    /// Contains details about a failed Lambda function schedule event that occurred during an execution.
     public struct LambdaFunctionScheduleFailedEventDetails: Swift.Equatable {
         /// A more detailed explanation of the cause of the failure.
         public var cause: Swift.String?
@@ -4033,6 +4359,7 @@ extension SFNClientTypes.LambdaFunctionScheduledEventDetails: Swift.Codable {
         case input
         case inputDetails
         case resource
+        case taskCredentials
         case timeoutInSeconds
     }
 
@@ -4046,6 +4373,9 @@ extension SFNClientTypes.LambdaFunctionScheduledEventDetails: Swift.Codable {
         }
         if let resource = self.resource {
             try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let taskCredentials = self.taskCredentials {
+            try encodeContainer.encode(taskCredentials, forKey: .taskCredentials)
         }
         if let timeoutInSeconds = self.timeoutInSeconds {
             try encodeContainer.encode(timeoutInSeconds, forKey: .timeoutInSeconds)
@@ -4062,37 +4392,43 @@ extension SFNClientTypes.LambdaFunctionScheduledEventDetails: Swift.Codable {
         inputDetails = inputDetailsDecoded
         let timeoutInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutInSeconds)
         timeoutInSeconds = timeoutInSecondsDecoded
+        let taskCredentialsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.TaskCredentials.self, forKey: .taskCredentials)
+        taskCredentials = taskCredentialsDecoded
     }
 }
 
 extension SFNClientTypes.LambdaFunctionScheduledEventDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LambdaFunctionScheduledEventDetails(inputDetails: \(Swift.String(describing: inputDetails)), resource: \(Swift.String(describing: resource)), timeoutInSeconds: \(Swift.String(describing: timeoutInSeconds)), input: \"CONTENT_REDACTED\")"}
+        "LambdaFunctionScheduledEventDetails(inputDetails: \(Swift.String(describing: inputDetails)), resource: \(Swift.String(describing: resource)), taskCredentials: \(Swift.String(describing: taskCredentials)), timeoutInSeconds: \(Swift.String(describing: timeoutInSeconds)), input: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
-    /// Contains details about a lambda function scheduled during an execution.
+    /// Contains details about a Lambda function scheduled during an execution.
     public struct LambdaFunctionScheduledEventDetails: Swift.Equatable {
-        /// The JSON data input to the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        /// The JSON data input to the Lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public var input: Swift.String?
         /// Contains details about input for an execution history event.
         public var inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails?
-        /// The Amazon Resource Name (ARN) of the scheduled lambda function.
+        /// The Amazon Resource Name (ARN) of the scheduled Lambda function.
         /// This member is required.
         public var resource: Swift.String?
-        /// The maximum allowed duration of the lambda function.
+        /// The credentials that Step Functions uses for the task.
+        public var taskCredentials: SFNClientTypes.TaskCredentials?
+        /// The maximum allowed duration of the Lambda function.
         public var timeoutInSeconds: Swift.Int?
 
         public init (
             input: Swift.String? = nil,
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
+            taskCredentials: SFNClientTypes.TaskCredentials? = nil,
             timeoutInSeconds: Swift.Int? = nil
         )
         {
             self.input = input
             self.inputDetails = inputDetails
             self.resource = resource
+            self.taskCredentials = taskCredentials
             self.timeoutInSeconds = timeoutInSeconds
         }
     }
@@ -4180,9 +4516,9 @@ extension SFNClientTypes.LambdaFunctionSucceededEventDetails: Swift.CustomDebugS
 }
 
 extension SFNClientTypes {
-    /// Contains details about a lambda function that successfully terminated during an execution.
+    /// Contains details about a Lambda function that successfully terminated during an execution.
     public struct LambdaFunctionSucceededEventDetails: Swift.Equatable {
-        /// The JSON data output by the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        /// The JSON data output by the Lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public var output: Swift.String?
         /// Contains details about the output of an execution history event.
         public var outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails?
@@ -4230,7 +4566,7 @@ extension SFNClientTypes.LambdaFunctionTimedOutEventDetails: Swift.CustomDebugSt
 }
 
 extension SFNClientTypes {
-    /// Contains details about a lambda function timeout that occurred during an execution.
+    /// Contains details about a Lambda function timeout that occurred during an execution.
     public struct LambdaFunctionTimedOutEventDetails: Swift.Equatable {
         /// A more detailed explanation of the cause of the timeout.
         public var cause: Swift.String?
@@ -4393,6 +4729,7 @@ extension ListActivitiesOutputResponseBody: Swift.Decodable {
 
 extension ListExecutionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
         case maxResults
         case nextToken
         case stateMachineArn
@@ -4401,6 +4738,9 @@ extension ListExecutionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mapRunArn = self.mapRunArn {
+            try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
+        }
         if maxResults != 0 {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -4423,23 +4763,26 @@ extension ListExecutionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListExecutionsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Map Run that started the child workflow executions. If the mapRunArn field is specified, a list of all of the child workflow executions started by a Map Run is returned. For more information, see [Examining Map Run](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html) in the Step Functions Developer Guide. You can specify either a mapRunArn or a stateMachineArn, but not both.
+    public var mapRunArn: Swift.String?
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
     public var maxResults: Swift.Int
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the state machine whose executions is listed.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both.
     public var stateMachineArn: Swift.String?
     /// If specified, only list the executions whose current execution status matches the given filter.
     public var statusFilter: SFNClientTypes.ExecutionStatus?
 
     public init (
+        mapRunArn: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         statusFilter: SFNClientTypes.ExecutionStatus? = nil
     )
     {
+        self.mapRunArn = mapRunArn
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stateMachineArn = stateMachineArn
@@ -4452,10 +4795,12 @@ struct ListExecutionsInputBody: Swift.Equatable {
     let statusFilter: SFNClientTypes.ExecutionStatus?
     let maxResults: Swift.Int
     let nextToken: Swift.String?
+    let mapRunArn: Swift.String?
 }
 
 extension ListExecutionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
         case maxResults
         case nextToken
         case stateMachineArn
@@ -4472,6 +4817,8 @@ extension ListExecutionsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
     }
 }
 
@@ -4488,8 +4835,10 @@ extension ListExecutionsOutputError {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineTypeNotSupported" : self = .stateMachineTypeNotSupported(try StateMachineTypeNotSupported(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -4498,8 +4847,10 @@ extension ListExecutionsOutputError {
 public enum ListExecutionsOutputError: Swift.Error, Swift.Equatable {
     case invalidArn(InvalidArn)
     case invalidToken(InvalidToken)
+    case resourceNotFound(ResourceNotFound)
     case stateMachineDoesNotExist(StateMachineDoesNotExist)
     case stateMachineTypeNotSupported(StateMachineTypeNotSupported)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -4559,6 +4910,165 @@ extension ListExecutionsOutputResponseBody: Swift.Decodable {
             }
         }
         executions = executionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListMapRunsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionArn
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionArn = self.executionArn {
+            try encodeContainer.encode(executionArn, forKey: .executionArn)
+        }
+        if maxResults != 0 {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListMapRunsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListMapRunsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the execution for which the Map Runs must be listed.
+    /// This member is required.
+    public var executionArn: Swift.String?
+    /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    public var maxResults: Swift.Int
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init (
+        executionArn: Swift.String? = nil,
+        maxResults: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.executionArn = executionArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMapRunsInputBody: Swift.Equatable {
+    let executionArn: Swift.String?
+    let maxResults: Swift.Int
+    let nextToken: Swift.String?
+}
+
+extension ListMapRunsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionArn
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionArn)
+        executionArn = executionArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListMapRunsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListMapRunsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ExecutionDoesNotExist" : self = .executionDoesNotExist(try ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListMapRunsOutputError: Swift.Error, Swift.Equatable {
+    case executionDoesNotExist(ExecutionDoesNotExist)
+    case invalidArn(InvalidArn)
+    case invalidToken(InvalidToken)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMapRunsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListMapRunsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.mapRuns = output.mapRuns
+            self.nextToken = output.nextToken
+        } else {
+            self.mapRuns = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListMapRunsOutputResponse: Swift.Equatable {
+    /// An array that lists information related to a Map Run, such as the Amazon Resource Name (ARN) of the Map Run and the ARN of the state machine that started the Map Run.
+    /// This member is required.
+    public var mapRuns: [SFNClientTypes.MapRunListItem]?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init (
+        mapRuns: [SFNClientTypes.MapRunListItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.mapRuns = mapRuns
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMapRunsOutputResponseBody: Swift.Equatable {
+    let mapRuns: [SFNClientTypes.MapRunListItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListMapRunsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRuns
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mapRunsContainer = try containerValues.decodeIfPresent([SFNClientTypes.MapRunListItem?].self, forKey: .mapRuns)
+        var mapRunsDecoded0:[SFNClientTypes.MapRunListItem]? = nil
+        if let mapRunsContainer = mapRunsContainer {
+            mapRunsDecoded0 = [SFNClientTypes.MapRunListItem]()
+            for structure0 in mapRunsContainer {
+                if let structure0 = structure0 {
+                    mapRunsDecoded0?.append(structure0)
+                }
+            }
+        }
+        mapRuns = mapRunsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -4849,7 +5359,7 @@ extension SFNClientTypes.LogDestination: Swift.Codable {
 extension SFNClientTypes {
     ///
     public struct LogDestination: Swift.Equatable {
-        /// An object describing a CloudWatch log group. For more information, see [AWS::Logs::LogGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html) in the AWS CloudFormation User Guide.
+        /// An object describing a CloudWatch log group. For more information, see [AWS::Logs::LogGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html) in the CloudFormation User Guide.
         public var cloudWatchLogsLogGroup: SFNClientTypes.CloudWatchLogsLogGroup?
 
         public init (
@@ -5010,6 +5520,434 @@ extension SFNClientTypes {
         }
     }
 
+}
+
+extension SFNClientTypes.MapRunExecutionCounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aborted
+        case failed
+        case pending
+        case resultsWritten
+        case running
+        case succeeded
+        case timedOut
+        case total
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if aborted != 0 {
+            try encodeContainer.encode(aborted, forKey: .aborted)
+        }
+        if failed != 0 {
+            try encodeContainer.encode(failed, forKey: .failed)
+        }
+        if pending != 0 {
+            try encodeContainer.encode(pending, forKey: .pending)
+        }
+        if resultsWritten != 0 {
+            try encodeContainer.encode(resultsWritten, forKey: .resultsWritten)
+        }
+        if running != 0 {
+            try encodeContainer.encode(running, forKey: .running)
+        }
+        if succeeded != 0 {
+            try encodeContainer.encode(succeeded, forKey: .succeeded)
+        }
+        if timedOut != 0 {
+            try encodeContainer.encode(timedOut, forKey: .timedOut)
+        }
+        if total != 0 {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pendingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pending) ?? 0
+        pending = pendingDecoded
+        let runningDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .running) ?? 0
+        running = runningDecoded
+        let succeededDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .succeeded) ?? 0
+        succeeded = succeededDecoded
+        let failedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failed) ?? 0
+        failed = failedDecoded
+        let timedOutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timedOut) ?? 0
+        timedOut = timedOutDecoded
+        let abortedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .aborted) ?? 0
+        aborted = abortedDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .total) ?? 0
+        total = totalDecoded
+        let resultsWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resultsWritten) ?? 0
+        resultsWritten = resultsWrittenDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about all of the child workflow executions started by a Map Run.
+    public struct MapRunExecutionCounts: Swift.Equatable {
+        /// The total number of child workflow executions that were started by a Map Run and were running, but were either stopped by the user or by Step Functions because the Map Run failed.
+        /// This member is required.
+        public var aborted: Swift.Int
+        /// The total number of child workflow executions that were started by a Map Run, but have failed.
+        /// This member is required.
+        public var failed: Swift.Int
+        /// The total number of child workflow executions that were started by a Map Run, but haven't started executing yet.
+        /// This member is required.
+        public var pending: Swift.Int
+        /// Returns the count of child workflow executions whose results were written by ResultWriter. For more information, see [ResultWriter](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html) in the Step Functions Developer Guide.
+        /// This member is required.
+        public var resultsWritten: Swift.Int
+        /// The total number of child workflow executions that were started by a Map Run and are currently in-progress.
+        /// This member is required.
+        public var running: Swift.Int
+        /// The total number of child workflow executions that were started by a Map Run and have completed successfully.
+        /// This member is required.
+        public var succeeded: Swift.Int
+        /// The total number of child workflow executions that were started by a Map Run and have timed out.
+        /// This member is required.
+        public var timedOut: Swift.Int
+        /// The total number of child workflow executions that were started by a Map Run.
+        /// This member is required.
+        public var total: Swift.Int
+
+        public init (
+            aborted: Swift.Int = 0,
+            failed: Swift.Int = 0,
+            pending: Swift.Int = 0,
+            resultsWritten: Swift.Int = 0,
+            running: Swift.Int = 0,
+            succeeded: Swift.Int = 0,
+            timedOut: Swift.Int = 0,
+            total: Swift.Int = 0
+        )
+        {
+            self.aborted = aborted
+            self.failed = failed
+            self.pending = pending
+            self.resultsWritten = resultsWritten
+            self.running = running
+            self.succeeded = succeeded
+            self.timedOut = timedOut
+            self.total = total
+        }
+    }
+
+}
+
+extension SFNClientTypes.MapRunFailedEventDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cause
+        case error
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cause = self.cause {
+            try encodeContainer.encode(cause, forKey: .cause)
+        }
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+        let causeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cause)
+        cause = causeDecoded
+    }
+}
+
+extension SFNClientTypes.MapRunFailedEventDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MapRunFailedEventDetails(cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\")"}
+}
+
+extension SFNClientTypes {
+    /// Contains details about a Map Run failure event that occurred during a state machine execution.
+    public struct MapRunFailedEventDetails: Swift.Equatable {
+        /// A more detailed explanation of the cause of the failure.
+        public var cause: Swift.String?
+        /// The error code of the Map Run failure.
+        public var error: Swift.String?
+
+        public init (
+            cause: Swift.String? = nil,
+            error: Swift.String? = nil
+        )
+        {
+            self.cause = cause
+            self.error = error
+        }
+    }
+
+}
+
+extension SFNClientTypes.MapRunItemCounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aborted
+        case failed
+        case pending
+        case resultsWritten
+        case running
+        case succeeded
+        case timedOut
+        case total
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if aborted != 0 {
+            try encodeContainer.encode(aborted, forKey: .aborted)
+        }
+        if failed != 0 {
+            try encodeContainer.encode(failed, forKey: .failed)
+        }
+        if pending != 0 {
+            try encodeContainer.encode(pending, forKey: .pending)
+        }
+        if resultsWritten != 0 {
+            try encodeContainer.encode(resultsWritten, forKey: .resultsWritten)
+        }
+        if running != 0 {
+            try encodeContainer.encode(running, forKey: .running)
+        }
+        if succeeded != 0 {
+            try encodeContainer.encode(succeeded, forKey: .succeeded)
+        }
+        if timedOut != 0 {
+            try encodeContainer.encode(timedOut, forKey: .timedOut)
+        }
+        if total != 0 {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pendingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pending) ?? 0
+        pending = pendingDecoded
+        let runningDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .running) ?? 0
+        running = runningDecoded
+        let succeededDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .succeeded) ?? 0
+        succeeded = succeededDecoded
+        let failedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failed) ?? 0
+        failed = failedDecoded
+        let timedOutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timedOut) ?? 0
+        timedOut = timedOutDecoded
+        let abortedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .aborted) ?? 0
+        aborted = abortedDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .total) ?? 0
+        total = totalDecoded
+        let resultsWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resultsWritten) ?? 0
+        resultsWritten = resultsWrittenDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about items that were processed in all of the child workflow executions that were started by a Map Run.
+    public struct MapRunItemCounts: Swift.Equatable {
+        /// The total number of items processed in child workflow executions that were either stopped by the user or by Step Functions, because the Map Run failed.
+        /// This member is required.
+        public var aborted: Swift.Int
+        /// The total number of items processed in child workflow executions that have failed.
+        /// This member is required.
+        public var failed: Swift.Int
+        /// The total number of items to process in child workflow executions that haven't started running yet.
+        /// This member is required.
+        public var pending: Swift.Int
+        /// Returns the count of items whose results were written by ResultWriter. For more information, see [ResultWriter](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html) in the Step Functions Developer Guide.
+        /// This member is required.
+        public var resultsWritten: Swift.Int
+        /// The total number of items being processed in child workflow executions that are currently in-progress.
+        /// This member is required.
+        public var running: Swift.Int
+        /// The total number of items processed in child workflow executions that have completed successfully.
+        /// This member is required.
+        public var succeeded: Swift.Int
+        /// The total number of items processed in child workflow executions that have timed out.
+        /// This member is required.
+        public var timedOut: Swift.Int
+        /// The total number of items processed in all the child workflow executions started by a Map Run.
+        /// This member is required.
+        public var total: Swift.Int
+
+        public init (
+            aborted: Swift.Int = 0,
+            failed: Swift.Int = 0,
+            pending: Swift.Int = 0,
+            resultsWritten: Swift.Int = 0,
+            running: Swift.Int = 0,
+            succeeded: Swift.Int = 0,
+            timedOut: Swift.Int = 0,
+            total: Swift.Int = 0
+        )
+        {
+            self.aborted = aborted
+            self.failed = failed
+            self.pending = pending
+            self.resultsWritten = resultsWritten
+            self.running = running
+            self.succeeded = succeeded
+            self.timedOut = timedOut
+            self.total = total
+        }
+    }
+
+}
+
+extension SFNClientTypes.MapRunListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionArn
+        case mapRunArn
+        case startDate
+        case stateMachineArn
+        case stopDate
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionArn = self.executionArn {
+            try encodeContainer.encode(executionArn, forKey: .executionArn)
+        }
+        if let mapRunArn = self.mapRunArn {
+            try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
+        }
+        if let startDate = self.startDate {
+            try encodeContainer.encodeTimestamp(startDate, format: .epochSeconds, forKey: .startDate)
+        }
+        if let stateMachineArn = self.stateMachineArn {
+            try encodeContainer.encode(stateMachineArn, forKey: .stateMachineArn)
+        }
+        if let stopDate = self.stopDate {
+            try encodeContainer.encodeTimestamp(stopDate, format: .epochSeconds, forKey: .stopDate)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionArn)
+        executionArn = executionArnDecoded
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+        let stateMachineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineArn)
+        stateMachineArn = stateMachineArnDecoded
+        let startDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDate)
+        startDate = startDateDecoded
+        let stopDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .stopDate)
+        stopDate = stopDateDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about a specific Map Run.
+    public struct MapRunListItem: Swift.Equatable {
+        /// The executionArn of the execution from which the Map Run was started.
+        /// This member is required.
+        public var executionArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Map Run.
+        /// This member is required.
+        public var mapRunArn: Swift.String?
+        /// The date on which the Map Run started.
+        /// This member is required.
+        public var startDate: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the executed state machine.
+        /// This member is required.
+        public var stateMachineArn: Swift.String?
+        /// The date on which the Map Run stopped.
+        public var stopDate: ClientRuntime.Date?
+
+        public init (
+            executionArn: Swift.String? = nil,
+            mapRunArn: Swift.String? = nil,
+            startDate: ClientRuntime.Date? = nil,
+            stateMachineArn: Swift.String? = nil,
+            stopDate: ClientRuntime.Date? = nil
+        )
+        {
+            self.executionArn = executionArn
+            self.mapRunArn = mapRunArn
+            self.startDate = startDate
+            self.stateMachineArn = stateMachineArn
+            self.stopDate = stopDate
+        }
+    }
+
+}
+
+extension SFNClientTypes.MapRunStartedEventDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mapRunArn = self.mapRunArn {
+            try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about a Map Run that was started during a state machine execution.
+    public struct MapRunStartedEventDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of a Map Run that was started.
+        public var mapRunArn: Swift.String?
+
+        public init (
+            mapRunArn: Swift.String? = nil
+        )
+        {
+            self.mapRunArn = mapRunArn
+        }
+    }
+
+}
+
+extension SFNClientTypes {
+    public enum MapRunStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aborted
+        case failed
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MapRunStatus] {
+            return [
+                .aborted,
+                .failed,
+                .running,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MapRunStatus(rawValue: rawValue) ?? MapRunStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SFNClientTypes.MapStateStartedEventDetails: Swift.Codable {
@@ -5500,7 +6438,7 @@ extension StartExecutionInput: ClientRuntime.URLPathProvider {
 public struct StartExecutionInput: Swift.Equatable {
     /// The string that contains the JSON input data for the execution, for example: "input": "{\"first_name\" : \"test\"}" If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
-    /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the AWS Step Functions Developer Guide. A name must not contain:
+    /// The name of the execution. This name must be unique for your Amazon Web Services account, region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. A name must not contain:
     ///
     /// * white space
     ///
@@ -5518,7 +6456,7 @@ public struct StartExecutionInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the state machine to execute.
     /// This member is required.
     public var stateMachineArn: Swift.String?
-    /// Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
     public var traceHeader: Swift.String?
 
     public init (
@@ -5581,6 +6519,7 @@ extension StartExecutionOutputError {
         case "InvalidName" : self = .invalidName(try InvalidName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDeleting" : self = .stateMachineDeleting(try StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -5594,6 +6533,7 @@ public enum StartExecutionOutputError: Swift.Error, Swift.Equatable {
     case invalidName(InvalidName)
     case stateMachineDeleting(StateMachineDeleting)
     case stateMachineDoesNotExist(StateMachineDoesNotExist)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -5694,7 +6634,7 @@ public struct StartSyncExecutionInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the state machine to execute.
     /// This member is required.
     public var stateMachineArn: Swift.String?
-    /// Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
     public var traceHeader: Swift.String?
 
     public init (
@@ -5846,7 +6786,7 @@ public struct StartSyncExecutionOutputResponse: Swift.Equatable {
     /// If the execution has already ended, the date the execution stopped.
     /// This member is required.
     public var stopDate: ClientRuntime.Date?
-    /// The AWS X-Ray trace header that was passed to the execution.
+    /// The X-Ray trace header that was passed to the execution.
     public var traceHeader: Swift.String?
 
     public init (
@@ -6582,6 +7522,7 @@ extension StopExecutionOutputError {
         switch errorType {
         case "ExecutionDoesNotExist" : self = .executionDoesNotExist(try ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -6590,6 +7531,7 @@ extension StopExecutionOutputError {
 public enum StopExecutionOutputError: Swift.Error, Swift.Equatable {
     case executionDoesNotExist(ExecutionDoesNotExist)
     case invalidArn(InvalidArn)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -6696,7 +7638,7 @@ extension SFNClientTypes.Tag: Swift.Codable {
 }
 
 extension SFNClientTypes {
-    /// Tags are key-value pairs that can be associated with Step Functions state machines and activities. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the AWS Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+    /// Tags are key-value pairs that can be associated with Step Functions state machines and activities. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     public struct Tag: Swift.Equatable {
         /// The key of a tag.
         public var key: Swift.String?
@@ -6824,6 +7766,41 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension SFNClientTypes.TaskCredentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about the credentials that Step Functions uses for a task.
+    public struct TaskCredentials: Swift.Equatable {
+        /// The ARN of an IAM role that Step Functions assumes for the task. The role can allow cross-account access to resources.
+        public var roleArn: Swift.String?
+
+        public init (
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
 extension TaskDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6924,10 +7901,10 @@ extension SFNClientTypes {
         public var cause: Swift.String?
         /// The error code of the failure.
         public var error: Swift.String?
-        /// The service name of the resource in a task state.
+        /// The action of the resource called by a task state.
         /// This member is required.
         public var resource: Swift.String?
-        /// The action of the resource called by a task state.
+        /// The service name of the resource in a task state.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -6954,6 +7931,7 @@ extension SFNClientTypes.TaskScheduledEventDetails: Swift.Codable {
         case region
         case resource
         case resourceType
+        case taskCredentials
         case timeoutInSeconds
     }
 
@@ -6974,6 +7952,9 @@ extension SFNClientTypes.TaskScheduledEventDetails: Swift.Codable {
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
         }
+        if let taskCredentials = self.taskCredentials {
+            try encodeContainer.encode(taskCredentials, forKey: .taskCredentials)
+        }
         if let timeoutInSeconds = self.timeoutInSeconds {
             try encodeContainer.encode(timeoutInSeconds, forKey: .timeoutInSeconds)
         }
@@ -6993,12 +7974,14 @@ extension SFNClientTypes.TaskScheduledEventDetails: Swift.Codable {
         timeoutInSeconds = timeoutInSecondsDecoded
         let heartbeatInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .heartbeatInSeconds)
         heartbeatInSeconds = heartbeatInSecondsDecoded
+        let taskCredentialsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.TaskCredentials.self, forKey: .taskCredentials)
+        taskCredentials = taskCredentialsDecoded
     }
 }
 
 extension SFNClientTypes.TaskScheduledEventDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TaskScheduledEventDetails(heartbeatInSeconds: \(Swift.String(describing: heartbeatInSeconds)), region: \(Swift.String(describing: region)), resource: \(Swift.String(describing: resource)), resourceType: \(Swift.String(describing: resourceType)), timeoutInSeconds: \(Swift.String(describing: timeoutInSeconds)), parameters: \"CONTENT_REDACTED\")"}
+        "TaskScheduledEventDetails(heartbeatInSeconds: \(Swift.String(describing: heartbeatInSeconds)), region: \(Swift.String(describing: region)), resource: \(Swift.String(describing: resource)), resourceType: \(Swift.String(describing: resourceType)), taskCredentials: \(Swift.String(describing: taskCredentials)), timeoutInSeconds: \(Swift.String(describing: timeoutInSeconds)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -7012,12 +7995,14 @@ extension SFNClientTypes {
         /// The region of the scheduled task
         /// This member is required.
         public var region: Swift.String?
-        /// The service name of the resource in a task state.
-        /// This member is required.
-        public var resource: Swift.String?
         /// The action of the resource called by a task state.
         /// This member is required.
+        public var resource: Swift.String?
+        /// The service name of the resource in a task state.
+        /// This member is required.
         public var resourceType: Swift.String?
+        /// The credentials that Step Functions uses for the task.
+        public var taskCredentials: SFNClientTypes.TaskCredentials?
         /// The maximum allowed duration of the task.
         public var timeoutInSeconds: Swift.Int?
 
@@ -7027,6 +8012,7 @@ extension SFNClientTypes {
             region: Swift.String? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil,
+            taskCredentials: SFNClientTypes.TaskCredentials? = nil,
             timeoutInSeconds: Swift.Int? = nil
         )
         {
@@ -7035,6 +8021,7 @@ extension SFNClientTypes {
             self.region = region
             self.resource = resource
             self.resourceType = resourceType
+            self.taskCredentials = taskCredentials
             self.timeoutInSeconds = timeoutInSeconds
         }
     }
@@ -7090,10 +8077,10 @@ extension SFNClientTypes {
         public var cause: Swift.String?
         /// The error code of the failure.
         public var error: Swift.String?
-        /// The service name of the resource in a task state.
+        /// The action of the resource called by a task state.
         /// This member is required.
         public var resource: Swift.String?
-        /// The action of the resource called by a task state.
+        /// The service name of the resource in a task state.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -7141,10 +8128,10 @@ extension SFNClientTypes.TaskStartedEventDetails: Swift.Codable {
 extension SFNClientTypes {
     /// Contains details about the start of a task during an execution.
     public struct TaskStartedEventDetails: Swift.Equatable {
-        /// The service name of the resource in a task state.
+        /// The action of the resource called by a task state.
         /// This member is required.
         public var resource: Swift.String?
-        /// The action of the resource called by a task state.
+        /// The service name of the resource in a task state.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -7209,10 +8196,10 @@ extension SFNClientTypes {
         public var cause: Swift.String?
         /// The error code of the failure.
         public var error: Swift.String?
-        /// The service name of the resource in a task state.
+        /// The action of the resource called by a task state.
         /// This member is required.
         public var resource: Swift.String?
-        /// The action of the resource called by a task state.
+        /// The service name of the resource in a task state.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -7281,10 +8268,10 @@ extension SFNClientTypes {
         public var output: Swift.String?
         /// Contains details about the output of an execution history event.
         public var outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails?
-        /// The service name of the resource in a task state.
+        /// The action of the resource called by a task state.
         /// This member is required.
         public var resource: Swift.String?
-        /// The action of the resource called by a task state.
+        /// The service name of the resource in a task state.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -7353,10 +8340,10 @@ extension SFNClientTypes {
         public var output: Swift.String?
         /// Contains details about the output of an execution history event.
         public var outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails?
-        /// The service name of the resource in a task state.
+        /// The action of the resource called by a task state.
         /// This member is required.
         public var resource: Swift.String?
-        /// The action of the resource called by a task state.
+        /// The service name of the resource in a task state.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -7476,10 +8463,10 @@ extension SFNClientTypes {
         public var cause: Swift.String?
         /// The error code of the failure.
         public var error: Swift.String?
-        /// The service name of the resource in a task state.
+        /// The action of the resource called by a task state.
         /// This member is required.
         public var resource: Swift.String?
-        /// The action of the resource called by a task state.
+        /// The service name of the resource in a task state.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -7518,7 +8505,7 @@ extension TooManyTags {
     }
 }
 
-/// You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the AWS Step Functions Developer Guide.
+/// You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
 public struct TooManyTags: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -7580,9 +8567,9 @@ extension SFNClientTypes.TracingConfiguration: Swift.Codable {
 }
 
 extension SFNClientTypes {
-    /// Selects whether or not the state machine's AWS X-Ray tracing is enabled. Default is false
+    /// Selects whether or not the state machine's X-Ray tracing is enabled. Default is false
     public struct TracingConfiguration: Swift.Equatable {
-        /// When set to true, AWS X-Ray tracing is enabled.
+        /// When set to true, X-Ray tracing is enabled.
         public var enabled: Swift.Bool
 
         public init (
@@ -7702,6 +8689,126 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateMapRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
+        case maxConcurrency
+        case toleratedFailureCount
+        case toleratedFailurePercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mapRunArn = self.mapRunArn {
+            try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
+        }
+        if let maxConcurrency = self.maxConcurrency {
+            try encodeContainer.encode(maxConcurrency, forKey: .maxConcurrency)
+        }
+        if let toleratedFailureCount = self.toleratedFailureCount {
+            try encodeContainer.encode(toleratedFailureCount, forKey: .toleratedFailureCount)
+        }
+        if let toleratedFailurePercentage = self.toleratedFailurePercentage {
+            try encodeContainer.encode(toleratedFailurePercentage, forKey: .toleratedFailurePercentage)
+        }
+    }
+}
+
+extension UpdateMapRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateMapRunInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of a Map Run.
+    /// This member is required.
+    public var mapRunArn: Swift.String?
+    /// The maximum number of child workflow executions that can be specified to run in parallel for the Map Run at the same time.
+    public var maxConcurrency: Swift.Int?
+    /// The maximum number of failed items before the Map Run fails.
+    public var toleratedFailureCount: Swift.Int?
+    /// The maximum percentage of failed items before the Map Run fails.
+    public var toleratedFailurePercentage: Swift.Float?
+
+    public init (
+        mapRunArn: Swift.String? = nil,
+        maxConcurrency: Swift.Int? = nil,
+        toleratedFailureCount: Swift.Int? = nil,
+        toleratedFailurePercentage: Swift.Float? = nil
+    )
+    {
+        self.mapRunArn = mapRunArn
+        self.maxConcurrency = maxConcurrency
+        self.toleratedFailureCount = toleratedFailureCount
+        self.toleratedFailurePercentage = toleratedFailurePercentage
+    }
+}
+
+struct UpdateMapRunInputBody: Swift.Equatable {
+    let mapRunArn: Swift.String?
+    let maxConcurrency: Swift.Int?
+    let toleratedFailurePercentage: Swift.Float?
+    let toleratedFailureCount: Swift.Int?
+}
+
+extension UpdateMapRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
+        case maxConcurrency
+        case toleratedFailureCount
+        case toleratedFailurePercentage
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+        let maxConcurrencyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrency)
+        maxConcurrency = maxConcurrencyDecoded
+        let toleratedFailurePercentageDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .toleratedFailurePercentage)
+        toleratedFailurePercentage = toleratedFailurePercentageDecoded
+        let toleratedFailureCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toleratedFailureCount)
+        toleratedFailureCount = toleratedFailureCountDecoded
+    }
+}
+
+extension UpdateMapRunOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateMapRunOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateMapRunOutputError: Swift.Error, Swift.Equatable {
+    case invalidArn(InvalidArn)
+    case resourceNotFound(ResourceNotFound)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMapRunOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateMapRunOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateStateMachineInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdateStateMachineInput(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), definition: \"CONTENT_REDACTED\")"}
@@ -7752,7 +8859,7 @@ public struct UpdateStateMachineInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the state machine.
     /// This member is required.
     public var stateMachineArn: Swift.String?
-    /// Selects whether AWS X-Ray tracing is enabled.
+    /// Selects whether X-Ray tracing is enabled.
     public var tracingConfiguration: SFNClientTypes.TracingConfiguration?
 
     public init (
@@ -7821,6 +8928,7 @@ extension UpdateStateMachineOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameter(try MissingRequiredParameter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDeleting" : self = .stateMachineDeleting(try StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -7834,6 +8942,7 @@ public enum UpdateStateMachineOutputError: Swift.Error, Swift.Equatable {
     case missingRequiredParameter(MissingRequiredParameter)
     case stateMachineDeleting(StateMachineDeleting)
     case stateMachineDoesNotExist(StateMachineDoesNotExist)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -7876,5 +8985,102 @@ extension UpdateStateMachineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updateDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDate)
         updateDate = updateDateDecoded
+    }
+}
+
+extension ValidationException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.reason = output.reason
+        } else {
+            self.message = nil
+            self.reason = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The input does not satisfy the constraints specified by an Amazon Web Services service.
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+    /// The input does not satisfy the constraints specified by an Amazon Web Services service.
+    public var reason: SFNClientTypes.ValidationExceptionReason?
+
+    public init (
+        message: Swift.String? = nil,
+        reason: SFNClientTypes.ValidationExceptionReason? = nil
+    )
+    {
+        self.message = message
+        self.reason = reason
+    }
+}
+
+struct ValidationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let reason: SFNClientTypes.ValidationExceptionReason?
+}
+
+extension ValidationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case reason
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ValidationExceptionReason.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension SFNClientTypes {
+    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case apiDoesNotSupportLabeledArns
+        case cannotUpdateCompletedMapRun
+        case missingRequiredParameter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .apiDoesNotSupportLabeledArns,
+                .cannotUpdateCompletedMapRun,
+                .missingRequiredParameter,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiDoesNotSupportLabeledArns: return "API_DOES_NOT_SUPPORT_LABELED_ARNS"
+            case .cannotUpdateCompletedMapRun: return "CANNOT_UPDATE_COMPLETED_MAP_RUN"
+            case .missingRequiredParameter: return "MISSING_REQUIRED_PARAMETER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
+        }
     }
 }

@@ -1679,6 +1679,336 @@ extension BatchSizeLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ComprehendClientTypes.Block: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockType = "BlockType"
+        case geometry = "Geometry"
+        case id = "Id"
+        case page = "Page"
+        case relationships = "Relationships"
+        case text = "Text"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blockType = self.blockType {
+            try encodeContainer.encode(blockType.rawValue, forKey: .blockType)
+        }
+        if let geometry = self.geometry {
+            try encodeContainer.encode(geometry, forKey: .geometry)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+        if let relationships = relationships {
+            var relationshipsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relationships)
+            for listofrelationships0 in relationships {
+                try relationshipsContainer.encode(listofrelationships0)
+            }
+        }
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let blockTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.BlockType.self, forKey: .blockType)
+        blockType = blockTypeDecoded
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+        let geometryDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.Geometry.self, forKey: .geometry)
+        geometry = geometryDecoded
+        let relationshipsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.RelationshipsListItem?].self, forKey: .relationships)
+        var relationshipsDecoded0:[ComprehendClientTypes.RelationshipsListItem]? = nil
+        if let relationshipsContainer = relationshipsContainer {
+            relationshipsDecoded0 = [ComprehendClientTypes.RelationshipsListItem]()
+            for structure0 in relationshipsContainer {
+                if let structure0 = structure0 {
+                    relationshipsDecoded0?.append(structure0)
+                }
+            }
+        }
+        relationships = relationshipsDecoded0
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Information about each word or line of text in the input document. For additional information, see [Block](https://docs.aws.amazon.com/textract/latest/dg/API_Block.html) in the Amazon Textract API reference.
+    public struct Block: Swift.Equatable {
+        /// The block represents a line of text or one word of text.
+        ///
+        /// * WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.
+        ///
+        /// * LINE - A string of tab-delimited, contiguous words that are detected on a document page
+        public var blockType: ComprehendClientTypes.BlockType?
+        /// Co-ordinates of the rectangle or polygon that contains the text.
+        public var geometry: ComprehendClientTypes.Geometry?
+        /// Unique identifier for the block.
+        public var id: Swift.String?
+        /// Page number where the block appears.
+        public var page: Swift.Int?
+        /// A list of child blocks of the current block. For example, a LINE object has child blocks for each WORD block that's part of the line of text.
+        public var relationships: [ComprehendClientTypes.RelationshipsListItem]?
+        /// The word or line of text extracted from the block.
+        public var text: Swift.String?
+
+        public init (
+            blockType: ComprehendClientTypes.BlockType? = nil,
+            geometry: ComprehendClientTypes.Geometry? = nil,
+            id: Swift.String? = nil,
+            page: Swift.Int? = nil,
+            relationships: [ComprehendClientTypes.RelationshipsListItem]? = nil,
+            text: Swift.String? = nil
+        )
+        {
+            self.blockType = blockType
+            self.geometry = geometry
+            self.id = id
+            self.page = page
+            self.relationships = relationships
+            self.text = text
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.BlockReference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case beginOffset = "BeginOffset"
+        case blockId = "BlockId"
+        case childBlocks = "ChildBlocks"
+        case endOffset = "EndOffset"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let beginOffset = self.beginOffset {
+            try encodeContainer.encode(beginOffset, forKey: .beginOffset)
+        }
+        if let blockId = self.blockId {
+            try encodeContainer.encode(blockId, forKey: .blockId)
+        }
+        if let childBlocks = childBlocks {
+            var childBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .childBlocks)
+            for listofchildblocks0 in childBlocks {
+                try childBlocksContainer.encode(listofchildblocks0)
+            }
+        }
+        if let endOffset = self.endOffset {
+            try encodeContainer.encode(endOffset, forKey: .endOffset)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blockIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blockId)
+        blockId = blockIdDecoded
+        let beginOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffset)
+        beginOffset = beginOffsetDecoded
+        let endOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffset)
+        endOffset = endOffsetDecoded
+        let childBlocksContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.ChildBlock?].self, forKey: .childBlocks)
+        var childBlocksDecoded0:[ComprehendClientTypes.ChildBlock]? = nil
+        if let childBlocksContainer = childBlocksContainer {
+            childBlocksDecoded0 = [ComprehendClientTypes.ChildBlock]()
+            for structure0 in childBlocksContainer {
+                if let structure0 = structure0 {
+                    childBlocksDecoded0?.append(structure0)
+                }
+            }
+        }
+        childBlocks = childBlocksDecoded0
+    }
+}
+
+extension ComprehendClientTypes {
+    /// A reference to a block.
+    public struct BlockReference: Swift.Equatable {
+        /// Offset of the start of the block within its parent block.
+        public var beginOffset: Swift.Int?
+        /// Unique identifier for the block.
+        public var blockId: Swift.String?
+        /// List of child blocks within this block.
+        public var childBlocks: [ComprehendClientTypes.ChildBlock]?
+        /// Offset of the end of the block within its parent block.
+        public var endOffset: Swift.Int?
+
+        public init (
+            beginOffset: Swift.Int? = nil,
+            blockId: Swift.String? = nil,
+            childBlocks: [ComprehendClientTypes.ChildBlock]? = nil,
+            endOffset: Swift.Int? = nil
+        )
+        {
+            self.beginOffset = beginOffset
+            self.blockId = blockId
+            self.childBlocks = childBlocks
+            self.endOffset = endOffset
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum BlockType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case line
+        case word
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockType] {
+            return [
+                .line,
+                .word,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .line: return "LINE"
+            case .word: return "WORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BlockType(rawValue: rawValue) ?? BlockType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.BoundingBox: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case height = "Height"
+        case `left` = "Left"
+        case top = "Top"
+        case width = "Width"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let height = self.height {
+            try encodeContainer.encode(height, forKey: .height)
+        }
+        if let `left` = self.`left` {
+            try encodeContainer.encode(`left`, forKey: .`left`)
+        }
+        if let top = self.top {
+            try encodeContainer.encode(top, forKey: .top)
+        }
+        if let width = self.width {
+            try encodeContainer.encode(width, forKey: .width)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let heightDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .height)
+        height = heightDecoded
+        let leftDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .left)
+        `left` = leftDecoded
+        let topDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .top)
+        top = topDecoded
+        let widthDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .width)
+        width = widthDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// The bounding box around the detected page or around an element on a document page. The left (x-coordinate) and top (y-coordinate) are coordinates that represent the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). For additional information, see [BoundingBox](https://docs.aws.amazon.com/textract/latest/dg/API_BoundingBox.html) in the Amazon Textract API reference.
+    public struct BoundingBox: Swift.Equatable {
+        /// The height of the bounding box as a ratio of the overall document page height.
+        public var height: Swift.Float?
+        /// The left coordinate of the bounding box as a ratio of overall document page width.
+        public var `left`: Swift.Float?
+        /// The top coordinate of the bounding box as a ratio of overall document page height.
+        public var top: Swift.Float?
+        /// The width of the bounding box as a ratio of the overall document page width.
+        public var width: Swift.Float?
+
+        public init (
+            height: Swift.Float? = nil,
+            `left`: Swift.Float? = nil,
+            top: Swift.Float? = nil,
+            width: Swift.Float? = nil
+        )
+        {
+            self.height = height
+            self.`left` = `left`
+            self.top = top
+            self.width = width
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.ChildBlock: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case beginOffset = "BeginOffset"
+        case childBlockId = "ChildBlockId"
+        case endOffset = "EndOffset"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let beginOffset = self.beginOffset {
+            try encodeContainer.encode(beginOffset, forKey: .beginOffset)
+        }
+        if let childBlockId = self.childBlockId {
+            try encodeContainer.encode(childBlockId, forKey: .childBlockId)
+        }
+        if let endOffset = self.endOffset {
+            try encodeContainer.encode(endOffset, forKey: .endOffset)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let childBlockIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .childBlockId)
+        childBlockId = childBlockIdDecoded
+        let beginOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffset)
+        beginOffset = beginOffsetDecoded
+        let endOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffset)
+        endOffset = endOffsetDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Nested block contained within a block.
+    public struct ChildBlock: Swift.Equatable {
+        /// Offset of the start of the child block within its parent block.
+        public var beginOffset: Swift.Int?
+        /// Unique identifier for the child block.
+        public var childBlockId: Swift.String?
+        /// Offset of the end of the child block within its parent block.
+        public var endOffset: Swift.Int?
+
+        public init (
+            beginOffset: Swift.Int? = nil,
+            childBlockId: Swift.String? = nil,
+            endOffset: Swift.Int? = nil
+        )
+        {
+            self.beginOffset = beginOffset
+            self.childBlockId = childBlockId
+            self.endOffset = endOffset
+        }
+    }
+
+}
+
 extension ComprehendClientTypes.ClassifierEvaluationMetrics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accuracy = "Accuracy"
@@ -1857,17 +2187,25 @@ extension ComprehendClientTypes {
 
 extension ClassifyDocumentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ClassifyDocumentInput(endpointArn: \(Swift.String(describing: endpointArn)), text: \"CONTENT_REDACTED\")"}
+        "ClassifyDocumentInput(bytes: \(Swift.String(describing: bytes)), documentReaderConfig: \(Swift.String(describing: documentReaderConfig)), endpointArn: \(Swift.String(describing: endpointArn)), text: \"CONTENT_REDACTED\")"}
 }
 
 extension ClassifyDocumentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bytes = "Bytes"
+        case documentReaderConfig = "DocumentReaderConfig"
         case endpointArn = "EndpointArn"
         case text = "Text"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bytes = self.bytes {
+            try encodeContainer.encode(bytes.base64EncodedString(), forKey: .bytes)
+        }
+        if let documentReaderConfig = self.documentReaderConfig {
+            try encodeContainer.encode(documentReaderConfig, forKey: .documentReaderConfig)
+        }
         if let endpointArn = self.endpointArn {
             try encodeContainer.encode(endpointArn, forKey: .endpointArn)
         }
@@ -1884,18 +2222,25 @@ extension ClassifyDocumentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ClassifyDocumentInput: Swift.Equatable {
+    /// Use the Bytes parameter to input a text, PDF, Word or image file. You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
+    public var bytes: ClientRuntime.Data?
+    /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
+    public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
     /// The Amazon Resource Number (ARN) of the endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     /// This member is required.
     public var endpointArn: Swift.String?
-    /// The document text to be analyzed.
-    /// This member is required.
+    /// The document text to be analyzed. If you enter text using this parameter, do not use the Bytes parameter.
     public var text: Swift.String?
 
     public init (
+        bytes: ClientRuntime.Data? = nil,
+        documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig? = nil,
         endpointArn: Swift.String? = nil,
         text: Swift.String? = nil
     )
     {
+        self.bytes = bytes
+        self.documentReaderConfig = documentReaderConfig
         self.endpointArn = endpointArn
         self.text = text
     }
@@ -1904,10 +2249,14 @@ public struct ClassifyDocumentInput: Swift.Equatable {
 struct ClassifyDocumentInputBody: Swift.Equatable {
     let text: Swift.String?
     let endpointArn: Swift.String?
+    let bytes: ClientRuntime.Data?
+    let documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
 }
 
 extension ClassifyDocumentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bytes = "Bytes"
+        case documentReaderConfig = "DocumentReaderConfig"
         case endpointArn = "EndpointArn"
         case text = "Text"
     }
@@ -1918,6 +2267,10 @@ extension ClassifyDocumentInputBody: Swift.Decodable {
         text = textDecoded
         let endpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointArn)
         endpointArn = endpointArnDecoded
+        let bytesDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .bytes)
+        bytes = bytesDecoded
+        let documentReaderConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentReaderConfig.self, forKey: .documentReaderConfig)
+        documentReaderConfig = documentReaderConfigDecoded
     }
 }
 
@@ -1962,9 +2315,15 @@ extension ClassifyDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().toData()
             let output: ClassifyDocumentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.classes = output.classes
+            self.documentMetadata = output.documentMetadata
+            self.documentType = output.documentType
+            self.errors = output.errors
             self.labels = output.labels
         } else {
             self.classes = nil
+            self.documentMetadata = nil
+            self.documentType = nil
+            self.errors = nil
             self.labels = nil
         }
     }
@@ -1973,15 +2332,27 @@ extension ClassifyDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ClassifyDocumentOutputResponse: Swift.Equatable {
     /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.
     public var classes: [ComprehendClientTypes.DocumentClass]?
+    /// Extraction information about the document. This field is present in the response only if your request includes the Byte parameter.
+    public var documentMetadata: ComprehendClientTypes.DocumentMetadata?
+    /// The document type for each page in the input document. This field is present in the response only if your request includes the Byte parameter.
+    public var documentType: [ComprehendClientTypes.DocumentTypeListItem]?
+    /// Page-level errors that the system detected while processing the input document. The field is empty if the system encountered no errors.
+    public var errors: [ComprehendClientTypes.ErrorsListItem]?
     /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
     public var labels: [ComprehendClientTypes.DocumentLabel]?
 
     public init (
         classes: [ComprehendClientTypes.DocumentClass]? = nil,
+        documentMetadata: ComprehendClientTypes.DocumentMetadata? = nil,
+        documentType: [ComprehendClientTypes.DocumentTypeListItem]? = nil,
+        errors: [ComprehendClientTypes.ErrorsListItem]? = nil,
         labels: [ComprehendClientTypes.DocumentLabel]? = nil
     )
     {
         self.classes = classes
+        self.documentMetadata = documentMetadata
+        self.documentType = documentType
+        self.errors = errors
         self.labels = labels
     }
 }
@@ -1989,11 +2360,17 @@ public struct ClassifyDocumentOutputResponse: Swift.Equatable {
 struct ClassifyDocumentOutputResponseBody: Swift.Equatable {
     let classes: [ComprehendClientTypes.DocumentClass]?
     let labels: [ComprehendClientTypes.DocumentLabel]?
+    let documentMetadata: ComprehendClientTypes.DocumentMetadata?
+    let documentType: [ComprehendClientTypes.DocumentTypeListItem]?
+    let errors: [ComprehendClientTypes.ErrorsListItem]?
 }
 
 extension ClassifyDocumentOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case classes = "Classes"
+        case documentMetadata = "DocumentMetadata"
+        case documentType = "DocumentType"
+        case errors = "Errors"
         case labels = "Labels"
     }
 
@@ -2021,6 +2398,30 @@ extension ClassifyDocumentOutputResponseBody: Swift.Decodable {
             }
         }
         labels = labelsDecoded0
+        let documentMetadataDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentMetadata.self, forKey: .documentMetadata)
+        documentMetadata = documentMetadataDecoded
+        let documentTypeContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.DocumentTypeListItem?].self, forKey: .documentType)
+        var documentTypeDecoded0:[ComprehendClientTypes.DocumentTypeListItem]? = nil
+        if let documentTypeContainer = documentTypeContainer {
+            documentTypeDecoded0 = [ComprehendClientTypes.DocumentTypeListItem]()
+            for structure0 in documentTypeContainer {
+                if let structure0 = structure0 {
+                    documentTypeDecoded0?.append(structure0)
+                }
+            }
+        }
+        documentType = documentTypeDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.ErrorsListItem?].self, forKey: .errors)
+        var errorsDecoded0:[ComprehendClientTypes.ErrorsListItem]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ComprehendClientTypes.ErrorsListItem]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
     }
 }
 
@@ -2777,7 +3178,7 @@ public struct CreateEntityRecognizerInput: Swift.Equatable {
     /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created.
     /// This member is required.
     public var inputDataConfig: ComprehendClientTypes.EntityRecognizerInputDataConfig?
-    /// You can specify any of the following languages supported by Amazon Comprehend: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). All documents must be in the same language.
+    /// You can specify any of the following languages: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). If you plan to use this entity recognizer with PDF, Word, or image input files, you must specify English as the language. All training documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats
@@ -4411,7 +4812,7 @@ extension DescribeResourcePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeResourcePolicyInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the policy to describe.
+    /// The Amazon Resource Name (ARN) of the custom model version that has the resource policy.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -5024,11 +5425,13 @@ extension DetectDominantLanguageOutputResponseBody: Swift.Decodable {
 
 extension DetectEntitiesInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DetectEntitiesInput(endpointArn: \(Swift.String(describing: endpointArn)), languageCode: \(Swift.String(describing: languageCode)), text: \"CONTENT_REDACTED\")"}
+        "DetectEntitiesInput(bytes: \(Swift.String(describing: bytes)), documentReaderConfig: \(Swift.String(describing: documentReaderConfig)), endpointArn: \(Swift.String(describing: endpointArn)), languageCode: \(Swift.String(describing: languageCode)), text: \"CONTENT_REDACTED\")"}
 }
 
 extension DetectEntitiesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bytes = "Bytes"
+        case documentReaderConfig = "DocumentReaderConfig"
         case endpointArn = "EndpointArn"
         case languageCode = "LanguageCode"
         case text = "Text"
@@ -5036,6 +5439,12 @@ extension DetectEntitiesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bytes = self.bytes {
+            try encodeContainer.encode(bytes.base64EncodedString(), forKey: .bytes)
+        }
+        if let documentReaderConfig = self.documentReaderConfig {
+            try encodeContainer.encode(documentReaderConfig, forKey: .documentReaderConfig)
+        }
         if let endpointArn = self.endpointArn {
             try encodeContainer.encode(endpointArn, forKey: .endpointArn)
         }
@@ -5055,20 +5464,27 @@ extension DetectEntitiesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DetectEntitiesInput: Swift.Equatable {
+    /// This field applies only when you use a custom entity recognition model that was trained with PDF annotations. For other cases, enter your text input in the Text field. Use the Bytes parameter to input a text, PDF, Word or image file. Using a plain-text file in the Bytes parameter is equivelent to using the Text parameter (the Entities field in the response is identical). You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to detect entities, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
+    public var bytes: ClientRuntime.Data?
+    /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
+    public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
     /// The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model. Provide an endpoint if you want to detect entities by using your own custom model instead of the default model that is used by Amazon Comprehend. If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you provide in your request. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     public var endpointArn: Swift.String?
-    /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here.
+    /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here. All input documents must be in the same language.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// A UTF-8 text string. The maximum string size is 100 KB.
-    /// This member is required.
+    /// A UTF-8 text string. The maximum string size is 100 KB. If you enter text using this parameter, do not use the Bytes parameter.
     public var text: Swift.String?
 
     public init (
+        bytes: ClientRuntime.Data? = nil,
+        documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig? = nil,
         endpointArn: Swift.String? = nil,
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         text: Swift.String? = nil
     )
     {
+        self.bytes = bytes
+        self.documentReaderConfig = documentReaderConfig
         self.endpointArn = endpointArn
         self.languageCode = languageCode
         self.text = text
@@ -5079,10 +5495,14 @@ struct DetectEntitiesInputBody: Swift.Equatable {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.LanguageCode?
     let endpointArn: Swift.String?
+    let bytes: ClientRuntime.Data?
+    let documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
 }
 
 extension DetectEntitiesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bytes = "Bytes"
+        case documentReaderConfig = "DocumentReaderConfig"
         case endpointArn = "EndpointArn"
         case languageCode = "LanguageCode"
         case text = "Text"
@@ -5096,6 +5516,10 @@ extension DetectEntitiesInputBody: Swift.Decodable {
         languageCode = languageCodeDecoded
         let endpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointArn)
         endpointArn = endpointArnDecoded
+        let bytesDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .bytes)
+        bytes = bytesDecoded
+        let documentReaderConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentReaderConfig.self, forKey: .documentReaderConfig)
+        documentReaderConfig = documentReaderConfigDecoded
     }
 }
 
@@ -5141,32 +5565,64 @@ extension DetectEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: DetectEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.blocks = output.blocks
+            self.documentMetadata = output.documentMetadata
+            self.documentType = output.documentType
             self.entities = output.entities
+            self.errors = output.errors
         } else {
+            self.blocks = nil
+            self.documentMetadata = nil
+            self.documentType = nil
             self.entities = nil
+            self.errors = nil
         }
     }
 }
 
 public struct DetectEntitiesOutputResponse: Swift.Equatable {
+    /// Information about each block of text in the input document. Blocks are nested. A page block contains a block for each line of text, which contains a block for each word. The Block content for a Word input document does not include a Geometry field. The Block field is not present in the response for plain-text inputs.
+    public var blocks: [ComprehendClientTypes.Block]?
+    /// Information about the document, discovered during text extraction. This field is present in the response only if your request used the Byte parameter.
+    public var documentMetadata: ComprehendClientTypes.DocumentMetadata?
+    /// The document type for each page in the input document. This field is present in the response only if your request used the Byte parameter.
+    public var documentType: [ComprehendClientTypes.DocumentTypeListItem]?
     /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection. If your request uses a custom entity recognition model, Amazon Comprehend detects the entities that the model is trained to recognize. Otherwise, it detects the default entity types. For a list of default entity types, see [Entities](https://docs.aws.amazon.com/comprehend/latest/dg/how-entities.html) in the Comprehend Developer Guide.
     public var entities: [ComprehendClientTypes.Entity]?
+    /// Page-level errors that the system detected while processing the input document. The field is empty if the system encountered no errors.
+    public var errors: [ComprehendClientTypes.ErrorsListItem]?
 
     public init (
-        entities: [ComprehendClientTypes.Entity]? = nil
+        blocks: [ComprehendClientTypes.Block]? = nil,
+        documentMetadata: ComprehendClientTypes.DocumentMetadata? = nil,
+        documentType: [ComprehendClientTypes.DocumentTypeListItem]? = nil,
+        entities: [ComprehendClientTypes.Entity]? = nil,
+        errors: [ComprehendClientTypes.ErrorsListItem]? = nil
     )
     {
+        self.blocks = blocks
+        self.documentMetadata = documentMetadata
+        self.documentType = documentType
         self.entities = entities
+        self.errors = errors
     }
 }
 
 struct DetectEntitiesOutputResponseBody: Swift.Equatable {
     let entities: [ComprehendClientTypes.Entity]?
+    let documentMetadata: ComprehendClientTypes.DocumentMetadata?
+    let documentType: [ComprehendClientTypes.DocumentTypeListItem]?
+    let blocks: [ComprehendClientTypes.Block]?
+    let errors: [ComprehendClientTypes.ErrorsListItem]?
 }
 
 extension DetectEntitiesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blocks = "Blocks"
+        case documentMetadata = "DocumentMetadata"
+        case documentType = "DocumentType"
         case entities = "Entities"
+        case errors = "Errors"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -5182,6 +5638,41 @@ extension DetectEntitiesOutputResponseBody: Swift.Decodable {
             }
         }
         entities = entitiesDecoded0
+        let documentMetadataDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentMetadata.self, forKey: .documentMetadata)
+        documentMetadata = documentMetadataDecoded
+        let documentTypeContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.DocumentTypeListItem?].self, forKey: .documentType)
+        var documentTypeDecoded0:[ComprehendClientTypes.DocumentTypeListItem]? = nil
+        if let documentTypeContainer = documentTypeContainer {
+            documentTypeDecoded0 = [ComprehendClientTypes.DocumentTypeListItem]()
+            for structure0 in documentTypeContainer {
+                if let structure0 = structure0 {
+                    documentTypeDecoded0?.append(structure0)
+                }
+            }
+        }
+        documentType = documentTypeDecoded0
+        let blocksContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.Block?].self, forKey: .blocks)
+        var blocksDecoded0:[ComprehendClientTypes.Block]? = nil
+        if let blocksContainer = blocksContainer {
+            blocksDecoded0 = [ComprehendClientTypes.Block]()
+            for structure0 in blocksContainer {
+                if let structure0 = structure0 {
+                    blocksDecoded0?.append(structure0)
+                }
+            }
+        }
+        blocks = blocksDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.ErrorsListItem?].self, forKey: .errors)
+        var errorsDecoded0:[ComprehendClientTypes.ErrorsListItem]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ComprehendClientTypes.ErrorsListItem]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
     }
 }
 
@@ -5928,6 +6419,7 @@ extension DetectTargetedSentimentOutputResponseBody: Swift.Decodable {
 extension ComprehendClientTypes.DocumentClass: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case page = "Page"
         case score = "Score"
     }
 
@@ -5935,6 +6427,9 @@ extension ComprehendClientTypes.DocumentClass: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
         }
         if let score = self.score {
             try encodeContainer.encode(score, forKey: .score)
@@ -5947,6 +6442,8 @@ extension ComprehendClientTypes.DocumentClass: Swift.Codable {
         name = nameDecoded
         let scoreDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .score)
         score = scoreDecoded
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
     }
 }
 
@@ -5955,15 +6452,19 @@ extension ComprehendClientTypes {
     public struct DocumentClass: Swift.Equatable {
         /// The name of the class.
         public var name: Swift.String?
+        /// Page number in the input document. This field is present in the response only if your request includes the Byte parameter.
+        public var page: Swift.Int?
         /// The confidence score that Amazon Comprehend has this class correctly attributed.
         public var score: Swift.Float?
 
         public init (
             name: Swift.String? = nil,
+            page: Swift.Int? = nil,
             score: Swift.Float? = nil
         )
         {
             self.name = name
+            self.page = page
             self.score = score
         }
     }
@@ -6766,6 +7267,7 @@ extension ComprehendClientTypes {
 extension ComprehendClientTypes.DocumentLabel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case page = "Page"
         case score = "Score"
     }
 
@@ -6773,6 +7275,9 @@ extension ComprehendClientTypes.DocumentLabel: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
         }
         if let score = self.score {
             try encodeContainer.encode(score, forKey: .score)
@@ -6785,6 +7290,8 @@ extension ComprehendClientTypes.DocumentLabel: Swift.Codable {
         name = nameDecoded
         let scoreDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .score)
         score = scoreDecoded
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
     }
 }
 
@@ -6793,16 +7300,77 @@ extension ComprehendClientTypes {
     public struct DocumentLabel: Swift.Equatable {
         /// The name of the label.
         public var name: Swift.String?
+        /// Page number where the label occurs. This field is present in the response only if your request includes the Byte parameter.
+        public var page: Swift.Int?
         /// The confidence score that Amazon Comprehend has this label correctly attributed.
         public var score: Swift.Float?
 
         public init (
             name: Swift.String? = nil,
+            page: Swift.Int? = nil,
             score: Swift.Float? = nil
         )
         {
             self.name = name
+            self.page = page
             self.score = score
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DocumentMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case extractedCharacters = "ExtractedCharacters"
+        case pages = "Pages"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let extractedCharacters = extractedCharacters {
+            var extractedCharactersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extractedCharacters)
+            for listofextractedcharacters0 in extractedCharacters {
+                try extractedCharactersContainer.encode(listofextractedcharacters0)
+            }
+        }
+        if let pages = self.pages {
+            try encodeContainer.encode(pages, forKey: .pages)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pagesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pages)
+        pages = pagesDecoded
+        let extractedCharactersContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.ExtractedCharactersListItem?].self, forKey: .extractedCharacters)
+        var extractedCharactersDecoded0:[ComprehendClientTypes.ExtractedCharactersListItem]? = nil
+        if let extractedCharactersContainer = extractedCharactersContainer {
+            extractedCharactersDecoded0 = [ComprehendClientTypes.ExtractedCharactersListItem]()
+            for structure0 in extractedCharactersContainer {
+                if let structure0 = structure0 {
+                    extractedCharactersDecoded0?.append(structure0)
+                }
+            }
+        }
+        extractedCharacters = extractedCharactersDecoded0
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Information about the document, discovered during text extraction.
+    public struct DocumentMetadata: Swift.Equatable {
+        /// List of pages in the document, with the number of characters extracted from each page.
+        public var extractedCharacters: [ComprehendClientTypes.ExtractedCharactersListItem]?
+        /// Number of pages in the document.
+        public var pages: Swift.Int?
+
+        public init (
+            extractedCharacters: [ComprehendClientTypes.ExtractedCharactersListItem]? = nil,
+            pages: Swift.Int? = nil
+        )
+        {
+            self.extractedCharacters = extractedCharacters
+            self.pages = pages
         }
     }
 
@@ -6841,11 +7409,11 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes {
-    /// A list of the types of analyses to perform. This field specifies what feature types need to be extracted from the document where entity recognition is expected.
+    /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:
     ///
-    /// * TABLES - Add TABLES to the list to return information about the tables that are detected in the input document.
+    /// * TABLES - Returns additional information about any tables that are detected in the input document.
     ///
-    /// * FORMS - Add FORMS to return detected form data.
+    /// * FORMS - Returns additional information about any forms that are detected in the input document.
     public enum DocumentReadFeatureTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case forms
         case tables
@@ -6942,9 +7510,9 @@ extension ComprehendClientTypes.DocumentReaderConfig: Swift.Codable {
         var featureTypesDecoded0:[ComprehendClientTypes.DocumentReadFeatureTypes]? = nil
         if let featureTypesContainer = featureTypesContainer {
             featureTypesDecoded0 = [ComprehendClientTypes.DocumentReadFeatureTypes]()
-            for string0 in featureTypesContainer {
-                if let string0 = string0 {
-                    featureTypesDecoded0?.append(string0)
+            for enum0 in featureTypesContainer {
+                if let enum0 = enum0 {
+                    featureTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -6953,22 +7521,35 @@ extension ComprehendClientTypes.DocumentReaderConfig: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// The input properties for a topic detection job.
+    /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files. By default, Amazon Comprehend performs the following actions to extract text from files, based on the input file type:
+    ///
+    /// * Word files - Amazon Comprehend parser extracts the text.
+    ///
+    /// * Digital PDF files - Amazon Comprehend parser extracts the text.
+    ///
+    /// * Image files and scanned PDF files - Amazon Comprehend uses the Amazon Textract DetectDocumentText API to extract the text.
+    ///
+    ///
+    /// DocumentReaderConfig does not apply to plain text files or Word files. For image files and PDF documents, you can override these default actions using the fields listed below. For more information, see [ Setting text extraction options](https://docs.aws.amazon.com/comprehend/latest/dg/detecting-cer.html#detecting-cer-pdf).
     public struct DocumentReaderConfig: Swift.Equatable {
-        /// This enum field will start with two values which will apply to PDFs:
+        /// This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and image files. Enter one of the following values:
         ///
-        /// * TEXTRACT_DETECT_DOCUMENT_TEXT - The service calls DetectDocumentText for PDF documents per page.
+        /// * TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend service uses the DetectDocumentText API operation.
         ///
-        /// * TEXTRACT_ANALYZE_DOCUMENT - The service calls AnalyzeDocument for PDF documents per page.
+        /// * TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument API operation.
         /// This member is required.
         public var documentReadAction: ComprehendClientTypes.DocumentReadAction?
-        /// This enum field provides two values:
+        /// Determines the text extraction actions for PDF files. Enter one of the following values:
         ///
-        /// * SERVICE_DEFAULT - use service defaults for Document reading. For Digital PDF it would mean using an internal parser instead of Textract APIs
+        /// * SERVICE_DEFAULT - use the Amazon Comprehend service defaults for PDF files.
         ///
-        /// * FORCE_DOCUMENT_READ_ACTION - Always use specified action for DocumentReadAction, including Digital PDF.
+        /// * FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Textract API specified by DocumentReadAction for all PDF files, including digital PDF files.
         public var documentReadMode: ComprehendClientTypes.DocumentReadMode?
-        /// Specifies how the text in an input file should be processed:
+        /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:
+        ///
+        /// * TABLES - Returns information about any tables that are detected in the input document.
+        ///
+        /// * FORMS - Returns information and the data from any forms that are detected in the input document.
         public var featureTypes: [ComprehendClientTypes.DocumentReadFeatureTypes]?
 
         public init (
@@ -6980,6 +7561,98 @@ extension ComprehendClientTypes {
             self.documentReadAction = documentReadAction
             self.documentReadMode = documentReadMode
             self.featureTypes = featureTypes
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum DocumentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case image
+        case msWord
+        case nativePdf
+        case plainText
+        case scannedPdf
+        case textractAnalyzeDocumentJson
+        case textractDetectDocumentTextJson
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentType] {
+            return [
+                .image,
+                .msWord,
+                .nativePdf,
+                .plainText,
+                .scannedPdf,
+                .textractAnalyzeDocumentJson,
+                .textractDetectDocumentTextJson,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .image: return "IMAGE"
+            case .msWord: return "MS_WORD"
+            case .nativePdf: return "NATIVE_PDF"
+            case .plainText: return "PLAIN_TEXT"
+            case .scannedPdf: return "SCANNED_PDF"
+            case .textractAnalyzeDocumentJson: return "TEXTRACT_ANALYZE_DOCUMENT_JSON"
+            case .textractDetectDocumentTextJson: return "TEXTRACT_DETECT_DOCUMENT_TEXT_JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DocumentType(rawValue: rawValue) ?? DocumentType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.DocumentTypeListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case page = "Page"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Document type for each page in the document.
+    public struct DocumentTypeListItem: Swift.Equatable {
+        /// Page number.
+        public var page: Swift.Int?
+        /// Document type.
+        public var type: ComprehendClientTypes.DocumentType?
+
+        public init (
+            page: Swift.Int? = nil,
+            type: ComprehendClientTypes.DocumentType? = nil
+        )
+        {
+            self.page = page
+            self.type = type
         }
     }
 
@@ -7722,6 +8395,7 @@ extension ComprehendClientTypes {
 extension ComprehendClientTypes.Entity: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case beginOffset = "BeginOffset"
+        case blockReferences = "BlockReferences"
         case endOffset = "EndOffset"
         case score = "Score"
         case text = "Text"
@@ -7732,6 +8406,12 @@ extension ComprehendClientTypes.Entity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let beginOffset = self.beginOffset {
             try encodeContainer.encode(beginOffset, forKey: .beginOffset)
+        }
+        if let blockReferences = blockReferences {
+            var blockReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockReferences)
+            for listofblockreferences0 in blockReferences {
+                try blockReferencesContainer.encode(listofblockreferences0)
+            }
         }
         if let endOffset = self.endOffset {
             try encodeContainer.encode(endOffset, forKey: .endOffset)
@@ -7759,25 +8439,39 @@ extension ComprehendClientTypes.Entity: Swift.Codable {
         beginOffset = beginOffsetDecoded
         let endOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffset)
         endOffset = endOffsetDecoded
+        let blockReferencesContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.BlockReference?].self, forKey: .blockReferences)
+        var blockReferencesDecoded0:[ComprehendClientTypes.BlockReference]? = nil
+        if let blockReferencesContainer = blockReferencesContainer {
+            blockReferencesDecoded0 = [ComprehendClientTypes.BlockReference]()
+            for structure0 in blockReferencesContainer {
+                if let structure0 = structure0 {
+                    blockReferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        blockReferences = blockReferencesDecoded0
     }
 }
 
 extension ComprehendClientTypes {
     /// Provides information about an entity.
     public struct Entity: Swift.Equatable {
-        /// The zero-based offset from the beginning of the source text to the first character in the entity.
+        /// The zero-based offset from the beginning of the source text to the first character in the entity. This field is empty for non-text input.
         public var beginOffset: Swift.Int?
-        /// The zero-based offset from the beginning of the source text to the last character in the entity.
+        /// A reference to each block for this entity. This field is empty for plain-text input.
+        public var blockReferences: [ComprehendClientTypes.BlockReference]?
+        /// The zero-based offset from the beginning of the source text to the last character in the entity. This field is empty for non-text input.
         public var endOffset: Swift.Int?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public var score: Swift.Float?
         /// The text of the entity.
         public var text: Swift.String?
-        /// The entity's type.
+        /// The entity type. For entity detection using the built-in model, this field contains one of the standard entity types listed below. For custom entity detection, this field contains one of the entity types that you specified when you trained your custom model.
         public var type: ComprehendClientTypes.EntityType?
 
         public init (
             beginOffset: Swift.Int? = nil,
+            blockReferences: [ComprehendClientTypes.BlockReference]? = nil,
             endOffset: Swift.Int? = nil,
             score: Swift.Float? = nil,
             text: Swift.String? = nil,
@@ -7785,6 +8479,7 @@ extension ComprehendClientTypes {
         )
         {
             self.beginOffset = beginOffset
+            self.blockReferences = blockReferences
             self.endOffset = endOffset
             self.score = score
             self.text = text
@@ -8801,6 +9496,71 @@ extension ComprehendClientTypes {
 
 }
 
+extension ComprehendClientTypes.ErrorsListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+        case page = "Page"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.PageBasedErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Text extraction encountered one or more page-level errors in the input document. The ErrorCode contains one of the following values:
+    ///
+    /// * TEXTRACT_BAD_PAGE - Amazon Textract cannot read the page. For more information about page limits in Amazon Textract, see [ Page Quotas in Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/limits-document.html).
+    ///
+    /// * TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED - The number of requests exceeded your throughput limit. For more information about throughput quotas in Amazon Textract, see [ Default quotas in Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/limits-quotas-explained.html).
+    ///
+    /// * PAGE_CHARACTERS_EXCEEDED - Too many text characters on the page (10,000 characters maximum).
+    ///
+    /// * PAGE_SIZE_EXCEEDED - The maximum page size is 10 MB.
+    ///
+    /// * INTERNAL_SERVER_ERROR - The request encountered a service issue. Try the API request again.
+    public struct ErrorsListItem: Swift.Equatable {
+        /// Error code for the cause of the error.
+        public var errorCode: ComprehendClientTypes.PageBasedErrorCode?
+        /// Text message explaining the reason for the error.
+        public var errorMessage: Swift.String?
+        /// Page number where the error occurred.
+        public var page: Swift.Int?
+
+        public init (
+            errorCode: ComprehendClientTypes.PageBasedErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            page: Swift.Int? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.page = page
+        }
+    }
+
+}
+
 extension ComprehendClientTypes.EventsDetectionJobFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobName = "JobName"
@@ -9018,6 +9778,108 @@ extension ComprehendClientTypes {
             self.outputDataConfig = outputDataConfig
             self.submitTime = submitTime
             self.targetEventTypes = targetEventTypes
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.ExtractedCharactersListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count = "Count"
+        case page = "Page"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Array of the number of characters extracted from each page.
+    public struct ExtractedCharactersListItem: Swift.Equatable {
+        /// Number of characters extracted from each page.
+        public var count: Swift.Int?
+        /// Page number.
+        public var page: Swift.Int?
+
+        public init (
+            count: Swift.Int? = nil,
+            page: Swift.Int? = nil
+        )
+        {
+            self.count = count
+            self.page = page
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.Geometry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boundingBox = "BoundingBox"
+        case polygon = "Polygon"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let boundingBox = self.boundingBox {
+            try encodeContainer.encode(boundingBox, forKey: .boundingBox)
+        }
+        if let polygon = polygon {
+            var polygonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .polygon)
+            for polygon0 in polygon {
+                try polygonContainer.encode(polygon0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let boundingBoxDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.BoundingBox.self, forKey: .boundingBox)
+        boundingBox = boundingBoxDecoded
+        let polygonContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.Point?].self, forKey: .polygon)
+        var polygonDecoded0:[ComprehendClientTypes.Point]? = nil
+        if let polygonContainer = polygonContainer {
+            polygonDecoded0 = [ComprehendClientTypes.Point]()
+            for structure0 in polygonContainer {
+                if let structure0 = structure0 {
+                    polygonDecoded0?.append(structure0)
+                }
+            }
+        }
+        polygon = polygonDecoded0
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Information about the location of items on a document page. For additional information, see [Geometry](https://docs.aws.amazon.com/textract/latest/dg/API_Geometry.html) in the Amazon Textract API reference.
+    public struct Geometry: Swift.Equatable {
+        /// An axis-aligned coarse representation of the location of the recognized item on the document page.
+        public var boundingBox: ComprehendClientTypes.BoundingBox?
+        /// Within the bounding box, a fine-grained polygon around the recognized item.
+        public var polygon: [ComprehendClientTypes.Point]?
+
+        public init (
+            boundingBox: ComprehendClientTypes.BoundingBox? = nil,
+            polygon: [ComprehendClientTypes.Point]? = nil
+        )
+        {
+            self.boundingBox = boundingBox
+            self.polygon = polygon
         }
     }
 
@@ -9258,9 +10120,9 @@ extension ComprehendClientTypes.InputDataConfig: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// The input properties for an inference job.
+    /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
     public struct InputDataConfig: Swift.Equatable {
-        /// The document reader config field applies only for InputDataConfig of StartEntitiesDetectionJob. Use DocumentReaderConfig to provide specifications about how you want your inference documents read. Currently it applies for PDF documents in StartEntitiesDetectionJob custom inference.
+        /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
         public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
         /// Specifies how the text in an input file should be processed:
         ///
@@ -9422,15 +10284,100 @@ extension InvalidFilterExceptionBody: Swift.Decodable {
     }
 }
 
+extension ComprehendClientTypes.InvalidRequestDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reason = "Reason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reason = self.reason {
+            try encodeContainer.encode(reason.rawValue, forKey: .reason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reasonDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.InvalidRequestDetailReason.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Provides additional detail about why the request failed:
+    ///
+    /// * Document size is too large - Check the size of your file and resubmit the request.
+    ///
+    /// * Document type is not supported - Check the file type and resubmit the request.
+    ///
+    /// * Too many pages in the document - Check the number of pages in your file and resubmit the request.
+    ///
+    /// * Access denied to Amazon Textract - Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+    public struct InvalidRequestDetail: Swift.Equatable {
+        /// Reason code is INVALID_DOCUMENT.
+        public var reason: ComprehendClientTypes.InvalidRequestDetailReason?
+
+        public init (
+            reason: ComprehendClientTypes.InvalidRequestDetailReason? = nil
+        )
+        {
+            self.reason = reason
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum InvalidRequestDetailReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case documentSizeExceeded
+        case pageLimitExceeded
+        case textractAccessDenied
+        case unsupportedDocType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvalidRequestDetailReason] {
+            return [
+                .documentSizeExceeded,
+                .pageLimitExceeded,
+                .textractAccessDenied,
+                .unsupportedDocType,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .documentSizeExceeded: return "DOCUMENT_SIZE_EXCEEDED"
+            case .pageLimitExceeded: return "PAGE_LIMIT_EXCEEDED"
+            case .textractAccessDenied: return "TEXTRACT_ACCESS_DENIED"
+            case .unsupportedDocType: return "UNSUPPORTED_DOC_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InvalidRequestDetailReason(rawValue: rawValue) ?? InvalidRequestDetailReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.detail = output.detail
             self.message = output.message
+            self.reason = output.reason
         } else {
+            self.detail = nil
             self.message = nil
+            self.reason = nil
         }
         self._headers = httpResponse.headers
         self._statusCode = httpResponse.statusCode
@@ -9448,29 +10395,81 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// Provides additional detail about why the request failed:
+    ///
+    /// * Document size is too large - Check the size of your file and resubmit the request.
+    ///
+    /// * Document type is not supported - Check the file type and resubmit the request.
+    ///
+    /// * Too many pages in the document - Check the number of pages in your file and resubmit the request.
+    ///
+    /// * Access denied to Amazon Textract - Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+    public var detail: ComprehendClientTypes.InvalidRequestDetail?
     public var message: Swift.String?
+    public var reason: ComprehendClientTypes.InvalidRequestReason?
 
     public init (
-        message: Swift.String? = nil
+        detail: ComprehendClientTypes.InvalidRequestDetail? = nil,
+        message: Swift.String? = nil,
+        reason: ComprehendClientTypes.InvalidRequestReason? = nil
     )
     {
+        self.detail = detail
         self.message = message
+        self.reason = reason
     }
 }
 
 struct InvalidRequestExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let reason: ComprehendClientTypes.InvalidRequestReason?
+    let detail: ComprehendClientTypes.InvalidRequestDetail?
 }
 
 extension InvalidRequestExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detail = "Detail"
         case message = "Message"
+        case reason = "Reason"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.InvalidRequestReason.self, forKey: .reason)
+        reason = reasonDecoded
+        let detailDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.InvalidRequestDetail.self, forKey: .detail)
+        detail = detailDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    public enum InvalidRequestReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case invalidDocument
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvalidRequestReason] {
+            return [
+                .invalidDocument,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalidDocument: return "INVALID_DOCUMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InvalidRequestReason(rawValue: rawValue) ?? InvalidRequestReason.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -12449,6 +13448,47 @@ extension ComprehendClientTypes {
 
 }
 
+extension ComprehendClientTypes {
+    public enum PageBasedErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case internalServerError
+        case pageCharactersExceeded
+        case pageSizeExceeded
+        case textractBadPage
+        case textractProvisionedThroughputExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PageBasedErrorCode] {
+            return [
+                .internalServerError,
+                .pageCharactersExceeded,
+                .pageSizeExceeded,
+                .textractBadPage,
+                .textractProvisionedThroughputExceeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalServerError: return "INTERNAL_SERVER_ERROR"
+            case .pageCharactersExceeded: return "PAGE_CHARACTERS_EXCEEDED"
+            case .pageSizeExceeded: return "PAGE_SIZE_EXCEEDED"
+            case .textractBadPage: return "TEXTRACT_BAD_PAGE"
+            case .textractProvisionedThroughputExceeded: return "TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PageBasedErrorCode(rawValue: rawValue) ?? PageBasedErrorCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComprehendClientTypes.PartOfSpeechTag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case score = "Score"
@@ -13106,6 +14146,51 @@ extension ComprehendClientTypes {
 
 }
 
+extension ComprehendClientTypes.Point: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case x = "X"
+        case y = "Y"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let x = self.x {
+            try encodeContainer.encode(x, forKey: .x)
+        }
+        if let y = self.y {
+            try encodeContainer.encode(y, forKey: .y)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let xDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .x)
+        x = xDecoded
+        let yDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .y)
+        y = yDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// The X and Y coordinates of a point on a document page. For additional information, see [Point](https://docs.aws.amazon.com/textract/latest/dg/API_Point.html) in the Amazon Textract API reference.
+    public struct Point: Swift.Equatable {
+        /// The value of the X coordinate for a point on a polygon
+        public var x: Swift.Float?
+        /// The value of the Y coordinate for a point on a polygon
+        public var y: Swift.Float?
+
+        public init (
+            x: Swift.Float? = nil,
+            y: Swift.Float? = nil
+        )
+        {
+            self.x = x
+            self.y = y
+        }
+    }
+
+}
+
 extension PutResourcePolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyRevisionId = "PolicyRevisionId"
@@ -13275,9 +14360,9 @@ extension ComprehendClientTypes.RedactionConfig: Swift.Codable {
         var piiEntityTypesDecoded0:[ComprehendClientTypes.PiiEntityType]? = nil
         if let piiEntityTypesContainer = piiEntityTypesContainer {
             piiEntityTypesDecoded0 = [ComprehendClientTypes.PiiEntityType]()
-            for string0 in piiEntityTypesContainer {
-                if let string0 = string0 {
-                    piiEntityTypesDecoded0?.append(string0)
+            for enum0 in piiEntityTypesContainer {
+                if let enum0 = enum0 {
+                    piiEntityTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -13308,6 +14393,92 @@ extension ComprehendClientTypes {
             self.maskCharacter = maskCharacter
             self.maskMode = maskMode
             self.piiEntityTypes = piiEntityTypes
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum RelationshipType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case child
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RelationshipType] {
+            return [
+                .child,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .child: return "CHILD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RelationshipType(rawValue: rawValue) ?? RelationshipType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.RelationshipsListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ids = "Ids"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ids = ids {
+            var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
+            for stringlist0 in ids {
+                try idsContainer.encode(stringlist0)
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
+        var idsDecoded0:[Swift.String]? = nil
+        if let idsContainer = idsContainer {
+            idsDecoded0 = [Swift.String]()
+            for string0 in idsContainer {
+                if let string0 = string0 {
+                    idsDecoded0?.append(string0)
+                }
+            }
+        }
+        ids = idsDecoded0
+        let typeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.RelationshipType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// List of child blocks for the current block.
+    public struct RelationshipsListItem: Swift.Equatable {
+        /// Identifers of the child blocks.
+        public var ids: [Swift.String]?
+        /// Only supported relationship is a child relationship.
+        public var type: ComprehendClientTypes.RelationshipType?
+
+        public init (
+            ids: [Swift.String]? = nil,
+            type: ComprehendClientTypes.RelationshipType? = nil
+        )
+        {
+            self.ids = ids
+            self.type = type
         }
     }
 
@@ -15767,7 +16938,7 @@ public struct StartTargetedSentimentDetectionJobInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
-    /// The input properties for an inference job.
+    /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
     /// This member is required.
     public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
     /// The identifier of the job.
@@ -17718,7 +18889,7 @@ extension ComprehendClientTypes {
         public var dataAccessRoleArn: Swift.String?
         /// The time that the targeted sentiment detection job ended.
         public var endTime: ClientRuntime.Date?
-        /// The input properties for an inference job.
+        /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?

@@ -101,7 +101,7 @@ public struct AnalyzeDocumentInput: Swift.Equatable {
     /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
     /// This member is required.
     public var document: TextractClientTypes.Document?
-    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
+    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. To perform both forms and table analysis, add TABLES and FORMS to FeatureTypes. To detect signatures within form data and table data, add SIGNATURES to either TABLES or FORMS. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
     /// This member is required.
     public var featureTypes: [TextractClientTypes.FeatureType]?
     /// Sets the configuration for the human in the loop workflow for analyzing documents.
@@ -866,6 +866,8 @@ extension TextractClientTypes {
         ///
         /// * SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.
         ///
+        /// * SIGNATURE - The location and confidene score of a signature detected on a document page. Can be returned as part of a Key-Value pair or a detected cell.
+        ///
         /// * QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attaches it to its answer.
         ///
         /// * QUERY_RESULT - A response to a question asked during the call of analyze document. Comes with an alias and ID for ease of locating in a response. Also contains location and confidence score.
@@ -958,6 +960,7 @@ extension TextractClientTypes {
         case query
         case queryResult
         case selectionElement
+        case signature
         case table
         case title
         case word
@@ -973,6 +976,7 @@ extension TextractClientTypes {
                 .query,
                 .queryResult,
                 .selectionElement,
+                .signature,
                 .table,
                 .title,
                 .word,
@@ -993,6 +997,7 @@ extension TextractClientTypes {
             case .query: return "QUERY"
             case .queryResult: return "QUERY_RESULT"
             case .selectionElement: return "SELECTION_ELEMENT"
+            case .signature: return "SIGNATURE"
             case .table: return "TABLE"
             case .title: return "TITLE"
             case .word: return "WORD"
@@ -1260,6 +1265,41 @@ extension DetectDocumentTextOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension TextractClientTypes.DetectedSignature: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case page = "Page"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+    }
+}
+
+extension TextractClientTypes {
+    /// A structure that holds information regarding a detected signature on a page.
+    public struct DetectedSignature: Swift.Equatable {
+        /// The page a detected signature was found on.
+        public var page: Swift.Int?
+
+        public init (
+            page: Swift.Int? = nil
+        )
+        {
+            self.page = page
+        }
+    }
+
+}
+
 extension TextractClientTypes.Document: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bytes = "Bytes"
@@ -1305,6 +1345,107 @@ extension TextractClientTypes {
 
 }
 
+extension TextractClientTypes.DocumentGroup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detectedSignatures = "DetectedSignatures"
+        case splitDocuments = "SplitDocuments"
+        case type = "Type"
+        case undetectedSignatures = "UndetectedSignatures"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let detectedSignatures = detectedSignatures {
+            var detectedSignaturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectedSignatures)
+            for detectedsignaturelist0 in detectedSignatures {
+                try detectedSignaturesContainer.encode(detectedsignaturelist0)
+            }
+        }
+        if let splitDocuments = splitDocuments {
+            var splitDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .splitDocuments)
+            for splitdocumentlist0 in splitDocuments {
+                try splitDocumentsContainer.encode(splitdocumentlist0)
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+        if let undetectedSignatures = undetectedSignatures {
+            var undetectedSignaturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .undetectedSignatures)
+            for undetectedsignaturelist0 in undetectedSignatures {
+                try undetectedSignaturesContainer.encode(undetectedsignaturelist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let splitDocumentsContainer = try containerValues.decodeIfPresent([TextractClientTypes.SplitDocument?].self, forKey: .splitDocuments)
+        var splitDocumentsDecoded0:[TextractClientTypes.SplitDocument]? = nil
+        if let splitDocumentsContainer = splitDocumentsContainer {
+            splitDocumentsDecoded0 = [TextractClientTypes.SplitDocument]()
+            for structure0 in splitDocumentsContainer {
+                if let structure0 = structure0 {
+                    splitDocumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        splitDocuments = splitDocumentsDecoded0
+        let detectedSignaturesContainer = try containerValues.decodeIfPresent([TextractClientTypes.DetectedSignature?].self, forKey: .detectedSignatures)
+        var detectedSignaturesDecoded0:[TextractClientTypes.DetectedSignature]? = nil
+        if let detectedSignaturesContainer = detectedSignaturesContainer {
+            detectedSignaturesDecoded0 = [TextractClientTypes.DetectedSignature]()
+            for structure0 in detectedSignaturesContainer {
+                if let structure0 = structure0 {
+                    detectedSignaturesDecoded0?.append(structure0)
+                }
+            }
+        }
+        detectedSignatures = detectedSignaturesDecoded0
+        let undetectedSignaturesContainer = try containerValues.decodeIfPresent([TextractClientTypes.UndetectedSignature?].self, forKey: .undetectedSignatures)
+        var undetectedSignaturesDecoded0:[TextractClientTypes.UndetectedSignature]? = nil
+        if let undetectedSignaturesContainer = undetectedSignaturesContainer {
+            undetectedSignaturesDecoded0 = [TextractClientTypes.UndetectedSignature]()
+            for structure0 in undetectedSignaturesContainer {
+                if let structure0 = structure0 {
+                    undetectedSignaturesDecoded0?.append(structure0)
+                }
+            }
+        }
+        undetectedSignatures = undetectedSignaturesDecoded0
+    }
+}
+
+extension TextractClientTypes {
+    /// Summary information about documents grouped by the same document type.
+    public struct DocumentGroup: Swift.Equatable {
+        /// A list of the detected signatures found in a document group.
+        public var detectedSignatures: [TextractClientTypes.DetectedSignature]?
+        /// An array that contains information about the pages of a document, defined by logical boundary.
+        public var splitDocuments: [TextractClientTypes.SplitDocument]?
+        /// The type of document that Amazon Textract has detected. See LINK for a list of all types returned by Textract.
+        public var type: Swift.String?
+        /// A list of any expected signatures not found in a document group.
+        public var undetectedSignatures: [TextractClientTypes.UndetectedSignature]?
+
+        public init (
+            detectedSignatures: [TextractClientTypes.DetectedSignature]? = nil,
+            splitDocuments: [TextractClientTypes.SplitDocument]? = nil,
+            type: Swift.String? = nil,
+            undetectedSignatures: [TextractClientTypes.UndetectedSignature]? = nil
+        )
+        {
+            self.detectedSignatures = detectedSignatures
+            self.splitDocuments = splitDocuments
+            self.type = type
+            self.undetectedSignatures = undetectedSignatures
+        }
+    }
+
+}
+
 extension TextractClientTypes.DocumentLocation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Object = "S3Object"
@@ -1325,7 +1466,7 @@ extension TextractClientTypes.DocumentLocation: Swift.Codable {
 }
 
 extension TextractClientTypes {
-    /// The Amazon S3 bucket that contains the document to be processed. It's used by asynchronous operations such as [StartDocumentTextDetection]. The input document can be an image file in JPEG or PNG format. It can also be a file in PDF format.
+    /// The Amazon S3 bucket that contains the document to be processed. It's used by asynchronous operations. The input document can be an image file in JPEG or PNG format. It can also be a file in PDF format.
     public struct DocumentLocation: Swift.Equatable {
         /// The Amazon S3 bucket that contains the input document.
         public var s3Object: TextractClientTypes.S3Object?
@@ -1895,10 +2036,66 @@ extension TextractClientTypes {
 
 }
 
+extension TextractClientTypes.Extraction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expenseDocument = "ExpenseDocument"
+        case identityDocument = "IdentityDocument"
+        case lendingDocument = "LendingDocument"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expenseDocument = self.expenseDocument {
+            try encodeContainer.encode(expenseDocument, forKey: .expenseDocument)
+        }
+        if let identityDocument = self.identityDocument {
+            try encodeContainer.encode(identityDocument, forKey: .identityDocument)
+        }
+        if let lendingDocument = self.lendingDocument {
+            try encodeContainer.encode(lendingDocument, forKey: .lendingDocument)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lendingDocumentDecoded = try containerValues.decodeIfPresent(TextractClientTypes.LendingDocument.self, forKey: .lendingDocument)
+        lendingDocument = lendingDocumentDecoded
+        let expenseDocumentDecoded = try containerValues.decodeIfPresent(TextractClientTypes.ExpenseDocument.self, forKey: .expenseDocument)
+        expenseDocument = expenseDocumentDecoded
+        let identityDocumentDecoded = try containerValues.decodeIfPresent(TextractClientTypes.IdentityDocument.self, forKey: .identityDocument)
+        identityDocument = identityDocumentDecoded
+    }
+}
+
+extension TextractClientTypes {
+    /// Contains information extracted by an analysis operation after using StartLendingAnalysis.
+    public struct Extraction: Swift.Equatable {
+        /// The structure holding all the information returned by AnalyzeExpense
+        public var expenseDocument: TextractClientTypes.ExpenseDocument?
+        /// The structure that lists each document processed in an AnalyzeID operation.
+        public var identityDocument: TextractClientTypes.IdentityDocument?
+        /// Holds the structured data returned by AnalyzeDocument for lending documents.
+        public var lendingDocument: TextractClientTypes.LendingDocument?
+
+        public init (
+            expenseDocument: TextractClientTypes.ExpenseDocument? = nil,
+            identityDocument: TextractClientTypes.IdentityDocument? = nil,
+            lendingDocument: TextractClientTypes.LendingDocument? = nil
+        )
+        {
+            self.expenseDocument = expenseDocument
+            self.identityDocument = identityDocument
+            self.lendingDocument = lendingDocument
+        }
+    }
+
+}
+
 extension TextractClientTypes {
     public enum FeatureType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case forms
         case queries
+        case signatures
         case tables
         case sdkUnknown(Swift.String)
 
@@ -1906,6 +2103,7 @@ extension TextractClientTypes {
             return [
                 .forms,
                 .queries,
+                .signatures,
                 .tables,
                 .sdkUnknown("")
             ]
@@ -1918,6 +2116,7 @@ extension TextractClientTypes {
             switch self {
             case .forms: return "FORMS"
             case .queries: return "QUERIES"
+            case .signatures: return "SIGNATURES"
             case .tables: return "TABLES"
             case let .sdkUnknown(s): return s
             }
@@ -2668,6 +2867,417 @@ extension GetExpenseAnalysisOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetLendingAnalysisInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jobId = self.jobId {
+            try encodeContainer.encode(jobId, forKey: .jobId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension GetLendingAnalysisInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetLendingAnalysisInput: Swift.Equatable {
+    /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The maximum number of results to return per paginated call. The largest value that you can specify is 30. If you specify a value greater than 30, a maximum of 30 results is returned. The default value is 30.
+    public var maxResults: Swift.Int?
+    /// If the previous response was incomplete, Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of lending results.
+    public var nextToken: Swift.String?
+
+    public init (
+        jobId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct GetLendingAnalysisInputBody: Swift.Equatable {
+    let jobId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension GetLendingAnalysisInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension GetLendingAnalysisOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetLendingAnalysisOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidJobIdException" : self = .invalidJobIdException(try InvalidJobIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidKMSKeyException" : self = .invalidKMSKeyException(try InvalidKMSKeyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidS3ObjectException" : self = .invalidS3ObjectException(try InvalidS3ObjectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetLendingAnalysisOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerError(InternalServerError)
+    case invalidJobIdException(InvalidJobIdException)
+    case invalidKMSKeyException(InvalidKMSKeyException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidS3ObjectException(InvalidS3ObjectException)
+    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLendingAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetLendingAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.analyzeLendingModelVersion = output.analyzeLendingModelVersion
+            self.documentMetadata = output.documentMetadata
+            self.jobStatus = output.jobStatus
+            self.nextToken = output.nextToken
+            self.results = output.results
+            self.statusMessage = output.statusMessage
+            self.warnings = output.warnings
+        } else {
+            self.analyzeLendingModelVersion = nil
+            self.documentMetadata = nil
+            self.jobStatus = nil
+            self.nextToken = nil
+            self.results = nil
+            self.statusMessage = nil
+            self.warnings = nil
+        }
+    }
+}
+
+public struct GetLendingAnalysisOutputResponse: Swift.Equatable {
+    /// The current model version of the Analyze Lending API.
+    public var analyzeLendingModelVersion: Swift.String?
+    /// Information about the input document.
+    public var documentMetadata: TextractClientTypes.DocumentMetadata?
+    /// The current status of the lending analysis job.
+    public var jobStatus: TextractClientTypes.JobStatus?
+    /// If the response is truncated, Amazon Textract returns this token. You can use this token in the subsequent request to retrieve the next set of lending results.
+    public var nextToken: Swift.String?
+    /// Holds the information returned by one of AmazonTextract's document analysis operations for the pinstripe.
+    public var results: [TextractClientTypes.LendingResult]?
+    /// Returns if the lending analysis job could not be completed. Contains explanation for what error occurred.
+    public var statusMessage: Swift.String?
+    /// A list of warnings that occurred during the lending analysis operation.
+    public var warnings: [TextractClientTypes.Warning]?
+
+    public init (
+        analyzeLendingModelVersion: Swift.String? = nil,
+        documentMetadata: TextractClientTypes.DocumentMetadata? = nil,
+        jobStatus: TextractClientTypes.JobStatus? = nil,
+        nextToken: Swift.String? = nil,
+        results: [TextractClientTypes.LendingResult]? = nil,
+        statusMessage: Swift.String? = nil,
+        warnings: [TextractClientTypes.Warning]? = nil
+    )
+    {
+        self.analyzeLendingModelVersion = analyzeLendingModelVersion
+        self.documentMetadata = documentMetadata
+        self.jobStatus = jobStatus
+        self.nextToken = nextToken
+        self.results = results
+        self.statusMessage = statusMessage
+        self.warnings = warnings
+    }
+}
+
+struct GetLendingAnalysisOutputResponseBody: Swift.Equatable {
+    let documentMetadata: TextractClientTypes.DocumentMetadata?
+    let jobStatus: TextractClientTypes.JobStatus?
+    let nextToken: Swift.String?
+    let results: [TextractClientTypes.LendingResult]?
+    let warnings: [TextractClientTypes.Warning]?
+    let statusMessage: Swift.String?
+    let analyzeLendingModelVersion: Swift.String?
+}
+
+extension GetLendingAnalysisOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeLendingModelVersion = "AnalyzeLendingModelVersion"
+        case documentMetadata = "DocumentMetadata"
+        case jobStatus = "JobStatus"
+        case nextToken = "NextToken"
+        case results = "Results"
+        case statusMessage = "StatusMessage"
+        case warnings = "Warnings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentMetadataDecoded = try containerValues.decodeIfPresent(TextractClientTypes.DocumentMetadata.self, forKey: .documentMetadata)
+        documentMetadata = documentMetadataDecoded
+        let jobStatusDecoded = try containerValues.decodeIfPresent(TextractClientTypes.JobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let resultsContainer = try containerValues.decodeIfPresent([TextractClientTypes.LendingResult?].self, forKey: .results)
+        var resultsDecoded0:[TextractClientTypes.LendingResult]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [TextractClientTypes.LendingResult]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let warningsContainer = try containerValues.decodeIfPresent([TextractClientTypes.Warning?].self, forKey: .warnings)
+        var warningsDecoded0:[TextractClientTypes.Warning]? = nil
+        if let warningsContainer = warningsContainer {
+            warningsDecoded0 = [TextractClientTypes.Warning]()
+            for structure0 in warningsContainer {
+                if let structure0 = structure0 {
+                    warningsDecoded0?.append(structure0)
+                }
+            }
+        }
+        warnings = warningsDecoded0
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let analyzeLendingModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analyzeLendingModelVersion)
+        analyzeLendingModelVersion = analyzeLendingModelVersionDecoded
+    }
+}
+
+extension GetLendingAnalysisSummaryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jobId = self.jobId {
+            try encodeContainer.encode(jobId, forKey: .jobId)
+        }
+    }
+}
+
+extension GetLendingAnalysisSummaryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetLendingAnalysisSummaryInput: Swift.Equatable {
+    /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init (
+        jobId: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+    }
+}
+
+struct GetLendingAnalysisSummaryInputBody: Swift.Equatable {
+    let jobId: Swift.String?
+}
+
+extension GetLendingAnalysisSummaryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+    }
+}
+
+extension GetLendingAnalysisSummaryOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetLendingAnalysisSummaryOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidJobIdException" : self = .invalidJobIdException(try InvalidJobIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidKMSKeyException" : self = .invalidKMSKeyException(try InvalidKMSKeyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidS3ObjectException" : self = .invalidS3ObjectException(try InvalidS3ObjectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetLendingAnalysisSummaryOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerError(InternalServerError)
+    case invalidJobIdException(InvalidJobIdException)
+    case invalidKMSKeyException(InvalidKMSKeyException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidS3ObjectException(InvalidS3ObjectException)
+    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLendingAnalysisSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetLendingAnalysisSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.analyzeLendingModelVersion = output.analyzeLendingModelVersion
+            self.documentMetadata = output.documentMetadata
+            self.jobStatus = output.jobStatus
+            self.statusMessage = output.statusMessage
+            self.summary = output.summary
+            self.warnings = output.warnings
+        } else {
+            self.analyzeLendingModelVersion = nil
+            self.documentMetadata = nil
+            self.jobStatus = nil
+            self.statusMessage = nil
+            self.summary = nil
+            self.warnings = nil
+        }
+    }
+}
+
+public struct GetLendingAnalysisSummaryOutputResponse: Swift.Equatable {
+    /// The current model version of the Analyze Lending API.
+    public var analyzeLendingModelVersion: Swift.String?
+    /// Information about the input document.
+    public var documentMetadata: TextractClientTypes.DocumentMetadata?
+    /// The current status of the lending analysis job.
+    public var jobStatus: TextractClientTypes.JobStatus?
+    /// Returns if the lending analysis could not be completed. Contains explanation for what error occurred.
+    public var statusMessage: Swift.String?
+    /// Contains summary information for documents grouped by type.
+    public var summary: TextractClientTypes.LendingSummary?
+    /// A list of warnings that occurred during the lending analysis operation.
+    public var warnings: [TextractClientTypes.Warning]?
+
+    public init (
+        analyzeLendingModelVersion: Swift.String? = nil,
+        documentMetadata: TextractClientTypes.DocumentMetadata? = nil,
+        jobStatus: TextractClientTypes.JobStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        summary: TextractClientTypes.LendingSummary? = nil,
+        warnings: [TextractClientTypes.Warning]? = nil
+    )
+    {
+        self.analyzeLendingModelVersion = analyzeLendingModelVersion
+        self.documentMetadata = documentMetadata
+        self.jobStatus = jobStatus
+        self.statusMessage = statusMessage
+        self.summary = summary
+        self.warnings = warnings
+    }
+}
+
+struct GetLendingAnalysisSummaryOutputResponseBody: Swift.Equatable {
+    let documentMetadata: TextractClientTypes.DocumentMetadata?
+    let jobStatus: TextractClientTypes.JobStatus?
+    let summary: TextractClientTypes.LendingSummary?
+    let warnings: [TextractClientTypes.Warning]?
+    let statusMessage: Swift.String?
+    let analyzeLendingModelVersion: Swift.String?
+}
+
+extension GetLendingAnalysisSummaryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeLendingModelVersion = "AnalyzeLendingModelVersion"
+        case documentMetadata = "DocumentMetadata"
+        case jobStatus = "JobStatus"
+        case statusMessage = "StatusMessage"
+        case summary = "Summary"
+        case warnings = "Warnings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentMetadataDecoded = try containerValues.decodeIfPresent(TextractClientTypes.DocumentMetadata.self, forKey: .documentMetadata)
+        documentMetadata = documentMetadataDecoded
+        let jobStatusDecoded = try containerValues.decodeIfPresent(TextractClientTypes.JobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let summaryDecoded = try containerValues.decodeIfPresent(TextractClientTypes.LendingSummary.self, forKey: .summary)
+        summary = summaryDecoded
+        let warningsContainer = try containerValues.decodeIfPresent([TextractClientTypes.Warning?].self, forKey: .warnings)
+        var warningsDecoded0:[TextractClientTypes.Warning]? = nil
+        if let warningsContainer = warningsContainer {
+            warningsDecoded0 = [TextractClientTypes.Warning]()
+            for structure0 in warningsContainer {
+                if let structure0 = structure0 {
+                    warningsDecoded0?.append(structure0)
+                }
+            }
+        }
+        warnings = warningsDecoded0
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let analyzeLendingModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analyzeLendingModelVersion)
+        analyzeLendingModelVersion = analyzeLendingModelVersionDecoded
+    }
+}
+
 extension TextractClientTypes.HumanLoopActivationOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case humanLoopActivationConditionsEvaluationResults = "HumanLoopActivationConditionsEvaluationResults"
@@ -3195,7 +3805,7 @@ extension InvalidJobIdException {
     }
 }
 
-/// An invalid job identifier was passed to [GetDocumentAnalysis] or to [GetDocumentAnalysis].
+/// An invalid job identifier was passed to an asynchronous analysis operation.
 public struct InvalidJobIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3458,6 +4068,343 @@ extension TextractClientTypes {
     }
 }
 
+extension TextractClientTypes.LendingDetection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case geometry = "Geometry"
+        case selectionStatus = "SelectionStatus"
+        case text = "Text"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let geometry = self.geometry {
+            try encodeContainer.encode(geometry, forKey: .geometry)
+        }
+        if let selectionStatus = self.selectionStatus {
+            try encodeContainer.encode(selectionStatus.rawValue, forKey: .selectionStatus)
+        }
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+        let selectionStatusDecoded = try containerValues.decodeIfPresent(TextractClientTypes.SelectionStatus.self, forKey: .selectionStatus)
+        selectionStatus = selectionStatusDecoded
+        let geometryDecoded = try containerValues.decodeIfPresent(TextractClientTypes.Geometry.self, forKey: .geometry)
+        geometry = geometryDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+    }
+}
+
+extension TextractClientTypes {
+    /// The results extracted for a lending document.
+    public struct LendingDetection: Swift.Equatable {
+        /// The confidence level for the text of a detected value in a lending document.
+        public var confidence: Swift.Float?
+        /// Information about where the following items are located on a document page: detected page, text, key-value pairs, tables, table cells, and selection elements.
+        public var geometry: TextractClientTypes.Geometry?
+        /// The selection status of a selection element, such as an option button or check box.
+        public var selectionStatus: TextractClientTypes.SelectionStatus?
+        /// The text extracted for a detected value in a lending document.
+        public var text: Swift.String?
+
+        public init (
+            confidence: Swift.Float? = nil,
+            geometry: TextractClientTypes.Geometry? = nil,
+            selectionStatus: TextractClientTypes.SelectionStatus? = nil,
+            text: Swift.String? = nil
+        )
+        {
+            self.confidence = confidence
+            self.geometry = geometry
+            self.selectionStatus = selectionStatus
+            self.text = text
+        }
+    }
+
+}
+
+extension TextractClientTypes.LendingDocument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lendingFields = "LendingFields"
+        case signatureDetections = "SignatureDetections"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lendingFields = lendingFields {
+            var lendingFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lendingFields)
+            for lendingfieldlist0 in lendingFields {
+                try lendingFieldsContainer.encode(lendingfieldlist0)
+            }
+        }
+        if let signatureDetections = signatureDetections {
+            var signatureDetectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signatureDetections)
+            for signaturedetectionlist0 in signatureDetections {
+                try signatureDetectionsContainer.encode(signaturedetectionlist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lendingFieldsContainer = try containerValues.decodeIfPresent([TextractClientTypes.LendingField?].self, forKey: .lendingFields)
+        var lendingFieldsDecoded0:[TextractClientTypes.LendingField]? = nil
+        if let lendingFieldsContainer = lendingFieldsContainer {
+            lendingFieldsDecoded0 = [TextractClientTypes.LendingField]()
+            for structure0 in lendingFieldsContainer {
+                if let structure0 = structure0 {
+                    lendingFieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        lendingFields = lendingFieldsDecoded0
+        let signatureDetectionsContainer = try containerValues.decodeIfPresent([TextractClientTypes.SignatureDetection?].self, forKey: .signatureDetections)
+        var signatureDetectionsDecoded0:[TextractClientTypes.SignatureDetection]? = nil
+        if let signatureDetectionsContainer = signatureDetectionsContainer {
+            signatureDetectionsDecoded0 = [TextractClientTypes.SignatureDetection]()
+            for structure0 in signatureDetectionsContainer {
+                if let structure0 = structure0 {
+                    signatureDetectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        signatureDetections = signatureDetectionsDecoded0
+    }
+}
+
+extension TextractClientTypes {
+    /// Holds the structured data returned by AnalyzeDocument for lending documents.
+    public struct LendingDocument: Swift.Equatable {
+        /// An array of LendingField objects.
+        public var lendingFields: [TextractClientTypes.LendingField]?
+        /// A list of signatures detected in a lending document.
+        public var signatureDetections: [TextractClientTypes.SignatureDetection]?
+
+        public init (
+            lendingFields: [TextractClientTypes.LendingField]? = nil,
+            signatureDetections: [TextractClientTypes.SignatureDetection]? = nil
+        )
+        {
+            self.lendingFields = lendingFields
+            self.signatureDetections = signatureDetections
+        }
+    }
+
+}
+
+extension TextractClientTypes.LendingField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyDetection = "KeyDetection"
+        case type = "Type"
+        case valueDetections = "ValueDetections"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyDetection = self.keyDetection {
+            try encodeContainer.encode(keyDetection, forKey: .keyDetection)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+        if let valueDetections = valueDetections {
+            var valueDetectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .valueDetections)
+            for lendingdetectionlist0 in valueDetections {
+                try valueDetectionsContainer.encode(lendingdetectionlist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let keyDetectionDecoded = try containerValues.decodeIfPresent(TextractClientTypes.LendingDetection.self, forKey: .keyDetection)
+        keyDetection = keyDetectionDecoded
+        let valueDetectionsContainer = try containerValues.decodeIfPresent([TextractClientTypes.LendingDetection?].self, forKey: .valueDetections)
+        var valueDetectionsDecoded0:[TextractClientTypes.LendingDetection]? = nil
+        if let valueDetectionsContainer = valueDetectionsContainer {
+            valueDetectionsDecoded0 = [TextractClientTypes.LendingDetection]()
+            for structure0 in valueDetectionsContainer {
+                if let structure0 = structure0 {
+                    valueDetectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        valueDetections = valueDetectionsDecoded0
+    }
+}
+
+extension TextractClientTypes {
+    /// Holds the normalized key-value pairs returned by AnalyzeDocument, including the document type, detected text, and geometry.
+    public struct LendingField: Swift.Equatable {
+        /// The results extracted for a lending document.
+        public var keyDetection: TextractClientTypes.LendingDetection?
+        /// The type of the lending document.
+        public var type: Swift.String?
+        /// An array of LendingDetection objects.
+        public var valueDetections: [TextractClientTypes.LendingDetection]?
+
+        public init (
+            keyDetection: TextractClientTypes.LendingDetection? = nil,
+            type: Swift.String? = nil,
+            valueDetections: [TextractClientTypes.LendingDetection]? = nil
+        )
+        {
+            self.keyDetection = keyDetection
+            self.type = type
+            self.valueDetections = valueDetections
+        }
+    }
+
+}
+
+extension TextractClientTypes.LendingResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case extractions = "Extractions"
+        case page = "Page"
+        case pageClassification = "PageClassification"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let extractions = extractions {
+            var extractionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extractions)
+            for extractionlist0 in extractions {
+                try extractionsContainer.encode(extractionlist0)
+            }
+        }
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+        if let pageClassification = self.pageClassification {
+            try encodeContainer.encode(pageClassification, forKey: .pageClassification)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+        let pageClassificationDecoded = try containerValues.decodeIfPresent(TextractClientTypes.PageClassification.self, forKey: .pageClassification)
+        pageClassification = pageClassificationDecoded
+        let extractionsContainer = try containerValues.decodeIfPresent([TextractClientTypes.Extraction?].self, forKey: .extractions)
+        var extractionsDecoded0:[TextractClientTypes.Extraction]? = nil
+        if let extractionsContainer = extractionsContainer {
+            extractionsDecoded0 = [TextractClientTypes.Extraction]()
+            for structure0 in extractionsContainer {
+                if let structure0 = structure0 {
+                    extractionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        extractions = extractionsDecoded0
+    }
+}
+
+extension TextractClientTypes {
+    /// Contains the detections for each page analyzed through the Analyze Lending API.
+    public struct LendingResult: Swift.Equatable {
+        /// An array of Extraction to hold structured data. e.g. normalized key value pairs instead of raw OCR detections .
+        public var extractions: [TextractClientTypes.Extraction]?
+        /// The page number for a page, with regard to whole submission.
+        public var page: Swift.Int?
+        /// The classifier result for a given page.
+        public var pageClassification: TextractClientTypes.PageClassification?
+
+        public init (
+            extractions: [TextractClientTypes.Extraction]? = nil,
+            page: Swift.Int? = nil,
+            pageClassification: TextractClientTypes.PageClassification? = nil
+        )
+        {
+            self.extractions = extractions
+            self.page = page
+            self.pageClassification = pageClassification
+        }
+    }
+
+}
+
+extension TextractClientTypes.LendingSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentGroups = "DocumentGroups"
+        case undetectedDocumentTypes = "UndetectedDocumentTypes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentGroups = documentGroups {
+            var documentGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentGroups)
+            for documentgrouplist0 in documentGroups {
+                try documentGroupsContainer.encode(documentgrouplist0)
+            }
+        }
+        if let undetectedDocumentTypes = undetectedDocumentTypes {
+            var undetectedDocumentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .undetectedDocumentTypes)
+            for undetecteddocumenttypelist0 in undetectedDocumentTypes {
+                try undetectedDocumentTypesContainer.encode(undetecteddocumenttypelist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentGroupsContainer = try containerValues.decodeIfPresent([TextractClientTypes.DocumentGroup?].self, forKey: .documentGroups)
+        var documentGroupsDecoded0:[TextractClientTypes.DocumentGroup]? = nil
+        if let documentGroupsContainer = documentGroupsContainer {
+            documentGroupsDecoded0 = [TextractClientTypes.DocumentGroup]()
+            for structure0 in documentGroupsContainer {
+                if let structure0 = structure0 {
+                    documentGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        documentGroups = documentGroupsDecoded0
+        let undetectedDocumentTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .undetectedDocumentTypes)
+        var undetectedDocumentTypesDecoded0:[Swift.String]? = nil
+        if let undetectedDocumentTypesContainer = undetectedDocumentTypesContainer {
+            undetectedDocumentTypesDecoded0 = [Swift.String]()
+            for string0 in undetectedDocumentTypesContainer {
+                if let string0 = string0 {
+                    undetectedDocumentTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        undetectedDocumentTypes = undetectedDocumentTypesDecoded0
+    }
+}
+
+extension TextractClientTypes {
+    /// Contains information regarding DocumentGroups and UndetectedDocumentTypes.
+    public struct LendingSummary: Swift.Equatable {
+        /// Contains an array of all DocumentGroup objects.
+        public var documentGroups: [TextractClientTypes.DocumentGroup]?
+        /// UndetectedDocumentTypes.
+        public var undetectedDocumentTypes: [Swift.String]?
+
+        public init (
+            documentGroups: [TextractClientTypes.DocumentGroup]? = nil,
+            undetectedDocumentTypes: [Swift.String]? = nil
+        )
+        {
+            self.documentGroups = documentGroups
+            self.undetectedDocumentTypes = undetectedDocumentTypes
+        }
+    }
+
+}
+
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3694,7 +4641,7 @@ extension TextractClientTypes.NotificationChannel: Swift.Codable {
 }
 
 extension TextractClientTypes {
-    /// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon Textract publishes the completion status of an asynchronous document operation, such as [StartDocumentTextDetection].
+    /// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon Textract publishes the completion status of an asynchronous document operation.
     public struct NotificationChannel: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic.
         /// This member is required.
@@ -3741,7 +4688,7 @@ extension TextractClientTypes.OutputConfig: Swift.Codable {
 }
 
 extension TextractClientTypes {
-    /// Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to and the file prefix of the results where you can download your results. Additionally, you can set the KMSKeyID parameter to a customer master key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see [ Managing AI services opt-out policy. ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html) For more information on data privacy, see the [Data Privacy FAQ](https://aws.amazon.com/compliance/data-privacy-faq/).
+    /// Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file prefix of the results where you can download your results. Additionally, you can set the KMSKeyID parameter to a customer master key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see [ Managing AI services opt-out policy. ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html) For more information on data privacy, see the [Data Privacy FAQ](https://aws.amazon.com/compliance/data-privacy-faq/).
     public struct OutputConfig: Swift.Equatable {
         /// The name of the bucket your output will go to.
         /// This member is required.
@@ -3756,6 +4703,77 @@ extension TextractClientTypes {
         {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
+        }
+    }
+
+}
+
+extension TextractClientTypes.PageClassification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pageNumber = "PageNumber"
+        case pageType = "PageType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pageNumber = pageNumber {
+            var pageNumberContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pageNumber)
+            for predictionlist0 in pageNumber {
+                try pageNumberContainer.encode(predictionlist0)
+            }
+        }
+        if let pageType = pageType {
+            var pageTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pageType)
+            for predictionlist0 in pageType {
+                try pageTypeContainer.encode(predictionlist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageTypeContainer = try containerValues.decodeIfPresent([TextractClientTypes.Prediction?].self, forKey: .pageType)
+        var pageTypeDecoded0:[TextractClientTypes.Prediction]? = nil
+        if let pageTypeContainer = pageTypeContainer {
+            pageTypeDecoded0 = [TextractClientTypes.Prediction]()
+            for structure0 in pageTypeContainer {
+                if let structure0 = structure0 {
+                    pageTypeDecoded0?.append(structure0)
+                }
+            }
+        }
+        pageType = pageTypeDecoded0
+        let pageNumberContainer = try containerValues.decodeIfPresent([TextractClientTypes.Prediction?].self, forKey: .pageNumber)
+        var pageNumberDecoded0:[TextractClientTypes.Prediction]? = nil
+        if let pageNumberContainer = pageNumberContainer {
+            pageNumberDecoded0 = [TextractClientTypes.Prediction]()
+            for structure0 in pageNumberContainer {
+                if let structure0 = structure0 {
+                    pageNumberDecoded0?.append(structure0)
+                }
+            }
+        }
+        pageNumber = pageNumberDecoded0
+    }
+}
+
+extension TextractClientTypes {
+    /// The class assigned to a Page object detected in an input document. Contains information regarding the predicted type/class of a document's page and the page number that the Page object was detected on.
+    public struct PageClassification: Swift.Equatable {
+        /// The page number the value was detected on, relative to Amazon Textract's starting position.
+        /// This member is required.
+        public var pageNumber: [TextractClientTypes.Prediction]?
+        /// The class, or document type, assigned to a detected Page object. The class, or document type, assigned to a detected Page object.
+        /// This member is required.
+        public var pageType: [TextractClientTypes.Prediction]?
+
+        public init (
+            pageNumber: [TextractClientTypes.Prediction]? = nil,
+            pageType: [TextractClientTypes.Prediction]? = nil
+        )
+        {
+            self.pageNumber = pageNumber
+            self.pageType = pageType
         }
     }
 
@@ -3801,6 +4819,51 @@ extension TextractClientTypes {
         {
             self.x = x
             self.y = y
+        }
+    }
+
+}
+
+extension TextractClientTypes.Prediction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+    }
+}
+
+extension TextractClientTypes {
+    /// Contains information regarding predicted values returned by Amazon Textract operations, including the predicted value and the confidence in the predicted value.
+    public struct Prediction: Swift.Equatable {
+        /// Amazon Textract's confidence in its predicted value.
+        public var confidence: Swift.Float?
+        /// The predicted value of a detected object.
+        public var value: Swift.String?
+
+        public init (
+            confidence: Swift.Float? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.confidence = confidence
+            self.value = value
         }
     }
 
@@ -4179,6 +5242,108 @@ extension TextractClientTypes {
             self = SelectionStatus(rawValue: rawValue) ?? SelectionStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension TextractClientTypes.SignatureDetection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case geometry = "Geometry"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let geometry = self.geometry {
+            try encodeContainer.encode(geometry, forKey: .geometry)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+        let geometryDecoded = try containerValues.decodeIfPresent(TextractClientTypes.Geometry.self, forKey: .geometry)
+        geometry = geometryDecoded
+    }
+}
+
+extension TextractClientTypes {
+    /// Information regarding a detected signature on a page.
+    public struct SignatureDetection: Swift.Equatable {
+        /// The confidence, from 0 to 100, in the predicted values for a detected signature.
+        public var confidence: Swift.Float?
+        /// Information about where the following items are located on a document page: detected page, text, key-value pairs, tables, table cells, and selection elements.
+        public var geometry: TextractClientTypes.Geometry?
+
+        public init (
+            confidence: Swift.Float? = nil,
+            geometry: TextractClientTypes.Geometry? = nil
+        )
+        {
+            self.confidence = confidence
+            self.geometry = geometry
+        }
+    }
+
+}
+
+extension TextractClientTypes.SplitDocument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case index = "Index"
+        case pages = "Pages"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let index = self.index {
+            try encodeContainer.encode(index, forKey: .index)
+        }
+        if let pages = pages {
+            var pagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pages)
+            for pagelist0 in pages {
+                try pagesContainer.encode(pagelist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .index)
+        index = indexDecoded
+        let pagesContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .pages)
+        var pagesDecoded0:[Swift.Int]? = nil
+        if let pagesContainer = pagesContainer {
+            pagesDecoded0 = [Swift.Int]()
+            for integer0 in pagesContainer {
+                if let integer0 = integer0 {
+                    pagesDecoded0?.append(integer0)
+                }
+            }
+        }
+        pages = pagesDecoded0
+    }
+}
+
+extension TextractClientTypes {
+    /// Contains information about the pages of a document, defined by logical boundary.
+    public struct SplitDocument: Swift.Equatable {
+        /// The index for a given document in a DocumentGroup of a specific Type.
+        public var index: Swift.Int?
+        /// An array of page numbers for a for a given document, ordered by logical boundary.
+        public var pages: [Swift.Int]?
+
+        public init (
+            index: Swift.Int? = nil,
+            pages: [Swift.Int]? = nil
+        )
+        {
+            self.index = index
+            self.pages = pages
+        }
+    }
+
 }
 
 extension StartDocumentAnalysisInput: Swift.Encodable {
@@ -4797,6 +5962,199 @@ extension StartExpenseAnalysisOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StartLendingAnalysisInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case documentLocation = "DocumentLocation"
+        case jobTag = "JobTag"
+        case kmsKeyId = "KMSKeyId"
+        case notificationChannel = "NotificationChannel"
+        case outputConfig = "OutputConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let documentLocation = self.documentLocation {
+            try encodeContainer.encode(documentLocation, forKey: .documentLocation)
+        }
+        if let jobTag = self.jobTag {
+            try encodeContainer.encode(jobTag, forKey: .jobTag)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let notificationChannel = self.notificationChannel {
+            try encodeContainer.encode(notificationChannel, forKey: .notificationChannel)
+        }
+        if let outputConfig = self.outputConfig {
+            try encodeContainer.encode(outputConfig, forKey: .outputConfig)
+        }
+    }
+}
+
+extension StartLendingAnalysisInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartLendingAnalysisInput: Swift.Equatable {
+    /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartLendingAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-sync.html).
+    public var clientRequestToken: Swift.String?
+    /// The Amazon S3 bucket that contains the document to be processed. It's used by asynchronous operations. The input document can be an image file in JPEG or PNG format. It can also be a file in PDF format.
+    /// This member is required.
+    public var documentLocation: TextractClientTypes.DocumentLocation?
+    /// An identifier that you specify to be included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
+    public var jobTag: Swift.String?
+    /// The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side, using SSE-S3.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon Textract publishes the completion status of an asynchronous document operation.
+    public var notificationChannel: TextractClientTypes.NotificationChannel?
+    /// Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file prefix of the results where you can download your results. Additionally, you can set the KMSKeyID parameter to a customer master key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see [ Managing AI services opt-out policy. ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html) For more information on data privacy, see the [Data Privacy FAQ](https://aws.amazon.com/compliance/data-privacy-faq/).
+    public var outputConfig: TextractClientTypes.OutputConfig?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        documentLocation: TextractClientTypes.DocumentLocation? = nil,
+        jobTag: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        notificationChannel: TextractClientTypes.NotificationChannel? = nil,
+        outputConfig: TextractClientTypes.OutputConfig? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.documentLocation = documentLocation
+        self.jobTag = jobTag
+        self.kmsKeyId = kmsKeyId
+        self.notificationChannel = notificationChannel
+        self.outputConfig = outputConfig
+    }
+}
+
+struct StartLendingAnalysisInputBody: Swift.Equatable {
+    let documentLocation: TextractClientTypes.DocumentLocation?
+    let clientRequestToken: Swift.String?
+    let jobTag: Swift.String?
+    let notificationChannel: TextractClientTypes.NotificationChannel?
+    let outputConfig: TextractClientTypes.OutputConfig?
+    let kmsKeyId: Swift.String?
+}
+
+extension StartLendingAnalysisInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case documentLocation = "DocumentLocation"
+        case jobTag = "JobTag"
+        case kmsKeyId = "KMSKeyId"
+        case notificationChannel = "NotificationChannel"
+        case outputConfig = "OutputConfig"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentLocationDecoded = try containerValues.decodeIfPresent(TextractClientTypes.DocumentLocation.self, forKey: .documentLocation)
+        documentLocation = documentLocationDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
+        let notificationChannelDecoded = try containerValues.decodeIfPresent(TextractClientTypes.NotificationChannel.self, forKey: .notificationChannel)
+        notificationChannel = notificationChannelDecoded
+        let outputConfigDecoded = try containerValues.decodeIfPresent(TextractClientTypes.OutputConfig.self, forKey: .outputConfig)
+        outputConfig = outputConfigDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+extension StartLendingAnalysisOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartLendingAnalysisOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadDocumentException" : self = .badDocumentException(try BadDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DocumentTooLargeException" : self = .documentTooLargeException(try DocumentTooLargeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "IdempotentParameterMismatchException" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidKMSKeyException" : self = .invalidKMSKeyException(try InvalidKMSKeyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidS3ObjectException" : self = .invalidS3ObjectException(try InvalidS3ObjectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedDocumentException" : self = .unsupportedDocumentException(try UnsupportedDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartLendingAnalysisOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badDocumentException(BadDocumentException)
+    case documentTooLargeException(DocumentTooLargeException)
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case internalServerError(InternalServerError)
+    case invalidKMSKeyException(InvalidKMSKeyException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidS3ObjectException(InvalidS3ObjectException)
+    case limitExceededException(LimitExceededException)
+    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
+    case throttlingException(ThrottlingException)
+    case unsupportedDocumentException(UnsupportedDocumentException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartLendingAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartLendingAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
+        } else {
+            self.jobId = nil
+        }
+    }
+}
+
+public struct StartLendingAnalysisOutputResponse: Swift.Equatable {
+    /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+    public var jobId: Swift.String?
+
+    public init (
+        jobId: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+    }
+}
+
+struct StartLendingAnalysisOutputResponseBody: Swift.Equatable {
+    let jobId: Swift.String?
+}
+
+extension StartLendingAnalysisOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+    }
+}
+
 extension TextractClientTypes {
     public enum TextType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case handwriting
@@ -4888,6 +6246,41 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
     }
+}
+
+extension TextractClientTypes.UndetectedSignature: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case page = "Page"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+    }
+}
+
+extension TextractClientTypes {
+    /// A structure containing information about an undetected signature on a page where it was expected but not found.
+    public struct UndetectedSignature: Swift.Equatable {
+        /// The page where a signature was expected but not found.
+        public var page: Swift.Int?
+
+        public init (
+            page: Swift.Int? = nil
+        )
+        {
+            self.page = page
+        }
+    }
+
 }
 
 extension UnsupportedDocumentException {
