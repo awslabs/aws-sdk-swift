@@ -7,7 +7,8 @@ import ClientRuntime
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
 public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
-    public var _errorCode: String?
+    /// The error type for this error, or `nil` if the type is not known.
+    public var _errorType: String?
 
     public var _isThrottling: Bool = false
     
@@ -25,13 +26,20 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
 }
 
 extension UnknownAWSHttpServiceError {
+
+    /// Creates an `UnknownAWSHttpServiceError` from a `HttpResponse` and associated parameters.
+    /// - Parameters:
+    ///   - httpResponse: The `HttpResponse` for this error.
+    ///   - message: The message associated with this error.  Defaults to `nil`.
+    ///   - requestID: The request ID associated with this error.  Defaults to `nil`.
+    ///   - errorType: The error type associated with this error.  Defaults to `nil`.
     public init(
         httpResponse: HttpResponse,
         message: String? = nil,
         requestID: String? = nil,
-        errorCode: String? = nil
+        errorType: String? = nil
     ) {
-        self._errorCode = errorCode
+        self._errorType = errorType
         self._statusCode = httpResponse.statusCode
         self._headers = httpResponse.headers
         self._requestID = requestID ?? httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
@@ -39,7 +47,9 @@ extension UnknownAWSHttpServiceError {
     }
 }
 
-extension UnknownAWSHttpServiceError: CodedError {
+extension UnknownAWSHttpServiceError: WaiterTypedError {
 
-    public var errorCode: String? { _errorCode }
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? { _errorType }
 }
